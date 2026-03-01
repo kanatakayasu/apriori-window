@@ -107,6 +107,8 @@ cd apriori_window_suite && cargo build --release
 | [`skills/impl-feature.md`](./skills/impl-feature.md) | 新しいアルゴリズム機能の追加（Python prototype → Rust port） |
 | [`skills/run-experiment.md`](./skills/run-experiment.md) | 実データセットでの実験実行と結果記録（Phase 3） |
 | [`skills/update-docs.md`](./skills/update-docs.md) | コード変更後のドキュメント整合性確認・更新 |
+| [`skills/git-workflow.md`](./skills/git-workflow.md) | コミット分割・PR 作成・push 前チェック |
+| [`skills/debug-test.md`](./skills/debug-test.md) | Rust / Python テスト失敗の原因特定と修正 |
 
 ---
 
