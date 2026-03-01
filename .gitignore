@@ -1,0 +1,22 @@
+# Dataset: 大容量データファイルはコミットしない
+# 取得手順は各 dataset/<name>/README.md を参照
+dataset/**/*.csv
+dataset/**/*.tsv
+dataset/**/*.xlsx
+dataset/**/*.xls
+dataset/**/*.zip
+dataset/**/*.gz
+dataset/**/*.pdf
+
+# Rust ビルド成果物
+apriori_window_suite/target/
+apriori_window_original/target/
+
+# Python キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# 実験出力（再現可能なため追跡不要）
+dataset/**/output/
