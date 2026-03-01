@@ -1,0 +1,21 @@
+[package]
+name = "apriori_window_suite"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "apriori_window_suite"
+path = "src/lib.rs"
+
+[[bin]]
+name = "apriori_window_suite"
+path = "src/main.rs"
+
+[dependencies]
+itertools = "0.14"
+rayon = "1.11"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+tempfile = "3"

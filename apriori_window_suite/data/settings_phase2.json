@@ -1,0 +1,24 @@
+{
+  "input_file": {
+    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data",
+    "file_name": "sample_basket.txt"
+  },
+  "event_file": {
+    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data",
+    "file_name": "sample_events.json"
+  },
+  "output_files": {
+    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data/output",
+    "patterns_output_file_name": "patterns.csv",
+    "relations_output_file_name": "relations.csv"
+  },
+  "apriori_parameters": {
+    "window_size": 3,
+    "min_support": 2,
+    "max_length": 3
+  },
+  "temporal_relation_parameters": {
+    "epsilon": 2,
+    "d_0": 1
+  }
+}

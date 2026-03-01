@@ -1,0 +1,16 @@
+{
+  "input_file": {
+    "dir": "/Users/kanata/Documents/GitHub/metaplanning/SPM/datasets",
+    "file_name": "chicago.txt"
+  },
+  "output_files": {
+    "dir": "/Users/kanata/Documents/GitHub/metaplanning/SPM/apriori_window_original/data/output",
+    "patterns_output_file_name": "gt_patterns_chicago.csv"
+  },
+  "apriori_parameters": {
+    "window_size": 500,
+    "min_support": 10,
+    "max_length": 4,
+    "log_window_slide": false
+  }
+}

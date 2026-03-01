@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>バスケット構造対応 密集アイテムセット探索</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Hiragino Kaku Gothic Pro", "Meiryo", "Yu Gothic", sans-serif;
+    background: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* ── スライドコンテナ ── */
+  #slideshow {
+    position: relative;
+    width: 960px;
+    height: 540px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    padding: 48px 64px 48px 64px;
+    overflow: hidden;
+  }
+  .slide.active { display: flex; flex-direction: column; }
+
+  /* ── セクションラベル ── */
+  .sec-label {
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #888;
+    text-transform: uppercase;
+  }
+
+  /* ── スライド番号 ── */
+  .slide-num {
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    font-size: 11px;
+    color: #aaa;
+  }
+
+  /* ── 見出し ── */
+  h1.title {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #111;
+    margin-top: 60px;
+  }
+  h1.title .red { color: #cc0000; }
+
+  h2.heading {
+    font-size: 28px;
+    font-weight: 900;
+    color: #111;
+    margin-top: 20px;
+    margin-bottom: 24px;
+    border-bottom: 3px solid #111;
+    padding-bottom: 8px;
+  }
+  h2.heading .red { color: #cc0000; }
+
+  h3.sub {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+  h3.sub .red { color: #cc0000; }
+
+  /* ── 本文 ── */
+  p, li {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #222;
+  }
+  ul { padding-left: 1.4em; }
+  li { margin-bottom: 4px; }
+  .red { color: #cc0000; }
+  .bold { font-weight: 700; }
+
+  /* ── 定義ボックス ── */
+  .def-box {
+    border: 2px solid #111;
+    padding: 14px 20px;
+    margin: 12px 0;
+    background: #fff;
+  }
+  .def-box.red-box { border-color: #cc0000; }
+  .def-box .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #cc0000;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .def-box p, .def-box li { font-size: 15px; }
+
+  /* ── コードブロック ── */
+  pre {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    background: #f5f5f5;
+    border-left: 4px solid #cc0000;
+    padding: 12px 16px;
+    margin: 10px 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+  code {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 14px;
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── テーブル ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  thead tr { background: #111; color: #fff; }
+  thead th { padding: 8px 12px; text-align: left; font-weight: 700; }
+  tbody td { padding: 7px 12px; border-bottom: 1px solid #ddd; }
+  tbody tr:nth-child(even) { background: #f8f8f8; }
+  td .red { color: #cc0000; font-weight: 700; }
+
+  /* ── 2カラムレイアウト ── */
+  .cols {
+    display: flex;
+    gap: 32px;
+    flex: 1;
+    align-items: flex-start;
+    margin-top: 4px;
+  }
+  .col { flex: 1; }
+  .col-40 { flex: 0 0 40%; }
+  .col-60 { flex: 0 0 58%; }
+
+  /* ── 目次スライド ── */
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+  }
+  .toc-list li {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+  }
+  .toc-list li .num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    width: 24px;
+    flex-shrink: 0;
+  }
+  .toc-list li.active-section {
+    color: #cc0000;
+    font-weight: 700;
+  }
+  .toc-list li.active-section .num { color: #cc0000; }
+
+  /* ── 強調バー（目次） ── */
+  .toc-bar {
+    display: block;
+    width: 4px;
+    height: 22px;
+    background: #cc0000;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  .toc-bar.inactive {
+    background: transparent;
+  }
+
+  /* ── タイトルスライド ── */
+  .title-slide {
+    justify-content: flex-end;
+    padding-bottom: 60px;
+  }
+  .title-meta {
+    font-size: 13px;
+    color: #888;
+    margin-top: 16px;
+  }
+
+  /* ── 図示（ダイアグラム） ── */
+  .diagram {
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-family: "SF Mono", monospace;
+    line-height: 1.8;
+    background: #fafafa;
+    margin: 8px 0;
+    white-space: pre;
+  }
+
+  /* ── アルゴリズムステップ ── */
+  .step-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+  }
+  .step-list li {
+    counter-increment: step;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .step-list li::before {
+    content: counter(step);
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: #111;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    margin-top: 2px;
+  }
+  .step-list li.red-step::before { background: #cc0000; }
+
+  /* ── ナビゲーション ── */
+  #nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  #nav button {
+    background: #fff;
+    border: 2px solid #333;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  #nav button:hover { background: #eee; }
+  #nav button:disabled { opacity: 0.3; cursor: default; }
+  #counter {
+    font-size: 14px;
+    color: #ccc;
+    min-width: 80px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div id="slideshow">
+
+  <!-- ========== 1. タイトル ========== -->
+  <div class="slide active title-slide">
+    <div class="sec-label">SPM_busket</div>
+    <h1 class="title">
+      バスケット構造対応<br>
+      <span class="red">密集アイテムセット探索</span><br>
+      と 時間的イベント関連付け
+    </h1>
+    <p class="title-meta">Phase 1: 偽共起の排除 ／ Phase 2: 外部イベントとの照合</p>
+    <div class="slide-num">1</div>
+  </div>
+
+  <!-- ========== 2. 目次 ========== -->
+  <div class="slide">
+    <div class="sec-label">Contents</div>
+    <h2 class="heading">目次</h2>
+    <ul class="toc-list">
+      <li><span class="num">1</span><span class="toc-bar inactive"></span>従来手法の概要と課題</li>
+      <li><span class="num">2</span><span class="toc-bar inactive"></span>Phase 1：バスケット構造対応</li>
+      <li><span class="num">3</span><span class="toc-bar inactive"></span>スタックケースと修正手法</li>
+      <li><span class="num">4</span><span class="toc-bar inactive"></span>Phase 2：外部イベント関連付け</li>
+      <li><span class="num">5</span><span class="toc-bar inactive"></span>関連研究</li>
+      <li><span class="num">6</span><span class="toc-bar inactive"></span>実験設計・公開データセット</li>
+      <li><span class="num">7</span><span class="toc-bar inactive"></span>まとめ・今後の課題</li>
+    </ul>
+    <div class="slide-num">2</div>
+  </div>
+
+  <!-- ========== 3. 従来手法の概要 ========== -->
+  <div class="slide">
+    <div class="sec-label">1. 従来手法</div>
+    <h2 class="heading">従来手法：Apriori ＋ スライディングウィンドウ</h2>
+    <div class="cols">
+      <div class="col">
+        <h3 class="sub">アルゴリズムの流れ</h3>
+        <ul class="step-list">
+          <li>トランザクション列を時系列に並べる</li>
+          <li>幅 <code>W</code> のウィンドウをスライド</li>
+          <li>ウィンドウ内で Apriori を適用し頻出パターンを検出</li>
+          <li>支持度 ≥ <code>min_sup</code> の区間を「密集区間」として記録</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">定義：密集区間</div>
+          <p>
+            アイテムセット <i>S</i> が時刻区間 <i>(t<sub>s</sub>, t<sub>e</sub>)</i> において<br>
+            支持度 ≥ min_sup を満たす最大区間
+          </p>
+        </div>
+        <div class="def-box">
+          <div class="label">出力</div>
+          <p>各アイテムセット → 密集区間のリスト<br>
+          例: {A,B} → [(10, 45), (80, 120)]</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">3</div>
+  </div>
+
+  <!-- ========== 4. 課題① ========== -->
+  <div class="slide">
+    <div class="sec-label">1. 従来手法の課題</div>
+    <h2 class="heading">課題①：バスケット構造の無視による<span class="red">偽共起</span></h2>
+    <div class="cols">
+      <div class="col-60">
+        <p>実際の購買データでは、1トランザクションが<br>
+        <span class="bold">複数の独立した購入単位（バスケット）</span>を含む。</p>
+        <div class="diagram">トランザクション 0:
+  basket 0: { A, B }   ← 食料品
+  basket 1: { C, D }   ← 日用品</div>
+        <div class="def-box red-box">
+          <div class="label">問題</div>
+          <p>
+            従来手法は「同一トランザクション内 = 共起」と判定するため、<br>
+            <span class="red bold">A と C、A と D など別バスケット間の偽共起</span>が発生する。
+          </p>
+        </div>
+      </div>
+      <div class="col-40">
+        <h3 class="sub">具体例</h3>
+        <table>
+          <thead><tr><th>ペア</th><th>実態</th><th>従来</th></tr></thead>
+          <tbody>
+            <tr><td>{A, B}</td><td>同一basket</td><td>○</td></tr>
+            <tr><td>{C, D}</td><td>同一basket</td><td>○</td></tr>
+            <tr><td><span class="red">{A, C}</span></td><td><span class="red">別basket</span></td><td><span class="red">○（偽）</span></td></tr>
+            <tr><td><span class="red">{B, D}</span></td><td><span class="red">別basket</span></td><td><span class="red">○（偽）</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-num">4</div>
+  </div>
+
+  <!-- ========== 5. 課題② ========== -->
+  <div class="slide">
+    <div class="sec-label">1. 従来手法の課題</div>
+    <h2 class="heading">課題②：密集区間の<span class="red">説明不足</span></h2>
+    <p>密集区間は「いつ何が集中購入されたか」を示すが、<br>
+    <span class="bold">「なぜその時期に集中したか」</span>を外部から説明できない。</p>
+    <div class="def-box red-box" style="margin-top: 20px;">
+      <div class="label">問題</div>
+      <p>セール・キャンペーン等の外部イベントが密集区間と<br>
+      どのような時間的関係にあるかが不明のまま。</p>
+    </div>
+    <div class="cols" style="margin-top: 20px;">
+      <div class="col">
+        <h3 class="sub">必要な情報</h3>
+        <ul>
+          <li>密集区間の開始・終了タイムスタンプ</li>
+          <li>外部イベントの開始・終了タイムスタンプ</li>
+          <li>両者の<span class="red bold">時間的関係の分類</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3 class="sub">期待する出力例</h3>
+        <div class="diagram">{A,B}: (10, 45)
+  ← EventFollowsDense ←
+    sale_event: (46, 60)</div>
+      </div>
+    </div>
+    <div class="slide-num">5</div>
+  </div>
+
+  <!-- ========== 6. 提案手法の概要 ========== -->
+  <div class="slide">
+    <div class="sec-label">提案手法</div>
+    <h2 class="heading">提案手法の概要</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="def-box">
+          <div class="label">Phase 1 の解決策</div>
+          <p>共起定義を<br>
+          「<span class="bold">同一バスケット内での共起</span>」に変更。<br>
+          basket_id の積集合が空でないペアのみを評価する。</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">Phase 2 の解決策</div>
+          <p>外部イベントリスト（JSON）と密集区間を照合し、<br>
+          <span class="bold">6種の時間的関係</span>を列挙して出力する。</p>
+        </div>
+      </div>
+    </div>
+    <div class="def-box red-box" style="margin-top: 16px;">
+      <div class="label">実装</div>
+      <p>Python（プロトタイプ）→ <span class="bold">Rust（高速化）</span> の二段構成。<br>
+      Rust では rayon 並列処理・二分探索・BufWriter を活用。</p>
+    </div>
+    <div class="slide-num">6</div>
+  </div>
+
+  <!-- ========== 7. Phase 1 解決策 ========== -->
+  <div class="slide">
+    <div class="sec-label">2. Phase 1</div>
+    <h2 class="heading">Phase 1：バスケット粒度の共起定義</h2>
+    <div class="cols">
+      <div class="col-60">
+        <h3 class="sub">basket_id マップの構築</h3>
+        <pre>item → [basket_id, ...] (item_basket_map)
+basket_id → transaction_id (basket_to_tx)</pre>
+        <h3 class="sub">multi-item の共起カウント</h3>
+        <ol class="step-list">
+          <li>各アイテムの basket_id リストを取得</li>
+          <li class="red-step">basket_id リストの<span class="red">積集合</span>を取る</li>
+          <li>積集合を transaction_id に変換（重複を保持）</li>
+          <li>transaction_id 列に対して密集区間を計算</li>
+        </ol>
+      </div>
+      <div class="col-40">
+        <div class="def-box red-box">
+          <div class="label">効果</div>
+          <p>別バスケットのアイテム間は basket_id 積集合が空 → <span class="red bold">自動的に排除</span></p>
+        </div>
+        <div class="diagram">basket 0: {A,B}
+basket 1: {C,D}
+
+ibm[A] = [0], ibm[C] = [1]
+∩ = [] (空) → 偽共起なし</div>
+      </div>
+    </div>
+    <div class="slide-num">7</div>
+  </div>
+
+  <!-- ========== 8. アルゴリズムの流れ ========== -->
+  <div class="slide">
+    <div class="sec-label">2. Phase 1</div>
+    <h2 class="heading">find_dense_itemsets のアルゴリズム</h2>
+    <div class="cols">
+      <div class="col">
+        <ul class="step-list">
+          <li>入力読み込み: <code>read_transactions_with_baskets</code></li>
+          <li>basket_id マップ構築: <code>compute_item_basket_map</code></li>
+          <li>頻出 singleton 発見（transaction_id 列で密集区間）</li>
+          <li>candidate 生成: <code>generate_candidates</code>（Apriori 原理）</li>
+          <li class="red-step">basket_id 積集合 → transaction_id 変換</li>
+          <li class="red-step">密集区間計算: <code>compute_dense_intervals</code></li>
+          <li>pruning: <code>prune_candidates</code></li>
+          <li>繰り返し（max_length まで）</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">compute_dense_intervals 入力</div>
+          <p><code>ts</code>: transaction_id の昇順リスト（重複あり）<br>
+          <code>window_size</code>: ウィンドウ幅 W<br>
+          <code>threshold</code>: 最小支持度</p>
+        </div>
+        <div class="def-box">
+          <div class="label">出力</div>
+          <p>密集区間 <code>(start, end)</code> のリスト</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">8</div>
+  </div>
+
+  <!-- ========== 9. スタックケースとは ========== -->
+  <div class="slide">
+    <div class="sec-label">3. スタックケース</div>
+    <h2 class="heading"><span class="red">スタックケース</span>とは何か</h2>
+    <p>タイムスタンプに重複がある場合、密集区間の左端 <code>l</code> が進まず<br>
+    <span class="red bold">無限ループに陥る可能性</span>がある。</p>
+    <div class="cols" style="margin-top: 12px;">
+      <div class="col-60">
+        <h3 class="sub">発生条件</h3>
+        <div class="def-box">
+          <div class="label">条件</div>
+          <p>
+            ウィンドウ内カウント <code>count ≥ threshold</code> かつ<br>
+            <code>surplus = count - threshold</code> 番目の値が<br>
+            現在の左端 <code>l</code> と<span class="red bold">同一タイムスタンプ</span>
+          </p>
+        </div>
+        <h3 class="sub">なぜループするか</h3>
+        <p>
+          通常: <code>l = ts[surplus]</code> で左端を進める<br>
+          問題: <code>ts[surplus] == l</code> なら左端が動かない → ループ
+        </p>
+      </div>
+      <div class="col-40">
+        <h3 class="sub">具体例</h3>
+        <div class="diagram">ts = [5,5,5,5,5, 8, 12]
+window_size = 10, threshold = 3
+
+l=5: count=7, surplus=4
+  ts[4]=5 == l=5 → 動かない!
+  → 無限ループ</div>
+      </div>
+    </div>
+    <div class="slide-num">9</div>
+  </div>
+
+  <!-- ========== 10. スタックケース詳細 ========== -->
+  <div class="slide">
+    <div class="sec-label">3. スタックケース</div>
+    <h2 class="heading">スタックケース：<span class="red">修正手法</span></h2>
+    <div class="cols">
+      <div class="col">
+        <div class="def-box red-box">
+          <div class="label">修正: フォールバック条件</div>
+          <pre>if window_occurrences[surplus] == l {
+    l += 1;  // 強制的に1進める
+} else {
+    l = window_occurrences[surplus];
+}</pre>
+        </div>
+        <p style="margin-top: 12px; font-size: 15px;">
+          <code>window_occurrences[surplus] == l</code> のとき、<br>
+          <code>l += 1</code> で強制的に左端を進める。<br>
+          これにより<span class="red bold">必ず終了が保証</span>される。
+        </p>
+      </div>
+      <div class="col">
+        <h3 class="sub">修正後の動作</h3>
+        <div class="diagram">ts = [5,5,5,5,5, 8, 12]
+window_size=10, threshold=3
+
+l=5: surplus=4, ts[4]=5==l
+  → l += 1 → l=6
+l=6: window=[6,16], count=2
+  → count < threshold → 終了</div>
+        <div class="def-box">
+          <div class="label">密集区間の記録タイミング</div>
+          <p><code>count ≥ threshold</code> を最後に満たした<br>
+          左端・右端を記録してから終了</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">10</div>
+  </div>
+
+  <!-- ========== 11. スタックケース：継続例 ========== -->
+  <div class="slide">
+    <div class="sec-label">3. スタックケース</div>
+    <h2 class="heading">スタックケース後も密集が<span class="red">継続</span>する場合</h2>
+    <p>フォールバック後、右端から新たなトランザクションが入り直して<br>
+    支持度が回復するケースを正しく処理する必要がある。</p>
+    <div class="cols" style="margin-top: 12px;">
+      <div class="col">
+        <div class="diagram">ts = [5,5,5,5,5, 8, 12, 16]
+window_size=10, threshold=3
+
+l=5: surplus=4, ts[4]=5==l
+  → l=6  (フォールバック)
+l=6: window=[6,16], count=3
+  → count == threshold → 継続!
+l=9: count=2 < threshold → 終了
+  記録: (5, 16)  ← 正しい区間</div>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">ポイント</div>
+          <p><code>l</code> のループ中、密集条件を満たすたびに<br>
+          <code>(start, end)</code> を更新し続ける。<br>
+          終了時に最後に更新した値を出力。</p>
+        </div>
+        <div class="def-box red-box">
+          <div class="label">テストケース</div>
+          <p>
+            <code>ts=[5,5,5,5,5,8,12,16]</code><br>
+            → <code>(5, 16)</code> が返ることを確認
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">11</div>
+  </div>
+
+  <!-- ========== 12. スタックケース図示 ========== -->
+  <div class="slide">
+    <div class="sec-label">3. スタックケース</div>
+    <h2 class="heading">スタックケース修正のまとめ</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ケース</th>
+          <th>条件</th>
+          <th>左端 l の更新</th>
+          <th>結果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>通常ケース</td>
+          <td><code>ts[surplus] &gt; l</code></td>
+          <td><code>l = ts[surplus]</code></td>
+          <td>正常終了</td>
+        </tr>
+        <tr>
+          <td class="red bold">スタックケース</td>
+          <td class="red"><code>ts[surplus] == l</code></td>
+          <td class="red"><code>l += 1</code></td>
+          <td class="red">無限ループ防止</td>
+        </tr>
+        <tr>
+          <td>既記録区間のスキップ</td>
+          <td>recorded 区間に含まれる</td>
+          <td>recorded の終端まで飛ばす</td>
+          <td>計算量削減</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="def-box" style="margin-top: 16px;">
+      <div class="label">実装上の補足</div>
+      <p>
+        <code>window_occurrences</code> は二分探索で構築 → O(log n) でウィンドウカウントを取得。<br>
+        修正後の全テスト: Phase 1 Python <span class="bold">24 passed</span> ／ Phase 1 Rust <span class="bold">20 passed</span>
+      </p>
+    </div>
+    <div class="slide-num">12</div>
+  </div>
+
+  <!-- ========== 13. Phase 2 概要 ========== -->
+  <div class="slide">
+    <div class="sec-label">4. Phase 2</div>
+    <h2 class="heading">Phase 2：外部イベントとの時間的関連付け</h2>
+    <div class="cols">
+      <div class="col">
+        <h3 class="sub">入力</h3>
+        <ul>
+          <li>Phase 1 の出力: 密集区間 <i>I = (t<sub>s,i</sub>, t<sub>e,i</sub>)</i></li>
+          <li>外部イベントリスト（JSON）: <i>J = (t<sub>s,j</sub>, t<sub>e,j</sub>)</i></li>
+          <li>許容誤差 ε、最小重複長 d<sub>0</sub></li>
+        </ul>
+        <h3 class="sub" style="margin-top: 16px;">出力</h3>
+        <ul>
+          <li>アイテムセット × 密集区間 × イベント × 関係名</li>
+          <li>CSV 形式で出力</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="def-box red-box">
+          <div class="label">6種の時間的関係</div>
+          <p>
+            DFE: 密集の直後にイベント開始<br>
+            EFD: イベントの直後に密集開始<br>
+            DCE: 密集がイベントを包含<br>
+            ECD: イベントが密集を包含<br>
+            DOE: 密集がイベントに先行重複<br>
+            EOD: イベントが密集に先行重複
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">13</div>
+  </div>
+
+  <!-- ========== 14. 6関係の定義 ========== -->
+  <div class="slide">
+    <div class="sec-label">4. Phase 2</div>
+    <h2 class="heading">6種の時間的関係：定義</h2>
+    <table>
+      <thead>
+        <tr><th>関係名</th><th>略称</th><th>条件</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DenseFollowsEvent</td><td><span class="red">DFE</span></td>
+          <td><code>te_i − ε ≤ ts_j ≤ te_i + ε</code></td>
+        </tr>
+        <tr>
+          <td>EventFollowsDense</td><td><span class="red">EFD</span></td>
+          <td><code>te_j − ε ≤ ts_i ≤ te_j + ε</code></td>
+        </tr>
+        <tr>
+          <td>DenseContainsEvent</td><td><span class="red">DCE</span></td>
+          <td><code>ts_i ≤ ts_j ∧ te_i + ε ≥ te_j</code></td>
+        </tr>
+        <tr>
+          <td>EventContainsDense</td><td><span class="red">ECD</span></td>
+          <td><code>ts_j ≤ ts_i ∧ te_j + ε ≥ te_i</code></td>
+        </tr>
+        <tr>
+          <td>DenseOverlapsEvent</td><td><span class="red">DOE</span></td>
+          <td><code>ts_i &lt; ts_j ∧ te_i − ts_j ≥ d₀ − ε ∧ te_i &lt; te_j + ε</code></td>
+        </tr>
+        <tr>
+          <td>EventOverlapsDense</td><td><span class="red">EOD</span></td>
+          <td><code>ts_j &lt; ts_i ∧ te_j − ts_i ≥ d₀ − ε ∧ te_j &lt; te_i + ε</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px; font-size:13px; color:#666;">
+      I = 密集区間 (ts_i, te_i)，J = イベント (ts_j, te_j)，ε = 許容誤差，d₀ = 最小重複長
+    </p>
+    <div class="slide-num">14</div>
+  </div>
+
+  <!-- ========== 15. Phase 2 実装 ========== -->
+  <div class="slide">
+    <div class="sec-label">4. Phase 2</div>
+    <h2 class="heading">Phase 2 Rust 実装のポイント</h2>
+    <div class="cols">
+      <div class="col">
+        <h3 class="sub">並列評価（rayon）</h3>
+        <pre>let pairs: Vec<_> = frequents.iter()
+    .flat_map(|(itemset, intervals)|
+        intervals.iter().map(move |&(ts, te)|
+            (itemset, ts, te)))
+    .collect();
+
+pairs.par_iter().map(|(itemset, ts_i, te_i)| {
+    // 6 関係を評価
+}).collect()</pre>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">アーキテクチャ</div>
+          <p>Phase 2 は Phase 1 ライブラリクレートに依存。<br>
+          <code>apriori_window_basket = { path = "../phase1" }</code></p>
+        </div>
+        <div class="def-box">
+          <div class="label">テスト結果</div>
+          <p>
+            Phase 2 Python: <span class="bold">40 passed</span><br>
+            Phase 2 Rust:   <span class="bold">38 passed</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">15</div>
+  </div>
+
+  <!-- ========== 16. 関連研究 ========== -->
+  <div class="slide">
+    <div class="sec-label">5. 関連研究</div>
+    <h2 class="heading">関連研究</h2>
+    <table>
+      <thead>
+        <tr><th>手法</th><th>解決する問題</th><th>本研究との差異</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Apriori (Agrawal 1994)</td>
+          <td>頻出アイテムセット探索</td>
+          <td>時間軸なし・バスケット構造なし</td>
+        </tr>
+        <tr>
+          <td>GSP / PrefixSpan</td>
+          <td>シーケンシャルパターン探索</td>
+          <td>バスケット内共起を区別しない</td>
+        </tr>
+        <tr>
+          <td>SlWin-Apriori</td>
+          <td>スライディングウィンドウ頻出探索</td>
+          <td>バスケット粒度の共起定義なし</td>
+        </tr>
+        <tr>
+          <td><span class="red bold">本研究 Phase 1</span></td>
+          <td><span class="red">偽共起の排除</span></td>
+          <td>basket_id 積集合による厳密な共起定義</td>
+        </tr>
+        <tr>
+          <td>Allen's Interval Algebra</td>
+          <td>時間的関係の形式化</td>
+          <td>イベント照合の理論的基礎</td>
+        </tr>
+        <tr>
+          <td><span class="red bold">本研究 Phase 2</span></td>
+          <td><span class="red">密集区間の外因説明</span></td>
+          <td>ε・d₀ による近似マッチング</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="slide-num">16</div>
+  </div>
+
+  <!-- ========== 17. 実験設計 ========== -->
+  <div class="slide">
+    <div class="sec-label">6. 実験設計</div>
+    <h2 class="heading">想定される実験設計</h2>
+    <div class="cols">
+      <div class="col">
+        <h3 class="sub">Phase 1：偽共起排除の検証</h3>
+        <ul>
+          <li>人工データ: バスケット構造を制御して生成</li>
+          <li>偽共起の有無をラベル付き評価</li>
+          <li>比較対象: 従来手法（バスケット無視）</li>
+          <li>指標: Precision / Recall of co-occurrence detection</li>
+        </ul>
+        <h3 class="sub" style="margin-top: 16px;">Phase 2：イベント照合の検証</h3>
+        <ul>
+          <li>公開データの既知プロモーション情報を利用</li>
+          <li>正解関係を手動ラベリング → Precision / Recall</li>
+          <li>ε・d₀ のパラメータ感度分析</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="def-box red-box">
+          <div class="label">性能評価</div>
+          <p>大規模データ（～100万行）での実行時間比較:<br>
+          Python 実装 vs Rust 実装</p>
+        </div>
+        <div class="def-box">
+          <div class="label">有意性評価（Future Work）</div>
+          <p>
+            Permutation test:<br>
+            ランダムシャッフルした密集区間と<br>
+            イベントの照合率を帰無分布として使用
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">17</div>
+  </div>
+
+  <!-- ========== 18. 公開データセット ========== -->
+  <div class="slide">
+    <div class="sec-label">6. 公開データセット</div>
+    <h2 class="heading">使用可能な公開データセット</h2>
+    <table>
+      <thead>
+        <tr><th>優先度</th><th>データセット</th><th>特徴</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="red bold">第 1 推薦</span></td>
+          <td><span class="red bold">Dunnhumby Complete Journey</span></td>
+          <td>basket_id あり、2年間、2,500世帯</td>
+          <td>プロモーション情報付き → Phase 2 に最適</td>
+        </tr>
+        <tr>
+          <td>第 2 推薦</td>
+          <td>UCI Online Retail II</td>
+          <td>約100万行、登録不要</td>
+          <td>即ダウンロード可、InvoiceNo = basket</td>
+        </tr>
+        <tr>
+          <td>イベント重視</td>
+          <td>IJCAI-15 Tmall</td>
+          <td>独身の日（11/11）前後データ</td>
+          <td>明確な外部イベントが存在</td>
+        </tr>
+        <tr>
+          <td>大規模検証</td>
+          <td>Instacart Online Grocery</td>
+          <td>300万件超、再購買パターン</td>
+          <td>Rust 実装の性能ベンチマーク用</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="slide-num">18</div>
+  </div>
+
+  <!-- ========== 19. まとめ ========== -->
+  <div class="slide">
+    <div class="sec-label">7. まとめ</div>
+    <h2 class="heading">まとめ</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="def-box">
+          <div class="label">Phase 1（完了）</div>
+          <p>
+            basket_id 積集合による<span class="bold">厳密な共起定義</span>で<br>
+            偽共起を構造的に排除。<br>
+            スタックケース修正で<span class="bold">無限ループを防止</span>。<br>
+            Python: 24 passed ／ Rust: 20 passed
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="def-box">
+          <div class="label">Phase 2（完了）</div>
+          <p>
+            6種の時間的関係で密集区間と<br>
+            外部イベントを照合・説明。<br>
+            ε・d₀ による近似マッチング対応。<br>
+            Python: 40 passed ／ Rust: 38 passed
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="def-box red-box" style="margin-top: 16px;">
+      <div class="label">貢献</div>
+      <p>
+        ①バスケット構造を持つ実データで正確なアイテムセット探索を実現<br>
+        ②密集区間に外部要因（イベント）との時間的コンテキストを付与
+      </p>
+    </div>
+    <div class="slide-num">19</div>
+  </div>
+
+  <!-- ========== 20. 今後の課題 ========== -->
+  <div class="slide">
+    <div class="sec-label">7. 今後の課題</div>
+    <h2 class="heading">今後の課題（Future Work）</h2>
+    <div class="cols">
+      <div class="col">
+        <h3 class="sub">実データ検証（Phase 3）</h3>
+        <ul>
+          <li>Dunnhumby / UCI Online Retail II への適用</li>
+          <li>プロモーション情報との自動照合</li>
+          <li>Python vs Rust 実行時間の定量比較</li>
+        </ul>
+        <h3 class="sub" style="margin-top:16px;">有意性評価</h3>
+        <ul>
+          <li>Permutation test による偶然一致の排除</li>
+          <li>FDR 制御（多重比較補正）</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3 class="sub">スケーラビリティ</h3>
+        <ul>
+          <li>大規模データへの近似解法（Lossy Counting 等）</li>
+          <li>ストリーミング処理対応</li>
+        </ul>
+        <h3 class="sub" style="margin-top:16px;">イベント自動検出</h3>
+        <ul>
+          <li>密集区間の開始・終了を異常検知で自動抽出</li>
+          <li>外部イベントリストの自動生成パイプライン</li>
+        </ul>
+        <div class="def-box red-box" style="margin-top: 12px;">
+          <div class="label">最優先</div>
+          <p>実データでの動作確認 → Dunnhumby データ適用</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">20</div>
+  </div>
+
+</div><!-- #slideshow -->
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="prevBtn" disabled onclick="changeSlide(-1)">◀ Prev</button>
+  <span id="counter">1 / 20</span>
+  <button id="nextBtn" onclick="changeSlide(1)">Next ▶</button>
+</div>
+
+<script>
+  var current = 0;
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = (current === 0);
+    document.getElementById('nextBtn').disabled = (current === total - 1);
+  }
+
+  function changeSlide(dir) {
+    if (dir === -1 && current === 0) return;
+    if (dir === 1 && current === total - 1) return;
+    showSlide(current + dir);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "input_file": {
+    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data",
+    "file_name": "sample_basket.txt"
+  },
+  "output_files": {
+    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data/output",
+    "patterns_output_file_name": "sample_output.csv"
+  },
+  "apriori_parameters": {
+    "window_size": 3,
+    "min_support": 2,
+    "max_length": 3
+  }
+}
