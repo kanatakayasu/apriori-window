@@ -9,6 +9,7 @@ dataset/**/*.gz
 dataset/**/*.pdf
 
 # Rust ビルド成果物
+target/
 apriori_window_suite/target/
 apriori_window_original/target/
 
@@ -20,3 +21,4 @@ __pycache__/
 
 # 実験出力（再現可能なため追跡不要）
 dataset/**/output/
+data/output/
