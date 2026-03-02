@@ -26,14 +26,14 @@ $\text{txn\_support}(P) \geq \text{true\_support}(P)$ であるため，
 
 \begin{figure}[t]
     \centering
-    % ユーザー作成予定: 従来法 vs Phase 1 の共起カウント比較（詳細は本文末の図案を参照）
-    \includegraphics[width=\linewidth]{fig/conventional_vs_phase1.pdf}
-    \caption{従来法（flatten）と提案手法（Phase 1）の処理の違い．
-    従来法では全バスケットを統合するため，異なるバスケット由来のアイテムが
-    共起としてカウントされる（赤矢印が偽共起の例）．
-    提案手法はバスケット単位で共起を評価するため偽共起が発生しない．}
+    \includegraphics[width=\linewidth]{fig/conventional_vs_phase1.png}
+    \caption{従来法（flatten）と提案手法（Phase 1）の処理比較}
     \label{fig:conventional_vs_phase1}
 \end{figure}
+
+図~\ref{fig:conventional_vs_phase1} は，従来法がバスケットを統合して
+トランザクション内共起を数えるのに対し，提案法がバスケット境界を維持して
+共起を評価する差分を示している．
 
 %% ====== 4.2 アルゴリズムの概要 ======
 \subsection{アルゴリズム概要}

@@ -72,20 +72,16 @@ $P$ のすべてのアイテムが（バスケットを横断して）
 
 \begin{figure}[t]
     \centering
-    % ユーザー作成予定: 表形式の具体例（詳細は本文末の図案を参照）
-    \includegraphics[width=\linewidth]{fig/example_table.pdf}
-    \caption{バスケット構造付きトランザクションデータの例（5 トランザクション）．
-    各行が 1 日分のデータであり，同一日に複数の購買イベント（バスケット）が存在する．
-    バスケット内共起に基づくと，(牛乳, ビール) はどのバスケットにも共起せず，
-    $\text{true\_support} = 0$ となる．
-    従来法（トランザクション内共起）では $\text{txn\_support} = 3/5 = 0.6$ となり，
-    偽共起が発生する．}
+    \includegraphics[width=\linewidth]{fig/example_table.png}
+    \caption{バスケット構造付きトランザクションデータの例（5 トランザクション）}
     \label{fig:example_table}
 \end{figure}
 
 \begin{example}[偽共起の発生]
 \label{ex:spurious}
 図~\ref{fig:example_table} に示すデータを考える．
+この図では，同一日に複数バスケットが存在し得る状況を表現しており，
+バスケット内共起とトランザクション内共起の差が可視化されている．
 5 つのトランザクション（日付）が存在し，各日に 1〜2 件のバスケットが記録される．
 
 \begin{center}
