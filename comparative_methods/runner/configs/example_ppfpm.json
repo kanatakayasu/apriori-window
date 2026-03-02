@@ -1,0 +1,11 @@
+{
+  "method": "ppfpm_gpf_growth",
+  "dataset_path": "dataset/synthetic/output/A1_P_lambda_2.0_seed0.txt",
+  "input_format": "basket",
+  "output_path": "comparative_methods/results/ppfpm_example.json",
+  "params": {
+    "minSup": 5,
+    "maxPer": 10,
+    "minPR": 0.3
+  }
+}
