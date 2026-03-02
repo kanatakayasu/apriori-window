@@ -1,0 +1,193 @@
+\section{提案手法: Basket-aware Apriori-Window}
+\label{sec:proposed_method}
+
+%% ====== 4.1 従来法の問題の形式的説明 ======
+\subsection{従来法（flatten）の問題}
+\label{sec:conventional_problem}
+
+従来の Apriori-window~\cite{dsaa2025} はバスケット構造を扱う設計になっていないため，
+バスケット構造付きトランザクションデータに適用する際には，
+各トランザクションの全バスケットを統合（flatten）して単一アイテムセットに
+変換する前処理が必要である．
+
+\begin{definition}[フラット化]
+\label{def:flatten}
+バスケット構造付きトランザクション $d = (ts, \mathcal{B})$ の
+\emph{フラット化}（flatten）とは，全バスケットの和集合を計算し，
+$d_{\text{flat}} = (ts, \bigcup_{B \in \mathcal{B}} B)$ という
+単一アイテムセットのトランザクションを生成することである．
+\end{definition}
+
+フラット化後のトランザクションデータに Apriori-window を適用することで，
+トランザクション内サポート（式~(\ref{eq:txn_support})）に基づく
+密集パターンが抽出される．このとき，命題~\ref{prop:monotone} より
+$\text{txn\_support}(P) \geq \text{true\_support}(P)$ であるため，
+従来法は真の密集パターンに加えて偽共起パターンも検出してしまう（定義~\ref{def:spurious}）．
+
+\begin{figure}[t]
+    \centering
+    % ユーザー作成予定: 従来法 vs Phase 1 の共起カウント比較（詳細は本文末の図案を参照）
+    \includegraphics[width=\linewidth]{fig/conventional_vs_phase1.pdf}
+    \caption{従来法（flatten）と提案手法（Phase 1）の処理の違い．
+    従来法では全バスケットを統合するため，異なるバスケット由来のアイテムが
+    共起としてカウントされる（赤矢印が偽共起の例）．
+    提案手法はバスケット単位で共起を評価するため偽共起が発生しない．}
+    \label{fig:conventional_vs_phase1}
+\end{figure}
+
+%% ====== 4.2 アルゴリズムの概要 ======
+\subsection{アルゴリズム概要}
+\label{sec:algorithm}
+
+提案手法 \emph{Basket-aware Apriori-Window}（Phase 1）は，
+バスケット内共起（定義~\ref{def:intra_basket}）のみに基づいてサポートを計算することで，
+原理的に偽共起パターンを出力しない．
+アルゴリズム~\ref{alg:basket_aware_apriori_window} に全体の手順を示す．
+
+\input{alg/basket_aware_apriori_window}
+
+\subsubsection{ステップ 1: バスケットマップの構築}
+
+$\Call{BuildBasketMap}{}$ は，データ全体を 1 回走査して 3 つのデータ構造を構築する．
+
+\begin{itemize}
+    \item $M_{\text{item}}[i]$（アイテム→バスケット ID マップ）:
+    アイテム $i$ が含まれるバスケットのグローバル ID のリスト（昇順ソート済み）．
+    同一バスケット内に同じアイテムが複数あっても 1 回のみ記録する．
+
+    \item $\text{b2t}[b]$（バスケット→トランザクション ID マップ）:
+    バスケット $b$ が属するトランザクションのインデックス．
+    トランザクション順 × バスケット順でグローバル連番を付与するため，
+    この配列は単調非減少となる．
+
+    \item $M_{\text{txn}}[i]$（アイテム→トランザクション ID マップ）:
+    アイテム $i$ が（いずれかのバスケットに）含まれるトランザクションのインデックスのリスト
+    （重複なし・昇順）．長さ 1 パターンのスライディングウィンドウ処理で使用する．
+\end{itemize}
+
+\subsubsection{ステップ 2: 長さ 1 の密集パターン}
+
+各単体アイテム $i$ に対して，$M_{\text{txn}}[i]$（アイテムの出現トランザクション ID 列）
+を入力としてスライディングウィンドウ機構を実行し，
+$\text{true\_support}_I(i) \geq \theta$ かつ $n(D_I) \geq W$ を満たす
+すべての密集区間を求める．長さ 1 のアイテムについては，
+バスケット内共起とトランザクション内共起が一致する（1 アイテムは常に単一バスケット内）
+ため，この処理は従来法と等価である．
+
+\subsubsection{ステップ 3: 長さ $k \geq 2$ の密集パターン（核心部）}
+
+アルゴリズム~\ref{alg:basket_aware_apriori_window} の 21〜27 行目が本手法の核心部である．
+候補アイテムセット $P$ に対して，バスケット ID の集合積
+$B_P = \bigcap_{i \in P} M_{\text{item}}[i]$ を計算する．
+$B_P$ は $P$ のすべてのアイテムを同時に含むバスケットの集合であり，
+\emph{バスケット内共起を直接エンコードする}．
+
+続いて，$B_P$ を $\text{b2t}$ を用いてトランザクション ID 列 $T_P$ に変換し
+（$\Call{BasketToTransaction}{}$），スライディングウィンドウを適用して密集区間を求める．
+
+\textbf{従来法との違い}: 従来法では，候補 $P$ のサポートを計算するために
+$T_P = \bigcap_{i \in P} M_{\text{txn}}[i]$ というトランザクション ID の集合積を用いる．
+これは，各アイテムがそのトランザクションのいずれかのバスケットに存在することを確認するだけで，
+同一バスケット内の共起は保証しない．提案手法は集合積をバスケット粒度で行うことで，
+この問題を根本的に解決する．
+
+\subsubsection{スライディングウィンドウ機構}
+
+$\Call{SlidingWindow}{}$ の実装は先行研究 Apriori-window~\cite{dsaa2025} と同一である．
+固定幅 $W$ のウィンドウを 1 トランザクション単位でスライドさせながら，
+ウィンドウ内のサポートが $\theta$ を超える区間を記録し，
+隣接区間を統合して密集区間リストを返す．また，ウィンドウ内でサポートが $\theta$ を
+大幅に上回る場合には，余剰分に基づいてストライドを増加させる最適化（stride adjustment）
+を適用して効率的な走査を実現する~\cite{dsaa2025}．
+
+%% ====== 4.3 反単調性の証明 ======
+\subsection{反単調性の証明}
+\label{sec:anti_monotone}
+
+Apriori の枝刈りが機能するためには，候補のサポートが単調非増加（反単調性）で
+あることが必要である．従来の Apriori-window では定義域をトランザクション単位の
+出現集合としてこれを証明しているが~\cite{dsaa2025}，
+提案手法ではバスケット粒度での反単調性を証明する必要がある．
+
+\begin{theorem}[バスケット内共起における反単調性]
+\label{thm:anti_monotone}
+任意のアイテムセット $P$ とその真の上位集合 $P' \supset P$，
+任意の区間 $I$ に対して，
+\begin{equation}
+\text{true\_support}_I(P') \leq \text{true\_support}_I(P)
+\label{eq:anti_monotone}
+\end{equation}
+が成立する．
+\end{theorem}
+
+\begin{proof}
+$d = (ts, \mathcal{B})$ を区間 $I$ 内の任意のトランザクションとする．
+
+$P'$ がバスケット内共起する（$\exists B \in \mathcal{B}: P' \subseteq B$）ならば，
+$P \subset P'$ より $P \subseteq B$ も成立するため，
+$P$ もそのバスケット $B$ でバスケット内共起する．
+
+逆は一般に成立しない（$P$ がバスケット内共起しても，$P'$ の余分なアイテムが
+同一バスケットに含まれるとは限らない）．
+
+したがって，$P'$ がバスケット内共起するトランザクションの集合は，
+$P$ がバスケット内共起するトランザクションの集合の部分集合であり，
+式~(\ref{eq:anti_monotone}) が成立する．
+\end{proof}
+
+定理~\ref{thm:anti_monotone} より，あるアイテムセット $P$ が
+バスケット対応密集パターンでない（すなわち，すべての区間 $I$ で
+$\text{true\_support}_I(P) < \theta$ または $n(D_I) < W$）ならば，
+$P$ の任意の上位集合 $P'$ もバスケット対応密集パターンにならない．
+これにより，$\Call{GenerateCandidates}{}$（$\mathcal{F}_{k-1}$ に含まれない
+パターンを部分集合にもつ候補を除外する Apriori 枝刈り）の正当性が保証される．
+
+%% ====== 4.4 従来 Apriori-window との関係 ======
+\subsection{従来 Apriori-window との関係}
+\label{sec:relationship}
+
+\begin{proposition}[特殊ケースとしての従来法]
+\label{prop:special_case}
+各トランザクションがちょうど 1 つのバスケット（$|\mathcal{B}| = 1$）をもつとき，
+提案手法（Phase 1）の出力は従来 Apriori-window の出力と一致する．
+\end{proposition}
+
+\begin{proof}
+$|\mathcal{B}| = 1$ の場合，バスケット内共起とトランザクション内共起は
+同値であるため（$\exists B \in \mathcal{B}: P \subseteq B$
+$\Leftrightarrow$ $P \subseteq \bigcup_{B \in \mathcal{B}} B$），
+$\text{true\_support}_I(P) = \text{txn\_support}_I(P)$ が成立する．
+したがって，提案手法と従来法は同一の密集パターンを出力する．
+\end{proof}
+
+命題~\ref{prop:special_case} は，提案手法が従来 Apriori-window の
+\emph{上位互換（strict generalization）}であることを示す．
+すなわち，従来法は $\lambda_{\text{baskets}} = 1$（各トランザクションに
+バスケットが 1 つしかない場合）の特殊ケースとして包含される．
+
+%% ====== 4.5 実装上のポイント ======
+\subsection{実装上のポイント}
+
+\subsubsection{BasketToTransaction におけるトランザクション ID の重複}
+$\Call{BasketToTransaction}{}$ は，バスケット ID リスト $B_P$ を
+対応するトランザクション ID 列 $T_P$ に変換する．
+ここで，$B_P$ に同一トランザクションの複数バスケット
+$b_1, b_2$ が含まれる（$\text{b2t}[b_1] = \text{b2t}[b_2] = t$）場合，
+トランザクション $t$ は $T_P$ に \emph{1 回のみ} 記録される設計とする．
+
+これは，$\text{true\_support}$ の定義（式~(\ref{eq:true_support})）が
+トランザクション単位でカウントを行うことに対応している．
+すなわち，1 つのトランザクション内に $P$ を含むバスケットが複数あっても，
+サポートへの貢献は 1 とみなす．
+
+\subsubsection{グローバルバスケット ID の採番}
+バスケット ID はトランザクション順 × バスケット順にグローバル連番を付与する．
+この採番規則により，$\text{b2t}$ 配列が単調非減少となり，
+ソート済みリストとの二分探索による高速な集合積計算（バスケット ID の積集合）が
+$O(|B_{P_1}| + |B_{P_2}|)$（$P = \{i_1, i_2\}$ の場合のマージ）で可能になる．
+
+\subsubsection{メモリ効率}
+長さ 1 の密集パターンのみに関与する単体アイテムについては，
+$M_{\text{item}}[i]$ は長さ 1 パターンの密集区間計算後に解放可能である．
+ただし，長さ 2 以上の候補生成時には再び必要になるため，
+全プロセスを通じて保持する実装が現実的である．

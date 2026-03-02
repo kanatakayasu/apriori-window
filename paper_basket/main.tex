@@ -1,0 +1,78 @@
+% ==============================================================
+% Basket-Aware Apriori-Window — 論文ドラフト（日本語版）
+% ==============================================================
+% コンパイル方法:
+%   xelatex main.tex && bibtex main && xelatex main.tex && xelatex main.tex
+% 注意: 日本語を含むため XeLaTeX + xeCJK が必要
+%   macOS の場合は "Hiragino Mincho ProN" フォントを使用
+% ==============================================================
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% --- 日本語対応 ---
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Hiragino Sans}
+
+% --- 標準パッケージ ---
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{threeparttable}
+\usepackage{subcaption}
+\usepackage{booktabs}
+
+% --- 定理環境 ---
+\newtheorem{definition}{定義}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{lemma}{補題}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{バスケット構造対応 Apriori-Window による偽共起パターンの排除}
+
+\author{
+  \IEEEauthorblockN{（執筆者未定）}\\
+  \IEEEauthorblockA{ドラフト — 日本語版}
+}
+
+\maketitle
+
+\begin{abstract}
+取引データにおいては，同一時間帯に複数の独立した購買イベント（バスケット）が記録される
+場合が多い．従来の頻出パターンマイニング手法は，1 トランザクションを 1 つのアイテムセット
+として扱う設計を前提とするため，複数バスケットを束ねる際に異なる購買イベント由来のアイテム
+が誤って共起とみなされる「偽共起」が生じる．本稿では，この問題を解決するためにバスケット
+構造を明示的に扱う拡張モデルを提案する．提案手法（Phase 1）は，共起の定義をバスケット内
+に限定することで，偽共起パターン率（SPR: Spurious Pattern Rate）を原理的にゼロに抑える
+ことを保証する．合成データ実験では，バスケット数パラメータ $\lambda_{\text{baskets}}$ の
+増加とともに従来法の SPR が単調に増加する一方，提案手法は SPR = 0 を維持することを
+実証する．また，反単調性がバスケット内共起においても成立することを証明し，Apriori 枝刈り
+による効率的な候補生成が可能であることを示す．
+\end{abstract}
+
+\begin{IEEEkeywords}
+frequent pattern mining, spurious co-occurrence, basket structure,
+sliding window, dense itemset
+\end{IEEEkeywords}
+
+\input{sec/01_intro}
+% \input{sec/02_related_work}
+\input{sec/03_problem_definition}
+\input{sec/04_proposed_method}
+
+% --- 参考文献 ---
+\bibliographystyle{IEEEtran.bst}
+\bibliography{refs}
+
+\end{document}
