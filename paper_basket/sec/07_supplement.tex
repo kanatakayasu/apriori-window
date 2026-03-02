@@ -1,0 +1,30 @@
+\section{Supplementary Material}
+\label{sec:supplement}
+
+\subsection{再現実行情報}
+\label{sec:supp_repro}
+
+本稿の実験は，リポジトリ内スクリプトを用いて再現可能である．
+主な実行入口は以下である．
+\begin{itemize}
+    \item Phase 1 / 従来法の Stage A 実験: \texttt{experiments/run\_stage\_A.py}
+    \item 比較手法 runner: \texttt{comparative\_methods/runner/run\_stage\_a\_suite.py}
+    \item 比較手法 Rust バイナリ: \texttt{apriori\_window\_suite/src/bin/comparative\_mining.rs}
+\end{itemize}
+
+\subsection{A1/A2/A4 の出力ファイル}
+\label{sec:supp_outputs}
+
+本文で報告した結果は，以下の CSV に保存される．
+\begin{itemize}
+    \item A1: \texttt{experiments/results/a1\_full\_20260302/A1\_spr.csv}
+    \item A2: \texttt{experiments/results/a2\_full\_20260302/A2\_spr.csv}
+    \item A4: \texttt{experiments/results/a4\_full\_20260302/A4\_scalability.csv}
+\end{itemize}
+
+\subsection{実験マッピングに関する注記}
+\label{sec:supp_mapping}
+
+現行スクリプトでは，\texttt{run\_stage\_A.py} の実験名と設計書上の表記が一部異なる．
+具体的には，スクリプト内 \texttt{A3} が設計書上のスケーラビリティ実験（A4）に対応する．
+本稿では設計書表記（A4）に合わせて結果を報告した．

@@ -48,6 +48,8 @@
 }
 
 \maketitle
+\pagestyle{plain}
+\pagenumbering{arabic}
 
 \begin{abstract}
 既存の頻出パターンマイニングは主にグローバル頻度に依存するため，特定期間に集中して現れる局所的な密集パターンを十分に捉えにくい．
@@ -61,7 +63,10 @@
 さらに，バスケット内共起においても Apriori の反単調性が成立することを示し，
 従来と同様の候補枝刈りが可能であることを理論的に保証する．
 合成データ実験では，バスケット数パラメータ $\lambda_{\text{baskets}}$ の増加に伴い
-従来法の SPR が増加する一方，提案手法は一貫して SPR = 0 を維持することを確認した．
+従来法の過検出が急増し（A1: observed spurious の平均 1.0 $\rightarrow$ 379.0），
+カテゴリ数の増加で構造的な偽共起率が低下する傾向（A2: GT SPR の平均 0.827 $\rightarrow$ 0.638）を確認した．
+さらにスケーラビリティ評価（A4）では，$10^6$ トランザクションで
+提案手法 95.5 秒，従来法 143.6 秒（1.50 倍）となり，大規模条件での優位性を示した．
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -70,9 +75,13 @@ sliding window, dense itemset
 \end{IEEEkeywords}
 
 \input{sec/01_intro}
-% \input{sec/02_related_work}
+\input{sec/02_related_work}
 \input{sec/03_problem_definition}
 \input{sec/04_proposed_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+\appendices
+\input{sec/07_supplement}
 
 % --- 参考文献 ---
 \bibliographystyle{IEEEtran.bst}
