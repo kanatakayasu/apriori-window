@@ -1,0 +1,9 @@
+method,input_format,elapsed_ms,pattern_count,interval_count,output_json
+apriori,flat,5.679541995050386,14,0,comparative_methods/results/smoke_20260302/sample_basket_apriori.json
+fp_growth,flat,4.723583988379687,14,0,comparative_methods/results/smoke_20260302/sample_basket_fp_growth.json
+eclat,flat,4.955750016961247,14,0,comparative_methods/results/smoke_20260302/sample_basket_eclat.json
+lcm,flat,4.681291989982128,14,0,comparative_methods/results/smoke_20260302/sample_basket_lcm.json
+pfpm,flat,4.5266670058481395,0,0,comparative_methods/results/smoke_20260302/sample_basket_pfpm.json
+ppfpm_gpf_growth,timestamped,4.798165988177061,14,0,comparative_methods/results/smoke_20260302/sample_basket_ppfpm_gpf_growth.json
+lpfim,timestamped,4.919791012071073,14,14,comparative_methods/results/smoke_20260302/sample_basket_lpfim.json
+lppm,timestamped,4.781916999490932,14,14,comparative_methods/results/smoke_20260302/sample_basket_lppm.json

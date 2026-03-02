@@ -1,0 +1,135 @@
+{
+  "config": {
+    "method": "lppm",
+    "dataset_path": "comparative_methods/results/smoke_20260302/inputs/sample_basket.timestamped.txt",
+    "input_format": "timestamped",
+    "minsup_count": 1,
+    "max_length": 3,
+    "params": {
+      "maxPer": 10,
+      "maxSoPer": 20,
+      "minDur": 3,
+      "backend": "auto"
+    }
+  },
+  "runtime": {
+    "elapsed_ms": 4.781916999490932,
+    "n_transactions": 5
+  },
+  "result": {
+    "method": "lppm",
+    "patterns": {
+      "3": 5,
+      "1,4": 5,
+      "3,4": 5,
+      "2": 5,
+      "1": 5,
+      "2,3": 5,
+      "1,2,4": 5,
+      "1,2,3": 5,
+      "2,3,4": 5,
+      "1,3": 5,
+      "1,2": 5,
+      "4": 5,
+      "1,3,4": 5,
+      "2,4": 5
+    },
+    "intervals": {
+      "2": [
+        [
+          0,
+          4
+        ]
+      ],
+      "4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "2,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "2,3": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,2": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,2,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "3": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,3": [
+        [
+          0,
+          4
+        ]
+      ],
+      "2,3,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "3,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,2,3": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1,3,4": [
+        [
+          0,
+          4
+        ]
+      ],
+      "1": [
+        [
+          0,
+          4
+        ]
+      ]
+    },
+    "metadata": {
+      "impl": "rust_lppm",
+      "maxPer": 10,
+      "maxSoPer": 20,
+      "minDur": 3,
+      "runner": {
+        "cmd": "/Users/kanata/Documents/GitHub/apriori-window/apriori_window_suite/target/release/comparative_mining --method lppm --input /var/folders/qm/wp5kvl_n08q1s7z5x_7grsh40000gn/T/cmp_rust_kdfirqg_.txt --input-format timestamped --params-json {\"maxPer\": 10, \"maxSoPer\": 20, \"minDur\": 3, \"backend\": \"auto\", \"minsup_count\": 1, \"minsup_ratio\": null, \"max_length\": 3}",
+        "returncode": 0,
+        "stderr": ""
+      }
+    }
+  }
+}
