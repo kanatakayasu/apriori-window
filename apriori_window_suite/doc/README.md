@@ -43,7 +43,7 @@ apriori_window_suite/
   Cargo.toml                         ← Rust クレート設定（[lib] + [[bin]]）
   src/
     lib.rs                           ← Rust ライブラリ（pub use ハブ）
-    main.rs                          ← Rust CLI（cargo run -- phase1|phase2）
+    main.rs                          ← Rust CLI（cargo run --release -- phase1|phase2）
     apriori.rs                       ← Apriori 探索（find_dense_itemsets）
     basket.rs                        ← バスケットマップ構築
     correlator.rs                    ← Phase 2 時間的関係マッチング
@@ -173,15 +173,17 @@ apriori_window_suite/
 cd /path/to/apriori_window/apriori_window_suite
 
 # Phase 1（デフォルト設定: data/settings.json）
-cargo run -- phase1
+cargo run --release -- phase1
 
 # Phase 2（settings_phase2.json を指定）
-cargo run -- phase2 data/settings_phase2.json
+cargo run --release -- phase2 data/settings_phase2.json
 
 # リリースビルド後に実行
 cargo build --release
 ./target/release/apriori_window_suite phase1 path/to/settings.json
 ```
+
+性能比較時は `debug`（`cargo run`）を混ぜず、必ず `--release` で揃えること。
 
 ### Python
 
