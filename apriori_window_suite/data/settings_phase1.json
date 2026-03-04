@@ -1,15 +1,15 @@
 {
   "input_file": {
-    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data",
-    "file_name": "sample_basket.txt"
+    "dir": "/Users/kanata/Documents/GitHub/apriori-window/dataset",
+    "file_name": "chicago.txt"
   },
   "output_files": {
-    "dir": "/Users/kanata/Documents/GitHub/apriori_window/apriori_window_suite/data/output",
-    "patterns_output_file_name": "sample_output.csv"
+    "dir": "/Users/kanata/Documents/GitHub/apriori-window/apriori_window_suite/data/output",
+    "patterns_output_file_name": "gt_patterns_chicago.csv"
   },
   "apriori_parameters": {
-    "window_size": 3,
-    "min_support": 2,
-    "max_length": 3
+    "window_size": 50,
+    "min_support": 10,
+    "max_length": 4
   }
 }
