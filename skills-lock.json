@@ -11,6 +11,11 @@
       "sourceType": "github",
       "computedHash": "d46ca590d97215674b986dbc8d0085739032117669483bead7eba739948abbdd"
     },
+    "latex-paper-en": {
+      "source": "bahayonghang/academic-writing-skills",
+      "sourceType": "github",
+      "computedHash": "b577b14c9e01460f9e0b1f3ab4e52d9e97408947c3f79be37c5fc8e7fc4bb9b4"
+    },
     "ml-paper-writing": {
       "source": "zechenzhangagi/ai-research-skills",
       "sourceType": "github",
@@ -21,10 +26,20 @@
       "sourceType": "github",
       "computedHash": "a2cc64d28bbda77aeac8ec634ae38102a3b8d2314f3aa802811a44281c5d7838"
     },
+    "research-paper-writer": {
+      "source": "ailabs-393/ai-labs-claude-skills",
+      "sourceType": "github",
+      "computedHash": "67be14e704ff0c2972e4fcfd164bffa4504898590ed43276d6ada1a376934748"
+    },
     "rust-best-practices": {
       "source": "apollographql/skills",
       "sourceType": "github",
       "computedHash": "ba11ae333ab71e30dd83de34d5f5cfa23ed3ee782618215f7fb69b749d63762d"
+    },
+    "venue-templates": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "computedHash": "67e938e1af059cf260f810ce890c51ae5aed8340ecc1a51cfa911e2a32e3f2d1"
     }
   }
 }
