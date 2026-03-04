@@ -2,7 +2,7 @@
 
 Phase 1（密集区間検出）と Phase 2（イベント時間的関係付け）を統合した実装スイート。
 
-上位ドキュメント: [`doc/README.md`](../../doc/README.md)
+上位ドキュメント: [`README.md`](../../README.md)
 詳細設計書: [`phase1_impl_plan.md`](./phase1_impl_plan.md) / [`phase2_impl_plan.md`](./phase2_impl_plan.md)
 
 ---
