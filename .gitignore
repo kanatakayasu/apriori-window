@@ -22,6 +22,16 @@ __pycache__/
 # 実験出力（再現可能なため追跡不要）
 dataset/**/output/
 data/output/
+**/data/output/
+apriori_window_suite/data/output/
+apriori_window_original/data/output/
+
+# 合成データ生成物（大容量・再現可能）
+experiments/results/*_data/
 
 # Experiment run outputs (large files)
 runs/
+
+# macOS システムファイル
+.DS_Store
+**/.DS_Store
