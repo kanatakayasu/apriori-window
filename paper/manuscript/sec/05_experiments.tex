@@ -32,11 +32,9 @@ $max\_length=4$ とした．
 各条件は複数 seed で実行し，表には平均値を報告する．
 
 \paragraph{実装}
-実験オーケストレーションは \texttt{experiments/run\_stage\_A.py} を用いた．
-A1/A2 は seed $\in \{0,\dots,4\}$（5 seeds），
-A4（実装上の実験名は A3）は seed $\in \{0,1,2\}$（3 seeds）で実行した．
-本稿の表はすべて 2026-03-02 実行結果
-（\texttt{experiments/results/*\_full\_20260302/}）に基づく．
+実験は乱数シードを固定したスクリプト群によりオーケストレーションし，再現性を確保した．
+A1/A2 は 5 seeds，A4 は 3 seeds で実行し，表には各条件の平均値を報告する．
+実行手順・環境・出力ファイルの詳細は補遺（Sec.~\ref{sec:supp_repro}）に記載する．
 
 \subsection{設定}
 \label{sec:exp_setup}
