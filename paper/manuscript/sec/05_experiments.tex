@@ -1,0 +1,153 @@
+\section{実験結果と考察}
+\label{sec:experiments}
+
+\subsection{実験方法}
+\label{sec:exp_method}
+
+本研究の評価は，合成データ上で提案手法（Phase 1）と従来法（flatten + Apriori-window）
+を比較する構成で行った．再現性確保のため，本文では実験条件の要点を示し，
+実行コマンドと出力ファイル対応は補遺（Sec.~\ref{sec:supp_repro}）に集約する．
+
+\paragraph{データ生成}
+各トランザクション $t$ について，まずバスケット数 $n_t$ を
+$\max(1,\mathrm{Poisson}(\lambda_{\text{baskets}}))$ で生成する．
+次に各バスケット $b$ のサイズ $k_b$ を
+$\max(1,\mathrm{Poisson}(\lambda_{\text{basket\_size}}))$ で生成し，
+主カテゴリを $G$ 個から一様に選択する．
+各アイテムは確率 $p_{\text{same}}$ で主カテゴリ内，確率 $1-p_{\text{same}}$ で全体語彙から
+Zipf 重み（指数 $\alpha_{\text{zipf}}$）に従ってサンプルし，
+重複除去後の集合をバスケットとする．
+同一トランザクション内の異なるバスケット間には真の共起関係を仮定しないため，
+フラット化で偽共起が発生する条件を制御できる．
+
+\paragraph{比較条件}
+提案手法はバスケット境界を保持して support を計算する．
+従来法は各トランザクション内の全バスケットを統合して単一アイテム集合として扱う．
+共通パラメータは，$min\_support=50$（件数しきい値），$window\_size=500$，
+$max\_length=4$ とした．
+
+\paragraph{評価指標}
+偽共起の強さは GT SPR と observed spurious で評価した．
+効率は，Phase 1 の core 時間と従来法の total 時間（flatten + core）で比較した．
+各条件は複数 seed で実行し，表には平均値を報告する．
+
+\paragraph{実装}
+実験オーケストレーションは \texttt{experiments/run\_stage\_A.py} を用いた．
+A1/A2 は seed $\in \{0,\dots,4\}$（5 seeds），
+A4（実装上の実験名は A3）は seed $\in \{0,1,2\}$（3 seeds）で実行した．
+本稿の表はすべて 2026-03-02 実行結果
+（\texttt{experiments/results/*\_full\_20260302/}）に基づく．
+
+\subsection{設定}
+\label{sec:exp_setup}
+
+本節では Stage A のうち，以下の 3 実験を報告する．
+\begin{itemize}
+    \item A1: $\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$ の sweep（seed=5）
+    \item A2: カテゴリ数 $G \in \{3,5,10,20,50\}$ の sweep（seed=5）
+    \item A4: $N_{\text{transactions}} \in \{10^3,10^4,10^5,10^6\}$ の sweep（seed=3）
+\end{itemize}
+
+主要指標は，偽共起率（GT SPR），従来法のみが検出した多項目パターン数
+（observed spurious），および実行時間（Phase 1 core vs 従来法 total）である．
+
+\begin{table}[t]
+\caption{再現用の固定パラメータ（Stage A 共通）}
+\label{tab:exp_fixed_params}
+\centering
+\begin{tabular}{lc}
+\toprule
+項目 & 値 \\
+\midrule
+$N_{\text{items}}$ & 200 \\
+$\lambda_{\text{basket\_size}}$ & 3.0 \\
+$p_{\text{same}}$ & 0.8 \\
+$\alpha_{\text{zipf}}$ & 1.2 \\
+$min\_support$ & 50 \\
+$window\_size$ & 500 \\
+$max\_length$ & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A1: バスケット数増加に対する偽共起の拡大}
+\label{sec:exp_a1}
+
+表~\ref{tab:a1_summary} に A1 の平均結果を示す．
+$\lambda_{\text{baskets}}$ の増加に伴い，データ生成側の GT SPR は
+0.454 から 0.971 まで単調増加した．同時に observed spurious は
+1.0 から 379.0 へ増加し，従来法の過検出が急激に拡大した．
+
+実行時間面では，低 $\lambda$ では差が小さい一方，
+高 $\lambda$（=5.0）では従来法が 3.05 倍遅くなった．
+これは，フラット化により候補が増え，従来法の探索空間が拡大したためと解釈できる．
+
+\begin{table}[t]
+\caption{A1 結果（平均）}
+\label{tab:a1_summary}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+$\lambda_{\text{baskets}}$ & GT SPR & Obs. Spur. & Trad./P1 Multi & Trad./P1 Time \\
+\midrule
+1.0 & 0.454 & 1.0   & 2.00 & 1.02 \\
+1.5 & 0.676 & 3.8   & 3.11 & 1.08 \\
+2.0 & 0.794 & 10.2  & 3.50 & 1.06 \\
+3.0 & 0.906 & 50.4  & 4.41 & 1.49 \\
+5.0 & 0.971 & 379.0 & 12.28 & 3.05 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A2: カテゴリ数増加による構造的偽共起の低下}
+\label{sec:exp_a2}
+
+表~\ref{tab:a2_summary} に A2 の平均結果を示す．
+カテゴリ数 $G$ を増やすと，同一カテゴリ内での偶発的共起が起こりにくくなるため，
+GT SPR は 0.827（$G=3$）から 0.638（$G=50$）へ低下した．
+observed spurious も 24.4 から 3.0 に減少し，
+偽共起がデータ構造に依存して変動することを確認できる．
+
+\begin{table}[t]
+\caption{A2 結果（平均）}
+\label{tab:a2_summary}
+\centering
+\begin{tabular}{cccc}
+\toprule
+$G$ & GT SPR & Obs. Spur. & Trad./P1 Multi \\
+\midrule
+3  & 0.827 & 24.4 & 3.14 \\
+5  & 0.822 & 19.0 & 2.83 \\
+10 & 0.794 & 10.2 & 3.50 \\
+20 & 0.722 & 5.8  & 4.22 \\
+50 & 0.638 & 3.0  & 2.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A4: スケーラビリティ}
+\label{sec:exp_a4}
+
+表~\ref{tab:a4_summary} に A4 の平均結果を示す．
+$10^3$ から $10^6$ トランザクションまで，Phase 1・従来法ともに計算時間は増加するが，
+従来法の増加率がより大きい．特に $10^6$ では，
+Phase 1 が 95.5 秒，従来法が 143.6 秒で，従来法は 1.50 倍遅い．
+
+以上より，提案法は偽共起抑制だけでなく，
+高密度・大規模条件での実行効率にも優位性を示した．
+
+\begin{table}[t]
+\caption{A4 結果（平均実行時間, ms）}
+\label{tab:a4_summary}
+\centering
+\begin{tabular}{cccc}
+\toprule
+$N_{\text{transactions}}$ & Phase 1 & Traditional & Trad./P1 \\
+\midrule
+$10^3$ & 10.41 & 11.76 & 1.13 \\
+$10^4$ & 139.34 & 158.50 & 1.14 \\
+$10^5$ & 2488.37 & 3137.22 & 1.26 \\
+$10^6$ & 95489.56 & 143625.49 & 1.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
