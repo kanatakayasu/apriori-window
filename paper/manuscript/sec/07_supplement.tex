@@ -1,75 +1,70 @@
 \section{Supplementary Material}
 \label{sec:supplement}
 
-\subsection{再現実行情報}
-\label{sec:supp_repro}
+本補遺では，本文で省略した実験条件・パラメータ設定，
+およびデータ形式と Ground Truth 判定の定義を補足する．
 
-本稿の Stage A（A1/A2/A4）結果は，以下の手順で再現可能である．
-再現対象は 2026-03-02 実行の成果物である．
+\subsection{実験条件とパラメータ設定}
+\label{sec:supp_exp_conditions}
 
-\paragraph{前提環境}
-\begin{itemize}
-    \item OS: macOS / Linux（検証は macOS）
-    \item 言語処理系: Python 3 系
-    \item リポジトリルート: 各自のチェックアウト先（以下 \texttt{<repo>} と表記）
-\end{itemize}
+本文の A1/A2/A4 は，すべて Poisson 生成モデルに基づく合成データで評価した．
+トランザクション $t$ に対して，バスケット数とバスケット内アイテム数を
+それぞれ次で生成する．
+\[
+N_t = \max\{1, \mathrm{Poisson}(\lambda_{\text{baskets}})\}.
+\]
+\[
+K_{t,b} = \max\{1, \mathrm{Poisson}(\lambda_{\text{basket-size}})\}.
+\]
+カテゴリ集合は
+\[
+C_g = \{\,i \mid i \bmod G = g\,\}
+\]
+で定義し，各バスケットでは主カテゴリ $g$ を一様選択した後，
+確率 $p_{\text{same}}$ で $C_g$ から，確率 $1-p_{\text{same}}$ で全アイテム集合から
+Zipf 重み $w_i \propto (i+1)^{-\alpha_{\text{zipf}}}$ に従ってアイテムを抽出する．
 
-\paragraph{実行入口}
-\begin{itemize}
-    \item Phase 1 / 従来法の Stage A 実験: \texttt{experiments/run\_stage\_A.py}
-    \item 生成器（単体実行時）: \texttt{experiments/gen\_synthetic.py}
-    \item 比較実行器（単体実行時）: \texttt{experiments/run\_phase1.py}
-    \item 比較手法 runner: \texttt{baselines/runner/run\_stage\_a\_suite.py}
-    \item 比較手法 Rust バイナリ: \texttt{apriori\_window\_suite/src/bin/comparative\_mining.rs}
-\end{itemize}
+\begin{table}[t]
+\caption{固定パラメータ（A1/A2/A4 共通）}
+\label{tab:supp_fixed_params}
+\centering
+\begin{tabular}{ll}
+\toprule
+項目 & 値 \\
+\midrule
+生成モデル & Poisson \\
+$n_{\text{items}}$ & 200 \\
+$\lambda_{\text{basket-size}}$ & 3.0 \\
+$p_{\text{same}}$ & 0.8 \\
+$\alpha_{\text{zipf}}$ & 1.2 \\
+\texttt{window\_size} & 500 \\
+\texttt{min\_support} & 50 \\
+\texttt{max\_length} & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\paragraph{Stage A 一括実行コマンド}
-以下は本稿と同じディレクトリ構成で出力を得るための最小コマンドである．
-\begin{verbatim}
-cd <repo>
+\begin{table}[t]
+\caption{実験ごとの sweep 設定と seed 数}
+\label{tab:supp_sweep}
+\centering
+\begin{tabular}{llll}
+\toprule
+実験 & sweep 軸 & sweep 値 & seed \\
+\midrule
+A1 & $\lambda_{\text{baskets}}$ & $\{1.0, 1.5, 2.0, 3.0, 5.0\}$ & $0..4$（5本） \\
+A2 & $G$ & $\{3, 5, 10, 20, 50\}$ & $0..4$（5本） \\
+A4 & $N_{\text{transactions}}$ & $\{10^3, 10^4, 10^5, 10^6\}$ & $0..2$（3本） \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-# A1（lambda sweep）
-python3 experiments/run_stage_A.py \
-  --experiments A1 \
-  --output-dir experiments/results/a1_full_20260302 \
-  --data-dir experiments/results/a1_full_20260302_data
-
-# A2（G sweep）
-python3 experiments/run_stage_A.py \
-  --experiments A2 \
-  --output-dir experiments/results/a2_full_20260302 \
-  --data-dir experiments/results/a2_full_20260302_data
-
-# A4（実装上は A3: N sweep）
-python3 experiments/run_stage_A.py \
-  --experiments A3 \
-  --output-dir experiments/results/a3_full_20260302 \
-  --data-dir experiments/results/a3_full_20260302_data
-\end{verbatim}
-
-\paragraph{A4 集計ファイルへの変換}
-本文ではスケーラビリティ実験を A4 と呼称するため，
-\texttt{a3\_full\_20260302/A3\_timing.csv} を
-\texttt{a4\_full\_20260302/A4\_scalability.csv} として再配置し，
-平均表 \texttt{A4\_scalability\_summary.csv} を併せて用いる．
-この名称対応のみで，行データ自体は同一である．
-
-\subsection{A1/A2/A4 の出力ファイル}
-\label{sec:supp_outputs}
-
-本文で報告した結果は，以下の CSV に保存される．
-\begin{itemize}
-    \item A1: \texttt{experiments/results/a1\_full\_20260302/A1\_spr.csv}
-    \item A2: \texttt{experiments/results/a2\_full\_20260302/A2\_spr.csv}
-    \item A4: \texttt{experiments/results/a4\_full\_20260302/A4\_scalability.csv}
-\end{itemize}
-
-各 CSV と本文表の対応は以下である．
-\begin{itemize}
-    \item Table~\ref{tab:a1_summary}: \texttt{A1\_spr.csv} を $\lambda_{\text{baskets}}$ ごとに seed 平均
-    \item Table~\ref{tab:a2_summary}: \texttt{A2\_spr.csv} を $G$ ごとに seed 平均
-    \item Table~\ref{tab:a4_summary}: \texttt{A4\_scalability\_summary.csv} の平均値列
-\end{itemize}
+A1 の図（本文 Fig.~\ref{fig:a1_time_all_methods}--\ref{fig:a1_multi_all_methods}）で用いた系列は，
+\texttt{phase1}, \texttt{apriori\_window\_flatten}, \texttt{apriori},
+\texttt{fp\_growth}, \texttt{eclat}, \texttt{lcm}, \texttt{pfpm},
+\texttt{ppfpm\_gpf\_growth}, \texttt{lpfim}, \texttt{lppm} である．
+なお実験出力 CSV ではスケーラビリティ sweep を実装都合で \texttt{A3-P} と命名しているが，
+本文では実験番号体系に合わせて A4 と表記した．
 
 \subsection{データ形式と乱数設定}
 \label{sec:supp_data_format}
@@ -98,20 +93,3 @@ GT 判定は \texttt{experiments/gen\_synthetic.py} の
 を満たす場合を spurious と判定する．
 SPR は本文 Eq.~(\ref{eq:spr}) に対応し，
 分母を \texttt{txn\_support >= min\_support} の多項目集合数とした比率として計算する．
-
-\subsection{実験マッピングに関する注記}
-\label{sec:supp_mapping}
-
-現行スクリプトでは，\texttt{run\_stage\_A.py} の実験名と設計書上の表記が一部異なる．
-具体的には，スクリプト内 \texttt{A3} が設計書上のスケーラビリティ実験（A4）に対応する．
-本稿では設計書表記（A4）に合わせて結果を報告した．
-
-\subsection{再現時の確認項目}
-\label{sec:supp_checks}
-
-再実行後の整合確認は，以下の最小チェックを推奨する．
-\begin{itemize}
-    \item A1: $\lambda_{\text{baskets}}$ 増加に伴い GT SPR が単調増加すること
-    \item A2: $G$ 増加に伴い GT SPR が減少傾向を示すこと
-    \item A4: 従来法時間 / Phase 1 時間が $N=10^6$ で約 1.50 になること
-\end{itemize}

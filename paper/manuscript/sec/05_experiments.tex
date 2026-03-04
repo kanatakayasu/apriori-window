@@ -4,66 +4,56 @@
 \subsection{実験方法}
 \label{sec:exp_method}
 
-本研究の評価は，合成データ上で提案手法（Phase 1）と従来法（flatten + Apriori-window）
-を比較する構成で行った．再現性確保のため，本文では実験条件の要点を示し，
-実行コマンドと出力ファイル対応は補遺（Sec.~\ref{sec:supp_repro}）に集約する．
-
-\paragraph{データ生成}
-各トランザクション $t$ について，まずバスケット数 $n_t$ を
-$\max(1,\mathrm{Poisson}(\lambda_{\text{baskets}}))$ で生成する．
-次に各バスケット $b$ のサイズ $k_b$ を
-$\max(1,\mathrm{Poisson}(\lambda_{\text{basket\_size}}))$ で生成し，
-主カテゴリを $G$ 個から一様に選択する．
-各アイテムは確率 $p_{\text{same}}$ で主カテゴリ内，確率 $1-p_{\text{same}}$ で全体語彙から
-Zipf 重み（指数 $\alpha_{\text{zipf}}$）に従ってサンプルし，
-重複除去後の集合をバスケットとする．
-同一トランザクション内の異なるバスケット間には真の共起関係を仮定しないため，
-フラット化で偽共起が発生する条件を制御できる．
-
-\paragraph{比較条件}
-提案手法はバスケット境界を保持して support を計算する．
-従来法は各トランザクション内の全バスケットを統合して単一アイテム集合として扱う．
-共通パラメータは，$min\_support=50$（件数しきい値），$window\_size=500$，
-$max\_length=4$ とした．
-
-\paragraph{評価指標}
-偽共起の強さは GT SPR と observed spurious で評価した．
-効率は，Phase 1 の core 時間と従来法の total 時間（flatten + core）で比較した．
-各条件は複数 seed で実行し，表には平均値を報告する．
-
-\paragraph{実装}
-実験は乱数シードを固定したスクリプト群によりオーケストレーションし，再現性を確保した．
-A1/A2 は 5 seeds，A4 は 3 seeds で実行し，表には各条件の平均値を報告する．
-実行手順・環境・出力ファイルの詳細は補遺（Sec.~\ref{sec:supp_repro}）に記載する．
+本研究の評価は，合成データ上で提案手法（Phase 1）と比較手法を同一条件で実行し，
+偽共起抑制能力と計算効率を比較する構成で行った．
+実験は次の流れで実施した．
+\begin{enumerate}
+    \item バスケット構造をもつトランザクションデータを生成し，評価対象シナリオを構成する．
+    \item 提案手法・従来 Apriori-window（flatten）・比較手法群を同一データに適用する．
+    \item 各手法の出力から GTSPR，多項目パターン数，実行時間を算出する．
+    \item 複数 seed の結果を集約し，平均値に基づいて図表化する．
+\end{enumerate}
+データ生成式，実験条件，固定パラメータ，sweep 設定の詳細は補遺
+（Sec.~\ref{sec:supp_exp_conditions}）に示す．
 
 \subsection{設定}
 \label{sec:exp_setup}
 
-本節では Stage A のうち，以下の 3 実験を報告する．
+本節では Stage A のうち，以下の 3 実験を報告する．具体的な sweep 値・seed 数・
+固定パラメータは補遺（Sec.~\ref{sec:supp_exp_conditions}）に示す．
 \begin{itemize}
-    \item A1: $\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$ の sweep（seed=5）
-    \item A2: カテゴリ数 $G \in \{3,5,10,20,50\}$ の sweep（seed=5）
-    \item A4: $N_{\text{transactions}} \in \{10^3,10^4,10^5,10^6\}$ の sweep（seed=3）
+    \item A1: バスケット密度（$\lambda_{\text{baskets}}$）を変化させ，偽共起の拡大傾向を評価
+    \item A2: カテゴリ粒度（$G$）を変化させ，構造的偽共起の変化を評価
+    \item A4: トランザクション規模（$N_{\text{transactions}}$）を変化させ，スケーラビリティを評価
 \end{itemize}
 
 主要指標は，偽共起率（GT SPR），従来法のみが検出した多項目パターン数
 （observed spurious），および実行時間（Phase 1 core vs 従来法 total）である．
 
+\subsection{予備実験: GTSPR の確認}
+\label{sec:exp_prelim_gtspr}
+
+他手法比較に入る前に，従来 Apriori-window（バスケットをフラット化）の
+GTSPR が $\lambda_{\text{baskets}}$ の増加とともに上昇すること，
+および提案手法（Phase 1）の GTSPR が常に 0 であることを確認する．
+表~\ref{tab:prelim_gtspr} は A1（seed=5）の平均値であり，
+従来 Apriori-window の GTSPR は 0.454 から 0.971 へ単調増加し，
+Phase 1 は全条件で 0.000 を維持した．
+この確認を前提として，次節以降で他手法を含む比較結果を示す．
+
 \begin{table}[t]
-\caption{再現用の固定パラメータ（Stage A 共通）}
-\label{tab:exp_fixed_params}
+\caption{予備実験: GTSPR（seed=5 平均）}
+\label{tab:prelim_gtspr}
 \centering
-\begin{tabular}{lc}
+\begin{tabular}{ccc}
 \toprule
-項目 & 値 \\
+$\lambda_{\text{baskets}}$ & Apriori-window (flatten) GTSPR & Phase 1 GTSPR \\
 \midrule
-$N_{\text{items}}$ & 200 \\
-$\lambda_{\text{basket\_size}}$ & 3.0 \\
-$p_{\text{same}}$ & 0.8 \\
-$\alpha_{\text{zipf}}$ & 1.2 \\
-$min\_support$ & 50 \\
-$window\_size$ & 500 \\
-$max\_length$ & 4 \\
+1.0 & 0.454 & 0.000 \\
+1.5 & 0.676 & 0.000 \\
+2.0 & 0.794 & 0.000 \\
+3.0 & 0.906 & 0.000 \\
+5.0 & 0.971 & 0.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -71,31 +61,45 @@ $max\_length$ & 4 \\
 \subsection{A1: バスケット数増加に対する偽共起の拡大}
 \label{sec:exp_a1}
 
-表~\ref{tab:a1_summary} に A1 の平均結果を示す．
-$\lambda_{\text{baskets}}$ の増加に伴い，データ生成側の GT SPR は
-0.454 から 0.971 まで単調増加した．同時に observed spurious は
-1.0 から 379.0 へ増加し，従来法の過検出が急激に拡大した．
+予備実験（表~\ref{tab:prelim_gtspr}）で GTSPR の基本挙動を確認したうえで，
+図~\ref{fig:a1_time_all_methods}--\ref{fig:a1_multi_all_methods} に，
+A1 の method $\times$ $\lambda_{\text{baskets}}$ 集計（seed=5平均）を示す．
+ここで ``apriori\_window\_flatten'' は，トランザクション内でバスケットを
+フラット化して Apriori-window を実行する従来パイプラインを指す．
 
-実行時間面では，低 $\lambda$ では差が小さい一方，
-高 $\lambda$（=5.0）では従来法が 3.05 倍遅くなった．
-これは，フラット化により候補が増え，従来法の探索空間が拡大したためと解釈できる．
+実行時間（図~\ref{fig:a1_time_all_methods}）では，
+$\lambda_{\text{baskets}}$ の増加に伴い全手法で時間が増加するが，
+Phase 1 は一貫して低い時間で推移した．
 
-\begin{table}[t]
-\caption{A1 結果（平均）}
-\label{tab:a1_summary}
+GTSPR（図~\ref{fig:a1_gtspr_non_phase1}）は，
+Phase 1 が全条件で 0 であることを確認したため系列から除外した．
+実装上の検証でも，A1 の全 25 ケース（5 lambdas $\times$ 5 seeds）で
+Phase 1 の GTSPR=0 を確認した．
+
+多項目パターン数（図~\ref{fig:a1_multi_all_methods}）では，
+$\lambda_{\text{baskets}}$ の増加に応じて多くの手法で検出数が増加し，
+とくに全体支持度ベース手法群（Apriori/FP-Growth/Eclat/LCM）で増加幅が大きい．
+
+\begin{figure}[t]
 \centering
-\begin{tabular}{ccccc}
-\toprule
-$\lambda_{\text{baskets}}$ & GT SPR & Obs. Spur. & Trad./P1 Multi & Trad./P1 Time \\
-\midrule
-1.0 & 0.454 & 1.0   & 2.00 & 1.02 \\
-1.5 & 0.676 & 3.8   & 3.11 & 1.08 \\
-2.0 & 0.794 & 10.2  & 3.50 & 1.06 \\
-3.0 & 0.906 & 50.4  & 4.41 & 1.49 \\
-5.0 & 0.971 & 379.0 & 12.28 & 3.05 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\includegraphics[width=\linewidth]{fig/a1_time_all_methods.png}
+\caption{A1: 実行時間（seed平均，系列=全手法）}
+\label{fig:a1_time_all_methods}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/a1_gtspr_non_phase1.png}
+\caption{A1: GTSPR（seed平均，系列=Phase 1 以外）}
+\label{fig:a1_gtspr_non_phase1}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/a1_multi_all_methods.png}
+\caption{A1: 多項目パターン数（seed平均，系列=全手法）}
+\label{fig:a1_multi_all_methods}
+\end{figure}
 
 \subsection{A2: カテゴリ数増加による構造的偽共起の低下}
 \label{sec:exp_a2}
