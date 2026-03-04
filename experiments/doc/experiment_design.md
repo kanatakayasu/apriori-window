@@ -1,27 +1,33 @@
 # 実験設計書（インデックス）
 
 > 対象フェーズ: Phase 3
-> 更新: 2026-03-02
-> 目的: 実験設計を Stage 単位で分割管理する
+> 更新: 2026-03-04
 
 ---
 
-## ドキュメント構成
+## 現行設計書
 
-- Stage A（合成データ）: `experiments/doc/experiment_design_stage_a.md`
-- Stage B（UCI Online Retail II）: `experiments/doc/experiment_design_stage_b.md`
+- **E0〜E6（現行）**: [`experiment_design_e0_e6.md`](experiment_design_e0_e6.md)
 
 ---
 
-## 変更点（2026-03-02）
+## 旧設計書（参照用・更新停止）
 
-1. 実験設計を Stage 単位で分割
-2. Stage A を「パターン同定」と「区間検出」に明確分離
-3. Stage A の比較手法をタスク別に再整理
-- パターン同定:
-  - 主比較: Phase 1, 従来Apriori-window
-  - 参考比較: Apriori, FP-Growth, Eclat, LCM（全体支持度系）
-- 区間検出:
-  - 主比較: Phase 1, 従来Apriori-window
-  - 参考比較: LPFIM, LPPM（区間出力可能手法）
+| ファイル | 内容 |
+|---------|------|
+| [`experiment_design_stage_a.md`](experiment_design_stage_a.md) | A1〜A4（E0〜E5 の前身） |
+| [`experiment_design_stage_b.md`](experiment_design_stage_b.md) | Stage B（E6 の前身） |
 
+---
+
+## 実験一覧
+
+| 実験 | 示唆 | 優先度 |
+|------|------|--------|
+| E0 | 提案法は定義に対して厳密（FP=0, FN=0） | 最高 |
+| E1 | 偽共起はバスケット密度に比例して悪化 | 高 |
+| E2 | カテゴリ粒度・同カテゴリ偏りで偽共起リスクが変化 | 高 |
+| E3 | 厳密性を保ったまま実用規模で動作 | 高 |
+| E5 | 密集区間の時間的境界も歪む | 中（条件付き） |
+| E4 | 既存手法は目的関数が異なり代替不可能 | 中 |
+| E6 | 合成データの傾向が実購買データでも再現 | 中 |
