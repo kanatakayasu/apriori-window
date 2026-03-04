@@ -1,49 +1,45 @@
 """
 analyze_results.py
 ==================
-Stage A の実験結果 CSV を読み込み、集計テーブルをターミナルに出力する。
+Stage A の実験結果 CSV を読み込み、集計テーブルを出力する。
 
 使用方法:
-    # 全 CSV を分析（デフォルト: experiments/results/）
-    python experiments/analyze_results.py
+    # A1/A2/A3 を分析（CSV が results_dir 直下にある場合）
+    python experiments/analyze_results.py --results-dir experiments/results/a1_full_20260302
 
-    # 出力先を指定
-    python experiments/analyze_results.py --results-dir /path/to/results
-
-    # 特定の実験のみ
-    python experiments/analyze_results.py --experiments A1
-    python experiments/analyze_results.py --experiments A1 A2
-
-出力:
-    - A1: λ_baskets ごとの gt_spr 平均±標準偏差、observed_spurious 平均
-    - A2: G ごとの gt_spr 平均±標準偏差、observed_spurious 平均
-    - A3: N_transactions ごとの Phase 1 / 従来法の実行時間（平均 ms）
-    - 検証チェック結果（単調性、traditional >= phase1 等）
+    # A1 のみ分析し、method x lambda 集計と図を生成
+    python experiments/analyze_results.py --experiments A1 \
+      --results-dir experiments/results/a1_full_20260302
 """
 
+from __future__ import annotations
+
+import argparse
 import csv
 import math
-import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
-# ---------------------------------------------------------------------------
-# CSV 読み込みヘルパー
-# ---------------------------------------------------------------------------
+METHOD_ORDER = {"phase1": 0, "traditional": 1}
+METHOD_LABEL = {"phase1": "Phase 1", "traditional": "Traditional"}
+
 
 def read_csv(path: Path) -> List[Dict[str, str]]:
-    """CSV ファイルを読み込み、行のリスト（dict）を返す。存在しなければ None。"""
     if not path.exists():
         return []
     with open(path, encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
-# ---------------------------------------------------------------------------
-# 統計ヘルパー
-# ---------------------------------------------------------------------------
+def write_csv(path: Path, fieldnames: List[str], rows: List[Dict[str, object]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
 
 def mean(values: List[float]) -> float:
     if not values:
@@ -58,21 +54,17 @@ def std(values: List[float]) -> float:
     return math.sqrt(sum((v - m) ** 2 for v in values) / (len(values) - 1))
 
 
-def fmt_mean_std(values: List[float], digits: int = 4) -> str:
-    if not values:
-        return "N/A"
-    return f"{mean(values):.{digits}f} ± {std(values):.{digits}f}"
-
-
-def fmt_mean(values: List[float], digits: int = 1) -> str:
+def fmt_mean(values: List[float], digits: int = 2) -> str:
     if not values:
         return "N/A"
     return f"{mean(values):.{digits}f}"
 
 
-# ---------------------------------------------------------------------------
-# テーブル表示ヘルパー
-# ---------------------------------------------------------------------------
+def fmt_mean_std(values: List[float], digits: int = 3) -> str:
+    if not values:
+        return "N/A"
+    return f"{mean(values):.{digits}f} ± {std(values):.{digits}f}"
+
 
 def print_table(headers: List[str], rows: List[List[str]], title: str = "") -> None:
     if title:
@@ -89,219 +81,384 @@ def print_table(headers: List[str], rows: List[List[str]], title: str = "") -> N
         print(fmt.format(*[str(x) for x in row]))
 
 
-# ---------------------------------------------------------------------------
-# A1 分析: λ_baskets sweep
-# ---------------------------------------------------------------------------
+def to_float(value: Optional[str]) -> Optional[float]:
+    if value is None:
+        return None
+    text = value.strip().lower()
+    if text in ("", "nan"):
+        return None
+    return float(text)
 
-def analyze_A1(results_dir: Path) -> None:
+
+def to_int(value: Optional[str]) -> Optional[int]:
+    parsed = to_float(value)
+    if parsed is None:
+        return None
+    return int(parsed)
+
+
+def resolve_result_csv(results_dir: Path, filename: str) -> Path:
+    direct = results_dir / filename
+    if direct.exists():
+        return direct
+
+    recursive = sorted(results_dir.rglob(filename))
+    if not recursive:
+        return direct
+
+    chosen = max(recursive, key=lambda p: p.stat().st_mtime)
+    print(f"  [INFO] {filename} was resolved from nested path: {chosen}")
+    return chosen
+
+
+def build_a1_long_rows(rows: List[Dict[str, str]]) -> List[Dict[str, object]]:
+    long_rows: List[Dict[str, object]] = []
+    for row in rows:
+        lam = to_float(row.get("lambda_baskets"))
+        seed = to_int(row.get("seed"))
+        gt_spr = to_float(row.get("gt_spr"))
+        observed_spurious = to_float(row.get("observed_spurious"))
+        if lam is None or seed is None:
+            continue
+
+        common = {
+            "experiment": row.get("experiment", ""),
+            "model": row.get("model", ""),
+            "lambda_baskets": lam,
+            "seed": seed,
+            "gt_spr": gt_spr,
+        }
+
+        phase1_multi = to_float(row.get("phase1_multi"))
+        phase1_time = to_float(row.get("phase1_core_ms"))
+        if phase1_multi is not None and phase1_time is not None:
+            long_rows.append(
+                {
+                    **common,
+                    "method": "phase1",
+                    "multi_count": phase1_multi,
+                    "time_ms": phase1_time,
+                    "observed_spurious": None,
+                }
+            )
+
+        trad_multi = to_float(row.get("traditional_multi"))
+        trad_time = to_float(row.get("trad_total_ms"))
+        if trad_multi is not None and trad_time is not None:
+            long_rows.append(
+                {
+                    **common,
+                    "method": "traditional",
+                    "multi_count": trad_multi,
+                    "time_ms": trad_time,
+                    "observed_spurious": observed_spurious,
+                }
+            )
+
+    return long_rows
+
+
+def summarize_a1_by_method_lambda(long_rows: List[Dict[str, object]]) -> List[Dict[str, object]]:
+    grouped: Dict[Tuple[str, str, str, float], List[Dict[str, object]]] = defaultdict(list)
+    for row in long_rows:
+        key = (
+            str(row["experiment"]),
+            str(row["model"]),
+            str(row["method"]),
+            float(row["lambda_baskets"]),
+        )
+        grouped[key].append(row)
+
+    summary_rows: List[Dict[str, object]] = []
+    for key in sorted(
+        grouped.keys(),
+        key=lambda x: (x[0], x[1], x[3], METHOD_ORDER.get(x[2], 99)),
+    ):
+        experiment, model, method, lam = key
+        grp = grouped[key]
+        multi_vals = [float(r["multi_count"]) for r in grp if r.get("multi_count") is not None]
+        time_vals = [float(r["time_ms"]) for r in grp if r.get("time_ms") is not None]
+        gt_vals = [float(r["gt_spr"]) for r in grp if r.get("gt_spr") is not None]
+        obs_vals = [float(r["observed_spurious"]) for r in grp if r.get("observed_spurious") is not None]
+        seed_vals = [int(r["seed"]) for r in grp if r.get("seed") is not None]
+
+        summary_rows.append(
+            {
+                "experiment": experiment,
+                "model": model,
+                "method": method,
+                "lambda_baskets": lam,
+                "n_seed": len(seed_vals),
+                "multi_mean": mean(multi_vals),
+                "multi_std": std(multi_vals),
+                "time_mean_ms": mean(time_vals),
+                "time_std_ms": std(time_vals),
+                "gt_spr_mean": mean(gt_vals),
+                "gt_spr_std": std(gt_vals),
+                "observed_spurious_mean": mean(obs_vals) if obs_vals else "",
+                "observed_spurious_std": std(obs_vals) if obs_vals else "",
+            }
+        )
+    return summary_rows
+
+
+def sanitize_slug(text: str) -> str:
+    return "".join(ch if ch.isalnum() else "_" for ch in text).strip("_").lower()
+
+
+def plot_a1_method_lambda(summary_rows: List[Dict[str, object]], figures_dir: Path) -> List[Path]:
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("  [WARNING] matplotlib がないためプロット生成をスキップします")
+        return []
+
+    grouped: Dict[Tuple[str, str], List[Dict[str, object]]] = defaultdict(list)
+    for row in summary_rows:
+        grouped[(str(row["experiment"]), str(row["model"]))].append(row)
+
+    output_paths: List[Path] = []
+    figures_dir.mkdir(parents=True, exist_ok=True)
+
+    for (experiment, model), rows in sorted(grouped.items()):
+        by_method: Dict[str, List[Dict[str, object]]] = defaultdict(list)
+        for row in rows:
+            by_method[str(row["method"])].append(row)
+
+        fig, axes = plt.subplots(1, 2, figsize=(12, 4.8), constrained_layout=True)
+        ax_multi, ax_time = axes
+
+        for method in sorted(by_method.keys(), key=lambda m: METHOD_ORDER.get(m, 99)):
+            pts = sorted(by_method[method], key=lambda r: float(r["lambda_baskets"]))
+            x = [float(r["lambda_baskets"]) for r in pts]
+            y_multi = [float(r["multi_mean"]) for r in pts]
+            e_multi = [float(r["multi_std"]) for r in pts]
+            y_time = [float(r["time_mean_ms"]) for r in pts]
+            e_time = [float(r["time_std_ms"]) for r in pts]
+            label = METHOD_LABEL.get(method, method)
+
+            ax_multi.errorbar(x, y_multi, yerr=e_multi, marker="o", capsize=3, linewidth=2, label=label)
+            ax_time.errorbar(x, y_time, yerr=e_time, marker="o", capsize=3, linewidth=2, label=label)
+
+        ax_multi.set_title("A1 Multi-Item Patterns")
+        ax_multi.set_xlabel("lambda_baskets")
+        ax_multi.set_ylabel("mean pattern count")
+        ax_multi.grid(alpha=0.3)
+
+        ax_time.set_title("A1 Runtime")
+        ax_time.set_xlabel("lambda_baskets")
+        ax_time.set_ylabel("mean time (ms)")
+        ax_time.grid(alpha=0.3)
+        ax_time.legend(loc="upper left")
+
+        slug = f"{sanitize_slug(experiment)}_{sanitize_slug(model)}"
+        out_path = figures_dir / f"A1_method_lambda_{slug}.png"
+        fig.savefig(out_path, dpi=180)
+        plt.close(fig)
+        output_paths.append(out_path)
+
+    return output_paths
+
+
+def analyze_A1(results_dir: Path, tables_dir: Path, figures_dir: Path, skip_plot: bool) -> None:
     print("\n" + "=" * 70)
-    print("【A1】λ_baskets sweep — SPR (gt_spr) と observed_spurious")
+    print("【A1】method x lambda で集計（seed平均）")
     print("=" * 70)
 
-    path = results_dir / "A1_spr.csv"
+    path = resolve_result_csv(results_dir, "A1_spr.csv")
     rows = read_csv(path)
     if not rows:
         print(f"  [WARNING] {path} が見つかりません")
         return
 
-    # model × experiment × lambda_baskets でグループ化
-    for model_label, exp_name in [("poisson", "A1-P")]:
-        subset = [r for r in rows if r["experiment"] == exp_name]
-        if not subset:
-            continue
+    long_rows = build_a1_long_rows(rows)
+    summary_rows = summarize_a1_by_method_lambda(long_rows)
 
-        print(f"\n--- {exp_name} (model={model_label}) ---")
+    long_csv = tables_dir / "A1_by_method_lambda_seed.csv"
+    summary_csv = tables_dir / "A1_by_method_lambda_summary.csv"
+    write_csv(
+        long_csv,
+        [
+            "experiment",
+            "model",
+            "lambda_baskets",
+            "method",
+            "seed",
+            "multi_count",
+            "time_ms",
+            "gt_spr",
+            "observed_spurious",
+        ],
+        long_rows,
+    )
+    write_csv(
+        summary_csv,
+        [
+            "experiment",
+            "model",
+            "method",
+            "lambda_baskets",
+            "n_seed",
+            "multi_mean",
+            "multi_std",
+            "time_mean_ms",
+            "time_std_ms",
+            "gt_spr_mean",
+            "gt_spr_std",
+            "observed_spurious_mean",
+            "observed_spurious_std",
+        ],
+        summary_rows,
+    )
 
-        lambda_vals = sorted(set(float(r["lambda_baskets"]) for r in subset))
+    print(f"  [OUT] {long_csv}")
+    print(f"  [OUT] {summary_csv}")
 
-        table_rows = []
-        for lam in lambda_vals:
-            g = [r for r in subset if float(r["lambda_baskets"]) == lam]
-            gt_sprs = [float(r["gt_spr"]) for r in g if r["gt_spr"] not in ("", "nan")]
-            obs_spurs = [int(r["observed_spurious"]) for r in g if r["observed_spurious"] not in ("", "nan")]
-            p1_multi = [int(r["phase1_multi"]) for r in g if r["phase1_multi"] not in ("", "nan")]
-            trad_multi = [int(r["traditional_multi"]) for r in g if r["traditional_multi"] not in ("", "nan")]
-            p1_ms = [float(r["phase1_elapsed_ms"]) for r in g if r["phase1_elapsed_ms"] not in ("", "nan")]
-            trad_ms = [float(r["traditional_elapsed_ms"]) for r in g if r["traditional_elapsed_ms"] not in ("", "nan")]
-
-            table_rows.append([
-                f"λ={lam}",
-                f"n={len(g)}",
-                fmt_mean_std(gt_sprs),
-                fmt_mean(obs_spurs, 1),
-                fmt_mean(p1_multi, 1),
-                fmt_mean(trad_multi, 1),
-                fmt_mean(p1_ms, 0) + "ms",
-            ])
-
-        print_table(
-            ["lambda", "seeds", "gt_spr (mean±std)", "obs_spurious", "p1_multi", "trad_multi", "p1_time"],
-            table_rows,
+    table_rows: List[List[str]] = []
+    for row in summary_rows:
+        obs_text = (
+            f"{float(row['observed_spurious_mean']):.2f}"
+            if row.get("observed_spurious_mean") not in ("", None)
+            else "-"
         )
-
-        # 検証チェック: gt_spr の単調増加
-        mean_sprs = []
-        for lam in lambda_vals:
-            g = [r for r in subset if float(r["lambda_baskets"]) == lam]
-            sprs = [float(r["gt_spr"]) for r in g if r["gt_spr"] not in ("", "nan")]
-            mean_sprs.append((lam, mean(sprs)))
-
-        monotone = all(
-            mean_sprs[i][1] <= mean_sprs[i + 1][1]
-            for i in range(len(mean_sprs) - 1)
+        table_rows.append(
+            [
+                f"{float(row['lambda_baskets']):.1f}",
+                METHOD_LABEL.get(str(row["method"]), str(row["method"])),
+                str(int(row["n_seed"])),
+                f"{float(row['multi_mean']):.2f} +- {float(row['multi_std']):.2f}",
+                f"{float(row['time_mean_ms']):.2f} +- {float(row['time_std_ms']):.2f}",
+                f"{float(row['gt_spr_mean']):.3f} +- {float(row['gt_spr_std']):.3f}",
+                obs_text,
+            ]
         )
-        print(f"\n  [CHECK] gt_spr 単調増加: {'✓ OK' if monotone else '✗ FAIL'}")
-        print(f"  [CHECK] traditional >= phase1 (全行): ", end="")
-        ok = all(
-            int(r.get("traditional_multi", 0)) >= int(r.get("phase1_multi", 0))
-            for r in subset
-        )
-        print("✓ OK" if ok else "✗ FAIL")
+    print_table(
+        ["lambda", "method", "seeds", "multi(mean+-std)", "time_ms(mean+-std)", "gt_spr(mean+-std)", "obs_spur(mean)"],
+        table_rows,
+        title="A1 Summary by method x lambda",
+    )
 
+    if not skip_plot:
+        out_paths = plot_a1_method_lambda(summary_rows, figures_dir)
+        for out_path in out_paths:
+            print(f"  [OUT] {out_path}")
 
-# ---------------------------------------------------------------------------
-# A2 分析: G sweep
-# ---------------------------------------------------------------------------
+    expected = {
+        float(row["lambda_baskets"]): int(row["n_seed"])
+        for row in summary_rows
+        if str(row["method"]) == "phase1"
+    }
+    seed_count_ok = all(
+        int(row["n_seed"]) == expected.get(float(row["lambda_baskets"]), int(row["n_seed"]))
+        for row in summary_rows
+    )
+    print(f"  [CHECK] method x lambda ごとの seed 数整合: {'OK' if seed_count_ok else 'FAIL'}")
+
 
 def analyze_A2(results_dir: Path) -> None:
     print("\n" + "=" * 70)
-    print("【A2】G (カテゴリ数) sweep — SPR と observed_spurious")
+    print("【A2】G sweep - gt_spr と observed_spurious")
     print("=" * 70)
 
-    path = results_dir / "A2_spr.csv"
+    path = resolve_result_csv(results_dir, "A2_spr.csv")
     rows = read_csv(path)
     if not rows:
         print(f"  [WARNING] {path} が見つかりません")
         return
 
     for model_label, exp_name in [("poisson", "A2-P")]:
-        subset = [r for r in rows if r["experiment"] == exp_name]
+        subset = [r for r in rows if r.get("experiment") == exp_name]
         if not subset:
             continue
 
         print(f"\n--- {exp_name} (model={model_label}) ---")
 
         g_vals = sorted(set(int(r["G"]) for r in subset))
-
         table_rows = []
         for g in g_vals:
             grp = [r for r in subset if int(r["G"]) == g]
             gt_sprs = [float(r["gt_spr"]) for r in grp if r["gt_spr"] not in ("", "nan")]
-            obs_spurs = [int(r["observed_spurious"]) for r in grp if r["observed_spurious"] not in ("", "nan")]
-            p1_multi = [int(r["phase1_multi"]) for r in grp if r["phase1_multi"] not in ("", "nan")]
-            trad_multi = [int(r["traditional_multi"]) for r in grp if r["traditional_multi"] not in ("", "nan")]
-
-            table_rows.append([
-                f"G={g}",
-                f"n={len(grp)}",
-                fmt_mean_std(gt_sprs),
-                fmt_mean(obs_spurs, 1),
-                fmt_mean(p1_multi, 1),
-                fmt_mean(trad_multi, 1),
-            ])
+            obs_spurs = [float(r["observed_spurious"]) for r in grp if r["observed_spurious"] not in ("", "nan")]
+            p1_multi = [float(r["phase1_multi"]) for r in grp if r["phase1_multi"] not in ("", "nan")]
+            trad_multi = [float(r["traditional_multi"]) for r in grp if r["traditional_multi"] not in ("", "nan")]
+            table_rows.append(
+                [
+                    f"G={g}",
+                    f"n={len(grp)}",
+                    fmt_mean_std(gt_sprs, 3),
+                    fmt_mean(obs_spurs, 1),
+                    fmt_mean(p1_multi, 1),
+                    fmt_mean(trad_multi, 1),
+                ]
+            )
 
         print_table(
-            ["G", "seeds", "gt_spr (mean±std)", "obs_spurious", "p1_multi", "trad_multi"],
+            ["G", "seeds", "gt_spr (mean+-std)", "obs_spurious", "phase1_multi", "traditional_multi"],
             table_rows,
         )
 
-        # G が大きいほど SPR が下がる（カテゴリが細かいほど偽共起が発生しにくい）傾向の確認
-        mean_sprs = []
-        for g in g_vals:
-            grp = [r for r in subset if int(r["G"]) == g]
-            sprs = [float(r["gt_spr"]) for r in grp if r["gt_spr"] not in ("", "nan")]
-            mean_sprs.append((g, mean(sprs)))
-
-        # 単調減少（G増加→SPR減少）チェック
-        monotone_down = all(
-            mean_sprs[i][1] >= mean_sprs[i + 1][1]
-            for i in range(len(mean_sprs) - 1)
-        )
-        print(f"\n  [CHECK] G 増加 → gt_spr 単調減少: {'✓ OK' if monotone_down else '△ 非単調（裾の重い分布などで乱れあり）'}")
-        print(f"  [CHECK] traditional >= phase1 (全行): ", end="")
-        ok = all(
-            int(r.get("traditional_multi", 0)) >= int(r.get("phase1_multi", 0))
-            for r in subset
-        )
-        print("✓ OK" if ok else "✗ FAIL")
-
-
-# ---------------------------------------------------------------------------
-# A3 分析: N sweep（スケーラビリティ）
-# ---------------------------------------------------------------------------
 
 def analyze_A3(results_dir: Path) -> None:
     print("\n" + "=" * 70)
-    print("【A3】N_transactions sweep — 実行時間（スケーラビリティ）")
+    print("【A3】N sweep - 実行時間")
     print("=" * 70)
 
-    path = results_dir / "A3_timing.csv"
+    path = resolve_result_csv(results_dir, "A3_timing.csv")
     rows = read_csv(path)
     if not rows:
         print(f"  [WARNING] {path} が見つかりません")
         return
 
     for model_label, exp_name in [("poisson", "A3-P")]:
-        subset = [r for r in rows if r["experiment"] == exp_name]
+        subset = [r for r in rows if r.get("experiment") == exp_name]
         if not subset:
             continue
 
         print(f"\n--- {exp_name} (model={model_label}) ---")
-
         n_vals = sorted(set(int(r["n_transactions"]) for r in subset))
-
         table_rows = []
         for n in n_vals:
             grp = [r for r in subset if int(r["n_transactions"]) == n]
             p1_ms = [float(r["phase1_elapsed_ms"]) for r in grp if r["phase1_elapsed_ms"] not in ("", "nan")]
             trad_ms = [float(r["traditional_elapsed_ms"]) for r in grp if r["traditional_elapsed_ms"] not in ("", "nan")]
-
-            speedup = mean(trad_ms) / mean(p1_ms) if mean(p1_ms) > 0 else float("nan")
-
-            table_rows.append([
-                f"N={n:>9,}",
-                f"n={len(grp)}",
-                fmt_mean(p1_ms, 0) + " ms",
-                fmt_mean(trad_ms, 0) + " ms",
-                f"{speedup:.2f}x" if not math.isnan(speedup) else "N/A",
-            ])
-
-        print_table(
-            ["N", "seeds", "phase1 (mean)", "traditional (mean)", "trad/p1 ratio"],
-            table_rows,
-        )
-
-        # スケーラビリティチェック: N が 10 倍になると時間が 10-50 倍になることを確認
-        print(f"\n  [INFO] N が 10 倍になると実行時間がどう変化するか:")
-        for i in range(len(n_vals) - 1):
-            n_cur = n_vals[i]
-            n_nxt = n_vals[i + 1]
-            grp_cur = [r for r in subset if int(r["n_transactions"]) == n_cur]
-            grp_nxt = [r for r in subset if int(r["n_transactions"]) == n_nxt]
-            p1_cur = mean([float(r["phase1_elapsed_ms"]) for r in grp_cur])
-            p1_nxt = mean([float(r["phase1_elapsed_ms"]) for r in grp_nxt])
-            if p1_cur > 0:
-                ratio = p1_nxt / p1_cur
-                scale = n_nxt / n_cur
-                print(f"    N={n_cur:>8,} → N={n_nxt:>10,} (×{scale:.0f}): "
-                      f"phase1 時間比 = {ratio:.1f}x")
+            ratio = mean(trad_ms) / mean(p1_ms) if mean(p1_ms) > 0 else float("nan")
+            table_rows.append(
+                [
+                    f"{n}",
+                    f"{len(grp)}",
+                    f"{fmt_mean(p1_ms, 0)} ms",
+                    f"{fmt_mean(trad_ms, 0)} ms",
+                    f"{ratio:.2f}" if not math.isnan(ratio) else "N/A",
+                ]
+            )
+        print_table(["N", "seeds", "phase1", "traditional", "trad/p1"], table_rows)
 
 
-# ---------------------------------------------------------------------------
-# CLI エントリーポイント
-# ---------------------------------------------------------------------------
-
-def parse_args():
-    import argparse
-    parser = argparse.ArgumentParser(
-        description="Stage A 実験結果 CSV を読み込み集計テーブルを出力する"
-    )
-    _SCRIPT_DIR = Path(__file__).resolve().parent
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Stage A 実験結果 CSV を集計して表示する")
+    script_dir = Path(__file__).resolve().parent
     parser.add_argument(
         "--results-dir",
         type=str,
-        default=str(_SCRIPT_DIR / "results"),
-        help="CSV が置かれているディレクトリ（デフォルト: experiments/results）",
+        default=str(script_dir / "results"),
+        help="CSV が置かれているディレクトリ（直下 or 再帰探索）",
+    )
+    parser.add_argument(
+        "--tables-dir",
+        type=str,
+        default=str(script_dir / "reports" / "tables"),
+        help="集計 CSV の出力先",
+    )
+    parser.add_argument(
+        "--figures-dir",
+        type=str,
+        default=str(script_dir / "reports" / "figures"),
+        help="図の出力先",
+    )
+    parser.add_argument(
+        "--skip-plot",
+        action="store_true",
+        help="A1 プロット出力をスキップ",
     )
     parser.add_argument(
         "--experiments",
@@ -315,17 +472,19 @@ def parse_args():
 def main() -> None:
     args = parse_args()
     results_dir = Path(args.results_dir)
+    tables_dir = Path(args.tables_dir)
+    figures_dir = Path(args.figures_dir)
 
     print(f"結果ディレクトリ: {results_dir}")
+    print(f"テーブル出力先: {tables_dir}")
+    print(f"図出力先: {figures_dir}")
 
     if "A1" in args.experiments:
-        analyze_A1(results_dir)
-
+        analyze_A1(results_dir=results_dir, tables_dir=tables_dir, figures_dir=figures_dir, skip_plot=args.skip_plot)
     if "A2" in args.experiments:
-        analyze_A2(results_dir)
-
+        analyze_A2(results_dir=results_dir)
     if "A3" in args.experiments:
-        analyze_A3(results_dir)
+        analyze_A3(results_dir=results_dir)
 
     print("\n分析完了。")
 
