@@ -11,7 +11,7 @@
 \begin{itemize}
     \item OS: macOS / Linux（検証は macOS）
     \item 言語処理系: Python 3 系
-    \item リポジトリルート: \texttt{/Users/kanata/Documents/GitHub/apriori-window}
+    \item リポジトリルート: 各自のチェックアウト先（以下 \texttt{<repo>} と表記）
 \end{itemize}
 
 \paragraph{実行入口}
@@ -19,14 +19,14 @@
     \item Phase 1 / 従来法の Stage A 実験: \texttt{experiments/run\_stage\_A.py}
     \item 生成器（単体実行時）: \texttt{experiments/gen\_synthetic.py}
     \item 比較実行器（単体実行時）: \texttt{experiments/run\_phase1.py}
-    \item 比較手法 runner: \texttt{comparative\_methods/runner/run\_stage\_a\_suite.py}
+    \item 比較手法 runner: \texttt{baselines/runner/run\_stage\_a\_suite.py}
     \item 比較手法 Rust バイナリ: \texttt{apriori\_window\_suite/src/bin/comparative\_mining.rs}
 \end{itemize}
 
 \paragraph{Stage A 一括実行コマンド}
 以下は本稿と同じディレクトリ構成で出力を得るための最小コマンドである．
 \begin{verbatim}
-cd /Users/kanata/Documents/GitHub/apriori-window
+cd <repo>
 
 # A1（lambda sweep）
 python3 experiments/run_stage_A.py \
