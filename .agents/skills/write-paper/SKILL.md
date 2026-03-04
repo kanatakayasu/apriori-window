@@ -132,5 +132,6 @@ description: バスケット構造対応 Apriori-window（Phase 1）に関する
 |---------|------|
 | `paper/target/dsaa2025/sec/*.tex` | 既存論文セクション（流用・参考元） |
 | `experiments/doc/experiment_design.md` | 実験設計 |
-| `apriori_window_suite/python/apriori_window_basket.py` | アルゴリズム実装（疑似コード参照） |
-| `experiments/results/A1_spr.csv` | 実験結果データ（実験完了後） |
+| `apriori_window_suite/src/` / `apriori_window_suite/python/` | アルゴリズム実装（疑似コード参照） |
+| `experiments/results/` | 実験結果データ（実験完了後）|
+| `experiments/registry/experiments.csv` | 実験台帳（実行済み条件・seed の確認） |
