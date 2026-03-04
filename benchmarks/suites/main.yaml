@@ -1,0 +1,26 @@
+# Main experiment suite (Stage A - synthetic data)
+name: main
+description: "Primary experiments evaluating Phase1 vs traditional method"
+experiments:
+  - id: A1-P
+    description: "λ_baskets sweep (basket density)"
+    dataset: synthetic_poisson
+    vary: lambda_baskets
+    values: [1.0, 1.5, 2.0, 3.0, 5.0]
+    fixed: {n_transactions: 10000, n_categories: 10}
+    seeds: [0, 1, 2, 3, 4]
+  - id: A2-P
+    description: "G sweep (category count)"
+    dataset: synthetic_poisson
+    vary: n_categories
+    values: [3, 5, 10, 20, 50]
+    fixed: {n_transactions: 10000, lambda_baskets: 2.0}
+    seeds: [0, 1, 2, 3, 4]
+  - id: A3-P
+    description: "N sweep (scalability)"
+    dataset: synthetic_poisson
+    vary: n_transactions
+    values: [1000, 10000, 100000, 1000000]
+    fixed: {lambda_baskets: 2.0, n_categories: 10}
+    seeds: [0, 1, 2]
+    skip_gt: true

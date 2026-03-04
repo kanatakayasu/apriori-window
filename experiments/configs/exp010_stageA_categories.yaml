@@ -1,0 +1,16 @@
+# Stage A: Experiment 2 - Category count sweep (A2-P)
+exp_id: exp010
+suite: stageA_categories
+description: "G sweep - evaluates Phase1 vs category diversity"
+dataset: synthetic_poisson
+vary: n_categories
+values: [3, 5, 10, 20, 50]
+fixed:
+  n_transactions: 10000
+  lambda_baskets: 2.0
+  window_size: 10
+  min_support: 3
+  max_length: 4
+seeds: [0, 1, 2, 3, 4]
+metrics: [precision, recall, f1, phase1_core_ms, trad_total_ms]
+runner: experiments/run_phase1.py

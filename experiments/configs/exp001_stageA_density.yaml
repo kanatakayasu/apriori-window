@@ -1,0 +1,16 @@
+# Stage A: Experiment 1 - Basket density sweep (A1-P)
+exp_id: exp001
+suite: stageA_density
+description: "λ_baskets sweep - evaluates Phase1 precision/recall vs basket density"
+dataset: synthetic_poisson
+vary: lambda_baskets
+values: [1.0, 1.5, 2.0, 3.0, 5.0]
+fixed:
+  n_transactions: 10000
+  n_categories: 10
+  window_size: 10
+  min_support: 3
+  max_length: 4
+seeds: [0, 1, 2, 3, 4]
+metrics: [precision, recall, f1, phase1_core_ms, trad_total_ms]
+runner: experiments/run_phase1.py

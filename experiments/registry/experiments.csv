@@ -1,0 +1,4 @@
+exp_id,suite,config,commit,dataset,run_dir,status,notes,created_at
+exp001,stageA_density,experiments/configs/exp001_stageA_density.yaml,,synthetic_poisson,experiments/results/a1_full_20260302,completed,A1-P Stage A density sweep,2026-03-02
+exp010,stageA_categories,experiments/configs/exp010_stageA_categories.yaml,,synthetic_poisson,experiments/results/a2_full_20260302,completed,A2-P Stage A categories sweep,2026-03-02
+exp020,stageA_scalability,experiments/configs/exp020_stageA_scalability.yaml,,synthetic_poisson,experiments/results/a3_full_20260302,completed,A3-P Stage A scalability,2026-03-02
