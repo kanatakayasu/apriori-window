@@ -18,6 +18,7 @@ apriori_window/
   .agents/skills/                  ← スキル定義（/skill-name で呼び出し）
   .claude/
     commands/                      ← カスタムスラッシュコマンド（/run-experiment 等）
+    corrections.md                 ← 実装修正ログ（再発防止・ルール昇格の起点）
     settings.local.json            ← Claude Code 権限設定
   dataset/                         ← 実験データセット（一部 git 管理外）
     chicago.txt, kosarak.txt, retail.txt, onlineretail.txt
@@ -262,3 +263,25 @@ python3 experiments/gen_synthetic.py
 
 **Q: `doc/` 参照が複数あって混乱する**
 → `apriori_window_suite/doc/` = 実装詳細。`experiments/doc/` = 実験設計。`paper/reproducibility_appendix/` = 再現性資料。
+
+---
+
+## 10. Correction Log（再発防止ルール）
+
+`.claude/corrections.md` に実装修正ログを蓄積している。**タスク開始前に必ず一読すること。**
+
+### 昇格済みルール（corrections.md から抽出）
+
+現在昇格済みルールなし。同タグ3件に達したら随時ここに追記する。
+
+### 運用フロー
+
+```
+ユーザーから修正指示を受ける
+    ↓
+.claude/corrections.md に追記（根本原因・タグ付き）
+    ↓
+同タグが 3 件 → CLAUDE.md §10 昇格済みルールに追加
+    ↓
+コード修正の場合 → テストも追加
+```
