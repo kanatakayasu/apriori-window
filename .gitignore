@@ -32,6 +32,17 @@ experiments/results/*_data/
 # Experiment run outputs (large files)
 runs/
 
+# LaTeX ビルド成果物
+paper/manuscript/*.aux
+paper/manuscript/*.bbl
+paper/manuscript/*.blg
+paper/manuscript/*.fdb_latexmk
+paper/manuscript/*.fls
+paper/manuscript/*.log
+paper/manuscript/*.xdv
+paper/manuscript/*.dvi
+paper/manuscript/out/
+
 # macOS システムファイル
 .DS_Store
 **/.DS_Store
