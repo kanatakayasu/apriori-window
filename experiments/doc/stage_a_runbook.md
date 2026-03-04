@@ -35,7 +35,7 @@
 ### 1.4 出力先
 
 - comparative methods の出力:
-  - `comparative_methods/results/`
+  - `baselines/results/`
 - Stage A 実験結果（Phase1系）:
   - `experiments/results/`
 
@@ -54,14 +54,14 @@ cargo build --release --offline --bin comparative_mining
 cd /Users/kanata/Documents/GitHub/apriori-window
 python3 -m comparative_methods.runner.run_stage_a_suite \
   --input-basket apriori_window_suite/data/sample_basket.txt \
-  --out-dir comparative_methods/results/smoke_20260302 \
+  --out-dir baselines/results/smoke_20260302 \
   --backend auto \
   --minsup-count 1 \
   --max-length 3
 ```
 
 期待される完了条件:
-- `comparative_methods/results/smoke_20260302/` に各手法JSONが出力される
+- `baselines/results/smoke_20260302/` に各手法JSONが出力される
 - `sample_basket_suite_summary.csv` が生成される
 - 全手法で実行が完了し、例外終了しない
 

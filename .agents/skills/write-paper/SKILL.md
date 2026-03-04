@@ -9,7 +9,7 @@ description: バスケット構造対応 Apriori-window（Phase 1）に関する
 
 - **このSkillが解くタスク**: バスケット構造対応 Apriori-window（Phase 1）に関する学術論文の執筆・改訂
 - **使う場面**: 新セクションの草稿作成 / 既存セクションの改訂 / 実験結果の文章化 / 投稿テンプレへの適合
-- **前提知識**: `DSAA2025/` の既存論文（Apriori-window + Plant Model）が先行研究として存在する
+- **前提知識**: `paper/target/dsaa2025/` の既存論文（Apriori-window + Plant Model）が先行研究として存在する
 - **できないこと（スコープ外）**: 実験の実行・データ解析・コード実装（それぞれ `run-experiment` / `impl-feature` スキルを使う）
 
 ---
@@ -130,7 +130,7 @@ description: バスケット構造対応 Apriori-window（Phase 1）に関する
 
 | ファイル | 用途 |
 |---------|------|
-| `DSAA2025/sec/*.tex` | 既存論文セクション（流用・参考元） |
-| `apriori_window_suite/doc/experiment_design.md` | 実験設計 |
+| `paper/target/dsaa2025/sec/*.tex` | 既存論文セクション（流用・参考元） |
+| `experiments/doc/experiment_design.md` | 実験設計 |
 | `apriori_window_suite/python/apriori_window_basket.py` | アルゴリズム実装（疑似コード参照） |
 | `experiments/results/A1_spr.csv` | 実験結果データ（実験完了後） |

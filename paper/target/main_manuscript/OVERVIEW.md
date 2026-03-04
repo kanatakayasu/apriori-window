@@ -5,7 +5,7 @@ The primary manuscript source is located at `paper/manuscript/` (repository root
 ## Compilation
 
 ```sh
-cd paper_basket && latexmk -pdf -interaction=nonstopmode main.tex
+cd paper/manuscript && latexmk -pdf -interaction=nonstopmode main.tex
 ```
 
 ## Structure
