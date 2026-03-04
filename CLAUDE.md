@@ -13,7 +13,9 @@
 ```
 apriori_window/
   CLAUDE.md                        ← このファイル
-  skills/                          ← タスク手順書（Skill）
+  AGENTS.md                        ← エージェント役割定義（AI-native構造）
+  .agents/skills/                  ← タスク手順書（Skill）— `/skill-name` で呼び出し可能
+  .claude/commands/                ← カスタムスラッシュコマンド（/run-experiment 等）
   dataset/                         ← 実験データセット置き場（Phase 3 用）
   apriori_window_suite/            ← メイン実装クレート（スタンドアロン Rust crate）
     Cargo.toml                     ← クレートマニフェスト
@@ -23,6 +25,35 @@ apriori_window/
     data/                          ← サンプルデータ・settings.json
     doc/                           ← 設計書・README（impl_plan.md, phase1/2_impl_plan.md 等）
   apriori_window_original/         ← バスケットなし版リファレンス（独立クレート）
+  baselines/                       ← 比較手法（旧 comparative_methods/）
+    methods/                       ← 各手法のドキュメント（lpfim.md, eclat.md 等）
+    research/                      ← 調査レポート
+    runner/                        ← 手法実行ランナー（registry.py, run_method.py 等）
+    specs/                         ← I/O 仕様・ソース調査
+    adapters/                      ← 統一 I/O に揃える薄いラッパ（新規）
+    external/                      ← 外部実装（git submodule 推奨）
+    patches/                       ← 外部実装への差分（パッチ管理）
+  benchmarks/                      ← ベンチマーク定義（スイート・データセット・指標・プロトコル）
+    suites/                        ← 実験セット定義（main.yaml, ablation.yaml 等）
+    datasets/                      ← データセットメタ情報（synthetic.yaml 等）
+    metrics/                       ← 指標定義（definitions.md, compute.py）
+    protocol/                      ← 評価プロトコル（io_spec.md, timing.md, seeds.md）
+  experiments/                     ← 実験実行入口・結果索引
+    configs/                       ← 個別実験条件（exp001_*.yaml 等）
+    registry/                      ← 実験台帳（experiments.csv, schema.md）
+    reports/                       ← 集計結果（tables/, figures/）
+    results/                       ← 実験生データ（gitignore 外 CSV 等）
+    doc/                           ← 実験設計書
+  runs/                            ← 実行結果生データ（.gitignore 対象・大容量）
+  paper/                           ← カンファレンス提出物・論文全般
+    manuscript/                    ← LaTeX 原稿（旧 paper_basket/）
+    target/dsaa2025/               ← DSAA2025 提出物（旧 DSAA2025/）
+    target/main_manuscript/        ← メイン原稿への案内 README
+    bibliography/                  ← 文献管理
+    reproducibility_appendix/      ← 再現性情報（environment.md 等）
+  tools/                           ← 開発補助スクリプト・プロンプト資産
+    scripts/                       ← format.sh, lint.sh, gen_figs.py 等
+    prompts/                       ← 文章生成用プロンプト
 ```
 
 ---
@@ -93,7 +124,7 @@ cd apriori_window_suite && cargo build --release
 
 ## 5. Git / PR Workflow
 
-- **作業ブランチ**: `dev_new_model`（現在）、新機能は `feature/<name>` を切る
+- **作業ブランチ**: `dev_takayasu`（現在）、新機能は `feature/<name>` を切る
 - **マージ先**: `main`
 - **コミット粒度**: 1コミット1意図（Python prototype / Rust port / test add / doc update は別コミット）
 - **PR に書くこと**: 変更点 / テスト結果（passed件数）/ 影響範囲
@@ -102,13 +133,27 @@ cd apriori_window_suite && cargo build --release
 
 ## 6. Skills
 
+スキルは `.agents/skills/` で管理。`/skill-name` 形式で呼び出し可能。
+
+**リポジトリ固有スキル**（`.agents/skills/` 配下）:
+
 | Skill | 使う場面 |
 |-------|---------|
-| [`skills/impl-feature.md`](./skills/impl-feature.md) | 新しいアルゴリズム機能の追加（Python prototype → Rust port） |
-| [`skills/run-experiment.md`](./skills/run-experiment.md) | 実データセットでの実験実行と結果記録（Phase 3） |
-| [`skills/update-docs.md`](./skills/update-docs.md) | コード変更後のドキュメント整合性確認・更新 |
-| [`skills/git-workflow.md`](./skills/git-workflow.md) | コミット分割・PR 作成・push 前チェック |
-| [`skills/debug-test.md`](./skills/debug-test.md) | Rust / Python テスト失敗の原因特定と修正 |
+| `impl-feature` | 新しいアルゴリズム機能の追加（Python prototype → Rust port） |
+| `run-experiment` | 実データセットでの実験実行と結果記録（Phase 3） |
+| `update-docs` | コード変更後のドキュメント整合性確認・更新 |
+| `git-workflow` | コミット分割・PR 作成・push 前チェック |
+| `debug-test` | Rust / Python テスト失敗の原因特定と修正 |
+| `write-paper` | Phase 1 拡張論文の執筆・改訂（構成・各セクションの書き方・LaTeX ルール） |
+
+**マーケットプレイス スキル**（`.agents/skills/` 配下）:
+
+| Skill | 使う場面 |
+|-------|---------|
+| `rust-best-practices` | Rust コードの品質・パターン確認（Apollo GraphQL） |
+| `python-testing-patterns` | pytest パターン・テスト設計のベストプラクティス |
+| `git-advanced-workflows` | 高度な git 操作（rebase・cherry-pick 等） |
+| `ml-paper-writing` | ML 系論文の一般的な執筆ガイド（ICLR/ICML/NeurIPS テンプレート付き） |
 
 ---
 
