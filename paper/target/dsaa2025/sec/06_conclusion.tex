@@ -1,0 +1,10 @@
+\section{Conclusion}
+\label{conclusion}
+This study addressed the task of extracting dense patterns by introducing two complementary approaches: Apriori‑window, an exact algorithm that exhaustively identifies all dense patterns, and Plant Model, a heuristic method with two suppression strategies. The Global Suppression variant of Plant Model demonstrated superior pattern‑identification accuracy and runtime efficiency but showed reduced precision in detecting the exact intervals. In contrast, the Interval‑Restricted Suppression variant enhanced the interval‑detection accuracy, albeit with a decrease in computational efficiency. 
+
+Future research should include hyperparameter tuning that adapts to the characteristics of each dataset and improves the accuracy of the interval extraction. The process of tuning hyperparameters currently requires iterative application, placing a heavy burden on the user. Hence, an automatic parameter adjustment strategy would be highly beneficial, minimizing user intervention and improving the algorithm’s practical utility. Additionally, since the Plant Model improves the accuracy of dense interval extraction by relaxing agent suppression conditions but also increases execution time, we aim to spread agents efficiently within dense intervals by modifying the algorithm.
+
+Another promising extension lies in extracting patterns at various temporal scales (e.g., hour, day, week) from large transaction datasets. The proposed methods can handle diverse interval lengths by adjusting the width of the sliding window. Implementing multiple sliding windows would make it possible to capture patterns across different time scales within large datasets, which could further advance knowledge discovery. 
+
+\section*{Acknowledgment}
+The authors acknowledge that portions of the text in this paper were generated with OpenAI’s large language model ChatGPT.

@@ -1,0 +1,46 @@
+\begin{algorithm}[t] 
+    \caption{Sliding Window Mechanism} 
+    \label{alg/sliding_window_mechanism}
+
+    \makeatletter 
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+    \renewcommand{\algorithmicensure}{\textbf{Output:}} 
+    \makeatother
+    
+    \begin{algorithmic}[1] 
+        \Require Occurrence positions for all items $positions$, itemset $X$, minimum interval support $minSup$, minimum interval length $minL$ 
+        \Ensure List of dense intervals $C$ for the itemset $X$
+    
+        \State $W \gets minL$ 
+        % \Comment{Set the width of the sliding window} 
+        \State $positions(X) \gets$ List of occurrence positions of itemset $X$ (sorted in ascending order)
+        \State $C \gets$ Empty list 
+        % \Comment{Initialize the list of dense intervals}
+        
+        \For{$i \gets 0$ to $|positions(X)| - W -1$} 
+            \State $window_{start} \gets positions(X)[i]$ 
+            \State $window_{end} \gets window_{start} + W$ 
+            \State $count \gets 0$ 
+            \For{$j \gets i$ to $|positions(X)| - 1$} 
+                \If{$positions(X)[j] < window_{end}$} 
+                    \State $count \gets count + 1$ 
+                \Else 
+                    \State \textbf{break} 
+                \EndIf 
+            \EndFor 
+            \If{$\dfrac{count}{W} \geq minSup$} 
+                \State Add dense interval $[window_{start}, window_{end}]$ to $C$
+                \State $surplus \gets support - minSup$ 
+                % \Comment{Calculate the surplus of the interval support}
+                \State $skip \gets \text{floor}(W \times surplus)$ 
+                % \Comment{Obtain the integer part of the surplus using the floor function}
+                \State $i \gets i + \max(1, skip) - 1$ 
+                % \Comment{Determine the starting position of the next window}
+            \EndIf
+        \EndFor
+        
+        \State $C \gets$ Merge overlapping or adjacent dense intervals 
+        \State \Return $(X,~C)$
+        
+    \end{algorithmic} 
+\end{algorithm}
