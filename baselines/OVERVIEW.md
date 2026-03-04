@@ -1,13 +1,17 @@
-# Comparative Methods
+# Baselines
 
 このディレクトリは Stage A 比較手法の実装仕様と実行基盤を管理する。
 
 ## 構成
 
 - `methods/`: 手法ごとの実装仕様
+- `adapters/`: 外部手法を共通 I/O フォーマットに変換するアダプタ
+- `external/`: サードパーティ実装の取得・ビルド手順
+- `patches/`: 外部コードへのパッチ（ライセンス注記付き）
 - `DECISIONS.md`: 未確定仕様の意思決定ログ
 - `specs/`: 調査レポートのスナップショット
 - `runner/`: 比較手法の実行・前処理・集計CLI
+- `results/`: 比較実験の出力・集計結果
 
 ## 実装状況
 
@@ -23,4 +27,4 @@
 - SPMF / PAMI は現行runnerの実行バックエンドではなく、仕様確認・oracle比較用途。
 - GPLv3 実装（SPMF / PAMI）を参照する場合は配布形態に注意。
 - 実装上の未確定点は `DECISIONS.md` で管理し、現時点の主要3項目は決定済み。
-- 実行手順は `runner/README.md` を参照。
+- 実行手順は `runner/OVERVIEW.md` を参照。
