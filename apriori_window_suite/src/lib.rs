@@ -8,6 +8,7 @@ pub mod basket;
 pub mod correlator;
 pub mod interval;
 pub mod io;
+pub mod pipeline;
 pub mod util;
 
 pub use apriori::{find_dense_itemsets, generate_candidates, prune_candidates};
@@ -18,4 +19,8 @@ pub use interval::{
     insert_and_merge_interval, is_interval_covered,
 };
 pub use io::{read_events, read_transactions_with_baskets, write_patterns_csv, write_relations_csv};
+pub use pipeline::{
+    compute_mi, compute_mi_scores, match_sweep_line, mi_prefilter, permutation_test,
+    run_pipeline, PipelineConfig, PipelineResult, SignificantRelation,
+};
 pub use util::{intersect_interval_lists, intersect_sorted_lists, lower_bound, upper_bound};
