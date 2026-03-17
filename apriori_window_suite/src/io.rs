@@ -4,8 +4,20 @@ use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::path::PathBuf;
 
 use itertools::Itertools;
+use serde::Deserialize;
 
-use crate::correlator::{format_itemset, Event, RelationMatch};
+// ---------------------------------------------------------------------------
+// 共通型
+// ---------------------------------------------------------------------------
+
+/// 外部イベント
+#[derive(Debug, Clone, Deserialize)]
+pub struct Event {
+    pub event_id: String,
+    pub name: String,
+    pub start: i64,
+    pub end: i64,
+}
 
 // ---------------------------------------------------------------------------
 // Phase 1: トランザクション入出力
@@ -46,7 +58,7 @@ pub fn read_transactions_with_baskets(path: &str) -> Vec<Vec<Vec<i64>>> {
 /// 密集アイテムセットを CSV ファイルに書き出す。
 ///
 /// カラム: pattern_components, pattern_gaps, pattern_size, intervals_count, intervals
-/// 単体アイテム（len == 1）はスキップする（Phase 1 の慣例）。
+/// 単体アイテム（len == 1）はスキップする。
 pub fn write_patterns_csv(
     output_path: &PathBuf,
     frequents: &HashMap<Vec<i64>, Vec<(i64, i64)>>,
@@ -96,7 +108,7 @@ pub fn write_patterns_csv(
 }
 
 // ---------------------------------------------------------------------------
-// Phase 2: イベント入出力
+// イベント入力
 // ---------------------------------------------------------------------------
 
 /// JSON 形式のイベントファイルを読み込む。
@@ -137,65 +149,21 @@ pub fn read_events(path: &str) -> Vec<Event> {
     events
 }
 
-/// 時間的関係マッチング結果を CSV ファイルに書き出す。
-pub fn write_relations_csv(
-    path: &PathBuf,
-    results: &[RelationMatch],
-    epsilon: i64,
-    d_0: i64,
-) -> std::io::Result<()> {
-    if let Some(parent) = path.parent() {
-        create_dir_all(parent)?;
-    }
-    let file = File::create(path)?;
-    let mut writer = BufWriter::new(file);
-    writeln!(
-        writer,
-        "pattern_components,dense_start,dense_end,event_id,event_name,relation_type,overlap_length,epsilon,d_0"
-    )?;
-    for m in results {
-        let overlap_str = match m.overlap_length {
-            Some(v) => v.to_string(),
-            None => String::new(),
-        };
-        writeln!(
-            writer,
-            "{},{},{},{},{},{},{},{},{}",
-            format_itemset(&m.itemset),
-            m.dense_start,
-            m.dense_end,
-            m.event_id,
-            m.event_name,
-            m.relation_type,
-            overlap_str,
-            epsilon,
-            d_0,
-        )?;
-    }
-    writer.flush()?;
-    Ok(())
-}
-
 // ---------------------------------------------------------------------------
-// テスト (パーサー + read_events + write_relations_csv)
+// テスト
 // ---------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::correlator::RelationMatch;
     use std::io::Write as IoWrite;
-    use tempfile::{NamedTempFile, TempDir};
+    use tempfile::NamedTempFile;
 
     fn write_temp(content: &str) -> NamedTempFile {
         let mut f = NamedTempFile::new().unwrap();
         f.write_all(content.as_bytes()).unwrap();
         f
     }
-
-    // -----------------------------------------------------------------------
-    // パーサー
-    // -----------------------------------------------------------------------
 
     #[test]
     fn test_parse_single_basket() {
@@ -224,10 +192,6 @@ mod tests {
         let txns = read_transactions_with_baskets(f.path().to_str().unwrap());
         assert_eq!(txns, vec![vec![], vec![vec![1, 2]]]);
     }
-
-    // -----------------------------------------------------------------------
-    // TC-IO: read_events
-    // -----------------------------------------------------------------------
 
     #[test]
     fn test_read_events_normal() {
@@ -266,39 +230,5 @@ mod tests {
         let json = r#"[{"event_id":"A","name":"A","start":5,"end":3}]"#;
         let f = write_temp(json);
         read_events(f.path().to_str().unwrap());
-    }
-
-    // -----------------------------------------------------------------------
-    // TC-IO: write_relations_csv
-    // -----------------------------------------------------------------------
-
-    #[test]
-    fn test_write_relations_csv_header() {
-        let td = TempDir::new().unwrap();
-        let path = td.path().join("r.csv");
-        let results: Vec<RelationMatch> = Vec::new();
-        write_relations_csv(&path, &results, 2, 1).unwrap();
-        let content = std::fs::read_to_string(&path).unwrap();
-        assert!(content.starts_with("pattern_components,dense_start,dense_end,event_id"));
-    }
-
-    #[test]
-    fn test_write_relations_csv_row() {
-        let td = TempDir::new().unwrap();
-        let path = td.path().join("r.csv");
-        let results = vec![RelationMatch {
-            itemset: vec![1, 2],
-            dense_start: 0,
-            dense_end: 5,
-            event_id: "E1".to_string(),
-            event_name: "Event1".to_string(),
-            relation_type: "DenseFollowsEvent".to_string(),
-            overlap_length: None,
-        }];
-        write_relations_csv(&path, &results, 2, 1).unwrap();
-        let content = std::fs::read_to_string(&path).unwrap();
-        assert!(content.contains("DenseFollowsEvent"));
-        assert!(content.contains("E1"));
-        assert!(content.contains(",,2,1") || content.contains(",,,"));
     }
 }
