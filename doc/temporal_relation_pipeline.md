@@ -1,274 +1,217 @@
-# Temporal Relation Pipeline — 設計ドキュメント
+# Event Attribution Pipeline — 設計ドキュメント
 
 > **作成日**: 2026-03-17
+> **改訂日**: 2026-03-17（方向 E: 密集区間の動態 × 外部イベント帰属に全面改訂）
 > **ステータス**: 設計段階（Draft）
-> **対象**: Phase 2 相当 — 密集区間と外部イベントの時間的関係抽出
+> **対象**: Phase 2 — サポート変動の変化点検出と外部イベントへの帰属
 
 ---
 
 ## 1. 背景と動機
 
-Phase 1（Basket-aware Apriori-Window）により、偽共起を排除した密集パターンとその密集区間が得られる。次の課題は、これらの密集区間と外部イベント（セールイベント、祝日、キャンペーン等）との**時間的関係**を効率的かつ意味のある形で抽出することである。
+Phase 1（Apriori-Window）により、頻出アイテムセットの密集区間（サポートが閾値を超える時間区間）が得られる。次の課題は、**密集区間の出現・消失・伸縮がどの外部イベントに起因するか**を統計的に特定することである。
 
-### 現状の問題
+### 旧設計の問題点
 
-現行の `match_all` は全ペア総当たり O(N × M × 6) で時間的関係を判定する（N=密集区間数, M=イベント数）。
+旧 Phase 2（Allen 関係マッチング）は密集区間とイベントの「時間的位置関係」を列挙するだけであり、以下の限界があった：
 
 | 問題 | 詳細 |
 |------|------|
-| **計算コスト** | 実データ規模（N=10万, M=50）で約 3,000万回の関係チェック |
-| **偶然の一致** | 統計的有意性を考慮しないため、偶然の時間的重複も出力に含まれる |
-| **出力過多** | すべてのマッチが無差別に出力され、解釈が困難 |
+| **既存手法の適用** | Allen 関係マッチング、MI フィルタ、Sweep Line、置換検定はすべて既存手法の直接的応用であり、新規性が不足 |
+| **静的な記述** | 密集区間の「存在」を記述するだけで、「変化」（出現・消失・伸縮）を扱わない |
+| **帰属の欠如** | 位置関係の列挙であり、「どのイベントがサポート変動を引き起こしたか」には答えない |
+
+### 新設計の方向性
+
+密集区間の**動態**（サポート時系列の構造的変化）に着目し、その変化を外部イベントに**帰属**させる。
+
+**研究ギャップ**: 先行研究調査（`doc/related_work_survey.md`）により、以下の組合せを扱った研究は存在しないことを確認：
+
+- Emerging Patterns (Dong & Li 1999): サポート変動を検出するが、外部イベントへの帰属は行わない
+- CausalImpact (Brodersen+ 2015): 時系列への介入効果を推定するが、パターンサポートには適用されていない
+- Haiminen+ (2008): バースト系列の共起検定だが、バーストの「変化」ではなく「存在」を対象
 
 ---
 
-## 2. 提案: 4 段パイプライン
+## 2. 提案: 4 ステップ Event Attribution Pipeline
 
-Stage 0（現行）を基盤として、Stage 1 → 2 → 3 を積み重ねることで、計算効率と出力品質を段階的に向上させる。
+Phase 1 の中間出力（サポート時系列）を活用し、4 ステップで外部イベントへの帰属を行う。
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  Phase 1 出力: 密集パターン P と密集区間 {(s_i, e_i)}           │
-│  外部入力:     イベント集合 {(ts_j, te_j, name_j)}             │
+│  Phase 1 出力:                                                  │
+│    frequents: Dict[itemset → List[(start, end)]]               │
+│    support_series: Dict[itemset → List[int]]  ← 新規公開       │
+│  外部入力:                                                      │
+│    events: List[(start, end, name)]                             │
 └────────────────────────┬────────────────────────────────────────┘
                          ▼
-┌─ Stage 0: Brute-Force Baseline ─────────────────────────────────┐
-│  全ペア総当たりで 6 種の Allen 関係を判定                        │
-│  計算量: O(N × M × 6)                                          │
-│  → ベースライン（正解集合の生成・検証用に保持）                  │
+┌─ Step 1: Support Time Series Construction ─────────────────────┐
+│  Phase 1 のウィンドウ走査で各位置 t のサポート s_P(t) を記録     │
+│  → 各パターン P について長さ N の整数時系列を得る                │
+│  計算量: Phase 1 と同時に算出（追加コストなし）                  │
 └────────────────────────┬────────────────────────────────────────┘
                          ▼
-┌─ Stage 1: MI Pre-filter（候補刈り込み）─────────────────────────┐
-│  相互情報量による事前スクリーニング                              │
-│  密集区間・イベント → 二値時系列 → MI(X; Y) 計算                │
-│  MI > θ_MI のペアのみ次段へ                                     │
-│  計算量: O((N + M) × T)  ← T: 時間軸の離散長                   │
-│  効果: 大半の無関係ペアを安価に除外                              │
+┌─ Step 2: Change Point Detection ───────────────────────────────┐
+│  s_P(t) の構造的変化点 τ を検出                                 │
+│  (a) 閾値交差法: 密集区間の開始/終了 = 最も単純な変化点          │
+│  (b) CUSUM 法: レベルシフトの逐次検出                           │
+│  各変化点に方向（上昇/下降）と変化量 Δ を付与                    │
+│  計算量: O(N) per pattern                                       │
 └────────────────────────┬────────────────────────────────────────┘
                          ▼
-┌─ Stage 2: Sweep Line Matching（高速マッチング）─────────────────┐
-│  候補ペアに対して走査線アルゴリズムで Allen 関係を判定           │
-│  ソート済み区間リスト + アクティブセットで効率的に走査           │
-│  計算量: O((n + m) log(n + m) + K)  ← K: 出力数                │
-│  オプション: HINT インデックスで ε 許容付き Allen 関係に拡張     │
-│  効果: Stage 1 通過ペアを高速に判定                              │
+┌─ Step 3: Event Attribution Scoring ────────────────────────────┐
+│  各変化点 τ_k と各イベント e_j の帰属スコアを計算               │
+│  (a) 時間的近接度: proximity(τ_k, e_j) = exp(-|τ_k - t_e| / σ) │
+│  (b) 方向整合性: サポート上昇 × イベント開始 → 正の帰属          │
+│                  サポート下降 × イベント終了 → 正の帰属          │
+│  (c) 変化量の大きさ: |Δ| が大きいほど帰属スコアが高い            │
+│  候補トリプル (pattern, change_point, event) を生成              │
+│  計算量: O(C × M)  ← C: 変化点数, M: イベント数                │
 └────────────────────────┬────────────────────────────────────────┘
                          ▼
-┌─ Stage 3: Statistical Significance（有意性検定）────────────────┐
-│  置換検定で偶然の一致を除去                                      │
-│  (1) 各 (パターン, イベント, 関係タイプ) の出現回数 c_obs を集計 │
-│  (2) イベント時刻をランダムシャッフル × J 回（e.g., J=1000）    │
-│  (3) 各置換で関係マッチ数 c_perm を計算                          │
-│  (4) p 値 = |{c_perm ≥ c_obs}| / J                              │
-│  (5) 多重検定補正（Westfall-Young / Bonferroni）                 │
-│  効果: 統計的に有意な関係のみを最終出力                          │
-│  付加価値: p 値・効果量付きの出力で新たな示唆を導出              │
+┌─ Step 4: Statistical Significance Testing ─────────────────────┐
+│  各候補トリプルの帰属が偶然でないことを検定                      │
+│  帰無仮説: 変化点の位置はイベントと独立                          │
+│  (1) 観測統計量: 変化点-イベント距離 d_obs を集計               │
+│  (2) 円形シフト × J 回 (e.g., J=1000):                         │
+│      イベント時刻を一様にシフトし d_perm を計算                  │
+│  (3) p 値 = |{j: d_perm ≤ d_obs}| / (J + 1)                   │
+│  (4) 多重検定補正（Bonferroni / Westfall-Young）                │
+│  効果: 統計的に有意な帰属のみを最終出力                          │
 └────────────────────────┬────────────────────────────────────────┘
                          ▼
 ┌─ 最終出力 ──────────────────────────────────────────────────────┐
-│  relations_significant.csv                                      │
-│  columns: pattern, dense_interval, event, relation_type,        │
-│           overlap_length, p_value, adjusted_p_value,             │
-│           effect_size, MI_score                                  │
+│  attributions.csv                                               │
+│  columns: pattern, change_time, change_direction, change_mag,   │
+│           event_name, proximity, attribution_score,             │
+│           p_value, adjusted_p_value                             │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 3. 各 Stage の詳細設計
+## 3. 各 Step の詳細設計
 
-### 3.1 Stage 0: Brute-Force Baseline
+### 3.1 Step 1: Support Time Series Construction
 
-**目的**: 正解集合の生成。Stage 1–2 の最適化が正しいことを検証するリファレンス。
+**目的**: Phase 1 の中間計算結果を公開し、後続ステップの入力とする。
 
-- 既存の `match_all` 実装をそのまま使用
-- 6 種の Allen 関係: DFE / EFD / DCE / ECD / DOE / EOD
-- パラメータ: ε（隣接許容幅）, d_0（最小重複長）
-- **保持理由**: 最適化の正当性検証（Stage 2 の出力が Stage 0 と一致することをテストで保証）
+Phase 1 の `compute_dense_intervals` は内部でウィンドウ位置ごとのサポートを計算している。現行実装ではこれを閾値比較後に破棄するが、Step 1 ではこの時系列を保持する。
 
-### 3.2 Stage 1: Mutual Information Pre-filter
+#### 出力
 
-**目的**: 時間的に無関係なペアを安価に除外し、後段の計算量を削減する。
+```python
+support_series: Dict[Tuple[int, ...], List[int]]
+# 例: {(1, 2): [0, 1, 2, 3, 3, 2, 1, 0, 0, 3, 4, 3, ...]}
+```
 
-#### アルゴリズム
+#### 計算量
 
-1. **二値時系列への変換**:
-   - 密集区間 (s, e) に対して、時間軸上のインジケータ関数 $X(t) = \mathbb{1}[s \leq t \leq e]$ を構築
-   - 同一パターンの複数密集区間は OR で統合: $X_P(t) = \max_i \mathbb{1}[s_i \leq t \leq e_i]$
-   - イベント (ts, te) に対して同様に $Y_E(t) = \mathbb{1}[ts \leq t \leq te]$ を構築
-2. **相互情報量の計算**:
-   $$
-   I(X_P; Y_E) = \sum_{x \in \{0,1\}} \sum_{y \in \{0,1\}} p(x, y) \log \frac{p(x, y)}{p(x) \cdot p(y)}
-   $$
-   - 同時確率 $p(x, y)$ は二値時系列の共起頻度から直接計算
-   - 計算量: O(T) per pair（T = 時間軸長）
-3. **閾値フィルタリング**: $I(X_P; Y_E) > \theta_{MI}$ のペアのみ Stage 2 へ
+Phase 1 のウィンドウ走査と同時に算出可能。追加コストは O(N) のメモリのみ。
+
+### 3.2 Step 2: Change Point Detection
+
+**目的**: サポート時系列 s_P(t) の構造的変化点を検出する。
+
+#### 手法 (a): 閾値交差法
+
+密集区間の開始/終了は「サポートが閾値を上回った/下回った時点」。Phase 1 が既に計算済み。
+
+#### 手法 (b): CUSUM（累積和管理図）
+
+閾値に依存しない、より一般的な変化点検出。レベルシフトを逐次的に検出する。
 
 #### パラメータ
 
 | パラメータ | 意味 | デフォルト |
 |-----------|------|-----------|
-| `mi_threshold` (θ_MI) | MI の下限閾値 | 0.01（要チューニング） |
-| `time_resolution` | 時間軸の離散化粒度 | 1（トランザクション単位） |
+| `method` | 変化点検出手法 | `"threshold_crossing"` |
+| `threshold` | 閾値交差法の閾値 | Phase 1 の min_support |
+| `cusum_drift` | CUSUM のドリフト許容量 | 0.5 |
+| `cusum_h` | CUSUM の判定閾値 | 4.0 |
 
-#### 計算量分析
+### 3.3 Step 3: Event Attribution Scoring
 
-- パターン数 P_count, イベント数 M, 時間軸長 T に対して: O(P_count × M × T)
-- T は通常 N（トランザクション数）と同程度
-- Stage 0 の O(N_intervals × M × 6) と比較して、**パターン単位で集約**するため N_intervals → P_count に削減
-- MI = 0 のペア（完全独立）を即座に除外可能
+**目的**: 各変化点と各イベントの帰属関係をスコアリングする。
 
-#### 研究的意義
+帰属スコア A(τ_k, e_j) = proximity × direction_match × |Δ_k|
 
-- Ho et al. (VLDB 2022) の MI による時系列ペア事前フィルタリングを、頻出パターンマイニングの時間的関係判定に応用
-- 「密集区間の時間的共起」を情報理論的に定量化する枠組みは先行研究に見られない
+- **時間的近接度**: proximity(τ, e) = exp(-min(|τ - start_e|, |τ - end_e|) / σ)
+- **方向整合性**: 上昇×開始後=1.0, 下降×終了後=1.0, 不整合=0.0, 予兆=0.5
+- **変化量**: |Δ_k| = 変化点前後のサポート差の絶対値
 
-### 3.3 Stage 2: Sweep Line Matching
+#### パラメータ
 
-**目的**: Stage 1 を通過したペアに対して、Allen 関係を効率的に判定する。
+| パラメータ | 意味 | デフォルト |
+|-----------|------|-----------|
+| `sigma` | 近接度の減衰幅 | `window_size` |
+| `max_distance` | 最大距離 | `2 * window_size` |
+| `attribution_threshold` | 最小帰属スコア | 0.1 |
 
-#### アルゴリズム
+### 3.4 Step 4: Permutation-based Significance Testing
 
-1. 密集区間リストとイベントリストをそれぞれ開始時刻でソート
-2. 走査線を左から右へ移動しながら、アクティブセット（現在重複している区間）を管理
-3. 各 Allen 関係の判定条件を走査線上で効率的に評価
+**目的**: 変化点とイベントの近接が偶然でないことを統計的に検定する。
 
-```
-Sort dense_intervals by start time
-Sort events by start time
+- **帰無仮説**: 変化点の位置はイベントと独立
+- **円形シフト**: イベント間の相対構造を保存しつつ位置関係のみランダム化
+- **多重検定補正**: Bonferroni（保守的）または Westfall-Young（推奨）
 
-active_set = {}
-event_ptr = 0
+#### パラメータ
 
-for each dense_interval (s_i, e_i) in sorted order:
-    // Remove expired intervals from active_set
-    remove intervals from active_set where end < s_i - ε
-
-    // Add new events that start before e_i + ε
-    while event_ptr < |events| and events[event_ptr].start ≤ e_i + ε:
-        add events[event_ptr] to active_set
-        event_ptr++
-
-    // Check Allen relations with active events
-    for each event in active_set:
-        check_and_emit_relations(dense_interval, event)
-```
-
-#### 計算量
-
-- ソート: O((n + m) log(n + m))
-- 走査: O(n + m + K)（K = 出力マッチ数）
-- 合計: **O((n + m) log(n + m) + K)**
-- Stage 0 の O(n × m) から大幅改善（特に K << n × m のとき）
-
-#### ε 許容付き Allen 関係への拡張（HINT 適用）
-
-- HINT (Christodoulou et al., SIGMOD 2022) は Allen の 13 関係をインデックスベースで高速判定
-- 本研究では ε 許容付き 6 関係への適応が必要（未発表の拡張）
-- 実装優先度: Sweep Line を先に実装し、性能が不足する場合に HINT へ移行
-
-### 3.4 Stage 3: Permutation-based Significance Testing
-
-**目的**: 偶然の時間的一致を統計的に除去し、有意な関係のみを出力する。
-
-#### アルゴリズム
-
-1. **観測統計量の計算**: 各 (パターン P, イベント E, 関係タイプ R) の出現回数 $c_{\text{obs}}(P, E, R)$ を集計
-2. **帰無分布の構築**:
-   - J 回（例: J = 1000）イベント時刻をランダムシャッフル（イベント間隔の分布を保持 or 一様シャッフル）
-   - 各置換 j に対して Stage 2 を再実行し、$c_{\text{perm}}^{(j)}$ を計算
-3. **p 値の計算**:
-   $$
-   p(P, E, R) = \frac{|\{j : c_{\text{perm}}^{(j)} \geq c_{\text{obs}}\}| + 1}{J + 1}
-   $$
-4. **多重検定補正**:
-   - **Bonferroni**: $p_{\text{adj}} = \min(1, p \times |\text{hypotheses}|)$（保守的）
-   - **Westfall-Young stepdown**: 置換ごとの最大統計量を用いて FWER を制御（推奨）
-5. **有意性判定**: $p_{\text{adj}} < \alpha$（例: α = 0.05）のトリプルのみ出力
-
-#### シャッフル戦略
-
-| 戦略 | 方法 | 帰無仮説 |
-|------|------|---------|
-| **時刻一様シャッフル** | イベント開始時刻を [1, N] から一様サンプリング | イベントの発生時刻は密集区間と独立 |
-| **循環シフト** | 全イベントを同一オフセットで循環シフト | イベント間の時間構造は保持しつつ、密集区間との位置関係がランダム |
-| **ブロックシャッフル** | 時間軸をブロック分割し、ブロック単位で並べ替え | 局所的な時間依存性を保持 |
-
-推奨: **循環シフト**（イベント間の相対構造を壊さないため、検出力が高い）
-
-#### 計算量
-
-- J × Stage 2 の計算量: O(J × ((n + m) log(n + m) + K))
-- J = 1000, n + m = 10,000 の場合: 約 10^7 回の操作（十分高速）
-- **早期終了最適化**: $c_{\text{perm}} \geq c_{\text{obs}}$ が $\alpha \times J$ 回に達した時点でそのトリプルを棄却（Westfall-Young Light）
-
-#### 研究的意義
-
-- Westfall-Young Light (KDD 2015) の再マイニング不要な枝刈りアイデアを、Allen 関係の有意性検定に初めて適用
-- 「偽共起パターンの排除」（Phase 1）に続いて「偽時間的関係の排除」（Phase 2）という一貫した研究ストーリーを構成
+| パラメータ | 意味 | デフォルト |
+|-----------|------|-----------|
+| `n_permutations` | 置換回数 | 1000 |
+| `alpha` | 有意水準 | 0.05 |
+| `correction_method` | 多重検定補正法 | `"bonferroni"` |
 
 ---
 
 ## 4. 出力仕様
 
-### 最終出力: `relations_significant.csv`
+### 最終出力: `attributions.csv`
 
 | カラム | 型 | 説明 |
 |--------|-----|------|
-| `pattern_components` | string | アイテムセット（例: `"[{1, 2}]"`） |
-| `dense_start` | int | 密集区間の開始トランザクション |
-| `dense_end` | int | 密集区間の終了トランザクション |
-| `event_id` | string | イベント ID |
-| `event_name` | string | イベント名 |
-| `relation_type` | string | Allen 関係タイプ（DFE/EFD/DCE/ECD/DOE/EOD） |
-| `overlap_length` | int? | 重複長（DOE/EOD のみ） |
-| `mi_score` | float | Stage 1 の相互情報量 |
-| `p_value` | float | Stage 3 の未補正 p 値 |
-| `adjusted_p_value` | float | Stage 3 の補正済み p 値 |
-| `effect_size` | float | 効果量（c_obs / E[c_perm]） |
-
-### 中間出力
-
-| Stage | ファイル | 内容 |
-|-------|---------|------|
-| Stage 0 | `relations_brute_force.csv` | 全ペアマッチ結果（検証用） |
-| Stage 1 | `mi_scores.csv` | (パターン, イベント, MI) のスコア表 |
-| Stage 2 | `relations_filtered.csv` | MI フィルタ + Sweep Line の結果 |
-| Stage 3 | `relations_significant.csv` | 最終出力（有意なもののみ） |
+| `pattern` | string | アイテムセット |
+| `change_time` | int | 変化点のトランザクション時刻 |
+| `change_direction` | string | `"up"` or `"down"` |
+| `change_magnitude` | float | サポート変化量 |
+| `event_name` | string | 帰属先イベント名 |
+| `event_start` | int | イベント開始時刻 |
+| `event_end` | int | イベント終了時刻 |
+| `proximity` | float | 時間的近接度 |
+| `attribution_score` | float | 帰属スコア |
+| `p_value` | float | 未補正 p 値 |
+| `adjusted_p_value` | float | 補正済み p 値 |
 
 ---
 
-## 5. 設定ファイル拡張
+## 5. 設定ファイル
 
 ```json
 {
-  "temporal_relation_parameters": {
-    "epsilon": 2,
-    "d_0": 1,
-    "pipeline": {
-      "stage1_mi": {
-        "enabled": true,
-        "mi_threshold": 0.01,
-        "time_resolution": 1
-      },
-      "stage2_sweep": {
-        "enabled": true,
-        "algorithm": "sweep_line"
-      },
-      "stage3_significance": {
-        "enabled": true,
-        "n_permutations": 1000,
-        "shuffle_strategy": "cyclic_shift",
-        "alpha": 0.05,
-        "correction_method": "westfall_young",
-        "early_termination": true
-      }
+  "event_attribution_parameters": {
+    "change_detection": {
+      "method": "threshold_crossing",
+      "cusum_drift": 0.5,
+      "cusum_h": 4.0
+    },
+    "attribution": {
+      "sigma": null,
+      "max_distance": null,
+      "attribution_threshold": 0.1
+    },
+    "significance": {
+      "n_permutations": 1000,
+      "alpha": 0.05,
+      "correction_method": "bonferroni"
     }
   }
 }
 ```
 
-各 Stage は `enabled: false` で無効化可能。Stage 0 のみの実行も可能（後方互換性）。
+`sigma` と `max_distance` が `null` の場合、Phase 1 の `window_size` から自動設定。
 
 ---
 
@@ -276,14 +219,13 @@ for each dense_interval (s_i, e_i) in sorted order:
 
 | 順序 | タスク | 実装先 | 工数 |
 |------|--------|--------|------|
-| 1 | Stage 0 を独立関数として切り出し | Python → Rust | 小 |
-| 2 | Stage 1: MI 計算 + フィルタ | Python prototype | 中 |
-| 3 | Stage 2: Sweep Line | Python prototype | 中 |
-| 4 | Stage 3: 置換検定 | Python prototype | 中 |
-| 5 | 統合テスト（Stage 0 と Stage 1+2 の出力一致確認） | pytest | 小 |
-| 6 | Stage 3 の検出力検証（合成データ） | Python | 中 |
-| 7 | Rust 移植（Stage 1–3） | Rust | 大 |
-| 8 | 論文 Section 4 への追記 | LaTeX | 中 |
+| 1 | Step 1: サポート時系列公開 | Python | 小 |
+| 2 | Step 2: 変化点検出（閾値交差 + CUSUM） | Python | 小 |
+| 3 | Step 3: 帰属スコアリング | Python | 中 |
+| 4 | Step 4: 置換検定 | Python | 中 |
+| 5 | 統合テスト（合成データ） | pytest | 中 |
+| 6 | Rust 移植 | Rust | 大 |
+| 7 | 論文 Section 4 への追記 | LaTeX | 中 |
 
 ---
 
@@ -291,45 +233,22 @@ for each dense_interval (s_i, e_i) in sorted order:
 
 ### ストーリー
 
-> Phase 1 で「偽共起パターン」を排除し、Phase 2 で「偽時間的関係」を排除する。
-> 2 段階の偽陽性排除により、意味のある密集パターンとその外部イベントとの関係のみを抽出する。
+> 頻出パターンのサポートは時間とともに変動するが、既存手法はこの変動を外部イベントに帰属させる枠組みを持たない。
+> 本研究は、サポート時系列の変化点検出とイベント帰属を統合し、統計的に有意な帰属のみを出力するフレームワークを提案する。
 
-### 論文構成への影響
+### 新規性
 
-| セクション | 追加内容 |
-|-----------|---------|
-| §3 問題定義 | 時間的関係の形式的定義、有意な時間的関係の定義 |
-| §4 提案手法 | 4 段パイプラインの記述、MI フィルタの理論的根拠、Sweep Line の計算量解析 |
-| §5 実験 | Stage 別の計算時間比較、置換検定による偽陽性排除の効果、MI 閾値の感度分析 |
-| §6 結論 | 偽共起 + 偽時間的関係の二重排除フレームワークとしての位置づけ |
+1. **問題設定**: パターンのサポート変動を外部イベントに帰属させる問題を明示的に定式化
+2. **Emerging Patterns との差異**: EP は 2 データセット間の静的比較、本研究は連続時間軸上の動的変化 × イベント帰属
+3. **CausalImpact との差異**: 一般時系列ではなくパターンサポート時系列への適用
 
 ### 引用すべき先行研究
 
-| 研究 | 関連する Stage | 引用理由 |
-|------|---------------|---------|
-| Ho et al. (VLDB 2022) | Stage 1 | MI による時系列ペア事前フィルタリング |
-| Christodoulou et al. (SIGMOD 2022) | Stage 2 | HINT: Allen 関係の高速インデックス |
-| Bouros & Mamoulis (VLDB 2017) | Stage 2 | Sweep Line による区間結合 |
-| Westfall-Young Light (KDD 2015) | Stage 3 | 再マイニング不要な置換検定 |
-| Allen (1983) | 全体 | 時間的関係の理論的基盤 |
-
----
-
-## 8. 評価計画
-
-### 8.1 効率性評価
-
-- **指標**: 各 Stage の実行時間、Stage 1 通過率（= 残存ペア / 全ペア）
-- **期待**: Stage 1 で 80-95% のペアを除外、Stage 2 で O(n×m) → O((n+m) log(n+m) + K)
-- **実験**: N_intervals × M_events を変化させた計算時間の比較（Stage 0 vs Stage 0+1+2）
-
-### 8.2 品質評価
-
-- **指標**: Stage 3 通過率（= 有意なトリプル / 全トリプル）、False Discovery Rate
-- **実験**: 合成データで既知の時間的関係を埋め込み、Stage 3 の検出力（TPR）と FDR を測定
-- **ベースライン**: Stage 0（フィルタなし）の出力に対する Stage 3 の精度向上
-
-### 8.3 ケーススタディ
-
-- **データ**: UCI Online Retail II（密集パターン + セールイベント）
-- **評価**: Stage 3 で有意と判定された関係の解釈可能性を定性的に評価
+| 研究 | 引用理由 |
+|------|---------|
+| Dong & Li (KDD 1999) Emerging Patterns | サポート変動検出の先行研究 |
+| Brodersen et al. (AoAS 2015) CausalImpact | 時系列介入効果推定 |
+| Haiminen et al. (BMC Bioinf. 2008) | バースト系列共起検定 |
+| Kleinberg (KDD 2002) | バースト検出 |
+| Khan et al. (KBS 2009) DSAT | スライディングウィンドウ上 EP |
+| WY-light (KDD 2015) | 置換検定の効率化 |
