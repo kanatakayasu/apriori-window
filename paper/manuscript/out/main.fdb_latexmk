@@ -1,6 +1,6 @@
 # Fdb version 4
-["latex"] 1772615898.45748 "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" "out/main.dvi" "main" 1772615899.03772 2
-  "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" 1772455954.28818 4048 bf833bfb18c9f49ef348249639636313 ""
+["latex"] 1772638184.2352 "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" "out/main.dvi" "main" 1772638184.82756 2
+  "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm" 1136768653 2228 e564491c42a4540b5ebb710a75ff306c ""
@@ -43,8 +43,9 @@
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/latex.fmt" 1730631024 8221712 d4d3a26ca2c8bec77ecefb41e80eabc3 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
   "IEEEtran.cls" 1772417494.66762 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "main.tex" 1772455954.28818 4048 bf833bfb18c9f49ef348249639636313 ""
-  "out/main.aux" 1772615898.88818 8 a94a2480d3289e625eea47cd1b285758 "latex"
+  "main.aux" 1772637684.67355 10831 db931eda8465be38f5d066e25fb058e7 ""
+  "main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
+  "out/main.aux" 1772638184.67827 8 a94a2480d3289e625eea47cd1b285758 "latex"
   (generated)
   "out/main.aux"
   "out/main.dvi"

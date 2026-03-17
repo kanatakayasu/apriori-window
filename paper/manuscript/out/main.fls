@@ -118,8 +118,8 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
-INPUT out/main.aux
-INPUT out/main.aux
-INPUT out/main.aux
+INPUT ./main.aux
+INPUT ./main.aux
+INPUT main.aux
 OUTPUT out/main.aux
 OUTPUT out/main.dvi

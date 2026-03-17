@@ -1,9 +1,0 @@
-{
-  "method": "apriori",
-  "dataset_path": "dataset/synthetic/output/A1_P_lambda_2.0_seed0.txt",
-  "input_format": "basket",
-  "output_path": "baselines/results/apriori_example.json",
-  "minsup_count": 50,
-  "max_length": 4,
-  "params": {}
-}

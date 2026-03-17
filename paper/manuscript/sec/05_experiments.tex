@@ -1,53 +1,90 @@
 \section{実験結果と考察}
 \label{sec:experiments}
 
-\subsection{実験方法}
+\subsection{データ生成方法と実験プロトコル}
 \label{sec:exp_method}
 
-本研究の評価は，合成データ上で提案手法（Phase 1）と比較手法を同一条件で実行し，
-偽共起抑制能力と計算効率を比較する構成で行った．
-実験は次の流れで実施した．
-\begin{enumerate}
-    \item バスケット構造をもつトランザクションデータを生成し，評価対象シナリオを構成する．
-    \item 提案手法・従来 Apriori-window（flatten）・比較手法群を同一データに適用する．
-    \item 各手法の出力から GTSPR，多項目パターン数，実行時間を算出する．
-    \item 複数 seed の結果を集約し，平均値に基づいて図表化する．
-\end{enumerate}
-データ生成式，実験条件，固定パラメータ，sweep 設定の詳細は補遺
-（Sec.~\ref{sec:supp_exp_conditions}）に示す．
+本研究では，バスケット構造を持つ合成トランザクションデータを生成し，
+提案手法と従来 Apriori-window（flatten）を同一条件で評価した．
+トランザクション $t$ のバスケット数 $N_t$ と，バスケット $b$ のアイテム数 $K_{t,b}$ は
+次で与える．
+\[
+N_t = \max\{1, \mathrm{Poisson}(\lambda_{\text{baskets}})\},
+\]
+\[
+K_{t,b} = \max\{1, \mathrm{Poisson}(\lambda_{\text{basket-size}})\}.
+\]
+アイテムはカテゴリ集合
+\[
+C_g = \{\,i \mid i \bmod G = g\,\}
+\]
+で分割し，各バスケットでは主カテゴリを一様選択した後，
+確率 $p_{\text{same}}$ で同カテゴリ，確率 $1-p_{\text{same}}$ で全体集合から
+Zipf 重み $w_i \propto (i+1)^{-\alpha_{\text{zipf}}}$ に従って抽出する．
 
-\subsection{設定}
-\label{sec:exp_setup}
+評価指標は，E0 では $(P,\text{window-start})$ 単位の FP/FN，
+E1/E2 では偽共起率（GTSPR），
+E3 では実行時間と Trad./BAAW 比（従来法時間 / Basket-aware Apriori-Window 時間），
+E4 では区間 purity，GT 区間との mean Jaccard，
+従来法の spurious interval rate，および non-spurious expansion である．
+E2 では補助指標として observed spurious（従来法のみが検出した多項目パターン数）も報告する．
+E1/E2/E4 は seed=5，E3 は seed=3 を用い，表では seed 平均を報告する．
+詳細な固定パラメータと sweep 設定は補遺（Sec.~\ref{sec:supp_exp_conditions}）に示す．
 
-本節では Stage A のうち，以下の 3 実験を報告する．具体的な sweep 値・seed 数・
-固定パラメータは補遺（Sec.~\ref{sec:supp_exp_conditions}）に示す．
+\subsection{E0: 実装厳密性の検証（Oracle 一致）}
+\label{sec:exp_e0}
+
+E0 の目的は，Basket-aware Apriori-Window 実装が定義どおりに動作していることを，
+総当たり Oracle との一致で確認することである．
+具体的には，小規模合成データ上で
 \begin{itemize}
-    \item A1: バスケット密度（$\lambda_{\text{baskets}}$）を変化させ，偽共起の拡大傾向を評価
-    \item A2: カテゴリ粒度（$G$）を変化させ，構造的偽共起の変化を評価
-    \item A4: トランザクション規模（$N_{\text{transactions}}$）を変化させ，スケーラビリティを評価
+    \item 全アイテム集合候補（$|P| \le L$）と全ウィンドウ開始位置を総当たりで評価した Oracle 出力
+    \item Basket-aware Apriori-Window の出力
 \end{itemize}
+を比較し，$(P,\text{window-start})$ 単位で FP/FN を計測した．
 
-主要指標は，偽共起率（GT SPR），従来法のみが検出した多項目パターン数
-（observed spurious），および実行時間（Phase 1 core vs 従来法 total）である．
-
-\subsection{予備実験: GTSPR の確認}
-\label{sec:exp_prelim_gtspr}
-
-他手法比較に入る前に，従来 Apriori-window（バスケットをフラット化）の
-GTSPR が $\lambda_{\text{baskets}}$ の増加とともに上昇すること，
-および提案手法（Phase 1）の GTSPR が常に 0 であることを確認する．
-表~\ref{tab:prelim_gtspr} は A1（seed=5）の平均値であり，
-従来 Apriori-window の GTSPR は 0.454 から 0.971 へ単調増加し，
-Phase 1 は全条件で 0.000 を維持した．
-この確認を前提として，次節以降で他手法を含む比較結果を示す．
+実験は 34 ケース（パラメータ組合せ）で実施し，結果は全ケースで
+FP=0, FN=0 であった（表~\ref{tab:e0_summary}）．
+この結果は，後続比較（E1）の前提として，実装バグによる過検出・見落としが
+観測されなかったことを示す．
 
 \begin{table}[t]
-\caption{予備実験: GTSPR（seed=5 平均）}
+\caption{E0 結果（Oracle 一致）}
+\label{tab:e0_summary}
+\centering
+\begin{tabular}{lc}
+\toprule
+項目 & 値 \\
+\midrule
+評価ケース数 & 34 \\
+PASS ケース数 & 34 \\
+FAIL ケース数 & 0 \\
+合計 FP & 0 \\
+合計 FN & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E1: $\lambda_{\text{baskets}}$ sweep による偽共起拡大}
+\label{sec:exp_e1}
+
+E1 では，$\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$ を sweep し，
+偽共起の拡大傾向を評価した（seed=5）．
+比較対象は Basket-aware Apriori-Window と従来 Apriori-window（flatten）である．
+
+まず予備確認として，従来法の GTSPR が $\lambda_{\text{baskets}}$ の増加とともに
+単調増加し，Basket-aware Apriori-Window が全条件で 0 を維持することを確認した
+（表~\ref{tab:prelim_gtspr}）．
+従来法は 0.454 から 0.971 まで増加し，バスケット密度の上昇に伴って
+偽共起が支配的になることがわかる．
+
+\begin{table}[t]
+\caption{E1 予備結果: GTSPR（seed=5 平均）}
 \label{tab:prelim_gtspr}
 \centering
 \begin{tabular}{ccc}
 \toprule
-$\lambda_{\text{baskets}}$ & Apriori-window (flatten) GTSPR & Phase 1 GTSPR \\
+$\lambda_{\text{baskets}}$ & Apriori-window (flatten) GTSPR & Basket-aware Apriori-Window GTSPR \\
 \midrule
 1.0 & 0.454 & 0.000 \\
 1.5 & 0.676 & 0.000 \\
@@ -58,98 +95,214 @@ $\lambda_{\text{baskets}}$ & Apriori-window (flatten) GTSPR & Phase 1 GTSPR \\
 \end{tabular}
 \end{table}
 
-\subsection{A1: バスケット数増加に対する偽共起の拡大}
-\label{sec:exp_a1}
+\subsection{E2: 構造感度（$G$ / $p_{\text{same}}$ sweep）}
+\label{sec:exp_e2}
 
-予備実験（表~\ref{tab:prelim_gtspr}）で GTSPR の基本挙動を確認したうえで，
-図~\ref{fig:a1_time_all_methods}--\ref{fig:a1_multi_all_methods} に，
-A1 の method $\times$ $\lambda_{\text{baskets}}$ 集計（seed=5平均）を示す．
-ここで ``apriori\_window\_flatten'' は，トランザクション内でバスケットを
-フラット化して Apriori-window を実行する従来パイプラインを指す．
+E2 では，データ構造に対する偽共起感度を確認するため，
+2 種類の sweep を実施した（seed=5）．
+すなわち，
+\begin{itemize}
+    \item $G \in \{3,5,10,20,50\}$（$p_{\text{same}}=0.8$ 固定）
+    \item $p_{\text{same}} \in \{0.5,0.6,0.7,0.8,0.9\}$（$G=10$ 固定）
+\end{itemize}
+である．
 
-実行時間（図~\ref{fig:a1_time_all_methods}）では，
-$\lambda_{\text{baskets}}$ の増加に伴い全手法で時間が増加するが，
-Phase 1 は一貫して低い時間で推移した．
+表~\ref{tab:e2_g_sweep} より，従来法 GTSPR は
+$G=3$ の 0.827 から $G=50$ の 0.638 まで単調減少した．
+Basket-aware Apriori-Window は全条件で GTSPR=0 を維持した．
+また observed spurious も 24.8 から 3.0 に減少し，
+カテゴリ粒度が粗い条件で偽共起リスクが高いことが確認できる．
 
-GTSPR（図~\ref{fig:a1_gtspr_non_phase1}）は，
-Phase 1 が全条件で 0 であることを確認したため系列から除外した．
-実装上の検証でも，A1 の全 25 ケース（5 lambdas $\times$ 5 seeds）で
-Phase 1 の GTSPR=0 を確認した．
-
-多項目パターン数（図~\ref{fig:a1_multi_all_methods}）では，
-$\lambda_{\text{baskets}}$ の増加に応じて多くの手法で検出数が増加し，
-とくに全体支持度ベース手法群（Apriori/FP-Growth/Eclat/LCM）で増加幅が大きい．
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig/a1_time_all_methods.png}
-\caption{A1: 実行時間（seed平均，系列=全手法）}
-\label{fig:a1_time_all_methods}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig/a1_gtspr_non_phase1.png}
-\caption{A1: GTSPR（seed平均，系列=Phase 1 以外）}
-\label{fig:a1_gtspr_non_phase1}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig/a1_multi_all_methods.png}
-\caption{A1: 多項目パターン数（seed平均，系列=全手法）}
-\label{fig:a1_multi_all_methods}
-\end{figure}
-
-\subsection{A2: カテゴリ数増加による構造的偽共起の低下}
-\label{sec:exp_a2}
-
-表~\ref{tab:a2_summary} に A2 の平均結果を示す．
-カテゴリ数 $G$ を増やすと，同一カテゴリ内での偶発的共起が起こりにくくなるため，
-GT SPR は 0.827（$G=3$）から 0.638（$G=50$）へ低下した．
-observed spurious も 24.4 から 3.0 に減少し，
-偽共起がデータ構造に依存して変動することを確認できる．
+表~\ref{tab:e2_psame_sweep} より，従来法 GTSPR は
+$p_{\text{same}}=0.5$ の 0.827 から $0.9$ の 0.741 まで単調減少した．
+Basket-aware Apriori-Window は同様に全条件で 0 であった．
+observed spurious も 19.8 から 5.4 に減少した．
 
 \begin{table}[t]
-\caption{A2 結果（平均）}
-\label{tab:a2_summary}
+\caption{E2-G 結果（$p_{\text{same}}=0.8$, seed=5 平均）}
+\label{tab:e2_g_sweep}
 \centering
 \begin{tabular}{cccc}
 \toprule
-$G$ & GT SPR & Obs. Spur. & Trad./P1 Multi \\
+$G$ & Apriori-window GTSPR & Basket-aware Apriori-Window GTSPR & Obs. Spur. \\
 \midrule
-3  & 0.827 & 24.4 & 3.14 \\
-5  & 0.822 & 19.0 & 2.83 \\
-10 & 0.794 & 10.2 & 3.50 \\
-20 & 0.722 & 5.8  & 4.22 \\
-50 & 0.638 & 3.0  & 2.50 \\
+3  & 0.827 & 0.000 & 24.8 \\
+5  & 0.822 & 0.000 & 19.0 \\
+10 & 0.794 & 0.000 & 10.6 \\
+20 & 0.722 & 0.000 & 5.8 \\
+50 & 0.638 & 0.000 & 3.0 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{A4: スケーラビリティ}
-\label{sec:exp_a4}
-
-表~\ref{tab:a4_summary} に A4 の平均結果を示す．
-$10^3$ から $10^6$ トランザクションまで，Phase 1・従来法ともに計算時間は増加するが，
-従来法の増加率がより大きい．特に $10^6$ では，
-Phase 1 が 95.5 秒，従来法が 143.6 秒で，従来法は 1.50 倍遅い．
-
-以上より，提案法は偽共起抑制だけでなく，
-高密度・大規模条件での実行効率にも優位性を示した．
-
 \begin{table}[t]
-\caption{A4 結果（平均実行時間, ms）}
-\label{tab:a4_summary}
+\caption{E2-$p_{\text{same}}$ 結果（$G=10$, seed=5 平均）}
+\label{tab:e2_psame_sweep}
 \centering
 \begin{tabular}{cccc}
 \toprule
-$N_{\text{transactions}}$ & Phase 1 & Traditional & Trad./P1 \\
+$p_{\text{same}}$ & Apriori-window GTSPR & Basket-aware Apriori-Window GTSPR & Obs. Spur. \\
 \midrule
-$10^3$ & 10.41 & 11.76 & 1.13 \\
-$10^4$ & 139.34 & 158.50 & 1.14 \\
-$10^5$ & 2488.37 & 3137.22 & 1.26 \\
-$10^6$ & 95489.56 & 143625.49 & 1.50 \\
+0.5 & 0.827 & 0.000 & 19.8 \\
+0.6 & 0.822 & 0.000 & 17.2 \\
+0.7 & 0.814 & 0.000 & 15.2 \\
+0.8 & 0.794 & 0.000 & 10.6 \\
+0.9 & 0.741 & 0.000 & 5.4 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{E3: スケーラビリティ（$N_{\text{transactions}}$ sweep）}
+\label{sec:exp_e3}
+
+E3 では，$N_{\text{transactions}} \in \{10^3,10^4,10^5,10^6\}$ を sweep し，
+大規模条件での実行時間スケーリングを評価した（seed=3）．
+他パラメータは E1 と同一である．
+
+表~\ref{tab:e3_scalability} より，両手法の実行時間は $N$ とともに増加し，
+従来法/提案法の時間比（Trad./BAAW）も
+0.945，1.076，1.161，1.345 と単調増加した．
+最小規模（$10^3$）では差は小さいが，
+$10^4$ 以降は一貫して Basket-aware Apriori-Window が高速であり，
+$10^6$ では Basket-aware Apriori-Window が 108.5 秒，従来法が 145.9 秒（1.345 倍）であった．
+この結果は，規模拡大時に提案法の計算優位が増大することを示す．
+
+\begin{table}[t]
+\caption{E3 結果（実行時間, ms; seed=3 平均）}
+\label{tab:e3_scalability}
+\centering
+\begin{tabular}{cccc}
+\toprule
+$N_{\text{transactions}}$ & Basket-aware Apriori-Window & Traditional & Trad./BAAW \\
+\midrule
+$10^3$ & 15.2 & 14.3 & 0.945 \\
+$10^4$ & 177.7 & 191.2 & 1.076 \\
+$10^5$ & 2962.1 & 3435.0 & 1.161 \\
+$10^6$ & 108506.3 & 145851.9 & 1.345 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E4: 区間品質評価（$\lambda_{\text{baskets}}$ sweep）}
+\label{sec:exp_e4}
+
+E4 では，E1 と同一の $\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$（seed=5）で，
+検出された密集区間そのものの品質を評価した．
+具体的には，以下の 2 点を確認する．
+\begin{itemize}
+    \item 検出区間内で真の同一バスケット共起が占める割合（interval purity）
+    \item 各検出区間と対応 Ground Truth 区間の重なり（mean Jaccard）
+\end{itemize}
+加えて従来法について，
+同一 itemset に対して Basket-aware Apriori-Window 区間と重ならない区間の割合
+（spurious interval rate）と，
+非 spurious itemset 上での区間長増分（non-spurious expansion）を計測した．
+
+表~\ref{tab:e4_interval_quality} より，Basket-aware Apriori-Window は全 $\lambda$ で
+従来法より高 purity・高 Jaccard を示した．
+とくに mean Jaccard は全条件で 1.000 であり，
+Ground Truth 区間境界と一致することを確認した．
+一方，従来法の purity は $\lambda=1.0$ の 0.075 から
+$\lambda=5.0$ の 0.018 まで単調減少し，
+高密度条件ほど区間汚染が進むことが分かる．
+
+表~\ref{tab:e4_interval_artifacts} より，従来法の spurious interval rate は
+0.735--0.945 と高水準で推移し，
+$\lambda=5.0$ で最大となった．
+さらに non-spurious expansion は全条件で正であり，
+偽共起のみならず，真の共起区間に対しても境界が過剰に拡張される傾向を確認した．
+この結果は，E1 の集合レベル誤検出に加えて，
+時間区間レベルでも提案法の有効性があることを示す．
+
+\begin{table}[t]
+\caption{E4 結果（区間品質; seed=5 平均）}
+\label{tab:e4_interval_quality}
+\centering
+\scriptsize
+\begin{tabular}{ccccc}
+\toprule
+$\lambda$ & BAAW purity & Trad. purity & BAAW Jaccard & Trad. Jaccard \\
+\midrule
+1.0 & 0.096 & 0.075 & 1.000 & 0.098 \\
+1.5 & 0.096 & 0.061 & 1.000 & 0.045 \\
+2.0 & 0.095 & 0.054 & 1.000 & 0.097 \\
+3.0 & 0.096 & 0.043 & 1.000 & 0.141 \\
+5.0 & 0.102 & 0.018 & 1.000 & 0.035 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{E4 結果（従来法の区間汚染・膨張; seed=5 平均）}
+\label{tab:e4_interval_artifacts}
+\centering
+\scriptsize
+\begin{tabular}{cccc}
+\toprule
+$\lambda$ & Trad. spur. rate & Trad. expansion & Trad. exp.$>0$ ratio \\
+\midrule
+1.0 & 0.735 & 2064.7 & 1.000 \\
+1.5 & 0.834 & 6129.0 & 1.000 \\
+2.0 & 0.856 & 2543.5 & 0.778 \\
+3.0 & 0.803 & 1371.0 & 0.858 \\
+5.0 & 0.945 & 1755.7 & 0.734 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E6: 実データ検証（dunnhumby / onlineretail / chicago）}
+\label{sec:exp_e6}
+
+E6 では，合成データで観測した傾向の外的妥当性を確認するため，
+3 つの実データで比較を行った．
+入力は時刻付き生データから再構築したバスケット構造付き系列であり，
+集約幅はバスケット過密を抑えるように選定した
+（dunnhumby: 1h，onlineretail: 3h，chicago: 30m）．
+最終的なトランザクション数はそれぞれ 15,240 / 2,338 / 297,777 である．
+
+主比較（E6-1）は，各データセットで固定した baseline 設定
+（dunnhumby: $W=336,\theta=60,L=3$，
+onlineretail: $W=72,\theta=40,L=3$，
+chicago: $W=48,\theta=20,L=2$）で
+Basket-aware Apriori-Window（BAAW）と従来法（flatten）を比較した．
+結果を表~\ref{tab:e6_real_main} に示す．
+3 データセットすべてで Observed Spurious が正であり，
+従来法検出多項目パターン中に占める割合は
+0.742--0.992（平均 0.906）であった．
+特に onlineretail では 132,761 パターン中 131,702 が
+BAAW では検出されず，flatten による構造混入が支配的であることが確認できる．
+
+\begin{table}[t]
+\caption{E6-1 結果（実データ baseline 比較）}
+\label{tab:e6_real_main}
+\centering
+\scriptsize
+\begin{tabular}{lrrrrr}
+\toprule
+Dataset & BAAW multi & Trad. multi & Obs. Spur. & Spur. rate & Trad./BAAW time \\
+\midrule
+dunnhumby    & 37   & 2,418   & 2,383   & 0.986 & 1.012 \\
+onlineretail & 1,152 & 132,761 & 131,702 & 0.992 & 4.521 \\
+chicago      & 670  & 2,593   & 1,923   & 0.742 & 0.750 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+E6-2（感度分析）では，dataset ごとに小規模 sweep を行った．
+dunnhumby では $\theta$ を 60 から 50 に下げると
+Trad. 多項目パターン数が 2,418 から 5,463 に増加し，
+BAAW（37 $\rightarrow$ 60）より増分が大きかった．
+chicago でも $W=24 \rightarrow 96$（$\theta=20$）で
+BAAW 492 $\rightarrow$ 934 に対して Trad. 1,801 $\rightarrow$ 3,517 と，
+常に Trad. が高い件数を示した．
+onlineretail では $\theta=40$ で差分が最大（1,152 vs 132,761）となり，
+$\theta=60$ では双方ほぼ 0 に近づくため，偽共起の顕在化領域は
+閾値設定に依存することが分かる．
+
+E6-3（規模変化）では，30d/180d/365d/all の horizon で実行時間を比較した．
+全 dataset・全手法で runtime は horizon 拡大に対して単調増加し，
+特に onlineretail では Trad./BAAW 比が
+0.912（30d）$\rightarrow$ 2.839（180d）$\rightarrow$ 4.600（365d）へ増加した．
+一方，dunnhumby/chicago では本設定で Trad. が高速な領域も存在したが，
+表~\ref{tab:e6_real_main} の通り品質面では Trad. の偽共起混入率が高く，
+速度のみでは手法選択できないことを示す．

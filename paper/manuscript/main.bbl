@@ -36,16 +36,16 @@ R.~Agrawal, ``Fast algorithms for mining association rules,'' in
 J.~Han, J.~Pei, and Y.~Yin, ``Mining frequent patterns without candidate
   generation,'' \emph{ACM SIGMOD Record}, vol.~29, no.~2, pp. 1--12, 2000.
 
-\bibitem{zaki1997new}
-M.~J. Zaki, S.~Parthasarathy, M.~Ogihara, W.~Li \emph{et~al.}, ``New algorithms
-  for fast discovery of association rules,'' in \emph{Proceedings of the 3rd
-  International Conference on Knowledge Discovery and Data Mining}, vol.~97,
-  1997, pp. 283--286.
+\bibitem{zaki2000scalable}
+M.~J. Zaki, ``Scalable algorithms for association mining,'' \emph{IEEE
+  Transactions on Knowledge and Data Engineering}, vol.~12, no.~3, pp.
+  372--390, 2000.
 
-\bibitem{fournier2017survey}
-P.~Fournier-Viger, J.~C.-W. Lin, B.~Vo, T.~T. Chi, J.~Zhang, and H.~B. Le, ``A
-  survey of itemset mining,'' \emph{Wiley Interdisciplinary Reviews: Data
-  Mining and Knowledge Discovery}, vol.~7, no.~4, p. e1207, 2017.
+\bibitem{uno2004lcm}
+T.~Uno, T.~Asai, Y.~Uchida, and H.~Arimura, ``Lcm ver.2: Efficient mining
+  algorithms for frequent/closed/maximal itemsets,'' in \emph{Proceedings of
+  the IEEE ICDM Workshop on Frequent Itemset Mining Implementations (FIMI)},
+  2004, cEUR Workshop Proceedings, Vol. 126.
 
 \bibitem{tanbeer2009discovering}
 S.~K. Tanbeer, C.~F. Ahmed, B.-S. Jeong, and Y.-K. Lee, ``Discovering
@@ -65,9 +65,8 @@ A.~K. Mahanta, F.~A. Mazarbhuiya, and H.~K. Baruah, ``Finding locally and
   \emph{Proceedings of the 1st International Conference on Pattern Recognition
   and Machine Intelligence}, 2005, pp. 576--582.
 
-\bibitem{fournier2021mining}
+\bibitem{fournier2020local}
 P.~Fournier-Viger, P.~Yang, R.~U. Kiran, S.~Ventura, and J.~M. Luna, ``Mining
-  local periodic patterns in a discrete sequence,'' \emph{Information
-  Sciences}, vol. 544, pp. 519--548, 2021.
+  local periodic patterns in a discrete sequence,'' 2020, preprint.
 
 \end{thebibliography}

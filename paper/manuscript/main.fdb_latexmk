@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1772505999.88383 "main.aux" "main.bbl" "main" 1772506010.39755 0
+["bibtex main"] 1772638202.76072 "main.aux" "main.bbl" "main" 1772638213.65997 0
   "./IEEEtran.bst" 1772417494.67122 59215 bc5380b3434a66b895bbc75d3d380540 ""
-  "./refs.bib" 1772417775.52998 4657 785441c5c125280eaf7561e093e1dda1 ""
-  "main.aux" 1772506001.00416 10952 fe0c5b0fc113a4f6ef6ea6c251af4a94 "xelatex"
+  "./refs.bib" 1772635389.88036 5531 c8fa00e80fbc9c5f0f7502564700486c ""
+  "main.aux" 1772638203.97257 10818 cbcb2f939bb9c14fd66631da63b4e1a3 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1772506001.30177 "main.xdv" "main.pdf" "main" 1772506010.3986 0
-  "main.xdv" 1772506001.00518 279732 1ce5e5aa8bb59254bfee3a2facff9cfe "xelatex"
+["xdvipdfmx"] 1772638204.33503 "main.xdv" "main.pdf" "main" 1772638213.66118 0
+  "main.xdv" 1772638203.97399 307432 9e6ef21e540b2547d4c3e612a0b0f4a9 "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1772506000.01729 "main.tex" "main.xdv" "main" 1772506010.39764 0
+["xelatex"] 1772638202.91742 "main.tex" "main.xdv" "main" 1772638213.66009 0
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -87,16 +87,16 @@
   "fig/conventional_vs_phase1.png" 1772432960.73771 1284918 2e442052347eaa6de45dc97989de397b ""
   "fig/example_table.png" 1772432954.47852 1634262 3cbb47812be963bff75baf003b98add5 ""
   "fig/motivating_example.png" 1772433036.06392 1353258 3bc9f2e79cf759a3323f060d5c0706fe ""
-  "main.aux" 1772506001.00416 10952 fe0c5b0fc113a4f6ef6ea6c251af4a94 "xelatex"
-  "main.bbl" 1772506000.015 3123 7105a88891269633bf1b3faa5aa91337 "bibtex main"
-  "main.tex" 1772455954.28818 4048 bf833bfb18c9f49ef348249639636313 ""
-  "sec/01_intro.tex" 1772455029.39674 3669 d8a62ecf38cd5f64cef38491b42560b5 ""
-  "sec/02_related_work.tex" 1772456365.77711 4230 a58c7c68b9c1140579411739c5dfb335 ""
-  "sec/03_problem_definition.tex" 1772433953.56095 10722 ebe06c500964a89adafaaad6ace37b0f ""
-  "sec/04_proposed_method.tex" 1772433562.94754 11141 56acafe898c4bed677471fcf0f8714c0 ""
-  "sec/05_experiments.tex" 1772505956.16831 6064 3e57a7344bc5a176ef8ba88c28b0ba80 ""
-  "sec/06_conclusion.tex" 1772455847.94741 1107 d54f317b6c3a4386e05fcbfcb1dcdc18 ""
-  "sec/07_supplement.tex" 1772505989.27074 5137 4080ace3932bceb735635fb283f128e8 ""
+  "main.aux" 1772638203.97257 10818 cbcb2f939bb9c14fd66631da63b4e1a3 "xelatex"
+  "main.bbl" 1772638202.91463 3032 5e00c1bcce8a6e7269f10f4df78789cc "bibtex main"
+  "main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
+  "sec/01_intro.tex" 1772638163.99395 4365 c761f3319b1339a889e3860b2e5aa667 ""
+  "sec/02_related_work.tex" 1772638133.55866 4226 7d3abfa6ab3bb1aa5f526ca3cf4ec859 ""
+  "sec/03_problem_definition.tex" 1772638133.56112 10709 21c8f920ffbdd24617a1bea4731e9018 ""
+  "sec/04_proposed_method.tex" 1772638133.56261 11102 1e51fc130a2dfa4cd79d11b3e76a5838 ""
+  "sec/05_experiments.tex" 1772638174.74457 9728 8253b63f18f09a0bffa824c584518820 ""
+  "sec/06_conclusion.tex" 1772638168.03797 1825 ec56d824f9faaf0bc01e692d6d0eaadd ""
+  "sec/07_supplement.tex" 1772638183.88738 4637 59a2df3ab17da16a7c102efb69581cd3 ""
   (generated)
   "main.aux"
   "main.log"
