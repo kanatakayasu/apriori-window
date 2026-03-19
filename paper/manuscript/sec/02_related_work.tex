@@ -1,76 +1,64 @@
-\section{関連研究}
-\label{sec:related_works}
+% ==============================================================
+\section{関連研究}\label{sec:related}
+% ==============================================================
 
-\subsection{DSAA2025 前手法}
-\label{sec:related_pre_dsaa}
+\subsection{頻出パターンマイニング}
 
-密集パターン抽出は，区間候補が概ね $O(n^2)$，
-さらに各区間内のパターン空間が $2^{|\mathcal{I}|}$ となるため，
-潜在探索空間が非常に大きい．
-この難しさに対し，既存研究の多くは問題を縮退させる形で実用化してきた．
-典型的には，(i) 全体支持度への還元，
-(ii) gap 制約・周期制約への置換，
-(iii) closed/maximal など列挙対象の圧縮である．
+頻出パターンマイニングは，トランザクションデータの一定割合以上に出現するアイテムセットを発見する技術である．
+Apriori~\cite{agrawal1994fast}は反単調性に基づく候補生成・枝刈りフレームワークを確立した．
+FP-Growth~\cite{han2000mining}はFP-treeにより候補生成を回避し高速化を実現した．
+ECLAT~\cite{zaki2000scalable}は縦型（tidset）表現と集合積により効率的なサポート計算を行う．
+LCM~\cite{uno2004lcm}は頻出・閉・極大アイテムセットの最適列挙を達成した．
+これらの手法はグローバル頻度を対象とし，時間的な変動をモデル化しない．
 
-\subsubsection{Apriori}
-Apriori は反単調性に基づく候補生成・枝刈りを用いる古典的手法であり，
-頻出パターンマイニングの基盤を与えた~\cite{agrawal1994fast}．
-ただし評価対象はデータ全体のグローバル支持度であり，
-局所密集区間やバスケット境界は直接扱わない．
+\subsection{時間的・局所的パターンマイニング}
 
-\subsubsection{FP-Growth}
-FP-Growth は FP-tree により候補生成を回避し，高速に頻出パターンを列挙する~\cite{han2000mining}．
-大規模データで有効だが，基本設定はグローバル頻度問題であり，
-局所密集区間の直接抽出は目的外である．
+頻出パターンの時間的側面を扱う拡張研究がいくつか存在する．
+LPFIM~\cite{mahanta2005finding}は時間区間内の局所頻出集合を対象とするが，
+gap ベースの閾値に依存する．
+PFPM~\cite{tanbeer2009discovering}およびPPFPM~\cite{kiran2017discovering}は
+周期性制約を導入した．
+LPPM~\cite{fournier2021mining}は局所性と周期性の基準を統合する．
+Apriori-window~\cite{dsaa2025}は固定幅スライディングウィンドウ上で
+局所サポートを直接評価し，gapパラメータに依存しない密集パターン抽出を実現した．
 
-\subsubsection{ECLAT}
-ECLAT は縦型表現（tidset）と集合積により支持度計算を行う~\cite{zaki2000scalable}．
-効率的な探索が可能だが，単位は「1トランザクション=1アイテム集合」であり，
-バスケット粒度の共起定義とは一致しない．
+これらの手法はいずれもパターンが\emph{いつ}頻出であるかを検出するが，
+頻度が変動する\emph{原因}はモデル化しない．
+本研究はこれらを補完し，検出されたサポート変動を外部イベントに帰属させる．
 
-\subsubsection{LCM}
-LCM 系は頻出・極大・閉パターン列挙で高効率を示す探索系統である~\cite{uno2004lcm}．
-一方で，列挙対象を圧縮する方向の最適化が中心であり，
-局所密集区間そのものを主目的にはしない．
+\subsection{変化点検出}
 
-\subsubsection{PFPM}
-PFPM は periodic frequent pattern を対象とし，
-出現間隔の周期性制約を導入する~\cite{tanbeer2009discovering}．
-ただし，最大ギャップ等の周期パラメータに結果が左右されやすく，
-密集定義を gap/periodicity に置き換える縮退型の枠組みに属する．
+変化点検出は時系列データの構造変化を同定する技術である．
+CUSUMアルゴリズム~\cite{page1954continuous}は逐次過程の平均シフトを検出する．
+包括的なサーベイ~\cite{aminikhanghahi2017survey,truong2020selective}が
+パラメトリック・ノンパラメトリック・オンライン手法を網羅している．
+これらの手法は個別時系列に適用されるが，
+数千のパターンサポート時系列を同時分析する多重検定の負荷には対応せず，
+検出された変化をイベントに結びつける機能も持たない．
 
-\subsubsection{PPFPM (GPF-growth)}
-PPFPM は partial periodicity を導入し，PFPM より柔軟に周期性を評価する~\cite{kiran2017discovering}．
-しかし評価軸は周期的出現であり，局所密集区間の厳密抽出とは目的が異なる．
+\subsection{イベント帰属と因果推論}
 
-\subsubsection{LPFIM}
-LPFIM は局所頻出パターンを区間単位で扱う初期研究である~\cite{mahanta2005finding}．
-一方で区間抽出は gap 系しきい値に依存し，パラメータ感度が残る．
+計量経済学のイベント・スタディ法~\cite{mackinlay1997event}は，
+企業イベント（合併，決算発表等）の株価への影響を
+異常リターン分析により定量化する．
+分散システムにおけるroot cause analysis~\cite{chen2004pinpoint,jeyakumar2019explainit}は，
+異常を特定のコンポーネントや設定変更に帰属させる．
+Granger因果~\cite{granger1969investigating}とその拡張は，
+ある時系列が別の時系列の予測に寄与するか否かを検定する．
 
-\subsubsection{LPPM}
-LPPM は local periodic pattern と区間検出を扱う実用的手法である~\cite{fournier2020local}．
-ただし周期パラメータ（maxPer/maxSoPer/minDur）依存が強く，
-ウィンドウ支持度による厳密密集定義とは異なる．
+これらのアプローチは典型的には単一または少数のアウトカム変数を分析する．
+対照的に，本研究の設定では数千のパターンサポート時系列を複数のイベントに対して
+同時に検定する必要があり，偽発見率を制御するための多重検定補正が不可欠である．
 
-\subsection{DSAA2025 Apriori-window}
-\label{sec:related_dsaa2025}
+\subsection{置換検定と多重検定補正}
 
-上記の縮退方向に対し，DSAA2025 の Apriori-window は，
-固定幅スライディングウィンドウ上で局所 support を直接評価し，
-密集パターンを厳密に抽出する枠組みを与えた~\cite{dsaa2025}．
-すなわち，gap/periodicity に問題を置き換えずに，
-局所密集そのものを一次問題として扱った点に意義がある．
+置換検定~\cite{good2005permutation}は，
+データの並べ替えから帰無分布を構築する分布自由な有意性検定法である．
+複数仮説の同時検定においては，
+Bonferroni補正~\cite{dunn1961multiple}が族単位誤り率（FWER）を制御するが保守的であり，
+Benjamini--Hochberg (BH) 手続き~\cite{benjamini1995controlling}が
+偽発見率（FDR）を制御しつつより高い検出力を提供する．
 
-ただし Apriori-window は入力を「1トランザクション=1アイテム集合」と仮定するため，
-同一トランザクション内に複数の独立バスケットが存在する状況では，
-バスケット横断の誤共起（偽共起）を抑制できない．
-この点が，本研究が解くべき未解決課題である．
-
-\subsection{本研究の位置づけ}
-\label{sec:related_positioning}
-
-本研究は，Apriori-window の核である「局所密集の厳密抽出」を維持しながら，
-前手法群でも Apriori-window でも十分に扱えなかった
-バスケット構造由来の偽共起問題を対象化する．
-具体的には，共起判定をトランザクション内からバスケット内へ拡張し，
-DSAA2025 枠組みの上位互換として実運用データへの適用可能性を高める立場をとる．
+本パイプラインは，円形シフト置換検定~\cite{davison1997bootstrap}と
+全パターン・全イベントにわたるグローバルBH補正を組み合わせ，
+分布自由な検定と適切な多重検定制御を両立させる．

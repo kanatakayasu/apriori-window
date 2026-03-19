@@ -1,308 +1,483 @@
-\section{実験結果と考察}
-\label{sec:experiments}
+% ==============================================================
+\section{実験}\label{sec:experiments}
+% ==============================================================
 
-\subsection{データ生成方法と実験プロトコル}
-\label{sec:exp_method}
+\subsection{実験設計}
 
-本研究では，バスケット構造を持つ合成トランザクションデータを生成し，
-提案手法と従来 Apriori-window（flatten）を同一条件で評価した．
-トランザクション $t$ のバスケット数 $N_t$ と，バスケット $b$ のアイテム数 $K_{t,b}$ は
-次で与える．
-\[
-N_t = \max\{1, \mathrm{Poisson}(\lambda_{\text{baskets}})\},
-\]
-\[
-K_{t,b} = \max\{1, \mathrm{Poisson}(\lambda_{\text{basket-size}})\}.
-\]
-アイテムはカテゴリ集合
-\[
-C_g = \{\,i \mid i \bmod G = g\,\}
-\]
-で分割し，各バスケットでは主カテゴリを一様選択した後，
-確率 $p_{\text{same}}$ で同カテゴリ，確率 $1-p_{\text{same}}$ で全体集合から
-Zipf 重み $w_i \propto (i+1)^{-\alpha_{\text{zipf}}}$ に従って抽出する．
+\subsubsection{合成データ生成}
 
-評価指標は，E0 では $(P,\text{window-start})$ 単位の FP/FN，
-E1/E2 では偽共起率（GTSPR），
-E3 では実行時間と Trad./BAAW 比（従来法時間 / Basket-aware Apriori-Window 時間），
-E4 では区間 purity，GT 区間との mean Jaccard，
-従来法の spurious interval rate，および non-spurious expansion である．
-E2 では補助指標として observed spurious（従来法のみが検出した多項目パターン数）も報告する．
-E1/E2/E4 は seed=5，E3 は seed=3 を用い，表では seed 平均を報告する．
-詳細な固定パラメータと sweep 設定は補遺（Sec.~\ref{sec:supp_exp_conditions}）に示す．
+ベース語彙200アイテム（各アイテムの出現確率 $p_{\text{base}} = 0.03$），
+$N = 5{,}000$ トランザクションの合成データを生成する．
+外部イベントの効果は\emph{植え込み信号}としてモデル化する:
+語彙外アイテム（ID $\geq 1001$）のペアを用い，
+イベント活性期間中に確率 $\beta$（ブースト係数）で全パターンアイテムを
+同時にトランザクションに挿入する．
+イベントに無関係な\emph{デコイイベント}も配置し，
+偽陽性に対する頑健性を評価する．
+正解（Ground Truth）は（植え込みパターン, イベントID）の組として定義する．
 
-\subsection{E0: 実装厳密性の検証（Oracle 一致）}
-\label{sec:exp_e0}
+\subsubsection{評価指標}
 
-E0 の目的は，Basket-aware Apriori-Window 実装が定義どおりに動作していることを，
-総当たり Oracle との一致で確認することである．
-具体的には，小規模合成データ上で
-\begin{itemize}
-    \item 全アイテム集合候補（$|P| \le L$）と全ウィンドウ開始位置を総当たりで評価した Oracle 出力
-    \item Basket-aware Apriori-Window の出力
-\end{itemize}
-を比較し，$(P,\text{window-start})$ 単位で FP/FN を計測した．
+予測パターンとGTパターンの\emph{厳密一致}に基づく
+Precision，Recall，F1を用いる．
 
-実験は 34 ケース（パラメータ組合せ）で実施し，結果は全ケースで
-FP=0, FN=0 であった（表~\ref{tab:e0_summary}）．
-この結果は，後続比較（E1）の前提として，実装バグによる過検出・見落としが
-観測されなかったことを示す．
+\subsubsection{デフォルト設定}
+
+表~\ref{tab:default_params}にデフォルトパラメータを示す．
 
 \begin{table}[t]
-\caption{E0 結果（Oracle 一致）}
-\label{tab:e0_summary}
+\caption{デフォルトパラメータ}
+\label{tab:default_params}
 \centering
-\begin{tabular}{lc}
+\begin{tabular}{ll}
 \toprule
-項目 & 値 \\
+パラメータ & 値 \\
 \midrule
-評価ケース数 & 34 \\
-PASS ケース数 & 34 \\
-FAIL ケース数 & 0 \\
-合計 FP & 0 \\
-合計 FN & 0 \\
+ウィンドウサイズ $W$ & 50 \\
+最小サポート $\theta$ & 3 \\
+最大パターン長 $L$ & 2 \\
+変化点検出法 & 閾値交差 \\
+$\sigma$ & $W$ (= 50) \\
+置換回数 $B$ & 5{,}000 \\
+有意水準 $\alpha$ & 0.20 \\
+補正方法 & BH \\
+最小サポート振幅 $\delta$ & 5 \\
+重複排除 & 有効 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E1: $\lambda_{\text{baskets}}$ sweep による偽共起拡大}
+\subsubsection{パイプライン動作例}
+
+図~\ref{fig:pipeline_example}に，合成データ上でのパイプライン動作例を示す．
+パターン$(1001,1002)$のサポート時系列は，
+植え込みイベント E1（Sale）の活性期間で明確なレベルシフトを示す．
+閾値交差法により検出された変化点（破線）がイベント境界と一致し，
+置換検定により有意な帰属（$p_{\mathrm{adj}} = 0.11 < \alpha$）が得られる．
+一方，デコイイベント（D1, D2）の期間にはサポート変動がなく，
+偽陽性が生じないことが視覚的に確認できる．
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig/pipeline_example.pdf}
+\caption{パイプラインの動作例（合成データ，パターン$(1001,1002)$）．
+サポート時系列と変化点（破線）．
+陰影: 植え込みイベント（青）とデコイ（灰）．}
+\label{fig:pipeline_example}
+\end{figure}
+
+% ------------------------------------------------------------------
+\subsection{E1: 正解回復能力}
 \label{sec:exp_e1}
 
-E1 では，$\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$ を sweep し，
-偽共起の拡大傾向を評価した（seed=5）．
-比較対象は Basket-aware Apriori-Window と従来 Apriori-window（flatten）である．
+\subsubsection{E1a: クリーン信号}
 
-まず予備確認として，従来法の GTSPR が $\lambda_{\text{baskets}}$ の増加とともに
-単調増加し，Basket-aware Apriori-Window が全条件で 0 を維持することを確認した
-（表~\ref{tab:prelim_gtspr}）．
-従来法は 0.454 から 0.971 まで増加し，バスケット密度の上昇に伴って
-偽共起が支配的になることがわかる．
+$\beta = 0.5$，植え込み3件（間隔800--1200, 2000--2400, 3200--3600），
+デコイ2件の条件で5 seed実行した（表~\ref{tab:e1a}）．
 
 \begin{table}[t]
-\caption{E1 予備結果: GTSPR（seed=5 平均）}
-\label{tab:prelim_gtspr}
+\caption{E1a 結果（$\beta=0.5$, 植え込み3, デコイ2, $N=5{,}000$）}
+\label{tab:e1a}
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+seed & TP & FP & FN & Precision & Recall & F1 \\
+\midrule
+0 & 3 & 0 & 0 & 1.00 & 1.00 & 1.00 \\
+1 & 3 & 0 & 0 & 1.00 & 1.00 & 1.00 \\
+2 & 3 & 0 & 0 & 1.00 & 1.00 & 1.00 \\
+3 & 3 & 0 & 0 & 1.00 & 1.00 & 1.00 \\
+4 & 3 & 0 & 0 & 1.00 & 1.00 & 1.00 \\
+\midrule
+\textbf{平均} & \textbf{3.0} & \textbf{0.0} & \textbf{0.0} & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+全5 seedでFP=0, FN=0の完全検出を達成した．
+
+\subsubsection{E1b: ブースト感度}
+
+ブースト係数 $\beta \in \{0.1, 0.2, 0.3, 0.5, 0.8\}$ を変化させた結果を
+表~\ref{tab:e1b}に示す．
+
+\begin{table}[t]
+\caption{E1b 結果（ブースト感度，5 seeds/boost）}
+\label{tab:e1b}
+\centering
+\begin{tabular}{cccc}
+\toprule
+$\beta$ & Precision & Recall & F1 \\
+\midrule
+0.1 & 1.00 & 1.00 & 1.00 \\
+0.2 & 1.00 & 1.00 & 1.00 \\
+0.3 & 1.00 & 1.00 & 1.00 \\
+0.5 & 1.00 & 1.00 & 1.00 \\
+0.8 & 1.00 & 1.00 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{全ブーストレベルでF1 = 1.0}を達成した．
+アイテム重複排除により副次パターンが完全に除去され，
+信号強度に依存しない安定した検出が実現されている．
+
+\subsubsection{E1c: 重複イベント}
+
+イベント時間窓が重複する条件（E1: 1000--1500, E2: 1200--1700, デコイD1: 1100--1600）で
+評価した（表~\ref{tab:e1c}）．
+
+\begin{table}[t]
+\caption{E1c 結果（重複イベント，5 seeds）}
+\label{tab:e1c}
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+seed & TP & FP & FN & Precision & Recall & F1 \\
+\midrule
+0--4 & 3 & 1 & 0 & 0.75 & 1.00 & 0.86 \\
+\midrule
+\textbf{平均} & \textbf{3.0} & \textbf{1.0} & \textbf{0.0} & \textbf{0.75} & \textbf{1.00} & \textbf{0.86} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+全seedで一貫してFP=1．
+この唯一のFPは $(1003, 1004) \rightarrow \text{Decoy\_1}$ であり，
+デコイの時間窓（1100--1600）が植え込みイベント（1200--1700）と重複するため，
+パイプラインが時間的関連を正しく検出した結果である．
+GT定義上はFPだが，統計的には正当な検出である．
+
+\subsubsection{E1d: 植え込み数×デコイ数}
+
+植え込み数 $\{1, 3, 5\}$ とデコイ数 $\{0, 5, 10\}$ の組合せを評価した
+（表~\ref{tab:e1d}）．
+
+\begin{table}[t]
+\caption{E1d 結果（植え込み数 $\times$ デコイ数，3 seeds平均）}
+\label{tab:e1d}
 \centering
 \begin{tabular}{ccc}
 \toprule
-$\lambda_{\text{baskets}}$ & Apriori-window (flatten) GTSPR & Basket-aware Apriori-Window GTSPR \\
+planted & decoy & F1 \\
 \midrule
-1.0 & 0.454 & 0.000 \\
-1.5 & 0.676 & 0.000 \\
-2.0 & 0.794 & 0.000 \\
-3.0 & 0.906 & 0.000 \\
-5.0 & 0.971 & 0.000 \\
+1 & 0 & 1.00 \\
+1 & 5 & 1.00 \\
+1 & 10 & 0.83 \\
+3 & 0 & 1.00 \\
+3 & 5 & 0.76 \\
+3 & 10 & 0.54 \\
+5 & 0 & 1.00 \\
+5 & 5 & 0.68 \\
+5 & 10 & 0.51 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E2: 構造感度（$G$ / $p_{\text{same}}$ sweep）}
+デコイ0では植え込み数に依存せずF1 = 1.0を達成する．
+デコイ数増加時のF1低下は，ランダム配置されたデコイが植え込みイベントの
+時間窓と偶然重複することによるFP（E1cと同一メカニズム）が原因である．
+
+% ------------------------------------------------------------------
+\subsection{E2: パラメータ感度}
 \label{sec:exp_e2}
 
-E2 では，データ構造に対する偽共起感度を確認するため，
-2 種類の sweep を実施した（seed=5）．
-すなわち，
-\begin{itemize}
-    \item $G \in \{3,5,10,20,50\}$（$p_{\text{same}}=0.8$ 固定）
-    \item $p_{\text{same}} \in \{0.5,0.6,0.7,0.8,0.9\}$（$G=10$ 固定）
-\end{itemize}
-である．
+\subsubsection{ウィンドウサイズ}
 
-表~\ref{tab:e2_g_sweep} より，従来法 GTSPR は
-$G=3$ の 0.827 から $G=50$ の 0.638 まで単調減少した．
-Basket-aware Apriori-Window は全条件で GTSPR=0 を維持した．
-また observed spurious も 24.8 から 3.0 に減少し，
-カテゴリ粒度が粗い条件で偽共起リスクが高いことが確認できる．
-
-表~\ref{tab:e2_psame_sweep} より，従来法 GTSPR は
-$p_{\text{same}}=0.5$ の 0.827 から $0.9$ の 0.741 まで単調減少した．
-Basket-aware Apriori-Window は同様に全条件で 0 であった．
-observed spurious も 19.8 から 5.4 に減少した．
+$W \in \{10, 20, 50, 100, 200\}$ の感度を評価した（表~\ref{tab:e2_ws}）．
 
 \begin{table}[t]
-\caption{E2-G 結果（$p_{\text{same}}=0.8$, seed=5 平均）}
-\label{tab:e2_g_sweep}
+\caption{E2 結果: ウィンドウサイズ感度（3 seeds平均）}
+\label{tab:e2_ws}
 \centering
 \begin{tabular}{cccc}
 \toprule
-$G$ & Apriori-window GTSPR & Basket-aware Apriori-Window GTSPR & Obs. Spur. \\
+$W$ & Precision & Recall & F1 \\
 \midrule
-3  & 0.827 & 0.000 & 24.8 \\
-5  & 0.822 & 0.000 & 19.0 \\
-10 & 0.794 & 0.000 & 10.6 \\
-20 & 0.722 & 0.000 & 5.8 \\
-50 & 0.638 & 0.000 & 3.0 \\
+10 & 1.00 & 1.00 & 1.00 \\
+20 & 1.00 & 1.00 & 1.00 \\
+50 & 1.00 & 1.00 & 1.00 \\
+100 & 0.80 & 0.89 & 0.83 \\
+200 & 0.00 & 0.00 & 0.00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+$W = 10$--$50$ でF1 = 1.0を維持し，広いパラメータ範囲で頑健である．
+$W = 200$ では変化点が平滑化され検出不能となる．
+
+\subsubsection{近接度パラメータ $\sigma$}
+
+$\sigma \in \{5, 10, 25, 50, 100, 200\}$ の感度を評価した．
+\textbf{全$\sigma$値でF1 = 1.0}を達成した．
+重複排除の導入により，$\sigma$の選択が性能に影響しなくなった．
+
+\subsubsection{置換回数}
+
+$B \in \{50, 100, 200, 500, 1{,}000\}$ の感度を評価した．
+\textbf{全値でF1 = 1.0}を達成した．$B = 50$でも十分な精度が得られ，
+重複排除がパターン選択の主力となっていることを示す．
+
+\subsubsection{有意水準 $\alpha$}
+
+$\alpha \in \{0.001, 0.01, 0.05, 0.10, 0.20\}$ の感度を評価した
+（表~\ref{tab:e2_alpha}）．
+
 \begin{table}[t]
-\caption{E2-$p_{\text{same}}$ 結果（$G=10$, seed=5 平均）}
-\label{tab:e2_psame_sweep}
+\caption{E2 結果: 有意水準感度（3 seeds平均）}
+\label{tab:e2_alpha}
 \centering
 \begin{tabular}{cccc}
 \toprule
-$p_{\text{same}}$ & Apriori-window GTSPR & Basket-aware Apriori-Window GTSPR & Obs. Spur. \\
+$\alpha$ & Precision & Recall & F1 \\
 \midrule
-0.5 & 0.827 & 0.000 & 19.8 \\
-0.6 & 0.822 & 0.000 & 17.2 \\
-0.7 & 0.814 & 0.000 & 15.2 \\
-0.8 & 0.794 & 0.000 & 10.6 \\
-0.9 & 0.741 & 0.000 & 5.4 \\
+0.001 & 0.00 & 0.00 & 0.00 \\
+0.01 & 0.00 & 0.00 & 0.00 \\
+0.05 & 0.00 & 0.00 & 0.00 \\
+0.10 & 0.67 & 0.67 & 0.67 \\
+0.20 & 1.00 & 1.00 & 1.00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E3: スケーラビリティ（$N_{\text{transactions}}$ sweep）}
+$\alpha \geq 0.10$ が安定した検出に必要である．
+BH補正後の調整済み$p$値が0.05--0.12程度のため，
+厳格な$\alpha$では正当な帰属が棄却される．
+
+\paragraph{$p$値分布の分析}
+
+$\alpha = 0.20$ が必要となる機構を明らかにするため，
+E1a (seed=0) で全仮説の$p$値を$\alpha=1.0$（無閾値）で収集した
+（図~\ref{fig:pvalue_dist}）．
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/pvalue_distribution.pdf}
+\caption{%
+  $p$値分布の変化．
+  (a) 未補正$p$値: 真陽性（TP）3件の$p$値は0.020--0.024で，
+  $\alpha=0.05$を十分に下回る．
+  (b) BH補正後: $M=23$仮説に対する多重検定補正により，
+  TP の調整済み$p$値は0.114に膨張し$\alpha=0.05$を超過する．
+  $\alpha=0.20$（緑線）で初めてTPが検出可能となる．
+}
+\label{fig:pvalue_dist}
+\end{figure}
+
+サポート振幅フィルタ（$\delta = 5$）により310パターンから31パターンに
+削減された後も，31パターン$\times$最大5イベントの組合せから
+$M = 23$仮説が生成される．
+3件のTPの未補正$p$値は0.020--0.024と十分に小さいが，
+BH手続きの補正係数 $M/\text{rank}$ が最上位仮説で $23/1 = 23.0$ となり，
+調整済み$p$値は約0.114に膨張する（4.7倍）．
+この膨張は本手法に固有の構造的要因による:
+パターン列挙が網羅的であるため，
+植え込みアイテムを1つ含む副次パターン（例: $(155, 1001)$）も
+仮説に含まれ，$M$が真の帰属数を大幅に超過する．
+
+$\alpha = 0.20$ の妥当性は以下の3点から裏付けられる:
+\begin{enumerate}
+\item BH手続きはFWER（族制御誤り率）ではなく\textbf{FDR（偽発見率）を制御}するため，
+  $\alpha = 0.20$ は「棄却された仮説のうち偽発見が20\%以下」を保証する．
+  パイプラインの後段にアイテム重複排除があるため，
+  実効的なFDRはこれより遥かに低い．
+\item サポート振幅フィルタが$M$を310$\rightarrow$23に\textbf{90\%以上削減}しており，
+  フィルタなしの場合（$M > 100$）に比べBH補正の検出力を大幅に維持している．
+\item アイテム重複排除が\textbf{第2段階のフィルタ}として機能し，
+  副次パターンの偽陽性を完全に除去する（表~\ref{tab:ablation}参照）．
+\end{enumerate}
+
+\subsubsection{変化点検出法}
+
+閾値交差法とCUSUMを比較した結果，
+閾値交差法がF1 = 1.0，CUSUMがF1 = 0.60であった．
+CUSUMは累積和ベースのためランダムな変動にも反応しやすく，
+閾値交差法が明確に優位である．
+
+% ------------------------------------------------------------------
+\subsection{E3: スケーラビリティ}
 \label{sec:exp_e3}
 
-E3 では，$N_{\text{transactions}} \in \{10^3,10^4,10^5,10^6\}$ を sweep し，
-大規模条件での実行時間スケーリングを評価した（seed=3）．
-他パラメータは E1 と同一である．
+\subsubsection{データサイズ}
 
-表~\ref{tab:e3_scalability} より，両手法の実行時間は $N$ とともに増加し，
-従来法/提案法の時間比（Trad./BAAW）も
-0.945，1.076，1.161，1.345 と単調増加した．
-最小規模（$10^3$）では差は小さいが，
-$10^4$ 以降は一貫して Basket-aware Apriori-Window が高速であり，
-$10^6$ では Basket-aware Apriori-Window が 108.5 秒，従来法が 145.9 秒（1.345 倍）であった．
-この結果は，規模拡大時に提案法の計算優位が増大することを示す．
+$N \in \{1{,}000, 2{,}000, 5{,}000, 10{,}000, 20{,}000\}$ で
+実行時間を計測した（表~\ref{tab:e3_n}）．
 
 \begin{table}[t]
-\caption{E3 結果（実行時間, ms; seed=3 平均）}
-\label{tab:e3_scalability}
+\caption{E3 結果: データサイズ vs 実行時間}
+\label{tab:e3_n}
 \centering
-\begin{tabular}{cccc}
-\toprule
-$N_{\text{transactions}}$ & Basket-aware Apriori-Window & Traditional & Trad./BAAW \\
-\midrule
-$10^3$ & 15.2 & 14.3 & 0.945 \\
-$10^4$ & 177.7 & 191.2 & 1.076 \\
-$10^5$ & 2962.1 & 3435.0 & 1.161 \\
-$10^6$ & 108506.3 & 145851.9 & 1.345 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{E4: 区間品質評価（$\lambda_{\text{baskets}}$ sweep）}
-\label{sec:exp_e4}
-
-E4 では，E1 と同一の $\lambda_{\text{baskets}} \in \{1.0,1.5,2.0,3.0,5.0\}$（seed=5）で，
-検出された密集区間そのものの品質を評価した．
-具体的には，以下の 2 点を確認する．
-\begin{itemize}
-    \item 検出区間内で真の同一バスケット共起が占める割合（interval purity）
-    \item 各検出区間と対応 Ground Truth 区間の重なり（mean Jaccard）
-\end{itemize}
-加えて従来法について，
-同一 itemset に対して Basket-aware Apriori-Window 区間と重ならない区間の割合
-（spurious interval rate）と，
-非 spurious itemset 上での区間長増分（non-spurious expansion）を計測した．
-
-表~\ref{tab:e4_interval_quality} より，Basket-aware Apriori-Window は全 $\lambda$ で
-従来法より高 purity・高 Jaccard を示した．
-とくに mean Jaccard は全条件で 1.000 であり，
-Ground Truth 区間境界と一致することを確認した．
-一方，従来法の purity は $\lambda=1.0$ の 0.075 から
-$\lambda=5.0$ の 0.018 まで単調減少し，
-高密度条件ほど区間汚染が進むことが分かる．
-
-表~\ref{tab:e4_interval_artifacts} より，従来法の spurious interval rate は
-0.735--0.945 と高水準で推移し，
-$\lambda=5.0$ で最大となった．
-さらに non-spurious expansion は全条件で正であり，
-偽共起のみならず，真の共起区間に対しても境界が過剰に拡張される傾向を確認した．
-この結果は，E1 の集合レベル誤検出に加えて，
-時間区間レベルでも提案法の有効性があることを示す．
-
-\begin{table}[t]
-\caption{E4 結果（区間品質; seed=5 平均）}
-\label{tab:e4_interval_quality}
-\centering
-\scriptsize
 \begin{tabular}{ccccc}
 \toprule
-$\lambda$ & BAAW purity & Trad. purity & BAAW Jaccard & Trad. Jaccard \\
+$N$ & Phase1 & Support & Attribution & Total (ms) \\
 \midrule
-1.0 & 0.096 & 0.075 & 1.000 & 0.098 \\
-1.5 & 0.096 & 0.061 & 1.000 & 0.045 \\
-2.0 & 0.095 & 0.054 & 1.000 & 0.097 \\
-3.0 & 0.096 & 0.043 & 1.000 & 0.141 \\
-5.0 & 0.102 & 0.018 & 1.000 & 0.035 \\
+1{,}000 & 111 & 52 & 19 & 182 \\
+2{,}000 & 225 & 164 & 63 & 452 \\
+5{,}000 & 685 & 687 & 172 & 1{,}544 \\
+10{,}000 & 1{,}717 & 2{,}051 & 422 & 4{,}189 \\
+20{,}000 & 4{,}744 & 5{,}242 & 1{,}346 & 11{,}333 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+Phase 1（パターン列挙）とサポート時系列計算がボトルネック（全体の88--90\%）であり，
+帰属ステップ（Step 3--5）は全体の10\%以下である．
+
+\subsubsection{イベント数}
+
+$|\mathcal{E}| \in \{1, 3, 5, 10, 20\}$ で評価した（表~\ref{tab:e3_events}）．
+
 \begin{table}[t]
-\caption{E4 結果（従来法の区間汚染・膨張; seed=5 平均）}
-\label{tab:e4_interval_artifacts}
+\caption{E3 結果: イベント数 vs 性能}
+\label{tab:e3_events}
 \centering
-\scriptsize
 \begin{tabular}{cccc}
 \toprule
-$\lambda$ & Trad. spur. rate & Trad. expansion & Trad. exp.$>0$ ratio \\
+$|\mathcal{E}|$ & Attribution (ms) & Total (ms) & F1 \\
 \midrule
-1.0 & 0.735 & 2064.7 & 1.000 \\
-1.5 & 0.834 & 6129.0 & 1.000 \\
-2.0 & 0.856 & 2543.5 & 0.778 \\
-3.0 & 0.803 & 1371.0 & 0.858 \\
-5.0 & 0.945 & 1755.7 & 0.734 \\
+1 & 93 & 1{,}780 & 1.00 \\
+3 & 376 & 2{,}306 & 1.00 \\
+5 & 833 & 2{,}997 & 1.00 \\
+10 & 2{,}529 & 5{,}299 & 1.00 \\
+20 & 9{,}062 & 13{,}114 & 0.05 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E6: 実データ検証（dunnhumby / onlineretail / chicago）}
-\label{sec:exp_e6}
+$|\mathcal{E}| \leq 10$ でF1 = 1.0，帰属時間はイベント数に対して線形にスケールする．
+$|\mathcal{E}| = 20$ でF1が急落するのは，5{,}000トランザクションに20イベントが密集し
+（間隔 $\approx 238$，イベント幅200），
+円形シフト検定の弁別力が低下するためである．
 
-E6 では，合成データで観測した傾向の外的妥当性を確認するため，
-3 つの実データで比較を行った．
-入力は時刻付き生データから再構築したバスケット構造付き系列であり，
-集約幅はバスケット過密を抑えるように選定した
-（dunnhumby: 1h，onlineretail: 3h，chicago: 30m）．
-最終的なトランザクション数はそれぞれ 15,240 / 2,338 / 297,777 である．
+\subsubsection{置換回数と計算時間}
 
-主比較（E6-1）は，各データセットで固定した baseline 設定
-（dunnhumby: $W=336,\theta=60,L=3$，
-onlineretail: $W=72,\theta=40,L=3$，
-chicago: $W=48,\theta=20,L=2$）で
-Basket-aware Apriori-Window（BAAW）と従来法（flatten）を比較した．
-結果を表~\ref{tab:e6_real_main} に示す．
-3 データセットすべてで Observed Spurious が正であり，
-従来法検出多項目パターン中に占める割合は
-0.742--0.992（平均 0.906）であった．
-特に onlineretail では 132,761 パターン中 131,702 が
-BAAW では検出されず，flatten による構造混入が支配的であることが確認できる．
+$B \in \{50, 100, 200, 500, 1{,}000, 2{,}000\}$ で計時した結果，
+帰属時間は線形にスケール（$B = 2{,}000$ でも274ms）であり，実用的である．
+
+% ------------------------------------------------------------------
+\subsection{E4: 実データ検証}
+\label{sec:exp_e4}
+
+2つの公開ベンチマークデータセットに合成イベントを注入して評価した．
+
+\subsubsection{T10I4D100K}
+
+100Kトランザクションのスパースな合成ベンチマークに
+3パターンを注入した（表~\ref{tab:e4_t10}）．
 
 \begin{table}[t]
-\caption{E6-1 結果（実データ baseline 比較）}
-\label{tab:e6_real_main}
+\caption{E4 結果: T10I4D100K（100K transactions）}
+\label{tab:e4_t10}
 \centering
-\scriptsize
-\begin{tabular}{lrrrrr}
+\begin{tabular}{ccccccc}
 \toprule
-Dataset & BAAW multi & Trad. multi & Obs. Spur. & Spur. rate & Trad./BAAW time \\
+$\beta$ & TP & FP & FN & Precision & Recall & F1 \\
 \midrule
-dunnhumby    & 37   & 2,418   & 2,383   & 0.986 & 1.012 \\
-onlineretail & 1,152 & 132,761 & 131,702 & 0.992 & 4.521 \\
-chicago      & 670  & 2,593   & 1,923   & 0.742 & 0.750 \\
+3.0 & 3 & 13 & 0 & 0.19 & 1.00 & 0.32 \\
+5.0 & 3 & 13 & 0 & 0.19 & 1.00 & 0.32 \\
+10.0 & 3 & 13 & 0 & 0.19 & 1.00 & 0.32 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-E6-2（感度分析）では，dataset ごとに小規模 sweep を行った．
-dunnhumby では $\theta$ を 60 から 50 に下げると
-Trad. 多項目パターン数が 2,418 から 5,463 に増加し，
-BAAW（37 $\rightarrow$ 60）より増分が大きかった．
-chicago でも $W=24 \rightarrow 96$（$\theta=20$）で
-BAAW 492 $\rightarrow$ 934 に対して Trad. 1,801 $\rightarrow$ 3,517 と，
-常に Trad. が高い件数を示した．
-onlineretail では $\theta=40$ で差分が最大（1,152 vs 132,761）となり，
-$\theta=60$ では双方ほぼ 0 に近づくため，偽共起の顕在化領域は
-閾値設定に依存することが分かる．
+植え込みパターンは全て検出（Recall = 1.0）．
+重複排除によりFPが319（排除なし）$\rightarrow$ 13に大幅削減（\textbf{96\%減}）された．
+残る13 FPは，100Kトランザクション中で自然にサポート変動を持つ独立パターンである．
 
-E6-3（規模変化）では，30d/180d/365d/all の horizon で実行時間を比較した．
-全 dataset・全手法で runtime は horizon 拡大に対して単調増加し，
-特に onlineretail では Trad./BAAW 比が
-0.912（30d）$\rightarrow$ 2.839（180d）$\rightarrow$ 4.600（365d）へ増加した．
-一方，dunnhumby/chicago では本設定で Trad. が高速な領域も存在したが，
-表~\ref{tab:e6_real_main} の通り品質面では Trad. の偽共起混入率が高く，
-速度のみでは手法選択できないことを示す．
+\subsubsection{retail.txt}
+
+88Kトランザクションのベルギー小売データに2パターンを注入した．
+結果はTP=0, FP=5, FN=2（Recall = 0.0）であった．
+FPは258$\rightarrow$5に削減されたが，注入先が元々高頻度のアイテムペアであるため，
+ブースト効果が自然変動に埋もれ検出に至らなかった．
+この結果は，本手法が高ベースラインサポートへの注入という
+難条件での限界を有することを示す．
+
+% ------------------------------------------------------------------
+\subsection{反復改善の効果}
+\label{sec:exp_ablation}
+
+3段階の反復改善が性能に与えた効果を表~\ref{tab:ablation}にまとめる．
+
+\begin{table}[t]
+\caption{反復改善の効果（E1a, seed=0）}
+\label{tab:ablation}
+\centering
+\begin{tabular}{lccc}
+\toprule
+構成 & Precision & Recall & F1 \\
+\midrule
+v1: Per-pattern Bonferroni & 0.03 & 0.27 & 0.05 \\
+v2: +Global BH + フィルタ & 0.15 & 1.00 & 0.26 \\
+v3: +アイテム重複排除 & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+各改善の寄与:
+\begin{itemize}
+\item \textbf{グローバルBH補正}: Recallを0.27$\rightarrow$1.00に改善（パターン間の多重検定制御）
+\item \textbf{サポート振幅フィルタ}: 仮説数を310$\rightarrow$23に削減（BHの検出力を維持）
+\item \textbf{アイテム重複排除}: Precisionを0.15$\rightarrow$1.00に改善（副次パターンの完全除去）
+\end{itemize}
+
+% ------------------------------------------------------------------
+\subsection{パラメータ・ロバスト性}
+
+表~\ref{tab:robustness}に，重複排除の導入前後でのパラメータ感度の変化を示す．
+
+\begin{table}[t]
+\caption{パラメータ・ロバスト性の変化}
+\label{tab:robustness}
+\centering
+\begin{tabular}{lcc}
+\toprule
+パラメータ & 排除前 F1 範囲 & 排除後 F1 範囲 \\
+\midrule
+$W$ (10--50) & 0.24--1.00 & \textbf{1.00} \\
+$\sigma$ (5--200) & 0.24--0.75 & \textbf{1.00} \\
+$B$ (50--1000) & 0.24--0.25 & \textbf{1.00} \\
+$\beta$ (0.1--0.8) & 0.04--1.00 & \textbf{1.00} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+重複排除がパターン選択の主力となることで，
+統計検定パラメータの感度が劇的に低下し，
+広いパラメータ範囲で安定した性能を実現している．
+
+% ------------------------------------------------------------------
+\subsection{スコア構成要素のアブレーション}
+\label{sec:exp_ablation_score}
+
+帰属スコア $A = \text{prox} \times \text{dir} \times \text{mag}$ の
+各構成要素の寄与を評価するため，E1a条件（$\beta=0.5$，植え込み3件，
+デコイ2件，5 seeds）でアブレーション実験を行った（表~\ref{tab:ablation_score}）．
+
+\begin{table}[t]
+\caption{スコア構成要素アブレーション（E1a条件，5 seeds平均）}
+\label{tab:ablation_score}
+\centering
+\begin{tabular}{lccc}
+\toprule
+構成 & Precision & Recall & F1 \\
+\midrule
+Full: $\text{prox} \times \text{dir} \times \text{mag}$ & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
+$\text{prox} \times \text{mag}$（dir除去） & 1.00 & 1.00 & 1.00 \\
+$\text{dir} \times \text{mag}$（prox除去） & 1.00 & 1.00 & 1.00 \\
+$\text{prox} \times \text{dir}$（mag除去） & 0.33 & 0.33 & 0.33 \\
+mag のみ & 1.00 & 1.00 & 1.00 \\
+prox のみ & 0.60 & 0.60 & 0.60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{magnitude が最も重要な構成要素}であり，
+mag を含む全構成でF1 = 1.0を達成する一方，
+mag を除去すると F1 = 0.33 に急落する．
+これは，置換検定において変化量の大きさが
+植え込み信号とデコイの弁別に最も寄与するためである．
+proximity のみ（F1 = 0.60）でも一定の弁別力を示すが，
+時間窓の重複するデコイとの区別が不十分となる．
+direction は本実験条件では冗長であり，
+prox と mag の組合せで十分な弁別力が得られることを示している．

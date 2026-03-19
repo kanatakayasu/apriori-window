@@ -1,0 +1,47 @@
+\begin{algorithm}[t]
+\caption{イベント帰属パイプライン}
+\label{alg:pipeline}
+\begin{algorithmic}[1]
+\Require 頻出パターン $\mathcal{F}$, サポート時系列 $\{s_P\}$, イベント $\mathcal{E}$, 設定 $(\theta, \sigma, B, \alpha, \delta)$
+\Ensure 有意帰属集合 $\mathcal{R}$
+
+\Statex \textbf{// Step 2: 変化点検出 + フィルタリング}
+\State $\text{RawResults} \gets []$
+\For{各パターン $P \in \mathcal{F}$ with $|P| \geq 2$}
+    \If{$\max(s_P) - \min(s_P) < \delta$} \textbf{continue} \Comment{サポート振幅フィルタ}
+    \EndIf
+    \State $\mathcal{C}_P \gets \Call{DetectChangePoints}{s_P, \theta}$ \Comment{閾値 $\theta$ の交差点のみ抽出}
+    \If{$\mathcal{C}_P = \emptyset$} \textbf{continue}
+    \EndIf
+    \Statex \textbf{// Step 3--4: 帰属スコアリング + 置換検定}
+    \For{各イベント $e \in \mathcal{E}$}
+        \State $A_{\text{obs}} \gets \sum_{\tau \in \mathcal{C}_P} A(P, \tau, e)$ \Comment{式~(\ref{eq:attribution_score})}
+        \State $\text{count} \gets 0$
+        \For{$b = 1$ to $B$}
+            \State $\mathcal{E}_b \gets \Call{CircularShift}{\mathcal{E}, \delta_b}$
+            \State $A_b \gets \sum_{\tau \in \mathcal{C}_P} A(P, \tau, e_b)$
+            \If{$A_b \geq A_{\text{obs}}$} $\text{count} \gets \text{count} + 1$
+            \EndIf
+        \EndFor
+        \State $p_{\text{raw}} \gets (1 + \text{count}) / (B + 1)$ \Comment{式~(\ref{eq:pvalue})}
+        \State $\text{RawResults}.\text{append}(P, e, A_{\text{obs}}, p_{\text{raw}})$
+    \EndFor
+\EndFor
+
+\Statex \textbf{// Step 4 (続): グローバル BH 補正}
+\State RawResults を $p_{\text{raw}}$ 昇順にソート
+\State $M \gets |\text{RawResults}|$
+\For{$i = M$ downto $1$}
+    \State $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)}, \min(1, p_{(i)} \cdot M / i))$ \Comment{式~(\ref{eq:bh})}
+\EndFor
+\State $\mathcal{R} \gets \{(P, e) \mid \tilde{p}_{(i)} < \alpha\}$
+
+\Statex \textbf{// Step 5: アイテム重複排除}
+\For{各イベント $e$}
+    \State $\mathcal{R}_e \gets$ イベント $e$ に帰属されたパターン集合
+    \State アイテム共有グラフの連結成分を Union-Find で計算
+    \State 各成分内でスコア最大のパターンのみ残す
+\EndFor
+\State \Return $\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}

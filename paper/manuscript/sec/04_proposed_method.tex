@@ -1,193 +1,181 @@
-\section{提案手法: Basket-aware Apriori-Window}
-\label{sec:proposed_method}
+% ==============================================================
+\section{提案手法}\label{sec:method}
+% ==============================================================
 
-%% ====== 4.1 従来法の問題の形式的説明 ======
-\subsection{従来法（flatten）の問題}
-\label{sec:conventional_problem}
+本節では\textbf{イベント帰属パイプライン}の5ステップを詳述する．
+任意の頻出パターンマイニング手法で得られたパターン集合 $\mathcal{F}$，
+そのサポート時系列，および外部イベント集合 $\mathcal{E}$ を入力として，
+統計的に有意なパターン--イベント帰属の集合を出力する．
+アルゴリズム~\ref{alg:pipeline}に全体手順を示す．
 
-従来の Apriori-window~\cite{dsaa2025} はバスケット構造を扱う設計になっていないため，
-バスケット構造付きトランザクションデータに適用する際には，
-各トランザクションの全バスケットを統合（flatten）して単一アイテムセットに
-変換する前処理が必要である．
+\input{alg/event_attribution_pipeline}
 
-\begin{definition}[フラット化]
-\label{def:flatten}
-バスケット構造付きトランザクション $d = (ts, \mathcal{B})$ の
-\emph{フラット化}（flatten）とは，全バスケットの和集合を計算し，
-$d_{\text{flat}} = (ts, \bigcup_{B \in \mathcal{B}} B)$ という
-単一アイテムセットのトランザクションを生成することである．
-\end{definition}
+\subsection{Step 1: サポート時系列の構築}
 
-フラット化後のトランザクションデータに Apriori-window を適用することで，
-トランザクション内サポート（式~(\ref{eq:txn_support})）に基づく
-密集パターンが抽出される．このとき，命題~\ref{prop:monotone} より
-$\text{txn\_support}(P) \geq \text{true\_support}(P)$ であるため，
-従来法は真の密集パターンに加えて偽共起パターンも検出してしまう（定義~\ref{def:spurious}）．
+各パターン $P \in \mathcal{F}$（$|P| \geq 2$）について，
+式~(\ref{eq:support_series})に基づきサポート時系列 $s_P$ を計算する．
+実装では，各アイテム $i$ について出現トランザクションIDのソート済みリスト $T_i$ を事前構築し，
+パターン $P = \{i_1, \ldots, i_k\}$ の出現リストをマージベースの積集合
+$T_P = \bigcap_{j=1}^{k} T_{i_j}$ により $O(\sum_j |T_{i_j}|)$ で計算する．
+各ウィンドウ位置でのサポートは $T_P$ 上の二分探索により
+$O(\log |T_P|)$ で求められる．
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{fig/conventional_vs_phase1.png}
-    \caption{従来法（flatten）と提案手法の処理比較}
-    \label{fig:conventional_vs_phase1}
-\end{figure}
+\subsection{Step 2: 変化点検出}
 
-図~\ref{fig:conventional_vs_phase1} は，従来法がバスケットを統合して
-トランザクション内共起を数えるのに対し，提案法がバスケット境界を維持して
-共起を評価する差分を示している．
+各サポート時系列に対し，本稿では変化点を一般のレベルシフト点としては扱わず，
+\emph{閾値 $\theta$ の上方交差または下方交差}のみに限定して記録する．
+ここで $\theta$ は Phase 1 の最小サポートに対応する．
+$d_P(t) = \mathbf{1}[s_P(t) \geq \theta]$ を密状態指示子とすると，
+$d_P(t) \neq d_P(t-1)$ となる時点のみを変化点候補とする．
+この定義により，Phase 1 の密集区間がウィンドウ左端の連続区間 $[s, e]$ で与えられる場合，
+Step 2 は上昇変化点 $s$ と下降変化点 $e+1$（存在する場合）を出力する．
+したがって，本手法が帰属対象とするのは
+「密集区間の出現・消失に対応する切替点」であり，
+密状態の内部で起こる任意のサポート変動ではない．
 
-%% ====== 4.2 アルゴリズムの概要 ======
-\subsection{アルゴリズム概要}
-\label{sec:algorithm}
+変化量は交差前後の窓平均の差（レベルシフト量）として計算する:
+\begin{equation}
+\text{magnitude}(\tau) = |\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|
+\label{eq:magnitude}
+\end{equation}
+ここで $\bar{s}^{+}(\tau), \bar{s}^{-}(\tau)$ は定義~\ref{def:change_point} の局所平均であり，
+$h$ はレベルウィンドウ幅（デフォルト $h = 20$）である．
+この方式は瞬時差分（$s_P(\tau) - s_P(\tau-1)$）と比較して，
+一過性の変動ではなく持続的な変化を捉える点で頑健性が高い．
+すなわち，本手法では\textbf{検出位置}は閾値交差で決め，
+\textbf{変化の強さ}は交差前後のレベル差で評価する．
+なお，CUSUM のような一般的変化点検出器は比較対象として
+\ref{sec:experiments}節で別途評価するが，主パイプラインには含めない．
 
-提案手法 \emph{Basket-aware Apriori-Window}は，
-バスケット内共起（定義~\ref{def:intra_basket}）のみに基づいてサポートを計算することで，
-原理的に偽共起パターンを出力しない．
-アルゴリズム~\ref{alg:basket_aware_apriori_window} に全体の手順を示す．
-
-\input{alg/basket_aware_apriori_window}
-
-\subsubsection{ステップ 1: バスケットマップの構築}
-
-$\Call{BuildBasketMap}{}$ は，データ全体を 1 回走査して 3 つのデータ構造を構築する．
-
+\textbf{フィルタリング}: 有意性検定前の仮説空間削減のため，2つのフィルタを適用する:
 \begin{itemize}
-    \item $M_{\text{item}}[i]$（アイテム→バスケット ID マップ）:
-    アイテム $i$ が含まれるバスケットのグローバル ID のリスト（昇順ソート済み）．
-    同一バスケット内に同じアイテムが複数あっても 1 回のみ記録する．
-
-    \item $\text{b2t}[b]$（バスケット→トランザクション ID マップ）:
-    バスケット $b$ が属するトランザクションのインデックス．
-    トランザクション順 × バスケット順でグローバル連番を付与するため，
-    この配列は単調非減少となる．
-
-    \item $M_{\text{txn}}[i]$（アイテム→トランザクション ID マップ）:
-    アイテム $i$ が（いずれかのバスケットに）含まれるトランザクションのインデックスのリスト
-    （重複なし・昇順）．長さ 1 パターンのスライディングウィンドウ処理で使用する．
+\item \emph{サポート振幅フィルタ}: $\max(s_P) - \min(s_P) < \delta$ のパターンを除外する．
+ここで $\delta$ はユーザ指定の最小サポート振幅である．
+このフィルタは時間的変動の乏しいパターンを排除し，仮説数を大幅に削減する．
+\item \emph{変化量フィルタ}: 変化量が閾値未満の変化点を除外する．
 \end{itemize}
 
-\subsubsection{ステップ 2: 長さ 1 の密集パターン}
+\subsection{Step 3: 帰属スコアリング}
 
-各単体アイテム $i$ に対して，$M_{\text{txn}}[i]$（アイテムの出現トランザクション ID 列）
-を入力としてスライディングウィンドウ機構を実行し，
-$\text{true\_support}_I(i) \geq \theta$ かつ $n(D_I) \geq W$ を満たす
-すべての密集区間を求める．長さ 1 のアイテムについては，
-バスケット内共起とトランザクション内共起が一致する（1 アイテムは常に単一バスケット内）
-ため，この処理は従来法と等価である．
-
-\subsubsection{ステップ 3: 長さ $k \geq 2$ の密集パターン（核心部）}
-
-アルゴリズム~\ref{alg:basket_aware_apriori_window} の 21〜27 行目が本手法の核心部である．
-候補アイテムセット $P$ に対して，バスケット ID の集合積
-$B_P = \bigcap_{i \in P} M_{\text{item}}[i]$ を計算する．
-$B_P$ は $P$ のすべてのアイテムを同時に含むバスケットの集合であり，
-\emph{バスケット内共起を直接エンコードする}．
-
-続いて，$B_P$ を $\text{b2t}$ を用いてトランザクション ID 列 $T_P$ に変換し
-（$\Call{BasketToTransaction}{}$），スライディングウィンドウを適用して密集区間を求める．
-
-\textbf{従来法との違い}: 従来法では，候補 $P$ のサポートを計算するために
-$T_P = \bigcap_{i \in P} M_{\text{txn}}[i]$ というトランザクション ID の集合積を用いる．
-これは，各アイテムがそのトランザクションのいずれかのバスケットに存在することを確認するだけで，
-同一バスケット内の共起は保証しない．提案手法は集合積をバスケット粒度で行うことで，
-この問題を根本的に解決する．
-
-\subsubsection{スライディングウィンドウ機構}
-
-$\Call{SlidingWindow}{}$ の実装は先行研究 Apriori-window~\cite{dsaa2025} と同一である．
-固定幅 $W$ のウィンドウを 1 トランザクション単位でスライドさせながら，
-ウィンドウ内のサポートが $\theta$ を超える区間を記録し，
-隣接区間を統合して密集区間リストを返す．また，ウィンドウ内でサポートが $\theta$ を
-大幅に上回る場合には，余剰分に基づいてストライドを増加させる最適化（stride adjustment）
-を適用して効率的な走査を実現する~\cite{dsaa2025}．
-
-%% ====== 4.3 反単調性の証明 ======
-\subsection{反単調性の証明}
-\label{sec:anti_monotone}
-
-Apriori の枝刈りが機能するためには，候補のサポートが単調非増加（反単調性）で
-あることが必要である．従来の Apriori-window では定義域をトランザクション単位の
-出現集合としてこれを証明しているが~\cite{dsaa2025}，
-提案手法ではバスケット粒度での反単調性を証明する必要がある．
-
-\begin{theorem}[バスケット内共起における反単調性]
-\label{thm:anti_monotone}
-任意のアイテムセット $P$ とその真の上位集合 $P' \supset P$，
-任意の区間 $I$ に対して，
+パターン $P$ の変化点 $\tau$ と各イベント $e \in \mathcal{E}$ に対して，
+時間的関連を定量化する\emph{帰属スコア}を計算する:
 \begin{equation}
-\text{true\_support}_I(P') \leq \text{true\_support}_I(P)
-\label{eq:anti_monotone}
+A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{dir}(\tau, e) \cdot \text{mag}(\tau)
+\label{eq:attribution_score}
 \end{equation}
-が成立する．
-\end{theorem}
 
-\begin{proof}
-$d = (ts, \mathcal{B})$ を区間 $I$ 内の任意のトランザクションとする．
+3つの構成要素は以下の通りである．
 
-$P'$ がバスケット内共起する（$\exists B \in \mathcal{B}: P' \subseteq B$）ならば，
-$P \subset P'$ より $P \subseteq B$ も成立するため，
-$P$ もそのバスケット $B$ でバスケット内共起する．
+\textbf{近接度}: 指数カーネルによる時間的近さの指標:
+\begin{equation}
+\text{prox}(\tau, e) = \exp\left(-\frac{d(\tau, e)}{\sigma}\right)
+\label{eq:proximity}
+\end{equation}
+ここで $d(\tau, e) = \min(|\tau - t_s|, |\tau - t_e|)$ は
+変化点からイベント境界までの最小距離，$\sigma > 0$ は減衰パラメータである．
 
-逆は一般に成立しない（$P$ がバスケット内共起しても，$P'$ の余分なアイテムが
-同一バスケットに含まれるとは限らない）．
+\textbf{方向整合性}: 変化方向とイベント時間の期待される対応関係:
+\begin{equation}
+\text{dir}(\tau, e) = \begin{cases}
+1.0 & \tau \geq t_s \text{ かつ方向が「上昇」} \\
+1.0 & \tau \geq t_e \text{ かつ方向が「下降」} \\
+0.5 & \text{その他（先行シグナル）} \\
+\end{cases}
+\label{eq:direction}
+\end{equation}
 
-したがって，$P'$ がバスケット内共起するトランザクションの集合は，
-$P$ がバスケット内共起するトランザクションの集合の部分集合であり，
-式~(\ref{eq:anti_monotone}) が成立する．
-\end{proof}
+\textbf{変化量}: 式~(\ref{eq:magnitude})のレベルシフト量．
 
-定理~\ref{thm:anti_monotone} より，あるアイテムセット $P$ が
-バスケット対応密集パターンでない（すなわち，すべての区間 $I$ で
-$\text{true\_support}_I(P) < \theta$ または $n(D_I) < W$）ならば，
-$P$ の任意の上位集合 $P'$ もバスケット対応密集パターンにならない．
-これにより，$\Call{GenerateCandidates}{}$（$\mathcal{F}_{k-1}$ に含まれない
-パターンを部分集合にもつ候補を除外する Apriori 枝刈り）の正当性が保証される．
+パターン $P$ のイベント $e$ に対する観測スコアは，
+全変化点にわたる帰属スコアの総和
+$A_{\text{obs}}(P, e) = \sum_{\tau} A(P, \tau, e)$ とする．
 
-%% ====== 4.4 従来 Apriori-window との関係 ======
-\subsection{従来 Apriori-window との関係}
-\label{sec:relationship}
+\subsection{Step 4: 置換検定とグローバルFDR補正}
 
-\begin{proposition}[特殊ケースとしての従来法]
-\label{prop:special_case}
-各トランザクションがちょうど 1 つのバスケット（$|\mathcal{B}| = 1$）をもつとき，
-提案手法の出力は従来 Apriori-window の出力と一致する．
+\subsubsection{円形シフト帰無分布}
+
+パターン $P$ の変化点とイベント $e$ の時間的関連が統計的に有意かを検定するため，
+円形シフト置換検定を用いる．
+帰無仮説 $H_0$:「変化点の位置はイベント時刻と独立である」のもと，
+$B$ 回の置換を実行する．
+各置換 $b$ では，ランダムなオフセット $\delta_b \sim \text{Uniform}\{1, \ldots, T-1\}$
+により全イベント時刻を円形シフトする:
+\begin{equation}
+e_b = (\textit{id}, \textit{name}, (t_s + \delta_b) \bmod T, (t_s + \delta_b + \Delta) \bmod T)
+\end{equation}
+ここで $\Delta = t_e - t_s$ はイベント持続時間，$T$ は時系列長である．
+
+各置換に対してスコア $A_{\text{perm}}^{(b)}(P, e)$ を再計算し，
+未補正 $p$ 値を以下で求める:
+\begin{equation}
+p_{\text{raw}}(P, e) = \frac{1 + |\{b : A_{\text{perm}}^{(b)}(P, e) \geq A_{\text{obs}}(P, e)\}|}{B + 1}
+\label{eq:pvalue}
+\end{equation}
+
+\subsubsection{グローバル Benjamini--Hochberg 補正}
+
+$M = |\mathcal{F}'| \times |\mathcal{E}|$ 個の仮説を同時に検定するため，
+全パターン・全イベントにわたり Benjamini--Hochberg (BH)
+手続き~\cite{benjamini1995controlling}をグローバルに適用する．
+
+未補正 $p$ 値を昇順にソートし $p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(M)}$ とする．
+Step-down 調整済み $p$ 値を以下で計算する:
+\begin{equation}
+\tilde{p}_{(i)} = \min\!\left(\tilde{p}_{(i+1)},\; \min\!\left(1,\; p_{(i)} \cdot \frac{M}{i}\right)\right)
+\label{eq:bh}
+\end{equation}
+ただし $\tilde{p}_{(M)} = \min(1, p_{(M)})$ とする．
+$\tilde{p}_{(i)} < \alpha$ の仮説を棄却（帰属が有意）と判定する．
+
+BH手続きはFDRを水準 $\alpha$ で制御し，
+仮説数が大きい場合にBonferroni補正と比較してはるかに高い検出力を提供する．
+
+\subsection{Step 5: アイテム重複排除}\label{sec:dedup}
+
+\subsubsection{副次パターン問題}
+
+外部イベントがアイテム $i$ の出現頻度を増加させると，
+$i$ を含む\emph{全て}のパターンのサポートが相関して増加する．
+例えば，イベントが $\{1001, 1002\}$ をブーストし真のパターンが $(1001, 1002)$ の場合，
+$(78, 1001)$, $(155, 1002)$, $(133, 1001)$ などの副次パターンも
+共有アイテム経由でサポートが連動変動するため有意性検定を通過する．
+
+この問題は統計検定だけでは解消できない．
+副次パターンのイベントとの時間的関連は真にゼロでないためである．
+
+\subsubsection{Union-Find クラスタリングによる重複排除}
+
+この問題を以下の後処理ステップで解決する:
+
+\begin{enumerate}
+\item 各イベント $e$ について，$e$ に有意に帰属された全パターン $\{P_1, \ldots, P_n\}$ を収集する．
+\item アイテム共有グラフを構築する: パターンをノード，少なくとも1つのアイテムを共有するパターン間にエッジを張る．
+\item Union-Find（素集合）データ構造で連結成分を求める．
+\item 各連結成分内で帰属スコア $A_{\text{obs}}(P, e)$ が最大のパターンのみを残す．
+\end{enumerate}
+
+\begin{proposition}[重複排除の正当性]\label{prop:dedup}
+真のパターン $P^* = \{i_1, i_2\}$ がイベント $e$ にスコア $A^*$ で帰属され，
+副次パターン $P' = \{i_1, j\}$（$j \notin P^*$）も $e$ に帰属されている場合，
+$P^*$ と $P'$ はアイテム $i_1$ を共有し同一連結成分に属する．
+$P^*$ がより大きなサポート変動を持つ場合 $A^* > A(P', e)$ が成立し，
+$P^*$ が保持され $P'$ は除去される．
 \end{proposition}
 
-\begin{proof}
-$|\mathcal{B}| = 1$ の場合，バスケット内共起とトランザクション内共起は
-同値であるため（$\exists B \in \mathcal{B}: P \subseteq B$
-$\Leftrightarrow$ $P \subseteq \bigcup_{B \in \mathcal{B}} B$），
-$\text{true\_support}_I(P) = \text{txn\_support}_I(P)$ が成立する．
-したがって，提案手法と従来法は同一の密集パターンを出力する．
-\end{proof}
+重複排除ステップの計算量はイベントあたり $O(n \cdot k)$ であり，
+$n$ は有意帰属数，$k$ はパターン最大長である．
+置換検定ステップに比して無視可能なコストである．
 
-命題~\ref{prop:special_case} は，提案手法が従来 Apriori-window の
-\emph{上位互換（strict generalization）}であることを示す．
-すなわち，従来法は $\lambda_{\text{baskets}} = 1$（各トランザクションに
-バスケットが 1 つしかない場合）の特殊ケースとして包含される．
+\subsection{計算量分析}
 
-%% ====== 4.5 実装上のポイント ======
-\subsection{実装上のポイント}
+パイプライン全体の時間計算量は以下の通りである:
+\begin{itemize}
+\item \textbf{Step 1}（サポート時系列）: $O(|\mathcal{F}| \cdot N)$，$N$ はトランザクション数
+\item \textbf{Step 2}（変化点検出）: $O(|\mathcal{F}| \cdot T)$，$T = N - W + 1$
+\item \textbf{Step 3--4}（帰属＋置換検定）: $O(|\mathcal{F}'| \cdot |\mathcal{E}| \cdot B \cdot C)$，
+$|\mathcal{F}'|$ はフィルタ後パターン数，$B$ は置換回数，$C$ は平均変化点数
+\item \textbf{Step 5}（重複排除）: $O(R \cdot k)$，$R$ は有意結果数
+\end{itemize}
 
-\subsubsection{BasketToTransaction におけるトランザクション ID の重複}
-$\Call{BasketToTransaction}{}$ は，バスケット ID リスト $B_P$ を
-対応するトランザクション ID 列 $T_P$ に変換する．
-ここで，$B_P$ に同一トランザクションの複数バスケット
-$b_1, b_2$ が含まれる（$\text{b2t}[b_1] = \text{b2t}[b_2] = t$）場合，
-トランザクション $t$ は $T_P$ に \emph{1 回のみ} 記録される設計とする．
-
-これは，$\text{true\_support}$ の定義（式~(\ref{eq:true_support})）が
-トランザクション単位でカウントを行うことに対応している．
-すなわち，1 つのトランザクション内に $P$ を含むバスケットが複数あっても，
-サポートへの貢献は 1 とみなす．
-
-\subsubsection{グローバルバスケット ID の採番}
-バスケット ID はトランザクション順 × バスケット順にグローバル連番を付与する．
-この採番規則により，$\text{b2t}$ 配列が単調非減少となり，
-ソート済みリストとの二分探索による高速な集合積計算（バスケット ID の積集合）が
-$O(|B_{P_1}| + |B_{P_2}|)$（$P = \{i_1, i_2\}$ の場合のマージ）で可能になる．
-
-\subsubsection{メモリ効率}
-長さ 1 の密集パターンのみに関与する単体アイテムについては，
-$M_{\text{item}}[i]$ は長さ 1 パターンの密集区間計算後に解放可能である．
-ただし，長さ 2 以上の候補生成時には再び必要になるため，
-全プロセスを通じて保持する実装が現実的である．
+Step 2のサポート振幅フィルタが $|\mathcal{F}'|$ を90\%以上削減するため，
+大規模パターン集合に対してもStep 3--4は効率的に動作する．

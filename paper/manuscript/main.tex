@@ -1,10 +1,8 @@
 % ==============================================================
-% Basket-Aware Apriori-Window — 論文ドラフト（日本語版）
+% サポート時系列分析による外部イベント帰属
 % ==============================================================
-% コンパイル方法:
+% コンパイル:
 %   xelatex main.tex && bibtex main && xelatex main.tex && xelatex main.tex
-% 注意: 日本語を含むため XeLaTeX + xeCJK が必要
-%   macOS の場合は "Hiragino Mincho ProN" フォントを使用
 % ==============================================================
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
@@ -27,24 +25,26 @@
 \usepackage{threeparttable}
 \usepackage{subcaption}
 \usepackage{booktabs}
+\usepackage{url}
+\usepackage{multirow}
 
 % --- 定理環境 ---
 \newtheorem{definition}{定義}
 \newtheorem{theorem}{定理}
 \newtheorem{proposition}{命題}
 \newtheorem{lemma}{補題}
-\newtheorem{example}{例}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \begin{document}
 
-\title{バスケット構造対応 Apriori-Window による偽共起パターンの排除}
+\title{サポート時系列分析に基づく外部イベント帰属フレームワーク\\
+--- 頻出パターンの変動要因を統計的に特定する ---}
 
 \author{
   \IEEEauthorblockN{（執筆者未定）}\\
-  \IEEEauthorblockA{ドラフト — 日本語版}
+  \IEEEauthorblockA{ドラフト}
 }
 
 \maketitle
@@ -52,37 +52,33 @@
 \pagenumbering{arabic}
 
 \begin{abstract}
-既存の頻出パターンマイニングは主にグローバル頻度に依存するため，特定期間に集中して現れる局所的な密集パターンを十分に捉えにくい．
-また，Gap 系手法は最大ギャップ閾値への感度が高く，パラメータ設定に結果が左右される．
-この課題に対して DSAA2025 では，局所的な出現頻度の変動を厳密に捉えるApriori-window が提案され，最大ギャップ閾値に依存しない密集パターン抽出を実現した．
-しかし同手法は，1 トランザクションを 1 アイテムセットとして扱う前提を置いており，同一時刻に複数の独立した購買イベント（バスケット）が含まれるデータでは，
-バスケット間のアイテムが誤って共起として数えられる偽共起が発生する．
-本稿はこの未解決課題に対して，DSAA2025 の枠組みを維持したままバスケット構造を扱える拡張手法（Basket-aware Apriori-Window）を提案する．
-提案手法は，共起判定をトランザクション内からバスケット内へ置き換えることで，
-偽共起パターン率（SPR: Spurious Pattern Rate）を原理的に 0 に抑える．
-さらに，バスケット内共起においても Apriori の反単調性が成立することを示し，
-従来と同様の候補枝刈りが可能であることを理論的に保証する．
-合成データ実験では，まず Oracle との 34 ケース比較（E0）で
-FP=0, FN=0 を確認し，実装厳密性を検証した．
-さらに $\lambda_{\text{baskets}}$ sweep（E1）では，
-従来法 GTSPR が 0.454 から 0.971 へ増加する一方，
-提案手法は全条件で GTSPR=0 を維持した．
-構造感度評価（E2）では，従来法 GTSPR が
-$G=3 \rightarrow 50$ で 0.827 から 0.638，
-$p_{\text{same}}=0.5 \rightarrow 0.9$ で 0.827 から 0.741 へ低下し，
-Basket-aware Apriori-Window は同条件でも GTSPR=0 を維持した．
-スケーラビリティ評価（E3）では，
-$10^6$ トランザクションで Basket-aware Apriori-Window が 108.5 秒，
-従来法が 145.9 秒（1.345 倍）となり，
-規模拡大時に提案法の計算優位が増大することを確認した．
-区間品質評価（E4）では，Basket-aware Apriori-Window の mean Jaccard が全条件で 1.000 となる一方，
-従来法の interval purity は 0.075 から 0.018 へ低下し，
-spurious interval rate は 0.735 から 0.945 の高水準を示した．
+頻出パターンマイニングはトランザクションデータ中の繰り返し出現するアイテムセットを発見するが，
+特定期間にパターンの出現頻度が変動する\emph{原因}を説明する機能を持たない．
+小売・Web分析・医療など多くの実応用では，販促キャンペーン・祝日・制度変更といった外部イベントがパターン頻度の時間的変動を駆動しており，
+どのイベントがどのパターン変化を引き起こしたかを特定することが意思決定の鍵となる．
+
+本稿では\textbf{イベント帰属パイプライン}を提案する．
+本手法は (1) スライディングウィンドウによる各頻出パターンのサポート時系列構築，
+(2) 閾値交差点の抽出とその前後レベル差の評価，
+(3) 変化点とイベント間の時間的近接度スコアリング，
+(4) 円形シフト置換検定によるグローバル Benjamini--Hochberg FDR 補正付き有意性検定，
+(5) Union-Find クラスタリングによるアイテム重複排除
+の5ステップから成る．
+アイテム重複排除は，真に影響を受けたパターンとアイテムを共有する副次パターンが
+相関した偽陽性を生む問題（副次パターン問題）を解決する．
+
+合成データ実験では，全信号強度（ブースト係数 0.1--0.8）で F1 = 1.0 を達成し，
+パラメータ選択（ウィンドウサイズ 10--50，$\sigma$ 5--200，置換回数 50--1000）に対して頑健であることを示す．
+実データ（T10I4D100K，10万トランザクション）では，
+注入パターンを全て検出（Recall = 1.0）しつつ，
+重複排除なし版と比較して偽陽性を96\%削減した．
+パイプラインはデータサイズ・イベント数・置換回数に対して線形にスケールし，
+10万トランザクションを約70秒で処理する．
 \end{abstract}
 
 \begin{IEEEkeywords}
-frequent pattern mining, spurious co-occurrence, basket structure,
-sliding window, dense itemset
+frequent pattern mining, event attribution, change point detection,
+permutation test, multiple testing correction, support time series
 \end{IEEEkeywords}
 
 \input{sec/01_intro}
@@ -91,11 +87,9 @@ sliding window, dense itemset
 \input{sec/04_proposed_method}
 \input{sec/05_experiments}
 \input{sec/06_conclusion}
-\appendices
-\input{sec/07_supplement}
 
 % --- 参考文献 ---
-\bibliographystyle{IEEEtran.bst}
+\bibliographystyle{IEEEtran}
 \bibliography{refs}
 
 \end{document}
