@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1772638202.76072 "main.aux" "main.bbl" "main" 1772638213.65997 0
+["bibtex main"] 1773881529.24589 "main.aux" "main.bbl" "main" 1773881531.33506 0
   "./IEEEtran.bst" 1772417494.67122 59215 bc5380b3434a66b895bbc75d3d380540 ""
-  "./refs.bib" 1772635389.88036 5531 c8fa00e80fbc9c5f0f7502564700486c ""
-  "main.aux" 1772638203.97257 10818 cbcb2f939bb9c14fd66631da63b4e1a3 "xelatex"
+  "./refs.bib" 1773717718.48497 9038 9d3606510670685deecc3bad87083e9a ""
+  "main.aux" 1773881530.42914 12964 71ce11e59be735fcbabfecb8128a45b7 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1772638204.33503 "main.xdv" "main.pdf" "main" 1772638213.66118 0
-  "main.xdv" 1772638203.97399 307432 9e6ef21e540b2547d4c3e612a0b0f4a9 "xelatex"
+["xdvipdfmx"] 1773881530.7725 "main.xdv" "main.pdf" "main" 1773881531.33611 0
+  "main.xdv" 1773881530.43057 284404 a5566215dd4797e04c9bdb901d795aab "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1772638202.91742 "main.tex" "main.xdv" "main" 1772638213.66009 0
+["xelatex"] 1773881529.39908 "main.tex" "main.xdv" "main" 1773881531.33515 0
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -74,7 +74,9 @@
   "/usr/local/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty" 1708376303 9327 11bedad2ac38f92e405a38ed18489a03 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate-2023-10-10.sty" 1707946138 49753 715423f8c411773dc3698602d0fb87ba ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty" 1707946138 1180 6fa680297853e95f173b451108f02041 ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/multirow/multirow.sty" 1615845910 6149 2398eec4faa1ee24ff761581e580ecf1 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/threeparttable/threeparttable.sty" 1267981840 13506 a4e71a27db1a69b6fabada5beebf0844 ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty" 1700082560 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "/usr/local/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.cfg" 1659735237 408 7369c27beaa819c5f46de3795b22ee3e ""
   "/usr/local/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" 1659735237 183137 ed372550124703b2b73cbcc0b47cb20f ""
@@ -83,20 +85,18 @@
   "/usr/local/texlive/2024/texmf-var/web2c/xetex/xelatex.fmt" 1730631073 10850186 45cc89f600693c18c909297c4c67158a ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
   "IEEEtran.cls" 1772417494.66762 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "alg/basket_aware_apriori_window.tex" 1772417677.50379 2691 27c0c16ea4b66f7c94ede768c091f69f ""
-  "fig/conventional_vs_phase1.png" 1772432960.73771 1284918 2e442052347eaa6de45dc97989de397b ""
-  "fig/example_table.png" 1772432954.47852 1634262 3cbb47812be963bff75baf003b98add5 ""
-  "fig/motivating_example.png" 1772433036.06392 1353258 3bc9f2e79cf759a3323f060d5c0706fe ""
-  "main.aux" 1772638203.97257 10818 cbcb2f939bb9c14fd66631da63b4e1a3 "xelatex"
-  "main.bbl" 1772638202.91463 3032 5e00c1bcce8a6e7269f10f4df78789cc "bibtex main"
-  "main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
-  "sec/01_intro.tex" 1772638163.99395 4365 c761f3319b1339a889e3860b2e5aa667 ""
-  "sec/02_related_work.tex" 1772638133.55866 4226 7d3abfa6ab3bb1aa5f526ca3cf4ec859 ""
-  "sec/03_problem_definition.tex" 1772638133.56112 10709 21c8f920ffbdd24617a1bea4731e9018 ""
-  "sec/04_proposed_method.tex" 1772638133.56261 11102 1e51fc130a2dfa4cd79d11b3e76a5838 ""
-  "sec/05_experiments.tex" 1772638174.74457 9728 8253b63f18f09a0bffa824c584518820 ""
-  "sec/06_conclusion.tex" 1772638168.03797 1825 ec56d824f9faaf0bc01e692d6d0eaadd ""
-  "sec/07_supplement.tex" 1772638183.88738 4637 59a2df3ab17da16a7c102efb69581cd3 ""
+  "alg/event_attribution_pipeline.tex" 1773881459.21318 2324 7202c84dc5144add86dfa3961073e4e6 ""
+  "fig/pipeline_example.pdf" 1773793152.03527 36376 dc1970f337c1904bfd1d4a8f2fc84e47 ""
+  "fig/pvalue_distribution.pdf" 1773793112.83621 19742 e7104c1c67194572cb55cdc0f58953a7 ""
+  "main.aux" 1773881530.42914 12964 71ce11e59be735fcbabfecb8128a45b7 "xelatex"
+  "main.bbl" 1773881529.3961 5750 6f251773de68f98d7ea41468ce338b44 "bibtex main"
+  "main.tex" 1773881459.21205 3911 2c6d67d6e85d93c19c3a5458126f5bef ""
+  "sec/01_intro.tex" 1773881459.21228 3982 b39bbf185a5a2ebe1f87dfc42c3347dc ""
+  "sec/02_related_work.tex" 1773717346.92228 4224 15fbff1a613f1f2e9928e218fa0ebc0c ""
+  "sec/03_problem_definition.tex" 1773881525.32052 4489 c44ec1e5fd2316eba5eacb22f955d0e1 ""
+  "sec/04_proposed_method.tex" 1773881487.21119 9889 bce9f3fea6474357ab16d0ecab0ebe82 ""
+  "sec/05_experiments.tex" 1773793212.44252 17786 15c3bdf1e0a500670421963120162d37 ""
+  "sec/06_conclusion.tex" 1773881459.21329 2253 0cee8b93281a6c926f67e64ab1c1fe07 ""
   (generated)
   "main.aux"
   "main.log"

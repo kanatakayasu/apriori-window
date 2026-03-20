@@ -1,6 +1,6 @@
 # Fdb version 4
-["latex"] 1772638184.2352 "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" "out/main.dvi" "main" 1772638184.82756 2
-  "/Users/kanata/Documents/GitHub/apriori-window/paper/manuscript/main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
+["latex"] 1773717718.91569 "/Users/kanata/Documents/GitHub/mining/apriori-window/paper/manuscript/main.tex" "out/main.dvi" "main" 1773717719.52861 2
+  "/Users/kanata/Documents/GitHub/mining/apriori-window/paper/manuscript/main.tex" 1773717284.81908 3919 8609a4533be848f81de25c43c9be9fa4 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm" 1136768653 2228 e564491c42a4540b5ebb710a75ff306c ""
@@ -35,17 +35,19 @@
   "/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/trig.sty" 1654720880 4023 293ea1c16429fc0c4cf605f4da1791a9 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-dvips.def" 1708463273 35584 26b44d23a997c5fa1bc4461ec5ce39f5 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/l3kernel/expl3.sty" 1708463273 6565 10e89ed128ccd59431746bbdd82129fc ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/multirow/multirow.sty" 1615845910 6149 2398eec4faa1ee24ff761581e580ecf1 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1ptm.fd" 1137110629 961 15056f4a61917ceed3a44e4ac11fcc52 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/threeparttable/threeparttable.sty" 1267981840 13506 a4e71a27db1a69b6fabada5beebf0844 ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty" 1700082560 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "/usr/local/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.sty" 1659735237 183137 ed372550124703b2b73cbcc0b47cb20f ""
   "/usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf" 1708706663 41649 5d6ae549fbbcb850a863f69aa41f3d10 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/latex.fmt" 1730631024 8221712 d4d3a26ca2c8bec77ecefb41e80eabc3 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
   "IEEEtran.cls" 1772417494.66762 281957 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "main.aux" 1772637684.67355 10831 db931eda8465be38f5d066e25fb058e7 ""
-  "main.tex" 1772638159.88082 4578 d025a3a9ad1aa7743f93ee22378e6838 ""
-  "out/main.aux" 1772638184.67827 8 a94a2480d3289e625eea47cd1b285758 "latex"
+  "main.aux" 1773710492.63489 10818 cbcb2f939bb9c14fd66631da63b4e1a3 ""
+  "main.tex" 1773717284.81908 3919 8609a4533be848f81de25c43c9be9fa4 ""
+  "out/main.aux" 1773717719.33413 8 a94a2480d3289e625eea47cd1b285758 "latex"
   (generated)
   "out/main.aux"
   "out/main.dvi"

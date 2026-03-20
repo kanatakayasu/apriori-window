@@ -1,137 +1,193 @@
 \relax 
+\citation{agrawal1994fast,han2000mining,fournier2017survey}
+\citation{agrawal1994fast}
+\citation{han2000mining}
+\citation{zaki2000scalable}
 \citation{dsaa2025}
-\@writefile{toc}{\contentsline {section}{\numberline {I}はじめに}{1}{}\protected@file@percent }
-\newlabel{sec:intro}{{I}{1}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 偽共起の動機付け例}}{1}{}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:motivating}{{1}{1}{}{}{}}
+\citation{mahanta2005finding,tanbeer2009discovering,kiran2017discovering,fournier2021mining}
+\citation{page1954continuous,aminikhanghahi2017survey}
+\citation{mackinlay1997event}
+\citation{benjamini1995controlling}
+\citation{fournier2017survey,aggarwal2014frequent}
 \citation{agrawal1994fast}
 \citation{han2000mining}
 \citation{zaki2000scalable}
 \citation{uno2004lcm}
+\@writefile{toc}{\contentsline {section}{\numberline {I}はじめに}{1}{}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}本研究の貢献}{1}{}\protected@file@percent }
+\citation{mahanta2005finding}
 \citation{tanbeer2009discovering}
 \citation{kiran2017discovering}
-\citation{mahanta2005finding}
-\citation{fournier2020local}
+\citation{fournier2021mining}
+\citation{ho2022efficient}
 \citation{dsaa2025}
+\citation{chang2005estwin,chi2004moment}
+\citation{batal2012mining}
+\citation{dong1999discovering}
+\citation{bay2001detecting}
+\citation{komiyama2017statistical}
+\citation{chen2022contrast}
+\citation{page1954continuous}
+\citation{aminikhanghahi2017survey,truong2020selective}
+\citation{mackinlay1997event}
+\citation{brodersen2015causalimpact}
+\citation{chen2004pinpoint,jeyakumar2019explainit,liu2021root}
+\citation{granger1969investigating}
+\citation{webb2007discovering}
+\citation{hamalainen2019tutorial}
+\citation{terada2013statistical}
+\citation{pellegrina2020significant}
+\citation{davison1997bootstrap,yuan2024rigorous}
+\citation{benjamini1995controlling}
+\citation{dunn1961multiple}
 \@writefile{toc}{\contentsline {section}{\numberline {II}関連研究}{2}{}\protected@file@percent }
-\newlabel{sec:related_works}{{II}{2}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}DSAA2025 前手法}{2}{}\protected@file@percent }
-\newlabel{sec:related_pre_dsaa}{{\mbox  {II-A}}{2}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}1}Apriori}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}2}FP-Growth}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}3}ECLAT}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}4}LCM}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}5}PFPM}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}6}PPFPM (GPF-growth)}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}7}LPFIM}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-A}8}LPPM}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}DSAA2025 Apriori-window}{2}{}\protected@file@percent }
-\newlabel{sec:related_dsaa2025}{{\mbox  {II-B}}{2}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}本研究の位置づけ}{2}{}\protected@file@percent }
-\newlabel{sec:related_positioning}{{\mbox  {II-C}}{2}{}{}{}}
+\newlabel{sec:related}{{II}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}頻出パターンマイニング}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}時間的・局所的パターンマイニング}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}コントラスト・エマージングパターンマイニング}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}変化点検出}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}イベント帰属と因果推論}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-F}}統計的パターンマイニングと多重検定補正}{2}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {III}問題定義}{2}{}\protected@file@percent }
-\newlabel{sec:problem_def}{{III}{2}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}基本用語}{2}{}\protected@file@percent }
-\newlabel{def:basket_transaction}{{1}{2}{}{}{}}
-\citation{dsaa2025}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces バスケット構造付きトランザクションデータの例（5 トランザクション）}}{3}{}\protected@file@percent }
-\newlabel{fig:example_table}{{2}{3}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}共起の定義と偽共起}{3}{}\protected@file@percent }
-\newlabel{def:intra_basket}{{2}{3}{}{}{}}
-\newlabel{def:intra_transaction}{{3}{3}{}{}{}}
-\newlabel{ex:spurious}{{1}{3}{}{}{}}
-\newlabel{eq:true_support}{{1}{3}{}{}{}}
-\newlabel{eq:txn_support}{{2}{3}{}{}{}}
-\newlabel{prop:monotone}{{1}{3}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}密集パターンと偽共起パターン}{3}{}\protected@file@percent }
-\newlabel{def:basket_dense}{{4}{3}{}{}{}}
-\newlabel{def:spurious}{{5}{3}{}{}{}}
-\citation{dsaa2025}
-\newlabel{eq:spr}{{5}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}問題の定式化}{4}{}\protected@file@percent }
-\newlabel{prop:spr_zero}{{2}{4}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}提案手法: Basket-aware Apriori-Window}{4}{}\protected@file@percent }
-\newlabel{sec:proposed_method}{{IV}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}従来法（flatten）の問題}{4}{}\protected@file@percent }
-\newlabel{sec:conventional_problem}{{\mbox  {IV-A}}{4}{}{}{}}
-\newlabel{def:flatten}{{6}{4}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 従来法（flatten）と提案手法の処理比較}}{4}{}\protected@file@percent }
-\newlabel{fig:conventional_vs_phase1}{{3}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}アルゴリズム概要}{4}{}\protected@file@percent }
-\newlabel{sec:algorithm}{{\mbox  {IV-B}}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}ステップ 1: バスケットマップの構築}{4}{}\protected@file@percent }
-\citation{dsaa2025}
-\citation{dsaa2025}
-\citation{dsaa2025}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Basket-aware Apriori-Window}}{5}{}\protected@file@percent }
-\newlabel{alg:basket_aware_apriori_window}{{1}{5}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}ステップ 2: 長さ 1 の密集パターン}{5}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}3}ステップ 3: 長さ $k \geq 2$ の密集パターン（核心部）}{5}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}4}スライディングウィンドウ機構}{5}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}反単調性の証明}{5}{}\protected@file@percent }
-\newlabel{sec:anti_monotone}{{\mbox  {IV-C}}{5}{}{}{}}
-\newlabel{thm:anti_monotone}{{1}{5}{}{}{}}
-\newlabel{eq:anti_monotone}{{6}{5}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}従来 Apriori-window との関係}{6}{}\protected@file@percent }
-\newlabel{sec:relationship}{{\mbox  {IV-D}}{6}{}{}{}}
-\newlabel{prop:special_case}{{3}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}実装上のポイント}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}1}BasketToTransaction におけるトランザクション ID の重複}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}2}グローバルバスケット ID の採番}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}3}メモリ効率}{6}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}実験結果と考察}{6}{}\protected@file@percent }
-\newlabel{sec:experiments}{{V}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}データ生成方法と実験プロトコル}{6}{}\protected@file@percent }
-\newlabel{sec:exp_method}{{\mbox  {V-A}}{6}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces E0 結果（Oracle 一致）}}{6}{}\protected@file@percent }
-\newlabel{tab:e0_summary}{{I}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}E0: 実装厳密性の検証（Oracle 一致）}{6}{}\protected@file@percent }
-\newlabel{sec:exp_e0}{{\mbox  {V-B}}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}E1: $\lambda _{\text  {baskets}}$ sweep による偽共起拡大}{6}{}\protected@file@percent }
-\newlabel{sec:exp_e1}{{\mbox  {V-C}}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}E2: 構造感度（$G$ / $p_{\text  {same}}$ sweep）}{6}{}\protected@file@percent }
-\newlabel{sec:exp_e2}{{\mbox  {V-D}}{6}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces E1 予備結果: GTSPR（seed=5 平均）}}{7}{}\protected@file@percent }
-\newlabel{tab:prelim_gtspr}{{II}{7}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces E2-G 結果（$p_{\text  {same}}=0.8$, seed=5 平均）}}{7}{}\protected@file@percent }
-\newlabel{tab:e2_g_sweep}{{III}{7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}E3: スケーラビリティ（$N_{\text  {transactions}}$ sweep）}{7}{}\protected@file@percent }
-\newlabel{sec:exp_e3}{{\mbox  {V-E}}{7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}E4: 区間品質評価（$\lambda _{\text  {baskets}}$ sweep）}{7}{}\protected@file@percent }
-\newlabel{sec:exp_e4}{{\mbox  {V-F}}{7}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces E2-$p_{\text  {same}}$ 結果（$G=10$, seed=5 平均）}}{7}{}\protected@file@percent }
-\newlabel{tab:e2_psame_sweep}{{IV}{7}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces E3 結果（実行時間, ms; seed=3 平均）}}{7}{}\protected@file@percent }
-\newlabel{tab:e3_scalability}{{V}{7}{}{}{}}
+\newlabel{sec:problem}{{III}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}記法}{2}{}\protected@file@percent }
+\newlabel{def:support_series}{{1}{2}{}{}{}}
+\newlabel{eq:support_series}{{1}{2}{}{}{}}
+\newlabel{def:event}{{2}{2}{}{}{}}
+\newlabel{def:change_point}{{3}{3}{}{}{}}
+\newlabel{eq:up_crossing}{{2}{3}{}{}{}}
+\newlabel{eq:down_crossing}{{3}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}イベント帰属問題}{3}{}\protected@file@percent }
+\newlabel{def:attribution}{{4}{3}{}{}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces イベント帰属パイプライン}}{3}{}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{alg:pipeline}{{1}{3}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}提案手法}{3}{}\protected@file@percent }
+\newlabel{sec:method}{{IV}{3}{}{}{}}
+\citation{benjamini1995controlling}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Step 1: 密集区間からの変化点抽出}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Step 2: 変化量の評価}{4}{}\protected@file@percent }
+\newlabel{eq:magnitude}{{5}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Step 3: 帰属スコアリング}{4}{}\protected@file@percent }
+\newlabel{eq:attribution_score}{{6}{4}{}{}{}}
+\newlabel{eq:proximity}{{7}{4}{}{}{}}
+\newlabel{eq:direction}{{8}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Step 4: 置換検定とグローバルFDR補正}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}1}円形シフト帰無分布}{4}{}\protected@file@percent }
+\newlabel{eq:pvalue}{{10}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}2}グローバル Benjamini--Hochberg 補正}{4}{}\protected@file@percent }
+\newlabel{eq:bh}{{11}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Step 5: アイテム重複排除}{4}{}\protected@file@percent }
+\newlabel{sec:dedup}{{\mbox  {IV-E}}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}1}副次パターン問題}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}2}Union-Find クラスタリングによる重複排除}{4}{}\protected@file@percent }
+\newlabel{prop:dedup}{{1}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}計算量分析}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}実験}{5}{}\protected@file@percent }
+\newlabel{sec:experiments}{{V}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}実験設計}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}合成データ生成}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}評価指標}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}3}デフォルト設定}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}4}パイプライン動作例}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces デフォルトパラメータ}}{5}{}\protected@file@percent }
+\newlabel{tab:default_params}{{I}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces パイプラインの動作例（合成データ，パターン$(1001,1002)$）． サポート時系列と変化点（破線）． 陰影: 植え込みイベント（青）とデコイ（灰）．}}{5}{}\protected@file@percent }
+\newlabel{fig:pipeline_example}{{1}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}E1: 正解回復能力}{5}{}\protected@file@percent }
+\newlabel{sec:exp_e1}{{\mbox  {V-B}}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}E1a: クリーン信号}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}E1b: ブースト感度}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}3}E1c: 重複イベント}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}4}E1d: 植え込み数×デコイ数}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces E1a 結果（$\beta =0.5$, 植え込み3, デコイ2, $N=5{,}000$）}}{6}{}\protected@file@percent }
+\newlabel{tab:e1a}{{II}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces E1b 結果（ブースト感度，5 seeds/boost）}}{6}{}\protected@file@percent }
+\newlabel{tab:e1b}{{III}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}E2: パラメータ感度}{6}{}\protected@file@percent }
+\newlabel{sec:exp_e2}{{\mbox  {V-C}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}1}ウィンドウサイズ}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}2}近接度パラメータ $\sigma $}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}3}置換回数}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}4}有意水準 $\alpha $}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}4a}$p$値分布の分析}{6}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces E1c 結果（重複イベント，5 seeds）}}{6}{}\protected@file@percent }
+\newlabel{tab:e1c}{{IV}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces E1d 結果（植え込み数 $\times $ デコイ数，3 seeds平均）}}{6}{}\protected@file@percent }
+\newlabel{tab:e1d}{{V}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}5}変化点検出法}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}E3: スケーラビリティ}{6}{}\protected@file@percent }
+\newlabel{sec:exp_e3}{{\mbox  {V-D}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}1}データサイズ}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}2}イベント数}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-D}3}置換回数と計算時間}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}E4: 実データ検証}{6}{}\protected@file@percent }
+\newlabel{sec:exp_e4}{{\mbox  {V-E}}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces E2 結果: ウィンドウサイズ感度（3 seeds平均）}}{7}{}\protected@file@percent }
+\newlabel{tab:e2_ws}{{VI}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces E2 結果: 有意水準感度（3 seeds平均）}}{7}{}\protected@file@percent }
+\newlabel{tab:e2_alpha}{{VII}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-E}1}T10I4D100K}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-E}2}retail.txt}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}反復改善の効果}{7}{}\protected@file@percent }
+\newlabel{sec:exp_ablation}{{\mbox  {V-F}}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-G}}パラメータ・ロバスト性}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-H}}スコア構成要素のアブレーション}{7}{}\protected@file@percent }
+\newlabel{sec:exp_ablation_score}{{\mbox  {V-H}}{7}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces $p$値分布の変化． (a) 未補正$p$値: 真陽性（TP）3件の$p$値は0.020--0.024で， $\alpha =0.05$を十分に下回る． (b) BH補正後: $M=23$仮説に対する多重検定補正により， TP の調整済み$p$値は0.114に膨張し$\alpha =0.05$を超過する． $\alpha =0.20$（緑線）で初めてTPが検出可能となる． }}{7}{}\protected@file@percent }
+\newlabel{fig:pvalue_dist}{{2}{7}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces E3 結果: データサイズ vs 実行時間}}{7}{}\protected@file@percent }
+\newlabel{tab:e3_n}{{VIII}{7}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}結論}{7}{}\protected@file@percent }
 \newlabel{sec:conclusion}{{VI}{7}{}{}{}}
-\bibstyle{IEEEtran.bst}
+\bibstyle{IEEEtran}
 \bibdata{refs}
-\bibcite{dsaa2025}{1}
-\bibcite{agrawal1994fast}{2}
-\bibcite{han2000mining}{3}
+\bibcite{agrawal1994fast}{1}
+\bibcite{han2000mining}{2}
+\bibcite{fournier2017survey}{3}
 \bibcite{zaki2000scalable}{4}
-\bibcite{uno2004lcm}{5}
-\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces E4 結果（区間品質; seed=5 平均）}}{8}{}\protected@file@percent }
-\newlabel{tab:e4_interval_quality}{{VI}{8}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces E4 結果（従来法の区間汚染・膨張; seed=5 平均）}}{8}{}\protected@file@percent }
-\newlabel{tab:e4_interval_artifacts}{{VII}{8}{}{}{}}
-\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: Supplementary Material}{8}{}\protected@file@percent }
-\newlabel{sec:supplement}{{A}{8}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {A-A}}実験条件とパラメータ設定}{8}{}\protected@file@percent }
-\newlabel{sec:supp_exp_conditions}{{\mbox  {A-A}}{8}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {A-B}}データ形式と乱数設定}{8}{}\protected@file@percent }
-\newlabel{sec:supp_data_format}{{\mbox  {A-B}}{8}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {A-C}}Ground Truth と GTSPR の計算}{8}{}\protected@file@percent }
-\newlabel{sec:supp_gt}{{\mbox  {A-C}}{8}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces 固定パラメータ（E1/E2/E3/E4 共通の非 sweep 項目）}}{8}{}\protected@file@percent }
-\newlabel{tab:supp_fixed_params}{{VIII}{8}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces E0/E1/E2/E3/E4 の評価条件}}{8}{}\protected@file@percent }
-\newlabel{tab:supp_sweep}{{IX}{8}{}{}{}}
+\bibcite{dsaa2025}{5}
+\bibcite{mahanta2005finding}{6}
+\bibcite{tanbeer2009discovering}{7}
+\bibcite{kiran2017discovering}{8}
+\bibcite{fournier2021mining}{9}
+\bibcite{page1954continuous}{10}
+\bibcite{aminikhanghahi2017survey}{11}
+\bibcite{mackinlay1997event}{12}
+\bibcite{benjamini1995controlling}{13}
+\bibcite{aggarwal2014frequent}{14}
+\bibcite{uno2004lcm}{15}
+\bibcite{ho2022efficient}{16}
+\bibcite{chang2005estwin}{17}
+\bibcite{chi2004moment}{18}
+\bibcite{batal2012mining}{19}
+\bibcite{dong1999discovering}{20}
+\bibcite{bay2001detecting}{21}
+\bibcite{komiyama2017statistical}{22}
+\bibcite{chen2022contrast}{23}
+\bibcite{truong2020selective}{24}
+\bibcite{brodersen2015causalimpact}{25}
+\bibcite{chen2004pinpoint}{26}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces E3 結果: イベント数 vs 性能}}{8}{}\protected@file@percent }
+\newlabel{tab:e3_events}{{IX}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces E4 結果: T10I4D100K（100K transactions）}}{8}{}\protected@file@percent }
+\newlabel{tab:e4_t10}{{X}{8}{}{}{}}
 \@writefile{toc}{\contentsline {section}{References}{8}{}\protected@file@percent }
-\bibcite{tanbeer2009discovering}{6}
-\bibcite{kiran2017discovering}{7}
-\bibcite{mahanta2005finding}{8}
-\bibcite{fournier2020local}{9}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces 反復改善の効果（E1a, seed=0）}}{8}{}\protected@file@percent }
+\newlabel{tab:ablation}{{XI}{8}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces パラメータ・ロバスト性の変化}}{8}{}\protected@file@percent }
+\newlabel{tab:robustness}{{XII}{8}{}{}{}}
+\bibcite{jeyakumar2019explainit}{27}
+\bibcite{liu2021root}{28}
+\bibcite{granger1969investigating}{29}
+\bibcite{webb2007discovering}{30}
+\bibcite{hamalainen2019tutorial}{31}
+\bibcite{terada2013statistical}{32}
+\bibcite{pellegrina2020significant}{33}
+\bibcite{davison1997bootstrap}{34}
+\bibcite{yuan2024rigorous}{35}
+\bibcite{dunn1961multiple}{36}
+\@writefile{lot}{\contentsline {table}{\numberline {XIII}{\ignorespaces スコア構成要素アブレーション（E1a条件，5 seeds平均）}}{9}{}\protected@file@percent }
+\newlabel{tab:ablation_score}{{XIII}{9}{}{}{}}
 \gdef \@abspage@last{9}
