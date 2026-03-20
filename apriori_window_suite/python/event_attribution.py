@@ -17,8 +17,10 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 # Phase 1 モジュールを import
 _parent = str(Path(__file__).resolve().parent)
-if _parent not in sys.path:
-    sys.path.insert(0, _parent)
+_original_dir = str(Path(__file__).resolve().parent.parent.parent / "apriori_window_original" / "python")
+for _p in [_parent, _original_dir]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 
 # ---------------------------------------------------------------------------
@@ -73,15 +75,24 @@ class AttributionConfig:
     change_method: str = "threshold_crossing"
     cusum_drift: float = 0.5
     cusum_h: float = 4.0
+    min_magnitude: float = 0.0  # 変化点の最小変化量フィルタ
+    min_relative_change: float = 0.0  # 最小相対変化量 (|Δ|/max(1, before))
+    min_support_range: int = 0  # パターンのサポート振幅 (max-min) の最小値
     # Attribution scoring
     sigma: Optional[float] = None  # defaults to window_size
     max_distance: Optional[int] = None  # defaults to 2 * window_size
     attribution_threshold: float = 0.1
+    use_effect_size: bool = False  # スコアに相対変化量を組み込む
     # Significance testing
     n_permutations: int = 1000
     alpha: float = 0.05
     correction_method: str = "bonferroni"
+    global_correction: bool = True  # 全パターン横断の多重検定補正
     seed: Optional[int] = None
+    # Post-processing
+    deduplicate_overlap: bool = False  # アイテム重複パターンの重複排除
+    # Ablation
+    ablation_mode: Optional[str] = None  # スコア構成要素アブレーション
 
 
 # ---------------------------------------------------------------------------
@@ -105,6 +116,9 @@ def compute_support_series(
 
     Returns:
         長さ max(0, n_transactions - window_size + 1) の整数リスト
+
+    .. deprecated::
+        Phase 2 v2 パイプラインでは不要。dense_intervals_to_change_points() を使用。
     """
     length = max(0, n_transactions - window_size + 1)
     series = []
@@ -126,8 +140,11 @@ def compute_support_series_all(
 
     Phase 1 の item_transaction_map を利用してパターンの出現トランザクションを
     特定し、各パターンについてサポート時系列を生成する。
+
+    .. deprecated::
+        Phase 2 v2 パイプラインでは不要。run_attribution_pipeline_v2() を使用。
     """
-    from apriori_window_basket import intersect_sorted_lists
+    from apriori_window import intersect_sorted_lists
 
     n_transactions = len(transactions)
     result = {}
@@ -145,43 +162,178 @@ def compute_support_series_all(
 
 
 # ---------------------------------------------------------------------------
+# Step 1v2: Dense Intervals → Change Points (Phase 1 出力を直接利用)
+# ---------------------------------------------------------------------------
+
+def _local_support(timestamps: Sequence[int], t: int, window_size: int) -> int:
+    """位置 t でのサポートを bisect で O(log n) 計算する。"""
+    left = bisect_left(timestamps, t)
+    right = bisect_right(timestamps, t + window_size - 1)
+    return right - left
+
+
+def dense_intervals_to_change_points(
+    intervals: List[Tuple[int, int]],
+    timestamps: Sequence[int],
+    window_size: int,
+    n_transactions: int,
+    level_window: int = 20,
+) -> List[ChangePoint]:
+    """
+    Phase 1 の密集区間リストから変化点を直接生成する。
+
+    Phase 1 は密集条件を満たすウィンドウ左端 l の連続区間 (s, e) を出力する。
+    各区間について:
+      - 位置 s で "up" 変化点を生成
+      - 位置 e+1 で "down" 変化点を生成（e+1 < max_pos の場合）
+
+    magnitude は交差前後の level_window 幅の平均サポート差（レベルシフト量）。
+    局所サポートは bisect で O(log n) で計算する。
+
+    Args:
+        intervals: Phase 1 出力の密集区間リスト [(s1, e1), (s2, e2), ...]
+        timestamps: パターンの出現トランザクション ID（ソート済み）
+        window_size: スライディングウィンドウ幅
+        n_transactions: トランザクション総数
+        level_window: magnitude 計算用のレベルウィンドウ幅
+
+    Returns:
+        変化点のリスト
+    """
+    max_pos = max(0, n_transactions - window_size + 1)
+    if max_pos == 0 or not intervals:
+        return []
+
+    changes: List[ChangePoint] = []
+
+    for s, e in intervals:
+        # "up" change point at position s
+        if 0 <= s < max_pos:
+            before_start = max(0, s - level_window)
+            after_end = min(max_pos, s + level_window)
+            n_before = s - before_start
+            n_after = after_end - s
+            if n_before > 0:
+                mean_before = sum(
+                    _local_support(timestamps, t, window_size)
+                    for t in range(before_start, s)
+                ) / n_before
+            else:
+                mean_before = 0.0
+            if n_after > 0:
+                mean_after = sum(
+                    _local_support(timestamps, t, window_size)
+                    for t in range(s, after_end)
+                ) / n_after
+            else:
+                mean_after = 0.0
+            mag = mean_after - mean_before
+            changes.append(ChangePoint(
+                time=s,
+                direction="up",
+                magnitude=max(1.0, mag),
+                support_before=mean_before,
+                support_after=mean_after,
+            ))
+
+        # "down" change point at position e+1
+        down_pos = e + 1
+        if 0 < down_pos < max_pos:
+            before_start = max(0, down_pos - level_window)
+            after_end = min(max_pos, down_pos + level_window)
+            n_before = down_pos - before_start
+            n_after = after_end - down_pos
+            if n_before > 0:
+                mean_before = sum(
+                    _local_support(timestamps, t, window_size)
+                    for t in range(before_start, down_pos)
+                ) / n_before
+            else:
+                mean_before = 0.0
+            if n_after > 0:
+                mean_after = sum(
+                    _local_support(timestamps, t, window_size)
+                    for t in range(down_pos, after_end)
+                ) / n_after
+            else:
+                mean_after = 0.0
+            mag = mean_before - mean_after
+            changes.append(ChangePoint(
+                time=down_pos,
+                direction="down",
+                magnitude=max(1.0, mag),
+                support_before=mean_before,
+                support_after=mean_after,
+            ))
+
+    return changes
+
+
+def _get_pattern_timestamps(
+    pattern: Tuple[int, ...],
+    item_transaction_map: Dict[int, List[int]],
+) -> List[int]:
+    """パターンの出現トランザクション ID リストを取得する。"""
+    from apriori_window import intersect_sorted_lists
+
+    items = list(pattern)
+    if len(items) == 1:
+        return list(item_transaction_map.get(items[0], []))
+    else:
+        lists = [item_transaction_map.get(item, []) for item in items]
+        return intersect_sorted_lists(lists)
+
+
+# ---------------------------------------------------------------------------
 # Step 2: Change Point Detection
 # ---------------------------------------------------------------------------
 
 def detect_threshold_crossings(
     support_series: List[int],
     threshold: int,
+    level_window: int = 20,
 ) -> List[ChangePoint]:
     """
     密集区間の開始/終了を変化点として検出する。
 
     最も単純な変化点検出: サポートが閾値を上回った/下回った時点。
+    magnitude は交差前後の level_window 幅の平均サポート差（レベルシフト量）。
     """
     if not support_series:
         return []
 
+    n = len(support_series)
     changes: List[ChangePoint] = []
     prev_dense = False
 
     for t, s in enumerate(support_series):
         is_dense = s >= threshold
         if is_dense and not prev_dense:
-            prev_s = support_series[t - 1] if t > 0 else 0
+            # レベルシフト量: 交差後の平均 - 交差前の平均
+            before_start = max(0, t - level_window)
+            after_end = min(n, t + level_window)
+            mean_before = sum(support_series[before_start:t]) / max(1, t - before_start)
+            mean_after = sum(support_series[t:after_end]) / max(1, after_end - t)
+            mag = mean_after - mean_before
             changes.append(ChangePoint(
                 time=t,
                 direction="up",
-                magnitude=float(s - prev_s),
-                support_before=float(prev_s),
-                support_after=float(s),
+                magnitude=max(1.0, mag),
+                support_before=mean_before,
+                support_after=mean_after,
             ))
         elif not is_dense and prev_dense:
-            prev_s = support_series[t - 1] if t > 0 else 0
+            before_start = max(0, t - level_window)
+            after_end = min(n, t + level_window)
+            mean_before = sum(support_series[before_start:t]) / max(1, t - before_start)
+            mean_after = sum(support_series[t:after_end]) / max(1, after_end - t)
+            mag = mean_before - mean_after
             changes.append(ChangePoint(
                 time=t,
                 direction="down",
-                magnitude=float(prev_s - s),
-                support_before=float(prev_s),
-                support_after=float(s),
+                magnitude=max(1.0, mag),
+                support_before=mean_before,
+                support_after=mean_after,
             ))
         prev_dense = is_dense
 
@@ -307,9 +459,22 @@ def score_attributions(
     sigma: float,
     max_distance: int,
     attribution_threshold: float = 0.1,
+    use_effect_size: bool = False,
+    ablation_mode: Optional[str] = None,
 ) -> List[AttributionCandidate]:
     """
     変化点-イベント間の帰属スコアを計算し、閾値を超えた候補を返す。
+
+    use_effect_size=True の場合、magnitude の代わりに相対変化量
+    (magnitude / max(1, support_before)) を使用する。これにより高ベースライン
+    パターンの弱い変動が抑制される。
+
+    ablation_mode: スコア構成要素のアブレーション設定（None=Full）。
+        "no_dir"   : prox × mag (dir=1.0)
+        "no_prox"  : dir × mag  (prox=1.0)
+        "no_mag"   : prox × dir (mag=1.0)
+        "mag_only" : mag only   (prox=1.0, dir=1.0)
+        "prox_only": prox only  (dir=1.0, mag=1.0)
     """
     candidates: List[AttributionCandidate] = []
 
@@ -321,7 +486,24 @@ def score_attributions(
 
             prox = compute_proximity(cp.time, event, sigma)
             dir_match = compute_direction_match(cp, event)
-            score = prox * dir_match * abs(cp.magnitude)
+            if use_effect_size:
+                mag = abs(cp.magnitude) / max(1.0, cp.support_before)
+            else:
+                mag = abs(cp.magnitude)
+
+            # Apply ablation overrides
+            if ablation_mode == "no_dir":
+                score = prox * 1.0 * mag
+            elif ablation_mode == "no_prox":
+                score = 1.0 * dir_match * mag
+            elif ablation_mode == "no_mag":
+                score = prox * dir_match * 1.0
+            elif ablation_mode == "mag_only":
+                score = 1.0 * 1.0 * mag
+            elif ablation_mode == "prox_only":
+                score = prox * 1.0 * 1.0
+            else:
+                score = prox * dir_match * mag
 
             if score >= attribution_threshold:
                 candidates.append(AttributionCandidate(
@@ -362,7 +544,18 @@ def circular_shift_events(
     return shifted
 
 
-def permutation_test(
+@dataclass
+class _RawTestResult:
+    """置換検定の中間結果（alpha 判定前）。"""
+    pattern: Tuple[int, ...]
+    change_point: ChangePoint
+    event: Event
+    proximity: float
+    obs_score: float
+    p_value: float
+
+
+def permutation_test_raw(
     pattern: Tuple[int, ...],
     change_points: List[ChangePoint],
     events: List[Event],
@@ -370,22 +563,22 @@ def permutation_test(
     max_distance: int,
     max_time: int,
     n_permutations: int = 1000,
-    alpha: float = 0.05,
-    correction_method: str = "bonferroni",
     attribution_threshold: float = 0.1,
     seed: Optional[int] = None,
-) -> List[SignificantAttribution]:
+    use_effect_size: bool = False,
+    ablation_mode: Optional[str] = None,
+) -> List[_RawTestResult]:
     """
-    置換検定により有意な帰属を特定する。
+    置換検定を実行し、未補正 p 値を返す（alpha 判定はしない）。
 
     帰無仮説: 変化点の位置はイベントと独立
     """
     import random
     rng = random.Random(seed)
 
-    # 観測統計量: 各 (pattern, event) ペアの帰属スコア合計
     obs_candidates = score_attributions(
-        pattern, change_points, events, sigma, max_distance, attribution_threshold
+        pattern, change_points, events, sigma, max_distance, attribution_threshold,
+        use_effect_size=use_effect_size, ablation_mode=ablation_mode,
     )
     if not obs_candidates:
         return []
@@ -404,7 +597,8 @@ def permutation_test(
         shifted_events = circular_shift_events(events, offset, max_time)
         perm_candidates = score_attributions(
             pattern, change_points, shifted_events, sigma, max_distance,
-            attribution_threshold
+            attribution_threshold, use_effect_size=use_effect_size,
+            ablation_mode=ablation_mode,
         )
 
         perm_scores: Dict[str, float] = {}
@@ -416,38 +610,77 @@ def permutation_test(
             if perm_scores.get(eid, 0.0) >= obs_s:
                 perm_counts[eid] += 1
 
-    # p 値計算
-    n_hypotheses = len(obs_scores)
-    results: List[SignificantAttribution] = []
-
+    # 未補正 p 値を返す
+    results: List[_RawTestResult] = []
     for eid, obs_s in obs_scores.items():
         p_value = (perm_counts[eid] + 1) / (n_permutations + 1)
-
-        if correction_method == "bonferroni":
-            adj_p = min(1.0, p_value * n_hypotheses)
-        else:
-            adj_p = p_value
-
-        if adj_p >= alpha:
-            continue
-
-        # 対応する最良の候補を取得
         best = max(
             [c for c in obs_candidates if c.event.event_id == eid],
             key=lambda c: c.attribution_score,
         )
+        results.append(_RawTestResult(
+            pattern=pattern,
+            change_point=best.change_point,
+            event=best.event,
+            proximity=best.proximity,
+            obs_score=obs_s,
+            p_value=p_value,
+        ))
+
+    return results
+
+
+def permutation_test(
+    pattern: Tuple[int, ...],
+    change_points: List[ChangePoint],
+    events: List[Event],
+    sigma: float,
+    max_distance: int,
+    max_time: int,
+    n_permutations: int = 1000,
+    alpha: float = 0.05,
+    correction_method: str = "bonferroni",
+    attribution_threshold: float = 0.1,
+    seed: Optional[int] = None,
+    use_effect_size: bool = False,
+    ablation_mode: Optional[str] = None,
+) -> List[SignificantAttribution]:
+    """
+    置換検定により有意な帰属を特定する（後方互換ラッパー）。
+
+    帰無仮説: 変化点の位置はイベントと独立
+    """
+    raw_results = permutation_test_raw(
+        pattern, change_points, events, sigma, max_distance,
+        max_time, n_permutations, attribution_threshold, seed,
+        use_effect_size=use_effect_size, ablation_mode=ablation_mode,
+    )
+    if not raw_results:
+        return []
+
+    n_hypotheses = len(raw_results)
+    results: List[SignificantAttribution] = []
+
+    for r in raw_results:
+        if correction_method == "bonferroni":
+            adj_p = min(1.0, r.p_value * n_hypotheses)
+        else:
+            adj_p = r.p_value
+
+        if adj_p >= alpha:
+            continue
 
         results.append(SignificantAttribution(
-            pattern=pattern,
-            change_time=best.change_point.time,
-            change_direction=best.change_point.direction,
-            change_magnitude=best.change_point.magnitude,
-            event_name=best.event.name,
-            event_start=best.event.start,
-            event_end=best.event.end,
-            proximity=best.proximity,
-            attribution_score=obs_s,
-            p_value=p_value,
+            pattern=r.pattern,
+            change_time=r.change_point.time,
+            change_direction=r.change_point.direction,
+            change_magnitude=r.change_point.magnitude,
+            event_name=r.event.name,
+            event_start=r.event.start,
+            event_end=r.event.end,
+            proximity=r.proximity,
+            attribution_score=r.obs_score,
+            p_value=r.p_value,
             adjusted_p_value=adj_p,
         ))
 
@@ -486,6 +719,14 @@ def run_attribution_pipeline(
     sigma = config.sigma if config.sigma is not None else float(window_size)
     max_distance = config.max_distance if config.max_distance is not None else 2 * window_size
 
+    # グローバル補正が有効な場合: まず全パターンの p 値を収集してから判定
+    if config.global_correction:
+        return _run_pipeline_global(
+            support_series_map, events, window_size, threshold, sigma,
+            max_distance, config,
+        )
+
+    # per-pattern 補正（後方互換）
     all_results: List[SignificantAttribution] = []
 
     for pattern, series in support_series_map.items():
@@ -496,18 +737,10 @@ def run_attribution_pipeline(
 
         max_time = len(series)
 
-        # Step 2: Change Point Detection
-        change_points = detect_change_points(
-            series,
-            method=config.change_method,
-            threshold=threshold,
-            cusum_drift=config.cusum_drift,
-            cusum_h=config.cusum_h,
-        )
+        change_points = _detect_and_filter(series, threshold, config)
         if not change_points:
             continue
 
-        # Step 3 & 4: Attribution + Significance
         sig_results = permutation_test(
             pattern=pattern,
             change_points=change_points,
@@ -520,10 +753,397 @@ def run_attribution_pipeline(
             correction_method=config.correction_method,
             attribution_threshold=config.attribution_threshold,
             seed=config.seed,
+            ablation_mode=config.ablation_mode,
         )
         all_results.extend(sig_results)
 
     return all_results
+
+
+def _detect_and_filter(
+    series: List[int],
+    threshold: int,
+    config: AttributionConfig,
+) -> List[ChangePoint]:
+    """変化点検出 + 品質フィルタ（magnitude / 相対変化量）。"""
+    change_points = detect_change_points(
+        series,
+        method=config.change_method,
+        threshold=threshold,
+        cusum_drift=config.cusum_drift,
+        cusum_h=config.cusum_h,
+    )
+    if config.min_magnitude > 0:
+        change_points = [cp for cp in change_points
+                         if cp.magnitude >= config.min_magnitude]
+    if config.min_relative_change > 0:
+        change_points = [
+            cp for cp in change_points
+            if cp.magnitude / max(1.0, cp.support_before) >= config.min_relative_change
+        ]
+    return change_points
+
+
+def _detect_and_filter_from_intervals(
+    intervals: List[Tuple[int, int]],
+    timestamps: Sequence[int],
+    window_size: int,
+    n_transactions: int,
+    config: AttributionConfig,
+) -> List[ChangePoint]:
+    """密集区間から変化点を生成 + 品質フィルタ（magnitude / 相対変化量）。"""
+    change_points = dense_intervals_to_change_points(
+        intervals, timestamps, window_size, n_transactions,
+    )
+    if config.min_magnitude > 0:
+        change_points = [cp for cp in change_points
+                         if cp.magnitude >= config.min_magnitude]
+    if config.min_relative_change > 0:
+        change_points = [
+            cp for cp in change_points
+            if cp.magnitude / max(1.0, cp.support_before) >= config.min_relative_change
+        ]
+    return change_points
+
+
+def _run_pipeline_global(
+    support_series_map: Dict[Tuple[int, ...], List[int]],
+    events: List[Event],
+    window_size: int,
+    threshold: int,
+    sigma: float,
+    max_distance: int,
+    config: AttributionConfig,
+) -> List[SignificantAttribution]:
+    """全パターン横断でグローバル多重検定補正を行うパイプライン。"""
+    # Step 2-3: 全パターンの未補正 p 値を収集
+    all_raw: List[_RawTestResult] = []
+
+    for pattern, series in support_series_map.items():
+        if len(pattern) <= 1:
+            continue
+        if not series:
+            continue
+
+        # サポート振幅フィルタ: 変動の小さいパターンをスキップ
+        if config.min_support_range > 0:
+            s_range = max(series) - min(series)
+            if s_range < config.min_support_range:
+                continue
+
+        max_time = len(series)
+        change_points = _detect_and_filter(series, threshold, config)
+        if not change_points:
+            continue
+
+        raw_results = permutation_test_raw(
+            pattern=pattern,
+            change_points=change_points,
+            events=events,
+            sigma=sigma,
+            max_distance=max_distance,
+            max_time=max_time,
+            n_permutations=config.n_permutations,
+            attribution_threshold=config.attribution_threshold,
+            seed=config.seed,
+            use_effect_size=config.use_effect_size,
+            ablation_mode=config.ablation_mode,
+        )
+        all_raw.extend(raw_results)
+
+    if not all_raw:
+        return []
+
+    # Step 4: グローバル多重検定補正
+    n_total_hypotheses = len(all_raw)
+    results: List[SignificantAttribution] = []
+
+    if config.correction_method == "bh":
+        # Benjamini-Hochberg step-up (FDR制御)
+        sorted_raw = sorted(all_raw, key=lambda r: r.p_value)
+        # Step-down adjusted p-values: adj_p[k] = min(adj_p[k+1], p[k]*m/k)
+        adj_p_list = [0.0] * n_total_hypotheses
+        for i in range(n_total_hypotheses - 1, -1, -1):
+            rank = i + 1
+            raw_adj = sorted_raw[i].p_value * n_total_hypotheses / rank
+            if i == n_total_hypotheses - 1:
+                adj_p_list[i] = min(1.0, raw_adj)
+            else:
+                adj_p_list[i] = min(adj_p_list[i + 1], min(1.0, raw_adj))
+        for i, r in enumerate(sorted_raw):
+            if adj_p_list[i] < config.alpha:
+                results.append(_raw_to_significant(r, adj_p_list[i]))
+    else:
+        # Bonferroni (FWER制御)
+        for r in all_raw:
+            adj_p = min(1.0, r.p_value * n_total_hypotheses)
+            if adj_p < config.alpha:
+                results.append(_raw_to_significant(r, adj_p))
+
+    # Step 5: アイテム重複パターンの重複排除
+    if config.deduplicate_overlap and results:
+        results = _deduplicate_by_item_overlap(results)
+
+    return results
+
+
+def run_attribution_pipeline_v2(
+    frequents: Dict[Tuple[int, ...], List[Tuple[int, int]]],
+    item_transaction_map: Dict[int, List[int]],
+    events: List[Event],
+    window_size: int,
+    threshold: int,
+    n_transactions: int,
+    config: Optional[AttributionConfig] = None,
+) -> List[SignificantAttribution]:
+    """
+    Event Attribution Pipeline v2: Phase 1 の密集区間を直接利用する。
+
+    compute_support_series_all() による全サポート時系列の再計算を省略し、
+    Phase 1 が出力した密集区間 (s, e) から変化点を直接生成する。
+
+    Args:
+        frequents: Phase 1 出力（パターン → 密集区間リスト）
+        item_transaction_map: Phase 1 のアイテム → トランザクション ID マップ
+        events: 外部イベントリスト
+        window_size: Phase 1 のウィンドウサイズ
+        threshold: Phase 1 の最小サポート
+        n_transactions: トランザクション総数
+        config: パイプライン設定
+
+    Returns:
+        有意な帰属のリスト
+    """
+    if config is None:
+        config = AttributionConfig()
+
+    sigma = config.sigma if config.sigma is not None else float(window_size)
+    max_distance = config.max_distance if config.max_distance is not None else 2 * window_size
+
+    if config.global_correction:
+        return _run_pipeline_global_v2(
+            frequents, item_transaction_map, events, window_size,
+            threshold, n_transactions, sigma, max_distance, config,
+        )
+
+    # per-pattern 補正
+    max_pos = max(0, n_transactions - window_size + 1)
+    all_results: List[SignificantAttribution] = []
+
+    for pattern, intervals in frequents.items():
+        if len(pattern) <= 1:
+            continue
+        if not intervals:
+            continue
+
+        timestamps = _get_pattern_timestamps(pattern, item_transaction_map)
+        change_points = _detect_and_filter_from_intervals(
+            intervals, timestamps, window_size, n_transactions, config,
+        )
+        if not change_points:
+            continue
+
+        sig_results = permutation_test(
+            pattern=pattern,
+            change_points=change_points,
+            events=events,
+            sigma=sigma,
+            max_distance=max_distance,
+            max_time=max_pos,
+            n_permutations=config.n_permutations,
+            alpha=config.alpha,
+            correction_method=config.correction_method,
+            attribution_threshold=config.attribution_threshold,
+            seed=config.seed,
+            ablation_mode=config.ablation_mode,
+        )
+        all_results.extend(sig_results)
+
+    return all_results
+
+
+def _run_pipeline_global_v2(
+    frequents: Dict[Tuple[int, ...], List[Tuple[int, int]]],
+    item_transaction_map: Dict[int, List[int]],
+    events: List[Event],
+    window_size: int,
+    threshold: int,
+    n_transactions: int,
+    sigma: float,
+    max_distance: int,
+    config: AttributionConfig,
+) -> List[SignificantAttribution]:
+    """全パターン横断でグローバル多重検定補正を行うパイプライン (v2: 密集区間直接利用)。"""
+    max_pos = max(0, n_transactions - window_size + 1)
+    all_raw: List[_RawTestResult] = []
+
+    for pattern, intervals in frequents.items():
+        if len(pattern) <= 1:
+            continue
+        if not intervals:
+            continue
+
+        # min_support_range フィルタ:
+        # 密集区間が存在するパターンは support >= threshold の区間を持つ。
+        # support range >= threshold なので、min_support_range <= threshold なら常に通過。
+        if config.min_support_range > threshold:
+            # 精密なフィルタが必要 — 密集区間内外のサポートを局所計算
+            timestamps = _get_pattern_timestamps(pattern, item_transaction_map)
+            # 密集区間内の最大サポート（区間の中央付近）
+            max_sup = 0
+            for s, e in intervals:
+                mid = (s + e) // 2
+                sup = _local_support(timestamps, mid, window_size)
+                if sup > max_sup:
+                    max_sup = sup
+            # 密集区間外の最小サポート（区間から遠い位置）
+            min_sup = max_sup  # 初期値
+            # 区間外の候補位置: 先頭、末尾、区間間のギャップ中点
+            candidate_positions = [0, max(0, max_pos - 1)]
+            sorted_intervals = sorted(intervals)
+            for i in range(len(sorted_intervals) - 1):
+                gap_mid = (sorted_intervals[i][1] + sorted_intervals[i + 1][0]) // 2
+                candidate_positions.append(gap_mid)
+            for pos in candidate_positions:
+                if 0 <= pos < max_pos:
+                    sup = _local_support(timestamps, pos, window_size)
+                    if sup < min_sup:
+                        min_sup = sup
+            s_range = max_sup - min_sup
+            if s_range < config.min_support_range:
+                continue
+            # timestamps already computed
+        else:
+            timestamps = _get_pattern_timestamps(pattern, item_transaction_map)
+
+        change_points = _detect_and_filter_from_intervals(
+            intervals, timestamps, window_size, n_transactions, config,
+        )
+        if not change_points:
+            continue
+
+        raw_results = permutation_test_raw(
+            pattern=pattern,
+            change_points=change_points,
+            events=events,
+            sigma=sigma,
+            max_distance=max_distance,
+            max_time=max_pos,
+            n_permutations=config.n_permutations,
+            attribution_threshold=config.attribution_threshold,
+            seed=config.seed,
+            use_effect_size=config.use_effect_size,
+            ablation_mode=config.ablation_mode,
+        )
+        all_raw.extend(raw_results)
+
+    if not all_raw:
+        return []
+
+    # Step 4: グローバル多重検定補正
+    n_total_hypotheses = len(all_raw)
+    results: List[SignificantAttribution] = []
+
+    if config.correction_method == "bh":
+        sorted_raw = sorted(all_raw, key=lambda r: r.p_value)
+        adj_p_list = [0.0] * n_total_hypotheses
+        for i in range(n_total_hypotheses - 1, -1, -1):
+            rank = i + 1
+            raw_adj = sorted_raw[i].p_value * n_total_hypotheses / rank
+            if i == n_total_hypotheses - 1:
+                adj_p_list[i] = min(1.0, raw_adj)
+            else:
+                adj_p_list[i] = min(adj_p_list[i + 1], min(1.0, raw_adj))
+        for i, r in enumerate(sorted_raw):
+            if adj_p_list[i] < config.alpha:
+                results.append(_raw_to_significant(r, adj_p_list[i]))
+    else:
+        for r in all_raw:
+            adj_p = min(1.0, r.p_value * n_total_hypotheses)
+            if adj_p < config.alpha:
+                results.append(_raw_to_significant(r, adj_p))
+
+    if config.deduplicate_overlap and results:
+        results = _deduplicate_by_item_overlap(results)
+
+    return results
+
+
+def _deduplicate_by_item_overlap(
+    results: List[SignificantAttribution],
+) -> List[SignificantAttribution]:
+    """
+    同一イベントに帰属されたパターンのうち、アイテムが重複するものを
+    Union-Find でクラスタリングし、各クラスタから最高スコアのパターンのみ残す。
+
+    目的: 植え込みアイテムを1つ含む副次パターン (e.g. [78, 1001]) を除去し、
+    本来のパターン (e.g. [1001, 1002]) のみを残す。
+    """
+    from collections import defaultdict
+
+    by_event: Dict[str, List[SignificantAttribution]] = defaultdict(list)
+    for r in results:
+        by_event[r.event_name].append(r)
+
+    deduplicated: List[SignificantAttribution] = []
+
+    for event_name, event_results in by_event.items():
+        n = len(event_results)
+        if n <= 1:
+            deduplicated.extend(event_results)
+            continue
+
+        # Union-Find
+        parent = list(range(n))
+
+        def find(x: int) -> int:
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        def union(a: int, b: int) -> None:
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[ra] = rb
+
+        # アイテム → パターン index のマップ
+        item_to_indices: Dict[int, List[int]] = defaultdict(list)
+        for i, r in enumerate(event_results):
+            for item in r.pattern:
+                item_to_indices[item].append(i)
+
+        # 同一アイテムを共有するパターンを結合
+        for indices in item_to_indices.values():
+            for j in range(1, len(indices)):
+                union(indices[0], indices[j])
+
+        # クラスタごとに最高スコアを選択
+        clusters: Dict[int, List[SignificantAttribution]] = defaultdict(list)
+        for i in range(n):
+            clusters[find(i)].append(event_results[i])
+
+        for cluster in clusters.values():
+            best = max(cluster, key=lambda r: r.attribution_score)
+            deduplicated.append(best)
+
+    return deduplicated
+
+
+def _raw_to_significant(r: _RawTestResult, adj_p: float) -> SignificantAttribution:
+    return SignificantAttribution(
+        pattern=r.pattern,
+        change_time=r.change_point.time,
+        change_direction=r.change_point.direction,
+        change_magnitude=r.change_point.magnitude,
+        event_name=r.event.name,
+        event_start=r.event.start,
+        event_end=r.event.end,
+        proximity=r.proximity,
+        attribution_score=r.obs_score,
+        p_value=r.p_value,
+        adjusted_p_value=adj_p,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -569,9 +1189,9 @@ def main():
     with open(settings_path, "r", encoding="utf-8") as f:
         settings = json.load(f)
 
-    from apriori_window_basket import (
-        read_transactions_with_baskets,
-        compute_item_basket_map,
+    from apriori_window import (
+        read_text_file_as_2d_vec_of_integers,
+        compute_item_timestamps_map,
         find_dense_itemsets,
     )
 
@@ -586,15 +1206,10 @@ def main():
     max_length = params["max_length"]
 
     start = time.perf_counter()
-    transactions = read_transactions_with_baskets(input_path)
-    _, _, item_transaction_map = compute_item_basket_map(transactions)
+    transactions = read_text_file_as_2d_vec_of_integers(input_path)
+    item_transaction_map = compute_item_timestamps_map(transactions)
     frequents = find_dense_itemsets(
         transactions, window_size, min_support, max_length
-    )
-
-    # Step 1: サポート時系列構築
-    support_series_map = compute_support_series_all(
-        item_transaction_map, frequents, transactions, window_size
     )
 
     # イベント読み込み
@@ -612,18 +1227,23 @@ def main():
         change_method=cd.get("method", "threshold_crossing"),
         cusum_drift=cd.get("cusum_drift", 0.5),
         cusum_h=cd.get("cusum_h", 4.0),
+        min_magnitude=cd.get("min_magnitude", 0.0),
+        min_relative_change=cd.get("min_relative_change", 0.0),
         sigma=at.get("sigma"),
         max_distance=at.get("max_distance"),
         attribution_threshold=at.get("attribution_threshold", 0.1),
         n_permutations=sg.get("n_permutations", 1000),
         alpha=sg.get("alpha", 0.05),
         correction_method=sg.get("correction_method", "bonferroni"),
+        global_correction=sg.get("global_correction", True),
         seed=sg.get("seed"),
     )
 
-    # Phase 2 実行
-    results = run_attribution_pipeline(
-        frequents, support_series_map, events, window_size, min_support, config
+    # Phase 2 実行 (v2: 密集区間を直接利用、サポート時系列の再計算を省略)
+    n_transactions = len(transactions)
+    results = run_attribution_pipeline_v2(
+        frequents, item_transaction_map, events, window_size, min_support,
+        n_transactions, config
     )
 
     elapsed = time.perf_counter() - start
