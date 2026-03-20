@@ -1,0 +1,110 @@
+\section{Supplementary Material}
+\label{sec:supplement}
+
+本補遺では，本文 E0/E1/E2/E3/E4 で用いた実験条件，データ形式，Ground Truth 判定を補足する．
+
+\subsection{実験条件とパラメータ設定}
+\label{sec:supp_exp_conditions}
+
+本文 E0/E1/E2/E3/E4 は，Poisson 生成モデルに基づく合成データで評価した．
+トランザクション $t$ に対して，バスケット数とバスケット内アイテム数を
+次で与える．
+\[
+N_t = \max\{1, \mathrm{Poisson}(\lambda_{\text{baskets}})\},
+\quad
+K_{t,b} = \max\{1, \mathrm{Poisson}(\lambda_{\text{basket-size}})\}.
+\]
+カテゴリ集合は
+\[
+C_g = \{\,i \mid i \bmod G = g\,\}
+\]
+で定義し，各バスケットでは主カテゴリを一様選択した後，
+確率 $p_{\text{same}}$ で同カテゴリ，確率 $1-p_{\text{same}}$ で全体集合から
+Zipf 重み $w_i \propto (i+1)^{-\alpha_{\text{zipf}}}$ に従って抽出する．
+
+\begin{table}[t]
+\caption{固定パラメータ（E1/E2/E3/E4 共通の非 sweep 項目）}
+\label{tab:supp_fixed_params}
+\centering
+\begin{tabular}{ll}
+\toprule
+項目 & 値 \\
+\midrule
+生成モデル & Poisson \\
+$n_{\text{transactions}}$ & 10,000（E1/E2/E4），E3 では sweep \\
+$n_{\text{items}}$ & 200 \\
+$G$ & 10（E2-$p_{\text{same}}$ で固定） \\
+$\lambda_{\text{basket-size}}$ & 3.0 \\
+$p_{\text{same}}$ & 0.8（E2-$G$ で固定） \\
+$\alpha_{\text{zipf}}$ & 1.2 \\
+\texttt{window\_size} & 500 \\
+\texttt{min\_support} & 50 \\
+\texttt{max\_length} & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{E0/E1/E2/E3/E4 の評価条件}
+\label{tab:supp_sweep}
+\centering
+\begin{tabular}{llll}
+\toprule
+実験 & sweep 軸 & sweep 値 & seed \\
+\midrule
+E0 & 複数条件組合せ & 34 cases（小規模設定） & case ごと固定 \\
+E1 & $\lambda_{\text{baskets}}$ & $\{1.0, 1.5, 2.0, 3.0, 5.0\}$ & $0..4$（5本） \\
+E2-$G$ & $G$ & $\{3, 5, 10, 20, 50\}$ & $0..4$（5本） \\
+E2-$p_{\text{same}}$ & $p_{\text{same}}$ & $\{0.5, 0.6, 0.7, 0.8, 0.9\}$ & $0..4$（5本） \\
+E3 & $N_{\text{transactions}}$ & $\{10^3,10^4,10^5,10^6\}$ & $0..2$（3本） \\
+E4 & $\lambda_{\text{baskets}}$ & $\{1.0, 1.5, 2.0, 3.0, 5.0\}$ & $0..4$（5本） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+本文 E1/E2 は GTSPR を主指標として報告し，
+E3 は実行時間と Trad./BAAW 比，E4 は区間 purity/Jaccard と
+spurious interval rate・non-spurious expansion を報告するため，結果提示は
+表~\ref{tab:prelim_gtspr}, 表~\ref{tab:e2_g_sweep}, 表~\ref{tab:e2_psame_sweep}, 表~\ref{tab:e3_scalability}, 表~\ref{tab:e4_interval_quality}, 表~\ref{tab:e4_interval_artifacts}
+に集約している．
+
+\subsection{データ形式と乱数設定}
+\label{sec:supp_data_format}
+
+生成データは 1 行 1 トランザクション形式で保存し，同一行内のバスケットを
+区切り文字 \texttt{" | "} で連結する．
+例: \texttt{1 4 9 | 2 8}
+
+乱数は Python の \texttt{random.Random(seed)} を使用する．
+E1/E2/E4 は seed \texttt{0..4}，E3 は seed \texttt{0..2} で実行し，
+同一 seed・同一パラメータ・同一 Python 実行系で
+データは決定的に再生成される．
+
+\subsection{Ground Truth と GTSPR の計算}
+\label{sec:supp_gt}
+
+Ground Truth 判定は \texttt{experiments/src/synthetic.py} の
+\texttt{compute\_ground\_truth\_sets()} で行う．
+多項目集合 $S$（$2 \leq |S| \leq max\_length$）に対して，
+\begin{itemize}
+    \item \texttt{true\_support(S)}: 同一バスケット内で $S$ が成立した回数
+    \item \texttt{txn\_support(S)}: トランザクション単位（バスケット横断可）で $S$ が成立した回数
+\end{itemize}
+を計数し，
+\texttt{true\_support(S) < min\_support <= txn\_support(S)}
+を満たす集合を spurious と定義する．
+
+本文 E1/E2 の従来法 GTSPR は，Eq.~(\ref{eq:spr}) に対応する
+\[
+\mathrm{GTSPR}
+= \frac{|\mathcal{F}_{\text{spur}}|}{|\mathcal{F}_{\text{txn}}|}
+\]
+を用いて算出する．
+Basket-aware Apriori-Window は定義上 spurious を出力しないため，観測 GTSPR は 0 となる．
+
+E4 では，上記 Ground Truth から itemset ごとの真の密集区間を構築し，
+検出区間について interval purity（区間内真共起率）と
+mean Jaccard（検出区間と GT 区間の最大重なり）を算出する．
+さらに従来法のみが持つ区間アーティファクトとして，
+Basket-aware Apriori-Window 区間と非重複な区間割合（spurious interval rate）と，
+非 spurious itemset における区間長増分（non-spurious expansion）を計測する．

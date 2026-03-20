@@ -1,0 +1,28 @@
+\section{結論}
+\label{sec:conclusion}
+
+本稿は，Apriori-window の枠組みを維持しつつ，入力データのバスケット構造を
+明示的に扱う Basket-aware Apriori-Window を提案した．
+提案法は，共起判定をトランザクション内からバスケット内へ置き換えることで，
+偽共起の原因となるバスケット横断混入を抑制する．
+
+合成データ実験では，(i) Oracle との 34 ケース比較で FP=0, FN=0 を確認し（E0），
+(ii) $\lambda_{\text{baskets}}$ sweep において従来法 GTSPR が
+0.454 から 0.971 へ単調増加する一方，Basket-aware Apriori-Window は全条件で GTSPR=0 を維持すること（E1）
+を確認した．
+さらに (iii) 構造感度評価（E2）で，従来法 GTSPR が
+$G=3 \rightarrow 50$ で 0.827 $\rightarrow$ 0.638，
+$p_{\text{same}}=0.5 \rightarrow 0.9$ で 0.827 $\rightarrow$ 0.741 と
+系統的に変化し，Basket-aware Apriori-Window は同条件でも GTSPR=0 を維持することを確認した．
+さらに (iv) スケーラビリティ評価（E3）で，
+$10^6$ トランザクション時に Basket-aware Apriori-Window が 108.5 秒，
+従来法が 145.9 秒（1.345 倍）となり，
+規模拡大時の計算優位を確認した．
+さらに (v) 区間品質評価（E4）で，
+Basket-aware Apriori-Window が全条件で mean Jaccard=1.000 を維持する一方，
+従来法は interval purity が 0.075 $\rightarrow$ 0.018 と低下し，
+spurious interval rate も 0.735--0.945 と高水準であることを確認した．
+
+今後の課題としては，(1) 実データ（Stage B）での外的妥当性評価，
+(2) 区間品質指標（Purity/Jaccard）を含む総合評価，
+(3) 並列化・メモリ管理の最適化によるさらなる高速化が挙げられる．
