@@ -1,0 +1,3329 @@
+{
+  "Full (prox*dir*mag)": {
+    "ablation_mode": null,
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 646.8965829990339,
+        "time_support_series_ms": 399.2840840073768,
+        "time_attribution_ms": 797.1421249967534,
+        "time_total_ms": 1843.322792003164,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 5.08197826778879,
+            "p_value": 0.020395920815836834,
+            "adjusted_p_value": 0.11372271000345385
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 4.028978554406078,
+            "p_value": 0.022195560887822437,
+            "adjusted_p_value": 0.11372271000345385
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3597,
+            "change_direction": "down",
+            "change_magnitude": 6.9,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 4.690458258959153,
+            "p_value": 0.02439512097580484,
+            "adjusted_p_value": 0.11372271000345385
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 637.1975829970324,
+        "time_support_series_ms": 420.70358400815167,
+        "time_attribution_ms": 575.7228329894133,
+        "time_total_ms": 1633.6239999945974,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 7.85,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 4.968659310871049,
+            "p_value": 0.014197160567886422,
+            "adjusted_p_value": 0.09870753122102852
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3594,
+            "change_direction": "down",
+            "change_magnitude": 5.85,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 4.627455840028113,
+            "p_value": 0.029194161167766446,
+            "adjusted_p_value": 0.09870753122102852
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 5.1499999999999995,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 4.185012316503755,
+            "p_value": 0.030193961207758448,
+            "adjusted_p_value": 0.09870753122102852
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 644.4334169937065,
+        "time_support_series_ms": 466.49808299844153,
+        "time_attribution_ms": 1239.948041999014,
+        "time_total_ms": 2350.879541991162,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2394,
+            "change_direction": "down",
+            "change_magnitude": 9.6,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 6.081195057730217,
+            "p_value": 0.01999600079984003,
+            "adjusted_p_value": 0.07724055188962207
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 6.800000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 4.845890458660067,
+            "p_value": 0.02579484103179364,
+            "adjusted_p_value": 0.07724055188962207
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3596,
+            "change_direction": "down",
+            "change_magnitude": 6.7,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 4.720462688745437,
+            "p_value": 0.02519496100779844,
+            "adjusted_p_value": 0.07724055188962207
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 611.1623749893624,
+        "time_support_series_ms": 428.3820840064436,
+        "time_attribution_ms": 669.7022909938823,
+        "time_total_ms": 1709.2467499896884,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 5.35,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 3.8232120448230225,
+            "p_value": 0.02439512097580484,
+            "adjusted_p_value": 0.09582527938856672
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3594,
+            "change_direction": "down",
+            "change_magnitude": 7.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 4.755568556351313,
+            "p_value": 0.024795040991801638,
+            "adjusted_p_value": 0.09582527938856672
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1196,
+            "change_direction": "down",
+            "change_magnitude": 6.050000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 4.486890752278711,
+            "p_value": 0.025994801039792043,
+            "adjusted_p_value": 0.09582527938856672
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 646.36858299491,
+        "time_support_series_ms": 464.56112500163727,
+        "time_attribution_ms": 575.9912499925122,
+        "time_total_ms": 1686.9209579890594,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 7.8,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 4.844816893993678,
+            "p_value": 0.01879624075184963,
+            "adjusted_p_value": 0.0673683445129156
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 5.452369071563733,
+            "p_value": 0.026394721055788842,
+            "adjusted_p_value": 0.0673683445129156
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3599,
+            "change_direction": "down",
+            "change_magnitude": 5.8999999999999995,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 4.395503252385234,
+            "p_value": 0.03119376124775045,
+            "adjusted_p_value": 0.0673683445129156
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      }
+    ],
+    "avg_precision": 1.0,
+    "avg_recall": 1.0,
+    "avg_f1": 1.0
+  },
+  "No direction (prox*mag)": {
+    "ablation_mode": "no_dir",
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 634.7434159979457,
+        "time_support_series_ms": 398.21420900989324,
+        "time_attribution_ms": 774.7866249992512,
+        "time_total_ms": 1807.7442500070902,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 10.16395653557758,
+            "p_value": 0.002999400119976005,
+            "adjusted_p_value": 0.02529494101179764
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 8.057957108812156,
+            "p_value": 0.003199360127974405,
+            "adjusted_p_value": 0.02529494101179764
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3597,
+            "change_direction": "down",
+            "change_magnitude": 6.9,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 9.380916517918306,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.029434113177364524
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 645.791625007405,
+        "time_support_series_ms": 416.39945800125133,
+        "time_attribution_ms": 545.8036249910947,
+        "time_total_ms": 1607.994707999751,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 7.85,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 9.937318621742097,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.005998800239952009
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 5.1499999999999995,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 8.37002463300751,
+            "p_value": 0.009798040391921616,
+            "adjusted_p_value": 0.04899020195960808
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3594,
+            "change_direction": "down",
+            "change_magnitude": 5.85,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 9.254911680056226,
+            "p_value": 0.009798040391921616,
+            "adjusted_p_value": 0.04899020195960808
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 636.3627079990692,
+        "time_support_series_ms": 467.1115829987684,
+        "time_attribution_ms": 1208.0445419996977,
+        "time_total_ms": 2311.5188329975354,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3596,
+            "change_direction": "down",
+            "change_magnitude": 6.7,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 9.440925377490874,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.07102579484103179
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2394,
+            "change_direction": "down",
+            "change_magnitude": 9.6,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 12.162390115460434,
+            "p_value": 0.007798440311937612,
+            "adjusted_p_value": 0.07102579484103179
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 6.800000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 9.691780917320134,
+            "p_value": 0.009598080383923215,
+            "adjusted_p_value": 0.07102579484103179
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 633.841749993735,
+        "time_support_series_ms": 429.84612500004005,
+        "time_attribution_ms": 654.5520000072429,
+        "time_total_ms": 1718.239875001018,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 5.35,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 7.646424089646045,
+            "p_value": 0.002599480103979204,
+            "adjusted_p_value": 0.04939012197560488
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1196,
+            "change_direction": "down",
+            "change_magnitude": 6.050000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 8.973781504557422,
+            "p_value": 0.010997800439912017,
+            "adjusted_p_value": 0.06965273611944277
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3594,
+            "change_direction": "down",
+            "change_magnitude": 7.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 9.511137112702626,
+            "p_value": 0.010997800439912017,
+            "adjusted_p_value": 0.06965273611944277
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 661.0664579930017,
+        "time_support_series_ms": 442.1339580003405,
+        "time_attribution_ms": 593.0886249989271,
+        "time_total_ms": 1696.2890409922693,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 7.8,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 9.689633787987356,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.027194561087782444
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3599,
+            "change_direction": "down",
+            "change_magnitude": 5.8999999999999995,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 8.791006504770468,
+            "p_value": 0.007398520295940812,
+            "adjusted_p_value": 0.031443711257748454
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 10.904738143127465,
+            "p_value": 0.01199760047990402,
+            "adjusted_p_value": 0.04079184163167367
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      }
+    ],
+    "avg_precision": 1.0,
+    "avg_recall": 1.0,
+    "avg_f1": 1.0
+  },
+  "No proximity (dir*mag)": {
+    "ablation_mode": "no_prox",
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 648.9961659972323,
+        "time_support_series_ms": 393.5065840050811,
+        "time_attribution_ms": 779.9713329877704,
+        "time_total_ms": 1822.4740829900838,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 5.85,
+            "p_value": 0.03179364127174565,
+            "adjusted_p_value": 0.13385743903850808
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 7.300000000000001,
+            "p_value": 0.03199360127974405,
+            "adjusted_p_value": 0.13385743903850808
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3156,
+            "change_direction": "up",
+            "change_magnitude": 6.95,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 6.925000000000001,
+            "p_value": 0.07718456308738253,
+            "adjusted_p_value": 0.13385743903850808
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 643.1002919998718,
+        "time_support_series_ms": 419.9792500003241,
+        "time_attribution_ms": 570.9574159991462,
+        "time_total_ms": 1634.0369579993421,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 7.85,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 6.574999999999999,
+            "p_value": 0.028594281143771244,
+            "adjusted_p_value": 0.11420792764524018
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3160,
+            "change_direction": "up",
+            "change_magnitude": 9.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.44932896411722156,
+            "attribution_score": 7.45,
+            "p_value": 0.07878424315136973,
+            "adjusted_p_value": 0.11420792764524018
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 756,
+            "change_direction": "up",
+            "change_magnitude": 8.25,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 6.699999999999999,
+            "p_value": 0.08018396320735853,
+            "adjusted_p_value": 0.11420792764524018
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 652.0881670003291,
+        "time_support_series_ms": 463.94770800543483,
+        "time_attribution_ms": 1194.5874579978408,
+        "time_total_ms": 2310.623333003605,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 754,
+            "change_direction": "up",
+            "change_magnitude": 8.25,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.39851904108451414,
+            "attribution_score": 7.525,
+            "p_value": 0.07518496300739852,
+            "adjusted_p_value": 0.09745637079480654
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2394,
+            "change_direction": "down",
+            "change_magnitude": 9.6,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 9.024999999999999,
+            "p_value": 0.032993401319736056,
+            "adjusted_p_value": 0.08355975863650798
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3156,
+            "change_direction": "up",
+            "change_magnitude": 7.8500000000000005,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 7.275,
+            "p_value": 0.07578484303139373,
+            "adjusted_p_value": 0.09745637079480654
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 644.5980830030749,
+        "time_support_series_ms": 436.47641700226814,
+        "time_attribution_ms": 651.4320830028737,
+        "time_total_ms": 1732.5065830082167,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3157,
+            "change_direction": "up",
+            "change_magnitude": 7.7,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4231620823177488,
+            "attribution_score": 7.375,
+            "p_value": 0.07738452309538092,
+            "adjusted_p_value": 0.1267746450709858
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 1953,
+            "change_direction": "up",
+            "change_magnitude": 6.1499999999999995,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.39062783535852114,
+            "attribution_score": 5.75,
+            "p_value": 0.07758448310337933,
+            "adjusted_p_value": 0.1267746450709858
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 758,
+            "change_direction": "up",
+            "change_magnitude": 7.85,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.43171052342907973,
+            "attribution_score": 6.95,
+            "p_value": 0.07698460307938412,
+            "adjusted_p_value": 0.1267746450709858
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 671.0944170044968,
+        "time_support_series_ms": 463.34929099248257,
+        "time_attribution_ms": 571.7427500057966,
+        "time_total_ms": 1706.186458002776,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 7.8,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 6.6,
+            "p_value": 0.03479304139172166,
+            "adjusted_p_value": 0.11036459374791709
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 8.475,
+            "p_value": 0.03579284143171366,
+            "adjusted_p_value": 0.11036459374791709
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3153,
+            "change_direction": "up",
+            "change_magnitude": 7.699999999999999,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.39062783535852114,
+            "attribution_score": 6.799999999999999,
+            "p_value": 0.08078384323135374,
+            "adjusted_p_value": 0.11036459374791709
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      }
+    ],
+    "avg_precision": 1.0,
+    "avg_recall": 1.0,
+    "avg_f1": 1.0
+  },
+  "No magnitude (prox*dir)": {
+    "ablation_mode": "no_mag",
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "tp": 2,
+        "fp": 1,
+        "fn": 1,
+        "time_phase1_ms": 647.1687089942861,
+        "time_support_series_ms": 395.0958750065183,
+        "time_attribution_ms": 837.9243329982273,
+        "time_total_ms": 1880.1889169990318,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 0.6741670966624239,
+            "p_value": 0.02439512097580484,
+            "adjusted_p_value": 0.11795288001223285
+          },
+          {
+            "pattern": [
+              175,
+              1005
+            ],
+            "change_time": 3550,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.36787944117144233,
+            "attribution_score": 0.7438663026930895,
+            "p_value": 0.05718856228754249,
+            "adjusted_p_value": 0.11795288001223285
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 0.6701417873343815,
+            "p_value": 0.024795040991801638,
+            "adjusted_p_value": 0.11795288001223285
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              175,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 681.4812090015039,
+        "time_support_series_ms": 419.2962079978315,
+        "time_attribution_ms": 554.9592500028666,
+        "time_total_ms": 1655.736667002202,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 7.85,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 0.701680377812252,
+            "p_value": 0.02299540091981604,
+            "adjusted_p_value": 0.10279762229372308
+          },
+          {
+            "pattern": [
+              186,
+              1001
+            ],
+            "change_time": 836,
+            "change_direction": "up",
+            "change_magnitude": 1.3000000000000003,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.4867522559599717,
+            "attribution_score": 0.9680743862834653,
+            "p_value": 0.04479104179164167,
+            "adjusted_p_value": 0.10279762229372308
+          },
+          {
+            "pattern": [
+              106,
+              1005
+            ],
+            "change_time": 3221,
+            "change_direction": "down",
+            "change_magnitude": 3.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.6570468198150567,
+            "attribution_score": 0.8348884164464956,
+            "p_value": 0.07318536292741452,
+            "adjusted_p_value": 0.10279762229372308
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              106,
+              1005
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              186,
+              1001
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 3,
+        "fn": 3,
+        "time_phase1_ms": 657.2189169964986,
+        "time_support_series_ms": 470.8230419928441,
+        "time_attribution_ms": 1186.3103750074515,
+        "time_total_ms": 2314.352333996794,
+        "significant_attributions": [
+          {
+            "pattern": [
+              44,
+              1003
+            ],
+            "change_time": 2060,
+            "change_direction": "up",
+            "change_magnitude": 2.3000000000000003,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.30119421191220214,
+            "attribution_score": 0.8162806561116076,
+            "p_value": 0.04399120175964807,
+            "adjusted_p_value": 0.07076845500465125
+          },
+          {
+            "pattern": [
+              98,
+              1005
+            ],
+            "change_time": 3209,
+            "change_direction": "up",
+            "change_magnitude": 1.3,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.835270211411272,
+            "attribution_score": 1.8819564212013282,
+            "p_value": 0.038592281543691265,
+            "adjusted_p_value": 0.07076845500465125
+          },
+          {
+            "pattern": [
+              141,
+              1001
+            ],
+            "change_time": 836,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.4867522559599717,
+            "attribution_score": 1.5481671580357932,
+            "p_value": 0.03099380123975205,
+            "adjusted_p_value": 0.07076845500465125
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              44,
+              1003
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              141,
+              1001
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              98,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 650.7295000046724,
+        "time_support_series_ms": 432.5884579884587,
+        "time_attribution_ms": 496.7356670094887,
+        "time_total_ms": 1580.0536250026198,
+        "significant_attributions": [
+          {
+            "pattern": [
+              67,
+              1003
+            ],
+            "change_time": 2004,
+            "change_direction": "up",
+            "change_magnitude": 2.0,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 1.0929141092091053,
+            "p_value": 0.028394321135772844,
+            "adjusted_p_value": 0.06209869137283655
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1196,
+            "change_direction": "down",
+            "change_magnitude": 6.050000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 0.6774134349078578,
+            "p_value": 0.022395520895820836,
+            "adjusted_p_value": 0.06209869137283655
+          },
+          {
+            "pattern": [
+              79,
+              1005
+            ],
+            "change_time": 3224,
+            "change_direction": "up",
+            "change_magnitude": 1.4500000000000002,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.6187833918061408,
+            "attribution_score": 1.393098203442625,
+            "p_value": 0.03699260147970406,
+            "adjusted_p_value": 0.06209869137283655
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              67,
+              1003
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              79,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 682.0258329971693,
+        "time_support_series_ms": 446.4525420044083,
+        "time_attribution_ms": 569.3696249945788,
+        "time_total_ms": 1697.8479999961564,
+        "significant_attributions": [
+          {
+            "pattern": [
+              140,
+              1001
+            ],
+            "change_time": 806,
+            "change_direction": "down",
+            "change_magnitude": 2.1,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 0.707106430380103,
+            "p_value": 0.052189562087582485,
+            "adjusted_p_value": 0.08065659595353657
+          },
+          {
+            "pattern": [
+              60,
+              1005
+            ],
+            "change_time": 3229,
+            "change_direction": "up",
+            "change_magnitude": 1.0500000000000003,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.559898366565402,
+            "attribution_score": 1.0717688805235508,
+            "p_value": 0.09778044391121776,
+            "adjusted_p_value": 0.10417916416716656
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 0.6376529356419801,
+            "p_value": 0.028194361127774445,
+            "adjusted_p_value": 0.08065659595353657
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              60,
+              1005
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              140,
+              1001
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          }
+        ]
+      }
+    ],
+    "avg_precision": 0.3333333333333333,
+    "avg_recall": 0.3333333333333333,
+    "avg_f1": 0.3333333333333333
+  },
+  "Magnitude only": {
+    "ablation_mode": "mag_only",
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 662.8137920051813,
+        "time_support_series_ms": 396.33570799196605,
+        "time_attribution_ms": 780.1010840048548,
+        "time_total_ms": 1839.2505840020021,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 11.7,
+            "p_value": 0.03179364127174565,
+            "adjusted_p_value": 0.11146006092899068
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 14.600000000000001,
+            "p_value": 0.03199360127974405,
+            "adjusted_p_value": 0.11146006092899068
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3156,
+            "change_direction": "up",
+            "change_magnitude": 6.95,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 13.850000000000001,
+            "p_value": 0.03219356128774245,
+            "adjusted_p_value": 0.11146006092899068
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 672.7793750033015,
+        "time_support_series_ms": 423.29291699570604,
+        "time_attribution_ms": 560.974416002864,
+        "time_total_ms": 1657.0467080018716,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 7.85,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 13.149999999999999,
+            "p_value": 0.028594281143771244,
+            "adjusted_p_value": 0.0629874025194961
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3160,
+            "change_direction": "up",
+            "change_magnitude": 9.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.44932896411722156,
+            "attribution_score": 14.9,
+            "p_value": 0.029394121175764846,
+            "adjusted_p_value": 0.0629874025194961
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 756,
+            "change_direction": "up",
+            "change_magnitude": 8.25,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 13.399999999999999,
+            "p_value": 0.028994201159768047,
+            "adjusted_p_value": 0.0629874025194961
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 636.7453330021817,
+        "time_support_series_ms": 456.3838339963695,
+        "time_attribution_ms": 1195.0914580083918,
+        "time_total_ms": 2288.220625006943,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 754,
+            "change_direction": "up",
+            "change_magnitude": 8.25,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.39851904108451414,
+            "attribution_score": 15.05,
+            "p_value": 0.03059388122375525,
+            "adjusted_p_value": 0.0945723898698521
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3156,
+            "change_direction": "up",
+            "change_magnitude": 7.8500000000000005,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4147829116815814,
+            "attribution_score": 14.55,
+            "p_value": 0.03139372125574885,
+            "adjusted_p_value": 0.0945723898698521
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2394,
+            "change_direction": "down",
+            "change_magnitude": 9.6,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 18.049999999999997,
+            "p_value": 0.032993401319736056,
+            "adjusted_p_value": 0.0945723898698521
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 652.6164170063566,
+        "time_support_series_ms": 424.48337499808986,
+        "time_attribution_ms": 651.6154580021976,
+        "time_total_ms": 1728.715250006644,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3157,
+            "change_direction": "up",
+            "change_magnitude": 7.7,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.4231620823177488,
+            "attribution_score": 14.75,
+            "p_value": 0.03219356128774245,
+            "adjusted_p_value": 0.12309538092381522
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 1953,
+            "change_direction": "up",
+            "change_magnitude": 6.1499999999999995,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.39062783535852114,
+            "attribution_score": 11.5,
+            "p_value": 0.030193961207758448,
+            "adjusted_p_value": 0.12309538092381522
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 758,
+            "change_direction": "up",
+            "change_magnitude": 7.85,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.43171052342907973,
+            "attribution_score": 13.9,
+            "p_value": 0.03239352129574085,
+            "adjusted_p_value": 0.12309538092381522
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 648.8607089995639,
+        "time_support_series_ms": 438.8393749977695,
+        "time_attribution_ms": 569.2138330050511,
+        "time_total_ms": 1656.9139170023846,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3153,
+            "change_direction": "up",
+            "change_magnitude": 7.699999999999999,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.39062783535852114,
+            "attribution_score": 13.599999999999998,
+            "p_value": 0.033993201359728054,
+            "adjusted_p_value": 0.12305538892221554
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 7.8,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 13.2,
+            "p_value": 0.03479304139172166,
+            "adjusted_p_value": 0.12305538892221554
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 16.95,
+            "p_value": 0.03579284143171366,
+            "adjusted_p_value": 0.12305538892221554
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      }
+    ],
+    "avg_precision": 1.0,
+    "avg_recall": 1.0,
+    "avg_f1": 1.0
+  },
+  "Proximity only": {
+    "ablation_mode": "prox_only",
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 310,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 625.049249996664,
+        "time_support_series_ms": 392.1612499980256,
+        "time_attribution_ms": 774.9954169994453,
+        "time_total_ms": 1792.205916994135,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1197,
+            "change_direction": "down",
+            "change_magnitude": 7.9,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 1.3483341933248478,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.04599080183963207
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2397,
+            "change_direction": "down",
+            "change_magnitude": 6.25,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 1.340283574668763,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.04599080183963207
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3597,
+            "change_direction": "down",
+            "change_magnitude": 6.9,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 1.3565474452658302,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.04599080183963207
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": []
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 342,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 702.1478340029716,
+        "time_support_series_ms": 417.2332079906482,
+        "time_attribution_ms": 560.4892080009449,
+        "time_total_ms": 1679.8702499945648,
+        "significant_attributions": [
+          {
+            "pattern": [
+              26,
+              1003
+            ],
+            "change_time": 2013,
+            "change_direction": "down",
+            "change_magnitude": 1.8,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 1.5557111138752813,
+            "p_value": 0.020195960807838434,
+            "adjusted_p_value": 0.0605878824235153
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1198,
+            "change_direction": "down",
+            "change_magnitude": 5.1499999999999995,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 1.3755723508339046,
+            "p_value": 0.0021995600879824036,
+            "adjusted_p_value": 0.016496700659868028
+          },
+          {
+            "pattern": [
+              106,
+              1005
+            ],
+            "change_time": 3221,
+            "change_direction": "down",
+            "change_magnitude": 3.05,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.6570468198150567,
+            "attribution_score": 1.5951437389425933,
+            "p_value": 0.054989002199560086,
+            "adjusted_p_value": 0.09164833699926682
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              26,
+              1003
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              106,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 402,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 641.9111660070485,
+        "time_support_series_ms": 455.2827500010608,
+        "time_attribution_ms": 1199.1665839886991,
+        "time_total_ms": 2296.3604999968084,
+        "significant_attributions": [
+          {
+            "pattern": [
+              98,
+              1005
+            ],
+            "change_time": 3209,
+            "change_direction": "up",
+            "change_magnitude": 1.3,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.835270211411272,
+            "attribution_score": 2.3574335671425692,
+            "p_value": 0.038992201559688064,
+            "adjusted_p_value": 0.07623692652773793
+          },
+          {
+            "pattern": [
+              141,
+              1001
+            ],
+            "change_time": 836,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.4867522559599717,
+            "attribution_score": 2.086961369004656,
+            "p_value": 0.030393921215756847,
+            "adjusted_p_value": 0.07623692652773793
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2394,
+            "change_direction": "down",
+            "change_magnitude": 9.6,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 1.3186309601462372,
+            "p_value": 0.008198360327934412,
+            "adjusted_p_value": 0.06066786642671466
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              141,
+              1001
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              98,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 351,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "tp": 2,
+        "fp": 1,
+        "fn": 1,
+        "time_phase1_ms": 682.5164589972701,
+        "time_support_series_ms": 438.5131659946637,
+        "time_attribution_ms": 681.4898340089712,
+        "time_total_ms": 1802.519459000905,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2399,
+            "change_direction": "down",
+            "change_magnitude": 5.35,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 1.3708265086652764,
+            "p_value": 0.0009998000399920016,
+            "adjusted_p_value": 0.01899620075984803
+          },
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "change_time": 1196,
+            "change_direction": "down",
+            "change_magnitude": 6.050000000000001,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 1.3548268698157155,
+            "p_value": 0.010197960407918417,
+            "adjusted_p_value": 0.0683863227354529
+          },
+          {
+            "pattern": [
+              79,
+              1005
+            ],
+            "change_time": 3224,
+            "change_direction": "up",
+            "change_magnitude": 1.4500000000000002,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.6187833918061408,
+            "attribution_score": 1.8673901369103743,
+            "p_value": 0.03679264147170566,
+            "adjusted_p_value": 0.07767335421804528
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              79,
+              1005
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          }
+        ]
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 3,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.2,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 378,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "tp": 2,
+        "fp": 1,
+        "fn": 1,
+        "time_phase1_ms": 669.1355000075419,
+        "time_support_series_ms": 447.1735419938341,
+        "time_attribution_ms": 583.8552500063088,
+        "time_total_ms": 1700.1642920076847,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "change_time": 3599,
+            "change_direction": "down",
+            "change_magnitude": 5.8999999999999995,
+            "event_name": "Campaign",
+            "event_start": 3200,
+            "event_end": 3600,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 1.3708265086652764,
+            "p_value": 0.0023995200959808036,
+            "adjusted_p_value": 0.02379524095180964
+          },
+          {
+            "pattern": [
+              140,
+              1001
+            ],
+            "change_time": 806,
+            "change_direction": "down",
+            "change_magnitude": 2.1,
+            "event_name": "Sale",
+            "event_start": 800,
+            "event_end": 1200,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 1.414212860760206,
+            "p_value": 0.005598880223955209,
+            "adjusted_p_value": 0.02379524095180964
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "change_time": 2392,
+            "change_direction": "down",
+            "change_magnitude": 8.7,
+            "event_name": "Holiday",
+            "event_start": 2000,
+            "event_end": 2400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 1.2753058712839602,
+            "p_value": 0.01199760047990402,
+            "adjusted_p_value": 0.04079184163167367
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              1005,
+              1006
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              1003,
+              1004
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              140,
+              1001
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              1001,
+              1002
+            ],
+            "event_id": "E1"
+          }
+        ]
+      }
+    ],
+    "avg_precision": 0.6,
+    "avg_recall": 0.6,
+    "avg_f1": 0.6
+  }
+}
