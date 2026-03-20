@@ -1,110 +1,110 @@
 \section{Supplementary Material}
 \label{sec:supplement}
 
-本補遺では，本文 E0/E1/E2/E3/E4 で用いた実験条件，データ形式，Ground Truth 判定を補足する．
+本補遺では，本文の実験で用いた合成データ生成の詳細，
+パラメータ設定，および再現手順を補足する．
 
-\subsection{実験条件とパラメータ設定}
-\label{sec:supp_exp_conditions}
+\subsection{合成データ生成モデル}
+\label{sec:supp_data_gen}
 
-本文 E0/E1/E2/E3/E4 は，Poisson 生成モデルに基づく合成データで評価した．
-トランザクション $t$ に対して，バスケット数とバスケット内アイテム数を
-次で与える．
-\[
-N_t = \max\{1, \mathrm{Poisson}(\lambda_{\text{baskets}})\},
-\quad
-K_{t,b} = \max\{1, \mathrm{Poisson}(\lambda_{\text{basket-size}})\}.
-\]
-カテゴリ集合は
-\[
-C_g = \{\,i \mid i \bmod G = g\,\}
-\]
-で定義し，各バスケットでは主カテゴリを一様選択した後，
-確率 $p_{\text{same}}$ で同カテゴリ，確率 $1-p_{\text{same}}$ で全体集合から
-Zipf 重み $w_i \propto (i+1)^{-\alpha_{\text{zipf}}}$ に従って抽出する．
+ベース語彙 $|\mathcal{I}| = 200$ アイテム（ID: 0--199）を持つ
+合成トランザクションデータを以下の手順で生成する．
+
+\begin{enumerate}
+\item 各トランザクション $d_t$（$t = 1, \ldots, N$）に対して，
+アイテム $i \in \mathcal{I}$ をそれぞれ独立に確率 $p_{\text{base}} = 0.03$ で含める．
+\item 植え込みパターン $P_k = \{a_k, b_k\}$（語彙外アイテム，ID $\geq 1001$）と
+対応するイベント $e_k = (\textit{id}_k, \textit{name}_k, t_{s,k}, t_{e,k})$ を定義する．
+\item イベント活性期間 $[t_{s,k}, t_{e,k}]$ 内の各トランザクションに対して，
+確率 $\beta$（ブースト係数）でパターン $P_k$ の全アイテムを同時挿入する．
+\item デコイイベント（Ground Truth に含まれない偽イベント）を
+ランダムな位置に配置する．デコイは植え込みアイテムをブーストしない．
+\end{enumerate}
+
+正解（Ground Truth）は（植え込みパターン $P_k$，対応イベント $e_k$）の
+組として定義する．パイプラインの出力がこの組を正しく回復できるかを評価する．
+
+\subsection{実験パラメータ一覧}
+\label{sec:supp_params}
 
 \begin{table}[t]
-\caption{固定パラメータ（E1/E2/E3/E4 共通の非 sweep 項目）}
+\caption{全実験共通の固定パラメータ}
 \label{tab:supp_fixed_params}
 \centering
 \begin{tabular}{ll}
 \toprule
-項目 & 値 \\
+パラメータ & 値 \\
 \midrule
-生成モデル & Poisson \\
-$n_{\text{transactions}}$ & 10,000（E1/E2/E4），E3 では sweep \\
-$n_{\text{items}}$ & 200 \\
-$G$ & 10（E2-$p_{\text{same}}$ で固定） \\
-$\lambda_{\text{basket-size}}$ & 3.0 \\
-$p_{\text{same}}$ & 0.8（E2-$G$ で固定） \\
-$\alpha_{\text{zipf}}$ & 1.2 \\
-\texttt{window\_size} & 500 \\
-\texttt{min\_support} & 50 \\
-\texttt{max\_length} & 4 \\
+ベースアイテム数 $|\mathcal{I}|$ & 200 \\
+ベース出現確率 $p_{\text{base}}$ & 0.03 \\
+ウィンドウサイズ $W$ & 50（E2 sweep 時を除く） \\
+最小サポート $\theta$ & 3 \\
+最大パターン長 $L$ & 2 \\
+近接度パラメータ $\sigma$ & $W$ (= 50) \\
+置換回数 $B$ & 5{,}000（E2/E3 sweep 時を除く） \\
+有意水準 $\alpha$ & 0.20（E2 sweep 時を除く） \\
+補正方法 & Benjamini--Hochberg \\
+最小サポート振幅 $\delta$ & 5 \\
+重複排除 & 有効 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[t]
-\caption{E0/E1/E2/E3/E4 の評価条件}
+\caption{各実験の sweep 条件}
 \label{tab:supp_sweep}
 \centering
 \begin{tabular}{llll}
 \toprule
-実験 & sweep 軸 & sweep 値 & seed \\
+実験 & sweep 軸 & sweep 値 & seeds \\
 \midrule
-E0 & 複数条件組合せ & 34 cases（小規模設定） & case ごと固定 \\
-E1 & $\lambda_{\text{baskets}}$ & $\{1.0, 1.5, 2.0, 3.0, 5.0\}$ & $0..4$（5本） \\
-E2-$G$ & $G$ & $\{3, 5, 10, 20, 50\}$ & $0..4$（5本） \\
-E2-$p_{\text{same}}$ & $p_{\text{same}}$ & $\{0.5, 0.6, 0.7, 0.8, 0.9\}$ & $0..4$（5本） \\
-E3 & $N_{\text{transactions}}$ & $\{10^3,10^4,10^5,10^6\}$ & $0..2$（3本） \\
-E4 & $\lambda_{\text{baskets}}$ & $\{1.0, 1.5, 2.0, 3.0, 5.0\}$ & $0..4$（5本） \\
+E1a & --- & $\beta=0.5$, 植え込み3, デコイ2 & 0--4（5本） \\
+E1b & $\beta$ & $\{0.1, 0.2, 0.3, 0.5, 0.8\}$ & 0--4（5本） \\
+E1c & --- & 重複イベント配置 & 0--4（5本） \\
+E1d & planted$\times$decoy & $\{1,3,5\} \times \{0,5,10\}$ & 0--2（3本） \\
+E2 & $W, \sigma, B, \alpha$ & 各パラメータ個別 sweep & 0--2（3本） \\
+E3 & $N$ & $\{10^3, \ldots, 10^6\}$ & 1本 \\
+E3 & $|\mathcal{E}|$ & $\{1, 3, 5, 10, 20\}$ & 0--2（3本） \\
+E4 & $\beta$ & $\{3.0, 5.0, 10.0\}$ & 1本 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-本文 E1/E2 は GTSPR を主指標として報告し，
-E3 は実行時間と Trad./BAAW 比，E4 は区間 purity/Jaccard と
-spurious interval rate・non-spurious expansion を報告するため，結果提示は
-表~\ref{tab:prelim_gtspr}, 表~\ref{tab:e2_g_sweep}, 表~\ref{tab:e2_psame_sweep}, 表~\ref{tab:e3_scalability}, 表~\ref{tab:e4_interval_quality}, 表~\ref{tab:e4_interval_artifacts}
-に集約している．
+\subsection{実データの前処理}
+\label{sec:supp_realdata}
 
-\subsection{データ形式と乱数設定}
-\label{sec:supp_data_format}
+E4 で用いた実データは以下の通りである．
 
-生成データは 1 行 1 トランザクション形式で保存し，同一行内のバスケットを
-区切り文字 \texttt{" | "} で連結する．
-例: \texttt{1 4 9 | 2 8}
-
-乱数は Python の \texttt{random.Random(seed)} を使用する．
-E1/E2/E4 は seed \texttt{0..4}，E3 は seed \texttt{0..2} で実行し，
-同一 seed・同一パラメータ・同一 Python 実行系で
-データは決定的に再生成される．
-
-\subsection{Ground Truth と GTSPR の計算}
-\label{sec:supp_gt}
-
-Ground Truth 判定は \texttt{experiments/src/synthetic.py} の
-\texttt{compute\_ground\_truth\_sets()} で行う．
-多項目集合 $S$（$2 \leq |S| \leq max\_length$）に対して，
 \begin{itemize}
-    \item \texttt{true\_support(S)}: 同一バスケット内で $S$ が成立した回数
-    \item \texttt{txn\_support(S)}: トランザクション単位（バスケット横断可）で $S$ が成立した回数
+\item \textbf{T10I4D100K}: IBM Quest Synthetic Data Generator で生成された
+100{,}000 トランザクションのスパースなベンチマークデータ．
+各トランザクションの平均アイテム数は約10．
+\item \textbf{retail.txt}: ベルギーの小売店における約88{,}000件の
+POS トランザクションデータ~\cite{fournier2017survey}．
 \end{itemize}
-を計数し，
-\texttt{true\_support(S) < min\_support <= txn\_support(S)}
-を満たす集合を spurious と定義する．
 
-本文 E1/E2 の従来法 GTSPR は，Eq.~(\ref{eq:spr}) に対応する
-\[
-\mathrm{GTSPR}
-= \frac{|\mathcal{F}_{\text{spur}}|}{|\mathcal{F}_{\text{txn}}|}
-\]
-を用いて算出する．
-Basket-aware Apriori-Window は定義上 spurious を出力しないため，観測 GTSPR は 0 となる．
+いずれも1行1トランザクション形式（スペース区切り）で読み込み，
+語彙外アイテム（ID $\geq 1001$）を用いた植え込み信号を追加して評価した．
 
-E4 では，上記 Ground Truth から itemset ごとの真の密集区間を構築し，
-検出区間について interval purity（区間内真共起率）と
-mean Jaccard（検出区間と GT 区間の最大重なり）を算出する．
-さらに従来法のみが持つ区間アーティファクトとして，
-Basket-aware Apriori-Window 区間と非重複な区間割合（spurious interval rate）と，
-非 spurious itemset における区間長増分（non-spurious expansion）を計測する．
+\subsection{再現手順}
+\label{sec:supp_reproduce}
+
+全実験は以下のコマンドで再現可能である:
+
+\begin{verbatim}
+# E1: 正解回復能力
+python3 experiments/run_e1.py
+
+# E2: パラメータ感度
+python3 experiments/run_e2.py
+
+# E3: スケーラビリティ
+python3 experiments/run_e3.py
+
+# E4: 実データ検証
+python3 experiments/run_e4.py
+\end{verbatim}
+
+実行環境: Python 3.11+，追加ライブラリ不要（標準ライブラリのみ使用）．
+乱数は Python の \texttt{random.Random(seed)} を用いており，
+同一 seed・同一パラメータで決定的に再現される．

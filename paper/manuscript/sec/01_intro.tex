@@ -14,12 +14,12 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 \emph{なぜ}パターンの出現頻度が変動するかを説明する機能を持たない．
 実際の応用場面では，販促キャンペーン，祝日，規制変更，システム更新といった
 外部イベントがパターンサポートの時間的変動を駆動していることが多い．
-サポート変動を特定のイベントに帰属させることは，
+「どのイベントがどのパターンの変動を引き起こしたか」を特定できれば，
 キャンペーン効果の定量化，副作用の検出，システム異常の診断など，
-意思決定に直結するインサイトを提供する．
+意思決定に直結する知見が得られる．
 
-この帰属タスクの実用的重要性にもかかわらず，
-頻出パターンのサポート変動を外部イベントに結びつける原理的な統計フレームワークは
+このように帰属タスクは実用上重要であるにもかかわらず，
+頻出パターンのサポート変動を外部イベントに結びつける統計フレームワークは
 これまで存在しなかった．
 時間的パターンマイニング~\cite{mahanta2005finding,tanbeer2009discovering,kiran2017discovering,fournier2021mining}
 は周期性や局所頻度を持つパターンを発見するが，
@@ -41,8 +41,8 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 
 \begin{enumerate}
 \item \textbf{5ステップパイプライン}（\ref{sec:method}節）:
-サポート時系列の構築，閾値交差変化点の抽出とそのレベルシフト量の評価，イベント・パターン間の時間的関連スコアリング，
-グローバル Benjamini--Hochberg~\cite{benjamini1995controlling} FDR補正付き置換検定，
+密集区間からの変化点抽出，変化量の評価，変化点とイベント間の帰属スコアリング，
+円形シフト置換検定によるグローバル Benjamini--Hochberg~\cite{benjamini1995controlling} FDR補正，
 およびアイテム重複排除からなる統合フレームワーク．
 
 \item \textbf{アイテム重複排除}（\ref{sec:dedup}節）:
@@ -53,6 +53,6 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 \item \textbf{包括的な実験評価}（\ref{sec:experiments}節）:
 (i) 合成データにおける完全検出（F1 = 1.0），
 (ii) パラメータ選択に対する頑健性，
-(iii) 10万トランザクションまでの線形スケーラビリティ，
+(iii) 100万トランザクションまでの線形スケーラビリティ，
 (iv) 実データにおける偽陽性96\%削減を実証する．
 \end{enumerate}

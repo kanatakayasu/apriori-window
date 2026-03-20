@@ -24,7 +24,7 @@ $P$ を含むトランザクション数である．
 
 \begin{definition}[外部イベント]\label{def:event}
 \emph{外部イベント} $e = (\textit{id}, \textit{name}, t_s, t_e)$ は，
-一意な識別子，名称，およびイベントが活性であるタイムスタンプ区間 $[t_s, t_e]$ から成る．
+一意な識別子，名称，およびイベントが有効な期間を表すタイムスタンプ区間 $[t_s, t_e]$ から成る．
 既知の外部イベント集合を $\mathcal{E} = \{e_1, e_2, \ldots, e_K\}$ とする．
 \end{definition}
 
@@ -71,9 +71,9 @@ s_P(\tau) < \theta \land \tau > 0 \land s_P(\tau-1) \geq \theta. \label{eq:down_
 頻出パターン集合 $\mathcal{F}$ とそのサポート時系列 $\{s_P\}_{P \in \mathcal{F}}$，
 外部イベント集合 $\mathcal{E}$，有意水準 $\alpha$ が与えられたとき，
 \emph{イベント帰属問題}とは，
-$s_P$ の閾値交差変化点がイベント $e$ と統計的に有意に関連する
+$s_P$ の閾値交差変化点がイベント $e$ の時間窓と統計的に有意に関連する
 全ての組 $(P, e) \in \mathcal{F} \times \mathcal{E}$ を，
-偽発見率を水準 $\alpha$ で制御しながら同定することである．
+偽発見率（FDR）を水準 $\alpha$ 以下に制御しながら同定することである．
 \end{definition}
 
 この問題の主要な課題は以下の3点である:
