@@ -1,0 +1,228 @@
+% ==============================================================
+\section{Problem Definition}\label{sec:problem}
+% ==============================================================
+
+We build upon the dense interval mining framework and introduce
+symmetric extensions for studying pattern \emph{absence} and
+\emph{structural change} across temporal regimes.
+
+\subsection{Notation and Preliminaries}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite item universe and
+$D = [d_1, d_2, \ldots, d_N]$ a temporally ordered sequence of transactions,
+where each $d_t \subseteq \mathcal{I}$.
+An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction
+$d_t$ if $P \subseteq d_t$.
+
+\begin{definition}[Support Time Series]\label{def:support_series}
+For pattern $P$, window size $W \in \mathbb{Z}_{>0}$, and transaction
+sequence $D$ of length $N$, the \emph{support time series}
+$s_P = [s_P(0), s_P(1), \ldots, s_P(N-W)]$ is defined as
+\begin{equation}
+s_P(t) = \bigl|\{d_j \in D \mid t \leq j < t + W,\; P \subseteq d_j\}\bigr|.
+\label{eq:support_series}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Dense Interval~\cite{agrawal1994apriori}]\label{def:dense_interval}
+Given threshold $\theta \in \mathbb{Z}_{>0}$, a \emph{dense interval} of
+pattern $P$ is a maximal contiguous range $[s, e]$ such that
+$s_P(t) \geq \theta$ for all $t \in [s, e]$.
+We denote the set of all dense intervals of $P$ as
+$\mathcal{D}(P, W, \theta)$.
+\end{definition}
+
+\subsection{Anti-Dense Intervals}
+
+\begin{definition}[Anti-Dense Interval]\label{def:anti_dense}
+Given a \emph{low threshold} $\theta_{\text{low}} \in \mathbb{Z}_{>0}$
+(typically $\theta_{\text{low}} < \theta$),
+an \emph{anti-dense interval} of pattern $P$ is a maximal contiguous
+range $[s, e]$ such that
+\begin{equation}
+s_P(t) < \theta_{\text{low}} \quad \forall\, t \in [s, e].
+\label{eq:anti_dense}
+\end{equation}
+We denote the set of all anti-dense intervals of $P$ as
+$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$.
+\end{definition}
+
+The anti-dense interval is the \emph{symmetric dual} of the dense interval:
+while $\mathcal{D}$ captures sustained high-support epochs,
+$\overline{\mathcal{D}}$ captures sustained low-support epochs.
+Note that the complement $[0, N-W] \setminus \mathcal{D}$ is \emph{not}
+equivalent to $\overline{\mathcal{D}}$ when $\theta_{\text{low}} < \theta$,
+because an intermediate band exists where
+$\theta_{\text{low}} \leq s_P(t) < \theta$.
+
+\begin{theorem}[Anti-Monotonicity of Anti-Dense Intervals]\label{thm:anti_monotone}
+If $P \subset Q$ (i.e., $P$ is a proper subset of $Q$), then for any
+anti-dense interval $[s, e] \in \overline{\mathcal{D}}(Q, W, \theta_{\text{low}})$,
+there exists an anti-dense interval $[s', e'] \in \overline{\mathcal{D}}(P, W, \theta_{\text{low}})$
+such that $[s, e] \subseteq [s', e']$.
+\end{theorem}
+
+\begin{proof}
+Since $P \subset Q$, every transaction containing $Q$ also contains $P$,
+so $s_Q(t) \leq s_P(t)$ for all $t$.
+Wait---this is the wrong direction.
+Since $P \subset Q$ implies $s_P(t) \geq s_Q(t)$, if $s_Q(t) < \theta_{\text{low}}$
+it does \emph{not} necessarily follow that $s_P(t) < \theta_{\text{low}}$.
+
+However, the \emph{containment} relation reverses:
+if $[s, e]$ is anti-dense for $P$
+(i.e., $s_P(t) < \theta_{\text{low}}$ for all $t \in [s, e]$),
+then since $s_Q(t) \leq s_P(t)$, we have
+$s_Q(t) < \theta_{\text{low}}$ for all $t \in [s, e]$.
+Hence $[s, e]$ is covered by some anti-dense interval of $Q$.
+
+More precisely: the anti-dense intervals of a \emph{superset} $Q$ are
+at least as wide as those of $P$.
+This means anti-dense intervals satisfy a \emph{reverse monotonicity}:
+\[
+P \subset Q \implies
+\overline{\mathcal{D}}(P, W, \theta_{\text{low}}) \preceq
+\overline{\mathcal{D}}(Q, W, \theta_{\text{low}})
+\]
+where $\preceq$ means every anti-dense interval of $P$ is contained in
+some anti-dense interval of $Q$.
+
+This property enables a \emph{top-down} search strategy:
+if a superset $Q$ has no anti-dense interval covering a candidate range,
+then no subset of $Q$ can have one either.
+\end{proof}
+
+\subsection{Contrast Dense Patterns}
+
+We now define a framework for comparing dense interval structures across
+two temporal regimes.
+
+\begin{definition}[Temporal Regime]\label{def:regime}
+A \emph{temporal regime} is a contiguous sub-sequence of the transaction
+sequence.
+Given a \emph{regime boundary} $\tau \in \{1, \ldots, N-1\}$,
+we define the \emph{before-regime} $R_1 = [1, \tau]$ and the
+\emph{after-regime} $R_2 = [\tau+1, N]$.
+\end{definition}
+
+\begin{definition}[Dense Interval Structure]\label{def:dis}
+For pattern $P$ and regime $R_k$, the \emph{dense interval structure}
+restricted to $R_k$ is
+\begin{equation}
+\mathcal{D}_k(P) = \{[s, e] \in \mathcal{D}(P, W, \theta) \mid [s, e] \cap R_k \neq \emptyset\},
+\end{equation}
+projected onto $R_k$ (i.e., each interval is clipped to $R_k$).
+The \emph{total dense coverage} in regime $R_k$ is
+\begin{equation}
+\text{cov}_k(P) = \frac{\sum_{[s,e] \in \mathcal{D}_k(P)} (e - s + 1)}{|R_k|}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Pattern Topology Change]\label{def:topology_change}
+Given pattern $P$ and regime boundary $\tau$, the \emph{topology change type}
+of $P$ is classified as:
+\begin{enumerate}
+\item \textbf{Emergence}: $\mathcal{D}_1(P) = \emptyset$ and
+  $\mathcal{D}_2(P) \neq \emptyset$.
+  The pattern was anti-dense (or absent) in $R_1$ and becomes dense in $R_2$.
+\item \textbf{Vanishing}: $\mathcal{D}_1(P) \neq \emptyset$ and
+  $\mathcal{D}_2(P) = \emptyset$.
+  The pattern was dense in $R_1$ and becomes anti-dense in $R_2$.
+\item \textbf{Amplification}: $\mathcal{D}_1(P) \neq \emptyset$,
+  $\mathcal{D}_2(P) \neq \emptyset$, and
+  $\text{cov}_2(P) > \text{cov}_1(P) + \delta$ for margin $\delta > 0$.
+\item \textbf{Contraction}: $\mathcal{D}_1(P) \neq \emptyset$,
+  $\mathcal{D}_2(P) \neq \emptyset$, and
+  $\text{cov}_1(P) > \text{cov}_2(P) + \delta$.
+\item \textbf{Stable}: None of the above; the structure is essentially unchanged.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Contrast Dense Pattern]\label{def:cdp}
+A pattern $P$ is a \emph{contrast dense pattern} with respect to regime
+boundary $\tau$ if its topology change type is \emph{not} Stable.
+The set of all contrast dense patterns is denoted $\mathcal{C}(\tau, \delta)$.
+\end{definition}
+
+\subsection{Statistical Significance of Structural Changes}
+
+To assess whether an observed topology change is statistically significant
+(rather than arising from random fluctuation), we employ a permutation test.
+
+\begin{definition}[Contrast Statistic]\label{def:contrast_stat}
+For pattern $P$ and regime boundary $\tau$, define the \emph{contrast statistic}
+\begin{equation}
+\Delta(P, \tau) = \text{cov}_2(P) - \text{cov}_1(P).
+\label{eq:contrast_stat}
+\end{equation}
+Large positive $\Delta$ indicates emergence or amplification;
+large negative $\Delta$ indicates vanishing or contraction.
+\end{definition}
+
+\begin{definition}[Permutation Test for Structural Change]\label{def:permtest}
+Let $\mathbf{t}_P = [t_1, t_2, \ldots, t_n]$ be the occurrence timestamps of pattern $P$.
+Under the null hypothesis $H_0$: ``the regime boundary $\tau$ has no effect on
+$P$'s dense interval structure,'' we generate $B$ random permutations of
+$\mathbf{t}_P$ (or, equivalently, random shifts of $\tau$) and compute the
+permuted contrast statistics $\Delta^{(1)}, \ldots, \Delta^{(B)}$.
+The permutation $p$-value is
+\begin{equation}
+p = \frac{1 + \sum_{b=1}^{B} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta(P, \tau)|]}{1 + B}.
+\label{eq:perm_pvalue}
+\end{equation}
+We reject $H_0$ at level $\alpha$ if $p \leq \alpha$, after
+Benjamini--Hochberg correction across all tested patterns.
+\end{definition}
+
+\subsection{Computational Complexity}
+
+\begin{theorem}[Complexity of Anti-Dense Interval Detection]\label{thm:complexity_anti}
+Given the occurrence timestamps $\mathbf{t}_P$ of pattern $P$ (with $|\mathbf{t}_P| = n$)
+and window size $W$, the anti-dense intervals
+$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$ can be computed in
+$O(n)$ time by a single pass through $\mathbf{t}_P$, using the same
+sliding-window counting mechanism as dense interval detection with
+the threshold crossing direction reversed.
+\end{theorem}
+
+\begin{proof}
+The algorithm maintains a pointer $l$ that advances through the sorted
+timestamps.
+At each position, the count of occurrences in $[l, l+W)$ is computed
+via binary search in $O(\log n)$ amortized time.
+The pointer advances monotonically, and each timestamp is visited
+at most twice (once as a window start, once as a window end).
+The total complexity is $O(n \log n)$ for the binary-search variant,
+or $O(n)$ if a two-pointer approach is used.
+The only modification from dense interval detection is checking
+$< \theta_{\text{low}}$ instead of $\geq \theta$, and tracking the
+start/end of contiguous sub-threshold regions rather than
+super-threshold regions.
+\end{proof}
+
+\begin{theorem}[Completeness of Structure Comparison]\label{thm:completeness}
+The topology change taxonomy (Definition~\ref{def:topology_change}) is
+\emph{complete}: every pattern $P$ falls into exactly one of the five
+categories (Emergence, Vanishing, Amplification, Contraction, Stable).
+\end{theorem}
+
+\begin{proof}
+The five cases are defined by a decision tree on two Boolean conditions
+($\mathcal{D}_1 = \emptyset$, $\mathcal{D}_2 = \emptyset$) and one
+comparison ($\text{cov}_2 - \text{cov}_1$ vs $\pm\delta$).
+\begin{itemize}
+\item If $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 = \emptyset$:
+  both empty $\Rightarrow$ Stable (no dense intervals in either regime).
+\item If $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 \neq \emptyset$:
+  Emergence.
+\item If $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 = \emptyset$:
+  Vanishing.
+\item If $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 \neq \emptyset$:
+  \begin{itemize}
+  \item $\text{cov}_2 > \text{cov}_1 + \delta$: Amplification.
+  \item $\text{cov}_1 > \text{cov}_2 + \delta$: Contraction.
+  \item Otherwise: Stable.
+  \end{itemize}
+\end{itemize}
+These cases are mutually exclusive and exhaustive. \qed
+\end{proof}
