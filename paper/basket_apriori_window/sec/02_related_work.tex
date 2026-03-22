@@ -1,76 +1,97 @@
 \section{関連研究}
 \label{sec:related_works}
 
-\subsection{DSAA2025 前手法}
-\label{sec:related_pre_dsaa}
+本節では，頻出パターンマイニングの既存手法を
+(a) グローバル頻度型，(b) 時間制約型，(c) 局所密集型，
+(d) トランザクション構造型の 4 軸で整理し，
+各軸で未解決の問題を明確にする．
+表~\ref{tab:related_comparison} にまとめを示す．
 
-密集パターン抽出は，区間候補が概ね $O(n^2)$，
-さらに各区間内のパターン空間が $2^{|\mathcal{I}|}$ となるため，
-潜在探索空間が非常に大きい．
-この難しさに対し，既存研究の多くは問題を縮退させる形で実用化してきた．
-典型的には，(i) 全体支持度への還元，
-(ii) gap 制約・周期制約への置換，
-(iii) closed/maximal など列挙対象の圧縮である．
+\subsection{グローバル頻度型手法}
+\label{sec:related_global}
 
-\subsubsection{Apriori}
-Apriori は反単調性に基づく候補生成・枝刈りを用いる古典的手法であり，
-頻出パターンマイニングの基盤を与えた~\cite{agrawal1994fast}．
-ただし評価対象はデータ全体のグローバル支持度であり，
-局所密集区間やバスケット境界は直接扱わない．
+Apriori~\cite{agrawal1994fast} は反単調性に基づく候補生成・枝刈りの原型であり，
+FP-Growth~\cite{han2000mining} は FP-tree による候補生成回避，
+ECLAT~\cite{zaki2000scalable} は縦型表現（tidset）と集合積による効率化を達成した．
+LCM~\cite{uno2004lcm} は頻出・極大・閉パターンの高効率列挙を実現する．
+これらはいずれもデータ全体のグローバル支持度を評価するため，
+局所密集区間を直接抽出する能力を持たない．
+また共起単位は「1 トランザクション = 1 アイテム集合」であり，
+同一トランザクション内に複数バスケットが存在する状況は想定されていない．
 
-\subsubsection{FP-Growth}
-FP-Growth は FP-tree により候補生成を回避し，高速に頻出パターンを列挙する~\cite{han2000mining}．
-大規模データで有効だが，基本設定はグローバル頻度問題であり，
-局所密集区間の直接抽出は目的外である．
+\subsection{時間制約型手法}
+\label{sec:related_temporal}
 
-\subsubsection{ECLAT}
-ECLAT は縦型表現（tidset）と集合積により支持度計算を行う~\cite{zaki2000scalable}．
-効率的な探索が可能だが，単位は「1トランザクション=1アイテム集合」であり，
-バスケット粒度の共起定義とは一致しない．
+PFPM~\cite{tanbeer2009discovering} は周期頻出パターンを対象とし，
+最大ギャップ・最小周期長等の制約で探索を限定する．
+PPFPM~\cite{kiran2017discovering} は partial periodicity を導入して
+PFPM の柔軟性を改善したが，評価軸は依然として周期的出現頻度である．
+LPFIM~\cite{mahanta2005finding} は局所頻出パターンを区間単位で扱う初期研究であるが，
+区間抽出は gap 系しきい値に依存しパラメータ感度が残る．
+LPPM~\cite{fournier2020local} は local periodic pattern を扱うが，
+maxPer/maxSoPer/minDur の 3 パラメータへの依存が強い．
 
-\subsubsection{LCM}
-LCM 系は頻出・極大・閉パターン列挙で高効率を示す探索系統である~\cite{uno2004lcm}．
-一方で，列挙対象を圧縮する方向の最適化が中心であり，
-局所密集区間そのものを主目的にはしない．
+これらの時間制約型手法に共通する限界は，
+密集性をgap/periodicity 制約に\emph{置き換える}点にある．
+その結果，制約パラメータへの感度が高く，
+ウィンドウ内局所支持度による密集の直接評価とは異なるアプローチとなる．
 
-\subsubsection{PFPM}
-PFPM は periodic frequent pattern を対象とし，
-出現間隔の周期性制約を導入する~\cite{tanbeer2009discovering}．
-ただし，最大ギャップ等の周期パラメータに結果が左右されやすく，
-密集定義を gap/periodicity に置き換える縮退型の枠組みに属する．
-
-\subsubsection{PPFPM (GPF-growth)}
-PPFPM は partial periodicity を導入し，PFPM より柔軟に周期性を評価する~\cite{kiran2017discovering}．
-しかし評価軸は周期的出現であり，局所密集区間の厳密抽出とは目的が異なる．
-
-\subsubsection{LPFIM}
-LPFIM は局所頻出パターンを区間単位で扱う初期研究である~\cite{mahanta2005finding}．
-一方で区間抽出は gap 系しきい値に依存し，パラメータ感度が残る．
-
-\subsubsection{LPPM}
-LPPM は local periodic pattern と区間検出を扱う実用的手法である~\cite{fournier2020local}．
-ただし周期パラメータ（maxPer/maxSoPer/minDur）依存が強く，
-ウィンドウ支持度による厳密密集定義とは異なる．
-
-\subsection{DSAA2025 Apriori-window}
+\subsection{局所密集型手法: DSAA2025 Apriori-window}
 \label{sec:related_dsaa2025}
 
-上記の縮退方向に対し，DSAA2025 の Apriori-window は，
+上記の縮退方向に対し，DSAA2025 の Apriori-window~\cite{dsaa2025} は，
 固定幅スライディングウィンドウ上で局所 support を直接評価し，
-密集パターンを厳密に抽出する枠組みを与えた~\cite{dsaa2025}．
-すなわち，gap/periodicity に問題を置き換えずに，
-局所密集そのものを一次問題として扱った点に意義がある．
+gap/periodicity に問題を置き換えずに
+局所密集そのものを一次問題として扱った．
+これは密集パターン抽出における問題設定の質的転換であり，
+パラメータ感度の問題を構造的に回避した点に意義がある．
 
-ただし Apriori-window は入力を「1トランザクション=1アイテム集合」と仮定するため，
+ただし Apriori-window は入力を「1 トランザクション = 1 アイテム集合」と仮定するため，
 同一トランザクション内に複数の独立バスケットが存在する状況では，
 バスケット横断の誤共起（偽共起）を抑制できない．
-この点が，本研究が解くべき未解決課題である．
+
+\subsection{トランザクション構造と共起定義}
+\label{sec:related_structure}
+
+トランザクションの内部構造に着目した研究には複数の方向がある．
+Inter-transaction association rules~\cite{lu2000inter} は
+異なるトランザクション間の関係を扱うが，
+同一トランザクション内のバスケット分離とは逆方向の拡張である．
+Multi-level association rules~\cite{han1999mining} は
+アイテム階層（例: 「飲料 $\supset$ 牛乳」）を導入して
+異なる抽象度での頻出パターンを抽出するが，
+同一時刻の複数購買イベントの分離は対象外である．
+
+実務的には，POS データの日次集約や EC ログの
+セッション単位集約において，同一顧客の複数購買や
+複数顧客の同一時間帯購買が 1 レコードに混入する状況は一般的である．
+しかし，この混入が頻出パターンマイニングの出力品質に与える影響を
+定量的に分析し，アルゴリズム側で対処する研究は
+我々の知る限り存在しない．
 
 \subsection{本研究の位置づけ}
 \label{sec:related_positioning}
 
 本研究は，Apriori-window の核である「局所密集の厳密抽出」を維持しながら，
-前手法群でも Apriori-window でも十分に扱えなかった
+前手法群でも Apriori-window でも扱えなかった
 バスケット構造由来の偽共起問題を対象化する．
 具体的には，共起判定をトランザクション内からバスケット内へ拡張し，
-DSAA2025 枠組みの上位互換として実運用データへの適用可能性を高める立場をとる．
+DSAA2025 枠組みの上位互換として実運用データへの適用可能性を高める．
+
+\begin{table}[t]
+\caption{関連手法の比較（$\checkmark$: 対応，$\times$: 非対応）}
+\label{tab:related_comparison}
+\centering
+\scriptsize
+\begin{tabular}{lccc}
+\toprule
+手法 & 局所密集 & パラメータ非依存 & バスケット分離 \\
+\midrule
+Apriori / FP-Growth / ECLAT & $\times$ & --- & $\times$ \\
+PFPM / PPFPM & $\triangle$ & $\times$ & $\times$ \\
+LPFIM / LPPM & $\triangle$ & $\times$ & $\times$ \\
+Apriori-window~\cite{dsaa2025} & $\checkmark$ & $\checkmark$ & $\times$ \\
+\textbf{提案手法 (BAAW)} & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\end{table}

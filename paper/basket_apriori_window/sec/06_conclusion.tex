@@ -2,27 +2,23 @@
 \label{sec:conclusion}
 
 本稿は，Apriori-window の枠組みを維持しつつ，入力データのバスケット構造を
-明示的に扱う Basket-aware Apriori-Window を提案した．
-提案法は，共起判定をトランザクション内からバスケット内へ置き換えることで，
-偽共起の原因となるバスケット横断混入を抑制する．
+明示的に扱う Basket-aware Apriori-Window（BAAW）を提案した．
+共起判定をトランザクション内からバスケット内へ置き換えることで，
+偽共起パターンを原理的に排除し（命題~\ref{prop:spr_zero}），
+かつバスケット内共起における反単調性の成立（定理~\ref{thm:anti_monotone}）により
+Apriori 枝刈りの効率的探索を維持する．
 
-合成データ実験では，(i) Oracle との 34 ケース比較で FP=0, FN=0 を確認し（E0），
-(ii) $\lambda_{\text{baskets}}$ sweep において従来法 GTSPR が
-0.454 から 0.971 へ単調増加する一方，Basket-aware Apriori-Window は全条件で GTSPR=0 を維持すること（E1）
-を確認した．
-さらに (iii) 構造感度評価（E2）で，従来法 GTSPR が
-$G=3 \rightarrow 50$ で 0.827 $\rightarrow$ 0.638，
-$p_{\text{same}}=0.5 \rightarrow 0.9$ で 0.827 $\rightarrow$ 0.741 と
-系統的に変化し，Basket-aware Apriori-Window は同条件でも GTSPR=0 を維持することを確認した．
-さらに (iv) スケーラビリティ評価（E3）で，
-$10^6$ トランザクション時に Basket-aware Apriori-Window が 108.5 秒，
-従来法が 145.9 秒（1.345 倍）となり，
-規模拡大時の計算優位を確認した．
-さらに (v) 区間品質評価（E4）で，
-Basket-aware Apriori-Window が全条件で mean Jaccard=1.000 を維持する一方，
-従来法は interval purity が 0.075 $\rightarrow$ 0.018 と低下し，
-spurious interval rate も 0.735--0.945 と高水準であることを確認した．
+合成データ実験では，Oracle 完全一致（E0: 34 ケース全 PASS），
+$\lambda_{\text{baskets}}$ 増加時の偽共起爆発と BAAW の完全排除（E1），
+構造パラメータへの頑健性（E2），
+大規模データでの計算優位（E3: $10^6$ トランザクションで 1.345 倍高速），
+区間品質の優位（E4: mean Jaccard=1.000）を確認した．
+さらに 3 つの実データ（E6: dunnhumby / onlineretail / chicago）では，
+従来法の多項目パターンの 74.2--99.2\% が BAAW では検出されない
+偽共起であることを示し，合成データの知見の外的妥当性を確認した．
 
-今後の課題としては，(1) 実データ（Stage B）での外的妥当性評価，
-(2) 区間品質指標（Purity/Jaccard）を含む総合評価，
-(3) 並列化・メモリ管理の最適化によるさらなる高速化が挙げられる．
+今後の課題として，
+(1) ストリーミング環境でのオンライン適用，
+(2) 並列化・分散処理による更なるスケーラビリティ改善，
+(3) 偽共起排除が下流タスク（需要予測・推薦）の精度に与える定量的効果の検証
+が挙げられる．

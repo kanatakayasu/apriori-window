@@ -40,29 +40,24 @@ Basket-aware Apriori-Window を提案する．
 
 \begin{itemize}
     \item \textbf{課題の明確化}: DSAA2025 の単一バスケット前提が，
-    複数バスケット記録データにおいて偽共起を生む構造的要因であることを示す．
+    複数バスケット記録データにおいて偽共起を生む構造的要因であることを
+    形式的に定義し，その影響を定量的に示す（\S\ref{sec:problem_def}）．
 
-    \item \textbf{手法拡張}: Apriori-window の枠組みを保ったまま，
-    バスケット内共起に基づく探索へ拡張し，偽共起パターン率
-    （SPR: Spurious Pattern Rate）を原理的に 0 に抑える．
+    \item \textbf{手法拡張と理論保証}: Apriori-window の枠組みを保ったまま，
+    バスケット内共起に基づく探索へ拡張する．
+    偽共起パターン率 SPR = 0 の理論保証（命題~\ref{prop:spr_zero}），
+    バスケット内共起における反単調性の成立（定理~\ref{thm:anti_monotone}），
+    および時間・空間計算量の解析（定理~\ref{thm:complexity}）を与える（\S\ref{sec:proposed_method}）．
 
-    \item \textbf{理論的保証}: バスケット内共起においても Apriori の反単調性が成立し，
-    候補枝刈りによる効率的探索が維持されることを示す．
+    \item \textbf{合成データによる系統的評価}: Oracle 完全一致（E0），
+    バスケット密度 sweep での偽共起爆発と完全排除（E1），
+    構造パラメータへの頑健性（E2），
+    大規模データでの計算優位（E3），
+    区間品質の優位（E4）を確認する（\S\ref{sec:experiments}）．
 
-    \item \textbf{実証}: 合成データ実験で，Oracle 一致による実装厳密性（E0）と，
-    $\lambda_{\text{baskets}}$ 増加時の偽共起拡大
-    （従来法 GTSPR: 0.454 $\rightarrow$ 0.971）および
-    Basket-aware Apriori-Window の GTSPR=0 維持（E1）を確認する．
-    さらに構造感度評価（E2）で，従来法 GTSPR が
-    $G=3 \rightarrow 50$ で 0.827 $\rightarrow$ 0.638，
-    $p_{\text{same}}=0.5 \rightarrow 0.9$ で 0.827 $\rightarrow$ 0.741 と
-    系統的に変化することを示す．
-    加えてスケーラビリティ評価（E3）で，
-    $10^6$ トランザクション時に Basket-aware Apriori-Window が 108.5 秒，
-    従来法が 145.9 秒（1.345 倍）となることを確認する．
-    さらに区間品質評価（E4）で，Basket-aware Apriori-Window の mean Jaccard=1.000，
-    従来法 interval purity の劣化（0.075 $\rightarrow$ 0.018），
-    spurious interval rate の高止まり（0.735--0.945）を示す．
+    \item \textbf{実データによる外的妥当性}: 3 つの実データ
+    （dunnhumby / onlineretail / chicago）で，
+    従来法パターンの 74--99\% が偽共起であることを実証する（\S\ref{sec:exp_e6}）．
 \end{itemize}
 
 以上より，本稿は DSAA2025 の問題設定を現実のデータ構造へ拡張する
