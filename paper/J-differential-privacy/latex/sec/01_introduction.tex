@@ -25,8 +25,9 @@
   \item ラプラスメカニズムおよびガウスメカニズムに基づくDP密集区間検出アルゴリズムDP-DIM（アルゴリズム\ref{alg:dp-dim}）と、そのプライバシー保証の正式な証明。
   \item 閾値安定性条件の導出と、安定マージンに基づく信頼度保証（定理\ref{thm:stability}）。
   \item Sparse Vector Technique を用いた予算効率的な変種（アルゴリズム\ref{alg:svt-dim}）。
+  \item 滑らかな感度~\cite{nissim2007smooth}の枠組みによる密集区間マイニングの構造的分析と、情報理論的下界（Le Cam の補題~\cite{lecam1973convergence}に基づく）の導出によるラプラスメカニズムの準最適性の証明。
   \item 多レベルApriori探索における階層的予算配分のプライバシー証明と、高度合成定理による予算削減の定量的分析。
-  \item 合成データに対する包括的な実験評価（プライバシー・精度トレードオフ、メカニズム比較、パラメータ感度分析を含む）。
+  \item 合成データに対する包括的な実験評価（プライバシー・精度トレードオフ、メカニズム比較、パラメータ感度分析を含む）。E1実験における$\varepsilon$に対する精度の平坦性を下界理論により定量的に解析。
 \end{itemize}
 
 本論文の構成は以下の通りである。第\ref{sec:related}節で関連研究を概観し、第\ref{sec:preliminaries}節で予備知識を定義する。第\ref{sec:method}節で提案手法DP-DIMを詳述し、第\ref{sec:experiments}節で実験結果を示す。第\ref{sec:conclusion}節で結論と今後の展望を述べる。
