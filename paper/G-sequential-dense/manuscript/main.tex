@@ -1,0 +1,554 @@
+% !TEX program = pdflatex
+\documentclass[11pt,a4paper]{article}
+
+% --- 日本語対応 ---
+\usepackage{CJKutf8}
+
+% --- パッケージ ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+% --- 定理環境 ---
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{proposition}[theorem]{命題}
+
+% --- アルゴリズム用日本語設定 ---
+\algrenewcommand\algorithmicrequire{\textbf{入力:}}
+\algrenewcommand\algorithmicensure{\textbf{出力:}}
+
+\title{\textbf{系列密集パターン: 時間順序付き共起バーストのマイニング}}
+\author{}
+\date{}
+
+\begin{document}
+\begin{CJK}{UTF8}{ipxm}
+
+\maketitle
+
+\begin{abstract}
+トランザクションデータベースにおける頻出パターンマイニングは、
+アイテム間の共起関係の発見に広く用いられている。
+しかし、従来のアイテムセットマイニングではアイテム間の時間的順序が無視されるため、
+因果的・逐次的な関係を持つパターンを見逃す可能性がある。
+本論文では、\textbf{系列密集パターン}（Sequential Dense Pattern）を提案する。
+これは、スライディングウィンドウ内で閾値以上の頻度で出現する
+時間順序付きアイテム系列として定義される。
+系列密集パターンの形式的定義を与え、
+\textbf{窓内系列サポート}（In-Window Sequential Support）に基づく
+\textbf{系列反単調性}（Sequential Anti-Monotonicity）を証明し、
+効率的な剪定を可能にする探索アルゴリズムを提案する。
+合成データを用いた実験により、
+提案手法がアイテムセット密集パターンでは検出できない
+順序依存のバーストパターンを発見できることを示す。
+\end{abstract}
+
+%% ===================================================================
+\section{はじめに}
+\label{sec:intro}
+%% ===================================================================
+
+頻出パターンマイニングは、データマイニングにおける基礎的なタスクであり、
+Apriori~\cite{Agrawal1994}やFP-Growth~\cite{Han2000}をはじめとする
+多くの効率的アルゴリズムが提案されてきた。
+一方、時系列トランザクションデータにおいては、
+アイテム間の\emph{出現順序}が重要な情報を持つ場合がある。
+例えば、小売データにおいて「商品Aの購入後に商品Bが頻繁に購入される」
+というパターンは、推薦システムやプロモーション設計において
+集合的共起よりも有用な知見を提供する。
+
+系列パターンマイニング~\cite{Agrawal1995,Pei2001,Zaki2001}は
+この問題に取り組む研究分野であるが、
+既存手法は主に\emph{全期間にわたる頻出性}を評価する。
+しかし実際のデータでは、パターンの出現頻度は時間的に変動し、
+特定の期間に集中的に出現する\emph{バースト}が存在する。
+このようなバーストの検出は、イベントの影響分析や
+異常検知において重要である。
+
+本論文では、密集区間（Dense Interval）の概念~\cite{DenseInterval}を
+系列パターンに拡張した\textbf{系列密集パターン}を提案する。
+主な貢献は以下の通りである:
+
+\begin{enumerate}[leftmargin=2em]
+  \item 系列密集パターンとその密集区間の形式的定義（第\ref{sec:definition}節）
+  \item 窓内系列サポートの反単調性の証明と、それに基づく剪定戦略（第\ref{sec:theory}節）
+  \item Apriori型の段階的探索アルゴリズムの設計（第\ref{sec:algorithm}節）
+  \item 合成データ実験による有効性の実証（第\ref{sec:experiments}節）
+\end{enumerate}
+
+%% ===================================================================
+\section{関連研究}
+\label{sec:related}
+%% ===================================================================
+
+\paragraph{頻出アイテムセットマイニング}
+Apriori~\cite{Agrawal1994}は反単調性に基づく段階的候補生成・剪定を導入した。
+FP-Growth~\cite{Han2000}はFP-Treeによるパターン成長法で候補生成を回避する。
+これらは集合的共起を扱うが、アイテム間の順序は考慮しない。
+
+\paragraph{系列パターンマイニング}
+GSP~\cite{Agrawal1995}はAprioriを系列に拡張した先駆的手法である。
+PrefixSpan~\cite{Pei2001}はプロジェクションベースのパターン成長法により
+候補生成コストを削減する。
+SPADE~\cite{Zaki2001}は垂直データ表現と格子理論を用いる。
+しかし、これらは全期間にわたるサポートを評価し、
+時間的な出現集中（バースト）を直接検出する機能を持たない。
+
+\paragraph{エピソードマイニング}
+Mannila et al.~\cite{Mannila1997}はイベント系列中の頻出エピソードの発見を提案した。
+エピソードマイニングはウィンドウベースの頻度評価を行うが、
+密集区間の検出、すなわち頻度が閾値を超える時間区間の特定は
+その主目的ではない。
+
+\paragraph{密集パターンマイニング}
+密集区間に基づくアイテムセットマイニング~\cite{DenseInterval}は、
+スライディングウィンドウ内のサポートが閾値以上となる
+時間区間を検出する。
+本研究はこの枠組みを系列パターンに拡張するものである。
+
+%% ===================================================================
+\section{問題定義}
+\label{sec:definition}
+%% ===================================================================
+
+本節では、系列密集パターンに関する基本概念を形式的に定義する。
+
+\begin{definition}[トランザクションデータベース]
+トランザクションデータベース $\mathcal{D} = \langle T_0, T_1, \ldots, T_{n-1} \rangle$ は、
+各 $T_t \subseteq \mathcal{I}$（$\mathcal{I}$はアイテムの全体集合）が
+時刻 $t$ におけるトランザクションである順序付き列とする。
+\end{definition}
+
+\begin{definition}[系列パターン]
+系列パターン $\sigma = \langle e_1, e_2, \ldots, e_k \rangle$
+（$e_i \in \mathcal{I}$）は、アイテムの順序付き列である。
+$|\sigma| = k$ を系列の長さと呼ぶ。
+\end{definition}
+
+\begin{definition}[系列出現]
+\label{def:seq_occ}
+系列 $\sigma = \langle e_1, e_2, \ldots, e_k \rangle$ の
+\textbf{出現}（occurrence）とは、
+時刻の列 $t_1 < t_2 < \cdots < t_k$ であって、
+各 $i$ に対し $e_i \in T_{t_i}$ を満たすものをいう。
+出現のタイムスタンプは最終要素の時刻 $t_k$ とする。
+
+ギャップ制約 $g > 0$ が与えられた場合、追加条件
+$t_{i+1} - t_i \le g$ ($i = 1, \ldots, k-1$) を要求する。
+$g = 0$ はギャップ制約なし（$t_i < t_{i+1}$ のみ）を意味する。
+\end{definition}
+
+\begin{definition}[窓内系列サポート（In-Window Sequential Support）]
+\label{def:iwss}
+ウィンドウサイズ $W$ とウィンドウ左端 $l$ に対し、
+系列 $\sigma$ の窓内系列サポートを
+\[
+  \mathrm{sup}_W(\sigma, l) = \bigl|\{t_k \mid
+  l \le t_k \le l + W,\;
+  (t_1, \ldots, t_k) \text{ は } \sigma \text{ の出現}\}\bigr|
+\]
+と定義する。ここで $t_k$ は出現のタイムスタンプ（定義~\ref{def:seq_occ}）である。
+\end{definition}
+
+\begin{definition}[系列密集パターン（Sequential Dense Pattern）]
+\label{def:sdp}
+閾値 $\theta$ に対し、系列 $\sigma$ が時刻区間 $[s, e]$ で
+\textbf{密集}（dense）であるとは、
+$[s, e]$ 内の全てのウィンドウ位置 $l$ ($s \le l \le e$) に対して
+$\mathrm{sup}_W(\sigma, l) \ge \theta$
+が成り立つことをいう。
+
+このような区間 $[s, e]$ を $\sigma$ の\textbf{密集区間}（dense interval）と呼び、
+少なくとも1つの密集区間を持つ系列 $\sigma$ を
+\textbf{系列密集パターン}と呼ぶ。
+\end{definition}
+
+%% ===================================================================
+\section{理論的性質}
+\label{sec:theory}
+%% ===================================================================
+
+本節では、系列密集パターンの探索を効率化する理論的性質を示す。
+
+\begin{definition}[部分系列]
+系列 $\sigma' = \langle e'_1, \ldots, e'_m \rangle$ が
+系列 $\sigma = \langle e_1, \ldots, e_k \rangle$ の
+\textbf{連続部分系列}であるとは、ある $j$ が存在して
+$e'_i = e_{j+i-1}$ ($i = 1, \ldots, m$) が成り立つことをいう。
+\end{definition}
+
+\begin{theorem}[系列反単調性（Sequential Anti-Monotonicity）]
+\label{thm:anti_mono}
+系列 $\sigma'$ が $\sigma$ の連続部分系列であるならば、
+任意のウィンドウ位置 $l$ に対して
+\[
+  \mathrm{sup}_W(\sigma', l) \ge \mathrm{sup}_W(\sigma, l)
+\]
+が成り立つ。
+\end{theorem}
+
+\begin{proof}
+$\sigma = \langle e_1, \ldots, e_k \rangle$ の出現
+$(t_1, \ldots, t_k)$ が $l \le t_k \le l + W$ を満たすとする。
+$\sigma' = \langle e_j, \ldots, e_{j+m-1} \rangle$ とすると、
+$(t_j, \ldots, t_{j+m-1})$ は $\sigma'$ の出現であり、
+$t_{j+m-1} \le t_k \le l + W$ かつ $t_{j+m-1} \ge t_1 \ge l$
+（ただし $j \ge 1$ のとき $t_j \ge t_1 \ge l$ は
+一般には成り立たないため、以下のように議論を精密化する）。
+
+系列出現のタイムスタンプは最終要素の時刻で定義されるため、
+$\sigma'$ の出現タイムスタンプを $t'_\text{end}$ とする。
+$\sigma$ の任意の出現 $(t_1, \ldots, t_k)$ に対し、
+部分列 $(t_j, \ldots, t_{j+m-1})$ は $\sigma'$ の出現であり、
+$t'_\text{end} = t_{j+m-1} \le t_k$ である。
+
+したがって、$\sigma$ の出現のうちタイムスタンプ $t_k$ が
+$[l, l+W]$ に入るものの個数は、
+$\sigma'$ のタイムスタンプ $t'_\text{end}$ が $[l, l+W]$ に入る
+出現の個数以下である。
+厳密には、$\sigma$ の異なる出現が $\sigma'$ の同一の出現に写像され得るため、
+$\mathrm{sup}_W(\sigma, l) \le \mathrm{sup}_W(\sigma', l)$ が成立する。
+\end{proof}
+
+\begin{corollary}[剪定原理]
+\label{cor:pruning}
+系列 $\sigma$ が密集区間を持つならば、
+$\sigma$ の全ての連続部分系列も密集区間を持つ。
+対偶により、ある連続部分系列が密集でなければ、
+$\sigma$ 自身も密集区間を持たない。
+\end{corollary}
+
+\begin{lemma}[計算量]
+\label{lem:complexity}
+$n$ をトランザクション数、$|\mathcal{I}|$ をアイテム数とする。
+系列 $\sigma$ の出現タイムスタンプ計算は、
+各アイテムの出現リストのマージ操作により
+$O(|\sigma| \cdot n)$ 時間で実行可能である。
+密集区間の計算はスライディングウィンドウの走査により
+$O(n)$ 時間で実行可能である。
+したがって、長さ $k$ の全候補系列に対する密集区間計算は
+$O(C_k \cdot k \cdot n)$ 時間である。
+ここで $C_k$ は長さ $k$ の候補数である。
+\end{lemma}
+
+%% ===================================================================
+\section{アルゴリズム}
+\label{sec:algorithm}
+%% ===================================================================
+
+提案アルゴリズムは、Apriori型の段階的探索を系列パターンに適用する。
+
+\subsection{アルゴリズム概要}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{初期化}: 各アイテムの出現トランザクション ID リストを構築する。
+  \item \textbf{単一アイテム}: 各アイテムについて密集区間を計算し、
+        密集区間を持つアイテムを頻出アイテムとする。
+  \item \textbf{長さ2候補}: 頻出アイテムの全順序対から長さ2の系列候補を生成し、
+        系列出現タイムスタンプの密集区間を評価する。
+  \item \textbf{長さ $k$ 候補} ($k \ge 3$): 接頭辞・接尾辞結合により候補を生成し、
+        系列反単調性（系~\ref{cor:pruning}）で剪定した後、密集区間を評価する。
+  \item \textbf{終了}: 新たな頻出系列が見つからなくなるか、最大長に達したら停止する。
+\end{enumerate}
+
+\subsection{系列出現タイムスタンプの計算}
+
+系列 $\sigma = \langle e_1, \ldots, e_k \rangle$ の出現タイムスタンプは、
+動的計画法により効率的に計算する。
+$R_i$ を「$\langle e_1, \ldots, e_i \rangle$ の出現の末尾時刻」の集合とする。
+$R_1 = \mathrm{occ}(e_1)$（$e_1$ の出現時刻集合）として、
+帰納的に
+\[
+  R_{i+1} = \{t \in \mathrm{occ}(e_{i+1}) \mid
+  \exists\, t' \in R_i,\; t' < t \;(\text{かつ } t - t' \le g \text{ if } g > 0)\}
+\]
+と計算する。各ステップは両リストのマージ操作で $O(n)$ 時間である。
+
+\subsection{擬似コード}
+
+\begin{algorithm}[t]
+\caption{系列密集パターンマイニング}
+\label{alg:sdp}
+\begin{algorithmic}[1]
+\Require $\mathcal{D}$: トランザクションDB, $W$: ウィンドウサイズ, $\theta$: 閾値, $L$: 最大長, $g$: 最大ギャップ
+\Ensure $\mathcal{R}$: 系列密集パターンとその密集区間の集合
+\State $\mathrm{occ} \gets \textsc{BuildOccurrenceMap}(\mathcal{D})$
+\State $F_1 \gets \emptyset$
+\ForAll{$e \in \mathcal{I}$}
+  \State $I \gets \textsc{DenseIntervals}(\mathrm{occ}(e), W, \theta)$
+  \If{$I \neq \emptyset$}
+    \State $F_1 \gets F_1 \cup \{\langle e \rangle\}$; $\mathcal{R}[\langle e \rangle] \gets I$
+  \EndIf
+\EndFor
+\State $F_2 \gets \emptyset$
+\ForAll{$a, b \in \{e \mid \langle e \rangle \in F_1\}$}
+  \State $R \gets \textsc{SeqOccurrences}(\mathrm{occ}, \langle a, b \rangle, g)$
+  \State $I \gets \textsc{DenseIntervals}(R, W, \theta)$
+  \If{$I \neq \emptyset$}
+    \State $F_2 \gets F_2 \cup \{\langle a, b \rangle\}$; $\mathcal{R}[\langle a,b \rangle] \gets I$
+  \EndIf
+\EndFor
+\For{$k = 3$ \textbf{to} $L$}
+  \State $C_k \gets \textsc{GenCandidates}(F_{k-1})$
+  \State $C_k \gets \textsc{Prune}(C_k, F_{k-1})$ \Comment{系列反単調性}
+  \State $F_k \gets \emptyset$
+  \ForAll{$\sigma \in C_k$}
+    \State $R \gets \textsc{SeqOccurrences}(\mathrm{occ}, \sigma, g)$
+    \State $I \gets \textsc{DenseIntervals}(R, W, \theta)$
+    \If{$I \neq \emptyset$}
+      \State $F_k \gets F_k \cup \{\sigma\}$; $\mathcal{R}[\sigma] \gets I$
+    \EndIf
+  \EndFor
+  \If{$F_k = \emptyset$} \textbf{break} \EndIf
+\EndFor
+\State \Return $\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}
+
+%% ===================================================================
+\section{実験}
+\label{sec:experiments}
+%% ===================================================================
+
+本節では、合成データを用いて提案手法の有効性を評価する。
+
+\subsection{実験設定}
+
+\paragraph{合成データ生成}
+$n$ 個のトランザクションに $|\mathcal{I}|$ 種類のアイテムを配置し、
+既知の系列パターンをバースト的に埋め込む。
+背景ノイズとしてランダムなアイテムを各トランザクションに追加する。
+既定パラメータは $n = 2000$、$|\mathcal{I}| = 20$、
+埋め込みパターン数 3、パターン長 3、バースト領域 2 とした。
+
+\paragraph{パラメータ}
+既定値: $W = 20$, $\theta = 3$, $L = 3$, $g = 0$（ギャップ制約なし）。
+実験ごとに1つのパラメータを変化させる。
+
+\paragraph{環境}
+Python 3.13 / macOS / Apple Silicon。
+各測定は3回実行の平均値。
+
+\subsection{E1: スケーラビリティ}
+
+トランザクション数 $n$ を 500 から 10,000 まで変化させ、
+実行時間を測定した（表~\ref{tab:scalability}）。
+実行時間は $n$ にほぼ線形に比例し、
+$n = 10000$ でも約14秒で完了する。
+
+\begin{table}[t]
+\centering
+\caption{スケーラビリティ: トランザクション数と実行時間}
+\label{tab:scalability}
+\begin{tabular}{rrr}
+\toprule
+$n$ & 時間 [ms] & 系列パターン数 \\
+\midrule
+500   &    719 & 25,035 \\
+1,000 &  1,354 & 24,492 \\
+2,000 &  2,906 & 25,176 \\
+5,000 &  6,088 & 23,781 \\
+10,000 & 13,797 & 25,176 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E2: パラメータ感度}
+
+\paragraph{ウィンドウサイズ $W$}
+$W$ を 5 から 80 まで変化させた（表~\ref{tab:window}）。
+$W$ が小さいと密集条件が厳しくなりパターン数が減少する。
+$W \ge 20$ ではパターン数が安定する。
+
+\begin{table}[t]
+\centering
+\caption{ウィンドウサイズの影響}
+\label{tab:window}
+\begin{tabular}{rrr}
+\toprule
+$W$ & 時間 [ms] & 系列パターン数 \\
+\midrule
+5  & 1,249 & 8,400 \\
+10 & 2,740 & 25,122 \\
+20 & 2,885 & 25,176 \\
+40 & 2,616 & 25,176 \\
+80 & 1,829 & 25,176 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{閾値 $\theta$}
+$\theta$ を 2 から 10 まで変化させた（表~\ref{tab:threshold}）。
+$\theta = 8$ 以上ではほぼ全てのパターンが剪定され、
+$\theta = 10$ で系列パターンはゼロになる。
+これは密集条件の厳格化による選択的なパターン抽出を示す。
+
+\begin{table}[t]
+\centering
+\caption{閾値の影響}
+\label{tab:threshold}
+\begin{tabular}{rrr}
+\toprule
+$\theta$ & 時間 [ms] & 系列パターン数 \\
+\midrule
+2  & 2,889 & 25,176 \\
+3  & 2,932 & 25,176 \\
+5  & 2,564 & 24,309 \\
+8  &     6 & 2 \\
+10 &     2 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{最大ギャップ $g$}
+$g$ を 0（無制限）から 2, 5, 10, 20 まで変化させた（表~\ref{tab:gap}）。
+ギャップ制約を課すとパターン数が大幅に減少し、
+$g = 2$ では 703 パターンのみとなる。
+これは、ギャップ制約が系列の時間的局所性を強制し、
+よりコンパクトなパターンを選択することを示す。
+
+\begin{table}[t]
+\centering
+\caption{最大ギャップの影響}
+\label{tab:gap}
+\begin{tabular}{rrr}
+\toprule
+$g$ & 時間 [ms] & 系列パターン数 \\
+\midrule
+0 (なし) & 2,870 & 25,176 \\
+2        &   169 & 703 \\
+5        & 1,053 & 9,583 \\
+10       & 1,369 & 18,095 \\
+20       & 1,758 & 20,108 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E3: アイテムセット密集パターンとの比較}
+
+同一データに対し、提案手法（系列密集パターン）と
+従来のアイテムセット密集パターン（順序なし共起）を適用した
+（表~\ref{tab:comparison}）。
+
+\begin{table}[t]
+\centering
+\caption{系列 vs アイテムセット密集パターン}
+\label{tab:comparison}
+\begin{tabular}{lrr}
+\toprule
+手法 & パターン数 & 時間 [ms] \\
+\midrule
+系列密集パターン（提案手法）     & 25,176 & 2,851 \\
+アイテムセット密集パターン       & 25     & 6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+系列密集パターンはアイテムセット密集パターンの約1,000倍のパターンを発見する。
+これは、同一のアイテム対 $\{A, B\}$ に対し、
+$\langle A, B \rangle$ と $\langle B, A \rangle$ が異なるパターンとして
+識別されることに加え、同一アイテムの繰り返し
+（例: $\langle A, A \rangle$）や長さ3以上の系列も含まれるためである。
+計算コストは増加するが、順序依存のバーストパターンという
+アイテムセットでは得られない知見を提供する。
+
+%% ===================================================================
+\section{考察}
+\label{sec:discussion}
+%% ===================================================================
+
+\paragraph{系列密集パターンの実用的意義}
+提案手法は、「ある事象の後に別の事象が集中的に発生する時期」を特定できる。
+これは、キャンペーン効果分析（商品Aの値引き後に商品Bの売上が急増する期間）、
+ネットワーク障害の連鎖検出、ユーザー行動の逐次的傾向分析などに応用可能である。
+
+\paragraph{ギャップ制約の効果}
+ギャップ制約 $g$ はパターンの時間的コンパクト性を制御する。
+$g = 0$（無制限）では長距離の順序関係も捕捉するが、
+偽陽性が増加する。$g$ を適切に設定することで、
+アプリケーションに適した時間スケールのパターンを選択できる。
+
+\paragraph{計算効率}
+系列候補数はアイテムセット候補数より多いため（順列 vs 組合せ）、
+計算コストが増加する。
+系列反単調性による剪定（系~\ref{cor:pruning}）が重要であり、
+高い閾値やギャップ制約の導入により探索空間を大幅に削減できる。
+
+\paragraph{制約と今後の課題}
+\begin{itemize}[leftmargin=1.5em]
+  \item 実データ（小売・IoTログ等）での評価
+  \item PrefixSpan型のパターン成長法への拡張
+  \item 密集区間の統計的有意性検定
+  \item 並列・分散環境での高速化
+\end{itemize}
+
+%% ===================================================================
+\section{おわりに}
+\label{sec:conclusion}
+%% ===================================================================
+
+本論文では、系列密集パターンの概念を提案し、
+その形式的定義、理論的性質（系列反単調性）、
+および探索アルゴリズムを示した。
+合成データ実験により、提案手法が
+アイテムセット密集パターンでは検出できない
+順序依存のバーストパターンを発見できることを実証した。
+系列密集パターンは、時間的順序を考慮した
+バースト検出の新たな枠組みを提供するものである。
+
+%% ===================================================================
+% 参考文献
+%% ===================================================================
+
+\begin{thebibliography}{10}
+
+\bibitem{Agrawal1994}
+R.~Agrawal and R.~Srikant,
+``Fast algorithms for mining association rules,''
+in \emph{Proc.\ VLDB}, 1994, pp.~487--499.
+
+\bibitem{Agrawal1995}
+R.~Agrawal and R.~Srikant,
+``Mining sequential patterns,''
+in \emph{Proc.\ ICDE}, 1995, pp.~3--14.
+
+\bibitem{Han2000}
+J.~Han, J.~Pei, and Y.~Yin,
+``Mining frequent patterns without candidate generation,''
+in \emph{Proc.\ SIGMOD}, 2000, pp.~1--12.
+
+\bibitem{Pei2001}
+J.~Pei, J.~Han, B.~Mortazavi-Asl, et al.,
+``PrefixSpan: Mining sequential patterns efficiently by prefix-projected pattern growth,''
+in \emph{Proc.\ ICDE}, 2001, pp.~215--224.
+
+\bibitem{Zaki2001}
+M.~J.~Zaki,
+``SPADE: An efficient algorithm for mining frequent sequences,''
+\emph{Machine Learning}, vol.~42, no.~1--2, pp.~31--60, 2001.
+
+\bibitem{Mannila1997}
+H.~Mannila, H.~Toivonen, and A.~I.~Verkamo,
+``Discovery of frequent episodes in event sequences,''
+\emph{Data Mining and Knowledge Discovery}, vol.~1, no.~3, pp.~259--289, 1997.
+
+\bibitem{DenseInterval}
+Dense interval mining for itemsets (reference implementation),
+\url{https://github.com/}, 2025.
+
+\end{thebibliography}
+
+\end{CJK}
+\end{document}

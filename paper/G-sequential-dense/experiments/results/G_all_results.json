@@ -1,0 +1,128 @@
+{
+  "E1_scalability": [
+    {
+      "n_transactions": 500,
+      "elapsed_ms": 718.98,
+      "n_seq_patterns": 25035,
+      "n_total_patterns": 25064
+    },
+    {
+      "n_transactions": 1000,
+      "elapsed_ms": 1354.41,
+      "n_seq_patterns": 24492,
+      "n_total_patterns": 24521
+    },
+    {
+      "n_transactions": 2000,
+      "elapsed_ms": 2906.47,
+      "n_seq_patterns": 25176,
+      "n_total_patterns": 25205
+    },
+    {
+      "n_transactions": 5000,
+      "elapsed_ms": 6088.18,
+      "n_seq_patterns": 23781,
+      "n_total_patterns": 23810
+    },
+    {
+      "n_transactions": 10000,
+      "elapsed_ms": 13797.41,
+      "n_seq_patterns": 25176,
+      "n_total_patterns": 25205
+    }
+  ],
+  "E2_sensitivity": {
+    "window_size": [
+      {
+        "window_size": 5,
+        "elapsed_ms": 1248.59,
+        "n_seq_patterns": 8400
+      },
+      {
+        "window_size": 10,
+        "elapsed_ms": 2739.97,
+        "n_seq_patterns": 25122
+      },
+      {
+        "window_size": 20,
+        "elapsed_ms": 2885.39,
+        "n_seq_patterns": 25176
+      },
+      {
+        "window_size": 40,
+        "elapsed_ms": 2615.91,
+        "n_seq_patterns": 25176
+      },
+      {
+        "window_size": 80,
+        "elapsed_ms": 1829.07,
+        "n_seq_patterns": 25176
+      }
+    ],
+    "threshold": [
+      {
+        "threshold": 2,
+        "elapsed_ms": 2888.88,
+        "n_seq_patterns": 25176
+      },
+      {
+        "threshold": 3,
+        "elapsed_ms": 2931.98,
+        "n_seq_patterns": 25176
+      },
+      {
+        "threshold": 5,
+        "elapsed_ms": 2564.25,
+        "n_seq_patterns": 24309
+      },
+      {
+        "threshold": 8,
+        "elapsed_ms": 6.28,
+        "n_seq_patterns": 2
+      },
+      {
+        "threshold": 10,
+        "elapsed_ms": 2.14,
+        "n_seq_patterns": 0
+      }
+    ],
+    "max_gap": [
+      {
+        "max_gap": 0,
+        "elapsed_ms": 2869.55,
+        "n_seq_patterns": 25176
+      },
+      {
+        "max_gap": 2,
+        "elapsed_ms": 169.11,
+        "n_seq_patterns": 703
+      },
+      {
+        "max_gap": 5,
+        "elapsed_ms": 1053.46,
+        "n_seq_patterns": 9583
+      },
+      {
+        "max_gap": 10,
+        "elapsed_ms": 1369.22,
+        "n_seq_patterns": 18095
+      },
+      {
+        "max_gap": 20,
+        "elapsed_ms": 1758.09,
+        "n_seq_patterns": 20108
+      }
+    ]
+  },
+  "E3_comparison": {
+    "sequential": {
+      "n_patterns": 25176,
+      "elapsed_ms": 2850.64
+    },
+    "itemset": {
+      "n_patterns": 25,
+      "elapsed_ms": 6.07
+    },
+    "ground_truth_count": 6
+  }
+}
