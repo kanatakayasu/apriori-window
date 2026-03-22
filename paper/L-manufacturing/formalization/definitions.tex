@@ -1,0 +1,37 @@
+% Formal definitions for Paper L (Manufacturing)
+% Included from main.tex
+
+\begin{definition}[アラームトランザクション]
+製造装置群から時間ビン幅 $\Delta t$ で収集されたアラームログを
+$\mathcal{L} = \{(a_i, t_i)\}_{i=1}^{N}$ とする。
+ここで $a_i \in \mathcal{A}$（アラームタイプ集合）、$t_i \in \mathbb{R}^+$（タイムスタンプ）である。
+時間ビン $\tau_k = [k\Delta t, (k+1)\Delta t)$ に含まれるアラームタイプの集合を
+トランザクション $T_k = \{a_i \mid t_i \in \tau_k\}$ と定義する。
+\end{definition}
+
+\begin{definition}[アラームパターンの密集区間]
+アラームパターン $P \subseteq \mathcal{A}$ に対し、
+ウィンドウサイズ $W$ と閾値 $\theta$ が与えられたとき、
+$P$ の\emph{密集区間} $[s, e]$ とは、
+任意の $t \in [s, e]$ について
+$|\{k \mid P \subseteq T_k, k \in [t, t+W]\}| \geq \theta$
+を満たす極大連続区間をいう。
+\end{definition}
+
+\begin{definition}[保全イベント帰属]
+保全イベント $m$ の実施時点 $t_m$ に対し、
+パターン $P$ の密度変化スコアを
+$\Delta_P(m) = \bar{s}_P^{\mathrm{post}} - \bar{s}_P^{\mathrm{pre}}$
+と定義する。
+ここで $\bar{s}_P^{\mathrm{pre}} = \frac{1}{L} \sum_{t=t_m-L}^{t_m-1} s_P(t)$、
+$\bar{s}_P^{\mathrm{post}} = \frac{1}{L} \sum_{t=t_m}^{t_m+L-1} s_P(t)$
+であり、$s_P(t)$ はパターン $P$ のウィンドウ位置 $t$ におけるサポートカウント、
+$L$ はルックバック長である。
+\end{definition}
+
+\begin{proposition}[Apriori 性質による候補削減]
+アイテムセット $P$ が密集区間を持つならば、
+$P$ の任意の部分集合 $P' \subset P$ も密集区間を持つ。
+対偶により、密集区間を持たない部分集合が存在する候補は
+探索から除外できる。
+\end{proposition}

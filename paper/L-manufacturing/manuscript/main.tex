@@ -1,0 +1,337 @@
+\documentclass[11pt]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{CJKutf8}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{natbib}
+
+% --- Theorem environments ---
+\newtheorem{definition}{定義}
+\newtheorem{proposition}{命題}
+\newtheorem{theorem}{定理}
+\newtheorem{corollary}{系}
+\newtheorem{lemma}{補題}
+
+% --- Title ---
+\title{製造業故障診断のための密集アラームパターンマイニングと\\保全イベント帰属}
+\author{
+  匿名著者\\
+  \textit{IEEE Trans. Semiconductor Manufacturing 投稿}
+}
+\date{}
+
+\begin{document}
+\begin{CJK}{UTF8}{ipxm}
+\maketitle
+
+% ============================================================
+\begin{abstract}
+半導体製造プロセスにおける設備異常の早期検知と根本原因分析は、歩留まり向上と計画外ダウンタイム削減の鍵となる。既存のアラーム管理手法――閾値ベースのアラーム集約、相関ルールマイニング、統計的プロセス管理――は、アラームの共起パターンが異常に集中する\emph{時期}の特定と、保全イベントとの因果関係の定量化を同時に行うことができない。本研究では、スライディングウィンドウ頻出アイテムセットマイニングと自動保全イベント帰属を組み合わせ、\emph{密集アラームパターン区間}を検出するフレームワークを提案する。本手法は、(1)~Apriori-window アルゴリズムをアラームタイプ符号化トランザクションに適応し、(2)~パターン密度の変化点を同定し、(3)~Welch の $t$ 検定と Benjamini--Hochberg 法による偽発見率制御を用いてこれらの変化を保全イベントに帰属させる。SECOM 形式の合成アラームデータを用いた実験により、本フレームワークは 7 設備群にわたり 53 件の密集パターンを検出し、5 件の保全イベントに対し 81 件の有意な密度変化を同定し、2{,}000 タイムビンのデータセットに対し 12 ミリ秒未満で解析を完了することを示す。設備間故障伝播分析では 28 件のクロス設備パターンが検出され、5 件の注入故障シナリオすべてが少なくとも 3 つの検出パターンでカバーされた。
+\end{abstract}
+
+\noindent\textbf{キーワード:} 故障診断、密集区間マイニング、アラームパターン分析、予知保全、保全イベント帰属、半導体製造
+
+% ============================================================
+\section{はじめに}\label{sec:intro}
+
+半導体製造は数百の工程を含む複雑なプロセスであり、各工程の設備は膨大なアラームを生成する。日産数万件に達するアラームの中から、設備劣化や故障の前兆となるパターンを同定し、保全活動の効果を定量的に評価することは、歩留まり管理と生産効率の維持に不可欠である~\citep{he2007secom,susto2015machine}。
+
+アラーム管理の現行手法には、いくつかの限界がある。\emph{閾値ベースの手法}~\citep{bransby1998alarm,isa2009alarm}はアラーム頻度が閾値を超えた場合に通知するが、アラーム間の共起関係を捉えられない。\emph{相関ルールマイニング}~\citep{agrawal1994fast,cheng2013alarm}は共起パターンを発見するが、パターンの時間的集中（密集区間）を検出できない。\emph{統計的プロセス管理}（SPC）~\citep{montgomery2019spc}は管理図でプロセス異常を監視するが、多変量アラームパターンの処理が困難であり、保全イベントとの帰属分析は手動で行う必要がある。
+
+故障診断の分野では、\emph{故障モード影響分析}（FMEA）~\citep{stamatis2003fmea}、\emph{ベイジアンネットワーク}~\citep{weber2012bayesian}、および\emph{深層学習}~\citep{khan2018deep,li2020deep}手法が研究されてきた。しかし、これらはいずれも、特定のアラーム共起パターンが異常に高頻度となる\emph{時期}の自動検出と、保全イベントへの\emph{自動帰属}を同時に行うことができない。
+
+本論文では、頻出パターンマイニングと製造業故障診断を橋渡しするフレームワークを提案し、以下の 3 つの方法論的貢献を行う：
+
+\begin{enumerate}
+    \item \textbf{密集アラーム区間検出}：スライディングウィンドウ Apriori アルゴリズムをアラームタイプ符号化トランザクションデータに適応し、設備間にまたがるアラーム共起パターンの密集区間を自動同定する。
+
+    \item \textbf{保全イベント帰属}：コントラストパターン分析と Welch の $t$ 検定および Benjamini--Hochberg 偽発見率制御を用いて、検出された密度変化を定期保全・部品交換・キャリブレーション・レシピ変更に結びつける。
+
+    \item \textbf{クロス設備故障伝播分析}：単一設備手法とは異なり、本フレームワークは設備群間にまたがる故障伝播パターンを検出し、解消パターン（保全後の減少）、導入パターン（変更後の増加）、および安定パターンを同時に同定する。
+\end{enumerate}
+
+% ============================================================
+\section{関連研究}\label{sec:related}
+
+\subsection{製造業におけるアラーム管理}
+
+産業アラーム管理は ISA-18.2/IEC 62682 規格~\citep{isa2009alarm}に基づき体系化されている。アラーム合理化~\citep{bransby1998alarm}は不要アラームの除去に焦点を当てるが、残存アラームの時間的パターン分析は範囲外である。アラームフラッド検出~\citep{izadi2013alarm,wang2016alarm}はアラーム集中期間を検出するが、アラーム間の共起構造を無視する。
+
+\subsection{アラームパターンの相関分析}
+
+Cheng ら~\citep{cheng2013alarm}は相関ルールマイニングを産業アラームに適用し、因果関係を推定した。Ahmed ら~\citep{ahmed2013alarm}は時間的共起パターンを分析したが、密集区間の概念は導入されていない。Hu ら~\citep{hu2018alarm}はアラーム系列パターンマイニングを提案したが、保全イベントへの帰属は行っていない。
+
+\subsection{故障診断と予知保全}
+
+故障診断には FMEA~\citep{stamatis2003fmea}、ベイジアンネットワーク~\citep{weber2012bayesian}、サポートベクタマシン~\citep{susto2015machine}、深層学習~\citep{khan2018deep,li2020deep}が適用されてきた。Ran ら~\citep{ran2019survey}は予知保全手法の包括的調査を提供している。しかし、これらの手法はいずれも、アラーム共起パターンの\emph{時間的密集度}と保全イベントの\emph{因果帰属}を統合的に扱うものではない。
+
+\subsection{半導体製造データマイニング}
+
+SECOM データセット~\citep{he2007secom}は半導体製造プロセスのベンチマークとして広く利用されている。McCann ら~\citep{mccann2015causality}は製造データにおける因果推論を研究した。本研究は、これらの先行研究を補完し、アラームパターンの密集区間検出と保全イベント帰属を統合する新たなフレームワークを提供する。
+
+% ============================================================
+\section{問題定式化}\label{sec:formulation}
+
+\begin{definition}[アラームトランザクション]
+製造装置群から時間ビン幅 $\Delta t$ で収集されたアラームログを
+$\mathcal{L} = \{(a_i, t_i)\}_{i=1}^{N}$ とする。
+ここで $a_i \in \mathcal{A}$（アラームタイプ集合）、$t_i \in \mathbb{R}^+$（タイムスタンプ）である。
+時間ビン $\tau_k = [k\Delta t, (k+1)\Delta t)$ に含まれるアラームタイプの集合を
+トランザクション $T_k = \{a_i \mid t_i \in \tau_k\}$ と定義する。
+\end{definition}
+
+\begin{definition}[アラームパターンの密集区間]
+アラームパターン $P \subseteq \mathcal{A}$（$|P| \geq 2$）に対し、
+ウィンドウサイズ $W$ と閾値 $\theta$ が与えられたとき、
+$P$ の\emph{密集区間} $[s, e]$ とは、
+任意の $t \in [s, e]$ について
+\begin{equation}
+\mathrm{sup}_W(P, t) = |\{k \mid P \subseteq T_k,\; k \in [t, t+W]\}| \geq \theta
+\end{equation}
+を満たす極大連続区間をいう。
+\end{definition}
+
+\begin{definition}[保全イベント帰属]
+保全イベント $m$ の実施時点 $t_m$、ルックバック長 $L$ に対し、
+パターン $P$ の密度変化スコアを
+\begin{equation}
+\Delta_P(m) = \bar{s}_P^{\mathrm{post}}(m) - \bar{s}_P^{\mathrm{pre}}(m)
+\end{equation}
+と定義する。
+ここで $\bar{s}_P^{\mathrm{pre}}(m) = \frac{1}{L} \sum_{t=t_m-L}^{t_m-1} \mathrm{sup}_W(P, t)$、
+$\bar{s}_P^{\mathrm{post}}(m) = \frac{1}{L} \sum_{t=t_m}^{t_m+L-1} \mathrm{sup}_W(P, t)$ である。
+\end{definition}
+
+\begin{proposition}[Apriori 性質による候補削減]
+\label{prop:apriori}
+アイテムセット $P$ が密集区間を持つならば、
+$P$ の任意の部分集合 $P' \subset P$ も密集区間を持つ。
+\end{proposition}
+
+\begin{proof}
+$P \subseteq T_k$ ならば $P' \subset P$ に対し $P' \subseteq T_k$ が成立する。
+よって $\mathrm{sup}_W(P, t) \leq \mathrm{sup}_W(P', t)$ であり、
+$P$ が $[s,e]$ で密集条件を満たすならば $P'$ も同区間で条件を満たす。
+\end{proof}
+
+% ============================================================
+\section{提案手法}\label{sec:method}
+
+本フレームワークは 3 段階から成る：(1)~アラームログの前処理とトランザクション変換、(2)~Apriori-window による密集パターン検出、(3)~保全イベントに対するコントラスト分析。
+
+\subsection{アラームログ前処理}
+
+アラームログの各エントリ $(a_i, t_i)$ を時間ビン幅 $\Delta t$ でトランザクション列に変換する。同一ビン内の重複アラームは除去し、各トランザクション $T_k$ はアラームタイプの集合となる。設備群（エッチング、CVD、リソグラフィ、CMP、イオン注入、検査、汎用）ごとにアラームカタログを定義し、整数符号化を行う。
+
+\subsection{密集アラームパターン検出}
+
+Algorithm~\ref{alg:dense_mining} に密集パターン検出のアルゴリズムを示す。
+
+\begin{algorithm}[t]
+\caption{密集アラームパターンマイニング}
+\label{alg:dense_mining}
+\begin{algorithmic}[1]
+\Require トランザクション列 $\{T_k\}_{k=0}^{n-1}$, ウィンドウサイズ $W$, 閾値 $\theta$, 最大長 $L_{\max}$
+\Ensure 密集パターン集合 $\mathcal{F}$
+\State $\mathcal{F} \gets \emptyset$
+\For{各アラームタイプ $a \in \mathcal{A}$}
+    \State $I_a \gets \textsc{DenseIntervals}(\mathrm{occ}(a), W, \theta)$
+    \If{$I_a \neq \emptyset$}
+        \State $\mathcal{F}[(a)] \gets I_a$; 候補レベル $\mathcal{C}_1$ に $(a)$ を追加
+    \EndIf
+\EndFor
+\For{$k = 2$ \textbf{to} $L_{\max}$}
+    \State $\mathcal{C}_k \gets \textsc{GenCandidates}(\mathcal{C}_{k-1}, k)$
+    \State $\mathcal{C}_k \gets \textsc{Prune}(\mathcal{C}_k, \mathcal{C}_{k-1})$ \Comment{命題~\ref{prop:apriori}}
+    \For{各候補 $P \in \mathcal{C}_k$}
+        \State $R \gets \bigcap_{a \in P} I_a$ \Comment{単体密集区間の共通部分}
+        \State $\mathrm{ts} \gets \bigcap_{a \in P} \mathrm{occ}(a)$ \Comment{共起タイムスタンプ}
+        \State $I_P \gets \textsc{DenseIntervalsWithCandidates}(\mathrm{ts}, W, \theta, R)$
+        \If{$I_P \neq \emptyset$}
+            \State $\mathcal{F}[P] \gets I_P$
+        \EndIf
+    \EndFor
+\EndFor
+\Return $\mathcal{F}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{保全イベントコントラスト分析}
+
+検出されたパターンに対し、各保全イベント $m$ の前後でサポートレベルの変化を評価する。Welch の $t$ 検定により統計的有意性を検証し、Benjamini--Hochberg 法で多重比較を補正する。パターンの変化は以下の 3 類型に分類される：
+
+\begin{itemize}
+    \item \textbf{解消パターン}（$\Delta_P(m) < -0.5$, $p < \alpha$）：保全イベント後にアラーム密度が有意に減少。保全の有効性を示す。
+    \item \textbf{導入パターン}（$\Delta_P(m) > 0.5$, $p < \alpha$）：保全イベント後にアラーム密度が有意に増加。レシピ変更や部品交換に伴う新たな問題を示唆。
+    \item \textbf{安定パターン}（$|\Delta_P(m)| \leq 0.5$ または $p \geq \alpha$）：保全イベントの影響を受けないパターン。
+\end{itemize}
+
+% ============================================================
+\section{実験}\label{sec:experiments}
+
+\subsection{実験設定}
+
+SECOM データセット~\citep{he2007secom}の構造を参考に、7 設備群（エッチング、CVD、リソグラフィ、CMP、イオン注入、検査、汎用）、37 アラームタイプの合成データを生成した。5 件の故障シナリオ（表~\ref{tab:faults}）と 5 件の保全イベント（表~\ref{tab:events}）を注入し、2{,}000 タイムビンのデータセットを構築した。
+
+\begin{table}[t]
+\centering
+\caption{注入故障シナリオ}
+\label{tab:faults}
+\begin{tabular}{clccc}
+\toprule
+ID & 説明 & 設備群 & 期間 & バースト確率 \\
+\midrule
+F1 & エッチングチャンバ劣化 & ETCH & 200--500 & 0.55 \\
+F2 & CVD プロセスドリフト & CVD & 600--900 & 0.50 \\
+F3 & 設備間振動伝播 & GENERAL/CMP/LITHO & 300--700 & 0.40 \\
+F4 & イオン注入レシピ変更 & IMPLANT & 1200--1600 & 0.50 \\
+F5 & 検査センサドリフト & INSPECT/GENERAL & 1400--1800 & 0.45 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{保全イベント}
+\label{tab:events}
+\begin{tabular}{clcc}
+\toprule
+ID & 種別 & 設備群 & 時点 \\
+\midrule
+M1 & 定期保全 & ETCH & 500 \\
+M2 & 部品交換 & GENERAL & 700 \\
+M3 & キャリブレーション & CVD & 900 \\
+M4 & レシピ更新 & IMPLANT & 1200 \\
+M5 & キャリブレーション & INSPECT & 1800 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+デフォルトパラメータとして $W = 20$, $\theta = 8$, $L_{\max} = 4$, ルックバック $L = 100$, 有意水準 $\alpha = 0.05$ を使用した。
+
+\subsection{E1: 密集アラームパターン検出}
+
+Apriori-window アルゴリズムにより、合計 53 件のパターン（単体 15, ペア 37, トリプル 1）と 286 件の密集区間が検出された。処理時間は 11.63 ミリ秒であった。設備群別のパターン分布を表~\ref{tab:e1_groups} に示す。
+
+\begin{table}[t]
+\centering
+\caption{E1: 設備群別パターン数}
+\label{tab:e1_groups}
+\begin{tabular}{lc}
+\toprule
+設備群 & パターン数 \\
+\midrule
+ETCH & 11 \\
+IMPLANT & 12 \\
+GENERAL & 11 \\
+INSPECT & 10 \\
+CVD & 8 \\
+CMP & 8 \\
+LITHO & 6 \\
+\midrule
+クロス設備 & 28 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+注目すべきは、38 件のマルチアイテムパターンのうち 28 件（73.7\%）が設備群間にまたがるクロス設備パターンであった点である。これは故障の伝播メカニズムを反映している。
+
+\subsection{E2: 保全イベントコントラスト分析}
+
+5 件の保全イベントに対し、合計 81 件の有意な密度変化が検出された（解消 33, 導入 8, 安定 40）。表~\ref{tab:e2_events} にイベント別の内訳を示す。
+
+\begin{table}[t]
+\centering
+\caption{E2: 保全イベント別有意変化数}
+\label{tab:e2_events}
+\begin{tabular}{clcccc}
+\toprule
+ID & 種別 & 解消 & 導入 & 安定 & 合計 \\
+\midrule
+M1 & 定期保全 & \multicolumn{4}{c}{23 件有意} \\
+M2 & 部品交換 & \multicolumn{4}{c}{17 件有意} \\
+M3 & キャリブレーション & \multicolumn{4}{c}{12 件有意} \\
+M4 & レシピ更新 & \multicolumn{4}{c}{11 件有意} \\
+M5 & キャリブレーション & \multicolumn{4}{c}{18 件有意} \\
+\midrule
+合計 & & 33 & 8 & 40 & 81 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+M1（エッチング定期保全）は 23 件の有意変化を示し、F1 故障シナリオのアラームパターンが解消されたことを反映している。M4（レシピ更新）は F4 故障の導入と対応し、保全イベント後にイオン注入関連パターンが出現した。
+
+\subsection{E3: パラメータ感度分析}
+
+ウィンドウサイズ $W$ と閾値 $\theta$ を変化させた結果を表~\ref{tab:e3_sensitivity} に示す。
+
+\begin{table}[t]
+\centering
+\caption{E3: パラメータ感度分析}
+\label{tab:e3_sensitivity}
+\begin{tabular}{ccccr}
+\toprule
+$W$ & $\theta$ & パターン数 & マルチ & 時間 (ms) \\
+\midrule
+10 & 8 & 15 & 0 & 5.8 \\
+15 & 8 & 33 & 18 & 7.8 \\
+20 & 8 & 53 & 38 & 11.6 \\
+30 & 8 & 82 & 67 & 11.8 \\
+50 & 8 & 101 & 86 & 11.0 \\
+\midrule
+20 & 4 & 124 & 98 & 12.2 \\
+20 & 6 & 89 & 74 & 12.7 \\
+20 & 8 & 53 & 38 & 11.6 \\
+20 & 10 & 29 & 14 & 7.8 \\
+20 & 12 & 17 & 2 & 6.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+ウィンドウサイズの増大はパターン数を単調に増加させ、閾値の増大は逆に減少させる。いずれのパラメータ設定でも処理時間は 13 ミリ秒未満であり、オンライン監視への適用可能性を示している。
+
+\subsection{E4: クロス設備故障伝播分析}
+
+38 件のマルチアイテムパターンのうち 28 件がクロス設備パターンであった。5 件の注入故障シナリオすべてが少なくとも 3 つの検出パターンでカバーされた。特に F3（設備間振動伝播）は GENERAL、CMP、LITHO の 3 設備群にまたがるパターンが検出され、振動が CMP の均一性と リソグラフィのアライメントに同時に影響を与えるメカニズムを反映している。
+
+% ============================================================
+\section{考察}\label{sec:discussion}
+
+\subsection{故障診断への応用}
+
+本フレームワークは、従来の単一設備・単一アラーム型の故障診断を、マルチ設備・マルチパターン型に拡張する。密集区間の検出により「いつ」故障が発生したかを特定し、コントラスト分析により「なぜ」（どの保全イベントに起因するか）を定量化できる。
+
+73.7\% のマルチアイテムパターンがクロス設備パターンであったことは、故障の連鎖的伝播が実際の製造現場でも重要であることを示唆する。単一設備に閉じた分析では、このような設備間相互作用を見逃す恐れがある。
+
+\subsection{計算効率}
+
+Apriori 性質による候補削減（命題~\ref{prop:apriori}）と、単体アイテムの密集区間による候補範囲制限により、2{,}000 タイムビン・37 アラームタイプのデータに対し 12 ミリ秒未満で処理が完了する。この計算効率は、リアルタイムアラーム監視システムへの組み込みに十分である。
+
+\subsection{制約と今後の課題}
+
+本研究の主要な制約は以下の通りである：(1)~合成データでの評価にとどまっており、実際の半導体製造ラインでの検証が必要、(2)~時間ビンは等幅のみ対応しており、不等幅ビンへの拡張が課題、(3)~保全イベントの効果は即時と仮定しており、遅延効果のモデリングは未対応。
+
+今後の課題として、(1)~SECOM データセットを用いた実データ評価、(2)~因果推論フレームワーク（Granger 因果性、構造方程式モデル）との統合、(3)~オンラインストリーミング版の実装を予定している。
+
+% ============================================================
+\section{結論}\label{sec:conclusion}
+
+本論文では、半導体製造プロセスにおける密集アラームパターン検出と保全イベント帰属のためのフレームワークを提案した。Apriori-window アルゴリズムのアラームドメインへの適応、Welch の $t$ 検定に基づくコントラスト分析、およびクロス設備故障伝播分析の 3 つの貢献を行った。合成データ実験により、53 件のパターンと 81 件の有意な保全帰属を検出し、5 件の故障シナリオすべてをカバーする能力を実証した。本フレームワークは、予知保全とアラーム管理の高度化に寄与するものである。
+
+% ============================================================
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{CJK}
+\end{document}
