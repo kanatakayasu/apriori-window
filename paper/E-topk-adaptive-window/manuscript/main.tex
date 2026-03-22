@@ -11,16 +11,19 @@
 \usepackage{hyperref}
 \usepackage{cite}
 \usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{corollary}{Corollary}
-\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{lemma}{補題}
+\newtheorem{corollary}{系}
+\newtheorem{proposition}{命題}
 
 \begin{document}
+\begin{CJK}{UTF8}{ipxm}
 
-\title{Parameter-Free Dense Interval Mining:\\Top-$k$ Patterns with Adaptive Window Sizes}
+\title{パラメータフリー密集区間マイニング：\\適応的ウィンドウサイズによるTop-$k$パターン発見}
 
 \author{
 \IEEEauthorblockN{Anonymous Authors}
@@ -30,168 +33,156 @@
 \maketitle
 
 \begin{abstract}
-Dense interval mining discovers itemsets whose co-occurrence frequency
-exceeds a threshold within sliding windows over transactional time series.
-Existing methods require two critical parameters---window size $W$ and
-support threshold $\theta$---whose tuning demands domain expertise and
-costly trial-and-error.
-We propose a \emph{parameter-free} framework that replaces these parameters
-with a single, intuitive parameter $k$: the number of desired patterns.
-Our approach introduces three novel concepts:
-(1) the \emph{Dense Coverage Score} (DCS), a ranking criterion that jointly
-captures temporal extent and density magnitude;
-(2) a \emph{Dyadic Scale Hierarchy} that computes dense intervals across
-geometrically spaced window sizes $W_0, 2W_0, 4W_0, \ldots$, enabling
-multi-scale analysis;
-(3) \emph{Scale-Space Dense Ridges}, which identify patterns with density
-persisting across multiple scales, providing scale-invariant evidence of
-genuine temporal concentration.
-We develop an efficient branch-and-bound algorithm that exploits the
-anti-monotonicity of DCS across both the itemset lattice and the scale
-hierarchy, enabling early pruning of unpromising candidates.
-Experiments on synthetic and real-world datasets demonstrate that our
-method achieves equivalent quality to exhaustive grid search while
-eliminating parameter sensitivity, with near-linear scalability up to
-$N = 5{,}000$ transactions.
+密集区間マイニングは、トランザクション時系列上のスライディングウィンドウにおいて
+共起頻度が閾値を超えるアイテムセットを発見する手法である。
+既存手法はウィンドウサイズ$W$とサポート閾値$\theta$という2つの重要なパラメータを
+必要とし、その調整にはドメイン知識とコストのかかる試行錯誤が求められる。
+本研究では、これらのパラメータを直感的な単一パラメータ$k$（所望のパターン数）に
+置き換える\emph{パラメータフリー}フレームワークを提案する。
+本手法は3つの新しい概念を導入する：
+(1) 時間的広がりと密度の大きさを同時に捉えるランキング基準である
+\emph{Dense Coverage Score} (DCS)、
+(2) 幾何的に間隔をあけたウィンドウサイズ$W_0, 2W_0, 4W_0, \ldots$にわたって
+密集区間を計算し、マルチスケール分析を可能にする\emph{二分スケール階層}、
+(3) 複数のスケールにわたって密度が持続するパターンを特定し、
+真の時間的集中のスケール不変な証拠を提供する\emph{スケール空間密集リッジ}。
+DCSのアイテムセット束およびスケール階層にわたる反単調性を利用し、
+有望でない候補の早期枝刈りを可能にする効率的な分枝限定法アルゴリズムを開発した。
+合成データおよび実データを用いた実験により、本手法はパラメータ感度を排除しつつ、
+網羅的グリッドサーチと同等の品質を達成し、
+$N = 5{,}000$トランザクションまでほぼ線形のスケーラビリティを示すことを実証する。
 \end{abstract}
 
 \begin{IEEEkeywords}
-Dense interval mining, top-$k$ pattern mining, multi-scale analysis,
-adaptive window, branch-and-bound, parameter-free mining
+密集区間マイニング, top-$k$パターンマイニング, マルチスケール分析,
+適応的ウィンドウ, 分枝限定法, パラメータフリーマイニング
 \end{IEEEkeywords}
 
 % ==============================================================
-\section{Introduction}\label{sec:intro}
+\section{はじめに}\label{sec:intro}
 % ==============================================================
 
-Mining temporal patterns from transactional data is a fundamental task
-in data mining, with applications ranging from market basket analysis
-to event detection in IoT streams~\cite{agrawal1994fast,ho2022temporal}.
-\emph{Dense interval mining}~\cite{batal2012temporal} extends classical
-frequent itemset mining by identifying not just which patterns are frequent,
-but \emph{when} they are frequent---detecting contiguous time intervals
-where the windowed support of an itemset exceeds a density threshold.
+トランザクションデータからの時間的パターンマイニングはデータマイニングの基本的な
+タスクであり、マーケットバスケット分析からIoTストリームにおけるイベント検出まで
+幅広い応用がある~\cite{agrawal1994fast,ho2022temporal}。
+\emph{密集区間マイニング}~\cite{batal2012temporal}は古典的な頻出アイテムセット
+マイニングを拡張し、どのパターンが頻出であるかだけでなく、\emph{いつ}頻出であるか
+を特定する---すなわち、アイテムセットのウィンドウサポートが密度閾値を超える
+連続的な時間区間を検出する。
 
-Despite its utility, dense interval mining suffers from a critical usability
-barrier: it requires users to specify two interdependent parameters---the
-window size $W$ and the support threshold $\theta$. The window size
-determines the temporal resolution of analysis, while the threshold
-controls the minimum density required to declare an interval as ``dense.''
-In practice, these parameters interact in complex ways: a small $W$ with
-a low $\theta$ generates an overwhelming number of spurious intervals,
-while a large $W$ with a high $\theta$ misses localized patterns.
-Finding appropriate values requires extensive trial-and-error, and
-different parameter settings may reveal fundamentally different
-patterns~\cite{keogh2004parameter,ermshaus2022window}.
+その有用性にもかかわらず、密集区間マイニングには重大なユーザビリティの障壁がある：
+ユーザは相互依存する2つのパラメータ---ウィンドウサイズ$W$とサポート閾値$\theta$
+---を指定しなければならない。ウィンドウサイズは分析の時間的解像度を決定し、
+閾値は区間を「密集」と宣言するために必要な最小密度を制御する。
+実際にはこれらのパラメータは複雑に相互作用する：小さな$W$と低い$\theta$の組み合わせは
+膨大な数の偽陽性区間を生成し、大きな$W$と高い$\theta$の組み合わせは局所的な
+パターンを見逃す。適切な値を見つけるには大規模な試行錯誤が必要であり、
+異なるパラメータ設定は根本的に異なるパターンを明らかにする
+可能性がある~\cite{keogh2004parameter,ermshaus2022window}。
 
-The top-$k$ mining paradigm offers a principled solution to parameter
-elimination. Instead of specifying a threshold, the user provides only
-$k$---the number of desired patterns---and the algorithm internally
-determines the effective threshold needed to identify the $k$ best
-results~\cite{fu2004mining,yadav2016topkminer,duong2016kHMC}.
-Top-$k$ approaches have been successfully applied to frequent itemset
-mining~\cite{fatima2021tkfim}, sequential pattern mining~\cite{fournierviger2013tks},
-and high-utility itemset mining~\cite{tseng2015tko,krishnamoorthy2018tkeh},
-but have not yet been applied to dense interval mining.
+Top-$k$マイニングパラダイムは、パラメータ排除への原理的な解決策を提供する。
+閾値を指定する代わりに、ユーザは$k$---所望のパターン数---のみを提供し、
+アルゴリズムが上位$k$個の結果を特定するために必要な実効閾値を内部的に
+決定する~\cite{fu2004mining,yadav2016topkminer,duong2016kHMC}。
+Top-$k$アプローチは頻出アイテムセットマイニング~\cite{fatima2021tkfim}、
+系列パターンマイニング~\cite{fournierviger2013tks}、
+高効用アイテムセットマイニング~\cite{tseng2015tko,krishnamoorthy2018tkeh}
+に成功裏に適用されてきたが、密集区間マイニングにはまだ適用されていない。
 
-The window size parameter presents an additional challenge.
-Scale-space theory from computer vision~\cite{lindeberg1994scale,lindeberg1998feature}
-provides a principled framework for analyzing signals at multiple scales
-simultaneously, identifying features that persist across scales as the
-most significant. The wavelet literature's dyadic decomposition~\cite{mallat1989multiresolution}
-offers an efficient hierarchical structure for multi-scale analysis.
-Adaptive windowing methods such as ADWIN~\cite{bifet2007adwin} have
-shown that automatically adapting window size is both feasible and
-beneficial for stream processing.
+ウィンドウサイズパラメータはさらなる課題を提示する。
+コンピュータビジョンにおけるスケール空間理論~\cite{lindeberg1994scale,lindeberg1998feature}は、
+複数のスケールで同時に信号を分析するための原理的なフレームワークを提供し、
+複数スケールにわたって持続する特徴を最も重要なものとして特定する。
+ウェーブレット文献の二分分解~\cite{mallat1989multiresolution}は、
+マルチスケール分析のための効率的な階層構造を提供する。
+ADWIN~\cite{bifet2007adwin}などの適応的ウィンドウ手法は、
+ウィンドウサイズの自動適応がストリーム処理において実現可能かつ有益であることを
+示している。
 
-In this paper, we bridge these ideas to propose a parameter-free
-framework for dense interval mining. Our contributions are:
+本論文では、これらのアイデアを橋渡しして、密集区間マイニングのための
+パラメータフリーフレームワークを提案する。本研究の貢献は以下の通りである：
 
 \begin{enumerate}
-\item We define the \emph{Dense Coverage Score} (DCS), a ranking
-  criterion for dense intervals that jointly captures temporal extent
-  and density magnitude (Section~\ref{sec:dcs}).
+\item 時間的広がりと密度の大きさを同時に捉える密集区間のランキング基準である
+  \emph{Dense Coverage Score} (DCS)を定義する（\ref{sec:dcs}節）。
 
-\item We introduce the \emph{Dyadic Scale Hierarchy} and
-  \emph{Scale-Space Dense Ridges} for multi-scale dense interval
-  analysis, enabling automatic window size adaptation
-  (Section~\ref{sec:multiscale}).
+\item マルチスケール密集区間分析のための\emph{二分スケール階層}と
+  \emph{スケール空間密集リッジ}を導入し、自動的なウィンドウサイズ適応を
+  可能にする（\ref{sec:multiscale}節）。
 
-\item We develop a branch-and-bound algorithm with provably correct
-  pruning that exploits the anti-monotonicity of DCS across both the
-  itemset lattice and the scale hierarchy (Section~\ref{sec:algorithm}).
+\item アイテムセット束とスケール階層の両方にわたるDCSの反単調性を利用した
+  証明付き枝刈りを持つ分枝限定法アルゴリズムを開発する（\ref{sec:algorithm}節）。
 
-\item We present comprehensive experiments demonstrating quality
-  equivalence to grid search, effective pruning, near-linear scalability,
-  and parameter sensitivity elimination (Section~\ref{sec:experiments}).
+\item グリッドサーチとの品質同等性、効果的な枝刈り、ほぼ線形のスケーラビリティ、
+  およびパラメータ感度の排除を実証する包括的な実験を提示する
+  （\ref{sec:experiments}節）。
 \end{enumerate}
 
 % ==============================================================
-\section{Related Work}\label{sec:related}
+\section{関連研究}\label{sec:related}
 % ==============================================================
 
-\subsection{Top-$k$ Pattern Mining}
+\subsection{Top-$k$パターンマイニング}
 
-The idea of mining the top-$k$ patterns without a user-specified
-threshold originated with~\cite{fu2004mining}, who proposed mining
-the $N$-most interesting itemsets. The TKS algorithm~\cite{fournierviger2013tks}
-extended this to sequential patterns using vertical bitmap representations
-and the PMAP data structure. For high-utility mining, TKO~\cite{tseng2015tko}
-introduced a one-phase approach, while kHMC~\cite{duong2016kHMC}
-developed novel threshold-raising strategies (RIU, CUD, COV) that
-significantly improved efficiency. Recent work~\cite{morrison2024topk}
-addresses scalability to massive datasets. TKFIM~\cite{fatima2021tkfim}
-uses equivalence classes for efficient top-$k$ FIM. All these methods
-share a common strategy of maintaining an internal threshold that is
-progressively raised as better patterns are discovered.
+ユーザ指定の閾値なしにtop-$k$パターンをマイニングするアイデアは
+\cite{fu2004mining}に端を発し、$N$個の最も興味深いアイテムセットの
+マイニングを提案した。TKSアルゴリズム~\cite{fournierviger2013tks}は
+垂直ビットマップ表現とPMAPデータ構造を用いて系列パターンに拡張した。
+高効用マイニングにおいては、TKO~\cite{tseng2015tko}が1フェーズ手法を導入し、
+kHMC~\cite{duong2016kHMC}は効率性を大幅に改善する新しい閾値引き上げ戦略
+（RIU, CUD, COV）を開発した。最近の研究~\cite{morrison2024topk}は
+大規模データセットへのスケーラビリティに取り組んでいる。
+TKFIM~\cite{fatima2021tkfim}は効率的なtop-$k$ FIMのために同値類を使用する。
+これらの手法はすべて、より良いパターンが発見されるにつれて内部閾値を
+漸進的に引き上げるという共通戦略を共有している。
 
-\subsection{Multi-Scale and Adaptive Window Analysis}
+\subsection{マルチスケールおよび適応的ウィンドウ分析}
 
-Scale-space theory~\cite{lindeberg1994scale} provides a mathematical
-framework for analyzing signals at multiple scales by embedding the
-original signal into a family of smoothed versions parameterized by
-scale. Lindeberg~\cite{lindeberg1998feature} showed that local extrema
-over scales of normalized derivatives are natural candidates for
-significant features. This principle underlies SIFT~\cite{lindeberg1993blob}
-and related scale-invariant detectors in computer vision.
+スケール空間理論~\cite{lindeberg1994scale}は、元の信号をスケールで
+パラメータ化された平滑化バージョンの族に埋め込むことで、複数スケールで
+信号を分析するための数学的フレームワークを提供する。
+Lindeberg~\cite{lindeberg1998feature}は正規化導関数のスケールにわたる
+局所極値が重要な特徴の自然な候補であることを示した。
+この原理はSIFT~\cite{lindeberg1993blob}およびコンピュータビジョンにおける
+関連するスケール不変検出器の基礎をなしている。
 
-In time series mining, the Matrix Profile~\cite{yeh2016matrix} supports
-multi-scale motif discovery, and its extension MAD~\cite{linardi2020mad}
-handles variable-length patterns. ADWIN~\cite{bifet2007adwin} adapts
-window size automatically for concept drift detection, growing during
-stable periods and shrinking upon detecting change.
-Ermshaus et al.~\cite{ermshaus2022window} surveyed window size selection
-methods for unsupervised time series analytics.
+時系列マイニングにおいては、Matrix Profile~\cite{yeh2016matrix}が
+マルチスケールモチーフ発見をサポートし、その拡張である
+MAD~\cite{linardi2020mad}は可変長パターンを扱う。
+ADWIN~\cite{bifet2007adwin}はコンセプトドリフト検出のためにウィンドウサイズを
+自動的に適応させ、安定期間中は成長し、変化を検出すると縮小する。
+Ermshaus et al.~\cite{ermshaus2022window}は教師なし時系列分析のための
+ウィンドウサイズ選択手法を調査した。
 
-\subsection{Parameter-Free Mining}
+\subsection{パラメータフリーマイニング}
 
-Keogh and Lonardi~\cite{keogh2004parameter} advocated parameter-free
-data mining using compression-based distances derived from Kolmogorov
-complexity. GraphScope~\cite{sun2007graphscope} achieved parameter-free
-mining of time-evolving graphs. However, no existing work combines
-parameter-free principles with temporal density analysis.
+Keogh and Lonardi~\cite{keogh2004parameter}は、コルモゴロフ複雑度に基づく
+圧縮距離を用いたパラメータフリーデータマイニングを提唱した。
+GraphScope~\cite{sun2007graphscope}は時間発展グラフのパラメータフリー
+マイニングを達成した。しかし、パラメータフリーの原理と時間的密度分析を
+組み合わせた既存研究は存在しない。
 
 % ==============================================================
-\section{Problem Definition}\label{sec:problem}
+\section{問題定義}\label{sec:problem}
 % ==============================================================
 
-\subsection{Notation}
+\subsection{記法}
 
-Let $\mathcal{I} = \{i_1, \ldots, i_m\}$ be a finite item set and
-$D = [d_1, \ldots, d_N]$ be a temporally ordered transaction sequence,
-where each $d_t \subseteq \mathcal{I}$.
+$\mathcal{I} = \{i_1, \ldots, i_m\}$を有限アイテム集合、
+$D = [d_1, \ldots, d_N]$を時間順に並べられたトランザクション系列とする。
+ここで各$d_t \subseteq \mathcal{I}$である。
 
-\begin{definition}[Support Time Series]
-For pattern $P \subseteq \mathcal{I}$ and window size $W$,
-the support time series is $s_P^W(t) = |\{d_j : t \leq j < t+W,\, P \subseteq d_j\}|$
-for $t = 0, \ldots, N-W$.
+\begin{definition}[サポート時系列]
+パターン$P \subseteq \mathcal{I}$とウィンドウサイズ$W$に対して、
+サポート時系列を$s_P^W(t) = |\{d_j : t \leq j < t+W,\, P \subseteq d_j\}|$
+（$t = 0, \ldots, N-W$）と定義する。
 \end{definition}
 
-\begin{definition}[Dense Interval]
-A dense interval of $P$ at scale $W$ with threshold $\theta$ is a
-maximal contiguous range $[a,b]$ where $s_P^W(t) \geq \theta$
-for all $t \in [a,b]$. Let $\mathcal{D}(P, W, \theta)$ denote the
-set of all dense intervals.
+\begin{definition}[密集区間]
+スケール$W$、閾値$\theta$におけるパターン$P$の密集区間とは、
+すべての$t \in [a,b]$に対して$s_P^W(t) \geq \theta$が成り立つ
+極大連続区間$[a,b]$である。$\mathcal{D}(P, W, \theta)$で
+すべての密集区間の集合を表す。
 \end{definition}
 
 % ==============================================================
@@ -205,175 +196,170 @@ set of all dense intervals.
 \end{equation}
 \end{definition}
 
-The DCS jointly rewards temporal extent (long dense intervals) and
-density magnitude (high support within intervals). Unlike simple
-interval counting, DCS is sensitive to the intensity of density,
-preferring patterns that are not just persistently dense but
-strongly dense.
+DCSは時間的広がり（長い密集区間）と密度の大きさ（区間内の高いサポート）を
+同時に評価する。単純な区間カウントとは異なり、DCSは密度の強度に敏感であり、
+単に持続的に密集しているだけでなく、強く密集しているパターンを優先する。
 
-\begin{theorem}[Anti-Monotonicity]\label{thm:anti}
-For $C \subseteq P$: $\mathrm{DCS}(P, W, \theta) \leq \mathrm{DCS}(C, W, \theta)$.
+\begin{theorem}[反単調性]\label{thm:anti}
+$C \subseteq P$のとき：$\mathrm{DCS}(P, W, \theta) \leq \mathrm{DCS}(C, W, \theta)$。
 \end{theorem}
 
 \begin{proof}
-Since $C \subseteq P$ implies $s_P^W(t) \leq s_C^W(t)$ for all $t$,
-every dense interval of $P$ is contained in a dense interval of $C$,
-and within each interval, the per-position support is no larger.
+$C \subseteq P$はすべての$t$に対して$s_P^W(t) \leq s_C^W(t)$を含意するため、
+$P$のすべての密集区間は$C$の密集区間に含まれ、各区間内の位置ごとのサポートも
+それ以下である。
 \end{proof}
 
 % ==============================================================
-\section{Multi-Scale Framework}\label{sec:multiscale}
+\section{マルチスケールフレームワーク}\label{sec:multiscale}
 % ==============================================================
 
-\subsection{Dyadic Scale Hierarchy}
+\subsection{二分スケール階層}
 
-We define a hierarchy of window sizes $\mathcal{W} = \{W_\ell = 2^\ell W_0
-\mid \ell = 0, \ldots, L\}$ where $L = \lfloor \log_2(N/W_0) \rfloor$.
-At each level, the threshold is scaled proportionally:
-$\theta_\ell = \lceil \theta_0 \cdot 2^\ell \rceil$,
-maintaining a constant density ratio $\theta_\ell / W_\ell \approx \theta_0 / W_0$.
+ウィンドウサイズの階層を$\mathcal{W} = \{W_\ell = 2^\ell W_0
+\mid \ell = 0, \ldots, L\}$と定義する。ここで$L = \lfloor \log_2(N/W_0) \rfloor$
+である。各レベルにおいて閾値は比例的にスケールされる：
+$\theta_\ell = \lceil \theta_0 \cdot 2^\ell \rceil$。
+これにより一定の密度比$\theta_\ell / W_\ell \approx \theta_0 / W_0$が維持される。
 
-\begin{definition}[Multi-Scale DCS]
+\begin{definition}[マルチスケールDCS]
 \begin{equation}
 \mathrm{MSDCS}(P) = \sum_{\ell=0}^{L} \omega_\ell \cdot \mathrm{DCS}(P, W_\ell, \theta_\ell),
 \end{equation}
-where $\omega_\ell \geq 0$ are scale weights summing to 1.
+ここで$\omega_\ell \geq 0$は合計1のスケール重みである。
 \end{definition}
 
 \begin{corollary}\label{cor:ms}
-MSDCS inherits anti-monotonicity: $C \subseteq P \Rightarrow
-\mathrm{MSDCS}(P) \leq \mathrm{MSDCS}(C)$.
+MSDCSは反単調性を継承する：$C \subseteq P \Rightarrow
+\mathrm{MSDCS}(P) \leq \mathrm{MSDCS}(C)$。
 \end{corollary}
 
-\subsection{Scale-Space Dense Ridges}
+\subsection{スケール空間密集リッジ}
 
-\begin{definition}[Scale-Space Dense Ridge]
-Define the dense indicator $\phi_P(\ell, t) = \mathbb{1}[s_P^{W_\ell}(t) \geq \theta_\ell]$.
-A \emph{ridge} is a connected component of $\{(\ell, t) : \phi_P(\ell, t) = 1\}$
-spanning at least $\ell_{\min}$ scale levels.
-The ridge strength is $\rho(R) = \sum_{(\ell,t) \in R} s_P^{W_\ell}(t)$.
+\begin{definition}[スケール空間密集リッジ]
+密集指示関数を$\phi_P(\ell, t) = \mathbb{1}[s_P^{W_\ell}(t) \geq \theta_\ell]$
+と定義する。\emph{リッジ}とは$\{(\ell, t) : \phi_P(\ell, t) = 1\}$の
+連結成分であり、少なくとも$\ell_{\min}$個のスケールレベルにまたがるものである。
+リッジ強度は$\rho(R) = \sum_{(\ell,t) \in R} s_P^{W_\ell}(t)$で定義される。
 \end{definition}
 
-Ridges identify temporal regions where density persists across multiple
-scales. Inspired by Lindeberg's scale-space primal sketch~\cite{lindeberg1993blob},
-ridges provide scale-invariant evidence of genuine temporal concentration,
-distinguishing true dense regions from noise-induced density at a
-single scale.
+リッジは複数スケールにわたって密度が持続する時間領域を特定する。
+Lindebergのスケール空間プライマルスケッチ~\cite{lindeberg1993blob}に着想を得て、
+リッジは真の密集領域をノイズに起因する単一スケールの密度から区別する
+スケール不変な証拠を提供する。
 
-\begin{theorem}[Dyadic Completeness]\label{thm:dyadic}
-For any window size $W \in [W_0, 2^L W_0]$, a pattern dense at
-scale $W$ with density ratio $\rho = \theta/W$ is captured at the
-enclosing dyadic level $W_{\ell+1} \geq W$, with at most a
-factor-of-2 resolution loss.
+\begin{theorem}[二分完全性]\label{thm:dyadic}
+任意のウィンドウサイズ$W \in [W_0, 2^L W_0]$に対して、
+密度比$\rho = \theta/W$でスケール$W$において密集であるパターンは、
+包含する二分レベル$W_{\ell+1} \geq W$で捕捉され、
+解像度損失は最大で2倍である。
 \end{theorem}
 
 % ==============================================================
-\section{Algorithm}\label{sec:algorithm}
+\section{アルゴリズム}\label{sec:algorithm}
 % ==============================================================
 
-\subsection{Top-$k$ Dense Mining with Branch-and-Bound}
+\subsection{分枝限定法によるTop-$k$密集マイニング}
 
-Algorithm~\ref{alg:topk} presents our branch-and-bound approach.
-The key insight is that MSDCS anti-monotonicity (Corollary~\ref{cor:ms})
-provides a valid upper bound for any extension of a pattern:
-$\mathrm{MSDCS}(\text{extension}) \leq \mathrm{MSDCS}(\text{prefix})$.
+Algorithm~\ref{alg:topk}に分枝限定法アプローチを示す。
+重要な洞察は、MSDCSの反単調性（系~\ref{cor:ms}）がパターンの任意の拡張に対する
+有効な上界を提供することである：
+$\mathrm{MSDCS}(\text{拡張}) \leq \mathrm{MSDCS}(\text{接頭辞})$。
 
 \begin{algorithm}[t]
-\caption{Top-$k$ Dense Pattern Mining}\label{alg:topk}
+\caption{Top-$k$密集パターンマイニング}\label{alg:topk}
 \begin{algorithmic}[1]
-\REQUIRE Transaction sequence $D$, parameters $k$, $W_0$, $\theta_0$
-\ENSURE Top-$k$ patterns by MSDCS
-\STATE Initialize min-heap $H$ of capacity $k$; $\tau \leftarrow 0$
-\STATE Compute item-timestamp maps
-\STATE \textbf{Phase 1: Singletons}
-\FOR{each item $i$ with occurrences}
-  \STATE Compute $\mathrm{MSDCS}((i))$
-  \STATE Insert $((i), \mathrm{MSDCS}((i)))$ into $H$; update $\tau$
+\REQUIRE トランザクション系列$D$, パラメータ$k$, $W_0$, $\theta_0$
+\ENSURE MSDCSによるtop-$k$パターン
+\STATE 容量$k$の最小ヒープ$H$を初期化; $\tau \leftarrow 0$
+\STATE アイテム-タイムスタンプマップを計算
+\STATE \textbf{フェーズ1: 単一アイテム}
+\FOR{出現を持つ各アイテム$i$}
+  \STATE $\mathrm{MSDCS}((i))$を計算
+  \STATE $((i), \mathrm{MSDCS}((i)))$を$H$に挿入; $\tau$を更新
 \ENDFOR
-\STATE \textbf{Phase 2: Multi-item patterns (B\&B)}
-\STATE $\mathcal{C}_1 \leftarrow$ frequent singletons
+\STATE \textbf{フェーズ2: 複数アイテムパターン（分枝限定法）}
+\STATE $\mathcal{C}_1 \leftarrow$ 頻出単一アイテム
 \FOR{$\ell = 2, 3, \ldots, \ell_{\max}$}
-  \STATE Generate candidates $\mathcal{C}_\ell$ by Apriori join of $\mathcal{C}_{\ell-1}$
-  \FOR{each candidate $P \in \mathcal{C}_\ell$}
+  \STATE $\mathcal{C}_{\ell-1}$のApriori結合により候補$\mathcal{C}_\ell$を生成
+  \FOR{各候補$P \in \mathcal{C}_\ell$}
     \STATE $\overline{s} \leftarrow \min_{Q \subset P, |Q|=\ell-1} \mathrm{MSDCS}(Q)$
-    \IF{$|H| \geq k$ and $\overline{s} \leq \tau$}
-      \STATE \textbf{prune} $P$ \COMMENT{B\&B bound}
+    \IF{$|H| \geq k$ かつ $\overline{s} \leq \tau$}
+      \STATE $P$を\textbf{枝刈り} \COMMENT{分枝限定法の限界}
     \ELSE
-      \STATE Compute $\mathrm{MSDCS}(P)$
-      \STATE Insert $(P, \mathrm{MSDCS}(P))$ into $H$; update $\tau$
+      \STATE $\mathrm{MSDCS}(P)$を計算
+      \STATE $(P, \mathrm{MSDCS}(P))$を$H$に挿入; $\tau$を更新
     \ENDIF
   \ENDFOR
-  \STATE $\mathcal{C}_\ell \leftarrow$ patterns inserted at level $\ell$
+  \STATE $\mathcal{C}_\ell \leftarrow$ レベル$\ell$で挿入されたパターン
 \ENDFOR
-\RETURN Top-$k$ from $H$
+\RETURN $H$からtop-$k$を返す
 \end{algorithmic}
 \end{algorithm}
 
-\begin{theorem}[Correctness]
-Algorithm~\ref{alg:topk} returns the exact top-$k$ patterns with
-highest MSDCS scores.
+\begin{theorem}[正当性]
+Algorithm~\ref{alg:topk}は最高のMSDCSスコアを持つ正確なtop-$k$パターンを返す。
 \end{theorem}
 
 \begin{proof}
-The upper bound $\overline{s}$ is valid by Corollary~\ref{cor:ms}:
-no extension of $P$ can exceed the minimum MSDCS of its subsets.
-The algorithm explores all non-pruned branches exhaustively.
+上界$\overline{s}$は系~\ref{cor:ms}により有効である：
+$P$のいかなる拡張もその部分集合のMSDCSの最小値を超えることはできない。
+アルゴリズムは枝刈りされていないすべての分枝を網羅的に探索する。
 \end{proof}
 
-\subsection{Complexity Analysis}
+\subsection{計算量分析}
 
-\textbf{Time}: $O(|\mathcal{P}| \cdot L \cdot N)$ where $\mathcal{P}$
-is the set of evaluated (non-pruned) patterns and $L = O(\log(N/W_0))$
-is the number of scale levels. Dense interval computation per scale
-takes $O(|T_P|)$ using the sliding window algorithm.
+\textbf{時間計算量}: $O(|\mathcal{P}| \cdot L \cdot N)$。ここで$\mathcal{P}$は
+評価された（枝刈りされていない）パターンの集合、$L = O(\log(N/W_0))$は
+スケールレベル数である。各スケールでの密集区間計算は
+スライディングウィンドウアルゴリズムにより$O(|T_P|)$で実行される。
 
-\textbf{Space}: $O(N + m\bar{f} + k)$ where $\bar{f}$ is average
-item frequency.
+\textbf{空間計算量}: $O(N + m\bar{f} + k)$。ここで$\bar{f}$は
+平均アイテム頻度である。
 
 % ==============================================================
-\section{Experiments}\label{sec:experiments}
+\section{実験}\label{sec:experiments}
 % ==============================================================
 
-We evaluate our framework on synthetic datasets with controlled
-dense regions. All experiments use Python 3.13 on macOS (Apple Silicon).
+制御された密集領域を持つ合成データセットを用いてフレームワークを評価する。
+すべての実験はmacOS（Apple Silicon）上のPython 3.13で実行した。
 
-\subsection{E1: Quality Comparison}
+\subsection{E1: 品質比較}
 
-We compare top-$k$ mining against exhaustive grid search over 10
-configurations of $(W, \theta)$. Table~\ref{tab:e1} shows that
-top-$k$ achieves perfect Jaccard similarity (1.0) with the
-grid search baseline while running 1.5$\times$ faster, confirming
-that the branch-and-bound approach finds the same optimal patterns
-without requiring manual parameter tuning.
+$(W, \theta)$の10通りの設定による網羅的グリッドサーチとtop-$k$マイニングを比較する。
+表~\ref{tab:e1}に示すように、top-$k$はグリッドサーチベースラインとの
+完全なJaccard類似度（1.0）を達成しつつ1.5倍高速に実行され、
+分枝限定法アプローチが手動パラメータ調整なしに同一の最適パターンを
+発見することを確認した。
 
 \begin{table}[t]
 \centering
-\caption{E1: Quality comparison (N=300, 15 items, k=5)}\label{tab:e1}
+\caption{E1: 品質比較 (N=300, 15アイテム, k=5)}\label{tab:e1}
 \begin{tabular}{lcc}
 \toprule
-Method & Jaccard & Time (ms) \\
+手法 & Jaccard & 時間 (ms) \\
 \midrule
-Top-$k$ (ours) & 1.000 & 3.9 \\
-Grid search (10 configs) & --- & 5.8 \\
+Top-$k$（提案手法） & 1.000 & 3.9 \\
+グリッドサーチ（10設定） & --- & 5.8 \\
 \midrule
-Speedup & & 1.5$\times$ \\
+高速化率 & & 1.5$\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E2: Pruning Efficiency}
+\subsection{E2: 枝刈り効率}
 
-Table~\ref{tab:e2} shows runtime across different numbers of items
-and $k$ values. The branch-and-bound pruning keeps runtime manageable
-even as the candidate space grows quadratically: with 20 items
-(210 possible pairs), mining the top-1 pattern takes only 1.7~ms.
+表~\ref{tab:e2}にアイテム数および$k$値による実行時間を示す。
+分枝限定法の枝刈りにより、候補空間が二次的に増大しても実行時間は管理可能に
+保たれる：20アイテム（210通りの可能なペア）に対して、top-1パターンの
+マイニングはわずか1.7~msで完了する。
 
 \begin{table}[t]
 \centering
-\caption{E2: Runtime (ms) by item count and $k$}\label{tab:e2}
+\caption{E2: アイテム数と$k$による実行時間 (ms)}\label{tab:e2}
 \begin{tabular}{crrrr}
 \toprule
-Items & $k=1$ & $k=3$ & $k=5$ & $k=10$ \\
+アイテム数 & $k=1$ & $k=3$ & $k=5$ & $k=10$ \\
 \midrule
 10 & 1.3 & 1.4 & 2.2 & 2.9 \\
 15 & 1.5 & 1.7 & 2.6 & 3.0 \\
@@ -382,20 +368,19 @@ Items & $k=1$ & $k=3$ & $k=5$ & $k=10$ \\
 \end{tabular}
 \end{table}
 
-\subsection{E3: Scalability}
+\subsection{E3: スケーラビリティ}
 
-Figure~\ref{fig:e3} demonstrates near-linear scalability.
-Runtime grows from 1.7~ms at $N=100$ to 147~ms at $N=5{,}000$,
-corresponding to a growth factor of approximately 87$\times$ for
-a 50$\times$ increase in data size---slightly super-linear due to
-the multi-scale computation across $L = O(\log N)$ levels.
+図~\ref{fig:e3}にほぼ線形のスケーラビリティを示す。
+実行時間は$N=100$の1.7~msから$N=5{,}000$の147~msに増加し、
+データサイズの50倍の増加に対して約87倍の成長係数に相当する---
+マルチスケール計算が$L = O(\log N)$レベルにわたるため、やや超線形である。
 
 \begin{table}[t]
 \centering
-\caption{E3: Scalability (k=5, 15 items)}\label{fig:e3}
+\caption{E3: スケーラビリティ (k=5, 15アイテム)}\label{fig:e3}
 \begin{tabular}{rrc}
 \toprule
-$N$ & Time (ms) & Patterns \\
+$N$ & 時間 (ms) & パターン数 \\
 \midrule
 100 & 1.7 & 5 \\
 200 & 2.8 & 5 \\
@@ -407,70 +392,65 @@ $N$ & Time (ms) & Patterns \\
 \end{tabular}
 \end{table}
 
-\subsection{E4: Parameter Sensitivity Elimination}
+\subsection{E4: パラメータ感度の排除}
 
-We vary the base window $W_0 \in \{5, 8, 10, 15, 20, 25\}$ and
-measure the stability of discovered patterns. The top-$k$ approach
-achieves perfect stability (pairwise Jaccard = 1.0) across all
-$W_0$ values, demonstrating that the multi-scale aggregation
-effectively eliminates sensitivity to the base window choice.
-This confirms that users need only specify $k$, the number of
-desired patterns, without worrying about window or threshold parameters.
-
-% ==============================================================
-\section{Discussion}\label{sec:discussion}
-% ==============================================================
-
-\subsection{Advantages of the Multi-Scale Approach}
-
-The dyadic scale hierarchy provides two key benefits:
-(1) patterns that are dense at any scale within $[W_0, 2^L W_0]$
-are captured without requiring the user to guess the correct window
-size; (2) Scale-Space Dense Ridges identify patterns whose density
-is robust across scales, providing stronger evidence of genuine
-temporal concentration than single-scale analysis.
-
-\subsection{Practical Considerations}
-
-While $W_0$ remains a parameter, our experiments show that results
-are insensitive to its choice. In practice, $W_0$ can be set to a
-small value (e.g., 5--10) and the dyadic hierarchy automatically
-covers the relevant range. The threshold $\theta_0$ is effectively
-eliminated by the top-$k$ formulation, which internally determines
-the minimum score needed to enter the result set.
-
-\subsection{Limitations}
-
-The current implementation uses a Python prototype suitable for
-datasets up to several thousand transactions. For larger-scale
-applications, a Rust implementation (following the two-stage
-development process of our framework) would be necessary.
-The dyadic scale hierarchy covers only powers-of-2 window sizes;
-a non-dyadic extension could provide finer scale resolution at
-the cost of increased computation.
+基底ウィンドウ$W_0 \in \{5, 8, 10, 15, 20, 25\}$を変化させ、
+発見されたパターンの安定性を測定する。top-$k$アプローチはすべての$W_0$値にわたって
+完全な安定性（ペアワイズJaccard = 1.0）を達成し、
+マルチスケール集約が基底ウィンドウの選択に対する感度を効果的に排除することを
+実証した。これは、ユーザがウィンドウや閾値パラメータを心配することなく、
+所望のパターン数$k$のみを指定すればよいことを確認するものである。
 
 % ==============================================================
-\section{Conclusion}\label{sec:conclusion}
+\section{考察}\label{sec:discussion}
 % ==============================================================
 
-We presented a parameter-free framework for dense interval mining
-that replaces the traditional $(W, \theta)$ parameters with a
-single, intuitive parameter $k$. Our approach introduces the Dense
-Coverage Score for ranking patterns, a Dyadic Scale Hierarchy for
-multi-scale analysis, and Scale-Space Dense Ridges for
-scale-invariant pattern identification. The branch-and-bound
-algorithm with anti-monotone pruning ensures exact top-$k$ results
-with efficient computation.
+\subsection{マルチスケールアプローチの利点}
 
-Experiments demonstrate quality equivalence to exhaustive grid search,
-effective pruning, near-linear scalability, and robust parameter
-insensitivity. Future work will extend the framework to streaming
-settings with incremental MSDCS updates and apply it to large-scale
-real-world datasets such as retail transaction logs and IoT event
-streams.
+二分スケール階層は2つの主要な利点を提供する：
+(1) $[W_0, 2^L W_0]$内の任意のスケールで密集であるパターンが、
+ユーザが正しいウィンドウサイズを推測する必要なく捕捉される；
+(2) スケール空間密集リッジは、密度がスケールにわたってロバストである
+パターンを特定し、単一スケール分析よりも真の時間的集中のより強い証拠を提供する。
+
+\subsection{実用上の考慮事項}
+
+$W_0$はパラメータとして残るが、実験結果はその選択に対して結果が
+非感受的であることを示している。実用上、$W_0$は小さな値（例えば5--10）に
+設定でき、二分階層が関連する範囲を自動的にカバーする。
+閾値$\theta_0$はtop-$k$定式化により実効的に排除され、
+結果セットに入るために必要な最小スコアがアルゴリズム内部で決定される。
+
+\subsection{制約事項}
+
+現在の実装は数千トランザクションまでのデータセットに適したPythonプロトタイプを
+使用している。より大規模な応用には、本フレームワークの2段階開発プロセスに
+従ったRust実装が必要となる。
+二分スケール階層は2のべき乗のウィンドウサイズのみをカバーする；
+非二分の拡張は計算コストの増加と引き換えに、より細かいスケール解像度を
+提供しうる。
+
+% ==============================================================
+\section{結論}\label{sec:conclusion}
+% ==============================================================
+
+本論文では、従来の$(W, \theta)$パラメータを直感的な単一パラメータ$k$に置き換える、
+密集区間マイニングのためのパラメータフリーフレームワークを提示した。
+本手法はパターンのランキングのためのDense Coverage Score、
+マルチスケール分析のための二分スケール階層、
+およびスケール不変なパターン特定のためのスケール空間密集リッジを導入した。
+反単調性枝刈りを持つ分枝限定法アルゴリズムにより、
+効率的な計算で正確なtop-$k$結果を保証する。
+
+実験では、網羅的グリッドサーチとの品質同等性、効果的な枝刈り、
+ほぼ線形のスケーラビリティ、およびロバストなパラメータ非感受性を実証した。
+今後の研究では、インクリメンタルMSDCS更新によるストリーミング設定への拡張、
+および小売トランザクションログやIoTイベントストリームなどの大規模実データセットへの
+適用を予定している。
 
 % ==============================================================
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
+\end{CJK}
 \end{document}
