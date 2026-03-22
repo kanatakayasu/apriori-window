@@ -1,0 +1,181 @@
+{
+  "experiment": "E3",
+  "description": "Parameter sensitivity analysis",
+  "parameters_tested": {
+    "window_sizes": [
+      10,
+      20,
+      30,
+      50,
+      80
+    ],
+    "thresholds": [
+      3,
+      5,
+      8,
+      10
+    ]
+  },
+  "results": [
+    {
+      "window_size": 10,
+      "threshold": 3,
+      "n_patterns": 1145,
+      "n_multi": 1126,
+      "n_triple": 955,
+      "elapsed_ms": 232.2
+    },
+    {
+      "window_size": 10,
+      "threshold": 5,
+      "n_patterns": 508,
+      "n_multi": 489,
+      "n_triple": 323,
+      "elapsed_ms": 212.6
+    },
+    {
+      "window_size": 10,
+      "threshold": 8,
+      "n_patterns": 55,
+      "n_multi": 36,
+      "n_triple": 5,
+      "elapsed_ms": 42.6
+    },
+    {
+      "window_size": 10,
+      "threshold": 10,
+      "n_patterns": 10,
+      "n_multi": 2,
+      "n_triple": 0,
+      "elapsed_ms": 11.8
+    },
+    {
+      "window_size": 20,
+      "threshold": 3,
+      "n_patterns": 1159,
+      "n_multi": 1140,
+      "n_triple": 969,
+      "elapsed_ms": 221.9
+    },
+    {
+      "window_size": 20,
+      "threshold": 5,
+      "n_patterns": 959,
+      "n_multi": 940,
+      "n_triple": 769,
+      "elapsed_ms": 222.6
+    },
+    {
+      "window_size": 20,
+      "threshold": 8,
+      "n_patterns": 287,
+      "n_multi": 268,
+      "n_triple": 132,
+      "elapsed_ms": 147.9
+    },
+    {
+      "window_size": 20,
+      "threshold": 10,
+      "n_patterns": 109,
+      "n_multi": 90,
+      "n_triple": 20,
+      "elapsed_ms": 65.9
+    },
+    {
+      "window_size": 30,
+      "threshold": 3,
+      "n_patterns": 1159,
+      "n_multi": 1140,
+      "n_triple": 969,
+      "elapsed_ms": 212.4
+    },
+    {
+      "window_size": 30,
+      "threshold": 5,
+      "n_patterns": 1094,
+      "n_multi": 1075,
+      "n_triple": 904,
+      "elapsed_ms": 217.9
+    },
+    {
+      "window_size": 30,
+      "threshold": 8,
+      "n_patterns": 538,
+      "n_multi": 519,
+      "n_triple": 350,
+      "elapsed_ms": 215.6
+    },
+    {
+      "window_size": 30,
+      "threshold": 10,
+      "n_patterns": 280,
+      "n_multi": 261,
+      "n_triple": 117,
+      "elapsed_ms": 159.8
+    },
+    {
+      "window_size": 50,
+      "threshold": 3,
+      "n_patterns": 1159,
+      "n_multi": 1140,
+      "n_triple": 969,
+      "elapsed_ms": 194.8
+    },
+    {
+      "window_size": 50,
+      "threshold": 5,
+      "n_patterns": 1154,
+      "n_multi": 1135,
+      "n_triple": 964,
+      "elapsed_ms": 207.0
+    },
+    {
+      "window_size": 50,
+      "threshold": 8,
+      "n_patterns": 885,
+      "n_multi": 866,
+      "n_triple": 695,
+      "elapsed_ms": 213.4
+    },
+    {
+      "window_size": 50,
+      "threshold": 10,
+      "n_patterns": 584,
+      "n_multi": 565,
+      "n_triple": 396,
+      "elapsed_ms": 211.0
+    },
+    {
+      "window_size": 80,
+      "threshold": 3,
+      "n_patterns": 1159,
+      "n_multi": 1140,
+      "n_triple": 969,
+      "elapsed_ms": 182.4
+    },
+    {
+      "window_size": 80,
+      "threshold": 5,
+      "n_patterns": 1159,
+      "n_multi": 1140,
+      "n_triple": 969,
+      "elapsed_ms": 191.5
+    },
+    {
+      "window_size": 80,
+      "threshold": 8,
+      "n_patterns": 1098,
+      "n_multi": 1079,
+      "n_triple": 908,
+      "elapsed_ms": 202.5
+    },
+    {
+      "window_size": 80,
+      "threshold": 10,
+      "n_patterns": 931,
+      "n_multi": 912,
+      "n_triple": 741,
+      "elapsed_ms": 206.6
+    }
+  ]
+}

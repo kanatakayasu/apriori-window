@@ -1,0 +1,5174 @@
+{
+  "experiment": "E4",
+  "description": "Multi-drug-class cross analysis",
+  "scenarios": [
+    {
+      "scenario": "Cardiovascular",
+      "event_description": "Statin hepatotoxicity warning",
+      "targeted_atc": [
+        "C10A"
+      ],
+      "n_patterns_found": 1087,
+      "summary": {
+        "total_tests": 171,
+        "disappearing": 145,
+        "emerging": 3,
+        "stable": 23,
+        "targeted_disappearing": 145,
+        "non_targeted_emerging": 0,
+        "significant_at_005": 156
+      },
+      "significant_patterns": [
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A"
+          ],
+          "delta": -4.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A"
+          ],
+          "delta": -5.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A"
+          ],
+          "delta": -6.48,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A"
+          ],
+          "delta": -2.52,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A"
+          ],
+          "delta": -9.15,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D"
+          ],
+          "delta": -5.15,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F"
+          ],
+          "delta": -2.2,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A"
+          ],
+          "delta": -4.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A"
+          ],
+          "delta": -1.35,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B"
+          ],
+          "delta": -6.51,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A"
+          ],
+          "delta": -1.93,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M"
+          ],
+          "delta": -1.07,
+          "p_value": 0.001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B"
+          ],
+          "delta": -4.54,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C03A"
+          ],
+          "delta": -5.61,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01C"
+          ],
+          "delta": -4.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C09C"
+          ],
+          "delta": -1.18,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "M01A"
+          ],
+          "delta": -1.03,
+          "p_value": 0.0035,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02B"
+          ],
+          "delta": -3.59,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "A10B",
+            "C10A"
+          ],
+          "delta": -4.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C07A",
+            "C10A"
+          ],
+          "delta": -3.54,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C08C",
+            "C10A"
+          ],
+          "delta": -1.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C09A",
+            "C10A"
+          ],
+          "delta": -4.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "J01D"
+          ],
+          "delta": -2.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "J01F"
+          ],
+          "delta": -1.95,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -1.77,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N06A"
+          ],
+          "delta": -2.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "A02B"
+          ],
+          "delta": -4.21,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "B01A"
+          ],
+          "delta": -1.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -2.14,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -3.17,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "C03A"
+          ],
+          "delta": -3.91,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "J01C"
+          ],
+          "delta": -2.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "M01A"
+          ],
+          "delta": -1.2,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N02B"
+          ],
+          "delta": -1.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C07A",
+            "C10A"
+          ],
+          "delta": -2.92,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C08C",
+            "C10A"
+          ],
+          "delta": -3.31,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C09A",
+            "C10A"
+          ],
+          "delta": -4.77,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "J01D"
+          ],
+          "delta": -2.52,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "J01F"
+          ],
+          "delta": -2.2,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -2.94,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N06A"
+          ],
+          "delta": -0.96,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "A02B"
+          ],
+          "delta": -4.87,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "B01A"
+          ],
+          "delta": -1.52,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -3.11,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "C03A"
+          ],
+          "delta": -2.54,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "J01C"
+          ],
+          "delta": -3.38,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "C09C"
+          ],
+          "delta": -1.33,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "M01A"
+          ],
+          "delta": -2.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N02B"
+          ],
+          "delta": -2.58,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C08C",
+            "C10A"
+          ],
+          "delta": -3.04,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C09A",
+            "C10A"
+          ],
+          "delta": -7.5,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "J01D"
+          ],
+          "delta": -3.93,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "J01F"
+          ],
+          "delta": -2.33,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -3.31,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "N06A"
+          ],
+          "delta": -1.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "A02B"
+          ],
+          "delta": -5.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "B01A"
+          ],
+          "delta": -0.92,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -1.98,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -3.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "C03A"
+          ],
+          "delta": -4.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "J01C"
+          ],
+          "delta": -3.2,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "C09C"
+          ],
+          "delta": -1.74,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "M01A"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "N02B"
+          ],
+          "delta": -3.4,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C09A",
+            "C10A"
+          ],
+          "delta": -2.57,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "J01D"
+          ],
+          "delta": -2.25,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -1.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "A02B"
+          ],
+          "delta": -1.75,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "B01A"
+          ],
+          "delta": -2.27,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "J01M"
+          ],
+          "delta": 1.36,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -1.97,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "C03A"
+          ],
+          "delta": -1.48,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "J01C"
+          ],
+          "delta": -0.93,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "J01D"
+          ],
+          "delta": -4.78,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "J01F"
+          ],
+          "delta": -2.7,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -5.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N06A"
+          ],
+          "delta": -1.0,
+          "p_value": 0.0011,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "A02B"
+          ],
+          "delta": -6.53,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "B01A"
+          ],
+          "delta": -3.1,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -1.87,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -3.83,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "C03A"
+          ],
+          "delta": -4.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "J01C"
+          ],
+          "delta": -4.25,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "C09C"
+          ],
+          "delta": -2.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "M01A"
+          ],
+          "delta": -1.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N02B"
+          ],
+          "delta": -3.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "J01F"
+          ],
+          "delta": -1.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -3.15,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N06A"
+          ],
+          "delta": -2.39,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "A02B"
+          ],
+          "delta": -4.14,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "B01A"
+          ],
+          "delta": -0.66,
+          "p_value": 0.0057,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -1.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -3.07,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "C03A"
+          ],
+          "delta": -2.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "J01C"
+          ],
+          "delta": -1.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "C09C"
+          ],
+          "delta": -1.02,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "M01A"
+          ],
+          "delta": -1.37,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N02B"
+          ],
+          "delta": -1.48,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "N02A"
+          ],
+          "delta": -2.1,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "A02B"
+          ],
+          "delta": -3.18,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "B01A"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "J01M"
+          ],
+          "delta": -1.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "N05B"
+          ],
+          "delta": -1.01,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "C03A"
+          ],
+          "delta": -1.75,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "J01C"
+          ],
+          "delta": -1.28,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "C09C"
+          ],
+          "delta": -0.72,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -1.27,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -3.35,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "B01A"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.9,
+          "p_value": 0.0002,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -2.46,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -2.41,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -2.89,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "C09C"
+          ],
+          "delta": -1.11,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "M01A"
+          ],
+          "delta": -0.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -3.41,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A",
+            "A02B"
+          ],
+          "delta": -1.74,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -1.18,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A",
+            "C03A"
+          ],
+          "delta": -0.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A",
+            "J01C"
+          ],
+          "delta": -0.92,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "B01A"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -1.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -1.77,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "C03A"
+          ],
+          "delta": -4.7,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "J01C"
+          ],
+          "delta": -2.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "C09C"
+          ],
+          "delta": -2.4,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "M01A"
+          ],
+          "delta": -0.76,
+          "p_value": 0.0149,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "N02B"
+          ],
+          "delta": -2.9,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A",
+            "N05B"
+          ],
+          "delta": -0.84,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A",
+            "C03A"
+          ],
+          "delta": -1.18,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A",
+            "M01A"
+          ],
+          "delta": -0.93,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A",
+            "N02B"
+          ],
+          "delta": -0.7,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -1.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -0.82,
+          "p_value": 0.0004,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -0.75,
+          "p_value": 0.0031,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "M01A"
+          ],
+          "delta": 1.3,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -4.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -2.57,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -0.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -2.59,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C03A",
+            "J01C"
+          ],
+          "delta": -4.47,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C03A",
+            "C09C"
+          ],
+          "delta": -1.0,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C03A",
+            "M01A"
+          ],
+          "delta": -1.79,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C03A",
+            "N02B"
+          ],
+          "delta": -2.34,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01C",
+            "M01A"
+          ],
+          "delta": -1.2,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01C",
+            "N02B"
+          ],
+          "delta": -2.32,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "C09C",
+            "N02B"
+          ],
+          "delta": 0.56,
+          "p_value": 0.0056,
+          "classification": "emerging",
+          "targeted": true
+        }
+      ]
+    },
+    {
+      "scenario": "Pain_Management",
+      "event_description": "Opioid-benzodiazepine concurrent use warning",
+      "targeted_atc": [
+        "N02A",
+        "N05B"
+      ],
+      "n_patterns_found": 1096,
+      "summary": {
+        "total_tests": 311,
+        "disappearing": 182,
+        "emerging": 36,
+        "stable": 93,
+        "targeted_disappearing": 182,
+        "non_targeted_emerging": 0,
+        "significant_at_005": 259
+      },
+      "significant_patterns": [
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B"
+          ],
+          "delta": -2.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A"
+          ],
+          "delta": -1.7,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B"
+          ],
+          "delta": -1.52,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A"
+          ],
+          "delta": -0.57,
+          "p_value": 0.0011,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A"
+          ],
+          "delta": -3.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N05B"
+          ],
+          "delta": -3.27,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A"
+          ],
+          "delta": -3.03,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B"
+          ],
+          "delta": -2.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A"
+          ],
+          "delta": -3.02,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N05B"
+          ],
+          "delta": -2.38,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A"
+          ],
+          "delta": -0.63,
+          "p_value": 0.0084,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N05B"
+          ],
+          "delta": 0.67,
+          "p_value": 0.0007,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N06A"
+          ],
+          "delta": -0.52,
+          "p_value": 0.0118,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B"
+          ],
+          "delta": -2.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "B01A"
+          ],
+          "delta": -0.58,
+          "p_value": 0.011,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.65,
+          "p_value": 0.0187,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B"
+          ],
+          "delta": -3.37,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C03A"
+          ],
+          "delta": -1.85,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01C"
+          ],
+          "delta": -3.46,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C09C"
+          ],
+          "delta": -0.62,
+          "p_value": 0.0021,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N02B"
+          ],
+          "delta": -3.33,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "N05B"
+          ],
+          "delta": -1.06,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "N05B"
+          ],
+          "delta": -0.85,
+          "p_value": 0.0005,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B"
+          ],
+          "delta": 2.06,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C03A"
+          ],
+          "delta": -3.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.29,
+          "p_value": 0.0008,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.6,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "M01A"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "N02B"
+          ],
+          "delta": -2.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "A10B",
+            "N05B"
+          ],
+          "delta": -1.11,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C07A",
+            "N05B"
+          ],
+          "delta": -0.51,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C09A",
+            "N02A"
+          ],
+          "delta": -1.06,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C09A",
+            "N05B"
+          ],
+          "delta": -2.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -0.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -2.15,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -1.84,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -1.13,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.85,
+          "p_value": 0.0014,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -1.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -0.64,
+          "p_value": 0.0012,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -1.4,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "M01A"
+          ],
+          "delta": 1.26,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -1.04,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -1.1,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -1.29,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -2.55,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.41,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 0.57,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -1.1,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -1.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C07A",
+            "N02A"
+          ],
+          "delta": 0.95,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C08C",
+            "N02A"
+          ],
+          "delta": -1.14,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C08C",
+            "N05B"
+          ],
+          "delta": -0.72,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C09A",
+            "N02A"
+          ],
+          "delta": -1.92,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -1.51,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -1.87,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -1.79,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -0.79,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -1.96,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -1.29,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -2.35,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -1.37,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -0.59,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -1.24,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -1.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.21,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 0.57,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -0.72,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -0.82,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C09A",
+            "N02A"
+          ],
+          "delta": -1.75,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C09A",
+            "N05B"
+          ],
+          "delta": -2.19,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -1.26,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -1.95,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -1.41,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -0.7,
+          "p_value": 0.001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -0.62,
+          "p_value": 0.0078,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "B01A"
+          ],
+          "delta": 0.62,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -2.3,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "M01A"
+          ],
+          "delta": 0.62,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -2.34,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -0.57,
+          "p_value": 0.0029,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": 0.56,
+          "p_value": 0.0062,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "B01A",
+            "N05B"
+          ],
+          "delta": 0.89,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.13,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -1.29,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": 0.8,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.24,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": 0.79,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -1.14,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C09A",
+            "N02A"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -0.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01F",
+            "N05B"
+          ],
+          "delta": 0.85,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -0.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.53,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -0.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "C03A"
+          ],
+          "delta": 0.95,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -1.25,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -1.12,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "B01A",
+            "N05B"
+          ],
+          "delta": -0.94,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.84,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -0.6,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.33,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N02A"
+          ],
+          "delta": -3.48,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "N05B"
+          ],
+          "delta": -2.21,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -2.72,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -1.8,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01F",
+            "N02A"
+          ],
+          "delta": -0.71,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -0.7,
+          "p_value": 0.001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -2.64,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.73,
+          "p_value": 0.0033,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -3.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -2.14,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -2.56,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "C09C"
+          ],
+          "delta": -1.72,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -3.13,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -0.92,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -1.73,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.73,
+          "p_value": 0.0005,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -2.12,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -0.97,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -1.42,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -1.55,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N02A"
+          ],
+          "delta": -3.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "N05B"
+          ],
+          "delta": -2.34,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01F",
+            "N02A"
+          ],
+          "delta": -0.77,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -1.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -2.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.96,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -2.65,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -0.73,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -2.9,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "C09C"
+          ],
+          "delta": -0.84,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "M01A"
+          ],
+          "delta": -0.66,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -2.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -0.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -0.64,
+          "p_value": 0.0006,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.89,
+          "p_value": 0.0001,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -2.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.18,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -0.66,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -2.22,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01F",
+            "N02A"
+          ],
+          "delta": -0.68,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01F",
+            "N05B"
+          ],
+          "delta": -0.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "N06A"
+          ],
+          "delta": -0.51,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -1.3,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -1.28,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "N05B"
+          ],
+          "delta": -2.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -1.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "C09C"
+          ],
+          "delta": -1.11,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "M01A"
+          ],
+          "delta": -0.64,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -2.01,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N06A",
+            "N05B"
+          ],
+          "delta": -0.6,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -0.78,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -1.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -0.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -1.0,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A",
+            "A02B"
+          ],
+          "delta": -1.3,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A",
+            "B01A"
+          ],
+          "delta": -1.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A",
+            "C03A"
+          ],
+          "delta": -0.99,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A",
+            "J01C"
+          ],
+          "delta": -2.23,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N02A",
+            "N02B"
+          ],
+          "delta": -1.07,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.84,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -0.93,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N06A",
+            "A02B"
+          ],
+          "delta": -1.04,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N06A",
+            "C03A"
+          ],
+          "delta": -0.89,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N06A",
+            "N02B"
+          ],
+          "delta": -0.91,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "B01A"
+          ],
+          "delta": -0.71,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -1.71,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -2.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "C03A"
+          ],
+          "delta": -1.03,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "J01C"
+          ],
+          "delta": -2.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "C09C"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "M01A"
+          ],
+          "delta": -0.79,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "N02B"
+          ],
+          "delta": -2.28,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "B01A",
+            "J01C"
+          ],
+          "delta": -1.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": -1.26,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -0.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -1.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -0.97,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "N02B"
+          ],
+          "delta": -0.62,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -1.36,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.68,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B",
+            "C09C"
+          ],
+          "delta": -0.57,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -1.18,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -2.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C03A",
+            "J01C"
+          ],
+          "delta": -2.02,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C03A",
+            "C09C"
+          ],
+          "delta": -0.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C03A",
+            "M01A"
+          ],
+          "delta": 0.57,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "C03A",
+            "N02B"
+          ],
+          "delta": -2.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01C",
+            "C09C"
+          ],
+          "delta": -1.04,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01C",
+            "M01A"
+          ],
+          "delta": -1.26,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01C",
+            "N02B"
+          ],
+          "delta": -1.7,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "M01A",
+            "N02B"
+          ],
+          "delta": -0.59,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "A02B",
+            "N05B"
+          ],
+          "delta": -0.75,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.83,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -1.47,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "N05B",
+            "J01C"
+          ],
+          "delta": -1.43,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -0.89,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "B01A",
+            "N05B"
+          ],
+          "delta": 0.83,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.55,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "N05B",
+            "C03A"
+          ],
+          "delta": -2.22,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 0.66,
+          "p_value": 0.0003,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "N05B",
+            "N02B"
+          ],
+          "delta": -0.8,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.72,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 0.93,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "N05B",
+            "M01A"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "J01C"
+          ],
+          "delta": 1.01,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.22,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "M01A"
+          ],
+          "delta": 0.92,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "N02B"
+          ],
+          "delta": 0.74,
+          "p_value": 0.0004,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C03A",
+            "J01C"
+          ],
+          "delta": -1.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C03A",
+            "M01A"
+          ],
+          "delta": -1.28,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C03A",
+            "N02B"
+          ],
+          "delta": -1.56,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "J01C",
+            "C09C"
+          ],
+          "delta": 1.58,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N05B",
+            "C09C",
+            "M01A"
+          ],
+          "delta": 1.05,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        }
+      ]
+    },
+    {
+      "scenario": "Antibiotics",
+      "event_description": "Fluoroquinolone tendon rupture risk",
+      "targeted_atc": [
+        "J01M"
+      ],
+      "n_patterns_found": 1094,
+      "summary": {
+        "total_tests": 166,
+        "disappearing": 53,
+        "emerging": 51,
+        "stable": 62,
+        "targeted_disappearing": 53,
+        "non_targeted_emerging": 0,
+        "significant_at_005": 126
+      },
+      "significant_patterns": [
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01M"
+          ],
+          "delta": -0.78,
+          "p_value": 0.0004,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01M"
+          ],
+          "delta": 0.53,
+          "p_value": 0.0031,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01M"
+          ],
+          "delta": 1.17,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01M"
+          ],
+          "delta": 1.21,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M"
+          ],
+          "delta": -0.64,
+          "p_value": 0.0494,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01M"
+          ],
+          "delta": -1.07,
+          "p_value": 0.0011,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "J01M"
+          ],
+          "delta": 0.6,
+          "p_value": 0.008,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "J01M"
+          ],
+          "delta": 1.58,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M"
+          ],
+          "delta": -2.59,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B"
+          ],
+          "delta": 2.91,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "J01C"
+          ],
+          "delta": -0.73,
+          "p_value": 0.0005,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "M01A"
+          ],
+          "delta": 0.81,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N02B"
+          ],
+          "delta": 0.68,
+          "p_value": 0.0046,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "A10B",
+            "J01M"
+          ],
+          "delta": -1.07,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C07A",
+            "J01M"
+          ],
+          "delta": -0.68,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C09A",
+            "J01M"
+          ],
+          "delta": -1.1,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -1.69,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -2.13,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01F",
+            "J01M"
+          ],
+          "delta": -0.7,
+          "p_value": 0.0008,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -2.45,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "B01A",
+            "J01M"
+          ],
+          "delta": -1.35,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.71,
+          "p_value": 0.0001,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -1.13,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10A",
+            "J01M",
+            "N02B"
+          ],
+          "delta": -0.57,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C07A",
+            "J01M"
+          ],
+          "delta": 1.25,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C08C",
+            "J01M"
+          ],
+          "delta": 1.38,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "C09A",
+            "J01M"
+          ],
+          "delta": 0.65,
+          "p_value": 0.001,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -0.76,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01F",
+            "J01M"
+          ],
+          "delta": -0.57,
+          "p_value": 0.001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N02A",
+            "J01M"
+          ],
+          "delta": 0.59,
+          "p_value": 0.0017,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "N06A",
+            "J01M"
+          ],
+          "delta": 0.69,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -2.49,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01M",
+            "C03A"
+          ],
+          "delta": 1.04,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -1.07,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A10B",
+            "J01M",
+            "N02B"
+          ],
+          "delta": 0.98,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "C09A",
+            "J01M"
+          ],
+          "delta": -0.8,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -1.29,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "N02A",
+            "J01M"
+          ],
+          "delta": 0.63,
+          "p_value": 0.0002,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "B01A",
+            "J01M"
+          ],
+          "delta": 1.38,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.23,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": 0.56,
+          "p_value": 0.0028,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C07A",
+            "J01M",
+            "M01A"
+          ],
+          "delta": 1.16,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C09A",
+            "J01M"
+          ],
+          "delta": 1.19,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "C10A",
+            "J01M"
+          ],
+          "delta": 1.51,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01F",
+            "J01M"
+          ],
+          "delta": 0.55,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "N06A",
+            "J01M"
+          ],
+          "delta": 1.11,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.39,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01M",
+            "C03A"
+          ],
+          "delta": 0.82,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C08C",
+            "J01M",
+            "C09C"
+          ],
+          "delta": 0.73,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "C10A",
+            "J01M"
+          ],
+          "delta": -1.08,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -1.79,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01F",
+            "J01M"
+          ],
+          "delta": -0.58,
+          "p_value": 0.023,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "N06A",
+            "J01M"
+          ],
+          "delta": 0.61,
+          "p_value": 0.0007,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -3.17,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "B01A",
+            "J01M"
+          ],
+          "delta": -0.72,
+          "p_value": 0.0004,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.03,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -0.63,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -0.9,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C09A",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -1.09,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01D",
+            "J01M"
+          ],
+          "delta": -1.01,
+          "p_value": 0.0003,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -1.62,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "B01A",
+            "J01M"
+          ],
+          "delta": 0.65,
+          "p_value": 0.0003,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 0.66,
+          "p_value": 0.0015,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -0.98,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "C10A",
+            "J01M",
+            "M01A"
+          ],
+          "delta": 0.88,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01F",
+            "J01M"
+          ],
+          "delta": -1.24,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "N02A",
+            "J01M"
+          ],
+          "delta": -0.84,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -2.3,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "B01A",
+            "J01M"
+          ],
+          "delta": -0.83,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -0.83,
+          "p_value": 0.0001,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -1.47,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01D",
+            "J01M",
+            "N02B"
+          ],
+          "delta": -0.61,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "N06A",
+            "J01M"
+          ],
+          "delta": 1.1,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -1.49,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.03,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -1.12,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01F",
+            "J01M",
+            "N02B"
+          ],
+          "delta": 0.7,
+          "p_value": 0.0001,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "N06A",
+            "J01M"
+          ],
+          "delta": 0.62,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "A02B",
+            "J01M"
+          ],
+          "delta": -1.67,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.32,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -0.52,
+          "p_value": 0.0008,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -1.0,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N02A",
+            "J01M",
+            "M01A"
+          ],
+          "delta": 0.59,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "N06A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.24,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "B01A",
+            "J01M"
+          ],
+          "delta": -1.22,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.07,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "C03A"
+          ],
+          "delta": -1.86,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -2.16,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -2.12,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "A02B",
+            "J01M",
+            "N02B"
+          ],
+          "delta": -1.06,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "J01M",
+            "N05B"
+          ],
+          "delta": 1.42,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "J01M",
+            "J01C"
+          ],
+          "delta": -0.78,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "B01A",
+            "J01M",
+            "C09C"
+          ],
+          "delta": -0.88,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "J01C"
+          ],
+          "delta": 0.6,
+          "p_value": 0.0004,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "C09C"
+          ],
+          "delta": 1.51,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "M01A"
+          ],
+          "delta": 1.41,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "N05B",
+            "N02B"
+          ],
+          "delta": 0.51,
+          "p_value": 0.0326,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "C03A",
+            "J01C"
+          ],
+          "delta": -1.15,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "C03A",
+            "N02B"
+          ],
+          "delta": 0.68,
+          "p_value": 0.0002,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "J01C",
+            "C09C"
+          ],
+          "delta": 0.68,
+          "p_value": 0.0001,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "J01C",
+            "M01A"
+          ],
+          "delta": 0.64,
+          "p_value": 0.0006,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "J01C",
+            "N02B"
+          ],
+          "delta": -0.9,
+          "p_value": 0.0,
+          "classification": "disappearing",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "C09C",
+            "M01A"
+          ],
+          "delta": 0.57,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        },
+        {
+          "pattern_atc": [
+            "J01M",
+            "M01A",
+            "N02B"
+          ],
+          "delta": 0.65,
+          "p_value": 0.0,
+          "classification": "emerging",
+          "targeted": true
+        }
+      ]
+    }
+  ]
+}

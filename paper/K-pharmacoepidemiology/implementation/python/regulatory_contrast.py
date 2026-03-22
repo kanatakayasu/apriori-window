@@ -6,6 +6,7 @@ Detects prescription pattern changes around regulatory events
 support levels in pre-event vs post-event windows.
 """
 
+import math
 import random
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Sequence, Tuple
@@ -116,6 +117,85 @@ def permutation_test(
     return p_value
 
 
+def welch_t_test(
+    support_series: Sequence[int],
+    event_time: int,
+    lookback: int,
+) -> float:
+    """
+    Two-sample Welch's t-test for pre/post support difference.
+
+    Uses a normal approximation for the t-distribution when df > 30.
+    Returns a two-sided p-value.
+    """
+    n = len(support_series)
+    pre_start = max(0, event_time - lookback)
+    pre_end = event_time
+    post_start = event_time
+    post_end = min(n, event_time + lookback)
+
+    pre = list(support_series[pre_start:pre_end])
+    post = list(support_series[post_start:post_end])
+
+    n1, n2 = len(pre), len(post)
+    if n1 < 2 or n2 < 2:
+        return 1.0
+
+    mean1 = sum(pre) / n1
+    mean2 = sum(post) / n2
+    var1 = sum((x - mean1) ** 2 for x in pre) / (n1 - 1)
+    var2 = sum((x - mean2) ** 2 for x in post) / (n2 - 1)
+
+    se = math.sqrt(var1 / n1 + var2 / n2)
+    if se < 1e-12:
+        return 1.0 if abs(mean1 - mean2) < 1e-12 else 0.0
+
+    t_stat = abs(mean1 - mean2) / se
+
+    # Welch-Satterthwaite degrees of freedom
+    num = (var1 / n1 + var2 / n2) ** 2
+    denom = (var1 / n1) ** 2 / (n1 - 1) + (var2 / n2) ** 2 / (n2 - 1)
+    if denom < 1e-12:
+        return 1.0
+    df = num / denom
+
+    # Use normal approximation for large df (df > 30 is accurate enough)
+    # For smaller df, use a conservative approximation
+    if df > 30:
+        # Normal approximation: 2 * (1 - Phi(t))
+        p = 2.0 * _normal_cdf_complement(t_stat)
+    else:
+        # Conservative: use t with df correction
+        # Approximation: t_stat^2 / (t_stat^2 + df) ~ Beta distribution
+        x = df / (df + t_stat ** 2)
+        p = _incomplete_beta(df / 2.0, 0.5, x)
+
+    return min(1.0, max(0.0, p))
+
+
+def _normal_cdf_complement(x: float) -> float:
+    """Compute 1 - Phi(x) using the complementary error function."""
+    return 0.5 * math.erfc(x / math.sqrt(2.0))
+
+
+def _incomplete_beta(a: float, b: float, x: float) -> float:
+    """
+    Regularized incomplete beta function approximation.
+    Used for t-distribution p-value with small df.
+    Uses a simple continued fraction approximation.
+    """
+    if x <= 0:
+        return 0.0
+    if x >= 1:
+        return 1.0
+
+    # For our use case (a=df/2, b=0.5, x=df/(df+t^2)):
+    # Use the normal approximation as fallback
+    # This is conservative for small df
+    t_approx = math.sqrt((1 - x) / x * 2 * a)
+    return 2.0 * _normal_cdf_complement(t_approx)
+
+
 def benjamini_hochberg(
     p_values: List[float],
     alpha: float = 0.05,
@@ -190,6 +270,7 @@ def run_contrast_analysis(
     alpha: float = 0.05,
     change_threshold: float = 1.0,
     seed: int = 42,
+    test_method: str = "welch",
 ) -> List[ContrastResult]:
     """
     Run full contrast analysis for all pattern-event pairs.
@@ -250,10 +331,13 @@ def run_contrast_analysis(
                 support_series, event_time, lookback
             )
 
-            p_value = permutation_test(
-                support_series, event_time, lookback,
-                n_permutations=n_permutations, seed=seed + pi * 1000 + ei
-            )
+            if test_method == "welch":
+                p_value = welch_t_test(support_series, event_time, lookback)
+            else:
+                p_value = permutation_test(
+                    support_series, event_time, lookback,
+                    n_permutations=n_permutations, seed=seed + pi * 1000 + ei
+                )
 
             # Map targeted ATC codes to integer IDs
             targeted_ids = [

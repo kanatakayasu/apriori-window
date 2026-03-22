@@ -77,9 +77,9 @@ class RegulatoryEvent:
 class SyntheticPharmaConfig:
     """Configuration for synthetic prescription data generation."""
     n_transactions: int = 1000
-    n_unique_atc: int = 15
+    n_unique_atc: int = 20
     base_pattern_prob: float = 0.15
-    single_drug_prob: float = 0.3
+    single_drug_prob: float = 0.35
     regulatory_events: List[RegulatoryEvent] = field(default_factory=list)
     seed: int = 42
     atc_level: int = 3  # ATC hierarchy level (3 or 4)
@@ -97,7 +97,7 @@ def default_regulatory_events(n_transactions: int) -> List[RegulatoryEvent]:
             timestamp=t1,
             description="Boxed warning for concurrent opioid-benzodiazepine use",
             targeted_atc=["N02A", "N05B"],
-            effect_magnitude=0.7,
+            effect_magnitude=0.85,
         ),
         RegulatoryEvent(
             event_id="FDA-2024-002",
@@ -105,7 +105,7 @@ def default_regulatory_events(n_transactions: int) -> List[RegulatoryEvent]:
             timestamp=t2,
             description="Safety alert for fluoroquinolone tendon rupture risk",
             targeted_atc=["J01M"],
-            effect_magnitude=0.5,
+            effect_magnitude=0.80,
         ),
     ]
 
