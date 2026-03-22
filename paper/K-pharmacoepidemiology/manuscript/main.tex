@@ -3,6 +3,7 @@
 % --- Packages ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{CJKutf8}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -16,133 +17,134 @@
 \usepackage{natbib}
 
 % --- Theorem environments ---
-\newtheorem{definition}{Definition}
-\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{定義}
+\newtheorem{proposition}{命題}
 
 % --- Title ---
-\title{Dense Prescription Patterns and Regulatory Event Attribution\\in Pharmacoepidemiology}
+\title{薬剤疫学における密集処方パターン検出と\\規制イベント帰属}
 \author{
-  Anonymous Authors\\
-  \textit{Submitted to JAMIA}
+  匿名著者\\
+  \textit{JAMIA 投稿}
 }
 \date{}
 
 \begin{document}
+\begin{CJK}{UTF8}{ipxm}
 \maketitle
 
 % ============================================================
 \begin{abstract}
-Pharmacovigilance relies on detecting changes in drug prescription patterns following regulatory safety communications. Existing methods---such as disproportionality analysis, self-controlled case series, and interrupted time series---operate on single drug--event pairs with manually specified intervention points. We propose a framework that combines sliding-window frequent itemset mining with automated regulatory event attribution to detect \emph{dense prescription intervals}: time periods during which co-prescription patterns become unusually frequent. Our method (1)~adapts the Apriori-window algorithm to ATC-coded prescription transactions, (2)~identifies change points in pattern density, and (3)~attributes these changes to regulatory events using Welch's $t$-test with Benjamini--Hochberg FDR control. Experiments on synthetic MIMIC-IV-style prescription data demonstrate that the framework detects 3{,}100 dense patterns across 19 ATC drug classes, identifies 856 disappearing and 601 emerging contrast patterns around simulated FDA safety communications, and achieves sub-second analysis on 1{,}000-transaction datasets. Cross-class analysis across cardiovascular, pain management, and antibiotic drug classes reveals differential response patterns, with opioid--benzodiazepine co-prescriptions showing the strongest decline following a simulated boxed warning. The framework provides automated, multi-pattern surveillance capabilities that complement existing pharmacovigilance methods.
+医薬品安全性監視（ファーマコビジランス）は、規制当局の安全性情報発出後における処方パターンの変化を検出することに依拠している。既存手法――不均衡分析、自己対照ケースシリーズ、分割時系列分析――は、単一の薬剤--イベント対を対象とし、介入時点を手動で指定する必要がある。本研究では、スライディングウィンドウ頻出アイテムセットマイニングと自動規制イベント帰属を組み合わせ、併用処方パターンが異常に高頻度となる期間である\emph{密集処方区間}を検出するフレームワークを提案する。本手法は、(1)~Apriori-window アルゴリズムを ATC コード付き処方トランザクションに適応し、(2)~パターン密度の変化点を同定し、(3)~Welch の $t$ 検定と Benjamini--Hochberg 法による偽発見率制御を用いてこれらの変化を規制イベントに帰属させる。MIMIC-IV 形式の合成処方データを用いた実験により、本フレームワークは19のATC薬効分類にわたり3{,}100件の密集パターンを検出し、模擬FDA安全性情報の前後で856件の消失パターンと601件の出現パターンを同定し、1{,}000トランザクション規模のデータセットに対し1秒未満で解析を完了することを示す。心血管系、疼痛管理、抗菌薬の各薬効群にまたがるクロスクラス分析では、差異的応答パターンが明らかとなり、オピオイド--ベンゾジアゼピン併用処方が模擬枠囲み警告後に最も顕著な減少を示した。本フレームワークは、既存のファーマコビジランス手法を補完する自動化されたマルチパターン監視機能を提供する。
 \end{abstract}
 
-\noindent\textbf{Keywords:} pharmacoepidemiology, dense interval mining, prescription pattern analysis, pharmacovigilance, regulatory event attribution, co-prescription mining
+\noindent\textbf{キーワード:} 薬剤疫学、密集区間マイニング、処方パターン分析、医薬品安全性監視、規制イベント帰属、併用処方マイニング
 
 % ============================================================
-\section{Introduction}\label{sec:intro}
+\section{はじめに}\label{sec:intro}
 
-Monitoring drug prescription patterns is a cornerstone of pharmacovigilance. When regulatory agencies such as the U.S.\ Food and Drug Administration (FDA) issue safety communications---including boxed warnings, safety alerts, and drug withdrawals---healthcare providers are expected to modify their prescribing behavior accordingly~\citep{dusetzina2012fda}. However, the impact of these communications varies considerably; some produce immediate, strong effects on prescribing, while others have delayed or no measurable impact~\citep{marcum2012fda}.
+薬剤処方パターンの監視は、ファーマコビジランスの基盤である。米国食品医薬品局（FDA）などの規制当局が安全性情報――枠囲み警告、安全性アラート、薬剤の市場撤退など――を発出した場合、医療提供者はそれに応じて処方行動を変更することが期待される~\citep{dusetzina2012fda}。しかし、これらの情報の影響は大きく異なり、即座に強い効果を示すものもあれば、遅延的または測定可能な影響を持たないものもある~\citep{marcum2012fda}。
 
-Current methods for assessing the impact of regulatory actions on prescription patterns face several limitations. \emph{Disproportionality analysis} methods such as the Proportional Reporting Ratio (PRR)~\citep{evans2001prr}, Reporting Odds Ratio (ROR), and Bayesian Confidence Propagation Neural Network (BCPNN)~\citep{bate1998bcpnn} operate on aggregate counts across the entire observation period and cannot capture temporal dynamics. \emph{Interrupted time series} (ITS) analysis~\citep{bernal2017its,wagner2002its} provides temporal assessment but requires manual specification of intervention points and typically analyzes one drug at a time. The \emph{self-controlled case series} (SCCS)~\citep{whitaker2006sccs,cadarette2021sccs} method controls for between-person confounding but is limited to transient exposures and individual-level analysis.
+規制措置が処方パターンに与える影響を評価する現行手法には、いくつかの限界がある。\emph{不均衡分析}手法である比例報告比（PRR）~\citep{evans2001prr}、報告オッズ比（ROR）、およびベイジアン信頼伝播ニューラルネットワーク（BCPNN）~\citep{bate1998bcpnn}は、観察期間全体にわたる集計カウントに基づいて動作し、時間的動態を捕捉できない。\emph{分割時系列}（ITS）分析~\citep{bernal2017its,wagner2002its}は時間的評価を提供するが、介入時点の手動指定が必要であり、通常は一度に一つの薬剤のみを分析する。\emph{自己対照ケースシリーズ}（SCCS）~\citep{whitaker2006sccs,cadarette2021sccs}法は個人間交絡を制御するが、一過性の曝露と個人レベルの分析に限定される。
 
-Meanwhile, data mining approaches have been applied to prescription data. Association rule mining has been used to identify polypharmacy patterns~\citep{carvalho2022apriori,pappa2017polypharmacy}, sequential pattern mining to discover ordered prescription sequences~\citep{wright2015sequential}, and temporal pattern discovery to detect drug--outcome associations~\citep{noren2010temporal,batal2012temporal}. However, none of these methods simultaneously addresses three critical requirements: (i)~detecting \emph{when} specific co-prescription patterns become unusually frequent, (ii)~handling \emph{multiple patterns} simultaneously, and (iii)~\emph{automatically} attributing detected changes to known regulatory events.
+一方、データマイニング手法は処方データに適用されてきた。相関ルールマイニングはポリファーマシーパターンの同定に~\citep{carvalho2022apriori,pappa2017polypharmacy}、系列パターンマイニングは順序付き処方系列の発見に~\citep{wright2015sequential}、時間パターン発見は薬剤--アウトカム関連の検出に~\citep{noren2010temporal,batal2012temporal}用いられてきた。しかし、これらの手法はいずれも以下の3つの重要な要件を同時に満たしていない：(i)~特定の併用処方パターンが異常に高頻度となる\emph{時期}の検出、(ii)~\emph{複数パターン}の同時処理、(iii)~検出された変化の既知の規制イベントへの\emph{自動}帰属。
 
-In this paper, we propose a framework that bridges frequent itemset mining and pharmacovigilance by introducing three methodological contributions:
+本論文では、頻出アイテムセットマイニングとファーマコビジランスを橋渡しするフレームワークを提案し、以下の3つの方法論的貢献を行う：
 
 \begin{enumerate}
-    \item \textbf{Dense prescription interval detection}: We adapt the sliding-window Apriori algorithm to ATC-coded prescription transaction data, enabling automatic identification of time periods where co-prescription patterns become unusually dense.
+    \item \textbf{密集処方区間検出}：スライディングウィンドウ Apriori アルゴリズムを ATC コード付き処方トランザクションデータに適応し、併用処方パターンが異常に密集する期間の自動同定を可能にする。
 
-    \item \textbf{Regulatory event attribution}: We formalize the problem of linking detected density changes to regulatory events using contrast pattern analysis with Welch's $t$-test and Benjamini--Hochberg FDR control.
+    \item \textbf{規制イベント帰属}：コントラストパターン分析と Welch の $t$ 検定および Benjamini--Hochberg 偽発見率制御を用いて、検出された密度変化を規制イベントに結びつける問題を定式化する。
 
-    \item \textbf{Multi-pattern surveillance}: Unlike single-drug methods, our framework simultaneously detects disappearing patterns (targeted drugs declining), emerging patterns (alternative drugs increasing), and stable patterns (unaffected drug classes), providing a comprehensive view of prescribing behavior changes.
+    \item \textbf{マルチパターン監視}：単一薬剤手法とは異なり、本フレームワークは消失パターン（対象薬剤の減少）、出現パターン（代替薬剤の増加）、および安定パターン（影響を受けない薬効群）を同時に検出し、処方行動変化の包括的な全体像を提供する。
 \end{enumerate}
 
-We evaluate the framework on synthetic prescription data modeled after the MIMIC-IV electronic health record structure~\citep{johnson2023mimiciv}, demonstrating its ability to detect clinically meaningful pattern changes around simulated FDA safety communications.
+本フレームワークを MIMIC-IV 電子健康記録の構造に基づく合成処方データ~\citep{johnson2023mimiciv}で評価し、模擬FDA安全性情報前後における臨床的に意味のあるパターン変化を検出する能力を実証する。
 
 % ============================================================
-\section{Related Work}\label{sec:related}
+\section{関連研究}\label{sec:related}
 
-\subsection{Pharmacovigilance Signal Detection}
+\subsection{ファーマコビジランスにおけるシグナル検出}
 
-Spontaneous adverse drug reaction (ADR) reporting systems form the basis of post-marketing drug safety surveillance. The primary analytical methods are disproportionality measures: PRR~\citep{evans2001prr} and ROR compare drug--event frequencies against background rates, while Bayesian methods including BCPNN~\citep{bate1998bcpnn} and the Gamma-Poisson Shrinker (GPS)~\citep{dumouchel1999gps} provide shrinkage-based estimates. Comparative studies~\citep{lee2020comparison} show that frequentist methods (PRR, ROR) tend to have higher sensitivity while Bayesian methods are more conservative. These methods operate on aggregate data and do not capture temporal variation in signal strength.
+自発的副作用（ADR）報告システムは、市販後医薬品安全性監視の基盤を成す。主な分析手法は不均衡指標である：PRR~\citep{evans2001prr}とRORは薬剤--イベント頻度をバックグラウンド率と比較し、BCPNN~\citep{bate1998bcpnn}およびガンマ・ポアソン縮小推定量（GPS）~\citep{dumouchel1999gps}を含むベイズ手法は縮小推定に基づく推定値を提供する。比較研究~\citep{lee2020comparison}では、頻度論的手法（PRR、ROR）は感度が高い傾向にある一方、ベイズ手法はより保守的であることが示されている。これらの手法は集計データに対して動作し、シグナル強度の時間的変動を捕捉しない。
 
-\subsection{Temporal Analysis in Pharmacoepidemiology}
+\subsection{薬剤疫学における時間分析}
 
-Self-controlled designs~\citep{cadarette2021sccs,petersen2016selfcontrolled} compare exposed and unexposed periods within the same individual, controlling for time-stable confounders. SCCS methods require pre-specification of risk windows and are best suited for transient exposures with acute outcomes.
+自己対照デザイン~\citep{cadarette2021sccs,petersen2016selfcontrolled}は、同一個人内の曝露期間と非曝露期間を比較し、時間安定的な交絡因子を制御する。SCCS法はリスクウィンドウの事前指定が必要であり、一過性の曝露と急性アウトカムに最も適している。
 
-Interrupted time series (ITS) analysis~\citep{bernal2017its,jandoc2015its} is the predominant quasi-experimental design for evaluating regulatory interventions. Segmented regression is used in 67\% of ITS studies in drug utilization research~\citep{jandoc2015its}, though the method requires manual specification of intervention time points.
+分割時系列（ITS）分析~\citep{bernal2017its,jandoc2015its}は、規制介入を評価するための準実験デザインとして最も広く用いられている。セグメント回帰は薬剤利用研究におけるITS研究の67\%で使用されている~\citep{jandoc2015its}が、介入時点の手動指定が必要である。
 
-Prescription sequence symmetry analysis (PSSA)~\citep{hallas1996pssa,pratt2015pssa} detects temporal associations between drug initiations but does not address co-prescription density.
+処方順序対称性分析（PSSA）~\citep{hallas1996pssa,pratt2015pssa}は薬剤開始間の時間的関連を検出するが、併用処方密度には対応していない。
 
-\subsection{Prescription Pattern Mining}
+\subsection{処方パターンマイニング}
 
-Association rule mining has been applied to polypharmacy analysis~\citep{carvalho2022apriori,pappa2017polypharmacy,doherty2020polypharmacy}, identifying common drug combinations in specific patient populations. Sequential pattern mining~\citep{wright2015sequential} discovers ordered medication sequences. Temporal pattern discovery~\citep{noren2010temporal,batal2012temporal,landi2020temporal,alonso2023temporal} identifies temporal associations in electronic health records.
+相関ルールマイニングはポリファーマシー分析に適用されており~\citep{carvalho2022apriori,pappa2017polypharmacy,doherty2020polypharmacy}、特定の患者集団における一般的な薬剤の組み合わせを同定している。系列パターンマイニング~\citep{wright2015sequential}は順序付き服薬系列を発見する。時間パターン発見~\citep{noren2010temporal,batal2012temporal,landi2020temporal,alonso2023temporal}は電子健康記録における時間的関連を同定する。
 
-Topic models~\citep{chen2017topic} and representation learning approaches~\citep{jensen2012ehr} have been applied to MIMIC data~\citep{johnson2023mimiciv,gupta2022pipeline} for medication pattern discovery. However, these approaches focus on static patterns or next-prescription prediction rather than temporal density variation.
+トピックモデル~\citep{chen2017topic}および表現学習アプローチ~\citep{jensen2012ehr}は、MIMICデータ~\citep{johnson2023mimiciv,gupta2022pipeline}に対して服薬パターン発見に適用されてきた。しかし、これらのアプローチは静的パターンまたは次回処方予測に焦点を当てており、時間的密度変動は扱っていない。
 
-\subsection{Positioning}
+\subsection{本研究の位置づけ}
 
-Our work differs from existing methods in combining (i)~sliding-window dense interval detection for co-prescription patterns, (ii)~automated attribution to regulatory events across multiple patterns, and (iii)~contrast pattern classification (disappearing vs.\ emerging vs.\ stable). Table~\ref{tab:positioning} summarizes the comparison.
+本研究は、(i)~併用処方パターンに対するスライディングウィンドウ密集区間検出、(ii)~複数パターンにわたる規制イベントへの自動帰属、(iii)~コントラストパターン分類（消失 対 出現 対 安定）を組み合わせる点で既存手法と異なる。表~\ref{tab:positioning}に比較を示す。
 
 \begin{table}[htbp]
 \centering
-\caption{Comparison with existing pharmacovigilance and prescription mining methods.}
+\caption{既存のファーマコビジランスおよび処方マイニング手法との比較}
 \label{tab:positioning}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-Method & Temporal & Multi-drug & Auto-attribution & Dense intervals \\
+手法 & 時間的 & 多剤対応 & 自動帰属 & 密集区間 \\
 \midrule
 PRR / ROR & \texttimes & \texttimes & \texttimes & \texttimes \\
 BCPNN / GPS & \texttimes & \texttimes & \texttimes & \texttimes \\
 SCCS & \checkmark & \texttimes & \texttimes & \texttimes \\
-ITS & \checkmark & \texttimes & Manual & \texttimes \\
+ITS & \checkmark & \texttimes & 手動 & \texttimes \\
 Apriori ARM & \texttimes & \checkmark & \texttimes & \texttimes \\
-Sequential PM & \checkmark & \checkmark & \texttimes & \texttimes \\
-TPD & \checkmark & \texttimes & \texttimes & Partial \\
-\textbf{Ours} & \checkmark & \checkmark & \checkmark & \checkmark \\
+系列PM & \checkmark & \checkmark & \texttimes & \texttimes \\
+TPD & \checkmark & \texttimes & \texttimes & 部分的 \\
+\textbf{提案手法} & \checkmark & \checkmark & \checkmark & \checkmark \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 % ============================================================
-\section{Method}\label{sec:method}
+\section{手法}\label{sec:method}
 
-\subsection{Prescription Transaction Model}
+\subsection{処方トランザクションモデル}
 
-\begin{definition}[Prescription Transaction]
-Let $\mathcal{A}_\ell$ denote the set of ATC codes at hierarchy level $\ell \in \{1, \ldots, 5\}$. A \emph{prescription transaction} $d_t$ at time $t$ is the set of ATC codes prescribed to any patient during time period $t$:
+\begin{definition}[処方トランザクション]
+$\mathcal{A}_\ell$ を階層レベル $\ell \in \{1, \ldots, 5\}$ における ATC コードの集合とする。時刻 $t$ における\emph{処方トランザクション} $d_t$ は、時間期間 $t$ に任意の患者に処方された ATC コードの集合である：
 \[
 d_t = \{\phi_\ell(\text{drug}) : \text{drug} \in \text{Prescriptions}(t)\} \subseteq \mathcal{A}_\ell
 \]
-where $\phi_\ell$ truncates a drug's ATC code to level $\ell$. The transaction sequence is $D = [d_1, \ldots, d_N]$.
+ここで $\phi_\ell$ は薬剤の ATC コードをレベル $\ell$ に切り詰める。トランザクション系列は $D = [d_1, \ldots, d_N]$ である。
 \end{definition}
 
-We use ATC level 3 (pharmacological subgroup) to balance specificity and statistical power. Each time period may correspond to a day, week, or patient visit.
+本研究では、特異性と統計的検出力のバランスを取るため ATC レベル3（薬理サブグループ）を使用する。各時間期間は1日、1週間、または患者の受診に対応しうる。
 
-\subsection{Dense Prescription Interval Detection}
+\subsection{密集処方区間検出}
 
-\begin{definition}[Support Time Series]
-For pattern $P \subseteq \mathcal{A}_\ell$ and window size $W$:
+\begin{definition}[サポート時系列]
+パターン $P \subseteq \mathcal{A}_\ell$ およびウィンドウサイズ $W$ に対して：
 \begin{equation}
 s_P(t) = |\{d_j \in D : t \leq j < t + W, P \subseteq d_j\}|
 \label{eq:support}
 \end{equation}
 \end{definition}
 
-\begin{definition}[Dense Prescription Interval]
-A \emph{dense prescription interval} for pattern $P$ with threshold $\theta$ is a maximal contiguous range $[s, e]$ such that $s_P(t) \geq \theta$ for all $t \in [s, e]$. The set of all such intervals is $\mathcal{D}(P, W, \theta)$.
+\begin{definition}[密集処方区間]
+閾値 $\theta$ に対するパターン $P$ の\emph{密集処方区間}は、すべての $t \in [s, e]$ について $s_P(t) \geq \theta$ を満たす極大連続範囲 $[s, e]$ である。そのような区間の集合を $\mathcal{D}(P, W, \theta)$ とする。
 \end{definition}
 
-We enumerate dense prescription patterns using Algorithm~\ref{alg:dense_mining}, which extends the Apriori frequent itemset mining framework with sliding-window support counting and anti-monotone pruning.
+密集処方パターンの列挙にはアルゴリズム~\ref{alg:dense_mining}を用いる。これは Apriori 頻出アイテムセットマイニングのフレームワークをスライディングウィンドウサポートカウントと反単調枝刈りで拡張したものである。
 
 \begin{algorithm}[htbp]
-\caption{Dense Prescription Pattern Mining}
+\caption{密集処方パターンマイニング}
 \label{alg:dense_mining}
 \begin{algorithmic}[1]
-\Require Transaction sequence $D$, window size $W$, threshold $\theta$, max size $k_{\max}$
-\Ensure Dense patterns $\mathcal{F}$ with their intervals
-\State Build item$\to$transaction map $M$
+\Require トランザクション系列 $D$、ウィンドウサイズ $W$、閾値 $\theta$、最大サイズ $k_{\max}$
+\Ensure 密集パターン $\mathcal{F}$ とその区間
+\State アイテム$\to$トランザクション写像 $M$ を構築
 \State $\mathcal{F} \gets \emptyset$, $L_1 \gets \emptyset$
-\For{each item $i \in \mathcal{A}_\ell$}
+\For{各アイテム $i \in \mathcal{A}_\ell$}
     \State $\mathcal{D}_i \gets \textsc{DenseIntervals}(M[i], W, \theta)$
     \If{$\mathcal{D}_i \neq \emptyset$}
         \State $\mathcal{F}[\{i\}] \gets \mathcal{D}_i$; $L_1 \gets L_1 \cup \{\{i\}\}$
@@ -150,12 +152,12 @@ We enumerate dense prescription patterns using Algorithm~\ref{alg:dense_mining},
 \EndFor
 \For{$k = 2$ \textbf{to} $k_{\max}$}
     \State $C_k \gets \textsc{AprioriGen}(L_{k-1})$
-    \State $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \Comment{Apriori property}
+    \State $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \Comment{Apriori 性質}
     \State $L_k \gets \emptyset$
-    \For{each $P \in C_k$}
-        \State $R \gets \bigcap_{i \in P} \mathcal{D}_i$ \Comment{Singleton interval intersection}
+    \For{各 $P \in C_k$}
+        \State $R \gets \bigcap_{i \in P} \mathcal{D}_i$ \Comment{単独区間の共通部分}
         \If{$R = \emptyset$} \textbf{continue} \EndIf
-        \State $T_P \gets \bigcap_{i \in P} M[i]$ \Comment{Co-occurrence timestamps}
+        \State $T_P \gets \bigcap_{i \in P} M[i]$ \Comment{共起タイムスタンプ}
         \State $\mathcal{D}_P \gets \textsc{DenseIntervals}(T_P, W, \theta)$
         \If{$\mathcal{D}_P \neq \emptyset$}
             \State $\mathcal{F}[P] \gets \mathcal{D}_P$; $L_k \gets L_k \cup \{P\}$
@@ -166,222 +168,230 @@ We enumerate dense prescription patterns using Algorithm~\ref{alg:dense_mining},
 \end{algorithmic}
 \end{algorithm}
 
-The \textsc{DenseIntervals} subroutine uses a cursor-based sweep with the stack-case fix for handling repeated timestamps, achieving $O(N \log N)$ per pattern.
+\textsc{DenseIntervals} サブルーチンは、繰り返しタイムスタンプを処理するためのスタックケース修正を伴うカーソルベースの走査を用い、パターンあたり $O(N \log N)$ を達成する。
 
-\subsection{Regulatory Event Attribution}
+\subsection{規制イベント帰属}
 
-\begin{definition}[Regulatory Event]
-A regulatory event $r = (\text{id}, \text{type}, t_r, \mathcal{I}_r)$ has a unique identifier, type (safety\_alert, boxed\_warning, withdrawal, label\_change), timestamp $t_r$, and targeted drug set $\mathcal{I}_r \subseteq \mathcal{A}_\ell$.
+\begin{definition}[規制イベント]
+規制イベント $r = (\text{id}, \text{type}, t_r, \mathcal{I}_r)$ は、一意の識別子、種別（safety\_alert, boxed\_warning, withdrawal, label\_change）、タイムスタンプ $t_r$、および対象薬剤集合 $\mathcal{I}_r \subseteq \mathcal{A}_\ell$ を持つ。
 \end{definition}
 
-\begin{definition}[Density Change Score]
-For pattern $P$ and event $r$ with lookback parameter $h$:
+\begin{definition}[密度変化スコア]
+パターン $P$ およびイベント $r$ に対し、ルックバックパラメータ $h$ を用いて：
 \begin{equation}
 \Delta(P, r) = \bar{s}_P^{+}(r) - \bar{s}_P^{-}(r)
 \label{eq:delta}
 \end{equation}
-where $\bar{s}_P^{-}(r)$ and $\bar{s}_P^{+}(r)$ are the mean support in the pre-event window $[t_r - h, t_r - 1]$ and post-event window $[t_r, t_r + h - 1]$, respectively.
+ここで $\bar{s}_P^{-}(r)$ および $\bar{s}_P^{+}(r)$ は、それぞれイベント前ウィンドウ $[t_r - h, t_r - 1]$ およびイベント後ウィンドウ $[t_r, t_r + h - 1]$ における平均サポートである。
 \end{definition}
 
-\paragraph{Statistical testing.}
-For each pattern--event pair $(P, r)$, we test $H_0$: $\bar{s}_P^{-}(r) = \bar{s}_P^{+}(r)$ using Welch's $t$-test, which accommodates unequal variances between pre- and post-event periods. With $M = |\mathcal{F}| \times |\mathcal{R}|$ simultaneous hypothesis tests, we control the false discovery rate (FDR) at level $\alpha$ using the Benjamini--Hochberg procedure~\citep{benjamini1995controlling}.
+\paragraph{統計検定}
+各パターン--イベント対 $(P, r)$ に対し、$H_0$: $\bar{s}_P^{-}(r) = \bar{s}_P^{+}(r)$ を Welch の $t$ 検定で検定する。この検定はイベント前後の期間における不等分散に対応する。$M = |\mathcal{F}| \times |\mathcal{R}|$ 個の同時仮説検定に対し、Benjamini--Hochberg 法~\citep{benjamini1995controlling}を用いて偽発見率（FDR）を水準 $\alpha$ で制御する。
 
-\begin{definition}[Contrast Pattern Classification]
-Given significance threshold $\alpha$ and change threshold $\delta$, pattern $P$ is classified relative to event $r$ as:
+\begin{definition}[コントラストパターン分類]
+有意水準閾値 $\alpha$ および変化閾値 $\delta$ のもとで、パターン $P$ はイベント $r$ に対して以下のように分類される：
 \begin{itemize}
-\item \textbf{Disappearing}: $p < \alpha_{\text{BH}}$ and $\Delta(P, r) < -\delta$
-\item \textbf{Emerging}: $p < \alpha_{\text{BH}}$ and $\Delta(P, r) > \delta$
-\item \textbf{Stable}: $p \geq \alpha_{\text{BH}}$ or $|\Delta(P, r)| \leq \delta$
+\item \textbf{消失}：$p < \alpha_{\text{BH}}$ かつ $\Delta(P, r) < -\delta$
+\item \textbf{出現}：$p < \alpha_{\text{BH}}$ かつ $\Delta(P, r) > \delta$
+\item \textbf{安定}：$p \geq \alpha_{\text{BH}}$ または $|\Delta(P, r)| \leq \delta$
 \end{itemize}
-where $\alpha_{\text{BH}}$ is the BH-adjusted significance threshold.
+ここで $\alpha_{\text{BH}}$ は BH 調整後の有意水準閾値である。
 \end{definition}
 
-\subsection{Computational Complexity}
+\subsection{計算量}
 
 \begin{proposition}
-Let $n = |\mathcal{A}_\ell|$, $N$ the number of transactions, and $|\mathcal{F}|$ the number of frequent patterns. The total complexity is:
+$n = |\mathcal{A}_\ell|$、$N$ をトランザクション数、$|\mathcal{F}|$ を頻出パターン数とする。全体の計算量は：
 \[
 O\bigl(|\mathcal{F}|^2 + |\mathcal{F}| \cdot N \log N + |\mathcal{F}| \cdot |\mathcal{R}| \cdot h\bigr)
 \]
-where the three terms correspond to candidate generation, dense interval detection, and contrast analysis, respectively.
+ここで3つの項はそれぞれ候補生成、密集区間検出、コントラスト分析に対応する。
 \end{proposition}
 
 % ============================================================
-\section{Experimental Setup}\label{sec:experiments}
+\section{実験設定}\label{sec:experiments}
 
-\subsection{Synthetic Prescription Data}
+\subsection{合成処方データ}
 
-We generate synthetic prescription data mimicking MIMIC-IV structure. The MIMIC-IV database~\citep{johnson2023mimiciv} contains de-identified EHR data from Beth Israel Deaconess Medical Center, including prescriptions, pharmacy orders, and medication administration records. Since MIMIC-IV access requires credentialing, we generate synthetic data with matched statistical properties.
+MIMIC-IV の構造を模した合成処方データを生成する。MIMIC-IV データベース~\citep{johnson2023mimiciv}は、Beth Israel Deaconess Medical Center の非識別化された電子健康記録データを含み、処方、薬局オーダー、および投薬管理記録を含む。MIMIC-IV へのアクセスには資格認定が必要であるため、統計的性質を一致させた合成データを生成する。
 
-\paragraph{Data generation.}
-We create $N = 1{,}000$ transaction records over 19 unique ATC level-3 drug classes spanning cardiovascular (C03A--C10A), analgesic/anti-inflammatory (M01A, N02A, N02B), diabetes (A10A, A10B), antibiotic (J01C--J01M), and other categories (A02B, N06A, N05B, B01A). Individual drugs appear with probability $p_{\text{single}} = 0.35$ and co-prescription patterns (9 clinically realistic combinations) with probability $p_{\text{pattern}} = 0.20$.
+\paragraph{データ生成}
+心血管系（C03A--C10A）、鎮痛・抗炎症薬（M01A, N02A, N02B）、糖尿病（A10A, A10B）、抗菌薬（J01C--J01M）、およびその他のカテゴリ（A02B, N06A, N05B, B01A）にまたがる19の ATC レベル3 薬効分類について、$N = 1{,}000$ 件のトランザクションレコードを生成する。個別薬剤の出現確率は $p_{\text{single}} = 0.35$、併用処方パターン（臨床的に現実的な9つの組み合わせ）の出現確率は $p_{\text{pattern}} = 0.20$ とする。
 
-\paragraph{Regulatory events.}
-Two simulated FDA safety communications are embedded:
+\paragraph{規制イベント}
+2件の模擬FDA安全性情報を埋め込む：
 \begin{itemize}
-\item \textbf{FDA-2024-001} ($t = 333$): Boxed warning for concurrent opioid (N02A) and benzodiazepine (N05B) use; effect magnitude 0.85 (85\% reduction in co-prescription probability).
-\item \textbf{FDA-2024-002} ($t = 666$): Safety alert for fluoroquinolone (J01M) tendon rupture risk; effect magnitude 0.80.
+\item \textbf{FDA-2024-001}（$t = 333$）：オピオイド（N02A）とベンゾジアゼピン（N05B）の併用に対する枠囲み警告。効果量 0.85（併用処方確率の85\%減少）。
+\item \textbf{FDA-2024-002}（$t = 666$）：フルオロキノロン（J01M）の腱断裂リスクに対する安全性アラート。効果量 0.80。
 \end{itemize}
 
-\subsection{Experiments}
+\subsection{実験}
 
-\paragraph{E1: Dense pattern detection.}
-Mine all dense prescription patterns with $W = 30$, $\theta = 5$, and $k_{\max} = 4$. Report pattern counts by size and total dense intervals.
+\paragraph{E1: 密集パターン検出}
+$W = 30$、$\theta = 5$、$k_{\max} = 4$ で全密集処方パターンをマイニングする。パターンサイズ別のカウントおよび密集区間の総数を報告する。
 
-\paragraph{E2: Regulatory event contrast.}
-For all size-2 and size-3 patterns, compute the density change score $\Delta(P, r)$ around each regulatory event with lookback $h = 100$. Apply Welch's $t$-test with BH correction at $\alpha = 0.10$. Classify patterns as disappearing, emerging, or stable.
+\paragraph{E2: 規制イベントコントラスト}
+全てのサイズ2およびサイズ3パターンに対し、各規制イベント前後のルックバック $h = 100$ で密度変化スコア $\Delta(P, r)$ を計算する。$\alpha = 0.10$ で BH 補正付き Welch の $t$ 検定を適用し、パターンを消失・出現・安定に分類する。
 
-\paragraph{E3: Parameter sensitivity.}
-Vary window size $W \in \{10, 20, 30, 50, 80\}$ and threshold $\theta \in \{3, 5, 8, 10\}$ to assess parameter sensitivity.
+\paragraph{E3: パラメータ感度分析}
+ウィンドウサイズ $W \in \{10, 20, 30, 50, 80\}$ および閾値 $\theta \in \{3, 5, 8, 10\}$ を変化させ、パラメータ感度を評価する。
 
-\paragraph{E4: Multi-drug-class analysis.}
-Apply the framework separately to three drug class scenarios---cardiovascular (statin hepatotoxicity warning), pain management (opioid--benzodiazepine warning), and antibiotics (fluoroquinolone warning)---each with a dedicated regulatory event.
+\paragraph{E4: 多薬効群分析}
+フレームワークを3つの薬効群シナリオ――心血管系（スタチン肝毒性警告）、疼痛管理（オピオイド--ベンゾジアゼピン警告）、抗菌薬（フルオロキノロン警告）――にそれぞれ専用の規制イベントを伴って個別に適用する。
 
 % ============================================================
-\section{Results}\label{sec:results}
+\section{結果}\label{sec:results}
 
-\subsection{E1: Dense Pattern Detection}
+\subsection{E1: 密集パターン検出}
 
-The framework detected 3{,}100 dense prescription patterns from 1{,}000 transactions (Table~\ref{tab:e1}). The majority of patterns are size-4 (1{,}992), followed by size-3 (918) and size-2 (171), reflecting the combinatorial nature of co-prescription analysis. Only 19 singleton patterns exhibited dense intervals, indicating that most individual drugs are prescribed consistently throughout the observation period.
+本フレームワークは1{,}000件のトランザクションから3{,}100件の密集処方パターンを検出した（表~\ref{tab:e1}）。パターンの大半はサイズ4（1{,}992件）であり、サイズ3（918件）、サイズ2（171件）がそれに続き、併用処方分析の組み合わせ的性質を反映している。密集区間を示した単独パターンは19件のみであり、大部分の個別薬剤が観察期間を通じて一貫して処方されていることを示す。
 
 \begin{table}[htbp]
 \centering
-\caption{E1: Dense prescription patterns by size ($W = 30$, $\theta = 5$).}
+\caption{E1: サイズ別の密集処方パターン（$W = 30$、$\theta = 5$）}
 \label{tab:e1}
 \begin{tabular}{@{}lrr@{}}
 \toprule
-Pattern size & Count & Example \\
+パターンサイズ & 件数 & 例 \\
 \midrule
-1 (singleton) & 19 & \{C10A\} (Statins) \\
-2 (pair) & 171 & \{C09A, C10A\} (ACE inh. + Statin) \\
-3 (triple) & 918 & \{A10B, C07A, C10A\} (Antidiab. + $\beta$-blocker + Statin) \\
-4 (quadruple) & 1{,}992 & \{A10A, A10B, C07A, C10A\} \\
+1（単独） & 19 & \{C10A\}（スタチン） \\
+2（ペア） & 171 & \{C09A, C10A\}（ACE阻害薬 + スタチン） \\
+3（トリプル） & 918 & \{A10B, C07A, C10A\}（糖尿病薬 + $\beta$遮断薬 + スタチン） \\
+4（クアドラプル） & 1{,}992 & \{A10A, A10B, C07A, C10A\} \\
 \midrule
-\textbf{Total} & \textbf{3{,}100} & \\
+\textbf{合計} & \textbf{3{,}100} & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Total computation time was 1{,}051~ms for pattern detection, demonstrating practical scalability.
+パターン検出の総計算時間は1{,}051ミリ秒であり、実用的なスケーラビリティを実証している。
 
-\subsection{E2: Regulatory Event Contrast Patterns}
+\subsection{E2: 規制イベントコントラストパターン}
 
-Among 2{,}178 pattern--event pair tests (1{,}089 patterns $\times$ 2 events), the framework identified 856 disappearing, 601 emerging, and 721 stable patterns after BH correction at $\alpha = 0.10$ (Table~\ref{tab:e2}).
+2{,}178件のパターン--イベント対検定（1{,}089パターン $\times$ 2イベント）のうち、$\alpha = 0.10$ での BH 補正後に856件の消失パターン、601件の出現パターン、721件の安定パターンが同定された（表~\ref{tab:e2}）。
 
 \begin{table}[htbp]
 \centering
-\caption{E2: Contrast pattern classification across two regulatory events.}
+\caption{E2: 2件の規制イベントにわたるコントラストパターン分類}
 \label{tab:e2}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-Classification & Count & Targeted & Non-targeted \\
+分類 & 件数 & 対象薬含有 & 非対象薬 \\
 \midrule
-Disappearing & 856 & 295 & 561 \\
-Emerging & 601 & --- & 601 \\
-Stable & 721 & --- & 721 \\
+消失 & 856 & 295 & 561 \\
+出現 & 601 & --- & 601 \\
+安定 & 721 & --- & 721 \\
 \midrule
-Total & 2{,}178 & & \\
+合計 & 2{,}178 & & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Of the 856 disappearing patterns, 295 (34.5\%) directly contained the targeted drug(s)---a strong validation signal. The remaining 561 disappearing patterns reflect \emph{cascade effects}: when a targeted drug's prescription declines, co-prescription patterns involving that drug and other drugs also decline. This cascading behavior is a known phenomenon in pharmacoepidemiology but has not previously been captured by automated methods.
+856件の消失パターンのうち295件（34.5\%）が対象薬剤を直接含んでおり、強い検証シグナルとなっている。残りの561件の消失パターンは\emph{カスケード効果}を反映している：対象薬剤の処方が減少すると、その薬剤と他の薬剤を含む併用処方パターンも減少する。このカスケード現象は薬剤疫学で知られているが、自動化手法で捕捉されたことはこれまでなかった。
 
-Selected high-impact contrast patterns for FDA-2024-001 (opioid--benzodiazepine boxed warning at $t = 333$) are shown in Table~\ref{tab:contrast_examples}.
+FDA-2024-001（$t = 333$ におけるオピオイド--ベンゾジアゼピン枠囲み警告）の代表的な高影響コントラストパターンを表~\ref{tab:contrast_examples}に示す。
 
 \begin{table}[htbp]
 \centering
-\caption{Selected contrast patterns for FDA-2024-001 (boxed warning).}
+\caption{FDA-2024-001（枠囲み警告）の代表的コントラストパターン}
 \label{tab:contrast_examples}
 \begin{tabular}{@{}llrrrl@{}}
 \toprule
-Pattern & ATC Description & $\bar{s}^{-}$ & $\bar{s}^{+}$ & $\Delta$ & Class \\
+パターン & ATC 記述 & $\bar{s}^{-}$ & $\bar{s}^{+}$ & $\Delta$ & 分類 \\
 \midrule
-\{N02A, N05B\} & Opioid + Benzo & 6.14 & 2.72 & $-3.42$ & Disapp. \\
-\{N02A, N02B\} & Opioid + Analgesic & 5.80 & 3.10 & $-2.70$ & Disapp. \\
-\{A10B, C10A\} & Antidiab. + Statin & 8.22 & 8.85 & $+0.63$ & Emerging \\
+\{N02A, N05B\} & オピオイド + ベンゾ & 6.14 & 2.72 & $-3.42$ & 消失 \\
+\{N02A, N02B\} & オピオイド + 鎮痛薬 & 5.80 & 3.10 & $-2.70$ & 消失 \\
+\{A10B, C10A\} & 糖尿病薬 + スタチン & 8.22 & 8.85 & $+0.63$ & 出現 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E3: Parameter Sensitivity}
+\subsection{E3: パラメータ感度}
 
-Figure~\ref{fig:sensitivity} shows the number of detected patterns as a function of window size $W$ and threshold $\theta$. The pattern count exhibits expected monotonic behavior: increasing $W$ or decreasing $\theta$ yields more patterns. Notably, the transition is sharp for small windows ($W = 10$): threshold $\theta = 10$ yields only 10 patterns, while $\theta = 3$ yields 1{,}145. For larger windows ($W \geq 50$), the count plateaus because most patterns appear at least $\theta$ times within any 50-transaction window.
+図~\ref{fig:sensitivity}に、ウィンドウサイズ $W$ と閾値 $\theta$ の関数としての検出パターン数を示す。パターン数は予想される単調的挙動を示す：$W$ の増加または $\theta$ の減少によりパターン数が増加する。特筆すべきは、小さなウィンドウ（$W = 10$）での遷移が急峻であることである：閾値 $\theta = 10$ ではわずか10パターンであるのに対し、$\theta = 3$ では1{,}145パターンとなる。大きなウィンドウ（$W \geq 50$）では、大部分のパターンが任意の50トランザクションウィンドウ内に少なくとも $\theta$ 回出現するため、カウントは頭打ちとなる。
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\linewidth]{../experiments/figures/fig2_sensitivity_heatmap.png}
-\caption{Number of dense patterns by window size $W$ and threshold $\theta$.}
+\caption{ウィンドウサイズ $W$ と閾値 $\theta$ による密集パターン数}
 \label{fig:sensitivity}
 \end{figure}
 
-The recommended parameter setting for pharmacoepidemiological applications is $W = 30$, $\theta = 5$--$8$, which provides a clinically interpretable number of patterns (280--1{,}094) corresponding to approximately monthly prescription windows.
+薬剤疫学的応用に推奨されるパラメータ設定は $W = 30$、$\theta = 5$--$8$ であり、おおよそ月次処方ウィンドウに対応する臨床的に解釈可能なパターン数（280--1{,}094件）を提供する。
 
-\subsection{E4: Multi-Drug-Class Analysis}
+\subsection{E4: 多薬効群分析}
 
-Table~\ref{tab:e4} shows results across three drug class scenarios, each with a dedicated regulatory event (effect magnitude = 0.85).
+表~\ref{tab:e4}に、3つの薬効群シナリオの結果を示す。各シナリオには専用の規制イベント（効果量 = 0.85）が設定されている。
 
 \begin{table}[htbp]
 \centering
-\caption{E4: Cross-class contrast analysis results.}
+\caption{E4: クロスクラスコントラスト分析結果}
 \label{tab:e4}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-Drug Class & Patterns & Disappearing & Emerging & Stable \\
+薬効群 & パターン数 & 消失 & 出現 & 安定 \\
 \midrule
-Cardiovascular & 1{,}087 & 145 & 3 & 939 \\
-Pain Management & 1{,}096 & 182 & 36 & 878 \\
-Antibiotics & 1{,}094 & 53 & 51 & 990 \\
+心血管系 & 1{,}087 & 145 & 3 & 939 \\
+疼痛管理 & 1{,}096 & 182 & 36 & 878 \\
+抗菌薬 & 1{,}094 & 53 & 51 & 990 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The pain management scenario (opioid--benzodiazepine warning) shows the strongest response with 182 disappearing patterns, consistent with the high clinical urgency of this safety communication. The cardiovascular scenario (statin warning) produces the most asymmetric response: 145 disappearing but only 3 emerging, suggesting limited therapeutic alternatives. The antibiotic scenario shows a more balanced response with roughly equal disappearing (53) and emerging (51) patterns, reflecting substitution between fluoroquinolones and alternative antibiotic classes.
+疼痛管理シナリオ（オピオイド--ベンゾジアゼピン警告）は182件の消失パターンで最も強い応答を示しており、この安全性情報の臨床的緊急性の高さと一致する。心血管系シナリオ（スタチン警告）は最も非対称な応答を示す：145件の消失に対しわずか3件の出現であり、治療的代替手段が限られていることを示唆する。抗菌薬シナリオは、消失（53件）と出現（51件）がほぼ同数のよりバランスの取れた応答を示し、フルオロキノロンと代替抗菌薬クラス間の置換を反映している。
 
 % ============================================================
-\section{Discussion}\label{sec:discussion}
+\section{議論}\label{sec:discussion}
 
-\subsection{Clinical Implications}
+\subsection{臨床的含意}
 
-Our framework provides several advantages for pharmacoepidemiological surveillance:
+本フレームワークは薬剤疫学的監視にいくつかの利点を提供する：
 
-\paragraph{Automated multi-pattern detection.} Unlike ITS, which requires pre-specification of a single drug and intervention point, our method simultaneously monitors all co-prescription patterns and can detect unexpected cascading effects. The finding that 65.5\% of disappearing patterns were \emph{not} directly targeted by the regulatory event highlights the importance of monitoring indirect effects.
+\paragraph{自動マルチパターン検出}
+単一の薬剤と介入時点の事前指定を必要とする ITS とは異なり、本手法はすべての併用処方パターンを同時に監視し、予期しないカスケード効果を検出できる。消失パターンの65.5\%が規制イベントの直接的対象では\emph{なかった}という知見は、間接的影響の監視の重要性を浮き彫りにしている。
 
-\paragraph{Contrast pattern taxonomy.} The disappearing--emerging--stable classification provides actionable intelligence for drug safety monitoring. Disappearing patterns may indicate desired prescriber behavior change; emerging patterns may signal compensatory prescribing that warrants monitoring for its own safety profile; stable patterns serve as negative controls.
+\paragraph{コントラストパターン分類}
+消失--出現--安定の分類は、医薬品安全性監視のための実行可能な情報を提供する。消失パターンは望ましい処方者の行動変容を示す可能性がある。出現パターンは、それ自体の安全性プロファイルについて監視が必要な代償的処方を示す可能性がある。安定パターンは陰性対照として機能する。
 
-\paragraph{Parameter interpretability.} The window size $W$ directly corresponds to a clinical monitoring period (e.g., $W = 30$ for monthly monitoring), and the threshold $\theta$ controls the minimum co-prescription frequency of interest.
+\paragraph{パラメータの解釈可能性}
+ウィンドウサイズ $W$ は臨床的監視期間に直接対応し（例：$W = 30$ で月次監視）、閾値 $\theta$ は関心のある最小併用処方頻度を制御する。
 
-\subsection{Limitations}
+\subsection{限界}
 
-\paragraph{Synthetic data.} Our evaluation uses synthetic data rather than real MIMIC-IV prescriptions. While the data generation model captures key features (ATC-coded drugs, temporal structure, regulatory event effects), real prescription data exhibit additional complexities including seasonal patterns, provider-level variation, and indication-based confounding.
+\paragraph{合成データ}
+本評価は実際のMIMIC-IV処方データではなく合成データを使用している。データ生成モデルは主要な特徴（ATCコード付き薬剤、時間構造、規制イベント効果）を捕捉しているが、実際の処方データは季節パターン、医療提供者レベルの変動、適応に基づく交絡など追加の複雑性を示す。
 
-\paragraph{Confounding.} The current framework does not control for time-varying confounders such as disease prevalence changes, formulary modifications, or marketing activities that may coincide with regulatory events.
+\paragraph{交絡}
+現在のフレームワークは、規制イベントと同時期に発生しうる疾病有病率の変化、処方集（フォーミュラリ）の変更、マーケティング活動などの時間変動交絡因子を制御していない。
 
-\paragraph{Scalability.} With 19 drug classes, the number of candidate patterns grows combinatorially. Larger drug vocabularies (e.g., ATC level 5 with hundreds of chemicals) would require additional pruning strategies or sampling approaches.
+\paragraph{スケーラビリティ}
+19の薬効分類では、候補パターン数は組み合わせ的に増加する。より大きな薬剤語彙（例：数百の化学物質を含む ATC レベル5）では、追加の枝刈り戦略またはサンプリングアプローチが必要となる。
 
-\paragraph{Causal interpretation.} The density change score measures association, not causation. Even with BH-corrected significance, observed changes could be due to temporal confounders rather than the regulatory event itself. Complementary causal inference methods (e.g., instrumental variables, difference-in-differences) should be applied for causal claims.
+\paragraph{因果的解釈}
+密度変化スコアは関連を測定するものであり、因果関係ではない。BH 補正付きの有意性をもってしても、観察された変化は規制イベントそのものではなく時間的交絡因子によるものである可能性がある。因果的主張のためには、補完的な因果推論手法（例：操作変数法、差分の差分法）を適用すべきである。
 
-\subsection{Future Work}
+\subsection{今後の展望}
 
-Three directions are particularly promising:
+以下の3つの方向性が特に有望である：
 \begin{enumerate}
-\item \textbf{Real-data validation}: Apply the framework to MIMIC-IV prescription data with documented FDA safety communications to assess performance on real EHR data.
-\item \textbf{Causal attribution}: Integrate difference-in-differences or synthetic control methods to strengthen causal claims about regulatory event effects.
-\item \textbf{Online monitoring}: Adapt the sliding-window approach for real-time pharmacovigilance, where new transactions arrive continuously and dense interval boundaries are updated incrementally.
+\item \textbf{実データによる検証}：文書化されたFDA安全性情報を伴うMIMIC-IV処方データにフレームワークを適用し、実際の電子健康記録データでの性能を評価する。
+\item \textbf{因果帰属}：差分の差分法または合成対照法を統合し、規制イベント効果に関する因果的主張を強化する。
+\item \textbf{オンライン監視}：新しいトランザクションが継続的に到着し、密集区間境界が逐次更新されるリアルタイムファーマコビジランスに向けてスライディングウィンドウアプローチを適応させる。
 \end{enumerate}
 
 % ============================================================
-\section{Conclusion}\label{sec:conclusion}
+\section{結論}\label{sec:conclusion}
 
-We presented a framework for detecting dense prescription patterns and attributing density changes to regulatory events. The method combines sliding-window Apriori mining with contrast pattern analysis and FDR-controlled statistical testing. On synthetic pharmacoepidemiological data, the framework successfully identified 3{,}100 dense patterns, detected 1{,}457 significant contrast patterns around simulated FDA safety communications, and revealed cascading effects where 65.5\% of disappearing patterns were indirectly affected. The framework provides a complementary tool for pharmacovigilance that operates at the co-prescription level, offering multi-pattern surveillance capabilities not available in existing methods.
+本研究では、密集処方パターンを検出し、密度変化を規制イベントに帰属させるフレームワークを提示した。本手法はスライディングウィンドウ Apriori マイニングとコントラストパターン分析および FDR 制御付き統計検定を組み合わせている。合成薬剤疫学データにおいて、本フレームワークは3{,}100件の密集パターンを同定し、模擬FDA安全性情報前後で1{,}457件の有意なコントラストパターンを検出し、消失パターンの65.5\%が間接的に影響を受けたカスケード効果を明らかにした。本フレームワークは、併用処方レベルで動作し、既存手法にはないマルチパターン監視機能を提供する、ファーマコビジランスのための補完的ツールを提供する。
 
 % ============================================================
-\section*{Acknowledgments}
+\section*{謝辞}
 \small
-Computations were performed using the Apriori-Window Suite framework. Synthetic data generation was modeled after the MIMIC-IV EHR structure~\citep{johnson2023mimiciv}.
+計算は Apriori-Window Suite フレームワークを用いて実施した。合成データ生成は MIMIC-IV 電子健康記録構造~\citep{johnson2023mimiciv}をモデルとした。
 
 % ============================================================
 \bibliographystyle{plainnat}
 \bibliography{../research/refs}
 
+\end{CJK}
 \end{document}

@@ -1,0 +1,240 @@
+\begin{thebibliography}{27}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alonso~Moral et~al.(2023)Alonso~Moral, Bermejo-Lopez, and
+  Steyerberg]{alonso2023temporal}
+Alvaro Alonso~Moral, Patricia Bermejo-Lopez, and Ewout Steyerberg.
+\newblock Acquisition of temporal patterns from electronic health records: an
+  application to multimorbid patients.
+\newblock \emph{BMC Medical Informatics and Decision Making}, 23:\penalty0 204,
+  2023.
+\newblock \doi{10.1186/s12911-023-02287-0}.
+
+\bibitem[Batal et~al.(2013)Batal, Valizadegan, Cooper, and
+  Hauskrecht]{batal2012temporal}
+Iyad Batal, Hamed Valizadegan, Gregory~F. Cooper, and Milos Hauskrecht.
+\newblock A temporal pattern mining approach for classifying electronic health
+  record data.
+\newblock In \emph{ACM Transactions on Intelligent Systems and Technology},
+  volume~4, pages 1--22, 2013.
+\newblock \doi{10.1145/2508037.2508044}.
+
+\bibitem[Bate et~al.(1998)Bate, Lindquist, Edwards, Olsson, Orre, Lansner, and
+  De~Freitas]{bate1998bcpnn}
+Andrew Bate, Marie Lindquist, I.~Ralph Edwards, Sten Olsson, Roland Orre,
+  Anders Lansner, and Ronaldo~Mendes De~Freitas.
+\newblock A {Bayesian} neural network method for adverse drug reaction signal
+  generation.
+\newblock \emph{European Journal of Clinical Pharmacology}, 54\penalty0
+  (4):\penalty0 315--321, 1998.
+\newblock \doi{10.1007/s002280050466}.
+
+\bibitem[Benjamini and Hochberg(1995)]{benjamini1995controlling}
+Yoav Benjamini and Yosef Hochberg.
+\newblock Controlling the false discovery rate: A practical and powerful
+  approach to multiple testing.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  57\penalty0 (1):\penalty0 289--300, 1995.
+\newblock \doi{10.1111/j.2517-6161.1995.tb02031.x}.
+
+\bibitem[Bernal et~al.(2017)Bernal, Cummins, and Gasparrini]{bernal2017its}
+James~Lopez Bernal, Steven Cummins, and Antonio Gasparrini.
+\newblock Interrupted time series regression for the evaluation of public
+  health interventions: a tutorial.
+\newblock \emph{International Journal of Epidemiology}, 46\penalty0
+  (1):\penalty0 348--355, 2017.
+\newblock \doi{10.1093/ije/dyw098}.
+
+\bibitem[Cadarette and Kim(2021)]{cadarette2021sccs}
+Suzanne~M. Cadarette and Jennifer Kim.
+\newblock Control yourself: {ISPE}-endorsed guidance in the application of
+  self-controlled study designs in pharmacoepidemiology.
+\newblock \emph{Pharmacoepidemiology and Drug Safety}, 30\penalty0
+  (6):\penalty0 671--684, 2021.
+\newblock \doi{10.1002/pds.5227}.
+
+\bibitem[Carvalho et~al.(2023)Carvalho, Delaney, Engeland, Furu, Sund, and
+  Wishart]{carvalho2022apriori}
+Jessica~N. Carvalho, Joseph~A. Delaney, Anders Engeland, Kari Furu, Erik~R.
+  Sund, and David~S. Wishart.
+\newblock Identification of polypharmacy patterns in new-users of metformin
+  using the {Apriori} algorithm.
+\newblock \emph{Pharmacoepidemiology and Drug Safety}, 32\penalty0
+  (4):\penalty0 425--436, 2023.
+\newblock \doi{10.1002/pds.5581}.
+
+\bibitem[Chen et~al.(2017)Chen, Ghosh, Bejan, Gunter, Gupta, Kho, Liebovitz,
+  Sun, Denny, and Malin]{chen2017topic}
+Ying Chen, Joydeep Ghosh, Cosmin~A. Bejan, Carl~A. Gunter, Saurabh Gupta, Abel
+  Kho, David Liebovitz, Jimeng Sun, Joshua Denny, and Bradley Malin.
+\newblock Identifying prescription patterns with a topic model of diseases and
+  medications.
+\newblock \emph{Journal of Biomedical Informatics}, 73:\penalty0 203--217,
+  2017.
+\newblock \doi{10.1016/j.jbi.2017.08.003}.
+
+\bibitem[Doherty et~al.(2020)Doherty, Sharma, and
+  Dong]{doherty2020polypharmacy}
+Aiden~J. Doherty, Bhanu Sharma, and Xiao Dong.
+\newblock Big data analysis techniques to address polypharmacy in patients -- a
+  scoping review.
+\newblock \emph{Briefings in Bioinformatics}, 21\penalty0 (6):\penalty0
+  1964--1976, 2020.
+\newblock \doi{10.1093/bib/bbz150}.
+
+\bibitem[DuMouchel(1999)]{dumouchel1999gps}
+William DuMouchel.
+\newblock Bayesian data mining in large frequency tables, with an application
+  to the {FDA} spontaneous reporting system.
+\newblock \emph{The American Statistician}, 53\penalty0 (3):\penalty0 177--190,
+  1999.
+\newblock \doi{10.1080/00031305.1999.10474456}.
+
+\bibitem[Dusetzina et~al.(2012)Dusetzina, Higashi, Dorsey, Conti, Huskamp, Zhu,
+  Garfield, and Alexander]{dusetzina2012fda}
+Stacie~B. Dusetzina, Andrea~S. Higashi, E.~Ray Dorsey, Rena Conti, Haiden~A.
+  Huskamp, Shu Zhu, Craig~F. Garfield, and G.~Caleb Alexander.
+\newblock Impact of {FDA} drug risk communications on health care utilization
+  and health behaviors: a systematic review.
+\newblock \emph{Medical Care}, 50\penalty0 (6):\penalty0 466--478, 2012.
+\newblock \doi{10.1097/MLR.0b013e318245a160}.
+
+\bibitem[Evans et~al.(2001)Evans, Waller, and Davis]{evans2001prr}
+Stephen J.~W. Evans, Patrick~C. Waller, and S.~Davis.
+\newblock Use of proportional reporting ratios ({PRR}s) for signal generation
+  from spontaneous adverse drug reaction reports.
+\newblock \emph{Pharmacoepidemiology and Drug Safety}, 10\penalty0
+  (6):\penalty0 483--486, 2001.
+\newblock \doi{10.1002/pds.677}.
+
+\bibitem[Gupta et~al.(2022)Gupta, Gallamoza, Cuber, Moody, Farah,
+  Srisuwananukorn, and Koenig]{gupta2022pipeline}
+Mehak Gupta, Brennan Gallamoza, Nicolas Cuber, Benjamin Moody, Dominic Farah,
+  Andrew Srisuwananukorn, and Alexander Koenig.
+\newblock An extensive data processing pipeline for {MIMIC-IV}.
+\newblock \emph{Machine Learning for Health (ML4H)}, 2022.
+\newblock \doi{10.48550/arXiv.2204.13841}.
+
+\bibitem[Hallas(1996)]{hallas1996pssa}
+Jesper Hallas.
+\newblock Evidence of depression provoked by cardiovascular medication: a
+  prescription sequence symmetry analysis.
+\newblock \emph{Epidemiology}, 7\penalty0 (5):\penalty0 478--484, 1996.
+
+\bibitem[Jandoc et~al.(2015)Jandoc, Burden, Mamdani, Levesque, and
+  Cadarette]{jandoc2015its}
+Racquel Jandoc, Andrea~M. Burden, Muhammad Mamdani, Linda~E. Levesque, and
+  Suzanne~M. Cadarette.
+\newblock Interrupted time series analysis in drug utilization research is
+  increasing: systematic review and recommendations.
+\newblock \emph{Journal of Clinical Epidemiology}, 68\penalty0 (8):\penalty0
+  950--956, 2015.
+\newblock \doi{10.1016/j.jclinepi.2014.12.018}.
+
+\bibitem[Jensen et~al.(2012)Jensen, Jensen, and Brunak]{jensen2012ehr}
+Peter~B. Jensen, Lars~J. Jensen, and S{\o}ren Brunak.
+\newblock Mining electronic health records: towards better research
+  applications and clinical care.
+\newblock \emph{Nature Reviews Genetics}, 13\penalty0 (6):\penalty0 395--405,
+  2012.
+\newblock \doi{10.1038/nrg3208}.
+
+\bibitem[Johnson et~al.(2023)Johnson, Bulgarelli, Shen, Gayles, Shammout,
+  Horng, Pollard, Hao, Moody, Gow, Lehman, Celi, and Mark]{johnson2023mimiciv}
+Alistair E.~W. Johnson, Lucas Bulgarelli, Lu~Shen, Alvin Gayles, Ayad Shammout,
+  Steven Horng, Tom~J. Pollard, Sicheng Hao, Benjamin Moody, Brian Gow,
+  Li-wei~H. Lehman, Leo~A. Celi, and Roger~G. Mark.
+\newblock {MIMIC-IV}, a freely accessible electronic health record dataset.
+\newblock \emph{Scientific Data}, 10:\penalty0 1, 2023.
+\newblock \doi{10.1038/s41597-022-01899-x}.
+
+\bibitem[Landi et~al.(2020)Landi, Camacho-Rivera, et~al.]{landi2020temporal}
+Isotta Landi, Marlene Camacho-Rivera, et~al.
+\newblock Temporal condition pattern mining in large, sparse electronic health
+  record data: A case study in characterizing pediatric asthma.
+\newblock \emph{Journal of the American Medical Informatics Association},
+  27\penalty0 (4):\penalty0 558--566, 2020.
+\newblock \doi{10.1093/jamia/ocaa005}.
+
+\bibitem[Lee et~al.(2020)Lee, Choi, Kim, Kim, Lee, Park, and
+  Yoon]{lee2020comparison}
+Suehyun Lee, Jungmi Choi, Ho-Su Kim, Gippeum~Jo Kim, Kyoung~Hoon Lee, Chan~Hyuk
+  Park, and Sukhyang Yoon.
+\newblock Comparison of data mining methods for the signal detection of adverse
+  drug events with a hierarchical structure in postmarketing surveillance.
+\newblock \emph{Life}, 10\penalty0 (8):\penalty0 138, 2020.
+\newblock \doi{10.3390/life10080138}.
+
+\bibitem[Marcum and Hanlon(2012)]{marcum2012fda}
+Zachary~A. Marcum and Joseph~T. Hanlon.
+\newblock {FDA} drug safety communications: A narrative review and clinical
+  considerations for older adults.
+\newblock \emph{Drugs and Aging}, 29\penalty0 (4):\penalty0 235--245, 2012.
+\newblock \doi{10.2165/11599590-000000000-00000}.
+
+\bibitem[Nor{\'e}n et~al.(2010)Nor{\'e}n, Hopstadius, Bate, Star, and
+  Edwards]{noren2010temporal}
+G.~Niklas Nor{\'e}n, Johan Hopstadius, Andrew Bate, Kristina Star, and I.~Ralph
+  Edwards.
+\newblock Temporal pattern discovery in longitudinal electronic patient
+  records.
+\newblock \emph{Data Mining and Knowledge Discovery}, 20\penalty0 (3):\penalty0
+  361--387, 2010.
+\newblock \doi{10.1007/s10618-009-0152-3}.
+
+\bibitem[Pappa et~al.(2017)Pappa, Kontodimopoulos, Papadopoulos, and
+  Niakas]{pappa2017polypharmacy}
+Eleni Pappa, Nick Kontodimopoulos, Angelos~A. Papadopoulos, and Dimitris
+  Niakas.
+\newblock Polypharmacy in older adults: Association rule and frequent-set
+  analysis to evaluate concomitant medication use.
+\newblock \emph{Pharmacological Research}, 115:\penalty0 135--142, 2017.
+\newblock \doi{10.1016/j.phrs.2016.11.025}.
+
+\bibitem[Petersen et~al.(2016)Petersen, Douglas, and
+  Whitaker]{petersen2016selfcontrolled}
+Irene Petersen, Ian Douglas, and Heather Whitaker.
+\newblock Self controlled case series methods: an alternative to standard
+  epidemiological study designs.
+\newblock \emph{BMJ}, 354:\penalty0 i4515, 2016.
+\newblock \doi{10.1136/bmj.i4515}.
+
+\bibitem[Pratt et~al.(2015)Pratt, Ilomaki, Raymond, and
+  Roughead]{pratt2015pssa}
+Nicole~L. Pratt, Jenni Ilomaki, Cecilia Raymond, and Elizabeth~E. Roughead.
+\newblock Prescription sequence symmetry analysis: assessing risk, temporality,
+  and consistency for adverse drug reactions across datasets in five countries.
+\newblock \emph{Pharmacoepidemiology and Drug Safety}, 24\penalty0
+  (8):\penalty0 858--864, 2015.
+\newblock \doi{10.1002/pds.3780}.
+
+\bibitem[Wagner et~al.(2002)Wagner, Soumerai, Zhang, and
+  Ross-Degnan]{wagner2002its}
+Anita~K. Wagner, Stephen~B. Soumerai, Fang Zhang, and Dennis Ross-Degnan.
+\newblock Segmented regression analysis of interrupted time-series studies in
+  medication use research.
+\newblock \emph{Journal of Clinical Pharmacy and Therapeutics}, 27\penalty0
+  (4):\penalty0 299--309, 2002.
+\newblock \doi{10.1046/j.1365-2710.2002.00430.x}.
+
+\bibitem[Whitaker et~al.(2006)Whitaker, Farrington, Spiessens, and
+  Musonda]{whitaker2006sccs}
+Heather~J. Whitaker, C.~Paddy Farrington, Bart Spiessens, and Patrick Musonda.
+\newblock Tutorial in biostatistics: The self-controlled case series method.
+\newblock \emph{Statistics in Medicine}, 25\penalty0 (10):\penalty0 1768--1797,
+  2006.
+\newblock \doi{10.1002/sim.2302}.
+
+\bibitem[Wright et~al.(2015)Wright, Wright, McCoy, and
+  Sittig]{wright2015sequential}
+Adam~P. Wright, Adam~T. Wright, Allison~B. McCoy, and Dean~F. Sittig.
+\newblock The use of sequential pattern mining to predict next prescribed
+  medications.
+\newblock \emph{Journal of Biomedical Informatics}, 53:\penalty0 73--80, 2015.
+\newblock \doi{10.1016/j.jbi.2014.09.003}.
+
+\end{thebibliography}
