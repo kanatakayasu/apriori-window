@@ -1,0 +1,91 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ahmadinejad and Jalili(2009)]{ahmadinejad2009mining}
+Seyed~Hossein Ahmadinejad and Rasoul Jalili.
+\newblock Mining intrusion alert correlations.
+\newblock In \emph{Proc. International ISC Conference on Information Security
+  and Cryptology}, pages 36--41, 2009.
+
+\bibitem[Al-Shaer et~al.(2020)Al-Shaer, Spring, and
+  Christou]{alshaer2020learning}
+Rahul Al-Shaer, Jonathan~M Spring, and Eliana Christou.
+\newblock Learning the associations of {MITRE ATT\&CK} adversarial techniques.
+\newblock In \emph{Proc. IEEE Conference on Communications and Network Security
+  (CNS)}, pages 1--9, 2020.
+
+\bibitem[Hutchins et~al.(2011)Hutchins, Cloppert, and
+  Amin]{hutchins2011intelligence}
+Eric~M Hutchins, Michael~J Cloppert, and Rohan~M Amin.
+\newblock Intelligence-driven computer network defense informed by analysis of
+  adversary campaigns and intrusion kill chains.
+\newblock In \emph{Leading Issues in Information Warfare \& Security Research},
+  volume~1, page~80, 2011.
+
+\bibitem[Julisch(2003)]{julisch2003clustering}
+Klaus Julisch.
+\newblock Clustering intrusion detection alarms to support root cause analysis.
+\newblock In \emph{Proc. Annual Computer Security Applications Conference
+  (ACSAC)}, pages 4--13, 2003.
+
+\bibitem[Laxman and Sastry(2006)]{laxman2006survey}
+Srivatsan Laxman and PS~Sastry.
+\newblock A survey of temporal data mining.
+\newblock \emph{Sadhana}, 31\penalty0 (2):\penalty0 173--198, 2006.
+
+\bibitem[Legoy et~al.(2020)Legoy, Caselli, Seifert, and
+  Zannone]{legoy2020automated}
+Valentine Legoy, Marco Caselli, Christin Seifert, and Nicola Zannone.
+\newblock Automated retrieval of {ATT\&CK} tactics and techniques for cyber
+  threat reports.
+\newblock In \emph{Proc. International Workshop on Cyber Threat Intelligence
+  (CTI)}, 2020.
+
+\bibitem[Mannila et~al.(1997)Mannila, Toivonen, and
+  Verkamo]{mannila1997discovery}
+Heikki Mannila, Hannu Toivonen, and A~Inkeri Verkamo.
+\newblock Discovery of frequent episodes in event sequences.
+\newblock \emph{Data Mining and Knowledge Discovery}, 1\penalty0 (3):\penalty0
+  259--289, 1997.
+
+\bibitem[Milajerdi et~al.(2019)Milajerdi, Gjomemo, Eshete, Sekar, and
+  Venkatakrishnan]{milajerdi2019holmes}
+Sadegh~M Milajerdi, Rigel Gjomemo, Birhanu Eshete, R~Sekar, and
+  VN~Venkatakrishnan.
+\newblock {HOLMES}: Real-time {APT} detection through correlation of suspicious
+  information flows.
+\newblock In \emph{Proc. IEEE Symposium on Security and Privacy (SP)}, pages
+  1137--1152, 2019.
+
+\bibitem[Ning et~al.(2004)Ning, Cui, and Reeves]{ning2004techniques}
+Peng Ning, Yun Cui, and Douglas~S Reeves.
+\newblock Techniques and tools for analyzing intrusion alerts.
+\newblock \emph{ACM Transactions on Information and System Security},
+  7\penalty0 (2):\penalty0 274--318, 2004.
+
+\bibitem[Qin and Lee(2004)]{qin2004statistical}
+Xinzhou Qin and Wenke Lee.
+\newblock Statistical causality analysis of {INFOSEC} alert data.
+\newblock In \emph{Proc. International Symposium on Recent Advances in
+  Intrusion Detection (RAID)}, pages 73--93, 2004.
+
+\bibitem[Sharafaldin et~al.(2018)Sharafaldin, Habibi~Lashkari, and
+  Ghorbani]{sharafaldin2018toward}
+Iman Sharafaldin, Arash Habibi~Lashkari, and Ali~A Ghorbani.
+\newblock Toward generating a new intrusion detection dataset and intrusion
+  detection using machine learning.
+\newblock In \emph{Proc. International Conference on Information Systems
+  Security and Privacy (ICISSP)}, pages 108--116, 2018.
+
+\bibitem[Strom et~al.(2018)Strom, Applebaum, Miller, Nickels, Pennington, and
+  Thomas]{strom2018mitre}
+Blake~E Strom, Andy Applebaum, Doug~P Miller, Kathryn~C Nickels, Adam~G
+  Pennington, and Craig~B Thomas.
+\newblock {MITRE ATT\&CK}: Design and philosophy.
+\newblock Technical report, MITRE, 2018.
+
+\end{thebibliography}

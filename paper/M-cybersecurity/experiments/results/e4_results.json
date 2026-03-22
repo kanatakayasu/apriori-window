@@ -1,0 +1,164 @@
+{
+  "experiment": "E4",
+  "summary": {
+    "total_campaigns": 11,
+    "correct_attributions": 11,
+    "accuracy": 1.0
+  },
+  "details": [
+    {
+      "campaign_id": 0,
+      "start": 46,
+      "end": 88,
+      "predicted": "APT28",
+      "expected": "APT28",
+      "correct": true,
+      "scores": {
+        "APT28": 0.9,
+        "APT29": 0.35714285714285715,
+        "Lazarus": 0.3076923076923077
+      },
+      "best_score": 0.9
+    },
+    {
+      "campaign_id": 4,
+      "start": 66,
+      "end": 66,
+      "predicted": "APT28",
+      "expected": "APT28",
+      "correct": true,
+      "scores": {
+        "APT28": 0.8,
+        "APT29": 0.2857142857142857,
+        "Lazarus": 0.23076923076923078
+      },
+      "best_score": 0.8
+    },
+    {
+      "campaign_id": 1,
+      "start": 141,
+      "end": 203,
+      "predicted": "APT29",
+      "expected": "APT29",
+      "correct": true,
+      "scores": {
+        "APT28": 0.3333333333333333,
+        "APT29": 1.0,
+        "Lazarus": 0.2
+      },
+      "best_score": 1.0
+    },
+    {
+      "campaign_id": 8,
+      "start": 175,
+      "end": 175,
+      "predicted": "APT29",
+      "expected": "APT29",
+      "correct": true,
+      "scores": {
+        "APT28": 0.2857142857142857,
+        "APT29": 0.8,
+        "Lazarus": 0.14285714285714285
+      },
+      "best_score": 0.8
+    },
+    {
+      "campaign_id": 9,
+      "start": 188,
+      "end": 188,
+      "predicted": "APT29",
+      "expected": "APT29",
+      "correct": true,
+      "scores": {
+        "APT28": 0.08333333333333333,
+        "APT29": 0.3,
+        "Lazarus": 0.1
+      },
+      "best_score": 0.3
+    },
+    {
+      "campaign_id": 10,
+      "start": 197,
+      "end": 197,
+      "predicted": "APT29",
+      "expected": "APT29",
+      "correct": true,
+      "scores": {
+        "APT28": 0.18181818181818182,
+        "APT29": 0.3,
+        "Lazarus": 0.1
+      },
+      "best_score": 0.3
+    },
+    {
+      "campaign_id": 3,
+      "start": 292,
+      "end": 328,
+      "predicted": "Lazarus",
+      "expected": "Lazarus",
+      "correct": true,
+      "scores": {
+        "APT28": 0.38461538461538464,
+        "APT29": 0.2,
+        "Lazarus": 1.0
+      },
+      "best_score": 1.0
+    },
+    {
+      "campaign_id": 6,
+      "start": 304,
+      "end": 304,
+      "predicted": "Lazarus",
+      "expected": "Lazarus",
+      "correct": true,
+      "scores": {
+        "APT28": 0.3076923076923077,
+        "APT29": 0.13333333333333333,
+        "Lazarus": 0.875
+      },
+      "best_score": 0.875
+    },
+    {
+      "campaign_id": 7,
+      "start": 319,
+      "end": 320,
+      "predicted": "Lazarus",
+      "expected": "Lazarus",
+      "correct": true,
+      "scores": {
+        "APT28": 0.3076923076923077,
+        "APT29": 0.21428571428571427,
+        "Lazarus": 0.875
+      },
+      "best_score": 0.875
+    },
+    {
+      "campaign_id": 5,
+      "start": 329,
+      "end": 329,
+      "predicted": "Lazarus",
+      "expected": "Lazarus",
+      "correct": true,
+      "scores": {
+        "APT28": 0.0,
+        "APT29": 0.0,
+        "Lazarus": 0.25
+      },
+      "best_score": 0.25
+    },
+    {
+      "campaign_id": 2,
+      "start": 392,
+      "end": 417,
+      "predicted": "APT28",
+      "expected": "APT28",
+      "correct": true,
+      "scores": {
+        "APT28": 1.0,
+        "APT29": 0.3333333333333333,
+        "Lazarus": 0.38461538461538464
+      },
+      "best_score": 1.0
+    }
+  ]
+}

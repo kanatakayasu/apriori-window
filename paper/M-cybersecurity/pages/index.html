@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper M: サイバー脅威帰属のための密集 ATT&CK 技術共起マイニング</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #eee;
+            --bg: #0a0a1a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 3px solid var(--highlight);
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        header .venue {
+            color: var(--highlight);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        header .status {
+            display: inline-block;
+            background: var(--highlight);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-top: 12px;
+            font-size: 0.9em;
+        }
+        section {
+            padding: 40px 0;
+            border-bottom: 1px solid #222;
+        }
+        h2 {
+            color: var(--highlight);
+            font-size: 1.4em;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--highlight);
+            padding-left: 12px;
+        }
+        .abstract {
+            background: var(--secondary);
+            padding: 24px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .result-card {
+            background: var(--secondary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .result-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--highlight);
+        }
+        .result-card .label {
+            font-size: 0.85em;
+            color: #aaa;
+            margin-top: 4px;
+        }
+        .pipeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .pipeline-step {
+            background: var(--accent);
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            border: 1px solid #444;
+        }
+        .pipeline-arrow {
+            color: var(--highlight);
+            font-size: 1.4em;
+            flex-shrink: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: var(--secondary);
+            color: var(--highlight);
+            font-weight: 600;
+        }
+        tr:hover { background: rgba(233, 69, 96, 0.05); }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .tech-tag {
+            background: var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-family: monospace;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>サイバー脅威帰属のための密集 ATT&CK 技術共起マイニング</h1>
+            <div class="venue">RAID / ACSAC</div>
+            <div class="status">Phase 6 Complete</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>概要</h2>
+            <div class="abstract">
+                高度持続的脅威 (APT) の検出と帰属のための新しいフレームワークを提案する。
+                MITRE ATT&CK 技術 ID をアイテムとし、時間ビン別ネットワークセグメントをトランザクションとする
+                密集共起マイニングにより、攻撃技術が集中的に共起する時間区間を検出し、
+                区間の重なりに基づくキャンペーン推定と Jaccard 類似度に基づく脅威帰属を統合的に実現する。
+            </div>
+        </section>
+
+        <section>
+            <h2>パイプライン</h2>
+            <div class="pipeline">
+                <div class="pipeline-step">
+                    <strong>ATT&CK アダプタ</strong><br>
+                    <small>フロー → 技術ID</small>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <strong>Apriori-Window</strong><br>
+                    <small>密集区間検出</small>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <strong>Union-Find</strong><br>
+                    <small>キャンペーン推定</small>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-step">
+                    <strong>Jaccard</strong><br>
+                    <small>脅威帰属</small>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>主要結果</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="value">756</div>
+                    <div class="label">密集パターン数</div>
+                </div>
+                <div class="result-card">
+                    <div class="value">1,606</div>
+                    <div class="label">密集区間数</div>
+                </div>
+                <div class="result-card">
+                    <div class="value">100%</div>
+                    <div class="label">帰属精度</div>
+                </div>
+                <div class="result-card">
+                    <div class="value">41ms</div>
+                    <div class="label">実行時間</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>脅威帰属結果</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>脅威グループ</th>
+                        <th>検出キャンペーン数</th>
+                        <th>帰属正解数</th>
+                        <th>スコア中央値</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>APT28 (Fancy Bear)</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>0.900</td>
+                    </tr>
+                    <tr>
+                        <td>APT29 (Cozy Bear)</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>0.550</td>
+                    </tr>
+                    <tr>
+                        <td>Lazarus Group</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>0.875</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>ATT&CK 技術マッピング (20 技術)</h2>
+            <div class="tech-list">
+                <span class="tech-tag">T1059 Command Scripting</span>
+                <span class="tech-tag">T1071 App Layer Protocol</span>
+                <span class="tech-tag">T1053 Scheduled Task</span>
+                <span class="tech-tag">T1078 Valid Accounts</span>
+                <span class="tech-tag">T1021 Remote Services</span>
+                <span class="tech-tag">T1055 Process Injection</span>
+                <span class="tech-tag">T1105 Ingress Tool Transfer</span>
+                <span class="tech-tag">T1569 System Services</span>
+                <span class="tech-tag">T1547 Autostart Execution</span>
+                <span class="tech-tag">T1036 Masquerading</span>
+                <span class="tech-tag">T1027 Obfuscated Files</span>
+                <span class="tech-tag">T1070 Indicator Removal</span>
+                <span class="tech-tag">T1082 System Info Discovery</span>
+                <span class="tech-tag">T1083 File Discovery</span>
+                <span class="tech-tag">T1057 Process Discovery</span>
+                <span class="tech-tag">T1018 Remote System Discovery</span>
+                <span class="tech-tag">T1560 Archive Data</span>
+                <span class="tech-tag">T1041 Exfil Over C2</span>
+                <span class="tech-tag">T1486 Data Encrypted</span>
+                <span class="tech-tag">T1498 Network DoS</span>
+            </div>
+        </section>
+
+        <section>
+            <h2>テスト結果</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="value">33</div>
+                    <div class="label">テスト数 (全 PASSED)</div>
+                </div>
+                <div class="result-card">
+                    <div class="value">4</div>
+                    <div class="label">実験数 (E1-E4)</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        Paper M: Cybersecurity | apriori-window project
+    </footer>
+</body>
+</html>

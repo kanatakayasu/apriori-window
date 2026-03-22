@@ -1,0 +1,97 @@
+{
+  "experiment": "E2",
+  "window_sensitivity": [
+    {
+      "window_size": 5,
+      "total_patterns": 0,
+      "multi_patterns": 0,
+      "total_intervals": 0
+    },
+    {
+      "window_size": 10,
+      "total_patterns": 11,
+      "multi_patterns": 0,
+      "total_intervals": 17
+    },
+    {
+      "window_size": 15,
+      "total_patterns": 117,
+      "multi_patterns": 99,
+      "total_intervals": 265
+    },
+    {
+      "window_size": 20,
+      "total_patterns": 385,
+      "multi_patterns": 367,
+      "total_intervals": 923
+    },
+    {
+      "window_size": 25,
+      "total_patterns": 392,
+      "multi_patterns": 374,
+      "total_intervals": 829
+    },
+    {
+      "window_size": 30,
+      "total_patterns": 393,
+      "multi_patterns": 374,
+      "total_intervals": 668
+    },
+    {
+      "window_size": 40,
+      "total_patterns": 397,
+      "multi_patterns": 377,
+      "total_intervals": 613
+    },
+    {
+      "window_size": 50,
+      "total_patterns": 410,
+      "multi_patterns": 390,
+      "total_intervals": 628
+    }
+  ],
+  "threshold_sensitivity": [
+    {
+      "threshold": 3,
+      "total_patterns": 655,
+      "multi_patterns": 635,
+      "total_intervals": 1233
+    },
+    {
+      "threshold": 5,
+      "total_patterns": 479,
+      "multi_patterns": 459,
+      "total_intervals": 848
+    },
+    {
+      "threshold": 8,
+      "total_patterns": 392,
+      "multi_patterns": 374,
+      "total_intervals": 929
+    },
+    {
+      "threshold": 10,
+      "total_patterns": 385,
+      "multi_patterns": 367,
+      "total_intervals": 923
+    },
+    {
+      "threshold": 12,
+      "total_patterns": 154,
+      "multi_patterns": 136,
+      "total_intervals": 355
+    },
+    {
+      "threshold": 15,
+      "total_patterns": 18,
+      "multi_patterns": 1,
+      "total_intervals": 65
+    },
+    {
+      "threshold": 20,
+      "total_patterns": 0,
+      "multi_patterns": 0,
+      "total_intervals": 0
+    }
+  ]
+}

@@ -1,0 +1,3806 @@
+{
+  "experiment": "E3",
+  "overlap_analysis": [
+    {
+      "overlap_threshold": 0.1,
+      "n_campaigns": 5,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.2,
+      "n_campaigns": 6,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.3,
+      "n_campaigns": 11,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 66,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 8,
+          "start": 175,
+          "end": 175,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 9,
+          "start": 188,
+          "end": 188,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 10,
+          "start": 197,
+          "end": 197,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1105",
+            "T1547",
+            "T1041"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 6,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 7,
+          "start": 319,
+          "end": 320,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.4,
+      "n_campaigns": 24,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 8,
+          "start": 54,
+          "end": 54,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 13,
+          "start": 63,
+          "end": 63,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 6,
+          "start": 66,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 68,
+          "end": 69,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 14,
+          "start": 76,
+          "end": 77,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 7,
+          "start": 79,
+          "end": 79,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1036",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 23,
+          "start": 158,
+          "end": 158,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1021",
+            "T1547",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 15,
+          "start": 163,
+          "end": 165,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 20,
+          "start": 175,
+          "end": 175,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 9,
+          "start": 185,
+          "end": 185,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 21,
+          "start": 188,
+          "end": 188,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 10,
+          "start": 195,
+          "end": 195,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 22,
+          "start": 197,
+          "end": 197,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1105",
+            "T1547",
+            "T1041"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 198,
+          "end": 198,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1021",
+            "T1547",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 16,
+          "start": 302,
+          "end": 302,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 17,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 18,
+          "start": 319,
+          "end": 320,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 19,
+          "start": 324,
+          "end": 324,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1569",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 12,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 11,
+          "start": 400,
+          "end": 400,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.5,
+      "n_campaigns": 34,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 14,
+          "start": 54,
+          "end": 54,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 19,
+          "start": 63,
+          "end": 63,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 10,
+          "start": 66,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 7,
+          "start": 68,
+          "end": 69,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 20,
+          "start": 76,
+          "end": 77,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 11,
+          "start": 79,
+          "end": 79,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1036",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 202,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 33,
+          "start": 158,
+          "end": 158,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1021",
+            "T1547",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 22,
+          "start": 163,
+          "end": 165,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 6,
+          "start": 167,
+          "end": 171,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 29,
+          "start": 175,
+          "end": 175,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 182,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 182,
+          "end": 188,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 15,
+          "start": 185,
+          "end": 185,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 8,
+          "start": 186,
+          "end": 187,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 31,
+          "start": 188,
+          "end": 188,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 16,
+          "start": 195,
+          "end": 195,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 13,
+          "start": 197,
+          "end": 200,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1071",
+            "T1547",
+            "T1027"
+          ]
+        },
+        {
+          "id": 32,
+          "start": 197,
+          "end": 197,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1105",
+            "T1547",
+            "T1041"
+          ]
+        },
+        {
+          "id": 9,
+          "start": 198,
+          "end": 198,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1021",
+            "T1547",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 23,
+          "start": 302,
+          "end": 302,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 24,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 25,
+          "start": 312,
+          "end": 313,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 27,
+          "start": 313,
+          "end": 314,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 26,
+          "start": 319,
+          "end": 320,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 28,
+          "start": 324,
+          "end": 324,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1569",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 18,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 17,
+          "start": 400,
+          "end": 400,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 21,
+          "start": 402,
+          "end": 403,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 30,
+          "start": 405,
+          "end": 406,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 12,
+          "start": 408,
+          "end": 409,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.6,
+      "n_campaigns": 64,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 22,
+          "start": 54,
+          "end": 54,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 23,
+          "start": 57,
+          "end": 60,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 31,
+          "start": 59,
+          "end": 65,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1036",
+            "T1027"
+          ]
+        },
+        {
+          "id": 12,
+          "start": 62,
+          "end": 66,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1078",
+            "T1105",
+            "T1027",
+            "T1082"
+          ]
+        },
+        {
+          "id": 32,
+          "start": 63,
+          "end": 63,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 17,
+          "start": 66,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 20,
+          "start": 68,
+          "end": 69,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 11,
+          "start": 69,
+          "end": 69,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 34,
+          "start": 76,
+          "end": 77,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 47,
+          "start": 77,
+          "end": 77,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 18,
+          "start": 79,
+          "end": 79,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1036",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 202,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 6,
+          "start": 145,
+          "end": 153,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 59,
+          "start": 158,
+          "end": 158,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1021",
+            "T1547",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 61,
+          "start": 160,
+          "end": 161,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 37,
+          "start": 163,
+          "end": 165,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 62,
+          "start": 163,
+          "end": 163,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 38,
+          "start": 164,
+          "end": 164,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070"
+          ]
+        },
+        {
+          "id": 9,
+          "start": 167,
+          "end": 171,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 13,
+          "start": 170,
+          "end": 171,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 56,
+          "start": 171,
+          "end": 171,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 48,
+          "start": 175,
+          "end": 175,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 182,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 14,
+          "start": 182,
+          "end": 187,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 24,
+          "start": 183,
+          "end": 183,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 184,
+          "end": 188,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1059",
+            "T1053"
+          ]
+        },
+        {
+          "id": 35,
+          "start": 184,
+          "end": 184,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1105"
+          ]
+        },
+        {
+          "id": 25,
+          "start": 185,
+          "end": 185,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 26,
+          "start": 186,
+          "end": 187,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1053",
+            "T1027"
+          ]
+        },
+        {
+          "id": 15,
+          "start": 187,
+          "end": 187,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 51,
+          "start": 188,
+          "end": 188,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 190,
+          "end": 190,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 33,
+          "start": 190,
+          "end": 191,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 52,
+          "start": 192,
+          "end": 193,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 10,
+          "start": 193,
+          "end": 193,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1547"
+          ]
+        },
+        {
+          "id": 27,
+          "start": 195,
+          "end": 195,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 21,
+          "start": 197,
+          "end": 200,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1071",
+            "T1547",
+            "T1027"
+          ]
+        },
+        {
+          "id": 54,
+          "start": 197,
+          "end": 197,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1105",
+            "T1547",
+            "T1041"
+          ]
+        },
+        {
+          "id": 16,
+          "start": 198,
+          "end": 198,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1021",
+            "T1547",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 7,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 58,
+          "start": 300,
+          "end": 300,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1055",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 39,
+          "start": 302,
+          "end": 302,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 40,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 41,
+          "start": 306,
+          "end": 312,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 44,
+          "start": 307,
+          "end": 307,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 42,
+          "start": 312,
+          "end": 312,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 53,
+          "start": 312,
+          "end": 313,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 55,
+          "start": 313,
+          "end": 314,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 45,
+          "start": 314,
+          "end": 314,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486"
+          ]
+        },
+        {
+          "id": 8,
+          "start": 319,
+          "end": 327,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 63,
+          "start": 319,
+          "end": 320,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486"
+          ]
+        },
+        {
+          "id": 43,
+          "start": 320,
+          "end": 320,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 29,
+          "start": 322,
+          "end": 322,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1055",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 46,
+          "start": 324,
+          "end": 324,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1569",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 30,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 28,
+          "start": 400,
+          "end": 400,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 57,
+          "start": 402,
+          "end": 403,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1027",
+            "T1083"
+          ]
+        },
+        {
+          "id": 36,
+          "start": 403,
+          "end": 403,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 49,
+          "start": 405,
+          "end": 405,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1071",
+            "T1055",
+            "T1105",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 50,
+          "start": 405,
+          "end": 406,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 19,
+          "start": 408,
+          "end": 409,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 60,
+          "start": 408,
+          "end": 408,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    },
+    {
+      "overlap_threshold": 0.7,
+      "n_campaigns": 101,
+      "campaigns": [
+        {
+          "id": 0,
+          "start": 46,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 14,
+          "start": 46,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 90,
+          "start": 52,
+          "end": 56,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1036",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 91,
+          "start": 53,
+          "end": 55,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036"
+          ]
+        },
+        {
+          "id": 29,
+          "start": 54,
+          "end": 54,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 75,
+          "start": 54,
+          "end": 56,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1078",
+            "T1036",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 30,
+          "start": 57,
+          "end": 60,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 43,
+          "start": 59,
+          "end": 65,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1036",
+            "T1027"
+          ]
+        },
+        {
+          "id": 71,
+          "start": 59,
+          "end": 60,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1036",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 18,
+          "start": 62,
+          "end": 66,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1078",
+            "T1105",
+            "T1027",
+            "T1082"
+          ]
+        },
+        {
+          "id": 44,
+          "start": 63,
+          "end": 63,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 23,
+          "start": 66,
+          "end": 66,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 26,
+          "start": 68,
+          "end": 69,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 15,
+          "start": 69,
+          "end": 69,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 31,
+          "start": 71,
+          "end": 72,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 64,
+          "start": 71,
+          "end": 74,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 16,
+          "start": 76,
+          "end": 88,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 47,
+          "start": 76,
+          "end": 77,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 65,
+          "start": 77,
+          "end": 77,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 24,
+          "start": 79,
+          "end": 79,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1036",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 1,
+          "start": 141,
+          "end": 202,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 10,
+          "start": 145,
+          "end": 152,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1547",
+            "T1560"
+          ]
+        },
+        {
+          "id": 6,
+          "start": 147,
+          "end": 153,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 38,
+          "start": 150,
+          "end": 151,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1053",
+            "T1021",
+            "T1547",
+            "T1027",
+            "T1560"
+          ]
+        },
+        {
+          "id": 11,
+          "start": 155,
+          "end": 165,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 94,
+          "start": 156,
+          "end": 158,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1053",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 50,
+          "start": 158,
+          "end": 161,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 93,
+          "start": 158,
+          "end": 158,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1021",
+            "T1547",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 98,
+          "start": 160,
+          "end": 161,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 96,
+          "start": 163,
+          "end": 165,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1021",
+            "T1547",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 97,
+          "start": 163,
+          "end": 164,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1021",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 99,
+          "start": 163,
+          "end": 163,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560"
+          ]
+        },
+        {
+          "id": 51,
+          "start": 164,
+          "end": 165,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1070"
+          ]
+        },
+        {
+          "id": 52,
+          "start": 164,
+          "end": 164,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070"
+          ]
+        },
+        {
+          "id": 84,
+          "start": 167,
+          "end": 171,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 12,
+          "start": 168,
+          "end": 169,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 19,
+          "start": 170,
+          "end": 171,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 87,
+          "start": 171,
+          "end": 171,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 40,
+          "start": 173,
+          "end": 178,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 69,
+          "start": 175,
+          "end": 175,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 2,
+          "start": 182,
+          "end": 203,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 20,
+          "start": 182,
+          "end": 185,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1041"
+          ]
+        },
+        {
+          "id": 28,
+          "start": 182,
+          "end": 183,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1547",
+            "T1027",
+            "T1070"
+          ]
+        },
+        {
+          "id": 67,
+          "start": 182,
+          "end": 187,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1071",
+            "T1053",
+            "T1105"
+          ]
+        },
+        {
+          "id": 32,
+          "start": 183,
+          "end": 183,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 41,
+          "start": 183,
+          "end": 184,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027"
+          ]
+        },
+        {
+          "id": 4,
+          "start": 184,
+          "end": 188,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1059",
+            "T1053"
+          ]
+        },
+        {
+          "id": 48,
+          "start": 184,
+          "end": 184,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1105"
+          ]
+        },
+        {
+          "id": 33,
+          "start": 185,
+          "end": 185,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 35,
+          "start": 186,
+          "end": 187,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1053",
+            "T1027"
+          ]
+        },
+        {
+          "id": 21,
+          "start": 187,
+          "end": 187,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 73,
+          "start": 188,
+          "end": 188,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 5,
+          "start": 190,
+          "end": 190,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1053",
+            "T1021",
+            "T1105",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 45,
+          "start": 190,
+          "end": 191,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 68,
+          "start": 190,
+          "end": 193,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1071",
+            "T1021",
+            "T1105",
+            "T1547",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 34,
+          "start": 192,
+          "end": 195,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1105",
+            "T1027",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 74,
+          "start": 192,
+          "end": 193,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1053",
+            "T1105",
+            "T1560"
+          ]
+        },
+        {
+          "id": 13,
+          "start": 193,
+          "end": 193,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1547"
+          ]
+        },
+        {
+          "id": 36,
+          "start": 195,
+          "end": 195,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1053",
+            "T1547",
+            "T1027",
+            "T1070",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 46,
+          "start": 195,
+          "end": 203,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 27,
+          "start": 197,
+          "end": 200,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1071",
+            "T1547",
+            "T1027"
+          ]
+        },
+        {
+          "id": 85,
+          "start": 197,
+          "end": 197,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1105",
+            "T1547",
+            "T1041"
+          ]
+        },
+        {
+          "id": 22,
+          "start": 198,
+          "end": 198,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1021",
+            "T1547",
+            "T1560",
+            "T1041"
+          ]
+        },
+        {
+          "id": 7,
+          "start": 292,
+          "end": 328,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 77,
+          "start": 296,
+          "end": 304,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1055",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 8,
+          "start": 299,
+          "end": 302,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 76,
+          "start": 300,
+          "end": 301,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 89,
+          "start": 300,
+          "end": 300,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1055",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 53,
+          "start": 302,
+          "end": 302,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 54,
+          "start": 304,
+          "end": 304,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 55,
+          "start": 306,
+          "end": 312,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 58,
+          "start": 306,
+          "end": 308,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 78,
+          "start": 306,
+          "end": 307,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1055",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 57,
+          "start": 307,
+          "end": 308,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 61,
+          "start": 307,
+          "end": 307,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 59,
+          "start": 310,
+          "end": 317,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569"
+          ]
+        },
+        {
+          "id": 56,
+          "start": 312,
+          "end": 312,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 81,
+          "start": 312,
+          "end": 316,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 82,
+          "start": 312,
+          "end": 313,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 83,
+          "start": 312,
+          "end": 325,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 86,
+          "start": 313,
+          "end": 314,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 62,
+          "start": 314,
+          "end": 314,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486"
+          ]
+        },
+        {
+          "id": 66,
+          "start": 314,
+          "end": 317,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 17,
+          "start": 319,
+          "end": 327,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 100,
+          "start": 319,
+          "end": 320,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1486"
+          ]
+        },
+        {
+          "id": 60,
+          "start": 320,
+          "end": 320,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1498"
+          ]
+        },
+        {
+          "id": 9,
+          "start": 322,
+          "end": 326,
+          "n_techniques": 8,
+          "technique_names": [
+            "T1059",
+            "T1055",
+            "T1105",
+            "T1569",
+            "T1036",
+            "T1027",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 39,
+          "start": 322,
+          "end": 322,
+          "n_techniques": 3,
+          "technique_names": [
+            "T1055",
+            "T1027",
+            "T1486"
+          ]
+        },
+        {
+          "id": 80,
+          "start": 322,
+          "end": 323,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1055",
+            "T1569",
+            "T1036",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 63,
+          "start": 324,
+          "end": 324,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1569",
+            "T1486",
+            "T1498"
+          ]
+        },
+        {
+          "id": 42,
+          "start": 329,
+          "end": 329,
+          "n_techniques": 2,
+          "technique_names": [
+            "T1569",
+            "T1498"
+          ]
+        },
+        {
+          "id": 3,
+          "start": 392,
+          "end": 417,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 92,
+          "start": 399,
+          "end": 401,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1027"
+          ]
+        },
+        {
+          "id": 37,
+          "start": 400,
+          "end": 400,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 79,
+          "start": 402,
+          "end": 406,
+          "n_techniques": 6,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1055",
+            "T1036",
+            "T1027",
+            "T1041"
+          ]
+        },
+        {
+          "id": 88,
+          "start": 402,
+          "end": 403,
+          "n_techniques": 4,
+          "technique_names": [
+            "T1059",
+            "T1105",
+            "T1027",
+            "T1083"
+          ]
+        },
+        {
+          "id": 49,
+          "start": 403,
+          "end": 403,
+          "n_techniques": 9,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 70,
+          "start": 405,
+          "end": 405,
+          "n_techniques": 5,
+          "technique_names": [
+            "T1071",
+            "T1055",
+            "T1105",
+            "T1082",
+            "T1083"
+          ]
+        },
+        {
+          "id": 72,
+          "start": 405,
+          "end": 406,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1082",
+            "T1041"
+          ]
+        },
+        {
+          "id": 25,
+          "start": 408,
+          "end": 409,
+          "n_techniques": 10,
+          "technique_names": [
+            "T1059",
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1036",
+            "T1027",
+            "T1082",
+            "T1083",
+            "T1041"
+          ]
+        },
+        {
+          "id": 95,
+          "start": 408,
+          "end": 408,
+          "n_techniques": 7,
+          "technique_names": [
+            "T1071",
+            "T1078",
+            "T1055",
+            "T1105",
+            "T1027",
+            "T1083",
+            "T1041"
+          ]
+        }
+      ]
+    }
+  ],
+  "main_results": {
+    "overlap_threshold": 0.3,
+    "detected_campaigns": 11,
+    "ground_truth_campaigns": 4,
+    "matched_campaigns": 11
+  },
+  "campaigns_detail": [
+    {
+      "id": 0,
+      "start": 46,
+      "end": 88,
+      "techniques": [
+        1,
+        2,
+        4,
+        7,
+        10,
+        11,
+        13,
+        14,
+        18
+      ],
+      "technique_names": [
+        "T1059",
+        "T1071",
+        "T1078",
+        "T1105",
+        "T1036",
+        "T1027",
+        "T1082",
+        "T1083",
+        "T1041"
+      ],
+      "n_patterns": 314
+    },
+    {
+      "id": 4,
+      "start": 66,
+      "end": 66,
+      "techniques": [
+        1,
+        2,
+        4,
+        7,
+        10,
+        13,
+        14,
+        18
+      ],
+      "technique_names": [
+        "T1059",
+        "T1071",
+        "T1078",
+        "T1105",
+        "T1036",
+        "T1082",
+        "T1083",
+        "T1041"
+      ],
+      "n_patterns": 28
+    },
+    {
+      "id": 1,
+      "start": 141,
+      "end": 203,
+      "techniques": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9,
+        11,
+        12,
+        17,
+        18
+      ],
+      "technique_names": [
+        "T1059",
+        "T1071",
+        "T1053",
+        "T1021",
+        "T1105",
+        "T1547",
+        "T1027",
+        "T1070",
+        "T1560",
+        "T1041"
+      ],
+      "n_patterns": 706
+    },
+    {
+      "id": 8,
+      "start": 175,
+      "end": 175,
+      "techniques": [
+        2,
+        3,
+        5,
+        7,
+        9,
+        11,
+        12,
+        18
+      ],
+      "technique_names": [
+        "T1071",
+        "T1053",
+        "T1021",
+        "T1105",
+        "T1547",
+        "T1027",
+        "T1070",
+        "T1041"
+      ],
+      "n_patterns": 12
+    },
+    {
+      "id": 9,
+      "start": 188,
+      "end": 188,
+      "techniques": [
+        3,
+        7,
+        17
+      ],
+      "technique_names": [
+        "T1053",
+        "T1105",
+        "T1560"
+      ],
+      "n_patterns": 1
+    },
+    {
+      "id": 10,
+      "start": 197,
+      "end": 197,
+      "techniques": [
+        7,
+        9,
+        18
+      ],
+      "technique_names": [
+        "T1105",
+        "T1547",
+        "T1041"
+      ],
+      "n_patterns": 1
+    },
+    {
+      "id": 3,
+      "start": 292,
+      "end": 328,
+      "techniques": [
+        1,
+        6,
+        7,
+        8,
+        10,
+        11,
+        19,
+        20
+      ],
+      "technique_names": [
+        "T1059",
+        "T1055",
+        "T1105",
+        "T1569",
+        "T1036",
+        "T1027",
+        "T1486",
+        "T1498"
+      ],
+      "n_patterns": 200
+    },
+    {
+      "id": 6,
+      "start": 304,
+      "end": 304,
+      "techniques": [
+        1,
+        6,
+        7,
+        8,
+        10,
+        19,
+        20
+      ],
+      "technique_names": [
+        "T1059",
+        "T1055",
+        "T1105",
+        "T1569",
+        "T1036",
+        "T1486",
+        "T1498"
+      ],
+      "n_patterns": 8
+    },
+    {
+      "id": 7,
+      "start": 319,
+      "end": 320,
+      "techniques": [
+        1,
+        7,
+        8,
+        10,
+        11,
+        19,
+        20
+      ],
+      "technique_names": [
+        "T1059",
+        "T1105",
+        "T1569",
+        "T1036",
+        "T1027",
+        "T1486",
+        "T1498"
+      ],
+      "n_patterns": 4
+    },
+    {
+      "id": 5,
+      "start": 329,
+      "end": 329,
+      "techniques": [
+        8,
+        20
+      ],
+      "technique_names": [
+        "T1569",
+        "T1498"
+      ],
+      "n_patterns": 1
+    },
+    {
+      "id": 2,
+      "start": 392,
+      "end": 417,
+      "techniques": [
+        1,
+        2,
+        4,
+        6,
+        7,
+        10,
+        11,
+        13,
+        14,
+        18
+      ],
+      "technique_names": [
+        "T1059",
+        "T1071",
+        "T1078",
+        "T1055",
+        "T1105",
+        "T1036",
+        "T1027",
+        "T1082",
+        "T1083",
+        "T1041"
+      ],
+      "n_patterns": 284
+    }
+  ]
+}
