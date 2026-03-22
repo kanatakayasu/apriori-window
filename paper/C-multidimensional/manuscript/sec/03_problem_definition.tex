@@ -1,0 +1,153 @@
+% ==============================================================
+\section{Problem Definition}\label{sec:problem}
+% ==============================================================
+
+\subsection{Notation}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite set of items.
+Let $D = [d_1, d_2, \ldots, d_N]$ be a sequence of transactions ordered by time index $t \in \{1, \ldots, N\}$.
+Each transaction $d_t \subseteq \mathcal{I}$ is a set of items.
+An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction $d_t$ if $P \subseteq d_t$.
+
+We consider $k$ auxiliary dimensions $x_1, x_2, \ldots, x_k$ (e.g., spatial coordinates, store identifiers, demographic indices) each taking values in a finite ordered domain $\mathcal{X}_j$, $j = 1, \ldots, k$.
+Define the \emph{dimension space} $\mathcal{X} = \mathcal{X}_1 \times \mathcal{X}_2 \times \cdots \times \mathcal{X}_k$.
+Each transaction $d_t$ is associated with a location $\mathbf{x}(t) = (x_1(t), \ldots, x_k(t)) \in \mathcal{X}$.
+
+\subsection{Support Surface}
+
+\begin{definition}[Multi-Dimensional Support Surface]\label{def:support_surface}
+Given a pattern $P$, a temporal window size $W_0 \in \mathbb{Z}_{>0}$, and spatial window sizes $W_j \in \mathbb{Z}_{>0}$ for $j = 1, \ldots, k$, the \emph{support surface} of $P$ is the function $S_P : \mathbb{Z}^{k+1} \to \mathbb{Z}_{\geq 0}$ defined by
+\begin{equation}\label{eq:support_surface}
+S_P(t, \mathbf{v}) = \bigl|\{d_r \in D \mid t \leq r < t + W_0,\; P \subseteq d_r,\; \mathbf{x}(r) \in \mathrm{Box}(\mathbf{v}, \mathbf{W})\}\bigr|,
+\end{equation}
+where $\mathbf{v} = (v_1, \ldots, v_k) \in \mathcal{X}$, $\mathbf{W} = (W_1, \ldots, W_k)$, and
+\begin{equation}
+\mathrm{Box}(\mathbf{v}, \mathbf{W}) = \{\mathbf{u} \in \mathcal{X} \mid v_j \leq u_j < v_j + W_j,\; j = 1, \ldots, k\}.
+\end{equation}
+The domain of $S_P$ is the set of all $(t, \mathbf{v})$ for which the window fits within data boundaries.
+When $k = 0$ (no auxiliary dimensions), $S_P(t)$ reduces to the standard 1D support series of Apriori-Window.
+\end{definition}
+
+\begin{remark}
+The support surface can be viewed as a $(k{+}1)$-dimensional tensor $\mathcal{S}_P \in \mathbb{Z}_{\geq 0}^{T_0 \times T_1 \times \cdots \times T_k}$ where $T_j = |\mathcal{X}_j| - W_j + 1$ is the number of valid window positions along dimension $j$ (with $T_0 = N - W_0 + 1$).
+\end{remark}
+
+\subsection{Dense Region}
+
+\begin{definition}[Dense Region]\label{def:dense_region}
+Given a support surface $S_P$ and a density threshold $\theta \in \mathbb{Z}_{>0}$, the \emph{superlevel set} at threshold $\theta$ is
+\begin{equation}\label{eq:superlevel}
+\mathcal{L}_\theta(S_P) = \{(t, \mathbf{v}) \mid S_P(t, \mathbf{v}) \geq \theta\}.
+\end{equation}
+A \emph{dense region} of $P$ at threshold $\theta$ is a maximal connected component of $\mathcal{L}_\theta(S_P)$ under grid adjacency (two grid points are adjacent if they differ by 1 in exactly one coordinate).
+\end{definition}
+
+\begin{definition}[Dense Region Set]\label{def:dense_region_set}
+Let $\mathcal{R}_\theta(P) = \{R_1, R_2, \ldots, R_q\}$ denote the set of all dense regions of pattern $P$ at threshold $\theta$.
+Each $R_i \subseteq \mathbb{Z}^{k+1}$ is a connected set of grid points.
+\end{definition}
+
+\begin{remark}[Relationship to 1D Dense Intervals]
+When $k = 0$, a dense region $R_i$ is a set of consecutive time indices $\{s, s{+}1, \ldots, e\}$, corresponding to the dense interval $[s, e]$ from the original Apriori-Window formulation.
+Thus, dense regions strictly generalize dense intervals to multiple dimensions.
+\end{remark}
+
+\subsection{Dense Region Containment Theorem}
+
+\begin{theorem}[Dense Region Containment]\label{thm:containment}
+Let $P \subseteq \mathcal{I}$ be a pattern with $|P| \geq 2$, and let $Q = P \setminus \{i\}$ for any $i \in P$.
+Then for all $(t, \mathbf{v})$:
+\begin{equation}
+S_P(t, \mathbf{v}) \leq S_Q(t, \mathbf{v}).
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:containment}
+\mathcal{L}_\theta(S_P) \subseteq \mathcal{L}_\theta(S_Q),
+\end{equation}
+and every dense region of $P$ is contained within some dense region of $Q$:
+\begin{equation}
+\forall R \in \mathcal{R}_\theta(P),\;\exists R' \in \mathcal{R}_\theta(Q) \text{ such that } R \subseteq R'.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Since $Q \subset P$, any transaction $d_r$ satisfying $P \subseteq d_r$ also satisfies $Q \subseteq d_r$.
+Thus every transaction counted in $S_P(t, \mathbf{v})$ is also counted in $S_Q(t, \mathbf{v})$, giving $S_P(t, \mathbf{v}) \leq S_Q(t, \mathbf{v})$.
+
+The superlevel set containment follows directly: if $S_P(t, \mathbf{v}) \geq \theta$, then $S_Q(t, \mathbf{v}) \geq \theta$.
+
+For the dense region containment, let $R \in \mathcal{R}_\theta(P)$.
+Every point in $R$ belongs to $\mathcal{L}_\theta(S_Q)$ by~\eqref{eq:containment}.
+Since $R$ is connected under grid adjacency, all points of $R$ lie in a single connected component of $\mathcal{L}_\theta(S_Q)$, i.e., within some $R' \in \mathcal{R}_\theta(Q)$.
+\end{proof}
+
+\begin{corollary}[Multi-Dimensional Apriori Pruning]\label{cor:pruning}
+If $\mathcal{R}_\theta(Q) = \emptyset$ for any $(|P|{-}1)$-subset $Q \subset P$, then $\mathcal{R}_\theta(P) = \emptyset$.
+\end{corollary}
+
+\begin{corollary}[Candidate Region Restriction]\label{cor:candidate_restriction}
+When evaluating a $k$-itemset $P$, the support surface $S_P$ need only be computed within the intersection of the superlevel sets of all $(|P|{-}1)$-subsets:
+\begin{equation}
+\mathcal{L}_\theta(S_P) \subseteq \bigcap_{Q \subset P,\, |Q| = |P|-1} \mathcal{L}_\theta(S_Q).
+\end{equation}
+\end{corollary}
+
+\subsection{Dimension Decomposability}
+
+\begin{definition}[Marginal Support]\label{def:marginal}
+The \emph{marginal support} of $P$ along dimension $j$ at position $v_j$ is
+\begin{equation}
+S_P^{(j)}(v_j) = \sum_{\substack{(t, \mathbf{v}) \\ \text{proj}_j(\mathbf{v}) = v_j}} S_P(t, \mathbf{v}),
+\end{equation}
+where $\text{proj}_j$ extracts the $j$-th coordinate.
+\end{definition}
+
+\begin{definition}[Dimension Decomposability]\label{def:decomposable}
+A support surface $S_P$ is \emph{dimension-decomposable} if there exist functions $f_0 : \mathbb{Z} \to \mathbb{R}_{\geq 0}$ and $f_j : \mathcal{X}_j \to \mathbb{R}_{\geq 0}$ for $j = 1, \ldots, k$ such that
+\begin{equation}\label{eq:decomposable}
+S_P(t, \mathbf{v}) = f_0(t) \cdot \prod_{j=1}^{k} f_j(v_j).
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Decomposition Theorem]\label{thm:decomposition}
+If $S_P$ is dimension-decomposable with $S_P(t, \mathbf{v}) = f_0(t) \prod_{j=1}^{k} f_j(v_j)$, and if $\theta$ admits a factorization $\theta = \theta_0 \cdot \prod_{j=1}^{k} \theta_j$, then
+\begin{equation}
+\mathcal{L}_\theta(S_P) = \{t : f_0(t) \geq \theta_0\} \times \prod_{j=1}^{k} \{v_j : f_j(v_j) \geq \theta_j\}.
+\end{equation}
+In this case, dense region detection decomposes into $k{+}1$ independent 1D problems, each solvable in $O(T_j)$ time.
+\end{theorem}
+
+\begin{proof}
+$S_P(t, \mathbf{v}) \geq \theta$ if and only if $f_0(t) \prod_j f_j(v_j) \geq \theta_0 \prod_j \theta_j$.
+Since all factors are non-negative, this holds if and only if $f_0(t) \geq \theta_0$ and $f_j(v_j) \geq \theta_j$ for all $j$ (given the multiplicative factorization of $\theta$).
+The superlevel set is therefore the Cartesian product of $1$-dimensional superlevel sets.
+\end{proof}
+
+\begin{remark}[Practical Significance]
+Exact decomposability rarely holds in practice. However, approximate decomposability (measured by the residual of a rank-1 tensor approximation) can still yield useful speedups.
+Section~\ref{sec:method} presents a hybrid algorithm that first checks approximate decomposability and falls back to the full sweep surface method when the approximation error exceeds a user-specified tolerance $\epsilon$.
+\end{remark}
+
+\subsection{Complexity Analysis}
+
+\begin{theorem}[Complexity of Dense Region Detection]\label{thm:complexity}
+Let $G = \prod_{j=0}^{k} T_j$ be the total number of grid points.
+
+\begin{enumerate}
+\item \textbf{Na\"ive algorithm}: Computing the support surface by iterating over all transactions for each grid point requires $O(G \cdot N)$ time.
+
+\item \textbf{Prefix-sum construction}: The support surface can be computed via inclusion-exclusion on a $(k{+}1)$-dimensional prefix sum in $O(G \cdot 2^{k+1} + N)$ time and $O(G)$ space.
+
+\item \textbf{Dense region extraction}: Given the support surface, connected component labeling via union-find requires $O(G \cdot \alpha(G))$ time, where $\alpha$ is the inverse Ackermann function.
+
+\item \textbf{Decomposed case}: When dimension-decomposable, total complexity is $O(\sum_{j=0}^{k} T_j + N)$.
+\end{enumerate}
+\end{theorem}
+
+\subsection{Problem Statement}
+
+\begin{problem}[Multi-Dimensional Dense Itemset Mining]\label{prob:main}
+\textbf{Given}: A transaction sequence $D$ with associated locations $\mathbf{x}(t)$, window sizes $(W_0, W_1, \ldots, W_k)$, density threshold $\theta$, maximum pattern length $L_{\max}$.
+
+\textbf{Find}: All patterns $P$ with $|P| \leq L_{\max}$ and their dense region sets $\mathcal{R}_\theta(P)$, where $\mathcal{R}_\theta(P) \neq \emptyset$.
+\end{problem}
