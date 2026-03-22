@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{12}
+\begin{thebibliography}{17}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -48,6 +48,17 @@
 \newblock
 
 
+\bibitem[Gorishniy et~al\mbox{.}(2021)]%
+        {gorishniy2021revisiting}
+\bibfield{author}{\bibinfo{person}{Yury Gorishniy}, \bibinfo{person}{Ivan
+  Rubachev}, \bibinfo{person}{Valentin Khrulkov}, {and} \bibinfo{person}{Artem
+  Babenko}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Revisiting Deep Learning Models for Tabular Data}.
+  In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}, Vol.~\bibinfo{volume}{34}. \bibinfo{pages}{18932--18943}.
+\newblock
+
+
 \bibitem[Granger(1969)]%
         {granger1969investigating}
 \bibfield{author}{\bibinfo{person}{Clive~WJ Granger}.}
@@ -69,6 +80,17 @@
 \newblock \bibinfo{journal}{\emph{Data Mining and Knowledge Discovery}}
   \bibinfo{volume}{8}, \bibinfo{number}{1} (\bibinfo{year}{2004}),
   \bibinfo{pages}{53--87}.
+\newblock
+
+
+\bibitem[Huang et~al\mbox{.}(2020)]%
+        {huang2020tabtransformer}
+\bibfield{author}{\bibinfo{person}{Xin Huang}, \bibinfo{person}{Ashish Khetan},
+  \bibinfo{person}{Milan Cvitkovic}, {and} \bibinfo{person}{Zohar Karnin}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{TabTransformer}: Tabular Data Modeling Using
+  Contextual Embeddings}. In \bibinfo{booktitle}{\emph{NeurIPS 2020 Workshop on
+  Tabular Data}}.
 \newblock
 
 
@@ -106,6 +128,18 @@
 \newblock
 
 
+\bibitem[Mannila et~al\mbox{.}(1997)]%
+        {mannila1997discovery}
+\bibfield{author}{\bibinfo{person}{Heikki Mannila}, \bibinfo{person}{Hannu
+  Toivonen}, {and} \bibinfo{person}{A~Inkeri Verkamo}.}
+  \bibinfo{year}{1997}\natexlab{}.
+\newblock \showarticletitle{Discovery of Frequent Episodes in Event Sequences}.
+\newblock \bibinfo{journal}{\emph{Data Mining and Knowledge Discovery}}
+  \bibinfo{volume}{1}, \bibinfo{number}{3} (\bibinfo{year}{1997}),
+  \bibinfo{pages}{259--289}.
+\newblock
+
+
 \bibitem[Pearl(2009)]%
         {pearl2009causality}
 \bibfield{author}{\bibinfo{person}{Judea Pearl}.}
@@ -137,6 +171,17 @@
 \newblock
 
 
+\bibitem[Tanbeer et~al\mbox{.}(2009)]%
+        {tanbeer2009sliding}
+\bibfield{author}{\bibinfo{person}{Syed~Khairuzzaman Tanbeer},
+  \bibinfo{person}{Chowdhury~Farhan Ahmed}, \bibinfo{person}{Byeong-Soo Jeong},
+  {and} \bibinfo{person}{Young-Koo Lee}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Sliding Window-Based Frequent Pattern Mining over
+  Data Streams}. In \bibinfo{booktitle}{\emph{Information Sciences}},
+  Vol.~\bibinfo{volume}{179}. \bibinfo{pages}{3843--3858}.
+\newblock
+
+
 \bibitem[Vaswani et~al\mbox{.}(2017)]%
         {vaswani2017attention}
 \bibfield{author}{\bibinfo{person}{Ashish Vaswani}, \bibinfo{person}{Noam
@@ -147,6 +192,18 @@
 \newblock \showarticletitle{Attention Is All You Need}. In
   \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
   Systems}}, Vol.~\bibinfo{volume}{30}.
+\newblock
+
+
+\bibitem[Wager and Athey(2018)]%
+        {wager2018estimation}
+\bibfield{author}{\bibinfo{person}{Stefan Wager} {and} \bibinfo{person}{Susan
+  Athey}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Estimation and Inference of Heterogeneous Treatment
+  Effects using Random Forests}.
+\newblock \bibinfo{journal}{\emph{J. Amer. Statist. Assoc.}}
+  \bibinfo{volume}{113}, \bibinfo{number}{523} (\bibinfo{year}{2018}),
+  \bibinfo{pages}{1228--1242}.
 \newblock
 
 

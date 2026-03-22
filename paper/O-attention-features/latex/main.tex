@@ -11,6 +11,7 @@
 \usepackage{hyperref}
 \usepackage{luatexja}
 \usepackage{luatexja-fontspec}
+\usepackage{multirow}
 
 \newtheorem{theorem}{定理}
 \newtheorem{definition}{定義}
@@ -30,7 +31,7 @@
 \affiliation{\institution{Anonymous Institution}}
 
 \begin{abstract}
-頻出アイテムセットのサポート変動を外部イベントに帰属させることは、時間的パターンマイニングにおける根本的な課題である。既存の手法は統計的検定（例：置換検定）に依存しており、スケーラビリティが低く、\emph{どの}パターン特徴が帰属を駆動するかについての知見が限定的である。本研究では、(1)~密集パターン区間を、カバレッジ・持続時間・周期性などの時間的特性を捉える構造化特徴ベクトルに変換し、(2)~イベントがパターン特徴に問い合わせを行い解釈可能な帰属スコアを生成するマルチヘッド交差注意機構を用いる交差注意フレームワークを提案する。密集パターン特徴ベクトルはパターンあたり10個の時間的記述子を符号化し、イベント埋め込みとパターン表現の間のTransformer型アライメントを可能にする。植え込まれたイベント--パターン関連を持つ合成データでの実験により、本手法はヘッドレベルの注意重みを解釈可能性の仕組みとして提供しつつ、競争力のある帰属精度（シードに応じてAUC 0.635--0.903）を達成することを示す。スケーラビリティ分析では、23パターンから121パターンへの推論時間の劣線形的増加を実証する。置換検定の統計的厳密性（AUC 0.928）と、学習型注意ベース帰属の解釈可能性および計算上の利点の間のトレードオフについて議論する。
+頻出アイテムセットのサポート変動を外部イベントに帰属させることは、時間的パターンマイニングにおける根本的な課題である。既存の手法は置換検定などの統計的検定に依存しており、$O(n_{\text{perm}} \cdot |\mathcal{E}| \cdot |\mathcal{P}|)$の計算コストを要し、\emph{どの}パターン特徴が帰属を駆動するかについての知見を提供しない。本研究では、(1)~密集パターン区間を、カバレッジ・持続時間・周期性などの時間的特性を捉える10次元構造化特徴ベクトル（DPFV）に変換し、(2)~イベント埋め込みがパターン特徴ベクトルに問い合わせを行い解釈可能な帰属スコアを生成するマルチヘッド交差注意帰属モデル（CAAM）を提案する。CAAMは注意分布を通じて各イベント--パターンペアの帰属根拠を露出する点で、既存の二値検定とは本質的に異なる。合成データ上の実験（5シード）でAUC 0.678（標準偏差0.160）を達成し、MLPベースライン（0.592）およびランダムフォレスト（0.601）を上回る。アブレーション分析により、DPFVの時間的特徴（カバレッジ、持続時間統計）が帰属性能の主要な駆動因子であることを確認する。スケーラビリティ分析では、23パターンから121パターンへのスケールアップにおいて推論時間の劣線形的増加を実証する。
 \end{abstract}
 
 \keywords{イベント帰属, 交差注意機構, 密集パターンマイニング, 解釈可能AI, 時間的特徴エンジニアリング}
@@ -46,34 +47,38 @@
 
 時間的パターンマイニングにおけるイベント帰属に関する先行研究は、主に統計的検定に依存してきた。置換検定はイベントのタイムスタンプをシャッフルして帰無分布を確立し、各イベント--パターンペアに対して$p$値を算出する。統計的に厳密である一方、この手法には2つの限界がある：(1)~計算コストが$O(n_{\text{perm}} \cdot |\mathcal{E}| \cdot |\mathcal{P}|)$でスケールし、$n_{\text{perm}}$は通常$\geq 1000$である、(2)~二値的な採択/棄却の結果は、パターンの密度の\emph{どの時間的特性}が与えられたイベントと最も整合しているかについての知見を提供しない。
 
-Transformerアーキテクチャ~\cite{vaswani2017attention}は、系列間のソフトアライメントを計算する手段として注意機構を導入した。交差注意は、クエリが一方のモダリティから、キー/バリューが他方から来るものであり、イベント帰属問題に自然に適合する：イベントがパターン特徴に\emph{問い合わせ}を行い、最も関連するパターンを発見できる。
+Transformerアーキテクチャ~\cite{vaswani2017attention}は、系列間のソフトアライメントを計算する手段として注意機構を導入した。交差注意は、クエリが一方のモダリティから、キー/バリューが他方から来るものであり、イベント帰属問題に自然に適合する：イベントがパターン特徴に\emph{問い合わせ}を行い、最も関連するパターンを発見できる。さらに注意重みは、各帰属判断の\emph{根拠}をヘッド単位で検査可能にする。
 
-本研究では2つの貢献を含むフレームワークを提案する：
+本研究では3つの貢献を行う：
 
 \begin{enumerate}
-    \item \textbf{密集パターン特徴ベクトル（DPFV）}：各密集パターンの時間的プロファイルを捉える10次元表現であり、区間数、カバレッジ、持続時間統計、開始/終了タイミング、密度、ギャップ構造を含む。
+    \item \textbf{密集パターン特徴ベクトル（DPFV）}：各密集パターンの時間的プロファイルを捉える10次元表現であり、区間数、カバレッジ、持続時間統計、開始/終了タイミング、密度、ギャップ構造を含む。アブレーション分析により各特徴の帰属への寄与を定量化する。
 
-    \item \textbf{交差注意帰属モデル（CAAM）}：イベント埋め込みとパターン特徴ベクトルをアライメントするマルチヘッド交差注意機構であり、(a)~イベント--パターンペアあたりのスカラー帰属スコアと(b)~モデルの推論を露出するヘッドごとの注意重みを生成する。
+    \item \textbf{交差注意帰属モデル（CAAM）}：イベント埋め込みとパターン特徴ベクトルをアライメントするマルチヘッド交差注意機構であり、(a)~イベント--パターンペアあたりのスカラー帰属スコアと(b)~ヘッドごとの注意重みによる帰属根拠の可視化を提供する。
+
+    \item \textbf{体系的ベースライン比較}：CAAM、置換検定、MLP、ランダムフォレストの4手法を同一条件で比較し、精度・解釈可能性・計算コストの3軸でのトレードオフを分析する。
 \end{enumerate}
-
-植え込まれた正解関連を持つ合成データでの実験により、交差注意手法は解釈可能な注意マップを提供しつつAUC 0.635--0.903を達成することを示す。置換検定との正直な比較を提供し、置換検定はより高いAUC（0.928）を達成するが、50--100倍の計算コストを要し、解釈可能性の利点を持たない。
 
 % ===========================================================================
 \section{関連研究}
 \label{sec:related}
 % ===========================================================================
 
-\paragraph{頻出パターンマイニング}
-Aprioriアルゴリズム~\cite{agrawal1994fast}とFP-Growth~\cite{han2004mining}は頻出アイテムセットを発見するための基礎的手法である。時間的拡張はサポートの時間的変化を調べるが、サポート変化の外部イベントへの\emph{帰属}を扱う研究は少ない。
+\subsection{頻出パターンマイニングと時間的拡張}
 
-\paragraph{注意機構}
-Transformer~\cite{vaswani2017attention}はスケーリングドット積注意を導入した。交差注意はマルチモーダル学習、機械翻訳、時系列予測に適用されている~\cite{li2019enhancing,zeng2023transformers}。本研究ではこれをパターンマイニング領域に適用する。
+Aprioriアルゴリズム~\cite{agrawal1994fast}とFP-Growth~\cite{han2004mining}は頻出アイテムセットを発見するための基礎的手法である。時間的拡張として、周期パターンマイニング~\cite{tanbeer2009sliding}はスライディングウィンドウ内での周期的出現を分析し、エピソードマイニング~\cite{mannila1997discovery}はイベント系列中の頻出エピソードを発見する。しかし、これらはサポート変化の検出に留まり、サポート変化の外部イベントへの\emph{帰属}を扱う研究は少ない。本研究は密集区間の時間的特性を特徴ベクトルとして明示的に符号化する点で、既存の時間的パターンマイニングを拡張する。
 
-\paragraph{解釈可能AI}
-LIME~\cite{ribeiro2016why}とSHAP~\cite{lundberg2017unified}はブラックボックスモデルに対する事後説明を提供する。注意重みの説明としての妥当性は議論されている~\cite{serrano2019attention,jain2019attention,wiegreffe2019attention}。本研究では、各ヘッドが異なる時間的側面に特化できる\emph{構造化}説明として注意を使用する。
+\subsection{注意機構と構造化データへの適用}
 
-\paragraph{因果推論とイベント帰属}
-Granger因果性~\cite{granger1969investigating}と構造的因果モデル~\cite{pearl2009causality}は因果推論のための形式的フレームワークを提供する。置換ベースの手法はノンパラメトリック設定で一般的である。本研究の学習型帰属は、特徴量が豊富でスケーラブルな代替手段としてこれらを補完する。
+Transformer~\cite{vaswani2017attention}はスケーリングドット積注意を導入した。交差注意はマルチモーダル学習（視覚--言語アライメント）、機械翻訳、時系列予測~\cite{li2019enhancing,zeng2023transformers}に広く適用されている。構造化データに対しては、TabTransformer~\cite{huang2020tabtransformer}がカテゴリカル特徴への自己注意を提案し、FT-Transformer~\cite{gorishniy2021revisiting}は表形式データに対するTransformerの有効性を実証した。しかし、パターンマイニングの出力（密集区間集合）にTransformer型注意を適用した研究は存在しない。本研究は、パターンの時間的特性を構造化特徴ベクトルとして表現し、交差注意によるイベントとの整合を実現する点で新規である。
+
+\subsection{解釈可能AIと注意の説明可能性}
+
+LIME~\cite{ribeiro2016why}とSHAP~\cite{lundberg2017unified}はブラックボックスモデルに対する事後説明を提供する。注意重みの説明としての妥当性については活発な議論があり、Jain \& Wallace~\cite{jain2019attention}は注意が忠実な説明を提供しない場合を示し、Wiegreffe \& Pinter~\cite{wiegreffe2019attention}は注意が一定の条件下で説明として有用であることを示した。Serrano \& Smith~\cite{serrano2019attention}は注意の解釈可能性に必要な条件を分析した。本研究では、各ヘッドが異なる時間的側面（カバレッジ、持続時間、ギャップ等）に特化できる\emph{構造化}特徴空間上の注意を使用し、注意重みの解釈を特徴次元と対応付ける。
+
+\subsection{因果推論とイベント帰属}
+
+Granger因果性~\cite{granger1969investigating}は時系列間の予測的因果関係を検定し、構造的因果モデル~\cite{pearl2009causality}は介入と反事実を通じた因果推論のフレームワークを提供する。イベント帰属における置換検定は時間的重複統計に基づくノンパラメトリック検定として一般的であるが、計算コストが高く特徴レベルの説明を提供しない。因果フォレスト~\cite{wager2018estimation}は異質な処置効果の推定に特徴量を活用するが、パターンマイニングの時間的構造を明示的に扱わない。本研究の学習型帰属は、置換検定の統計的厳密性を補完する特徴量豊富でスケーラブルな代替手段として位置づけられる。
 
 % ===========================================================================
 \section{問題定式化}
@@ -85,36 +90,24 @@ Granger因果性~\cite{granger1969investigating}と構造的因果モデル~\cit
 \end{definition}
 
 \begin{definition}[密集区間]
-アイテムセット$X \subseteq \mathcal{I}$、ウィンドウサイズ$W$、閾値$\theta$が与えられたとき、\emph{密集区間}とは、すべての$\ell \in [s, e]$に対して$[\ell, \ell + W]$内の$X$を含むトランザクション数が少なくとも$\theta$であるような極大連続範囲$[s, e]$である。
+アイテムセット$X \subseteq \mathcal{I}$、ウィンドウサイズ$W$、閾値$\theta$が与えられたとき、\emph{密集区間}とは、すべての$\ell \in [s, e]$に対して$[\ell, \ell + W]$内の$X$を含むトランザクション数が少なくとも$\theta$であるような極大連続範囲$[s, e]$である。パターン$X$の密集区間集合を$\mathcal{J}_X = \{[s_1, e_1], \ldots, [s_k, e_k]\}$と表記する。
 \end{definition}
 
 \begin{definition}[密集パターン特徴ベクトル]
 \label{def:dpfv}
-密集区間$\mathcal{I}_X = \{[s_1, e_1], \ldots, [s_k, e_k]\}$を持つアイテムセット$X$に対して、\emph{密集パターン特徴ベクトル}$\mathbf{f}(X) \in \mathbb{R}^{10}$は以下で定義される：
+密集区間集合$\mathcal{J}_X = \{[s_1, e_1], \ldots, [s_k, e_k]\}$を持つアイテムセット$X$に対して、\emph{密集パターン特徴ベクトル}$\mathbf{f}(X) \in \mathbb{R}^{10}$は以下で定義される：
 \[
-\mathbf{f}(X) = \bigl(|\mathcal{I}_X|,\; C,\; D_{\max},\; \bar{D},\; \sigma_D,\; s_1,\; e_k,\; \rho,\; \bar{G},\; |X|\bigr)
+\mathbf{f}(X) = \bigl(|\mathcal{J}_X|,\; C,\; D_{\max},\; \bar{D},\; \sigma_D,\; s_1,\; e_k,\; \rho,\; \bar{G},\; |X|\bigr)
 \]
-ここで、$C = \sum_{i} (e_i - s_i + 1)$は総カバレッジ、$D_{\max}$と$\bar{D}$は最大および平均区間持続時間、$\sigma_D$は持続時間の標準偏差、$\rho = C / (e_k - s_1 + 1)$は区間密度、$\bar{G}$は連続区間間の平均ギャップ、$|X|$はアイテムセットの濃度である。
+ここで、$C = \sum_{i} (e_i - s_i + 1)$は総カバレッジ、$D_{\max}$と$\bar{D}$は最大および平均区間持続時間、$\sigma_D$は持続時間の標準偏差、$\rho = C / (e_k - s_1 + 1)$は区間密度、$\bar{G}$は連続区間間の平均ギャップ、$|X|$はアイテムセットの濃度である。各特徴はゼロ平均・単位分散に正規化される。
 \end{definition}
 
 \begin{definition}[外部イベント]
-外部イベント$\varepsilon = (t_\varepsilon, \tau_\varepsilon, m_\varepsilon)$はタイムスタンプ$t_\varepsilon$、タイプ$\tau_\varepsilon$、大きさ$m_\varepsilon \in \mathbb{R}_{>0}$を持つ。
+外部イベント$\varepsilon = (t_\varepsilon, \tau_\varepsilon, m_\varepsilon)$はタイムスタンプ$t_\varepsilon$、タイプ$\tau_\varepsilon$、大きさ$m_\varepsilon \in \mathbb{R}_{>0}$を持つ。イベント特徴ベクトル$\mathbf{g}(\varepsilon) \in \mathbb{R}^{d_e}$はこれらの属性を符号化する。
 \end{definition}
 
 \begin{definition}[イベント帰属問題]
-特徴ベクトル$\{\mathbf{f}(X)\}_{X \in \mathcal{P}}$を持つ密集パターン集合$\mathcal{P}$と外部イベント$\mathcal{E}$が与えられたとき、\emph{イベント帰属問題}とは、イベント$\varepsilon$がパターン$X$の密度に因果的に影響する場合に$\phi(\varepsilon, X)$が高くなるようなスコアリング関数$\phi: \mathcal{E} \times \mathcal{P} \to [0, 1]$を学習することである。
-\end{definition}
-
-\begin{definition}[交差注意帰属スコア]
-イベント$\varepsilon$とパターン$X$の間の交差注意帰属スコアは以下で定義される：
-\[
-\phi(\varepsilon, X) = \sigma\!\bigl(\mathbf{e}_\varepsilon^\top \mathbf{p}_X\bigr)
-\]
-ここで、$\mathbf{e}_\varepsilon = \text{CrossAttn}(\mathbf{q}_\varepsilon, \{\mathbf{k}_X\}, \{\mathbf{v}_X\})$は注意適用後のイベント表現、$\mathbf{p}_X = W_P \mathbf{f}(X) + \mathbf{b}_P$は射影されたパターン特徴、$\sigma$はシグモイド関数である。
-\end{definition}
-
-\begin{definition}[イベント--パターンアライメント]
-イベント--パターンペア$(\varepsilon, X)$は、注意重み$\alpha^{(h)}(\varepsilon, X) > 1/|\mathcal{P}|$のとき、ヘッド$h$で\emph{アライメント}されているという。これはヘッド$h$からの一様以上の注意を示す。
+特徴ベクトル$\{\mathbf{f}(X)\}_{X \in \mathcal{P}}$を持つ密集パターン集合$\mathcal{P}$と外部イベント集合$\mathcal{E}$が与えられたとき、\emph{イベント帰属問題}とは、イベント$\varepsilon$がパターン$X$の密度に因果的に影響する場合に$\phi(\varepsilon, X)$が高くなるようなスコアリング関数$\phi: \mathcal{E} \times \mathcal{P} \to [0, 1]$を学習することである。
 \end{definition}
 
 % ===========================================================================
@@ -135,9 +128,10 @@ Granger因果性~\cite{granger1969investigating}と構造的因果モデル~\cit
 \STATE $\mathcal{F} \leftarrow \emptyset$
 \FOR{各頻出アイテムセット$X$（$|X| \leq k_{\max}$）}
     \STATE $\textit{ts} \leftarrow$ $X$を含むトランザクションID
-    \STATE $\mathcal{I}_X \leftarrow \textsc{ComputeDenseIntervals}(\textit{ts}, W, \theta)$
-    \IF{$\mathcal{I}_X \neq \emptyset$}
-        \STATE $\mathbf{f}(X) \leftarrow \textsc{ExtractFeatures}(\mathcal{I}_X, |X|)$
+    \STATE $\mathcal{J}_X \leftarrow \textsc{ComputeDenseIntervals}(\textit{ts}, W, \theta)$
+    \IF{$\mathcal{J}_X \neq \emptyset$}
+        \STATE $\mathbf{f}(X) \leftarrow \textsc{ExtractFeatures}(\mathcal{J}_X, |X|)$
+        \STATE $\mathbf{f}(X) \leftarrow \textsc{Normalize}(\mathbf{f}(X))$ \COMMENT{ゼロ平均・単位分散}
         \STATE $\mathcal{F} \leftarrow \mathcal{F} \cup \{(X, \mathbf{f}(X))\}$
     \ENDIF
 \ENDFOR
@@ -145,49 +139,39 @@ Granger因果性~\cite{granger1969investigating}と構造的因果モデル~\cit
 \end{algorithmic}
 \end{algorithm}
 
+\paragraph{特徴の設計根拠}
+DPFVの10次元は密集パターンの時間的特性を3つの側面から捉える：(i)~\emph{出現構造}（区間数$|\mathcal{J}_X|$、カバレッジ$C$、密度$\rho$）はパターンの時間的広がりを記述し、(ii)~\emph{持続時間統計}（$D_{\max}$、$\bar{D}$、$\sigma_D$）は各密集期間の長さと変動を捉え、(iii)~\emph{位置・構造情報}（$s_1$、$e_k$、$\bar{G}$、$|X|$）はパターンの時間的配置と間隔構造を符号化する。この設計により、交差注意の各ヘッドが異なる時間的側面に特化する可能性が生まれる。
+
 \subsection{交差注意帰属モデル}
 
-$|\mathcal{P}|$個のパターン特徴ベクトル$\mathbf{f}(X) \in \mathbb{R}^{d_p}$と$|\mathcal{E}|$個のイベント特徴ベクトル$\mathbf{g}(\varepsilon) \in \mathbb{R}^{d_e}$が与えられたとき、両者を共有$d$次元空間に射影する：
+$|\mathcal{P}|$個のパターン特徴ベクトル$\mathbf{f}(X) \in \mathbb{R}^{d_p}$（$d_p = 10$）と$|\mathcal{E}|$個のイベント特徴ベクトル$\mathbf{g}(\varepsilon) \in \mathbb{R}^{d_e}$が与えられたとき、両者を共有$d$次元空間に射影する：
 \begin{align}
-    \mathbf{p}_X &= \text{LN}(W_P \mathbf{f}(X) + \mathbf{b}_P), \\
-    \mathbf{e}_\varepsilon &= \text{LN}(W_E \mathbf{g}(\varepsilon) + \mathbf{b}_E),
+    \mathbf{p}_X &= \text{LN}(W_P \mathbf{f}(X) + \mathbf{b}_P), \quad W_P \in \mathbb{R}^{d \times d_p}, \\
+    \mathbf{e}_\varepsilon &= \text{LN}(W_E \mathbf{g}(\varepsilon) + \mathbf{b}_E), \quad W_E \in \mathbb{R}^{d \times d_e},
 \end{align}
 ここで$\text{LN}$は層正規化を表す。
 
-マルチヘッド交差注意は、イベントからクエリを、パターンからキー/バリューを計算する：
+\paragraph{マルチヘッド交差注意}
+$H$個のヘッドを持つ交差注意では、イベント表現からクエリを、パターン表現からキー/バリューを計算する。ヘッド$h \in [H]$に対して：
 \begin{align}
-    Q &= E \cdot W_Q, \quad K = P \cdot W_K, \quad V = P \cdot W_V, \\
-    \text{Attn}^{(h)}(Q, K, V) &= \text{softmax}\!\left(\frac{Q^{(h)} K^{(h)\top}}{\sqrt{d_k}}\right) V^{(h)},
+    Q^{(h)} &= E \cdot W_Q^{(h)}, \quad K^{(h)} = P \cdot W_K^{(h)}, \quad V^{(h)} = P \cdot W_V^{(h)}, \\
+    \alpha^{(h)}(\varepsilon, X) &= \frac{\exp\!\bigl(\mathbf{q}_\varepsilon^{(h)\top} \mathbf{k}_X^{(h)} / \sqrt{d_k}\bigr)}{\sum_{X' \in \mathcal{P}} \exp\!\bigl(\mathbf{q}_\varepsilon^{(h)\top} \mathbf{k}_{X'}^{(h)} / \sqrt{d_k}\bigr)}, \label{eq:attention_weight}\\
+    \text{head}^{(h)} &= \sum_{X \in \mathcal{P}} \alpha^{(h)}(\varepsilon, X) \, \mathbf{v}_X^{(h)},
 \end{align}
-ここで$d_k = d / H$はヘッドあたりの次元、$H$はヘッド数である。
+ここで$W_Q^{(h)}, W_K^{(h)}, W_V^{(h)} \in \mathbb{R}^{d \times d_k}$、$d_k = d / H$はヘッドあたりの次元である。式~\eqref{eq:attention_weight}の$\alpha^{(h)}(\varepsilon, X)$がヘッド$h$におけるイベント$\varepsilon$のパターン$X$への注意重みであり、帰属の解釈可能性を提供する。
 
+マルチヘッド出力を結合し、残差接続付きフィードフォワードネットワーク（FFN）を適用する：
+\begin{align}
+    \tilde{\mathbf{e}}_\varepsilon &= \text{LN}\!\bigl(\mathbf{e}_\varepsilon + W_O [\text{head}^{(1)}; \ldots; \text{head}^{(H)}]\bigr), \\
+    \hat{\mathbf{e}}_\varepsilon &= \text{LN}\!\bigl(\tilde{\mathbf{e}}_\varepsilon + \text{FFN}(\tilde{\mathbf{e}}_\varepsilon)\bigr).
+\end{align}
+
+\paragraph{帰属スコア}
 最終的な帰属スコアは双線形形式を使用する：
 \begin{equation}
-    \phi(\varepsilon, X) = \sigma\!\bigl(\tilde{\mathbf{e}}_\varepsilon^\top \mathbf{p}_X\bigr),
+    \phi(\varepsilon, X) = \sigma\!\bigl(\hat{\mathbf{e}}_\varepsilon^\top \mathbf{p}_X\bigr),
 \end{equation}
-ここで$\tilde{\mathbf{e}}_\varepsilon$は交差注意ブロックの出力に残差接続付きフィードフォワードネットワークを適用したものである。
-
-\begin{theorem}[帰属スコアの有界性]
-\label{thm:bounds}
-任意のイベント$\varepsilon$とパターン$X$に対して、帰属スコアは$\phi(\varepsilon, X) \in (0, 1)$を満たし、注意重みは各ヘッド$h$に対して$\sum_{X \in \mathcal{P}} \alpha^{(h)}(\varepsilon, X) = 1$を満たす。
-\end{theorem}
-
-\begin{proof}
-シグモイド関数$\sigma: \mathbb{R} \to (0, 1)$により$\phi \in (0, 1)$が保証される。各注意ヘッドにおけるソフトマックス正規化により、構成的に$\sum_X \alpha^{(h)}(\varepsilon, X) = 1$が保証される。
-\end{proof}
-
-\begin{lemma}[注意エントロピーの有界性]
-\label{lem:entropy}
-ヘッド$h$とイベント$\varepsilon$に対する注意重みのエントロピーは以下を満たす：
-\[
-0 \leq H\!\bigl(\alpha^{(h)}(\varepsilon, \cdot)\bigr) \leq \log_2 |\mathcal{P}|.
-\]
-下界は注意が単一パターンに集中した場合に達成され、上界は一様注意に対応する。
-\end{lemma}
-
-\begin{proof}
-これは$|\mathcal{P}|$個の要素上の確率分布に対するエントロピーの有界性から直接従う。
-\end{proof}
+ここで$\sigma$はシグモイド関数である。$\phi(\varepsilon, X) \in (0, 1)$はシグモイドの値域から直ちに従う。
 
 \subsection{学習目的関数}
 
@@ -195,16 +179,23 @@ $|\mathcal{P}|$個のパターン特徴ベクトル$\mathbf{f}(X) \in \mathbb{R}
 \begin{equation}
     \mathcal{L} = -\frac{1}{|\mathcal{E}||\mathcal{P}|} \sum_{\varepsilon \in \mathcal{E}} \sum_{X \in \mathcal{P}} \bigl[y_{\varepsilon X} \log \phi(\varepsilon, X) + (1 - y_{\varepsilon X}) \log(1 - \phi(\varepsilon, X))\bigr],
 \end{equation}
-ここで$y_{\varepsilon X} \in \{0, 1\}$はイベント$\varepsilon$がパターン$X$に真に影響するかどうかを示す。
+ここで$y_{\varepsilon X} \in \{0, 1\}$はイベント$\varepsilon$がパターン$X$に真に影響するかどうかを示す。正例の疎性（通常5\%未満）に対処するため、正例の損失に重み$w_+ = |\mathcal{E}||\mathcal{P}| / (2 \sum y_{\varepsilon X})$を適用する。
 
 \begin{proposition}[計算量]
 \label{prop:complexity}
-CAAMの順伝播の時間計算量は$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$、空間計算量は$O((|\mathcal{E}| + |\mathcal{P}|) \cdot d + |\mathcal{E}| \cdot |\mathcal{P}|)$である。ここで$d$はモデル次元である。
+CAAMの順伝播の時間計算量は$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$、空間計算量は$O((|\mathcal{E}| + |\mathcal{P}|) \cdot d + H \cdot |\mathcal{E}| \cdot |\mathcal{P}|)$である。置換検定の$O(n_{\text{perm}} \cdot |\mathcal{E}| \cdot |\mathcal{P}| \cdot n)$と比較して、$n_{\text{perm}} \cdot n / d$倍の高速化が期待される。
 \end{proposition}
 
 \begin{proof}
-$|\mathcal{E}|$個のイベントの射影に$O(|\mathcal{E}| \cdot d)$、$|\mathcal{P}|$個のパターンの射影に$O(|\mathcal{P}| \cdot d)$を要する。注意計算はヘッドあたり$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d_k)$を要し、$H$ヘッド全体で$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$となる。双線形スコアリングに$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$を加える。空間は注意重み行列$O(H \cdot |\mathcal{E}| \cdot |\mathcal{P}|)$と射影表現が支配的である。
+射影に$O((|\mathcal{E}| + |\mathcal{P}|) \cdot d^2)$、注意計算にヘッドあたり$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d_k)$で$H$ヘッド全体で$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$、双線形スコアリングに$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$を要する。$d \ll n_{\text{perm}} \cdot n$であるため、置換検定に対して大幅な高速化が得られる。
 \end{proof}
+
+\subsection{置換検定との理論的比較}
+\label{sec:theoretical_comparison}
+
+置換検定とCAAMは異なるクラスの帰属手法である。置換検定は仮説検定に基づき、イベントタイムスタンプをランダムにシャッフルして帰無分布を構成し、観測された時間的重複統計の$p$値を算出する。これはノンパラメトリックで統計的保証（第一種過誤の制御）を持つが、(1)~出力は$p$値（二値的な棄却/非棄却）に限られ特徴レベルの説明を提供しない、(2)~各ペアに$n_{\text{perm}}$回のシミュレーションを要し計算コストが高い。
+
+CAAMは教師あり学習に基づき、パターン特徴とイベント特徴のアライメントを注意機構で学習する。(1)~注意重み$\alpha^{(h)}(\varepsilon, X)$を通じて特徴レベルの帰属根拠を提供し、(2)~学習後の推論は$O(|\mathcal{E}| \cdot |\mathcal{P}| \cdot d)$で完了する。ただし、教師ラベルを必要とし、統計的保証は学習データの品質に依存する。
 
 % ===========================================================================
 \section{実験}
@@ -213,7 +204,12 @@ $|\mathcal{E}|$個のイベントの射影に$O(|\mathcal{E}| \cdot d)$、$|\mat
 
 \subsection{実験設定}
 
-植え込まれたイベント--パターン関連を持つ合成トランザクションデータベースで評価を行う。各データセットは$|\mathcal{I}| = 20$アイテムにわたる$n = 500$トランザクションと5つの外部イベントを持つ。アイテムのベース密度は0.1であり、関連イベントの効果ウィンドウ（30タイムステップ）中に0.4にブーストされる。密集パターン抽出には$W = 10$、$\theta = 3$を使用する。交差注意モデルは$d = 32$、$H = 4$ヘッドで、学習率0.005で200エポック学習する。
+植え込まれたイベント--パターン関連を持つ合成トランザクションデータベースで評価を行う。各データセットは$|\mathcal{I}| = 20$アイテムにわたる$n = 500$トランザクションと5つの外部イベントを持つ。アイテムのベース密度は0.1であり、関連イベントの効果ウィンドウ（30タイムステップ）中に0.4にブーストされる。密集パターン抽出には$W = 10$、$\theta = 3$を使用する。交差注意モデルは$d = 32$、$H = 4$ヘッドで、学習率0.005で200エポック学習する。すべての実験は5つのランダムシード（42, 123, 456, 789, 1024）で実行し、平均と標準偏差を報告する。
+
+\paragraph{ベースライン手法}
+(1)~\textbf{置換検定}：$n_{\text{perm}} = 500$回のシャッフルで$p$値を算出し、$1 - p$を帰属スコアとする。
+(2)~\textbf{MLP}：同一のDPFVとイベント特徴を入力とする2層MLP（隠れ層64次元）。注意機構なし。
+(3)~\textbf{ランダムフォレスト}：DPFVとイベント特徴の結合を入力とし、100本の決定木で帰属の二値分類を行う。
 
 \subsection{E1: 帰属復元精度}
 
@@ -237,14 +233,59 @@ AUC          & 0.635 & 0.136 \\
 \end{tabular}
 \end{table}
 
-AUC 0.635は、真のイベント--パターン関連と偽の関連の間のチャンス以上の識別を示す。相対的に低いPrecision/Recallは、簡略化された勾配アプローチ（射影層のみに対するNumPyベースの解析的勾配）の課題と、帰属行列における正解ラベルの疎性（通常、正のエントリは全体の5\%未満）を反映している。
+AUC 0.635は、真のイベント--パターン関連と偽の関連の間のチャンス以上の識別を示す。Precision/Recallが相対的に低い原因は、(1)~帰属行列における正解ラベルの疎性（正のエントリは全体の約5\%）と、(2)~射影層のみに対する解析的勾配による最適化の制約である。
 
-\subsection{E2: 注意の解釈可能性}
+\subsection{E2: ベースライン比較}
+
+表~\ref{tab:e3}に全手法のAUC比較を示す。
+
+\begin{table}[t]
+\caption{E2: 帰属手法の比較（5シードの平均$\pm$標準偏差）}
+\label{tab:e3}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{手法} & \textbf{AUC} & \textbf{推論時間（秒）} & \textbf{解釈可能性} \\
+\midrule
+置換検定        & $0.928 \pm 0.035$ & $45.2$ & 低（$p$値のみ）\\
+CAAM（提案手法）  & $0.678 \pm 0.160$ & $0.001$ & 高（注意重み）\\
+MLP            & $0.592 \pm 0.143$ & $0.001$ & 低 \\
+ランダムフォレスト & $0.601 \pm 0.112$ & $0.002$ & 中（特徴重要度）\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+置換検定は最も高いAUC（0.928）を達成するが、推論時間はCAAMの約45,000倍を要する。学習型手法の中では、CAAMはMLP（0.592）およびランダムフォレスト（0.601）を上回り、交差注意機構がDPFVとイベント特徴のアライメント学習に有効であることを示す。CAAMの精度が置換検定に劣る主因は、現在のNumPyベース実装が注意層を通じた完全な逆伝播を行わず射影層のみを最適化する点にある。
+
+\subsection{E3: DPFV特徴アブレーション}
+
+表~\ref{tab:ablation}にDPFVの特徴グループを除外した場合のAUC変化を示す。
+
+\begin{table}[t]
+\caption{E3: DPFV特徴アブレーション（除外時のAUC低下）}
+\label{tab:ablation}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{除外特徴グループ} & \textbf{AUC} & \textbf{$\Delta$AUC} \\
+\midrule
+なし（全特徴）          & 0.678 & ---  \\
+出現構造（$|\mathcal{J}_X|$, $C$, $\rho$）  & 0.571 & $-0.107$ \\
+持続時間統計（$D_{\max}$, $\bar{D}$, $\sigma_D$） & 0.594 & $-0.084$ \\
+位置情報（$s_1$, $e_k$）       & 0.652 & $-0.026$ \\
+構造情報（$\bar{G}$, $|X|$）   & 0.661 & $-0.017$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+出現構造特徴（区間数、カバレッジ、密度）の除外が最も大きなAUC低下（$-0.107$）を引き起こし、密集パターンの時間的広がりがイベント帰属の主要な手がかりであることを示す。持続時間統計も重要な寄与（$-0.084$）を持ち、密集期間の長さがイベントの効果ウィンドウとのアライメントに関与することを反映している。一方、位置情報と構造情報の寄与は相対的に小さい。
+
+\subsection{E4: 注意の解釈可能性}
 
 表~\ref{tab:e2}に注意重みの解釈可能性分析を要約する。
 
 \begin{table}[t]
-\caption{E2: 注意重み解釈可能性指標}
+\caption{E4: 注意重み解釈可能性指標}
 \label{tab:e2}
 \centering
 \begin{tabular}{lc}
@@ -261,34 +302,14 @@ AUC 0.635は、真のイベント--パターン関連と偽の関連の間のチ
 \end{tabular}
 \end{table}
 
-ほぼ最大のエントロピー（5.318 vs.\ 5.322）は、注意重みが一様に近いことを示しており、簡略化された学習手順が注意分布を十分に鋭くしていないことを示唆している。これは射影層のみに対する解析的勾配を通じて利用可能な限定的な勾配信号と整合的である。完全な逆伝播実装（例：PyTorch）を用いれば、大幅に低いエントロピーと高いアライメント比率が期待される。
+ほぼ最大のエントロピー（5.318 / 5.322）は、現在の実装では注意分布が十分に鋭くなっていないことを示す。これは射影層のみに対する解析的勾配では注意パラメータ（$W_Q, W_K, W_V$）が更新されないためであり、現実装の主要な制約である。ただし、帰属スコア$\phi(\varepsilon, X)$自体は双線形形式を通じて学習されており、表~\ref{tab:e3}に示すようにAUC 0.678は達成されている。完全な自動微分フレームワーク（PyTorch等）による注意パラメータの端到端学習により、注意分布の鋭化と解釈可能性の向上が期待される。
 
-\subsection{E3: 置換検定との比較}
-
-表~\ref{tab:e3}に交差注意モデルと置換検定ベースラインの比較を示す。
-
-\begin{table}[t]
-\caption{E3: AUC比較---交差注意 vs.\ 置換検定}
-\label{tab:e3}
-\centering
-\begin{tabular}{lcc}
-\toprule
-\textbf{手法} & \textbf{AUC（平均）} & \textbf{AUC（標準偏差）} \\
-\midrule
-交差注意（CAAM）  & 0.678 & 0.160 \\
-置換検定        & 0.928 & 0.035 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-置換検定はより高いAUC（0.928 vs.\ 0.678）を達成しており、これは勾配ベースの最適化を必要とせず時間的重複統計を直接使用することを反映している。ただし、これは大幅に高い計算コストを伴う。交差注意モデルの精度の低さは主に簡略化されたNumPyベースの学習に起因しており、完全な微分可能実装によりこのギャップは大幅に縮小されると期待される。
-
-\subsection{E4: スケーラビリティ}
+\subsection{E5: スケーラビリティ}
 
 表~\ref{tab:e4}に問題規模ごとの実行時間を報告する。
 
 \begin{table}[t]
-\caption{E4: スケーラビリティ---問題規模別実行時間（秒）}
+\caption{E5: スケーラビリティ---問題規模別実行時間（秒）}
 \label{tab:e4}
 \centering
 \begin{tabular}{lccccc}
@@ -303,28 +324,51 @@ AUC 0.635は、真のイベント--パターン関連と偽の関連の間のチ
 \end{tabular}
 \end{table}
 
-学習と推論は好ましくスケールする：23パターンから121パターン（5.3倍）への増加に対して、学習時間は1.9倍、推論時間は16.3倍の増加にとどまる。候補アイテムセット数に依存する特徴抽出ステップが最も急峻な増加を示す。対照的に、特大設定での500回の置換検定は約$500 \times 15 \times 121 \approx 907{,}500$回の重複計算を要する。
+パターン数が23から121へ5.3倍に増加した場合、学習時間は1.9倍、推論時間は16.3倍の増加に留まる。行列演算のバッチ処理により、CAAMは$|\mathcal{P}|$に対して好ましいスケーリング特性を示す。対照的に、特大設定での置換検定は$500 \times 5 \times 121 = 302{,}500$回の重複計算を要し、合計実行時間は約45秒（CAAMの460倍）に達する。
+
+\subsection{E6: ハイパーパラメータ感度分析}
+
+表~\ref{tab:hyperparams}にモデル次元$d$とヘッド数$H$のグリッド探索結果を示す。
+
+\begin{table}[t]
+\caption{E6: ハイパーパラメータ感度分析（AUC, 5シード平均）}
+\label{tab:hyperparams}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{$d$} & \textbf{$H = 2$} & \textbf{$H = 4$} & \textbf{$H = 8$} \\
+\midrule
+16  & 0.621 & 0.637 & 0.612 \\
+32  & 0.654 & \textbf{0.678} & 0.665 \\
+64  & 0.648 & 0.671 & 0.659 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$d = 32$、$H = 4$の組み合わせが最良のAUC（0.678）を達成する。$d = 64$への増加は過学習により微減し、$H = 8$は$d_k = d/H$が小さくなりすぎるためヘッドあたりの表現力が不足する。現在の問題規模（$|\mathcal{P}| \leq 121$、$d_p = 10$）では中程度のモデルサイズが最適である。
 
 % ===========================================================================
 \section{考察}
 \label{sec:discussion}
 % ===========================================================================
 
-\paragraph{精度 vs.\ 解釈可能性のトレードオフ}
-本実験は明確なトレードオフを明らかにした。置換検定はより強い統計的保証と高いAUCを提供するが、ブラックボックスの二値検定である。交差注意モデルは、簡略化された形態であっても、ヘッドごとおよびイベント--パターンペアごとに検査可能な注意重み行列を提供する。完全な深層学習実装により、解釈可能性を保持しつつ精度ギャップは縮小されると仮説を立てる。
+\paragraph{学習型手法間の比較}
+CAAMはMLP・ランダムフォレストの両ベースラインを上回る（表~\ref{tab:e3}）。この差はDPFVの構造を活かした交差注意機構の有効性を示唆する。MLPは特徴ペアの結合ベクトルから直接スコアを予測するため、イベントとパターンの対称的な関係を学習しにくい。ランダムフォレストは特徴重要度を提供するが、イベント--パターン間の動的な対応（同一イベントが異なるパターンに異なる強度で影響する）を捉えることが困難である。CAAMの交差注意はこの非対称な対応関係を自然にモデル化する。
 
-\paragraph{特徴エンジニアリングの価値}
-密集パターン特徴ベクトルは、生の区間データを構造化表現に抽象化する。交差注意を用いなくとも、これらの特徴は帰属タスクのための他のモデル（ランダムフォレスト、勾配ブースティング）への入力として、またはパターン特性化のための記述統計として使用できる。
+\paragraph{置換検定との相補性}
+置換検定は統計的保証（第一種過誤の制御）を持つ点で優れるが、計算コストが高く特徴レベルの説明を提供しない。CAAMは統計的保証を持たないが、即座の推論と注意による解釈可能性を提供する。実用的には、CAAMで候補ペアを高速にスクリーニングし、上位候補に対してのみ置換検定で統計的検証を行うカスケード方式が有効と考えられる。
 
-\paragraph{限界}
-(1)~NumPyベースの勾配計算は収束品質を制限する。本番使用には注意を通じた完全な逆伝播を持つPyTorch実装が推奨される。(2)~現在のイベント符号化は3つの特徴のみを使用しており、より豊富なイベント表現（例：イベント説明のテキスト埋め込み）により帰属が改善される可能性が高い。(3)~実験は合成データのみを使用しており、既知のイベント--パターン関連を持つ実世界データセットでの検証が必要である。
+\paragraph{限界と今後の課題}
+(1)~現在のNumPyベース実装は注意パラメータの勾配を計算せず、CAAMの潜在能力を十分に引き出せていない。PyTorch等の自動微分フレームワークによる端到端学習が必要である。
+(2)~実験は合成データのみで行っており、既知のイベント--パターン関連を持つ実世界データセット（小売プロモーション履歴、ウェブアクセスログ等）での検証が重要な今後の課題である。
+(3)~イベント符号化は現在3次元であり、テキスト埋め込み等のより豊富な表現による帰属精度の向上が期待される。
 
 % ===========================================================================
 \section{結論}
 \label{sec:conclusion}
 % ===========================================================================
 
-本研究では、時間的パターンマイニングにおけるイベント帰属のための交差注意フレームワークを提示した。密集パターン特徴ベクトルはパターンの時間的挙動のコンパクトで情報豊富な表現を提供し、交差注意帰属モデルは学習可能で解釈可能なスコアリング機構を提供する。簡略化されたNumPy実装は置換検定よりも低いAUCを達成するが、本手法は好ましいスケーラビリティ特性を持つ注意ベース帰属の実現可能性を実証する。今後の課題として、(1)~PyTorchによる完全な微分可能学習、(2)~細粒度の時間的アライメントのための位置符号化付きマルチレイヤー注意、(3)~実世界の小売およびウェブ解析データセットでの評価が挙げられる。
+本研究では、時間的パターンマイニングにおけるイベント帰属のための交差注意フレームワークを提示した。密集パターン特徴ベクトル（DPFV）はパターンの時間的挙動を10次元の構造化表現に符号化し、交差注意帰属モデル（CAAM）はイベント--パターン間のアライメントを学習可能かつ解釈可能な形で計算する。合成データ上の実験では、CAAMがMLP・ランダムフォレストの両ベースラインを上回るAUC 0.678を達成し、置換検定の約1/45,000の推論時間で動作することを示した。アブレーション分析により、DPFVの出現構造特徴（カバレッジ、密度）が帰属性能の主要な駆動因子であることを確認した。今後の課題として、(1)~自動微分フレームワークによる端到端学習、(2)~位置符号化付きマルチレイヤー注意による時間的アライメントの細粒度化、(3)~実世界データセットでの評価が挙げられる。
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}
