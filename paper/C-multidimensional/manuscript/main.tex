@@ -1,0 +1,347 @@
+\documentclass[sigconf,natbib=true]{acmart}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{subcaption}
+
+\setcopyright{none}
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\begin{document}
+
+\title{Multi-Dimensional Dense Region Mining:\\From Intervals to Level Sets of Support Surfaces}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+}
+
+\begin{abstract}
+Dense interval detection in frequent pattern mining identifies temporal periods where itemset support exceeds a threshold.
+However, real-world data often possesses additional dimensions---spatial location, customer demographics, product category---where dense regions form irregular shapes rather than simple intervals.
+We introduce the \emph{support surface}, a multi-dimensional generalization of the support time series, and define \emph{dense regions} as connected components of its superlevel set.
+We prove the \emph{Dense Region Containment Theorem}, which extends the Apriori anti-monotonicity property to arbitrary dimensions and enables candidate region pruning.
+We further formalize \emph{dimension decomposability}, providing sufficient conditions under which the multi-dimensional problem decomposes into independent 1D sub-problems.
+We present the \emph{Sweep Surface} algorithm that combines prefix-sum computation with union-find connected component labeling, achieving $O(G \cdot \alpha(G))$ complexity where $G$ is the grid size.
+Experiments on synthetic and semi-realistic retail datasets demonstrate:
+(1) perfect recovery of planted dense regions,
+(2) up to 2$\times$ speedup of sweep surface over na\"ive enumeration,
+(3) scalability to million-cell grids in 3D, and
+(4) discovery of interpretable spatiotemporal patterns in simulated retail scenarios.
+\end{abstract}
+
+\keywords{dense region mining, support surface, multi-dimensional patterns, sweep algorithm, superlevel sets}
+
+\maketitle
+
+% ==============================================================
+\section{Introduction}\label{sec:intro}
+% ==============================================================
+
+Frequent pattern mining~\cite{agrawal1994apriori,han2000mining} is a cornerstone of data mining, identifying itemsets that appear together frequently in transaction databases.
+While most work assumes a single aggregate support threshold, real-world patterns exhibit temporal variation---a product bundle may be popular during a holiday season but rare otherwise.
+The \emph{dense interval} framework addresses this by computing a support time series and identifying contiguous temporal windows where support exceeds a threshold.
+
+However, many practical settings involve multiple contextual dimensions beyond time.
+A retail chain may observe that a product combination is popular during summer (temporal) in urban stores (spatial) but not in rural ones.
+Epidemiological surveillance seeks space-time clusters of disease incidence.
+In these settings, the relevant concept is not a 1D interval but a multi-dimensional \emph{dense region}: an arbitrarily shaped connected area in the space of contextual dimensions where pattern support is elevated.
+
+Existing approaches address related but distinct problems.
+\textbf{Spatial scan statistics}~\cite{kulldorff1997spatial,kulldorff2001prospective} detect clusters in point processes but are restricted to circular or cylindrical scanning windows and do not handle itemset patterns.
+\textbf{Dense subtensor mining}~\cite{shin2017densealert,shin2018mzoom} finds dense blocks in multi-dimensional arrays but only axis-aligned rectangles, missing irregular region shapes.
+\textbf{Density-based clustering}~\cite{ester1996dbscan,ankerst1999optics} discovers clusters of arbitrary shape in point data, but operates on raw data points rather than derived support functions.
+\textbf{Co-location pattern mining}~\cite{shekhar2001colocation} identifies spatially associated feature types but lacks temporal dynamics and the notion of a continuous support surface.
+
+We bridge these gaps by introducing the \emph{support surface}---a function $S_P(t, \mathbf{v})$ that counts the support of pattern $P$ within a sliding window at each point $(t, \mathbf{v})$ in the multi-dimensional domain.
+Dense regions are then naturally defined as connected components of the superlevel set $\{(t, \mathbf{v}) : S_P(t, \mathbf{v}) \geq \theta\}$.
+This formulation generalizes 1D dense intervals, connects to topological data analysis via persistent homology~\cite{edelsbrunner2010computational}, and enables efficient algorithms based on sweep techniques from computational geometry~\cite{shamos1976geometric}.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item We formalize the \textbf{support surface} and \textbf{dense region} concepts for multi-dimensional transaction data (Section~\ref{sec:problem}).
+
+\item We prove the \textbf{Dense Region Containment Theorem}, extending Apriori anti-monotonicity to multi-dimensional regions, enabling pruning during mining (Section~\ref{sec:problem}).
+
+\item We introduce \textbf{dimension decomposability}, a property that enables factoring the multi-dimensional problem into independent 1D sub-problems when the support surface is approximately separable (Section~\ref{sec:problem}).
+
+\item We present the \textbf{Sweep Surface algorithm} with $O(G \cdot \alpha(G))$ complexity for dense region extraction, where $G$ is the grid size and $\alpha$ is the inverse Ackermann function (Section~\ref{sec:method}).
+
+\item We conduct comprehensive experiments demonstrating effectiveness, scalability, and practical utility (Section~\ref{sec:experiments}).
+\end{enumerate}
+
+% ==============================================================
+% Problem Definition (from sec/03_problem_definition.tex)
+% ==============================================================
+\input{sec/03_problem_definition}
+
+% ==============================================================
+\section{Proposed Method}\label{sec:method}
+% ==============================================================
+
+We present two algorithms for solving Problem~\ref{prob:main}: the \emph{Sweep Surface} algorithm for the general case and a \emph{Decomposed} algorithm when the support surface is approximately separable.
+
+\subsection{Support Surface Computation}
+
+\paragraph{Na\"ive approach.}
+For each grid point $(t, \mathbf{v})$, iterate over all transactions in the window $[t, t+W_0) \times \mathrm{Box}(\mathbf{v}, \mathbf{W})$ and count those containing pattern $P$.
+This requires $O(G \cdot N)$ time, which is prohibitive for large datasets.
+
+\paragraph{Prefix-sum approach.}
+We first build a $(k{+}1)$-dimensional indicator array $I$ where $I[t, \mathbf{x}(t)]$ counts transactions at grid position $(t, \mathbf{x}(t))$ that contain $P$.
+We then compute prefix sums along each dimension.
+The support at any grid point is obtained by inclusion-exclusion on $2^{k+1}$ corners of the prefix sum array, requiring $O(G \cdot 2^{k+1} + N)$ total time.
+
+\subsection{Dense Region Extraction}
+
+Given the support surface $S_P$, we extract dense regions using Algorithm~\ref{alg:sweep}.
+
+\begin{algorithm}[t]
+\caption{Sweep Surface Dense Region Detection}
+\label{alg:sweep}
+\begin{algorithmic}[1]
+\REQUIRE Support surface $S_P$, threshold $\theta$, grid shape $(T_0, T_1, \ldots, T_k)$
+\ENSURE Set of dense regions $\mathcal{R}_\theta(P)$
+\STATE Initialize UnionFind $U$ with $G = \prod_j T_j$ elements
+\STATE $\textit{above} \leftarrow \emptyset$
+\FOR{$t = 0$ to $T_0 - 1$}
+    \FOR{each $\mathbf{v}$ in slice at position $t$}
+        \IF{$S_P(t, \mathbf{v}) \geq \theta$}
+            \STATE $f \leftarrow \textsc{FlatIndex}(t, \mathbf{v})$
+            \STATE $\textit{above} \leftarrow \textit{above} \cup \{f\}$
+            \FOR{each grid neighbor $\mathbf{n}$ of $(t, \mathbf{v})$}
+                \STATE $f_n \leftarrow \textsc{FlatIndex}(\mathbf{n})$
+                \IF{$f_n \in \textit{above}$}
+                    \STATE $U.\textsc{Union}(f, f_n)$
+                \ENDIF
+            \ENDFOR
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\STATE \textbf{return} connected components of $U$ restricted to \textit{above}
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Complexity.}
+Each grid cell is visited once ($O(G)$).
+For each cell above threshold, we check $2(k+1)$ neighbors.
+Each union-find operation is $O(\alpha(G))$.
+Total: $O(G \cdot (k+1) \cdot \alpha(G))$.
+Since $k$ is typically small (2--3) and $\alpha$ is effectively constant, the practical complexity is $O(G)$.
+
+\subsection{Multi-Dimensional Apriori Mining}
+
+The full mining pipeline (Algorithm~\ref{alg:mining}) uses Apriori-style level-wise search with dense region containment pruning.
+
+\begin{algorithm}[t]
+\caption{Multi-Dimensional Dense Itemset Mining}
+\label{alg:mining}
+\begin{algorithmic}[1]
+\REQUIRE Transaction data $D$, window sizes $\mathbf{W}$, threshold $\theta$, max length $L_{\max}$
+\ENSURE All patterns $P$ with $\mathcal{R}_\theta(P) \neq \emptyset$
+\STATE $\mathcal{F}_1 \leftarrow \emptyset$
+\FOR{each item $i \in \mathcal{I}$}
+    \STATE Compute $S_{\{i\}}$; extract $\mathcal{R}_\theta(\{i\})$
+    \IF{$\mathcal{R}_\theta(\{i\}) \neq \emptyset$}
+        \STATE $\mathcal{F}_1 \leftarrow \mathcal{F}_1 \cup \{\{i\}\}$
+    \ENDIF
+\ENDFOR
+\FOR{$k = 2$ to $L_{\max}$}
+    \STATE $\mathcal{C}_k \leftarrow \textsc{GenerateCandidates}(\mathcal{F}_{k-1}, k)$
+    \STATE $\mathcal{C}_k \leftarrow \textsc{AprioriPrune}(\mathcal{C}_k, \mathcal{F}_{k-1})$
+    \STATE $\mathcal{F}_k \leftarrow \emptyset$
+    \FOR{each $P \in \mathcal{C}_k$}
+        \STATE $\mathcal{R}_{\text{cand}} \leftarrow \bigcap_{Q \subset P, |Q|=k-1} \mathcal{L}_\theta(S_Q)$ \COMMENT{Cor.~\ref{cor:candidate_restriction}}
+        \IF{$\mathcal{R}_{\text{cand}} = \emptyset$}
+            \STATE \textbf{continue} \COMMENT{Pruned by Cor.~\ref{cor:pruning}}
+        \ENDIF
+        \STATE Compute $S_P$ restricted to $\mathcal{R}_{\text{cand}}$
+        \STATE Extract $\mathcal{R}_\theta(P)$
+        \IF{$\mathcal{R}_\theta(P) \neq \emptyset$}
+            \STATE $\mathcal{F}_k \leftarrow \mathcal{F}_k \cup \{P\}$
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\STATE \textbf{return} $\bigcup_k \mathcal{F}_k$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Decomposition-Aware Variant}
+
+When the support surface is approximately dimension-decomposable (Definition~\ref{def:decomposable}), we can exploit Theorem~\ref{thm:decomposition} for significant speedup.
+Our adaptive algorithm first checks decomposability via rank-1 tensor approximation:
+\begin{enumerate}
+\item Compute the rank-1 approximation $\hat{S} = f_0 \otimes f_1 \otimes \cdots \otimes f_k$ (via SVD for 2D, ALS for higher dimensions).
+\item If $\|S - \hat{S}\|_F / \|S\|_F < \epsilon$, use the decomposed algorithm (solve $k{+}1$ independent 1D problems).
+\item Otherwise, fall back to the full sweep surface algorithm.
+\end{enumerate}
+
+% ==============================================================
+\section{Experiments}\label{sec:experiments}
+% ==============================================================
+
+We evaluate our approach on four experiments designed to answer:
+\textbf{RQ1}: Can the algorithm recover planted dense regions? (E1)
+\textbf{RQ2}: What is the accuracy-speed tradeoff of dimension decomposition? (E2)
+\textbf{RQ3}: How does the algorithm scale? (E3)
+\textbf{RQ4}: Can it discover meaningful patterns in realistic settings? (E4)
+
+\subsection{E1: Planted Dense Region Recovery}
+
+\paragraph{Setup.}
+We generate 2D synthetic data (200 transactions, 20 spatial positions, 10 items) with planted dense regions of varying configurations: single block, two separate blocks, overlapping patterns, and weak signal.
+Window sizes are $(W_0, W_1) = (10, 5)$ with threshold $\theta = 3$.
+
+\paragraph{Results.}
+Table~\ref{tab:e1} shows perfect recovery (F1 = 1.0) across all configurations, demonstrating that the support surface formulation correctly captures multi-dimensional dense patterns.
+
+\begin{table}[t]
+\caption{E1: Planted Dense Region Recovery}
+\label{tab:e1}
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Configuration & Planted & Found & Precision & Recall & F1 \\
+\midrule
+Single block & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+Two blocks & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+Overlapping & 2 & 2 & 1.000 & 1.000 & 1.000 \\
+Weak signal & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E2: Dimension Decomposition}
+
+\paragraph{Setup.}
+We construct 2D support surfaces ($50 \times 30$) with controlled decomposability: a rank-1 base with varying levels of interaction noise (0\%, 30\%, 70\% of mean value).
+We measure the rank-1 approximation error and compare region detection accuracy.
+
+\paragraph{Results.}
+Table~\ref{tab:e2} shows that the decomposition error faithfully reflects the interaction strength.
+Separable surfaces achieve 1.6\% error; weak interaction 12.6\%; strong interaction 27.8\%.
+The sweep surface algorithm achieves Jaccard = 1.0 with ground truth in all cases, confirming correctness regardless of decomposability.
+
+\begin{table}[t]
+\caption{E2: Dimension Decomposition Analysis}
+\label{tab:e2}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Scenario & Decomp. Error & Regions & Jaccard \\
+\midrule
+Separable & 0.016 & 2 & 1.000 \\
+Weak interaction & 0.126 & 7 & 1.000 \\
+Strong interaction & 0.278 & 29 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E3: Scalability}
+
+\paragraph{Setup.}
+We measure execution time for increasing transaction counts (100--5000 for 2D; 100--1000 for 3D), comparing na\"ive counting with the prefix-sum + sweep surface approach.
+
+\paragraph{Results.}
+Figure~\ref{fig:scalability} and Table~\ref{tab:e3} show that the sweep surface algorithm achieves up to 2.0$\times$ speedup over the na\"ive approach in 2D and scales to million-cell grids in 3D (1.6M cells in 762ms).
+
+\begin{table}[t]
+\caption{E3: Scalability Results}
+\label{tab:e3}
+\centering
+\begin{tabular}{rrrrrr}
+\toprule
+Dim & $N$ & Grid Size & Na\"ive (ms) & Sweep (ms) & Speedup \\
+\midrule
+2D & 100 & 768 & 0.5 & 0.4 & 1.2$\times$ \\
+2D & 500 & 10,948 & 12.6 & 9.0 & 1.4$\times$ \\
+2D & 1,000 & 43,746 & 81.8 & 56.2 & 1.5$\times$ \\
+2D & 2,000 & 172,991 & 391.3 & 246.4 & 1.6$\times$ \\
+2D & 5,000 & 1,073,726 & 3,282 & 1,610 & 2.0$\times$ \\
+\midrule
+3D & 100 & 864 & --- & 1.1 & --- \\
+3D & 500 & 209,916 & --- & 145.3 & --- \\
+3D & 1,000 & 1,598,631 & --- & 762.2 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{../experiments/figures/e3_scalability.pdf}
+\caption{Scalability: Na\"ive vs.\ Sweep Surface in 2D (left) and 3D (right). Log-log scale.}
+\label{fig:scalability}
+\end{figure}
+
+\subsection{E4: Semi-Realistic Retail Scenario}
+
+\paragraph{Setup.}
+We simulate a retail dataset: 365 days, 20 stores, 50 items, with three planted event types (summer products, winter products, promotional items).
+We mine dense itemsets with window $(W_0, W_1) = (30, 5)$ and threshold $\theta = 5$.
+
+\paragraph{Results.}
+The algorithm discovers 4 multi-item patterns, all corresponding to planted events.
+The winter pattern \{5, 6, 7\} is detected with 58 dense regions spanning 1,873 grid cells, correctly capturing its seasonal and regional structure.
+Total mining time is 0.53 seconds for 2,000 transactions.
+
+% ==============================================================
+\section{Related Work}\label{sec:related}
+% ==============================================================
+
+\paragraph{Spatial scan statistics.}
+Kulldorff~\cite{kulldorff1997spatial} introduced the spatial scan statistic for detecting clusters in point processes using circular scanning windows.
+Space-time extensions~\cite{kulldorff2001prospective} use cylindrical windows.
+Scalable variants~\cite{matheny2016scalable,neill2012fast} address computational challenges.
+Unlike these approaches, our method works with \emph{itemset patterns} rather than point events, supports \emph{arbitrary region shapes} rather than geometric primitives, and leverages Apriori-style pruning for multi-pattern mining.
+
+\paragraph{Dense subtensor mining.}
+DenseAlert~\cite{shin2017densealert}, M-Zoom~\cite{shin2018mzoom}, and D-Cube~\cite{shin2017dcube} detect dense blocks in multi-dimensional tensors for anomaly detection.
+These methods find \emph{axis-aligned} dense blocks, whereas our dense regions can have arbitrary shapes as connected components of superlevel sets.
+
+\paragraph{Density-based clustering.}
+DBSCAN~\cite{ester1996dbscan} and OPTICS~\cite{ankerst1999optics} find clusters of arbitrary shape in point data.
+Our approach operates on a derived \emph{function} (support surface) rather than raw data points, enabling pattern-specific dense region detection.
+The conceptual connection is through level sets: DBSCAN uses point density, while we use windowed support as the density function.
+
+\paragraph{Co-location pattern mining.}
+Shekhar and Huang~\cite{shekhar2001colocation} formalized spatial co-location patterns with Apriori-based mining.
+Our Dense Region Containment Theorem (Theorem~\ref{thm:containment}) provides the multi-dimensional analog of their anti-monotone participation index, but operates on continuous support surfaces rather than discrete spatial relationships.
+
+\paragraph{Topological data analysis.}
+The characterization of dense regions as connected components of superlevel sets connects to persistent homology~\cite{edelsbrunner2010computational,carlsson2009topology}.
+Varying the threshold $\theta$ induces a filtration whose persistence diagram encodes the robustness of dense regions.
+We leave the integration of persistence-based analysis as future work.
+
+% ==============================================================
+\section{Conclusion}\label{sec:conclusion}
+% ==============================================================
+
+We have introduced a framework for multi-dimensional dense region mining that generalizes dense interval detection from one dimension to arbitrary dimensions.
+The key insight is to view pattern support as a function---the \emph{support surface}---over the product of all contextual dimensions, and to define dense regions as connected components of its superlevel set.
+
+Our theoretical contributions include the Dense Region Containment Theorem (enabling Apriori pruning in multi-dimensional space) and the Dimension Decomposability Theorem (enabling factored computation when dimensions are approximately independent).
+The Sweep Surface algorithm achieves near-linear complexity in grid size and scales to million-cell grids.
+
+Experiments demonstrate perfect planted region recovery, meaningful scalability improvements, and practical applicability to retail spatiotemporal mining.
+
+\paragraph{Future work.}
+(1) Integration with persistent homology for multi-threshold analysis.
+(2) Online/streaming variants for real-time surveillance.
+(3) Extension to non-grid domains (e.g., graph-structured spatial dimensions).
+(4) Application to large-scale epidemiological datasets.
+
+% ==============================================================
+% References
+% ==============================================================
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{../research/refs}
+
+\end{document}
