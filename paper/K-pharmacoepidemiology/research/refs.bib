@@ -72,22 +72,22 @@
 % --- Prescription Pattern Mining ---
 
 @article{carvalho2022apriori,
-  author  = {Carvalho, Jessica N. and Delaney, Joseph A. and Engeland, Anders and Furu, Kari and Sund, Erik R. and Wishart, David S.},
+  author  = {Faquetti, Maria Leonor and Martinez-De la Torre, Alejandro and Burkard, Thomas and Obozinski, Guillaume},
   title   = {Identification of polypharmacy patterns in new-users of metformin using the {Apriori} algorithm},
   journal = {Pharmacoepidemiology and Drug Safety},
   volume  = {32},
   number  = {4},
   pages   = {425--436},
   year    = {2023},
-  doi     = {10.1002/pds.5581}
+  doi     = {10.1002/pds.5583}
 }
 
 @article{pappa2017polypharmacy,
-  author  = {Pappa, Eleni and Kontodimopoulos, Nick and Papadopoulos, Angelos A. and Niakas, Dimitris},
+  author  = {Held, Fraser and Le Couteur, David G. and Blyth, Fiona M.},
   title   = {Polypharmacy in older adults: Association Rule and Frequent-Set Analysis to evaluate concomitant medication use},
   journal = {Pharmacological Research},
-  volume  = {115},
-  pages   = {135--142},
+  volume  = {116},
+  pages   = {39--44},
   year    = {2017},
   doi     = {10.1016/j.phrs.2016.11.025}
 }
@@ -226,9 +226,9 @@
 }
 
 @article{marcum2012fda,
-  author  = {Marcum, Zachary A. and Hanlon, Joseph T.},
+  author  = {Marcum, Zachary A. and Vande Griend, Joseph P. and Linnebur, Sunny A.},
   title   = {{FDA} Drug Safety Communications: A Narrative Review and Clinical Considerations for Older Adults},
-  journal = {Drugs and Aging},
+  journal = {American Journal of Geriatric Pharmacotherapy},
   volume  = {29},
   number  = {4},
   pages   = {235--245},
@@ -278,7 +278,7 @@
 }
 
 @article{landi2020temporal,
-  author  = {Landi, Isotta and Camacho-Rivera, Marlene and others},
+  author  = {Campbell, Megan and Bass, Ellen and Masino, Aaron},
   title   = {Temporal condition pattern mining in large, sparse electronic health record data: A case study in characterizing pediatric asthma},
   journal = {Journal of the American Medical Informatics Association},
   volume  = {27},
@@ -303,12 +303,12 @@
 @article{doherty2020polypharmacy,
   author  = {Doherty, Aiden J. and Sharma, Bhanu and Dong, Xiao},
   title   = {Big data analysis techniques to address polypharmacy in patients -- a scoping review},
-  journal = {Briefings in Bioinformatics},
+  journal = {BMC Primary Care},
   volume  = {21},
   number  = {6},
   pages   = {1964--1976},
   year    = {2020},
-  doi     = {10.1093/bib/bbz150}
+  doi     = {10.1186/s12875-020-01205-5}
 }
 
 % --- Apriori / Frequent Itemset Mining Foundations ---
@@ -343,6 +343,90 @@
   pages   = {289--300},
   year    = {1995},
   doi     = {10.1111/j.2517-6161.1995.tb02031.x}
+}
+
+% --- Change-Point Detection ---
+
+@article{page1954cusum,
+  author  = {Page, E. S.},
+  title   = {Continuous inspection schemes},
+  journal = {Biometrika},
+  volume  = {41},
+  number  = {1/2},
+  pages   = {100--115},
+  year    = {1954},
+  doi     = {10.1093/biomet/41.1-2.100}
+}
+
+@article{killick2012pelt,
+  author  = {Killick, Rebecca and Fearnhead, Paul and Eckley, Idris A.},
+  title   = {Optimal detection of changepoints with a linear computational cost},
+  journal = {Journal of the American Statistical Association},
+  volume  = {107},
+  number  = {500},
+  pages   = {1590--1598},
+  year    = {2012},
+  doi     = {10.1080/01621459.2012.737745}
+}
+
+% --- Causal Inference in Pharmacoepidemiology ---
+
+@article{dimick2014did,
+  author  = {Dimick, Justin B. and Ryan, Andrew M.},
+  title   = {Methods for evaluating changes in health care policy: the difference-in-differences approach},
+  journal = {JAMA},
+  volume  = {312},
+  number  = {22},
+  pages   = {2401--2402},
+  year    = {2014},
+  doi     = {10.1001/jama.2014.16153}
+}
+
+@article{bor2014rdd,
+  author  = {Bor, Jacob and Moscoe, Ellen and Mutevedzi, Portia and Newell, Marie-Louise and Barnighausen, Till},
+  title   = {Regression discontinuity designs in epidemiology: causal inference without randomized trials},
+  journal = {Epidemiology},
+  volume  = {25},
+  number  = {5},
+  pages   = {729--737},
+  year    = {2014},
+  doi     = {10.1097/EDE.0000000000000138}
+}
+
+% --- Regulatory Informatics ---
+
+@article{platt2012sentinel,
+  author  = {Platt, Richard and Wilson, Meghan and Chan, K. Arnold and Benber, Sebastian and Marchibroda, Janet and McClellan, Mark},
+  title   = {The new {Sentinel Network} -- improving the evidence of medical-product safety},
+  journal = {New England Journal of Medicine},
+  volume  = {361},
+  number  = {7},
+  pages   = {645--647},
+  year    = {2009},
+  doi     = {10.1056/NEJMp0905338}
+}
+
+@article{hripcsak2015omop,
+  author  = {Hripcsak, George and Duke, Jon D. and Shah, Nigam H. and Reich, Christian G. and Huser, Vojtech and Schuemie, Martijn J. and Suchard, Marc A. and Park, Rae Woong and Wong, Ian Chi Kei and Rijnbeek, Peter R. and van der Lei, Johan and Pratt, Nicole and Noren, G. Niklas and Li, Yu-Chuan and Stang, Paul E. and Madigan, David and Ryan, Patrick B.},
+  title   = {Observational Health Data Sciences and Informatics ({OHDSI}): Opportunities for Observational Researchers},
+  journal = {Studies in Health Technology and Informatics},
+  volume  = {216},
+  pages   = {574--578},
+  year    = {2015},
+  doi     = {10.3233/978-1-61499-564-7-574}
+}
+
+% --- Statistical Methods ---
+
+@article{welch1947ttest,
+  author  = {Welch, B. L.},
+  title   = {The generalization of ``{Student's}'' problem when several different population variances are involved},
+  journal = {Biometrika},
+  volume  = {34},
+  number  = {1/2},
+  pages   = {28--35},
+  year    = {1947},
+  doi     = {10.1093/biomet/34.1-2.28}
 }
 
 % --- ATC Classification ---

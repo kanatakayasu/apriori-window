@@ -1,9 +1,15 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{38}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Agrawal and Srikant(1994)]{agrawal1994apriori}
+Rakesh Agrawal and Ramakrishnan Srikant.
+\newblock Fast algorithms for mining association rules in large databases.
+\newblock In \emph{Proceedings of the 20th International Conference on Very
+  Large Data Bases (VLDB)}, pages 487--499, 1994.
 
 \bibitem[Alonso~Moral et~al.(2023)Alonso~Moral, Bermejo-Lopez, and
   Steyerberg]{alonso2023temporal}
@@ -49,6 +55,15 @@ James~Lopez Bernal, Steven Cummins, and Antonio Gasparrini.
   (1):\penalty0 348--355, 2017.
 \newblock \doi{10.1093/ije/dyw098}.
 
+\bibitem[Bor et~al.(2014)Bor, Moscoe, Mutevedzi, Newell, and
+  Barnighausen]{bor2014rdd}
+Jacob Bor, Ellen Moscoe, Portia Mutevedzi, Marie-Louise Newell, and Till
+  Barnighausen.
+\newblock Regression discontinuity designs in epidemiology: causal inference
+  without randomized trials.
+\newblock \emph{Epidemiology}, 25\penalty0 (5):\penalty0 729--737, 2014.
+\newblock \doi{10.1097/EDE.0000000000000138}.
+
 \bibitem[Cadarette and Kim(2021)]{cadarette2021sccs}
 Suzanne~M. Cadarette and Jennifer Kim.
 \newblock Control yourself: {ISPE}-endorsed guidance in the application of
@@ -57,15 +72,13 @@ Suzanne~M. Cadarette and Jennifer Kim.
   (6):\penalty0 671--684, 2021.
 \newblock \doi{10.1002/pds.5227}.
 
-\bibitem[Carvalho et~al.(2023)Carvalho, Delaney, Engeland, Furu, Sund, and
-  Wishart]{carvalho2022apriori}
-Jessica~N. Carvalho, Joseph~A. Delaney, Anders Engeland, Kari Furu, Erik~R.
-  Sund, and David~S. Wishart.
-\newblock Identification of polypharmacy patterns in new-users of metformin
-  using the {Apriori} algorithm.
-\newblock \emph{Pharmacoepidemiology and Drug Safety}, 32\penalty0
-  (4):\penalty0 425--436, 2023.
-\newblock \doi{10.1002/pds.5581}.
+\bibitem[Campbell et~al.(2020)Campbell, Bass, and Masino]{landi2020temporal}
+Megan Campbell, Ellen Bass, and Aaron Masino.
+\newblock Temporal condition pattern mining in large, sparse electronic health
+  record data: A case study in characterizing pediatric asthma.
+\newblock \emph{Journal of the American Medical Informatics Association},
+  27\penalty0 (4):\penalty0 558--566, 2020.
+\newblock \doi{10.1093/jamia/ocaa005}.
 
 \bibitem[Chen et~al.(2017)Chen, Ghosh, Bejan, Gunter, Gupta, Kho, Liebovitz,
   Sun, Denny, and Malin]{chen2017topic}
@@ -77,14 +90,20 @@ Ying Chen, Joydeep Ghosh, Cosmin~A. Bejan, Carl~A. Gunter, Saurabh Gupta, Abel
   2017.
 \newblock \doi{10.1016/j.jbi.2017.08.003}.
 
+\bibitem[Dimick and Ryan(2014)]{dimick2014did}
+Justin~B. Dimick and Andrew~M. Ryan.
+\newblock Methods for evaluating changes in health care policy: the
+  difference-in-differences approach.
+\newblock \emph{JAMA}, 312\penalty0 (22):\penalty0 2401--2402, 2014.
+\newblock \doi{10.1001/jama.2014.16153}.
+
 \bibitem[Doherty et~al.(2020)Doherty, Sharma, and
   Dong]{doherty2020polypharmacy}
 Aiden~J. Doherty, Bhanu Sharma, and Xiao Dong.
 \newblock Big data analysis techniques to address polypharmacy in patients -- a
   scoping review.
-\newblock \emph{Briefings in Bioinformatics}, 21\penalty0 (6):\penalty0
-  1964--1976, 2020.
-\newblock \doi{10.1093/bib/bbz150}.
+\newblock \emph{BMC Primary Care}, 21\penalty0 (6):\penalty0 1964--1976, 2020.
+\newblock \doi{10.1186/s12875-020-01205-5}.
 
 \bibitem[DuMouchel(1999)]{dumouchel1999gps}
 William DuMouchel.
@@ -111,6 +130,16 @@ Stephen J.~W. Evans, Patrick~C. Waller, and S.~Davis.
   (6):\penalty0 483--486, 2001.
 \newblock \doi{10.1002/pds.677}.
 
+\bibitem[Faquetti et~al.(2023)Faquetti, Martinez-De~la Torre, Burkard, and
+  Obozinski]{carvalho2022apriori}
+Maria~Leonor Faquetti, Alejandro Martinez-De~la Torre, Thomas Burkard, and
+  Guillaume Obozinski.
+\newblock Identification of polypharmacy patterns in new-users of metformin
+  using the {Apriori} algorithm.
+\newblock \emph{Pharmacoepidemiology and Drug Safety}, 32\penalty0
+  (4):\penalty0 425--436, 2023.
+\newblock \doi{10.1002/pds.5583}.
+
 \bibitem[Gupta et~al.(2022)Gupta, Gallamoza, Cuber, Moody, Farah,
   Srisuwananukorn, and Koenig]{gupta2022pipeline}
 Mehak Gupta, Brennan Gallamoza, Nicolas Cuber, Benjamin Moody, Dominic Farah,
@@ -124,6 +153,32 @@ Jesper Hallas.
 \newblock Evidence of depression provoked by cardiovascular medication: a
   prescription sequence symmetry analysis.
 \newblock \emph{Epidemiology}, 7\penalty0 (5):\penalty0 478--484, 1996.
+
+\bibitem[Han et~al.(2000)Han, Pei, and Yin]{han2000fpgrowth}
+Jiawei Han, Jian Pei, and Yiwen Yin.
+\newblock Mining frequent patterns without candidate generation.
+\newblock \emph{ACM SIGMOD Record}, 29\penalty0 (2):\penalty0 1--12, 2000.
+\newblock \doi{10.1145/335191.335372}.
+
+\bibitem[Held et~al.(2017)Held, Le~Couteur, and Blyth]{pappa2017polypharmacy}
+Fraser Held, David~G. Le~Couteur, and Fiona~M. Blyth.
+\newblock Polypharmacy in older adults: Association rule and frequent-set
+  analysis to evaluate concomitant medication use.
+\newblock \emph{Pharmacological Research}, 116:\penalty0 39--44, 2017.
+\newblock \doi{10.1016/j.phrs.2016.11.025}.
+
+\bibitem[Hripcsak et~al.(2015)Hripcsak, Duke, Shah, Reich, Huser, Schuemie,
+  Suchard, Park, Wong, Rijnbeek, van~der Lei, Pratt, Noren, Li, Stang, Madigan,
+  and Ryan]{hripcsak2015omop}
+George Hripcsak, Jon~D. Duke, Nigam~H. Shah, Christian~G. Reich, Vojtech Huser,
+  Martijn~J. Schuemie, Marc~A. Suchard, Rae~Woong Park, Ian Chi~Kei Wong,
+  Peter~R. Rijnbeek, Johan van~der Lei, Nicole Pratt, G.~Niklas Noren, Yu-Chuan
+  Li, Paul~E. Stang, David Madigan, and Patrick~B. Ryan.
+\newblock Observational health data sciences and informatics ({OHDSI}):
+  Opportunities for observational researchers.
+\newblock \emph{Studies in Health Technology and Informatics}, 216:\penalty0
+  574--578, 2015.
+\newblock \doi{10.3233/978-1-61499-564-7-574}.
 
 \bibitem[Jandoc et~al.(2015)Jandoc, Burden, Mamdani, Levesque, and
   Cadarette]{jandoc2015its}
@@ -152,13 +207,12 @@ Alistair E.~W. Johnson, Lucas Bulgarelli, Lu~Shen, Alvin Gayles, Ayad Shammout,
 \newblock \emph{Scientific Data}, 10:\penalty0 1, 2023.
 \newblock \doi{10.1038/s41597-022-01899-x}.
 
-\bibitem[Landi et~al.(2020)Landi, Camacho-Rivera, et~al.]{landi2020temporal}
-Isotta Landi, Marlene Camacho-Rivera, et~al.
-\newblock Temporal condition pattern mining in large, sparse electronic health
-  record data: A case study in characterizing pediatric asthma.
-\newblock \emph{Journal of the American Medical Informatics Association},
-  27\penalty0 (4):\penalty0 558--566, 2020.
-\newblock \doi{10.1093/jamia/ocaa005}.
+\bibitem[Killick et~al.(2012)Killick, Fearnhead, and Eckley]{killick2012pelt}
+Rebecca Killick, Paul Fearnhead, and Idris~A. Eckley.
+\newblock Optimal detection of changepoints with a linear computational cost.
+\newblock \emph{Journal of the American Statistical Association}, 107\penalty0
+  (500):\penalty0 1590--1598, 2012.
+\newblock \doi{10.1080/01621459.2012.737745}.
 
 \bibitem[Lee et~al.(2020)Lee, Choi, Kim, Kim, Lee, Park, and
   Yoon]{lee2020comparison}
@@ -169,11 +223,12 @@ Suehyun Lee, Jungmi Choi, Ho-Su Kim, Gippeum~Jo Kim, Kyoung~Hoon Lee, Chan~Hyuk
 \newblock \emph{Life}, 10\penalty0 (8):\penalty0 138, 2020.
 \newblock \doi{10.3390/life10080138}.
 
-\bibitem[Marcum and Hanlon(2012)]{marcum2012fda}
-Zachary~A. Marcum and Joseph~T. Hanlon.
+\bibitem[Marcum et~al.(2012)Marcum, Vande~Griend, and Linnebur]{marcum2012fda}
+Zachary~A. Marcum, Joseph~P. Vande~Griend, and Sunny~A. Linnebur.
 \newblock {FDA} drug safety communications: A narrative review and clinical
   considerations for older adults.
-\newblock \emph{Drugs and Aging}, 29\penalty0 (4):\penalty0 235--245, 2012.
+\newblock \emph{American Journal of Geriatric Pharmacotherapy}, 29\penalty0
+  (4):\penalty0 235--245, 2012.
 \newblock \doi{10.2165/11599590-000000000-00000}.
 
 \bibitem[Nor{\'e}n et~al.(2010)Nor{\'e}n, Hopstadius, Bate, Star, and
@@ -186,14 +241,19 @@ G.~Niklas Nor{\'e}n, Johan Hopstadius, Andrew Bate, Kristina Star, and I.~Ralph
   361--387, 2010.
 \newblock \doi{10.1007/s10618-009-0152-3}.
 
-\bibitem[Pappa et~al.(2017)Pappa, Kontodimopoulos, Papadopoulos, and
-  Niakas]{pappa2017polypharmacy}
-Eleni Pappa, Nick Kontodimopoulos, Angelos~A. Papadopoulos, and Dimitris
-  Niakas.
-\newblock Polypharmacy in older adults: Association rule and frequent-set
-  analysis to evaluate concomitant medication use.
-\newblock \emph{Pharmacological Research}, 115:\penalty0 135--142, 2017.
-\newblock \doi{10.1016/j.phrs.2016.11.025}.
+\bibitem[Onakpoya et~al.(2016)Onakpoya, Heneghan, and
+  Aronson]{onakpoya2019withdrawals}
+Igho~J. Onakpoya, Carl~J. Heneghan, and Jeffrey~K. Aronson.
+\newblock Post-marketing withdrawal of 462 medicinal products because of
+  adverse drug reactions: a systematic review of the world literature.
+\newblock \emph{BMC Medicine}, 14:\penalty0 10, 2016.
+\newblock \doi{10.1186/s12916-016-0553-2}.
+
+\bibitem[Page(1954)]{page1954cusum}
+E.~S. Page.
+\newblock Continuous inspection schemes.
+\newblock \emph{Biometrika}, 41\penalty0 (1/2):\penalty0 100--115, 1954.
+\newblock \doi{10.1093/biomet/41.1-2.100}.
 
 \bibitem[Petersen et~al.(2016)Petersen, Douglas, and
   Whitaker]{petersen2016selfcontrolled}
@@ -202,6 +262,16 @@ Irene Petersen, Ian Douglas, and Heather Whitaker.
   epidemiological study designs.
 \newblock \emph{BMJ}, 354:\penalty0 i4515, 2016.
 \newblock \doi{10.1136/bmj.i4515}.
+
+\bibitem[Platt et~al.(2009)Platt, Wilson, Chan, Benber, Marchibroda, and
+  McClellan]{platt2012sentinel}
+Richard Platt, Meghan Wilson, K.~Arnold Chan, Sebastian Benber, Janet
+  Marchibroda, and Mark McClellan.
+\newblock The new {Sentinel Network} -- improving the evidence of
+  medical-product safety.
+\newblock \emph{New England Journal of Medicine}, 361\penalty0 (7):\penalty0
+  645--647, 2009.
+\newblock \doi{10.1056/NEJMp0905338}.
 
 \bibitem[Pratt et~al.(2015)Pratt, Ilomaki, Raymond, and
   Roughead]{pratt2015pssa}
@@ -221,6 +291,13 @@ Anita~K. Wagner, Stephen~B. Soumerai, Fang Zhang, and Dennis Ross-Degnan.
   (4):\penalty0 299--309, 2002.
 \newblock \doi{10.1046/j.1365-2710.2002.00430.x}.
 
+\bibitem[Welch(1947)]{welch1947ttest}
+B.~L. Welch.
+\newblock The generalization of ``{Student's}'' problem when several different
+  population variances are involved.
+\newblock \emph{Biometrika}, 34\penalty0 (1/2):\penalty0 28--35, 1947.
+\newblock \doi{10.1093/biomet/34.1-2.28}.
+
 \bibitem[Whitaker et~al.(2006)Whitaker, Farrington, Spiessens, and
   Musonda]{whitaker2006sccs}
 Heather~J. Whitaker, C.~Paddy Farrington, Bart Spiessens, and Patrick Musonda.
@@ -228,6 +305,11 @@ Heather~J. Whitaker, C.~Paddy Farrington, Bart Spiessens, and Patrick Musonda.
 \newblock \emph{Statistics in Medicine}, 25\penalty0 (10):\penalty0 1768--1797,
   2006.
 \newblock \doi{10.1002/sim.2302}.
+
+\bibitem[{World Health Organization}(2024)]{whoatc2024}
+{World Health Organization}.
+\newblock {ATC/DDD} index 2024, 2024.
+\newblock URL \url{https://www.whocc.no/atc_ddd_index/}.
 
 \bibitem[Wright et~al.(2015)Wright, Wright, McCoy, and
   Sittig]{wright2015sequential}
