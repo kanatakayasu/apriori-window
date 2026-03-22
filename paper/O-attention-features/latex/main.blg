@@ -1,0 +1,76 @@
+This is BibTeX, Version 0.99d (TeX Live 2024)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: refs.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty publisher in agrawal1994fast
+Warning--empty address in agrawal1994fast
+Warning--empty publisher in jain2019attention
+Warning--empty address in jain2019attention
+Warning--empty publisher in li2019enhancing
+Warning--empty address in li2019enhancing
+Warning--page numbers missing in both pages and numpages fields in li2019enhancing
+Warning--empty publisher in lundberg2017unified
+Warning--empty address in lundberg2017unified
+Warning--page numbers missing in both pages and numpages fields in lundberg2017unified
+Warning--no journal in pearl2009causality
+Warning--no number and no volume in pearl2009causality
+Warning--page numbers missing in both pages and numpages fields in pearl2009causality
+Warning--empty publisher in ribeiro2016why
+Warning--empty address in ribeiro2016why
+Warning--empty publisher in serrano2019attention
+Warning--empty address in serrano2019attention
+Warning--empty publisher in vaswani2017attention
+Warning--empty address in vaswani2017attention
+Warning--page numbers missing in both pages and numpages fields in vaswani2017attention
+Warning--no number and no volume in wiegreffe2019attention
+You've used 12 entries,
+            5981 wiz_defined-function locations,
+            1537 strings with 20087 characters,
+and the built_in function-call counts, 14297 in all, are:
+= -- 1745
+> -- 432
+< -- 0
++ -- 148
+- -- 162
+* -- 949
+:= -- 1347
+add.period$ -- 57
+call.type$ -- 12
+change.case$ -- 86
+chr.to.int$ -- 12
+cite$ -- 33
+duplicate$ -- 1330
+empty$ -- 934
+format.name$ -- 202
+if$ -- 3499
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 55
+newline$ -- 129
+num.names$ -- 84
+pop$ -- 577
+preamble$ -- 1
+purify$ -- 182
+quote$ -- 0
+skip$ -- 483
+stack$ -- 0
+substring$ -- 1053
+swap$ -- 124
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 290
+warning$ -- 21
+while$ -- 88
+width$ -- 0
+write$ -- 259
+(There were 21 warnings)

@@ -1,0 +1,177 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{12}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Agrawal and Srikant(1994)]%
+        {agrawal1994fast}
+\bibfield{author}{\bibinfo{person}{Rakesh Agrawal} {and}
+  \bibinfo{person}{Ramakrishnan Srikant}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Fast Algorithms for Mining Association Rules in
+  Large Databases}. In \bibinfo{booktitle}{\emph{Proceedings of the 20th
+  International Conference on Very Large Data Bases}}.
+  \bibinfo{pages}{487--499}.
+\newblock
+
+
+\bibitem[Granger(1969)]%
+        {granger1969investigating}
+\bibfield{author}{\bibinfo{person}{Clive~WJ Granger}.}
+  \bibinfo{year}{1969}\natexlab{}.
+\newblock \showarticletitle{Investigating Causal Relations by Econometric
+  Models and Cross-Spectral Methods}.
+\newblock \bibinfo{journal}{\emph{Econometrica}} \bibinfo{volume}{37},
+  \bibinfo{number}{3} (\bibinfo{year}{1969}), \bibinfo{pages}{424--438}.
+\newblock
+
+
+\bibitem[Han et~al\mbox{.}(2004)]%
+        {han2004mining}
+\bibfield{author}{\bibinfo{person}{Jiawei Han}, \bibinfo{person}{Jian Pei},
+  \bibinfo{person}{Yiwen Yin}, {and} \bibinfo{person}{Runying Mao}.}
+  \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{Mining Frequent Patterns Without Candidate
+  Generation: A Frequent-Pattern Tree Approach}.
+\newblock \bibinfo{journal}{\emph{Data Mining and Knowledge Discovery}}
+  \bibinfo{volume}{8}, \bibinfo{number}{1} (\bibinfo{year}{2004}),
+  \bibinfo{pages}{53--87}.
+\newblock
+
+
+\bibitem[Jain and Wallace(2019)]%
+        {jain2019attention}
+\bibfield{author}{\bibinfo{person}{Sarthak Jain} {and} \bibinfo{person}{Byron~C
+  Wallace}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Attention is not Explanation}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 2019 Conference of the North
+  American Chapter of the Association for Computational Linguistics}}.
+  \bibinfo{pages}{3543--3556}.
+\newblock
+
+
+\bibitem[Li et~al\mbox{.}(2019)]%
+        {li2019enhancing}
+\bibfield{author}{\bibinfo{person}{Shiyang Li}, \bibinfo{person}{Xiaoyong Jin},
+  \bibinfo{person}{Yao Xuan}, \bibinfo{person}{Xiyou Zhou},
+  \bibinfo{person}{Wenhu Chen}, \bibinfo{person}{Yu-Xiang Wang}, {and}
+  \bibinfo{person}{Xifeng Yan}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Enhancing the Locality and Breaking the Memory
+  Bottleneck of Transformer on Time Series Forecasting}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}, Vol.~\bibinfo{volume}{32}.
+\newblock
+
+
+\bibitem[Lundberg and Lee(2017)]%
+        {lundberg2017unified}
+\bibfield{author}{\bibinfo{person}{Scott~M Lundberg} {and}
+  \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{A Unified Approach to Interpreting Model
+  Predictions}. In \bibinfo{booktitle}{\emph{Advances in Neural Information
+  Processing Systems}}, Vol.~\bibinfo{volume}{30}.
+\newblock
+
+
+\bibitem[Pearl(2009)]%
+        {pearl2009causality}
+\bibfield{author}{\bibinfo{person}{Judea Pearl}.}
+  \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Causality}.
+\newblock  (\bibinfo{year}{2009}).
+\newblock
+
+
+\bibitem[Ribeiro et~al\mbox{.}(2016)]%
+        {ribeiro2016why}
+\bibfield{author}{\bibinfo{person}{Marco~Tulio Ribeiro},
+  \bibinfo{person}{Sameer Singh}, {and} \bibinfo{person}{Carlos Guestrin}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{``Why Should {I} Trust You?'': Explaining the
+  Predictions of Any Classifier}. In \bibinfo{booktitle}{\emph{Proceedings of
+  the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data
+  Mining}}. \bibinfo{pages}{1135--1144}.
+\newblock
+
+
+\bibitem[Serrano and Smith(2019)]%
+        {serrano2019attention}
+\bibfield{author}{\bibinfo{person}{Sofia Serrano} {and} \bibinfo{person}{Noah~A
+  Smith}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Is Attention Interpretable?}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 57th Annual Meeting of the
+  Association for Computational Linguistics}}. \bibinfo{pages}{2931--2951}.
+\newblock
+
+
+\bibitem[Vaswani et~al\mbox{.}(2017)]%
+        {vaswani2017attention}
+\bibfield{author}{\bibinfo{person}{Ashish Vaswani}, \bibinfo{person}{Noam
+  Shazeer}, \bibinfo{person}{Niki Parmar}, \bibinfo{person}{Jakob Uszkoreit},
+  \bibinfo{person}{Llion Jones}, \bibinfo{person}{Aidan~N Gomez},
+  \bibinfo{person}{{\L}ukasz Kaiser}, {and} \bibinfo{person}{Illia
+  Polosukhin}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Attention Is All You Need}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}, Vol.~\bibinfo{volume}{30}.
+\newblock
+
+
+\bibitem[Wiegreffe and Pinter(2019)]%
+        {wiegreffe2019attention}
+\bibfield{author}{\bibinfo{person}{Sarah Wiegreffe} {and}
+  \bibinfo{person}{Yuval Pinter}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Attention is not not Explanation}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the 2019 Conference on
+  Empirical Methods in Natural Language Processing}} (\bibinfo{year}{2019}),
+  \bibinfo{pages}{11--20}.
+\newblock
+
+
+\bibitem[Zeng et~al\mbox{.}(2023)]%
+        {zeng2023transformers}
+\bibfield{author}{\bibinfo{person}{Ailing Zeng}, \bibinfo{person}{Muxi Chen},
+  \bibinfo{person}{Lei Zhang}, {and} \bibinfo{person}{Qiang Xu}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Are Transformers Effective for Time Series
+  Forecasting?}
+\newblock \bibinfo{journal}{\emph{Proceedings of the AAAI Conference on
+  Artificial Intelligence}}  \bibinfo{volume}{37} (\bibinfo{year}{2023}),
+  \bibinfo{pages}{11121--11128}.
+\newblock
+
+
+\end{thebibliography}
