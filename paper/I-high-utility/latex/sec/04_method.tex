@@ -1,128 +1,128 @@
-\section{Proposed Method}
+\section{提案手法}
 \label{sec:method}
 
-\subsection{Theoretical Foundations}
+\subsection{理論的基礎}
 
-We first establish properties that enable efficient pruning.
+まず、効率的な枝刈りを可能にする性質を確立する。
 
-\begin{property}[TWU Upper Bound]
+\begin{property}[TWU上界]
 \label{prop:twu-bound}
-For any itemset $X$ and window position $l$:
+任意のアイテムセット$X$およびウィンドウ位置$l$に対して：
 \begin{equation}
     \text{WU}(X, l) \leq \text{WTWU}(X, l)
 \end{equation}
 \end{property}
 
 \begin{proof}
-For each transaction $T_t$ with $l \leq t \leq l + W$ and $X \subseteq I(T_t)$:
+$l \leq t \leq l + W$かつ$X \subseteq I(T_t)$を満たす各トランザクション$T_t$に対して：
 \[
 u(X, T_t) = \sum_{i \in X} u(i, T_t) \leq \sum_{i \in I(T_t)} u(i, T_t) = \text{TU}(T_t)
 \]
-Summing over all such transactions yields $\text{WU}(X, l) \leq \text{WTWU}(X, l)$.
+該当するすべてのトランザクションについて総和をとると$\text{WU}(X, l) \leq \text{WTWU}(X, l)$を得る。
 \end{proof}
 
-\begin{lemma}[Anti-monotonicity of WTWU]
+\begin{lemma}[WTWUの反単調性]
 \label{lem:twu-antimonotone}
-For any itemsets $X \subseteq Y$ and window position $l$:
+任意のアイテムセット$X \subseteq Y$およびウィンドウ位置$l$に対して：
 \begin{equation}
     \text{WTWU}(Y, l) \leq \text{WTWU}(X, l)
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-Since $Y \supseteq X$, every transaction containing $Y$ also contains $X$. Therefore, $\{T_t \mid Y \subseteq I(T_t)\} \subseteq \{T_t \mid X \subseteq I(T_t)\}$, and summing $\text{TU}(T_t)$ over a subset yields a value no greater than the sum over the superset.
+$Y \supseteq X$であるから、$Y$を含むすべてのトランザクションは$X$も含む。したがって$\{T_t \mid Y \subseteq I(T_t)\} \subseteq \{T_t \mid X \subseteq I(T_t)\}$であり、部分集合上の$\text{TU}(T_t)$の総和は上位集合上の総和以下となる。
 \end{proof}
 
-\begin{theorem}[UDI Pruning]
+\begin{theorem}[UDI枝刈り]
 \label{thm:pruning}
-If $\max_{l} \text{WTWU}(X, l) < \theta_u$, then $X$ has no utility-dense interval, and neither does any superset $Y \supseteq X$.
+$\max_{l} \text{WTWU}(X, l) < \theta_u$ならば、$X$は効用密集区間を持たず、$X$の任意の上位集合$Y \supseteq X$もまた効用密集区間を持たない。
 \end{theorem}
 
 \begin{proof}
-By Property~\ref{prop:twu-bound}, $\text{WU}(X, l) \leq \text{WTWU}(X, l) < \theta_u$ for all $l$, so $X$ violates the utility condition everywhere. By Lemma~\ref{lem:twu-antimonotone}, $\text{WTWU}(Y, l) \leq \text{WTWU}(X, l) < \theta_u$ for all $l$, so $Y$ can also be pruned.
+性質~\ref{prop:twu-bound}より、すべての$l$に対して$\text{WU}(X, l) \leq \text{WTWU}(X, l) < \theta_u$であるから、$X$はすべての位置で効用条件に違反する。補題~\ref{lem:twu-antimonotone}より、すべての$l$に対して$\text{WTWU}(Y, l) \leq \text{WTWU}(X, l) < \theta_u$であるから、$Y$もまた枝刈りできる。
 \end{proof}
 
-\begin{lemma}[Dense Interval Anti-monotonicity for Frequency]
+\begin{lemma}[頻度に関する密集区間の反単調性]
 \label{lem:freq-antimonotone}
-If itemset $X$ has no frequency-dense interval, then no superset $Y \supseteq X$ has a frequency-dense interval.
+アイテムセット$X$が頻度密集区間を持たないならば、$X$の上位集合$Y \supseteq X$も頻度密集区間を持たない。
 \end{lemma}
 
 \begin{proof}
-$\sigma_W(Y, l) \leq \sigma_W(X, l)$ for all $l$, since $Y \supseteq X$ implies that transactions containing $Y$ are a subset of those containing $X$.
+$Y \supseteq X$より、$Y$を含むトランザクションは$X$を含むトランザクションの部分集合であるから、すべての$l$に対して$\sigma_W(Y, l) \leq \sigma_W(X, l)$が成り立つ。
 \end{proof}
 
-\begin{corollary}[Joint Pruning]
+\begin{corollary}[同時枝刈り]
 \label{cor:joint}
-An itemset $X$ can be pruned if either (a) it has no frequency-dense interval, or (b) its maximum WTWU across all window positions is below $\theta_u$.
+アイテムセット$X$は、(a) 頻度密集区間を持たない、または (b) すべてのウィンドウ位置にわたるWTWUの最大値が$\theta_u$未満である、のいずれかの場合に枝刈りできる。
 \end{corollary}
 
-\subsection{Prefix-Sum Optimization}
+\subsection{累積和による最適化}
 
-To avoid recomputing window utilities from scratch for each position, we precompute prefix sums.
+各位置でウィンドウ効用をゼロから再計算することを避けるため、累積和を事前計算する。
 
-\begin{definition}[Utility Prefix Sum]
-For an itemset $X$, define:
+\begin{definition}[効用累積和]
+アイテムセット$X$に対して次を定義する：
 \begin{equation}
     P_u(X, t) = \sum_{j=0}^{t-1} u(X, T_j)
 \end{equation}
-Then $\text{WU}(X, l) = P_u(X, l{+}W{+}1) - P_u(X, l)$ in $O(1)$ time.
+このとき$\text{WU}(X, l) = P_u(X, l{+}W{+}1) - P_u(X, l)$を$O(1)$時間で計算できる。
 \end{definition}
 
-Similarly, the TWU prefix sum enables $O(1)$ window TWU queries:
+同様に、TWU累積和により$O(1)$でウィンドウTWUクエリが可能となる：
 \begin{equation}
     P_{\text{TWU}}(X, t) = \sum_{\substack{j=0 \\ X \subseteq I(T_j)}}^{t-1} \text{TU}(T_j)
 \end{equation}
 
-\subsection{Algorithm: UDI-Miner}
+\subsection{アルゴリズム：UDI-Miner}
 
-Algorithm~\ref{alg:udi-miner} presents our level-wise mining procedure.
+Algorithm~\ref{alg:udi-miner}に本レベルワイズマイニング手順を示す。
 
 \begin{algorithm}[t]
-\caption{UDI-Miner: Utility-Dense Interval Mining}
+\caption{UDI-Miner：効用密集区間マイニング}
 \label{alg:udi-miner}
 \begin{algorithmic}[1]
-\REQUIRE Database $\mathcal{D}$, external utilities $p$, window size $W$, frequency threshold $\theta_f$, utility threshold $\theta_u$, max length $k_{\max}$
-\ENSURE Set of $(X, [s,e])$ utility-dense interval pairs
+\REQUIRE データベース$\mathcal{D}$、外部効用$p$、ウィンドウサイズ$W$、頻度閾値$\theta_f$、効用閾値$\theta_u$、最大長$k_{\max}$
+\ENSURE 効用密集区間ペア$(X, [s,e])$の集合
 
-\STATE Compute item-transaction map $M$ and transaction index
-\STATE \textbf{// Phase 1: Single items}
-\FOR{each item $i \in \mathcal{I}$}
-    \STATE Compute $\text{TWU}(i)$ globally
+\STATE アイテム-トランザクション対応表$M$とトランザクション索引を構築
+\STATE \textbf{// フェーズ1：単一アイテム}
+\FOR{各アイテム$i \in \mathcal{I}$}
+    \STATE $\text{TWU}(i)$をグローバルに計算
     \IF{$\text{TWU}(i) < \theta_u$}
-        \STATE Prune item $i$ \COMMENT{Theorem~\ref{thm:pruning}}
+        \STATE アイテム$i$を枝刈り \COMMENT{定理~\ref{thm:pruning}}
         \STATE \textbf{continue}
     \ENDIF
-    \STATE Compute frequency-dense intervals $\mathcal{F}_i$ using sliding window
+    \STATE スライディングウィンドウにより頻度密集区間$\mathcal{F}_i$を計算
     \IF{$\mathcal{F}_i = \emptyset$}
         \STATE \textbf{continue}
     \ENDIF
-    \STATE Build prefix sums $P_u(\{i\}, \cdot)$ and $P_{\text{TWU}}(\{i\}, \cdot)$
-    \STATE Find utility-dense sub-intervals within $\mathcal{F}_i$
-    \IF{utility-dense intervals found}
-        \STATE Add $\{i\}$ to results and $L_1$
+    \STATE 累積和$P_u(\{i\}, \cdot)$および$P_{\text{TWU}}(\{i\}, \cdot)$を構築
+    \STATE $\mathcal{F}_i$内の効用密集部分区間を探索
+    \IF{効用密集区間が見つかった場合}
+        \STATE $\{i\}$を結果および$L_1$に追加
     \ENDIF
 \ENDFOR
 
-\STATE \textbf{// Phase 2+: Multi-item candidates}
+\STATE \textbf{// フェーズ2以降：複数アイテム候補}
 \FOR{$k = 2$ \TO $k_{\max}$}
     \STATE $C_k \gets \textsc{AprioriGen}(L_{k-1})$
-    \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \COMMENT{Apriori property}
+    \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \COMMENT{Apriori性質}
     \STATE $L_k \gets \emptyset$
-    \FOR{each candidate $X \in C_k$}
-        \STATE Compute allowed ranges from singleton intervals
-        \IF{allowed ranges empty}
+    \FOR{各候補$X \in C_k$}
+        \STATE 単一アイテム区間から許容範囲を計算
+        \IF{許容範囲が空}
             \STATE \textbf{continue}
         \ENDIF
-        \STATE Build $P_{\text{TWU}}(X, \cdot)$
+        \STATE $P_{\text{TWU}}(X, \cdot)$を構築
         \IF{$\max_l (\text{WTWU}(X, l)) < \theta_u$}
-            \STATE \textbf{continue} \COMMENT{TWU pruning}
+            \STATE \textbf{continue} \COMMENT{TWU枝刈り}
         \ENDIF
-        \STATE Compute co-occurrence timestamps
-        \STATE Find frequency-dense intervals within allowed ranges
-        \STATE Build $P_u(X, \cdot)$
-        \STATE Find utility-dense sub-intervals
-        \IF{utility-dense intervals found}
-            \STATE Add $X$ to results and $L_k$
+        \STATE 共起タイムスタンプを計算
+        \STATE 許容範囲内で頻度密集区間を探索
+        \STATE $P_u(X, \cdot)$を構築
+        \STATE 効用密集部分区間を探索
+        \IF{効用密集区間が見つかった場合}
+            \STATE $X$を結果および$L_k$に追加
         \ENDIF
     \ENDFOR
     \IF{$L_k = \emptyset$}
@@ -132,14 +132,14 @@ Algorithm~\ref{alg:udi-miner} presents our level-wise mining procedure.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Complexity Analysis}
+\subsection{計算量解析}
 
-\begin{theorem}[Time Complexity]
-Let $n = |\mathcal{D}|$, $m = |\mathcal{I}|$, and $K$ be the number of candidates evaluated. The time complexity of UDI-Miner is $O(K \cdot n + m \cdot n)$.
+\begin{theorem}[時間計算量]
+$n = |\mathcal{D}|$、$m = |\mathcal{I}|$、$K$を評価された候補数とする。UDI-Minerの時間計算量は$O(K \cdot n + m \cdot n)$である。
 \end{theorem}
 
 \begin{proof}
-Building item-transaction maps takes $O(n \cdot \bar{d})$ where $\bar{d}$ is the average transaction size. For each candidate, prefix sum construction is $O(n)$ and window sweeping is $O(n)$. Dense interval computation is $O(c \log c)$ where $c$ is the number of occurrences. Candidate generation at level $k$ is bounded by $O(|L_{k-1}|^2)$. The dominant cost is $O(K \cdot n)$ for prefix sum construction and utility checking across all candidates.
+アイテム-トランザクション対応表の構築には$O(n \cdot \bar{d})$を要する。ここで$\bar{d}$は平均トランザクションサイズである。各候補に対して、累積和の構築は$O(n)$、ウィンドウ走査は$O(n)$である。密集区間の計算は$O(c \log c)$で、$c$は出現回数である。レベル$k$での候補生成は$O(|L_{k-1}|^2)$で抑えられる。支配的なコストは、すべての候補にわたる累積和構築と効用検査の$O(K \cdot n)$である。
 \end{proof}
 
-The prefix-sum optimization reduces the per-window utility query from $O(W)$ to $O(1)$, yielding an overall speedup factor of $W$ compared to naive window scanning.
+累積和最適化により、各ウィンドウの効用クエリが$O(W)$から$O(1)$に削減され、素朴なウィンドウ走査と比較して$W$倍の高速化が達成される。

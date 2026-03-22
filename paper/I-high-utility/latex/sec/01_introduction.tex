@@ -1,19 +1,19 @@
-\section{Introduction}
+\section{はじめに}
 \label{sec:introduction}
 
-Transactional databases are central to retail analytics, web usage mining, and recommendation systems. Two major lines of research have been developed for extracting actionable knowledge from such data: \emph{frequent itemset mining} (FIM)~\cite{agrawal1994fast} and \emph{high-utility itemset mining} (HUIM)~\cite{yao2006mining,fournier2019survey}.
+トランザクションデータベースは、小売分析、Webアクセスマイニング、推薦システムの中核をなす。このようなデータから実用的な知見を抽出するために、主に二つの研究系譜が発展してきた。すなわち、\emph{頻出アイテムセットマイニング}（FIM）~\cite{agrawal1994fast}と\emph{高効用アイテムセットマイニング}（HUIM）~\cite{yao2006mining,fournier2019survey}である。
 
-FIM identifies itemsets that co-occur in at least a minimum number of transactions, treating all items and transactions equally. While computationally well-understood, FIM cannot distinguish between a low-margin product bought frequently and a high-margin product bought occasionally. HUIM addresses this limitation by associating each item with an external utility (e.g., profit per unit) and each item occurrence with an internal utility (e.g., purchase quantity), mining itemsets whose total utility exceeds a threshold~\cite{liu2012mining,zida2015efim}.
+FIMは、最小支持度以上のトランザクションで共起するアイテムセットを特定するが、すべてのアイテムとトランザクションを等しく扱う。計算論的にはよく理解されているものの、FIMでは低利益率で頻繁に購入される商品と高利益率でたまに購入される商品を区別できない。HUIMはこの限界に対処するため、各アイテムに外部効用（例：単位あたり利益）を、各アイテム出現に内部効用（例：購入数量）を関連付け、総効用が閾値を超えるアイテムセットをマイニングする~\cite{liu2012mining,zida2015efim}。
 
-However, both FIM and HUIM are inherently \emph{atemporal}: they produce a single global result over the entire database. In practice, purchasing patterns are highly non-stationary. Promotional campaigns, seasonal effects, and supply-chain disruptions create time intervals where specific itemsets become temporarily dense or utility-rich. Detecting such temporal concentrations requires a framework that simultaneously considers frequency, utility, and temporal locality.
+しかし、FIMもHUIMも本質的に\emph{非時間的}である。すなわち、データベース全体に対して単一のグローバルな結果を生成する。実際には、購買パターンは非常に非定常的である。販促キャンペーン、季節効果、サプライチェーンの混乱が、特定のアイテムセットが一時的に密集化または高効用化する時間区間を生み出す。このような時間的な集中を検出するには、頻度・効用・時間的局所性を同時に考慮するフレームワークが必要である。
 
-\textbf{Dense interval detection.} Recent work on sliding-window dense interval mining identifies contiguous time periods where an itemset's occurrence frequency exceeds a threshold within every window position. This approach effectively captures ``bursts'' of co-purchase activity. Yet it remains frequency-only and cannot rank or filter intervals by their economic significance.
+\textbf{密集区間検出。}近年のスライディングウィンドウ密集区間マイニングに関する研究は、アイテムセットの出現頻度がすべてのウィンドウ位置で閾値を超える連続時間区間を特定する。このアプローチは共同購買活動の「バースト」を効果的に捕捉する。しかし、頻度のみに基づいており、区間を経済的重要性によってランク付けやフィルタリングすることはできない。
 
-\textbf{Our contribution.} We propose the \emph{Utility-Dense Interval} (UDI) framework, which combines sliding-window dense interval detection with utility-aware mining. Specifically, we make the following contributions:
+\textbf{本研究の貢献。}我々は、スライディングウィンドウ密集区間検出と効用考慮型マイニングを組み合わせた\emph{効用密集区間}（UDI）フレームワークを提案する。具体的に、以下の貢献を行う：
 
 \begin{enumerate}
-    \item We formally define the \emph{Utility-Dense Interval} problem, introducing Window Utility (WU) and Window Transaction Weighted Utilization (WTWU) (Section~\ref{sec:preliminaries}).
-    \item We prove that WTWU is an anti-monotone upper bound on window utility, enabling effective pruning of the candidate space (Section~\ref{sec:method}).
-    \item We present an Apriori-style level-wise algorithm that jointly enforces frequency and utility thresholds, with prefix-sum optimization for O(1) window utility queries (Section~\ref{sec:method}).
-    \item We evaluate the algorithm on synthetic and semi-synthetic datasets, demonstrating high pattern recovery rates, effective TWU pruning, and near-linear scalability (Section~\ref{sec:experiments}).
+    \item \emph{効用密集区間}問題を形式的に定義し、ウィンドウ効用（WU）およびウィンドウトランザクション加重利用度（WTWU）を導入する（\ref{sec:preliminaries}節）。
+    \item WTWUがウィンドウ効用に対する反単調上界であることを証明し、候補空間の効果的な枝刈りを可能にする（\ref{sec:method}節）。
+    \item 頻度閾値と効用閾値を同時に適用するApriori型レベルワイズアルゴリズムを提示し、$O(1)$ウィンドウ効用クエリのための累積和最適化を導入する（\ref{sec:method}節）。
+    \item 合成データおよび半合成データに対してアルゴリズムを評価し、高いパターン復元率、効果的なTWU枝刈り、およびほぼ線形のスケーラビリティを実証する（\ref{sec:experiments}節）。
 \end{enumerate}

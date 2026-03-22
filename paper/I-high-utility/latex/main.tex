@@ -11,28 +11,30 @@
 \usepackage{multirow}
 \usepackage{hyperref}
 \usepackage{cite}
+\usepackage{CJKutf8}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{property}{Property}
-\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{lemma}{補題}
+\newtheorem{property}{性質}
+\newtheorem{corollary}{系}
 
 \begin{document}
+\begin{CJK}{UTF8}{ipxm}
 
-\title{High-Utility Dense Intervals:\\Joint Frequency-Utility Temporal Mining}
+\title{高効用密集区間：頻度・効用同時時系列マイニング}
 
 \author{\IEEEauthorblockN{Anonymous Author(s)}
-\IEEEauthorblockA{Under Review}}
+\IEEEauthorblockA{査読中}}
 
 \maketitle
 
 \begin{abstract}
-Frequent itemset mining and high-utility itemset mining address complementary aspects of transactional data analysis: the former identifies commonly co-occurring items, while the latter captures economically significant item combinations. However, neither framework is designed to detect \emph{temporal} concentrations---time intervals where specific itemsets exhibit both high frequency and high utility. We introduce the \emph{Utility-Dense Interval} (UDI) framework, which extends sliding-window dense interval detection with a utility dimension. We define Window Utility (WU) and Window Transaction Weighted Utilization (WTWU), prove that WTWU provides an anti-monotone upper bound for window-level utility pruning, and present an Apriori-style algorithm that jointly enforces frequency and utility thresholds. Experiments on synthetic and semi-synthetic datasets demonstrate that (i) the algorithm recovers injected high-utility dense patterns with 100\% precision across multiple seeds, (ii) TWU-based pruning reduces candidate evaluation, and (iii) runtime scales near-linearly with transaction count. Our framework fills a gap at the intersection of temporal pattern mining and utility-aware analysis.
+頻出アイテムセットマイニングと高効用アイテムセットマイニングは、トランザクションデータ分析の相補的な側面に対処する。前者は共起頻度の高いアイテムを特定し、後者は経済的に重要なアイテム組み合わせを捕捉する。しかし、いずれのフレームワークも\emph{時間的}な集中---特定のアイテムセットが高頻度かつ高効用を同時に示す時間区間---を検出するようには設計されていない。本研究では、スライディングウィンドウに基づく密集区間検出に効用次元を拡張した\emph{効用密集区間}（Utility-Dense Interval, UDI）フレームワークを提案する。ウィンドウ効用（WU）およびウィンドウトランザクション加重利用度（WTWU）を定義し、WTWUがウィンドウレベルの効用枝刈りのための反単調上界を与えることを証明し、頻度閾値と効用閾値を同時に適用するApriori型アルゴリズムを提示する。合成データおよび半合成データに対する実験により、(i) 本アルゴリズムが注入された高効用密集パターンを複数シードにわたり100\%の精度で復元すること、(ii) TWUベースの枝刈りが候補評価を削減すること、(iii) 実行時間がトランザクション数に対してほぼ線形にスケールすることを実証する。本フレームワークは時系列パターンマイニングと効用考慮型分析の交差領域における空白を埋めるものである。
 \end{abstract}
 
 \begin{IEEEkeywords}
-High-utility itemset mining, dense intervals, temporal mining, sliding window, transaction weighted utilization
+高効用アイテムセットマイニング, 密集区間, 時系列マイニング, スライディングウィンドウ, トランザクション加重利用度
 \end{IEEEkeywords}
 
 \input{sec/01_introduction}
@@ -45,4 +47,5 @@ High-utility itemset mining, dense intervals, temporal mining, sliding window, t
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
+\end{CJK}
 \end{document}

@@ -1,67 +1,67 @@
-\section{Preliminaries and Problem Definition}
+\section{準備と問題定義}
 \label{sec:preliminaries}
 
-\subsection{Transactional Database with Utilities}
+\subsection{効用付きトランザクションデータベース}
 
-\begin{definition}[Utility Transaction Database]
-A \emph{utility transaction database} $\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$ is an ordered sequence of transactions. Each transaction $T_t$ at time position $t$ contains a set of items $I(T_t) \subseteq \mathcal{I}$, where $\mathcal{I}$ is the universe of items. Each item $i \in I(T_t)$ has an \emph{internal utility} (quantity) $q(i, T_t) \in \mathbb{Z}_{>0}$. Each item $i \in \mathcal{I}$ has an \emph{external utility} (unit profit) $p(i) \in \mathbb{R}_{>0}$.
+\begin{definition}[効用トランザクションデータベース]
+\emph{効用トランザクションデータベース} $\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$ はトランザクションの順序付き列である。各トランザクション$T_t$は時間位置$t$に対応し、アイテム集合$I(T_t) \subseteq \mathcal{I}$を含む。ここで$\mathcal{I}$はアイテムの全体集合である。各アイテム$i \in I(T_t)$は\emph{内部効用}（数量）$q(i, T_t) \in \mathbb{Z}_{>0}$を持つ。各アイテム$i \in \mathcal{I}$は\emph{外部効用}（単位利益）$p(i) \in \mathbb{R}_{>0}$を持つ。
 \end{definition}
 
-\begin{definition}[Item and Itemset Utility]
-The \emph{utility} of item $i$ in transaction $T_t$ is $u(i, T_t) = q(i, T_t) \cdot p(i)$. The \emph{utility} of an itemset $X \subseteq \mathcal{I}$ in $T_t$ is:
+\begin{definition}[アイテムおよびアイテムセットの効用]
+トランザクション$T_t$におけるアイテム$i$の\emph{効用}は$u(i, T_t) = q(i, T_t) \cdot p(i)$である。トランザクション$T_t$におけるアイテムセット$X \subseteq \mathcal{I}$の\emph{効用}は：
 \begin{equation}
     u(X, T_t) = \begin{cases}
         \sum_{i \in X} u(i, T_t) & \text{if } X \subseteq I(T_t) \\
         0 & \text{otherwise}
     \end{cases}
 \end{equation}
-The \emph{transaction utility} of $T_t$ is $\text{TU}(T_t) = \sum_{i \in I(T_t)} u(i, T_t)$.
+$T_t$の\emph{トランザクション効用}は$\text{TU}(T_t) = \sum_{i \in I(T_t)} u(i, T_t)$である。
 \end{definition}
 
-\subsection{Sliding Window and Dense Intervals}
+\subsection{スライディングウィンドウと密集区間}
 
-\begin{definition}[Sliding Window]
-For a window size $W \in \mathbb{Z}_{>0}$, the \emph{window at position} $l$ is the sub-database $\mathcal{D}[l, l{+}W] = \{T_t \mid l \leq t \leq l + W\}$.
+\begin{definition}[スライディングウィンドウ]
+ウィンドウサイズ$W \in \mathbb{Z}_{>0}$に対して、位置$l$における\emph{ウィンドウ}はサブデータベース$\mathcal{D}[l, l{+}W] = \{T_t \mid l \leq t \leq l + W\}$である。
 \end{definition}
 
-\begin{definition}[Window Support]
-The \emph{window support} of itemset $X$ at position $l$ is:
+\begin{definition}[ウィンドウ支持度]
+位置$l$におけるアイテムセット$X$の\emph{ウィンドウ支持度}は：
 \begin{equation}
     \sigma_W(X, l) = |\{T_t \in \mathcal{D}[l, l{+}W] \mid X \subseteq I(T_t)\}|
 \end{equation}
 \end{definition}
 
-\begin{definition}[Dense Interval]
-An itemset $X$ has a \emph{dense interval} $[s, e]$ with respect to window size $W$ and frequency threshold $\theta_f$ if $\sigma_W(X, l) \geq \theta_f$ for all $l \in [s, e]$.
-A dense interval is \emph{maximal} if no proper extension $[s', e'] \supsetneq [s, e]$ satisfies the same condition.
+\begin{definition}[密集区間]
+アイテムセット$X$は、ウィンドウサイズ$W$および頻度閾値$\theta_f$に対して、すべての$l \in [s, e]$で$\sigma_W(X, l) \geq \theta_f$を満たすとき、\emph{密集区間}$[s, e]$を持つ。
+密集区間$[s, e]$が\emph{極大}であるとは、同じ条件を満たす真の拡張$[s', e'] \supsetneq [s, e]$が存在しないことをいう。
 \end{definition}
 
-\subsection{Window Utility and TWU}
+\subsection{ウィンドウ効用とTWU}
 
-\begin{definition}[Window Utility]
-The \emph{window utility} of itemset $X$ at position $l$ is:
+\begin{definition}[ウィンドウ効用]
+位置$l$におけるアイテムセット$X$の\emph{ウィンドウ効用}は：
 \begin{equation}
     \text{WU}(X, l) = \sum_{t=l}^{l+W} u(X, T_t)
 \end{equation}
 \end{definition}
 
-\begin{definition}[Window Transaction Weighted Utilization]
-The \emph{window TWU} of itemset $X$ at position $l$ is:
+\begin{definition}[ウィンドウトランザクション加重利用度]
+位置$l$におけるアイテムセット$X$の\emph{ウィンドウTWU}は：
 \begin{equation}
     \text{WTWU}(X, l) = \sum_{\substack{t=l \\ X \subseteq I(T_t)}}^{l+W} \text{TU}(T_t)
 \end{equation}
 \end{definition}
 
-\subsection{Problem Definition}
+\subsection{問題定義}
 
-\begin{definition}[Utility-Dense Interval]
+\begin{definition}[効用密集区間]
 \label{def:udi}
-An itemset $X$ has a \emph{utility-dense interval} $[s, e]$ with respect to parameters $(W, \theta_f, \theta_u)$ if for all $l \in [s, e]$:
+アイテムセット$X$は、パラメータ$(W, \theta_f, \theta_u)$に対して、すべての$l \in [s, e]$で以下を満たすとき、\emph{効用密集区間}$[s, e]$を持つ：
 \begin{enumerate}
-    \item $\sigma_W(X, l) \geq \theta_f$ \quad (frequency condition), and
-    \item $\text{WU}(X, l) \geq \theta_u$ \quad (utility condition).
+    \item $\sigma_W(X, l) \geq \theta_f$ \quad （頻度条件）
+    \item $\text{WU}(X, l) \geq \theta_u$ \quad （効用条件）
 \end{enumerate}
 \end{definition}
 
-\textbf{Problem Statement.}
-Given a utility transaction database $\mathcal{D}$, window size $W$, frequency threshold $\theta_f$, utility threshold $\theta_u$, and maximum itemset length $k_{\max}$, find all pairs $(X, [s, e])$ such that $[s, e]$ is a maximal utility-dense interval of $X$ and $|X| \leq k_{\max}$.
+\textbf{問題定式化。}
+効用トランザクションデータベース$\mathcal{D}$、ウィンドウサイズ$W$、頻度閾値$\theta_f$、効用閾値$\theta_u$、最大アイテムセット長$k_{\max}$が与えられたとき、$[s, e]$が$X$の極大効用密集区間であり$|X| \leq k_{\max}$を満たすすべてのペア$(X, [s, e])$を求めよ。

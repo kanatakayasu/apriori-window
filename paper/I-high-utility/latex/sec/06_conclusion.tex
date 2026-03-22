@@ -1,9 +1,9 @@
-\section{Conclusion}
+\section{結論}
 \label{sec:conclusion}
 
-We introduced the Utility-Dense Interval (UDI) framework, which jointly considers frequency and utility within sliding windows to detect temporal concentrations of high-utility itemsets. We formalized the UDI problem, proved that Window TWU provides an anti-monotone upper bound for effective pruning, and presented the UDI-Miner algorithm with prefix-sum optimization for efficient window queries.
+本研究では、スライディングウィンドウ内で頻度と効用を同時に考慮し、高効用アイテムセットの時間的集中を検出する効用密集区間（UDI）フレームワークを提案した。UDI問題を形式化し、ウィンドウTWUが効果的な枝刈りのための反単調上界を与えることを証明し、累積和最適化による効率的なウィンドウクエリを備えたUDI-Minerアルゴリズムを提示した。
 
-Experiments on synthetic and semi-synthetic datasets demonstrated 100\% pattern recovery with high temporal precision, effective TWU-based pruning as the item space grows, and near-linear scalability with transaction count. The framework successfully bridges the gap between temporal dense interval mining and utility-aware analysis.
+合成データおよび半合成データに対する実験により、高い時間的精度での100\%のパターン復元、アイテム空間の拡大に伴う効果的なTWUベース枝刈り、およびトランザクション数に対するほぼ線形のスケーラビリティが実証された。本フレームワークは時系列密集区間マイニングと効用考慮型分析の間の空白を橋渡しするものである。
 
-\paragraph{Future Work.}
-Several directions merit investigation: (1) integration with one-phase algorithms such as EFIM to avoid candidate generation, (2) application to real retail datasets with external utility information, (3) streaming extensions for online utility-dense interval detection, and (4) incorporation of discount/promotion events as external signals to explain utility-dense intervals.
+\paragraph{今後の課題。}
+以下の方向性が検討に値する：(1) EFIMなどの一段階アルゴリズムとの統合による候補生成の回避、(2) 外部効用情報を持つ実際の小売データセットへの適用、(3) オンライン効用密集区間検出のためのストリーミング拡張、(4) 効用密集区間を説明するための外部シグナルとしての割引・販促イベントの組み込み。

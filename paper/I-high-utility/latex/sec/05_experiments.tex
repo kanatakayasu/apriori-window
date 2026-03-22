@@ -1,29 +1,29 @@
-\section{Experiments}
+\section{実験}
 \label{sec:experiments}
 
-We evaluate UDI-Miner on four aspects: (E1) pattern recovery accuracy, (E2) TWU pruning efficiency, (E3) scalability, and (E4) multi-pattern discovery in realistic settings.
+UDI-Minerを以下の4つの観点から評価する：(E1) パターン復元精度、(E2) TWU枝刈り効率、(E3) スケーラビリティ、(E4) 現実的な設定における複数パターン発見。
 
-\subsection{Setup}
+\subsection{実験設定}
 
-All experiments were conducted in Python 3.13 on a single-threaded process. Synthetic datasets were generated with controlled parameters to enable ground-truth evaluation.
+すべての実験はPython 3.13のシングルスレッドプロセスで実施した。合成データセットは正解評価を可能にするよう制御されたパラメータで生成した。
 
-\paragraph{Data Generation.}
-We generate utility transaction databases with $n$ transactions over $|\mathcal{I}|$ items. Each transaction contains 1--8 items with random quantities in $[1, 5]$ and external utilities drawn uniformly from $[1, 10]$. For pattern injection, a target itemset is inserted into transactions within a specified interval $[s^*, e^*]$ with probability $f$, and quantities for pattern items are boosted by a factor $h$.
+\paragraph{データ生成。}
+$n$個のトランザクション、$|\mathcal{I}|$個のアイテムからなる効用トランザクションデータベースを生成する。各トランザクションは1--8個のアイテムを含み、ランダムな数量は$[1, 5]$、外部効用は$[1, 10]$から一様に抽出される。パターン注入では、対象アイテムセットを指定区間$[s^*, e^*]$内のトランザクションに確率$f$で挿入し、パターンアイテムの数量を係数$h$で増幅する。
 
-\paragraph{Default Parameters.}
-Unless stated otherwise: $W = 30$--$50$, $\theta_f = 5$--$10$, $\theta_u = 50$--$200$, $k_{\max} = 3$--$4$.
+\paragraph{デフォルトパラメータ。}
+特に断りのない限り：$W = 30$--$50$、$\theta_f = 5$--$10$、$\theta_u = 50$--$200$、$k_{\max} = 3$--$4$。
 
-\subsection{E1: Pattern Recovery}
+\subsection{E1：パターン復元}
 
-We inject itemset $\{2, 5\}$ into the interval $[200, 400]$ with frequency 0.85 and quantity boost $h=3$. We run UDI-Miner with $W=40$, $\theta_f=8$, $\theta_u=80$, $k_{\max}=3$ across 5 random seeds.
+アイテムセット$\{2, 5\}$を区間$[200, 400]$に頻度0.85、数量増幅$h=3$で注入する。$W=40$、$\theta_f=8$、$\theta_u=80$、$k_{\max}=3$でUDI-Minerを5つのランダムシードにわたり実行する。
 
 \begin{table}[t]
 \centering
-\caption{E1: Pattern Recovery Results}
+\caption{E1：パターン復元結果}
 \label{tab:e1}
 \begin{tabular}{@{}ccccc@{}}
 \toprule
-Seed & Recovered & Overlap Ratio & \#Results & Time (ms) \\
+シード & 復元 & 重複率 & 結果数 & 時間 (ms) \\
 \midrule
 42   & \checkmark & 0.970 & 52 & 39.1 \\
 123  & \checkmark & 0.965 & 62 & 45.5 \\
@@ -31,25 +31,25 @@ Seed & Recovered & Overlap Ratio & \#Results & Time (ms) \\
 789  & \checkmark & 0.980 & 70 & 50.8 \\
 1024 & \checkmark & 0.960 & 67 & 48.1 \\
 \midrule
-\multicolumn{2}{c}{Recovery Rate: 100\%} & \multicolumn{3}{c}{Avg.\ Overlap: 0.965} \\
+\multicolumn{2}{c}{復元率: 100\%} & \multicolumn{3}{c}{平均重複率: 0.965} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:e1} shows that UDI-Miner recovers the injected pattern in all 5 runs, with an average interval overlap ratio of 0.965. The high overlap indicates precise temporal localization.
+表~\ref{tab:e1}に示すように、UDI-Minerは5回すべての実行で注入パターンを復元し、平均区間重複率は0.965であった。高い重複率は正確な時間的局所化を示している。
 
-\subsection{E2: TWU Pruning Efficiency}
+\subsection{E2：TWU枝刈り効率}
 
-We compare mining with and without TWU pruning at varying scales.
+異なる規模でTWU枝刈りの有無による比較を行う。
 
 \begin{table}[t]
 \centering
-\caption{E2: TWU Pruning Efficiency}
+\caption{E2：TWU枝刈り効率}
 \label{tab:e2}
 \begin{tabular}{@{}ccccccc@{}}
 \toprule
-$n$ & $|\mathcal{I}|$ & $\theta_u$ & \multicolumn{2}{c}{Candidates Eval.} & Pruned & Speedup \\
-    &                  &            & w/ TWU & w/o TWU &        &         \\
+$n$ & $|\mathcal{I}|$ & $\theta_u$ & \multicolumn{2}{c}{評価候補数} & 枝刈り数 & 高速化率 \\
+    &                  &            & TWU有 & TWU無 &        &         \\
 \midrule
 500  & 10 & 50  & 87  & 87  & 0 & 0.82$\times$ \\
 1000 & 15 & 80  & 119 & 119 & 1 & 0.73$\times$ \\
@@ -58,19 +58,19 @@ $n$ & $|\mathcal{I}|$ & $\theta_u$ & \multicolumn{2}{c}{Candidates Eval.} & Prun
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:e2} shows that TWU pruning becomes effective as the item space grows. At $|\mathcal{I}|=20$, 7 candidates are eliminated by the TWU upper bound. The speedup is currently offset by the overhead of prefix-sum construction for TWU checking; in larger-scale settings with higher $|\mathcal{I}|$ and stricter $\theta_u$, the pruning benefit is expected to dominate.
+表~\ref{tab:e2}に示すように、TWU枝刈りはアイテム空間の拡大に伴い効果的になる。$|\mathcal{I}|=20$では、TWU上界により7個の候補が除去された。現時点では枝刈りの高速化効果はTWU検査のための累積和構築オーバーヘッドにより相殺されているが、より大規模な$|\mathcal{I}|$およびより厳しい$\theta_u$の設定では、枝刈りの利点が支配的になると期待される。
 
-\subsection{E3: Scalability}
+\subsection{E3：スケーラビリティ}
 
-We vary $n$ from 500 to 10{,}000 with fixed $|\mathcal{I}|=15$, $W=30$, $\theta_f=5$, $\theta_u=50$.
+$|\mathcal{I}|=15$、$W=30$、$\theta_f=5$、$\theta_u=50$を固定し、$n$を500から10{,}000まで変化させる。
 
 \begin{table}[t]
 \centering
-\caption{E3: Scalability Results}
+\caption{E3：スケーラビリティ結果}
 \label{tab:e3}
 \begin{tabular}{@{}cccc@{}}
 \toprule
-$n$ & Time (ms) & \#Results & \#Evaluated \\
+$n$ & 時間 (ms) & 結果数 & 評価数 \\
 \midrule
 500    & 32.6    & 84  & 87  \\
 1{,}000  & 114.7   & 115 & 119 \\
@@ -81,25 +81,25 @@ $n$ & Time (ms) & \#Results & \#Evaluated \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:e3} confirms near-linear scalability. Doubling $n$ from 5{,}000 to 10{,}000 increases runtime by a factor of $\approx 2.04$, consistent with the $O(K \cdot n)$ complexity analysis. The number of results stabilizes, reflecting the fixed data generation process.
+表~\ref{tab:e3}はほぼ線形のスケーラビリティを確認する。$n$を5{,}000から10{,}000に倍増させた場合、実行時間の増加係数は約2.04であり、$O(K \cdot n)$の計算量解析と整合する。結果数は安定化しており、固定されたデータ生成プロセスを反映している。
 
-\subsection{E4: Multi-Pattern Discovery}
+\subsection{E4：複数パターン発見}
 
-We construct a semi-synthetic dataset ($n=2{,}000$, $|\mathcal{I}|=20$) with two injected patterns:
+半合成データセット（$n=2{,}000$、$|\mathcal{I}|=20$）に2つのパターンを注入する：
 \begin{itemize}
-    \item Pattern 1: $\{3, 7\}$ in $[300, 600]$, frequency 0.85, quantity boost $h=3$.
-    \item Pattern 2: $\{1, 5, 12\}$ in $[1200, 1500]$, frequency 0.80, quantity boost $h=4$.
+    \item パターン1：$\{3, 7\}$、区間$[300, 600]$、頻度0.85、数量増幅$h=3$。
+    \item パターン2：$\{1, 5, 12\}$、区間$[1200, 1500]$、頻度0.80、数量増幅$h=4$。
 \end{itemize}
 
-UDI-Miner ($W=50$, $\theta_f=10$, $\theta_u=200$, $k_{\max}=4$) successfully recovers both patterns along with their supersets. Pattern 1 $\{3,7\}$ is found with 1 utility-dense interval (max utility 1{,}817.0), and Pattern 2 $\{1,5,12\}$ is found with 1 interval (max utility 4{,}190.2). The algorithm also discovers related patterns such as $\{3,7,15\}$ (12 intervals) and $\{1,5,12,17\}$ (8 intervals), demonstrating the ability to surface higher-order utility-dense co-occurrences.
+UDI-Miner（$W=50$、$\theta_f=10$、$\theta_u=200$、$k_{\max}=4$）は両パターンとその上位集合を正常に復元した。パターン1 $\{3,7\}$は1つの効用密集区間（最大効用1{,}817.0）で検出され、パターン2 $\{1,5,12\}$は1つの区間（最大効用4{,}190.2）で検出された。アルゴリズムはまた、$\{3,7,15\}$（12区間）や$\{1,5,12,17\}$（8区間）などの関連パターンも発見しており、より高次の効用密集共起を発見する能力を示している。
 
-\subsection{Discussion}
+\subsection{考察}
 
-\paragraph{Dual-condition filtering.}
-The UDI framework's key strength is its dual-condition filtering: frequency alone would surface many low-utility itemsets, while utility alone would include sporadic high-value transactions. By requiring both conditions simultaneously within a sliding window, UDI identifies temporally concentrated, economically significant patterns.
+\paragraph{二重条件フィルタリング。}
+UDIフレームワークの主要な強みは二重条件フィルタリングにある。頻度のみでは多くの低効用アイテムセットが浮上し、効用のみでは散発的な高価値トランザクションが含まれてしまう。スライディングウィンドウ内で両条件を同時に要求することで、UDIは時間的に集中した経済的に重要なパターンを特定する。
 
-\paragraph{Prefix-sum efficiency.}
-The prefix-sum optimization reduces per-window utility computation from $O(W)$ to $O(1)$, making the utility sweep cost independent of window size. This is critical for large $W$ values common in real applications (e.g., monthly windows over daily transactions).
+\paragraph{累積和の効率性。}
+累積和最適化により、各ウィンドウの効用計算が$O(W)$から$O(1)$に削減され、効用走査コストがウィンドウサイズに依存しなくなる。これは、実用的なアプリケーションで一般的な大きな$W$値（例：日次トランザクションに対する月次ウィンドウ）において極めて重要である。
 
-\paragraph{Limitations.}
-The current TWU pruning shows limited benefit in moderate-scale experiments because random data tends to accumulate high TWU values across many items. In real retail data with skewed utility distributions, we expect stronger pruning effects.
+\paragraph{制約事項。}
+現在のTWU枝刈りは中規模実験では限定的な効果を示す。これはランダムデータが多くのアイテムにわたって高いTWU値を蓄積する傾向があるためである。効用分布に偏りのある実際の小売データでは、より強力な枝刈り効果が期待される。

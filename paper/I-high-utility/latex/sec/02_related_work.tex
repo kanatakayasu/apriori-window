@@ -1,18 +1,18 @@
-\section{Related Work}
+\section{関連研究}
 \label{sec:related}
 
-\subsection{High-Utility Itemset Mining}
-The high-utility itemset mining problem was formalized by Yao et al.~\cite{yao2006mining}, who introduced the utility measure combining internal utility (quantity) and external utility (unit profit). Unlike support, utility is not anti-monotone: a subset of a high-utility itemset may have higher utility than its superset. This necessitated new pruning strategies.
+\subsection{高効用アイテムセットマイニング}
+高効用アイテムセットマイニング問題はYaoら~\cite{yao2006mining}により形式化され、内部効用（数量）と外部効用（単位利益）を組み合わせた効用尺度が導入された。支持度とは異なり、効用は反単調ではない。すなわち、高効用アイテムセットの部分集合がその上位集合よりも高い効用を持つ場合がある。このため、新たな枝刈り戦略が必要となった。
 
-The Transaction Weighted Utilization (TWU) model~\cite{liu2012mining} restored a form of anti-monotonicity by defining an upper bound: the TWU of an itemset $X$ is the sum of transaction utilities over all transactions containing $X$. Since $\text{TWU}(X) \geq u(X)$ and TWU is anti-monotone, unpromising itemsets can be pruned early.
+トランザクション加重利用度（TWU）モデル~\cite{liu2012mining}は、上界を定義することで反単調性の一形態を回復した。アイテムセット$X$のTWUは、$X$を含むすべてのトランザクションのトランザクション効用の総和である。$\text{TWU}(X) \geq u(X)$かつTWUが反単調であるため、見込みのないアイテムセットを早期に枝刈りできる。
 
-HUI-Miner~\cite{liu2012mining} introduced the utility-list structure, enabling one-phase mining without candidate generation. EFIM~\cite{zida2015efim} further improved efficiency via transaction merging and sub-tree utility upper bounds. Tseng et al.~\cite{tseng2013efficient} studied concise representations. Fournier-Viger et al.~\cite{fournier2019survey} provide a comprehensive survey.
+HUI-Miner~\cite{liu2012mining}は効用リスト構造を導入し、候補生成なしの一段階マイニングを可能にした。EFIM~\cite{zida2015efim}はトランザクション併合とサブツリー効用上界によりさらに効率を改善した。Tsengら~\cite{tseng2013efficient}は簡潔表現を研究した。Fournier-Vigerら~\cite{fournier2019survey}が包括的なサーベイを提供している。
 
-\subsection{Temporal and Periodic Utility Mining}
-Lan et al.~\cite{lan2014discovery} incorporated on-shelf time periods into HUIM, mining itemsets that are high-utility during their shelf life. Dam et al.~\cite{dam2019towards} extended utility mining to sequential patterns with periodicity constraints. Ahmed et al.~\cite{ahmed2009efficient} addressed incremental databases with tree-based structures. These works consider temporal aspects but do not identify contiguous dense intervals via sliding windows.
+\subsection{時間的・周期的効用マイニング}
+Lanら~\cite{lan2014discovery}は棚卸期間をHUIMに組み込み、棚卸期間中に高効用であるアイテムセットをマイニングした。Damら~\cite{dam2019towards}は周期性制約付きの系列パターンに効用マイニングを拡張した。Ahmedら~\cite{ahmed2009efficient}は木構造による増分データベースに対処した。これらの研究は時間的側面を考慮しているが、スライディングウィンドウによる連続的な密集区間の特定は行っていない。
 
-\subsection{Dense Interval Mining}
-Sliding-window dense interval detection identifies time periods where an itemset's support within a fixed-size window exceeds a threshold at every position. The Apriori-window framework combines this with level-wise candidate generation, using the anti-monotonicity of frequency-based dense intervals for pruning. However, existing dense interval methods are purely frequency-based.
+\subsection{密集区間マイニング}
+スライディングウィンドウ密集区間検出は、固定サイズのウィンドウ内でアイテムセットの支持度がすべての位置で閾値を超える時間区間を特定する。Apriori-windowフレームワークは、これをレベルワイズ候補生成と組み合わせ、頻度ベースの密集区間の反単調性を枝刈りに活用する。しかし、既存の密集区間手法は純粋に頻度ベースである。
 
-\subsection{Positioning of This Work}
-Our work bridges the gap between utility-aware mining and temporal dense interval detection. To the best of our knowledge, no prior work defines or mines \emph{utility-dense intervals}---time periods satisfying both a sliding-window frequency condition and a sliding-window utility condition simultaneously.
+\subsection{本研究の位置づけ}
+本研究は、効用考慮型マイニングと時間的密集区間検出の間の空白を橋渡しする。我々の知る限り、\emph{効用密集区間}---スライディングウィンドウの頻度条件と効用条件を同時に満たす時間区間---を定義しマイニングする先行研究は存在しない。
