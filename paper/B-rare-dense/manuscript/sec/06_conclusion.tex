@@ -1,31 +1,31 @@
 % ==============================================================
-\section{Conclusion}\label{sec:conclusion}
+\section{結論}\label{sec:conclusion}
 % ==============================================================
 
-We introduced the \emph{Rare Dense Pattern} (RDP) mining problem, a novel formulation that targets itemsets satisfying two simultaneous conditions: global rarity (low overall support) and local temporal density (high co-occurrence count within at least one sliding window).
-This class of patterns captures practically important phenomena---promotional bursts, security incidents, seasonal co-purchases---that are invisible to both standard frequent pattern mining (which prunes rare patterns) and standard rare pattern mining (which ignores temporal structure).
+本研究では\emph{稀少密集パターン}（RDP）マイニング問題を導入した。これは二つの条件を同時に満たすアイテムセットを対象とする新しい定式化である：大域的稀少性（全体サポートが低い）と局所的時間密集性（少なくとも一つのスライディングウィンドウ内で共起カウントが高い）。
+このパターンクラスは、プロモーションバースト、セキュリティインシデント、季節的同時購入など、標準的な頻出パターンマイニング（稀少パターンを枝刈りしてしまう）と標準的な稀少パターンマイニング（時間的構造を無視する）の両方からは見えない、実用上重要な現象を捉える。
 
-Our key theoretical contribution is the \emph{Weak Anti-Monotonicity} property: while the combined RDP condition is neither monotone nor anti-monotone, the local density component alone is anti-monotone.
-This enables Apriori-style pruning in a \emph{Two-Phase Mining} algorithm that first discovers all locally dense patterns, then filters by global rarity.
-We proved that this algorithm is sound and complete---it discovers exactly the set of all RDPs.
+本研究の理論的な主要貢献は\emph{弱反単調性}である：RDP条件の組み合わせは単調でも反単調でもないが、局所密集性成分のみは反単調である。
+これにより、まず局所的に密集するすべてのパターンを発見し、次に大域的稀少性でフィルタリングする\emph{二段階マイニング}アルゴリズムにおけるApriori型枝刈りが可能となる。
+本アルゴリズムが健全かつ完全であること---すべてのRDPを過不足なく発見すること---を証明した。
 
-Experimental results on synthetic data demonstrate 100\% recovery of ground-truth RDPs, 80\%+ reduction in false positives via the rarity filter, and near-linear scalability to 100K transactions.
+合成データ上の実験結果は、正解RDPの100\%回収、稀少性フィルタによる80\%以上の偽陽性削減、10万トランザクションまでのほぼ線形なスケーラビリティを実証した。
 
-\paragraph{Limitations.}
-The current algorithm assumes a fixed window size $W$ and density threshold $\theta$.
-Automatically selecting these parameters based on data characteristics remains an open problem.
-The global rarity condition uses a single threshold $\sigma_{\max}$; per-item or per-itemset-size thresholds could improve flexibility.
+\paragraph{制約}
+現在のアルゴリズムは固定のウィンドウサイズ $W$ と密集閾値 $\theta$ を前提とする。
+データ特性に基づくこれらのパラメータの自動選択は未解決の課題である。
+大域的稀少性条件は単一の閾値 $\sigma_{\max}$ を使用するが、アイテムごとまたはアイテムセットサイズごとの閾値により柔軟性を向上できる可能性がある。
 
-\paragraph{Future Work.}
-Several directions merit investigation:
+\paragraph{今後の研究}
+以下のいくつかの方向性について検討の価値がある：
 \begin{enumerate}
-\item \textbf{Multi-scale analysis}: Detecting RDPs across multiple window sizes simultaneously, potentially using hierarchical decomposition similar to Kleinberg's multi-level burst detection~\cite{kleinberg2003bursty}.
+\item \textbf{マルチスケール分析}：複数のウィンドウサイズにわたるRDPの同時検出。Kleinbergの多レベルバースト検出~\cite{kleinberg2003bursty}と類似の階層的分解の利用が考えられる。
 
-\item \textbf{Streaming setting}: Adapting the algorithm for online mining where transactions arrive continuously, maintaining RDPs incrementally.
+\item \textbf{ストリーミング設定}：トランザクションが連続的に到着するオンラインマイニングへの適応。RDPをインクリメンタルに維持する。
 
-\item \textbf{Rarity-aware pruning}: Developing tighter pruning strategies that exploit the rarity condition during Phase~1, potentially reducing the Phase~1 candidate set.
+\item \textbf{稀少性を考慮した枝刈り}：第1段階において稀少性条件を活用するより厳密な枝刈り戦略の開発。第1段階の候補集合を削減できる可能性がある。
 
-\item \textbf{Event attribution}: Linking discovered RDPs to external events (promotions, incidents) to explain \emph{why} a rare pattern became locally dense at a specific time.
+\item \textbf{イベント帰属}：発見されたRDPを外部イベント（プロモーション、インシデント等）と関連付け、稀少パターンが特定の時点で局所的に密集した\emph{理由}を説明する。
 
-\item \textbf{Large-scale evaluation}: Applying the framework to real-world datasets (retail, network logs, healthcare) to validate the practical utility of RDPs.
+\item \textbf{大規模評価}：実世界データセット（小売、ネットワークログ、医療）へのフレームワークの適用により、RDPの実用性を検証する。
 \end{enumerate}

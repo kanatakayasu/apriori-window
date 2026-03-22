@@ -1,31 +1,31 @@
 % ==============================================================
-\section{Two-Phase Mining Algorithm}\label{sec:algorithm}
+\section{二段階マイニングアルゴリズム}\label{sec:algorithm}
 % ==============================================================
 
-We present the Two-Phase Rare Dense Pattern Mining algorithm, which implements the framework defined in \S\ref{sec:problem}.
-The algorithm consists of two sequential phases: Phase~1 discovers all locally dense patterns using sliding-window Apriori, and Phase~2 filters the results to retain only globally rare patterns.
+\S\ref{sec:problem}で定義した枠組みを実装する二段階稀少密集パターンマイニングアルゴリズムを提示する。
+本アルゴリズムは二つの逐次的段階から成る：第1段階でスライディングウィンドウAprioriにより局所的に密集するすべてのパターンを発見し、第2段階で大域的に稀少なパターンのみを保持するようフィルタリングする。
 
-\subsection{Phase~1: Dense Interval Discovery}
+\subsection{第1段階：密集区間発見}
 
-Phase~1 adapts the Apriori algorithm to use local density as the pruning criterion instead of global support.
-The key insight, established by Theorem~\ref{thm:weak_antimon}, is that the local density condition is anti-monotone: if an itemset has no dense interval, neither does any of its supersets.
+第1段階はAprioriアルゴリズムを改変し、大域サポートの代わりに局所密集性を枝刈り基準として用いる。
+定理~\ref{thm:weak_antimon}により確立された重要な知見は、局所密集性条件が反単調であること、すなわちアイテムセットが密集区間を持たなければその上位集合も持たないことである。
 
-Algorithm~\ref{alg:phase1} describes this phase.
-For each candidate itemset, we compute its co-occurrence timestamps (the transaction indices where all items in the itemset appear together) and then apply the sliding-window dense interval computation.
+アルゴリズム~\ref{alg:phase1}にこの段階を記述する。
+各候補アイテムセットに対して、共起タイムスタンプ（アイテムセット中のすべてのアイテムが同時に出現するトランザクションインデックス）を計算し、スライディングウィンドウ密集区間計算を適用する。
 
 \begin{algorithm}[t]
-\caption{Phase~1: Dense Interval Discovery}
+\caption{第1段階：密集区間発見}
 \label{alg:phase1}
 \begin{algorithmic}[1]
-\REQUIRE Transaction sequence $D$, window size $W$, density threshold $\theta$, max itemset size $k_{\max}$
-\ENSURE Set of locally dense itemsets $\mathcal{F}_{\text{local}}$ with their dense intervals
+\REQUIRE トランザクション列 $D$、ウィンドウサイズ $W$、密集閾値 $\theta$、最大アイテムセットサイズ $k_{\max}$
+\ENSURE 局所的に密集するアイテムセットの集合 $\mathcal{F}_{\text{local}}$ とその密集区間
 
-\STATE Build item$\to$transaction-id map $M$
+\STATE アイテム$\to$トランザクションIDマップ $M$ を構築
 \STATE $\mathcal{F}_{\text{local}} \gets \emptyset$
-\STATE $L_1 \gets \emptyset$ \COMMENT{Frequent 1-itemsets}
+\STATE $L_1 \gets \emptyset$ \COMMENT{密集1-アイテムセット}
 
-\FORALL{items $i \in \mathcal{I}$}
-    \STATE $\tau_i \gets M[i]$ \COMMENT{sorted transaction IDs}
+\FORALL{アイテム $i \in \mathcal{I}$}
+    \STATE $\tau_i \gets M[i]$ \COMMENT{ソート済みトランザクションID}
     \STATE $\mathcal{D}_i \gets \textsc{DenseIntervals}(\tau_i, W, \theta)$
     \IF{$\mathcal{D}_i \neq \emptyset$}
         \STATE $\mathcal{F}_{\text{local}}[\{i\}] \gets \mathcal{D}_i$
@@ -39,12 +39,12 @@ For each candidate itemset, we compute its co-occurrence timestamps (the transac
     \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$
     \STATE $L_k \gets \emptyset$
     \FORALL{$P \in C_k$}
-        \STATE $R \gets \bigcap_{i \in P} \mathcal{D}_i$ \COMMENT{Candidate ranges from singletons}
+        \STATE $R \gets \bigcap_{i \in P} \mathcal{D}_i$ \COMMENT{単体アイテムからの候補範囲}
         \STATE $R \gets \{[s,e] \in R \mid e - s \geq W\}$
         \IF{$R = \emptyset$}
-            \STATE \textbf{continue} \COMMENT{No viable candidate range}
+            \STATE \textbf{continue} \COMMENT{有効な候補範囲なし}
         \ENDIF
-        \STATE $\tau_P \gets \bigcap_{i \in P} M[i]$ \COMMENT{Co-occurrence timestamps}
+        \STATE $\tau_P \gets \bigcap_{i \in P} M[i]$ \COMMENT{共起タイムスタンプ}
         \STATE $\mathcal{D}_P \gets \textsc{DenseIntervals}(\tau_P, W, \theta, R)$
         \IF{$\mathcal{D}_P \neq \emptyset$}
             \STATE $\mathcal{F}_{\text{local}}[P] \gets \mathcal{D}_P$
@@ -58,26 +58,26 @@ For each candidate itemset, we compute its co-occurrence timestamps (the transac
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Candidate Range Optimization.}
-At line~17, we intersect the dense intervals of all singleton items in the candidate.
-This restricts the search to temporal ranges where all constituent items are individually dense, avoiding expensive sliding-window computations over the entire timeline.
-This optimization is correct because if none of the constituent items is dense in a region, the multi-item pattern cannot be dense there either (by the anti-monotonicity of density).
+\paragraph{候補範囲の最適化}
+17行目では、候補中のすべての単体アイテムの密集区間を交差させる。
+これにより探索を各構成アイテムが個別に密集している時間範囲に制限し、タイムライン全体にわたる高コストなスライディングウィンドウ計算を回避する。
+この最適化は、いずれの構成アイテムもある領域で密集していなければ、複数アイテムのパターンもそこでは密集し得ないという反単調性により正当化される。
 
-\paragraph{Dense Interval Computation.}
-The \textsc{DenseIntervals} subroutine uses a sliding window with binary search to efficiently find all maximal contiguous ranges of window positions where the co-occurrence count meets the threshold $\theta$.
-When candidate ranges are provided, the computation is restricted to those ranges, further reducing work.
-The implementation handles the ``stacking case'' where multiple transactions share the same timestamp~\cite{agrawal1994apriori}.
+\paragraph{密集区間計算}
+\textsc{DenseIntervals}サブルーチンは、二分探索付きスライディングウィンドウを用いて、共起カウントが閾値 $\theta$ を満たすウィンドウ位置のすべての極大連続範囲を効率的に発見する。
+候補範囲が与えられた場合、計算はその範囲に制限され、さらに計算量を削減する。
+実装は、複数のトランザクションが同一タイムスタンプを共有する「スタッキングケース」を処理する~\cite{agrawal1994apriori}。
 
-\subsection{Phase~2: Global Rarity Filtering}
+\subsection{第2段階：大域的稀少性フィルタリング}
 
-Phase~2 is straightforward: for each pattern discovered in Phase~1, compute its global support and discard patterns that exceed the maximum support threshold $\sigma_{\max}$.
+第2段階は単純である：第1段階で発見された各パターンに対して大域サポートを計算し、最大サポート閾値 $\sigma_{\max}$ を超えるパターンを除外する。
 
 \begin{algorithm}[t]
-\caption{Phase~2: Global Rarity Filtering}
+\caption{第2段階：大域的稀少性フィルタリング}
 \label{alg:phase2}
 \begin{algorithmic}[1]
-\REQUIRE Locally dense itemsets $\mathcal{F}_{\text{local}}$, transaction sequence $D$, max support $\sigma_{\max}$
-\ENSURE Rare Dense Patterns $\mathcal{R}$
+\REQUIRE 局所的に密集するアイテムセット $\mathcal{F}_{\text{local}}$、トランザクション列 $D$、最大サポート $\sigma_{\max}$
+\ENSURE 稀少密集パターン $\mathcal{R}$
 
 \STATE $\mathcal{R} \gets \emptyset$
 \FORALL{$(P, \mathcal{D}_P) \in \mathcal{F}_{\text{local}}$}
@@ -90,42 +90,42 @@ Phase~2 is straightforward: for each pattern discovered in Phase~1, compute its 
 \end{algorithmic}
 \end{algorithm}
 
-The global support computation in line~3 is $O(N \cdot |P|)$ per pattern.
-Since $|\mathcal{F}_{\text{local}}|$ is typically small (bounded by the number of locally dense patterns), this phase is fast.
+3行目の大域サポート計算はパターンあたり $O(N \cdot |P|)$ である。
+$|\mathcal{F}_{\text{local}}|$ は通常小さい（局所的に密集するパターン数で制限される）ため、この段階は高速である。
 
-\subsection{Correctness and Complexity}
+\subsection{正当性と計算量}
 
-\begin{corollary}[Algorithm Correctness]
-Algorithms~\ref{alg:phase1} and~\ref{alg:phase2} together compute exactly $\mathcal{R}(D, W, \theta, \sigma_{\max})$ as defined in Definition~\ref{def:rdp}.
+\begin{corollary}[アルゴリズムの正当性]
+アルゴリズム~\ref{alg:phase1}と~\ref{alg:phase2}を合わせて、定義~\ref{def:rdp}で定義された $\mathcal{R}(D, W, \theta, \sigma_{\max})$ を正確に計算する。
 \end{corollary}
 
 \begin{proof}
-Follows directly from Theorem~\ref{thm:completeness}.
-Phase~1 uses Apriori with the anti-monotone local density criterion (Theorem~\ref{thm:weak_antimon}), ensuring all locally dense patterns are discovered.
-Phase~2 applies the global rarity filter.
+定理~\ref{thm:completeness}から直ちに従う。
+第1段階は反単調な局所密集性基準（定理~\ref{thm:weak_antimon}）を用いたAprioriにより、すべての局所的に密集するパターンを発見する。
+第2段階は大域的稀少性フィルタを適用する。
 \end{proof}
 
-\paragraph{Time Complexity.}
-As stated in Theorem~\ref{thm:complexity}, the overall time complexity is $O\bigl(\sum_{k=1}^{k_{\max}} C_k \cdot N \log N\bigr)$, where $C_k$ is the number of candidates at level $k$.
-The Apriori pruning reduces $C_k$ significantly: any itemset without a dense interval (and all its supersets) is eliminated.
+\paragraph{時間計算量}
+定理~\ref{thm:complexity}に述べた通り、全体の時間計算量は $O\bigl(\sum_{k=1}^{k_{\max}} C_k \cdot N \log N\bigr)$ であり、$C_k$ はレベル $k$ における候補数である。
+Apriori枝刈りにより $C_k$ は大幅に削減される：密集区間を持たないアイテムセットとそのすべての上位集合が除去される。
 
-\paragraph{Space Complexity.}
-The algorithm stores the item-to-transaction-ID map ($O(N \cdot \bar{w})$ where $\bar{w}$ is the average transaction width), the current and previous level itemsets ($O(C_k)$), and the output ($O(|\mathcal{R}|)$).
-Dense interval computation uses $O(N)$ temporary space.
+\paragraph{空間計算量}
+アルゴリズムはアイテム-トランザクションIDマップ（$O(N \cdot \bar{w})$、$\bar{w}$ は平均トランザクション幅）、現在と前のレベルのアイテムセット（$O(C_k)$）、および出力（$O(|\mathcal{R}|)$）を格納する。
+密集区間計算は $O(N)$ の一時的空間を使用する。
 
-\subsection{Parameter Selection}
+\subsection{パラメータ選択}
 
-The algorithm requires four parameters: window size $W$, density threshold $\theta$, maximum support $\sigma_{\max}$, and maximum itemset size $k_{\max}$.
+アルゴリズムは4つのパラメータを必要とする：ウィンドウサイズ $W$、密集閾値 $\theta$、最大サポート $\sigma_{\max}$、最大アイテムセットサイズ $k_{\max}$。
 
 \begin{itemize}
-\item \textbf{Window size $W$}: Controls the temporal resolution. Smaller $W$ detects sharper bursts; larger $W$ captures broader trends. Should be set based on the application's time granularity (e.g., days for retail, seconds for network logs).
+\item \textbf{ウィンドウサイズ $W$}：時間解像度を制御する。小さい $W$ はより鋭いバーストを検出し、大きい $W$ はより広いトレンドを捕捉する。アプリケーションの時間粒度（例：小売業では日、ネットワークログでは秒）に基づいて設定すべきである。
 
-\item \textbf{Density threshold $\theta$}: Minimum co-occurrence count within a window. The ratio $\theta / W$ represents the minimum local support rate. Must satisfy $\theta / W > \sigma_{\max}$ for non-trivial RDPs to exist.
+\item \textbf{密集閾値 $\theta$}：ウィンドウ内の最小共起回数。$\theta / W$ は最小局所サポート率を表す。非自明なRDPが存在するためには $\theta / W > \sigma_{\max}$ を満たす必要がある。
 
-\item \textbf{Maximum support $\sigma_{\max}$}: Controls the global rarity filter. Lower values yield rarer patterns. Typical range: 0.01--0.10.
+\item \textbf{最大サポート $\sigma_{\max}$}：大域的稀少性フィルタを制御する。低い値ほどより稀少なパターンを生成する。典型的な範囲：0.01--0.10。
 
-\item \textbf{Maximum itemset size $k_{\max}$}: Bounds the search depth. Setting $k_{\max} = 3$ or $4$ is sufficient for most applications while keeping computation tractable.
+\item \textbf{最大アイテムセットサイズ $k_{\max}$}：探索の深さを制限する。$k_{\max} = 3$ または $4$ に設定すれば、多くのアプリケーションで十分であり計算も実行可能である。
 \end{itemize}
 
-The constraint $\theta / W > \sigma_{\max}$ is necessary for the RDP class to be non-empty.
-Intuitively, a pattern can only be both locally dense and globally rare if its occurrences are temporally concentrated rather than uniformly spread.
+RDPクラスが空でないためには、制約 $\theta / W > \sigma_{\max}$ が必要である。
+直感的に、パターンが局所的に密集しかつ大域的に稀少であるためには、その出現が一様に分布するのではなく時間的に集中している必要がある。

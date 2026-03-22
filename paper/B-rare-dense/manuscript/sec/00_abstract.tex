@@ -1,12 +1,12 @@
 \begin{abstract}
-Frequent itemset mining algorithms rely on the anti-monotonicity of support to prune the search space, but this very property ensures that globally rare patterns---those with low overall support---are systematically eliminated.
-We observe that many practically important patterns are \emph{globally rare yet locally dense}: they co-occur infrequently across the entire transaction history but exhibit concentrated bursts within narrow temporal windows.
-Examples include promotional bundles during flash sales, coordinated anomalous activities during security incidents, and seasonal co-purchases in retail data.
-We formalize this observation as the \emph{Rare Dense Pattern} (RDP) mining problem, which requires an itemset to satisfy two simultaneous conditions: (1) global rarity---overall support below a maximum threshold, and (2) local density---at least one sliding-window position where co-occurrence count meets a minimum threshold.
-We prove a \emph{Weak Anti-Monotonicity} property: while the combined RDP condition is neither monotone nor anti-monotone, the local density condition alone is anti-monotone, enabling Apriori-style candidate pruning.
-Based on this insight, we propose a \emph{Two-Phase Mining} algorithm that first discovers all locally dense patterns using sliding-window Apriori, then filters by global rarity.
-We prove that this algorithm is both sound and complete---it discovers exactly the set of all RDPs.
-Experiments on synthetic data with embedded ground-truth patterns show 100\% recovery rate across five random seeds, while the rarity filter removes over 80\% of false positives (globally frequent patterns that happen to be locally dense).
-The algorithm scales near-linearly to 100K transactions with sub-second runtime.
-Our results demonstrate that the RDP framework fills an important gap between rare pattern mining and temporal pattern mining, enabling discovery of actionable patterns invisible to both paradigms individually.
+頻出アイテムセットマイニングアルゴリズムはサポートの反単調性を利用して探索空間を枝刈りするが、この性質は大域的に稀少なパターン---全体のサポートが低いパターン---を体系的に除外してしまう。
+我々は、実用上重要なパターンの多くが\emph{大域的に稀少だが局所的に密集}していることに着目する。すなわち、取引履歴全体では共起頻度が低いにもかかわらず、狭い時間窓内では集中的にバーストを示すパターンである。
+具体例として、フラッシュセール中のプロモーションバンドル、セキュリティインシデント中の協調的な異常活動、小売データにおける季節的な同時購入がある。
+本研究ではこの観察を\emph{稀少密集パターン}（Rare Dense Pattern, RDP）マイニング問題として形式化する。RDPは二つの条件を同時に満たすアイテムセットである：(1) 大域的稀少性---全体サポートが最大閾値未満、(2) 局所的密集性---少なくとも一つのスライディングウィンドウ位置で共起回数が最小閾値以上。
+我々は\emph{弱反単調性}を証明する：RDP条件の組み合わせは単調でも反単調でもないが、局所密集性条件のみは反単調であり、Apriori型の候補枝刈りが可能である。
+この知見に基づき、\emph{二段階マイニング}アルゴリズムを提案する。第一段階でスライディングウィンドウAprioriにより局所的に密集するすべてのパターンを発見し、第二段階で大域的稀少性によりフィルタリングする。
+本アルゴリズムが健全かつ完全であること---すべてのRDPを過不足なく発見すること---を証明する。
+埋め込み正解パターンを含む合成データ上の実験では、5つの乱数シードにわたり100\%の回収率を達成し、稀少性フィルタにより80\%以上の偽陽性（大域的に頻出だが局所的にも密集するパターン）を除去した。
+アルゴリズムは10万トランザクションまでほぼ線形にスケールし、1秒未満で実行できる。
+以上の結果は、RDPフレームワークが稀少パターンマイニングと時系列パターンマイニングの間の重要なギャップを埋め、いずれの個別手法では発見できない実用的パターンの検出を可能にすることを示している。
 \end{abstract}

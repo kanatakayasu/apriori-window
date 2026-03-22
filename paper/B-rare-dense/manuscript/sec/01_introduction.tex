@@ -1,54 +1,54 @@
 % ==============================================================
-\section{Introduction}\label{sec:intro}
+\section{はじめに}\label{sec:intro}
 % ==============================================================
 
-Frequent itemset mining~\cite{agrawal1994apriori} is a foundational technique in data mining, with applications ranging from market basket analysis to bioinformatics.
-The Apriori algorithm and its successors exploit the \emph{anti-monotonicity} (downward closure) property of support: if an itemset is infrequent, all its supersets must also be infrequent.
-This property enables aggressive pruning of the combinatorial search space, making large-scale mining tractable.
+頻出アイテムセットマイニング~\cite{agrawal1994apriori}はデータマイニングの基盤技術であり、マーケットバスケット分析からバイオインフォマティクスまで幅広く応用されている。
+Aprioriアルゴリズムとその後継手法は、サポートの\emph{反単調性}（下方閉包性）を活用する。すなわち、あるアイテムセットが非頻出であれば、そのすべての上位集合も非頻出である。
+この性質により、組合せ的探索空間の積極的な枝刈りが可能となり、大規模マイニングが実行可能となる。
 
-However, anti-monotonicity is a double-edged sword.
-By design, it eliminates all patterns whose global support falls below the minimum threshold.
-In many real-world scenarios, the most interesting patterns are precisely those that are \emph{rare}---occurring too infrequently to survive the global support filter---yet exhibit meaningful temporal structure.
-Consider the following motivating examples:
+しかし、反単調性は諸刃の剣である。
+設計上、大域的サポートが最小閾値を下回るすべてのパターンを除外してしまう。
+多くの実世界シナリオにおいて、最も興味深いパターンはまさに\emph{稀少な}パターン---大域的サポートフィルタを通過できないほど低頻度---でありながら、意味のある時間的構造を示すものである。
+以下の動機付け事例を考える：
 
 \begin{itemize}
-\item \textbf{Flash sales in retail}: A promotional bundle of luxury items may be purchased by only 0.1\% of customers overall, but during a two-week flash sale, these items co-occur in 30\% of daily transactions. Standard frequent pattern mining with a 1\% threshold would never discover this pattern.
+\item \textbf{小売業のフラッシュセール}：高級商品のプロモーションバンドルは全顧客の0.1\%にしか購入されないが、2週間のフラッシュセール期間中は日次トランザクションの30\%で共起する。1\%閾値の標準的な頻出パターンマイニングではこのパターンを発見できない。
 
-\item \textbf{Security incidents}: A specific combination of network events (e.g., port scanning + credential stuffing + lateral movement) may occur in fewer than 0.01\% of all log entries, but during an active attack, these events cluster within minutes. Anomaly detection methods flag individual events but cannot identify the multi-item co-occurrence pattern.
+\item \textbf{セキュリティインシデント}：特定のネットワークイベントの組み合わせ（例：ポートスキャン＋クレデンシャルスタッフィング＋ラテラルムーブメント）は全ログエントリの0.01\%未満でしか発生しないが、攻撃活動中はこれらのイベントが数分以内にクラスタ化する。異常検知手法は個々のイベントをフラグするが、複数アイテムの共起パターンは識別できない。
 
-\item \textbf{Seasonal co-purchases}: Certain product combinations (e.g., sunscreen + insect repellent + camping gear) may have very low annual support but spike during specific weeks. Understanding these temporal bursts is valuable for inventory planning.
+\item \textbf{季節的同時購入}：ある商品の組み合わせ（例：日焼け止め＋虫除け＋キャンプ用品）は年間サポートが非常に低いが、特定の週にスパイクする。これらの時間的バーストの理解は在庫計画に有用である。
 \end{itemize}
 
-These examples share a common structure: the patterns are \emph{globally rare} (low overall support) but \emph{locally dense} (high support within a narrow temporal window).
-We call such patterns \emph{Rare Dense Patterns} (RDPs).
+これらの事例は共通の構造を持つ：パターンは\emph{大域的に稀少}（全体サポートが低い）だが\emph{局所的に密集}（狭い時間窓内でサポートが高い）している。
+我々はこのようなパターンを\emph{稀少密集パターン}（Rare Dense Patterns, RDPs）と呼ぶ。
 
-Existing approaches address parts of this problem but not the whole:
-
-\begin{enumerate}
-\item \textbf{Rare pattern mining} algorithms (RP-Tree~\cite{tsang2011rptree}, Apriori-Rare~\cite{szathmary2007rare}, MFI mining~\cite{haglin2007mfi}) discover globally infrequent itemsets but are agnostic to temporal structure. They cannot distinguish between a uniformly rare pattern (noise) and a temporally concentrated rare pattern (signal).
-
-\item \textbf{Burst detection} (Kleinberg~\cite{kleinberg2003bursty}) identifies temporal concentration in univariate event streams but does not handle the combinatorial structure of multi-item co-occurrence patterns.
-
-\item \textbf{Anomaly detection} (Isolation Forest~\cite{liu2008iforest}, LOF~\cite{breunig2000lof}) operates at the point or transaction level and cannot identify structured itemset patterns.
-
-\item \textbf{Sliding-window frequent pattern mining} discovers locally frequent patterns but does not filter for global rarity, producing outputs dominated by globally frequent patterns.
-\end{enumerate}
-
-In this paper, we make the following contributions:
+既存のアプローチはこの問題の一部には対処するが、全体には対処できない：
 
 \begin{enumerate}
-\item We formalize the \emph{Rare Dense Pattern} (RDP) mining problem, defining global rarity and local density conditions, and characterize the class of patterns that satisfy both (\S\ref{sec:problem}).
+\item \textbf{稀少パターンマイニング}アルゴリズム（RP-Tree~\cite{tsang2011rptree}、Apriori-Rare~\cite{szathmary2007rare}、MFIマイニング~\cite{haglin2007mfi}）は大域的に非頻出なアイテムセットを発見するが、時間的構造を考慮しない。一様に稀少なパターン（ノイズ）と時間的に集中した稀少パターン（シグナル）を区別できない。
 
-\item We prove a \emph{Weak Anti-Monotonicity} theorem: while the combined RDP condition lacks classical anti-monotonicity, the local density component is anti-monotone, enabling Apriori-style pruning (\S\ref{sec:problem}).
+\item \textbf{バースト検出}（Kleinberg~\cite{kleinberg2003bursty}）は単変量イベントストリームにおける時間的集中を識別するが、複数アイテム共起パターンの組合せ構造は扱えない。
 
-\item We propose a \emph{Two-Phase Mining} algorithm that is provably sound and complete---it discovers exactly the set of all RDPs (\S\ref{sec:algorithm}).
+\item \textbf{異常検知}（Isolation Forest~\cite{liu2008iforest}、LOF~\cite{breunig2000lof}）はポイントまたはトランザクション単位で動作し、構造化されたアイテムセットパターンは識別できない。
 
-\item We conduct comprehensive experiments on synthetic data showing 100\% recovery rate, 80\%+ false positive reduction via the rarity filter, and near-linear scalability to 100K transactions (\S\ref{sec:experiments}).
+\item \textbf{スライディングウィンドウ頻出パターンマイニング}は局所的に頻出なパターンを発見するが、大域的稀少性によるフィルタリングを行わず、出力は大域的に頻出なパターンに支配される。
 \end{enumerate}
 
-The remainder of this paper is organized as follows.
-\S\ref{sec:related} reviews related work.
-\S\ref{sec:problem} formalizes the problem and states our theoretical results.
-\S\ref{sec:algorithm} presents the Two-Phase Mining algorithm.
-\S\ref{sec:experiments} reports experimental results.
-\S\ref{sec:conclusion} concludes with future directions.
+本論文では以下の貢献を行う：
+
+\begin{enumerate}
+\item \emph{稀少密集パターン}（RDP）マイニング問題を形式化し、大域的稀少性条件と局所的密集性条件を定義し、両方を満たすパターンのクラスを特徴付ける（\S\ref{sec:problem}）。
+
+\item \emph{弱反単調性}定理を証明する：RDP条件の組み合わせは古典的反単調性を持たないが、局所密集性成分は反単調であり、Apriori型枝刈りが可能である（\S\ref{sec:problem}）。
+
+\item 証明可能に健全かつ完全な\emph{二段階マイニング}アルゴリズムを提案する---すべてのRDPを過不足なく発見する（\S\ref{sec:algorithm}）。
+
+\item 合成データ上の包括的実験を行い、100\%の回収率、稀少性フィルタによる80\%以上の偽陽性削減、10万トランザクションまでのほぼ線形なスケーラビリティを示す（\S\ref{sec:experiments}）。
+\end{enumerate}
+
+本論文の構成は以下の通りである。
+\S\ref{sec:related}で関連研究を概観する。
+\S\ref{sec:problem}で問題を形式化し、理論的結果を述べる。
+\S\ref{sec:algorithm}で二段階マイニングアルゴリズムを提示する。
+\S\ref{sec:experiments}で実験結果を報告する。
+\S\ref{sec:conclusion}で今後の方向性とともに結論を述べる。

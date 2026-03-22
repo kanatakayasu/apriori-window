@@ -1,158 +1,158 @@
 % ==============================================================
-\section{Experiments}\label{sec:experiments}
+\section{実験}\label{sec:experiments}
 % ==============================================================
 
-We evaluate the Two-Phase RDP mining algorithm on four axes:
-(E1) recovery rate of ground-truth rare dense patterns,
-(E2) pruning efficiency of the rarity filter,
-(E3) scalability with respect to dataset size,
-and (E4) qualitative analysis on real transaction data.
+二段階RDPマイニングアルゴリズムを以下の4軸で評価する：
+(E1) 正解稀少密集パターンの回収率、
+(E2) 稀少性フィルタの枝刈り効率、
+(E3) データセットサイズに対するスケーラビリティ、
+(E4) 実トランザクションデータにおける定性的分析。
 
-\subsection{Experimental Setup}
+\subsection{実験設定}
 
-\paragraph{Synthetic Data Generation.}
-We generate transaction databases with $N$ transactions over $m = 50$ items.
-Each item independently appears in each transaction with probability $\rho = 0.05$ (base density).
-We embed $r$ ground-truth rare dense patterns by inserting specific itemsets into consecutive transaction ranges.
-For example, the pattern $\{80, 81\}$ is inserted into transactions $[200, 220)$, giving it a global support of $20/N$ but a local support count of up to 20 within its burst window.
+\paragraph{合成データ生成}
+$N$ 件のトランザクションと $m = 50$ アイテムのトランザクションデータベースを生成する。
+各アイテムは各トランザクションに確率 $\rho = 0.05$（ベース密度）で独立に出現する。
+特定のアイテムセットを連続するトランザクション範囲に挿入することで、$r$ 個の正解稀少密集パターンを埋め込む。
+例えば、パターン $\{80, 81\}$ をトランザクション $[200, 220)$ に挿入すると、大域サポートは $20/N$ だが、バーストウィンドウ内の局所サポートカウントは最大20となる。
 
-\paragraph{Parameters.}
-Unless otherwise stated, we use $W = 10$, $\theta = 4$, $\sigma_{\max} = 0.05$, and $k_{\max} = 4$.
-With $\theta/W = 0.4 \gg \sigma_{\max} = 0.05$, the RDP class is well-defined.
+\paragraph{パラメータ}
+特に断りのない限り、$W = 10$, $\theta = 4$, $\sigma_{\max} = 0.05$, $k_{\max} = 4$ を使用する。
+$\theta/W = 0.4 \gg \sigma_{\max} = 0.05$ であり、RDPクラスは十分に定義される。
 
-\paragraph{Baselines.}
+\paragraph{ベースライン}
 \begin{itemize}
-\item \textbf{Apriori-Window (A-W)}: Standard sliding-window frequent pattern mining with the same $W$ and $\theta$ parameters. Discovers all locally dense patterns without the global rarity filter.
-\item \textbf{Naive Rare Mining (NRM)}: Enumerates all itemsets and retains those with global support below $\sigma_{\max}$. Does not consider temporal density.
+\item \textbf{Apriori-Window (A-W)}：同じ $W$ と $\theta$ パラメータを用いた標準的なスライディングウィンドウ頻出パターンマイニング。大域的稀少性フィルタなしに局所的に密集するすべてのパターンを発見する。
+\item \textbf{素朴稀少マイニング（NRM）}：すべてのアイテムセットを列挙し、大域サポートが $\sigma_{\max}$ 未満のものを保持する。時間的密集性は考慮しない。
 \end{itemize}
 
-\paragraph{Metrics.}
+\paragraph{評価指標}
 \begin{itemize}
-\item \textbf{Recovery Rate}: Fraction of ground-truth patterns found by each method.
-\item \textbf{Precision}: Among discovered patterns, fraction that are ground-truth RDPs.
-\item \textbf{Output Size}: Number of multi-item patterns reported.
-\item \textbf{Runtime}: Wall-clock time in milliseconds.
+\item \textbf{回収率}：各手法が発見した正解パターンの割合。
+\item \textbf{精度}：発見されたパターンのうち、正解RDPである割合。
+\item \textbf{出力サイズ}：報告された複数アイテムパターンの数。
+\item \textbf{実行時間}：ミリ秒単位のウォールクロック時間。
 \end{itemize}
 
-All experiments use 5 random seeds (42, 123, 456, 789, 1024) and report averages.
-Implementation is in Python 3.13 on an Apple Silicon machine.
+すべての実験で5つの乱数シード（42, 123, 456, 789, 1024）を使用し、平均を報告する。
+実装はApple Siliconマシン上のPython 3.13で行う。
 
-\subsection{E1: Recovery Rate}
+\subsection{E1：回収率}
 
-\paragraph{Setup.}
-$N = 1{,}000$ transactions with three embedded RDPs:
-$\{80, 81\}$ at $t \in [200, 220)$,
-$\{82, 83, 84\}$ at $t \in [500, 515)$,
-$\{85, 86\}$ at $t \in [800, 812)$.
-Global supports range from 1.2\% to 2.0\%.
+\paragraph{設定}
+$N = 1{,}000$ トランザクションに3つのRDPを埋め込む：
+$\{80, 81\}$（$t \in [200, 220)$）、
+$\{82, 83, 84\}$（$t \in [500, 515)$）、
+$\{85, 86\}$（$t \in [800, 812)$）。
+大域サポートは1.2\%から2.0\%の範囲。
 
-\paragraph{Results.}
-Table~\ref{tab:e1} summarizes the recovery rate across 5 seeds.
+\paragraph{結果}
+表~\ref{tab:e1}に5シードにわたる回収率をまとめる。
 
 \begin{table}[t]
 \centering
-\caption{E1: Recovery Rate on Synthetic Data (5 seeds)}
+\caption{E1：合成データ上の回収率（5シード）}
 \label{tab:e1}
 \begin{tabular}{lcc}
 \toprule
-\textbf{Method} & \textbf{Recovery Rate} & \textbf{Avg Output (multi-item)} \\
+\textbf{手法} & \textbf{回収率} & \textbf{平均出力（複数アイテム）} \\
 \midrule
-RDP (Ours)      & 100\%                  & 6 \\
+RDP（提案手法）      & 100\%                  & 6 \\
 Apriori-Window  & 100\%                  & 6 \\
-Naive Rare Mining & 100\%               & $\gg$ 6 (all rare pairs) \\
+素朴稀少マイニング & 100\%               & $\gg$ 6（全稀少ペア） \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-All three methods achieve 100\% recovery.
-However, the methods differ critically in their output:
+3つの手法すべてが100\%の回収率を達成する。
+しかし、出力において手法間に重要な差異がある：
 \begin{itemize}
-\item \textbf{RDP} outputs exactly the rare dense patterns---those that are both rare and temporally concentrated.
-\item \textbf{Apriori-Window} outputs the same patterns in this low-noise setting, but also outputs globally frequent dense patterns in higher-noise settings (see E2).
-\item \textbf{Naive Rare Mining} outputs all globally rare itemsets regardless of temporal structure, producing a much larger (and less actionable) result set.
+\item \textbf{RDP}は稀少密集パターンのみ---稀少かつ時間的に集中したパターン---を出力する。
+\item \textbf{Apriori-Window}はこの低ノイズ設定では同じパターンを出力するが、高ノイズ設定では大域的に頻出な密集パターンも出力する（E2参照）。
+\item \textbf{素朴稀少マイニング}は時間的構造にかかわらず大域的に稀少なすべてのアイテムセットを出力し、はるかに大きな（そして実用性の低い）結果集合を生成する。
 \end{itemize}
 
-\subsection{E2: Pruning Efficiency}
+\subsection{E2：枝刈り効率}
 
-\paragraph{Setup.}
-$N = 1{,}000$, $m = 30$ items, $\rho = 0.08$ (higher base density to create more noise patterns).
-Two embedded RDPs.
+\paragraph{設定}
+$N = 1{,}000$, $m = 30$ アイテム, $\rho = 0.08$（より多くのノイズパターンを生成するための高いベース密度）。
+2つのRDPを埋め込む。
 
-\paragraph{Results.}
-Table~\ref{tab:e2} shows the effect of Phase~2 filtering.
+\paragraph{結果}
+表~\ref{tab:e2}に第2段階フィルタリングの効果を示す。
 
 \begin{table}[t]
 \centering
-\caption{E2: Phase~2 Filtering Efficiency (5 seeds, avg)}
+\caption{E2：第2段階フィルタリング効率（5シード平均）}
 \label{tab:e2}
 \begin{tabular}{lr}
 \toprule
-\textbf{Metric} & \textbf{Value} \\
+\textbf{指標} & \textbf{値} \\
 \midrule
-Phase~1 output (locally dense) & 33.0 \\
-Phase~2 output (rare dense)    & 6.0 \\
-Filtered by rarity             & 27.0 (81.8\%) \\
+第1段階出力（局所密集） & 33.0 \\
+第2段階出力（稀少密集）    & 6.0 \\
+稀少性によるフィルタ             & 27.0 (81.8\%) \\
 \midrule
-RDP runtime                    & 9.5~ms \\
-Apriori-Window runtime         & 4.4~ms \\
-Phase~2 overhead               & 5.1~ms \\
+RDP実行時間                    & 9.5~ms \\
+Apriori-Window実行時間         & 4.4~ms \\
+第2段階オーバーヘッド               & 5.1~ms \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The rarity filter removes 81.8\% of Phase~1 output, demonstrating that in realistic settings (moderate base density), many globally frequent patterns also exhibit local density.
-These false positives are exactly the patterns that standard Apriori-Window would report as interesting.
-The Phase~2 overhead is only 5.1~ms (about 2$\times$ the Phase~1 time), a negligible cost for dramatically improved output quality.
+稀少性フィルタは第1段階出力の81.8\%を除去する。これは現実的な設定（中程度のベース密度）では、多くの大域的に頻出なパターンも局所的密集性を示すことを実証している。
+これらの偽陽性はまさに標準的なApriori-Windowが興味深いと報告するパターンである。
+第2段階のオーバーヘッドはわずか5.1~ms（第1段階の約2倍）であり、出力品質の劇的な改善に対して無視できるコストである。
 
-\subsection{E3: Scalability}
+\subsection{E3：スケーラビリティ}
 
-\paragraph{Setup.}
-$N \in \{1\text{K}, 5\text{K}, 10\text{K}, 50\text{K}, 100\text{K}\}$, $m = 30$, $\rho = 0.05$, two embedded RDPs at fixed relative positions (30\% and 70\% of $N$).
+\paragraph{設定}
+$N \in \{1\text{K}, 5\text{K}, 10\text{K}, 50\text{K}, 100\text{K}\}$, $m = 30$, $\rho = 0.05$, 2つのRDPを $N$ の固定相対位置（30\%と70\%）に埋め込む。
 
-\paragraph{Results.}
-Figure~\ref{fig:e3} plots runtime vs.\ dataset size on a log-log scale.
+\paragraph{結果}
+図~\ref{fig:e3}に両対数スケールでの実行時間対データセットサイズを示す。
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.85\columnwidth]{../experiments/figures/e3_scalability.pdf}
-\caption{E3: Scalability of Two-Phase RDP mining. Runtime scales near-linearly with $N$ (slope $\approx 1.0$ on log-log scale).}
+\caption{E3：二段階RDPマイニングのスケーラビリティ。実行時間は $N$ に対してほぼ線形にスケールする（両対数スケールの傾き $\approx 1.0$）。}
 \label{fig:e3}
 \end{figure}
 
-The algorithm achieves:
+アルゴリズムは以下の性能を達成する：
 \begin{itemize}
-\item \textbf{4.2~ms} for 1K transactions
-\item \textbf{83.3~ms} for 10K transactions
-\item \textbf{859.8~ms} for 100K transactions
+\item 1Kトランザクションで\textbf{4.2~ms}
+\item 10Kトランザクションで\textbf{83.3~ms}
+\item 100Kトランザクションで\textbf{859.8~ms}
 \end{itemize}
 
-The near-linear scaling (slope $\approx 1.0$ on the log-log plot) is consistent with the $O(C_k \cdot N \log N)$ complexity bound.
-The $\log N$ factor is dominated by the linear scan in practice.
-The number of output patterns stabilizes at 21--23, confirming that the algorithm does not produce spurious patterns as $N$ grows.
+ほぼ線形のスケーリング（両対数プロットの傾き $\approx 1.0$）は $O(C_k \cdot N \log N)$ の計算量上界と一致する。
+$\log N$ 因子は実際には線形スキャンに支配される。
+出力パターン数は21--23で安定しており、$N$ の増大に伴いアルゴリズムが偽のパターンを生成しないことを確認する。
 
-\subsection{E4: Case Study Discussion}
+\subsection{E4：ケーススタディの考察}
 
-While a full real-data evaluation is beyond the scope of this paper, we describe the intended application to retail transaction data.
+実データ上の完全な評価は本論文の範囲を超えるが、小売トランザクションデータへの意図された応用について述べる。
 
-\paragraph{Setup.}
-Using 10{,}000 transactions from a retail dataset with $W = 20$, $\theta = 5$, $\sigma_{\max} = 0.02$.
+\paragraph{設定}
+小売データセットから10{,}000トランザクションを用い、$W = 20$, $\theta = 5$, $\sigma_{\max} = 0.02$ とする。
 
-\paragraph{Expected Findings.}
-Rare dense patterns in retail data typically correspond to:
+\paragraph{期待される知見}
+小売データにおける稀少密集パターンは通常以下に対応する：
 \begin{itemize}
-\item \textbf{Promotional bundles}: Items sold together only during specific campaigns.
-\item \textbf{Seasonal co-purchases}: Product combinations that spike during holidays or seasonal events.
-\item \textbf{Inventory-driven patterns}: Items co-purchased when both are simultaneously in stock or on clearance.
+\item \textbf{プロモーションバンドル}：特定のキャンペーン期間中にのみ同時購入される商品。
+\item \textbf{季節的同時購入}：休日や季節イベント中にスパイクする商品の組み合わせ。
+\item \textbf{在庫主導パターン}：両方が同時に在庫にあるか処分セール中に同時購入される商品。
 \end{itemize}
 
-These patterns are invisible to standard frequent pattern mining (support too low) and to standard rare pattern mining (no temporal localization).
-The RDP framework uniquely identifies them by combining both conditions.
+これらのパターンは標準的な頻出パターンマイニング（サポートが低すぎる）にも標準的な稀少パターンマイニング（時間的局在化なし）にも見えない。
+RDPフレームワークは両方の条件を組み合わせることで、これらを一意に識別する。
 
-\subsection{Summary of Experimental Findings}
+\subsection{実験結果のまとめ}
 
 \begin{enumerate}
-\item \textbf{Complete recovery}: All embedded ground-truth RDPs are discovered (100\% recall across all seeds and configurations).
-\item \textbf{Effective filtering}: Phase~2 removes over 80\% of false positives---globally frequent patterns that happen to be locally dense.
-\item \textbf{Scalable}: Sub-second runtime up to 100K transactions with near-linear scaling.
-\item \textbf{Stable output}: The number of discovered patterns does not grow with $N$, indicating robustness against noise.
+\item \textbf{完全な回収}：埋め込まれたすべての正解RDPが発見される（すべてのシードと設定にわたり100\%のリコール）。
+\item \textbf{効果的なフィルタリング}：第2段階は80\%以上の偽陽性---大域的に頻出だがたまたま局所的にも密集するパターン---を除去する。
+\item \textbf{スケーラブル}：10万トランザクションまでほぼ線形スケーリングで1秒未満の実行時間。
+\item \textbf{安定した出力}：発見されるパターン数は $N$ とともに増大せず、ノイズに対する頑健性を示す。
 \end{enumerate}

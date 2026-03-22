@@ -1,199 +1,197 @@
 % ==============================================================
-\section{Problem Definition}\label{sec:problem}
+\section{問題定義}\label{sec:problem}
 % ==============================================================
 
-\subsection{Notation}
+\subsection{記法}
 
-Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite set of items,
-and $D = [d_1, d_2, \ldots, d_N]$ be an ordered sequence of transactions
-indexed by time.
-Each transaction $d_t$ ($t = 1, \ldots, N$) is a subset of $\mathcal{I}$.
-An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction $d_t$ if $P \subseteq d_t$.
+$\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ を有限のアイテム集合とし、
+$D = [d_1, d_2, \ldots, d_N]$ を時間順に並んだトランザクションの列とする。
+各トランザクション $d_t$（$t = 1, \ldots, N$）は $\mathcal{I}$ の部分集合である。
+アイテムセット（パターン）$P \subseteq \mathcal{I}$ がトランザクション $d_t$ に\emph{出現する}とは、$P \subseteq d_t$ が成り立つことをいう。
 
-\begin{definition}[Global Support]\label{def:global_support}
-The \emph{global support} of an itemset $P$ in $D$ is:
+\begin{definition}[大域サポート]\label{def:global_support}
+アイテムセット $P$ の $D$ における\emph{大域サポート}は以下で定義される：
 \begin{equation}
 \text{gsupp}(P) = \frac{|\{t \mid 1 \leq t \leq N,\; P \subseteq d_t\}|}{N}
 \label{eq:global_support}
 \end{equation}
-This measures the fraction of all transactions that contain $P$.
+これは $P$ を含むトランザクションの全体に対する割合を表す。
 \end{definition}
 
-\begin{definition}[Local Support (Windowed)]\label{def:local_support}
-Given a window size $W \in \mathbb{Z}_{>0}$ and a window position $l \in \{1, \ldots, N - W + 1\}$,
-the \emph{local support count} of $P$ at position $l$ is:
+\begin{definition}[局所サポート（ウィンドウ付き）]\label{def:local_support}
+ウィンドウサイズ $W \in \mathbb{Z}_{>0}$ およびウィンドウ位置 $l \in \{1, \ldots, N - W + 1\}$ が与えられたとき、
+$P$ の位置 $l$ における\emph{局所サポートカウント}は以下で定義される：
 \begin{equation}
 \text{lsup}(P, l, W) = |\{d_j \in D \mid l \leq j < l + W,\; P \subseteq d_j\}|
 \label{eq:local_support}
 \end{equation}
-This counts the occurrences of $P$ within the sliding window $[l, l+W)$.
+これはスライディングウィンドウ $[l, l+W)$ 内での $P$ の出現回数を数える。
 \end{definition}
 
-\begin{definition}[Dense Interval]\label{def:dense_interval}
-Given a density threshold $\theta \in \mathbb{Z}_{>0}$,
-a \emph{dense interval} of $P$ is a maximal contiguous range $[s, e]$ of window positions such that:
+\begin{definition}[密集区間]\label{def:dense_interval}
+密集閾値 $\theta \in \mathbb{Z}_{>0}$ が与えられたとき、
+$P$ の\emph{密集区間}とは、以下を満たすウィンドウ位置の極大連続範囲 $[s, e]$ である：
 \begin{equation}
 \forall l \in [s, e]: \quad \text{lsup}(P, l, W) \geq \theta
 \end{equation}
-Let $\mathcal{D}(P, W, \theta)$ denote the set of all dense intervals of $P$.
+$P$ のすべての密集区間の集合を $\mathcal{D}(P, W, \theta)$ で表す。
 \end{definition}
 
-\subsection{Rare Dense Pattern}
+\subsection{稀少密集パターン}
 
-We now introduce the central concept of this paper.
+本論文の中心概念を導入する。
 
-\begin{definition}[Global Rarity Condition]\label{def:global_rarity}
-An itemset $P$ satisfies the \emph{global rarity condition} with respect to maximum support threshold $\sigma_{\max} \in (0, 1)$ if:
+\begin{definition}[大域的稀少性条件]\label{def:global_rarity}
+アイテムセット $P$ が最大サポート閾値 $\sigma_{\max} \in (0, 1)$ に関して\emph{大域的稀少性条件}を満たすとは、以下が成り立つことをいう：
 \begin{equation}
 \text{gsupp}(P) < \sigma_{\max}
 \label{eq:rarity}
 \end{equation}
 \end{definition}
 
-\begin{definition}[Local Density Condition]\label{def:local_density}
-An itemset $P$ satisfies the \emph{local density condition} with respect to window size $W$ and density threshold $\theta$ if:
+\begin{definition}[局所的密集性条件]\label{def:local_density}
+アイテムセット $P$ がウィンドウサイズ $W$ および密集閾値 $\theta$ に関して\emph{局所的密集性条件}を満たすとは、以下が成り立つことをいう：
 \begin{equation}
 \mathcal{D}(P, W, \theta) \neq \emptyset
 \label{eq:density}
 \end{equation}
-That is, there exists at least one dense interval.
+すなわち、少なくとも一つの密集区間が存在する。
 \end{definition}
 
-\begin{definition}[Rare Dense Pattern (RDP)]\label{def:rdp}
-An itemset $P$ is a \emph{Rare Dense Pattern} if it satisfies both:
+\begin{definition}[稀少密集パターン（RDP）]\label{def:rdp}
+アイテムセット $P$ が\emph{稀少密集パターン}であるとは、以下の両方を満たすことをいう：
 \begin{enumerate}
-\item The global rarity condition (Def.~\ref{def:global_rarity}): $\text{gsupp}(P) < \sigma_{\max}$
-\item The local density condition (Def.~\ref{def:local_density}): $\mathcal{D}(P, W, \theta) \neq \emptyset$
+\item 大域的稀少性条件（定義~\ref{def:global_rarity}）：$\text{gsupp}(P) < \sigma_{\max}$
+\item 局所的密集性条件（定義~\ref{def:local_density}）：$\mathcal{D}(P, W, \theta) \neq \emptyset$
 \end{enumerate}
-The set of all RDPs is denoted $\mathcal{R}(D, W, \theta, \sigma_{\max})$.
+すべてのRDPの集合を $\mathcal{R}(D, W, \theta, \sigma_{\max})$ で表す。
 \end{definition}
 
 \begin{remark}
-The key tension is between the two conditions: $\sigma_{\max}$ enforces global rarity (the pattern must be \emph{infrequent} overall), while $\theta$ enforces local density (the pattern must be \emph{frequent} within some temporal window). The interplay $\theta / W > \sigma_{\max}$ ensures that a non-trivial class of patterns exists---those whose occurrences are temporally concentrated rather than uniformly distributed.
+核心的な緊張関係は二つの条件の間にある：$\sigma_{\max}$ は大域的稀少性を強制し（パターンは全体として\emph{非頻出}でなければならない）、$\theta$ は局所的密集性を強制する（パターンはある時間窓内で\emph{頻出}でなければならない）。$\theta / W > \sigma_{\max}$ という関係により、非自明なパターンクラスの存在が保証される---すなわち、出現が一様に分布するのではなく時間的に集中しているパターンである。
 \end{remark}
 
-\subsection{Two-Phase Mining}
+\subsection{二段階マイニング}
 
-\begin{definition}[Two-Phase Mining]\label{def:two_phase}
-The \emph{Two-Phase Rare Dense Pattern Mining} algorithm operates as follows:
+\begin{definition}[二段階マイニング]\label{def:two_phase}
+\emph{二段階稀少密集パターンマイニング}アルゴリズムは以下のように動作する：
 \begin{enumerate}
-\item \textbf{Phase~1 (Dense Interval Discovery)}: Using a local density threshold $\theta$ and window size $W$, apply sliding-window Apriori to discover all itemsets $P$ with $\mathcal{D}(P, W, \theta) \neq \emptyset$. Denote this set $\mathcal{F}_{\text{local}}$.
-\item \textbf{Phase~2 (Global Rarity Filtering)}: For each $P \in \mathcal{F}_{\text{local}}$, compute $\text{gsupp}(P)$ and retain only those with $\text{gsupp}(P) < \sigma_{\max}$:
+\item \textbf{第1段階（密集区間発見）}：局所密集閾値 $\theta$ とウィンドウサイズ $W$ を用いて、スライディングウィンドウAprioriにより $\mathcal{D}(P, W, \theta) \neq \emptyset$ を満たすすべてのアイテムセット $P$ を発見する。この集合を $\mathcal{F}_{\text{local}}$ とする。
+\item \textbf{第2段階（大域的稀少性フィルタリング）}：各 $P \in \mathcal{F}_{\text{local}}$ に対して $\text{gsupp}(P)$ を計算し、$\text{gsupp}(P) < \sigma_{\max}$ を満たすもののみを保持する：
 \begin{equation}
 \mathcal{R} = \{P \in \mathcal{F}_{\text{local}} \mid \text{gsupp}(P) < \sigma_{\max}\}
 \end{equation}
 \end{enumerate}
 \end{definition}
 
-\subsection{Properties and Theorems}
+\subsection{性質と定理}
 
-\begin{theorem}[Weak Anti-Monotonicity of Local Density]\label{thm:weak_antimon}
-Let $P$ be an itemset satisfying the local density condition with parameters $(W, \theta)$.
-Then for every subset $P' \subset P$, $P'$ also satisfies the local density condition
-with the same parameters $(W, \theta)$.
+\begin{theorem}[局所密集性の弱反単調性]\label{thm:weak_antimon}
+パラメータ $(W, \theta)$ で局所的密集性条件を満たすアイテムセット $P$ に対して、
+$P$ の任意の部分集合 $P' \subset P$ も同じパラメータ $(W, \theta)$ で局所的密集性条件を満たす。
 
-Formally:
+形式的に：
 \begin{equation}
 \mathcal{D}(P, W, \theta) \neq \emptyset \implies \forall P' \subset P: \mathcal{D}(P', W, \theta) \neq \emptyset
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Let $[s, e] \in \mathcal{D}(P, W, \theta)$ be a dense interval of $P$.
-For any window position $l \in [s, e]$:
+$[s, e] \in \mathcal{D}(P, W, \theta)$ を $P$ の密集区間とする。
+任意のウィンドウ位置 $l \in [s, e]$ に対して：
 \[
 \text{lsup}(P, l, W) = |\{j \mid l \leq j < l+W,\; P \subseteq d_j\}|
 \]
-Since $P' \subset P$, we have $P \subseteq d_j \implies P' \subseteq d_j$, and therefore:
+$P' \subset P$ より $P \subseteq d_j \implies P' \subseteq d_j$ が成り立つから：
 \[
 \text{lsup}(P', l, W) \geq \text{lsup}(P, l, W) \geq \theta
 \]
-Thus $[s, e]$ is also a dense interval for $P'$ (though $P'$ may have larger dense intervals that contain $[s,e]$).
-Therefore $\mathcal{D}(P', W, \theta) \neq \emptyset$.
+したがって $[s, e]$ は $P'$ の密集区間でもある（ただし $P'$ は $[s,e]$ を含むより大きな密集区間を持つ可能性がある）。
+よって $\mathcal{D}(P', W, \theta) \neq \emptyset$ が成り立つ。
 \end{proof}
 
 \begin{remark}
-We call this ``weak'' anti-monotonicity because the \emph{rarity} condition is \emph{monotone} (not anti-monotone): if $P$ is globally rare, supersets of $P$ are also rare.
-Thus, for the \emph{combined} RDP condition, neither classical anti-monotonicity nor monotonicity holds in general.
-However, the local density condition alone is anti-monotone, which enables Apriori-style pruning in Phase~1.
+これを「弱」反単調性と呼ぶ理由は、\emph{稀少性}条件が\emph{単調}（反単調ではない）だからである：$P$ が大域的に稀少であれば、$P$ の上位集合も稀少である。
+したがって、\emph{組み合わせた}RDP条件に対しては、古典的反単調性も単調性も一般に成り立たない。
+しかし、局所密集性条件のみは反単調であり、第1段階におけるApriori型枝刈りを可能にする。
 \end{remark}
 
-\begin{theorem}[Monotonicity of Global Rarity]\label{thm:rarity_monotone}
-If $\text{gsupp}(P) < \sigma_{\max}$, then for every superset $Q \supset P$:
+\begin{theorem}[大域的稀少性の単調性]\label{thm:rarity_monotone}
+$\text{gsupp}(P) < \sigma_{\max}$ が成り立つならば、$P$ の任意の上位集合 $Q \supset P$ に対して：
 \begin{equation}
 \text{gsupp}(Q) \leq \text{gsupp}(P) < \sigma_{\max}
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Immediate from $Q \supset P$: $P \subseteq d_t$ does not imply $Q \subseteq d_t$,
-but $Q \subseteq d_t \implies P \subseteq d_t$.
-Thus $\{t \mid Q \subseteq d_t\} \subseteq \{t \mid P \subseteq d_t\}$,
-giving $\text{gsupp}(Q) \leq \text{gsupp}(P)$.
+$Q \supset P$ より直ちに従う：$P \subseteq d_t$ は $Q \subseteq d_t$ を含意しないが、
+$Q \subseteq d_t \implies P \subseteq d_t$ が成り立つ。
+したがって $\{t \mid Q \subseteq d_t\} \subseteq \{t \mid P \subseteq d_t\}$ であり、
+$\text{gsupp}(Q) \leq \text{gsupp}(P)$ を得る。
 \end{proof}
 
-\begin{theorem}[Completeness of Two-Phase Mining]\label{thm:completeness}
-The Two-Phase Mining algorithm (Def.~\ref{def:two_phase}) discovers exactly the set $\mathcal{R}(D, W, \theta, \sigma_{\max})$ of all Rare Dense Patterns.
+\begin{theorem}[二段階マイニングの完全性]\label{thm:completeness}
+二段階マイニングアルゴリズム（定義~\ref{def:two_phase}）は、すべての稀少密集パターンの集合 $\mathcal{R}(D, W, \theta, \sigma_{\max})$ を正確に発見する。
 \end{theorem}
 
 \begin{proof}
-We prove both directions:
+両方向を証明する：
 
-\textbf{Soundness ($\mathcal{R}_{\text{output}} \subseteq \mathcal{R}$):}
-Every pattern $P$ output by the algorithm satisfies both conditions by construction:
-Phase~1 ensures $\mathcal{D}(P, W, \theta) \neq \emptyset$, and
-Phase~2 ensures $\text{gsupp}(P) < \sigma_{\max}$.
+\textbf{健全性（$\mathcal{R}_{\text{output}} \subseteq \mathcal{R}$）：}
+アルゴリズムが出力するすべてのパターン $P$ は構成上両方の条件を満たす：
+第1段階が $\mathcal{D}(P, W, \theta) \neq \emptyset$ を保証し、
+第2段階が $\text{gsupp}(P) < \sigma_{\max}$ を保証する。
 
-\textbf{Completeness ($\mathcal{R} \subseteq \mathcal{R}_{\text{output}}$):}
-Let $P \in \mathcal{R}$ be any RDP. We must show that Phase~1 discovers $P$.
-Phase~1 uses Apriori with pruning based on local density.
-By Theorem~\ref{thm:weak_antimon}, if $P$ has a dense interval, then every subset $P' \subset P$ also has a dense interval.
-Therefore no subset of $P$ is pruned by Apriori's anti-monotone pruning, and $P$ will be generated as a candidate.
-Since $P$ itself has a dense interval, it passes the Phase~1 filter.
-Phase~2 then checks global rarity; since $P \in \mathcal{R}$, it satisfies $\text{gsupp}(P) < \sigma_{\max}$ and is retained.
+\textbf{完全性（$\mathcal{R} \subseteq \mathcal{R}_{\text{output}}$）：}
+$P \in \mathcal{R}$ を任意のRDPとする。第1段階が $P$ を発見することを示す。
+第1段階は局所密集性に基づく枝刈りを用いたAprioriを使用する。
+定理~\ref{thm:weak_antimon}により、$P$ が密集区間を持つならば $P$ のすべての部分集合 $P' \subset P$ も密集区間を持つ。
+したがって $P$ のいかなる部分集合もAprioriの反単調枝刈りにより除去されず、$P$ は候補として生成される。
+$P$ 自体が密集区間を持つため、第1段階のフィルタを通過する。
+第2段階で大域的稀少性をチェックし、$P \in \mathcal{R}$ であるから $\text{gsupp}(P) < \sigma_{\max}$ を満たし保持される。
 \end{proof}
 
-\begin{theorem}[Pruning Correctness]\label{thm:pruning}
-In Phase~1, if an itemset $P'$ has $\mathcal{D}(P', W, \theta) = \emptyset$
-(no dense interval), then every superset $Q \supset P'$ also has
-$\mathcal{D}(Q, W, \theta) = \emptyset$, and can be safely pruned.
+\begin{theorem}[枝刈りの正当性]\label{thm:pruning}
+第1段階において、アイテムセット $P'$ が $\mathcal{D}(P', W, \theta) = \emptyset$
+（密集区間なし）であるならば、$P'$ のすべての上位集合 $Q \supset P'$ も
+$\mathcal{D}(Q, W, \theta) = \emptyset$ であり、安全に枝刈りできる。
 \end{theorem}
 
 \begin{proof}
-This is the contrapositive of Theorem~\ref{thm:weak_antimon}:
-if $Q$ had a dense interval, then $P' \subset Q$ would also have a dense interval.
-Since $P'$ does not, neither does $Q$.
+これは定理~\ref{thm:weak_antimon}の対偶である：
+もし $Q$ が密集区間を持つならば $P' \subset Q$ も密集区間を持つはずである。
+$P'$ が持たないので、$Q$ も持たない。
 \end{proof}
 
-\subsection{Complexity Analysis}
+\subsection{計算量解析}
 
-\begin{theorem}[Time Complexity]\label{thm:complexity}
-Let $m = |\mathcal{I}|$ be the number of distinct items,
-$N$ the number of transactions, $k_{\max}$ the maximum itemset size,
-and $C_k$ the number of candidate $k$-itemsets at level $k$.
-The time complexity of Two-Phase Mining is:
+\begin{theorem}[時間計算量]\label{thm:complexity}
+$m = |\mathcal{I}|$ を異なるアイテム数、
+$N$ をトランザクション数、$k_{\max}$ を最大アイテムセットサイズ、
+$C_k$ をレベル $k$ における候補 $k$-アイテムセット数とする。
+二段階マイニングの時間計算量は：
 \begin{equation}
 O\Bigl(\sum_{k=1}^{k_{\max}} C_k \cdot N \log N\Bigr)
 \end{equation}
-where the $N \log N$ factor per candidate arises from binary search in the dense interval computation.
+ここで候補あたりの $N \log N$ 因子は密集区間計算における二分探索に起因する。
 \end{theorem}
 
 \begin{proof}
-For each candidate itemset at level $k$:
+レベル $k$ の各候補アイテムセットに対して：
 \begin{enumerate}
-\item Computing co-occurrence timestamps via sorted list intersection: $O(N)$
-\item Computing dense intervals via sliding window with binary search: $O(N \log N)$
+\item ソート済みリスト交差による共起タイムスタンプの計算：$O(N)$
+\item 二分探索付きスライディングウィンドウによる密集区間の計算：$O(N \log N)$
 \end{enumerate}
-Phase~2 computes global support in $O(N)$ per pattern and is dominated by Phase~1.
+第2段階はパターンあたり $O(N)$ で大域サポートを計算し、第1段階に支配される。
 
-The key efficiency gain over na\"ive enumeration comes from Apriori pruning:
-by Theorem~\ref{thm:pruning}, itemsets without dense intervals and their supersets are pruned,
-reducing $C_k$ significantly in practice.
+素朴な列挙に対する効率性の主な源泉はApriori枝刈りである：
+定理~\ref{thm:pruning}により、密集区間を持たないアイテムセットとそのすべての上位集合が枝刈りされ、
+実際には $C_k$ が大幅に削減される。
 \end{proof}
 
-\begin{remark}[Comparison with Standard Apriori]
-Standard Apriori with a global minimum support threshold $\sigma_{\min}$ prunes \emph{infrequent} itemsets.
-Our approach prunes itemsets without dense intervals instead.
-Since we target globally rare patterns, standard Apriori would prune exactly the patterns we seek.
-The local density condition provides an alternative anti-monotone criterion that enables efficient search while preserving the rare patterns of interest.
+\begin{remark}[標準Aprioriとの比較]
+大域最小サポート閾値 $\sigma_{\min}$ を用いた標準Aprioriは\emph{非頻出}アイテムセットを枝刈りする。
+本手法は密集区間を持たないアイテムセットを枝刈りする。
+我々は大域的に稀少なパターンを対象としているため、標準Aprioriはまさに我々が求めるパターンを枝刈りしてしまう。
+局所密集性条件は、稀少なパターンを保持しつつ効率的な探索を可能にする代替的な反単調基準を提供する。
 \end{remark}
