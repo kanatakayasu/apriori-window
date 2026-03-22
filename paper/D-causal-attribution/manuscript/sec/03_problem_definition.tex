@@ -66,37 +66,75 @@ $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ をアイテムの集合とする．
 \end{enumerate}
 \end{definition}
 
+\subsection{因果識別のための仮定}
+
+本節では，因果効果の識別に必要な仮定を明示的に列挙し，パターンサポート文脈での妥当性を議論する．
+
+\begin{definition}[SUTVA：安定単位処置値仮定]
+\label{def:sutva}
+各パターン $P_j \in \mathcal{D}(P^*)$ のサポート軌跡は，処置パターン $P^*$ に対する介入の有無に影響されない：
+\begin{equation}
+    \sigma_{P_j}^{\text{obs}}(t) = \sigma_{P_j}^{(0)}(t), \quad \forall j, \forall t
+\end{equation}
+\end{definition}
+
+アイテム非共有基準（\Cref{def:item-disjoint}）は SUTVA の十分条件ではないが，その蓋然性を高める設計的保証である：
+$P^*$ のアイテムを標的としたプロモーションは，$P^*$ とアイテムを共有しないパターンに直接的な影響を与えない．
+ただし，間接的な波及効果（例：予算制約による代替購買）は SUTVA 違反となり得るため，\Cref{sec:experiments} で感度分析を行う．
+
+\begin{definition}[線形因子モデル仮定]
+\label{def:factor-model}
+介入がない場合の全パターンのサポートが共通の潜在因子 $\boldsymbol{\mu}_t \in \mathbb{R}^r$ で駆動されるとする：
+\begin{equation}
+    \sigma_{P}^{(0)}(t) = \boldsymbol{\lambda}_P^\top \boldsymbol{\mu}_t + \epsilon_{P,t}, \quad \mathbb{E}[\epsilon_{P,t}] = 0
+\end{equation}
+ここで $\boldsymbol{\lambda}_P \in \mathbb{R}^r$ はパターン固有の因子負荷量，$r$ は因子数である．
+\end{definition}
+
+\begin{remark}
+\Cref{def:factor-model} は平行トレンド仮定の一般化である．
+DiD は $r=1, \boldsymbol{\mu}_t = t$ の特殊ケースに相当する．
+SCM は，ドナープールの因子負荷量が処置パターンの因子負荷量を凸包内に含む場合に，反事実を無バイアスに復元できる~\cite{abadie2010synthetic}．
+\end{remark}
+
 \subsection{理論的保証}
 
-\begin{theorem}[平行トレンド仮定のもとでの不偏性]
+\begin{theorem}[因子モデル下での一致性]
 \label{thm:unbiased}
-介入がない場合に，処置パターンのサポート軌跡が以下を満たすと仮定する：
+\Cref{def:factor-model} の線形因子モデルが成り立ち，SUTVA（\Cref{def:sutva}）が満たされ，かつ処置パターンの因子負荷量 $\boldsymbol{\lambda}_{P^*}$ がドナーの因子負荷量の凸包内にある（$\boldsymbol{\lambda}_{P^*} = \sum_j w_j^* \boldsymbol{\lambda}_{P_j}$，$\mathbf{w}^* \in \Delta^J$）とする．
+このとき，介入前期間 $t_0$ が十分に長く，$\epsilon_{P,t}$ が弱従属で $\mathrm{Var}(\bar{\epsilon}) = O(1/t_0)$ を満たすならば，SCM 推定量は：
 \begin{equation}
-    \sigma_{P^*}^{(0)}(t) = \sum_{j=1}^{J} w_j^* \cdot \sigma_{P_j}(t) + \epsilon_t, \quad \mathbb{E}[\epsilon_t] = 0
+    |\hat{\tau}(t) - \tau^*(t)| = O_p\left(\frac{1}{\sqrt{t_0}}\right), \quad \forall t \geq t_0
 \end{equation}
-ここで $\sigma_{P^*}^{(0)}$ は介入なしの潜在的結果を表す．すべての $t \geq t_0$ に対してこれが成り立つとき，
-$\hat{\tau}(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)$ は真の因果効果 $\tau^*(t) = \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t)$ の不偏推定量である．
+すなわち，介入前期間の長さに対して $\sqrt{t_0}$-一致性を持つ．
 \end{theorem}
 
 \begin{proof}
-構成により $\hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_j w_j^* \sigma_{P_j}(t)$ である．
-仮定より $\sigma_{P^*}^{(0)}(t) = \sum_j w_j^* \sigma_{P_j}(t) + \epsilon_t$ が成り立つ．
-したがって：
+\Cref{eq:weight-opt} の最適化により $\hat{\mathbf{w}}$ が推定される．
+因子モデルのもとで，介入前適合誤差は：
 \begin{align}
-    \mathbb{E}[\hat{\tau}(t)] &= \mathbb{E}[\sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)] \\
-    &= \sigma_{P^*}(t) - \sum_j w_j^* \sigma_{P_j}(t) \\
-    &= \sigma_{P^*}(t) - (\sigma_{P^*}^{(0)}(t) - \mathbb{E}[\epsilon_t]) \\
-    &= \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t) = \tau^*(t). \qedhere
+    &\frac{1}{t_0}\sum_{t=1}^{t_0-1}\left(\sigma_{P^*}^{(0)}(t) - \sum_j \hat{w}_j \sigma_{P_j}(t)\right)^2 \\
+    &= \frac{1}{t_0}\sum_{t=1}^{t_0-1}\left((\boldsymbol{\lambda}_{P^*} - \sum_j \hat{w}_j \boldsymbol{\lambda}_{P_j})^\top \boldsymbol{\mu}_t + \tilde{\epsilon}_t\right)^2
 \end{align}
+ここで $\tilde{\epsilon}_t = \epsilon_{P^*,t} - \sum_j \hat{w}_j \epsilon_{P_j,t}$ である．
+凸包条件と介入前適合の最適性により $\hat{\mathbf{w}} \to \mathbf{w}^*$（$t_0 \to \infty$）が保証される．
+すると介入後の予測誤差は $\hat{\sigma}^{\mathrm{CF}}(t) - \sigma_{P^*}^{(0)}(t) = (\hat{\mathbf{w}} - \mathbf{w}^*)^\top \boldsymbol{\lambda} \cdot \boldsymbol{\mu}_t + \tilde{\epsilon}_t = O_p(1/\sqrt{t_0})$ となる．
 \end{proof}
+
+\begin{remark}[有限標本バイアスと正則化]
+\label{rem:regularization}
+実践上，$t_0$ が小さい場合やドナー数 $J$ が大きい場合には SCM が過適合し，介入前適合が良好でも介入後バイアスが発生し得る．
+この問題に対して，(1) $\ell_1$ ペナルティによるスパース重み推定，(2) リッジ正則化~\cite{amjad2018robust}，(3) Augmented SCM~\cite{benmichael2021augmented} による二重頑健推定が有効である．
+本実装では，小規模ドナープール（$J \leq 20$）を前提とするため古典的 SCM を採用するが，大規模ドナープールへの拡張時には正則化が必須となる．
+\end{remark}
 
 \begin{theorem}[プラセボ検定の妥当性]
 \label{thm:placebo}
-帰無仮説 $H_0: \tau^*(t) = 0$（すべての $t \geq t_0$）のもとで，全 $J+1$ ユニット（処置 + ドナー）の介入後/介入前 RMSPE 比が交換可能であるならば，処置ユニットの比が最大となる確率は正確に $1/(J+1)$ である．
+帰無仮説 $H_0: \tau^*(t) = 0$（すべての $t \geq t_0$）のもとで，SUTVA が成立し，全 $J+1$ ユニット（処置 + ドナー）の介入後/介入前 RMSPE 比が交換可能であるならば，処置ユニットの比が最大となる確率は正確に $1/(J+1)$ である．
 \end{theorem}
 
 \begin{proof}
-$H_0$ のもとでは，処置ユニットはドナーと統計的に区別できない．
+$H_0$ と SUTVA のもとでは，処置ユニットはドナーと統計的に区別できない．
 交換可能性により，全 $(J+1)!$ 個の順位付けが等確率である．
 特定のユニット（処置ユニットを含む）が最大の比を持つ確率は $1/(J+1)$ である．
 \end{proof}

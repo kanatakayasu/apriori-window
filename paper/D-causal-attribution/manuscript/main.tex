@@ -10,7 +10,8 @@
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{cleveref}
-\usepackage{CJKutf8}
+\usepackage{luatexja}
+\usepackage[match]{luatexja-fontspec}
 
 \newtheorem{definition}{定義}
 \newtheorem{theorem}{定理}
@@ -20,7 +21,6 @@
 \newtheorem{proposition}{命題}
 
 \begin{document}
-\begin{CJK}{UTF8}{ipxm}
 
 \title{相関から因果へ：密集パターン帰属のための合成コントロール法}
 
@@ -41,5 +41,4 @@
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
-\end{CJK}
 \end{document}
