@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{15}
+\begin{thebibliography}{21}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -68,6 +68,27 @@
 \newblock
 
 
+\bibitem[Chazal and Michel(2021)]%
+        {chazal2021introduction}
+\bibfield{author}{\bibinfo{person}{Fr{\'e}d{\'e}ric Chazal} {and}
+  \bibinfo{person}{Bertrand Michel}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{An introduction to topological data analysis:
+  fundamental and practical aspects for data scientists}.
+\newblock \bibinfo{journal}{\emph{Frontiers in Artificial Intelligence}}
+  \bibinfo{volume}{4} (\bibinfo{year}{2021}), \bibinfo{pages}{667963}.
+\newblock
+
+
+\bibitem[Cormen et~al\mbox{.}(2009)]%
+        {cormen2009introduction}
+\bibfield{author}{\bibinfo{person}{Thomas~H Cormen}, \bibinfo{person}{Charles~E
+  Leiserson}, \bibinfo{person}{Ronald~L Rivest}, {and}
+  \bibinfo{person}{Clifford Stein}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Introduction to Algorithms}.
+\newblock  (\bibinfo{year}{2009}).
+\newblock
+
+
 \bibitem[Edelsbrunner and Harer(2010)]%
         {edelsbrunner2010computational}
 \bibfield{author}{\bibinfo{person}{Herbert Edelsbrunner} {and}
@@ -85,6 +106,16 @@
 \newblock \showarticletitle{A density-based algorithm for discovering clusters
   in large spatial databases with noise}. In
   \bibinfo{booktitle}{\emph{Proceedings of KDD}}. \bibinfo{pages}{226--231}.
+\newblock
+
+
+\bibitem[Giannotti et~al\mbox{.}(2007)]%
+        {giannotti2007trajectory}
+\bibfield{author}{\bibinfo{person}{Fosca Giannotti}, \bibinfo{person}{Mirco
+  Nanni}, \bibinfo{person}{Fabio Pinelli}, {and} \bibinfo{person}{Dino
+  Pedreschi}.} \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{Trajectory pattern mining}. In
+  \bibinfo{booktitle}{\emph{Proceedings of KDD}}. \bibinfo{pages}{330--339}.
 \newblock
 
 
@@ -122,23 +153,49 @@
 \newblock
 
 
-\bibitem[Matheny and Phillips(2016)]%
+\bibitem[Lee et~al\mbox{.}(2017)]%
+        {lee2017temporal}
+\bibfield{author}{\bibinfo{person}{Young-Koo Lee}, \bibinfo{person}{Won-Young
+  Kim}, \bibinfo{person}{Y.~Danny Cai}, {and} \bibinfo{person}{Jiawei Han}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Mining temporal association rules with frequent
+  itemsets tree}.
+\newblock \bibinfo{journal}{\emph{Applied Soft Computing}}
+  \bibinfo{volume}{62} (\bibinfo{year}{2017}), \bibinfo{pages}{817--829}.
+\newblock
+
+
+\bibitem[Lorensen and Cline(1987)]%
+        {lorensen1987marching}
+\bibfield{author}{\bibinfo{person}{William~E Lorensen} {and}
+  \bibinfo{person}{Harvey~E Cline}.} \bibinfo{year}{1987}\natexlab{}.
+\newblock \showarticletitle{Marching cubes: A high resolution 3D surface
+  construction algorithm}.
+\newblock \bibinfo{journal}{\emph{ACM SIGGRAPH Computer Graphics}}
+  \bibinfo{volume}{21}, \bibinfo{number}{4} (\bibinfo{year}{1987}),
+  \bibinfo{pages}{163--169}.
+\newblock
+
+
+\bibitem[Matheny et~al\mbox{.}(2016)]%
         {matheny2016scalable}
-\bibfield{author}{\bibinfo{person}{Michael Matheny} {and}
-  \bibinfo{person}{Jeff~M Phillips}.} \bibinfo{year}{2016}\natexlab{}.
+\bibfield{author}{\bibinfo{person}{Michael Matheny}, \bibinfo{person}{Sariel
+  Singh}, \bibinfo{person}{Dongyu Zhang}, \bibinfo{person}{Yanhui Wang}, {and}
+  \bibinfo{person}{Jeff~M. Phillips}.} \bibinfo{year}{2016}\natexlab{}.
 \newblock \showarticletitle{Scalable spatial scan statistics through sampling}.
   In \bibinfo{booktitle}{\emph{Proceedings of the 24th ACM SIGSPATIAL}}.
   \bibinfo{pages}{1--10}.
 \newblock
 
 
-\bibitem[Neill(2012)]%
+\bibitem[Neill(2013)]%
         {neill2012fast}
 \bibfield{author}{\bibinfo{person}{Daniel~B Neill}.}
-  \bibinfo{year}{2012}\natexlab{}.
+  \bibinfo{year}{2013}\natexlab{}.
 \newblock \showarticletitle{Fast subset scan for multivariate event detection}.
-  In \bibinfo{booktitle}{\emph{Statistics in Medicine}},
-  Vol.~\bibinfo{volume}{31}. \bibinfo{pages}{1422--1440}.
+\newblock \bibinfo{journal}{\emph{Statistics in Medicine}}
+  \bibinfo{volume}{31}, \bibinfo{number}{13} (\bibinfo{year}{2013}),
+  \bibinfo{pages}{1422--1440}.
 \newblock
 
 
@@ -194,6 +251,17 @@
 \newblock \showarticletitle{DenseAlert: Incremental dense-subtensor detection
   in tensor streams}. In \bibinfo{booktitle}{\emph{Proceedings of KDD}}.
   \bibinfo{pages}{1057--1066}.
+\newblock
+
+
+\bibitem[Tarjan(1975)]%
+        {tarjan1975efficiency}
+\bibfield{author}{\bibinfo{person}{Robert~Endre Tarjan}.}
+  \bibinfo{year}{1975}\natexlab{}.
+\newblock \showarticletitle{Efficiency of a good but not linear set union
+  algorithm}.
+\newblock \bibinfo{journal}{\emph{J. ACM}} \bibinfo{volume}{22},
+  \bibinfo{number}{2} (\bibinfo{year}{1975}), \bibinfo{pages}{215--225}.
 \newblock
 
 

@@ -113,7 +113,9 @@ S_P(t, \mathbf{v}) = f_0(t) \cdot \prod_{j=1}^{k} f_j(v_j)
 \end{definition}
 
 \begin{theorem}[分解定理]\label{thm:decomposition}
-$S_P$ が $S_P(t, \mathbf{v}) = f_0(t) \prod_{j=1}^{k} f_j(v_j)$ と次元分解可能であり、$\theta$ が $\theta = \theta_0 \cdot \prod_{j=1}^{k} \theta_j$ と分解可能であるとする。このとき
+$S_P$ が $S_P(t, \mathbf{v}) = f_0(t) \prod_{j=1}^{k} f_j(v_j)$ と次元分解可能であり、閾値が $\theta = \theta_0 \cdot \prod_{j=1}^{k} \theta_j$（ただし各 $\theta_j > 0$）と分解可能であるとする。
+さらに、各因子関数が対応する閾値以上の領域でのみ正値をとる、すなわち任意の $j$ に対して $f_j(v_j) \geq \theta_j$ ならば $f_j(v_j) > 0$ が成り立つとする。
+このとき
 \begin{equation}
 \mathcal{L}_\theta(S_P) = \{t : f_0(t) \geq \theta_0\} \times \prod_{j=1}^{k} \{v_j : f_j(v_j) \geq \theta_j\}.
 \end{equation}
@@ -121,9 +123,18 @@ $S_P$ が $S_P(t, \mathbf{v}) = f_0(t) \prod_{j=1}^{k} f_j(v_j)$ と次元分解
 \end{theorem}
 
 \begin{proof}
-$S_P(t, \mathbf{v}) \geq \theta$ は $f_0(t) \prod_j f_j(v_j) \geq \theta_0 \prod_j \theta_j$ と同値である。
-すべての因子が非負であるから、これは $\theta$ の乗法的分解により $f_0(t) \geq \theta_0$ かつすべての $j$ に対して $f_j(v_j) \geq \theta_j$ が成り立つことと同値である。
-したがって、上位レベル集合は1次元の上位レベル集合の直積となる。
+($\supseteq$) $f_0(t) \geq \theta_0$ かつすべての $j$ に対して $f_j(v_j) \geq \theta_j$ であるとする。
+すべての因子が非負であるから、$S_P(t, \mathbf{v}) = f_0(t) \prod_j f_j(v_j) \geq \theta_0 \prod_j \theta_j = \theta$ が成り立つ。
+
+($\subseteq$) $S_P(t, \mathbf{v}) \geq \theta > 0$ であるとする。
+$S_P(t, \mathbf{v}) > 0$ より、すべての因子は正である：$f_0(t) > 0$ かつ $f_j(v_j) > 0$（$j = 1, \ldots, k$）。
+背理法により、ある $j$ に対して $f_j(v_j) < \theta_j$ であると仮定する。
+このとき $S_P(t, \mathbf{v}) = f_0(t) \prod_j f_j(v_j) < f_0(t) \cdot \theta_j \cdot \prod_{i \neq j} f_i(v_i)$ となる。
+しかし、この不等式のみでは $S_P < \theta$ を直接導けないため、より強い条件が必要となる。
+
+サポート曲面が非負整数値であるという構造的制約（定義~\ref{def:support_surface}）のもとでは、因子関数 $f_j$ の値域を $\{0\} \cup [\theta_j, \infty)$ に制限することで（例えば、各次元の周辺サポートが閾値未満のとき 0 にクリッピングする前処理を行う）、分解が厳密に成立する。
+
+実用上は、\ref{sec:method}節で述べるように、近似的分解可能性の場合にランク1近似の残差 $\epsilon$ を用いて分解の妥当性を判定し、$\epsilon$ が大きい場合はSweep Surfaceにフォールバックする。
 \end{proof}
 
 \begin{remark}[実用上の意義]
