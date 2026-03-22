@@ -1,0 +1,104 @@
+{
+  "e1_attribution_recovery": {
+    "precision_at_5": {
+      "mean": 0.08,
+      "std": 0.09797958971132714
+    },
+    "precision_at_10": {
+      "mean": 0.08,
+      "std": 0.07483314773547883
+    },
+    "recall_at_5": {
+      "mean": 0.05714285714285714,
+      "std": 0.06998542122237653
+    },
+    "recall_at_10": {
+      "mean": 0.11428571428571428,
+      "std": 0.10690449676496976
+    },
+    "ndcg_at_10": {
+      "mean": 0.1438425031256043,
+      "std": 0.1466401760493318
+    },
+    "auc": {
+      "mean": 0.6352987764327971,
+      "std": 0.13579977023928644
+    }
+  },
+  "e2_interpretability": {
+    "head_entropies": [
+      5.321117383701863,
+      5.321120325560231,
+      5.30963269814409,
+      5.320354200208512
+    ],
+    "mean_entropy": 5.318056151903674,
+    "max_possible_entropy": 5.321928094887363,
+    "head_specialization": 2.434800425099963e-17,
+    "attn_on_true_pairs": 0.02393306674519244,
+    "attn_on_false_pairs": 0.025027357262943098,
+    "alignment_ratio": 0.9562762219805544
+  },
+  "e3_comparison": {
+    "cross_attention": {
+      "auc_mean": 0.6775674961241972,
+      "auc_std": 0.15986098806219806
+    },
+    "permutation_test": {
+      "auc_mean": 0.9284640389795028,
+      "auc_std": 0.03501879043297549
+    }
+  },
+  "e4_scalability": {
+    "scalability": [
+      {
+        "label": "Small",
+        "n_transactions": 200,
+        "n_items": 10,
+        "n_events": 3,
+        "n_patterns": 23,
+        "time_data_gen_s": 0.0014,
+        "time_feature_extract_s": 0.001,
+        "time_train_s": 0.0074,
+        "time_inference_s": 0.0003,
+        "time_total_s": 0.0101
+      },
+      {
+        "label": "Medium",
+        "n_transactions": 500,
+        "n_items": 20,
+        "n_events": 5,
+        "n_patterns": 40,
+        "time_data_gen_s": 0.006,
+        "time_feature_extract_s": 0.0047,
+        "time_train_s": 0.0084,
+        "time_inference_s": 0.0005,
+        "time_total_s": 0.0196
+      },
+      {
+        "label": "Large",
+        "n_transactions": 1000,
+        "n_items": 30,
+        "n_events": 10,
+        "n_patterns": 79,
+        "time_data_gen_s": 0.024,
+        "time_feature_extract_s": 0.0178,
+        "time_train_s": 0.0104,
+        "time_inference_s": 0.0018,
+        "time_total_s": 0.054
+      },
+      {
+        "label": "XLarge",
+        "n_transactions": 2000,
+        "n_items": 40,
+        "n_events": 15,
+        "n_patterns": 121,
+        "time_data_gen_s": 0.0779,
+        "time_feature_extract_s": 0.0553,
+        "time_train_s": 0.0133,
+        "time_inference_s": 0.0049,
+        "time_total_s": 0.1514
+      }
+    ]
+  }
+}
