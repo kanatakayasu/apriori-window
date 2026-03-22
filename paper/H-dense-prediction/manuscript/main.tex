@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- 日本語対応 ---
+\usepackage{CJKutf8}
+
+% --- 基本パッケージ ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[margin=2.5cm]{geometry}
+
+% --- 定理環境 ---
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{definition}{定義}[section]
+\newtheorem{problem}{問題}[section]
+
+\title{密集区間予測: 記述的から予測的パターンマイニングへ}
+\author{}
+\date{}
+
+\begin{document}
+\begin{CJK}{UTF8}{ipxm}
+
+\maketitle
+
+\begin{abstract}
+頻出パターンマイニングにおける密集区間（dense interval）の検出は、
+アイテムセットの時間的局所性を捉える有効な手法である。
+しかし、既存の密集区間マイニングは記述的（descriptive）手法にとどまり、
+将来の密集区間の発生を予測することはできない。
+本研究では、密集区間マイニングの出力を点過程・生存分析の枠組みと接続し、
+記述的から予測的パターンマイニングへの橋渡しを行う。
+具体的には、密集区間発生過程（DIOP）、密集区間間時間（IDIT）、
+密集持続時間予測の3概念を導入する。
+Hawkes過程に基づくHawkes-Denseモデルにより次回密集区間の発生時刻を予測し、
+Weibull生存モデルにより持続時間を予測する。
+合成データによる実験の結果、Hawkes-Denseモデルは
+次回発生時刻を相対誤差2\%以下で予測可能であること、
+IDIT分布の選択がデータの生成過程を反映すること、
+Weibullモデルの形状パラメータが密集区間の物理的性質を捉えることを示す。
+\end{abstract}
+
+\input{sec/01_introduction}
+\input{sec/02_related_work}
+\input{sec/03_problem_definition}
+\input{sec/04_proposed_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{CJK}
+\end{document}

@@ -1,0 +1,127 @@
+{
+  "exp1_synthetic_prediction": {
+    "n=10": {
+      "predicted_next": 253.1785993095886,
+      "actual_next": 249,
+      "absolute_error": 4.178599309588606,
+      "relative_error": 0.016781523331681147,
+      "hawkes_params": {
+        "mu": 0.032613126297936945,
+        "alpha": 1.1958498162230812e-15,
+        "beta": 0.8512548038826573,
+        "log_likelihood": -35.38432327667687,
+        "converged": true
+      }
+    },
+    "n=20": {
+      "predicted_next": 556.576979151677,
+      "actual_next": 567,
+      "absolute_error": 10.423020848322949,
+      "relative_error": 0.018382752818911725,
+      "hawkes_params": {
+        "mu": 0.031168831375465618,
+        "alpha": 1.7567179459926626e-15,
+        "beta": 0.35698766045964714,
+        "log_likelihood": -80.4300603209961,
+        "converged": true
+      }
+    },
+    "n=50": {
+      "predicted_next": 1566.5541681856776,
+      "actual_next": 1548,
+      "absolute_error": 18.554168185677554,
+      "relative_error": 0.011985896760773614,
+      "hawkes_params": {
+        "mu": 0.02848326570744875,
+        "alpha": 2.8823208851865645e-15,
+        "beta": 0.8589899381238193,
+        "log_likelihood": -218.8050489214544,
+        "converged": true
+      }
+    }
+  },
+  "exp2_idit_distribution": {
+    "regular": {
+      "best_distribution": "lognormal",
+      "n_idit": 49,
+      "mean_idit": 18.93877551020408,
+      "cv_idit": 0.20860688540821137,
+      "aic_scores": {
+        "exponential": 327.0514948472524,
+        "weibull": 280.3224526269401,
+        "gamma": 279.263372508974,
+        "lognormal": 279.24768203749886
+      },
+      "ks_pvalues": {
+        "exponential": 6.58170294617361e-06,
+        "weibull": 0.6523977658920734,
+        "gamma": 0.7639567704489365,
+        "lognormal": 0.7586239514986035
+      }
+    },
+    "variable": {
+      "best_distribution": "weibull",
+      "n_idit": 49,
+      "mean_idit": 17.877551020408163,
+      "cv_idit": 0.561369981867372,
+      "aic_scores": {
+        "exponential": 367.78682002197206,
+        "weibull": 348.20950374911587,
+        "gamma": 348.60135047984124,
+        "lognormal": 348.6978262530035
+      },
+      "ks_pvalues": {
+        "exponential": 0.0009043096278728013,
+        "weibull": 0.5419031719175267,
+        "gamma": 0.6351597487861951,
+        "lognormal": 0.6406182481590832
+      }
+    },
+    "clustered": {
+      "best_distribution": "lognormal",
+      "n_idit": 49,
+      "mean_idit": 6.612244897959184,
+      "cv_idit": 0.3481229743109512,
+      "aic_scores": {
+        "exponential": 271.04517835648255,
+        "weibull": 227.07092901566853,
+        "gamma": 226.40686564547988,
+        "lognormal": 226.39947809196306
+      },
+      "ks_pvalues": {
+        "exponential": 2.5007994325702056e-05,
+        "weibull": 0.39280733875046225,
+        "gamma": 0.43422925571818916,
+        "lognormal": 0.4321051004053602
+      }
+    }
+  },
+  "exp3_hawkes_vs_poisson": {
+    "self_exciting": {
+      "hawkes_ll": -136.64329408771383,
+      "poisson_ll": -136.64329408771363,
+      "ll_improvement": -1.9895196601282805e-13,
+      "hawkes_alpha": 5.915020247593432e-15,
+      "hawkes_mu": 0.028587764480695083,
+      "hawkes_beta": 0.858789983541566
+    },
+    "poisson_like": {
+      "hawkes_ll": -140.9970545218702,
+      "poisson_ll": -140.99705452187013,
+      "ll_improvement": -8.526512829121202e-14,
+      "hawkes_alpha": 2.4840687485515744e-15,
+      "hawkes_mu": 0.024725954313733957,
+      "hawkes_beta": 2.235356222016466
+    }
+  },
+  "exp4_duration_prediction": {
+    "n_intervals": 40,
+    "mean_duration": 12.55,
+    "std_duration": 3.48532638356869,
+    "mae": 2.886544984215636,
+    "rmse": 3.5735244826488084,
+    "median_ae": 2.4957343873082163,
+    "weibull_shape": 4.123795524983943,
+    "weibull_scale": 13.841514969800928
+  }
+}

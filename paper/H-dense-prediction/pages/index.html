@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>密集区間予測: 記述的から予測的パターンマイニングへ</title>
+  <style>
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+    h1 { font-size: 1.8rem; border-bottom: 2px solid #2c3e50; padding-bottom: 0.5rem; }
+    h2 { font-size: 1.3rem; color: #2c3e50; margin-top: 2rem; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.85rem; margin-right: 0.5rem; }
+    .badge-venue { background: #3498db; color: white; }
+    .badge-status { background: #2ecc71; color: white; }
+    .badge-difficulty { background: #e67e22; color: white; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f5f5f5; }
+    .concept-box { background: #f8f9fa; border-left: 4px solid #3498db; padding: 1rem; margin: 1rem 0; }
+    code { background: #f4f4f4; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.9em; }
+    .pipeline { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+    .pipeline-step { background: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 5px; padding: 0.5rem 1rem; text-align: center; }
+    .pipeline-arrow { font-size: 1.2rem; color: #7f8c8d; }
+  </style>
+</head>
+<body>
+  <h1>密集区間予測: 記述的から予測的パターンマイニングへ</h1>
+  <p>
+    <span class="badge badge-venue">KDD / SDM</span>
+    <span class="badge badge-status">Phase 6 Complete</span>
+    <span class="badge badge-difficulty">Difficulty: 3/5</span>
+  </p>
+
+  <h2>概要</h2>
+  <p>
+    頻出パターンマイニングにおける密集区間の検出を、点過程・生存分析の枠組みと接続し、
+    <strong>記述的から予測的パターンマイニングへの橋渡し</strong>を行う研究です。
+  </p>
+
+  <h2>導入概念</h2>
+
+  <div class="concept-box">
+    <strong>Dense Interval Occurrence Process (DIOP)</strong><br>
+    密集区間の発生を自己励起点過程（Hawkes過程）としてモデル化する枠組み
+  </div>
+
+  <div class="concept-box">
+    <strong>Inter-Dense Interval Time (IDIT)</strong><br>
+    連続する密集区間の間隔を確率変数として捉え、分布特性を分析する概念。
+    変動係数(CV)によりパターンの規則性を定量化。
+  </div>
+
+  <div class="concept-box">
+    <strong>Dense Duration Prediction</strong><br>
+    Weibull生存モデルに基づく密集区間持続時間の予測手法。
+    形状パラメータにより終了ハザードの時間依存性を捉える。
+  </div>
+
+  <h2>パイプライン</h2>
+  <div class="pipeline">
+    <div class="pipeline-step">密集区間<br>マイニング</div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-step">IDIT<br>分布分析</div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-step">Hawkes-Dense<br>発生予測</div>
+    <div class="pipeline-arrow">&rarr;</div>
+    <div class="pipeline-step">Weibull<br>持続時間予測</div>
+  </div>
+
+  <h2>実験結果</h2>
+
+  <table>
+    <tr><th>指標</th><th>結果</th></tr>
+    <tr><td>次回発生時刻 相対誤差</td><td>&lt; 2% (K=10,20,50)</td></tr>
+    <tr><td>持続時間 MAE</td><td>2.89</td></tr>
+    <tr><td>持続時間 RMSE</td><td>3.57</td></tr>
+    <tr><td>Weibull形状パラメータ</td><td>4.124 (増加ハザード)</td></tr>
+  </table>
+
+  <h2>テスト結果</h2>
+  <p><code>26 passed</code> &mdash; DIOP, IDIT分布フィッティング, Hawkes過程, 持続時間予測, 統合パイプラインの全テストが通過。</p>
+
+  <h2>ファイル構成</h2>
+  <table>
+    <tr><th>パス</th><th>内容</th></tr>
+    <tr><td><code>implementation/python/dense_prediction.py</code></td><td>提案手法の実装</td></tr>
+    <tr><td><code>implementation/python/tests/</code></td><td>26件のテスト</td></tr>
+    <tr><td><code>experiments/run_all.py</code></td><td>実験スクリプト</td></tr>
+    <tr><td><code>manuscript/main.tex</code></td><td>論文本体（日本語LaTeX）</td></tr>
+    <tr><td><code>research/gap_analysis.md</code></td><td>研究ギャップ分析</td></tr>
+  </table>
+
+  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; color: #999; font-size: 0.85rem;">
+    Paper H: Dense Prediction &mdash; apriori-window project
+  </footer>
+</body>
+</html>

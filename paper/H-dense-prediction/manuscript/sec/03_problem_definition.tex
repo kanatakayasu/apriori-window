@@ -1,0 +1,76 @@
+\section{問題定義}\label{sec:problem}
+
+本節では、密集区間予測に必要な概念を形式的に定義する。
+
+\subsection{密集区間}
+
+\begin{definition}[密集区間]
+  トランザクションデータベース $\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$、
+  アイテムセット $X$、ウィンドウサイズ $W$、閾値 $\theta$ が与えられたとき、
+  区間 $[s, e]$ がアイテムセット $X$ の\textbf{密集区間}であるとは、
+  全ての $l \in [s, e]$ に対して
+  \begin{equation}
+    |\{i \mid l \leq i \leq l + W,\; X \subseteq T_i\}| \geq \theta
+  \end{equation}
+  が成り立ち、かつ $[s, e]$ が極大であることを言う。
+  実際の密集期間は $[s, e + W]$ である。
+\end{definition}
+
+\subsection{密集区間発生過程（DIOP）}
+
+\begin{definition}[密集区間発生過程]
+  アイテムセット $X$ に対する密集区間の列
+  $\mathcal{I}_X = \{(s_1, e_1), (s_2, e_2), \ldots, (s_K, e_K)\}$
+  （$s_1 < s_2 < \cdots < s_K$）が与えられたとき、
+  到着時刻列 $\{s_1, s_2, \ldots, s_K\}$ を
+  \textbf{密集区間発生過程}（Dense Interval Occurrence Process; DIOP）と呼ぶ。
+\end{definition}
+
+DIOPはカウント過程 $N(t) = |\{k \mid s_k \leq t\}|$ として表現でき、
+条件付き強度関数 $\lambda(t|\mathcal{H}_t)$ によって特徴づけられる。
+ここで $\mathcal{H}_t$ は時刻 $t$ までの履歴である。
+
+\subsection{密集区間間時間（IDIT）}
+
+\begin{definition}[密集区間間時間]
+  密集区間列 $\mathcal{I}_X$ に対し、第 $k$ 番目の
+  \textbf{密集区間間時間}（Inter-Dense Interval Time; IDIT）を
+  \begin{equation}
+    \tau_k = s_{k+1} - (e_k + W), \quad k = 1, \ldots, K-1
+  \end{equation}
+  と定義する。
+  ここで $e_k + W$ は第 $k$ 番目の密集区間の実質的な終了時刻である。
+  $\tau_k < 0$ の場合（密集区間が重複する場合）は $\tau_k = 0$ とする。
+\end{definition}
+
+IDITの分布は密集区間の発生パターンを特徴づける重要な統計量である。
+変動係数 $\mathrm{CV} = \sigma_\tau / \mu_\tau$ は発生パターンの規則性を示す：
+\begin{itemize}
+  \item $\mathrm{CV} \approx 0$：密集区間は等間隔に近い（規則的）
+  \item $\mathrm{CV} \approx 1$：Poisson的（ランダム）
+  \item $\mathrm{CV} > 1$：クラスタリングが存在（バースト的）
+\end{itemize}
+
+\subsection{密集持続時間}
+
+\begin{definition}[密集持続時間]
+  密集区間 $(s_k, e_k)$ の\textbf{密集持続時間}を
+  \begin{equation}
+    d_k = e_k - s_k + W
+  \end{equation}
+  と定義する。$d_k$ は密集条件が維持される実質的な期間長である。
+\end{definition}
+
+\subsection{予測問題の定式化}
+
+本研究では以下の2つの予測問題を扱う。
+
+\begin{problem}[次回発生時刻予測]
+  密集区間の履歴 $\mathcal{I}_X^{(1:K)} = \{(s_1, e_1), \ldots, (s_K, e_K)\}$ が
+  与えられたとき、次の密集区間の開始時刻 $s_{K+1}$ を予測せよ。
+\end{problem}
+
+\begin{problem}[持続時間予測]
+  密集区間の持続時間の履歴 $\{d_1, d_2, \ldots, d_K\}$ が与えられたとき、
+  次の密集区間の持続時間 $d_{K+1}$ を予測せよ。
+\end{problem}

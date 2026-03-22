@@ -1,0 +1,131 @@
+\section{提案手法}\label{sec:method}
+
+本節では、密集区間予測のための3段階パイプラインを提案する：
+(1) IDIT分布分析、(2) Hawkes-Denseモデルによる発生時刻予測、
+(3) Weibull生存モデルによる持続時間予測。
+
+\subsection{IDIT分布分析}
+
+密集区間間時間 $\{\tau_1, \tau_2, \ldots, \tau_{K-1}\}$ に対して、
+以下の4つの候補分布をフィットし、
+AIC~\cite{akaike1974new}およびBIC~\cite{schwarz1978estimating}で選択する。
+
+\begin{itemize}
+  \item \textbf{指数分布}（Exponential）：$f(\tau) = \lambda e^{-\lambda \tau}$。
+    密集区間の発生がPoisson過程に従う場合に適合する。
+  \item \textbf{Weibull分布}：$f(\tau) = \frac{k}{\lambda}\left(\frac{\tau}{\lambda}\right)^{k-1} e^{-(\tau/\lambda)^k}$。
+    形状パラメータ $k$ により経時変化を表現できる。
+  \item \textbf{ガンマ分布}：$f(\tau) = \frac{\beta^\alpha}{\Gamma(\alpha)} \tau^{\alpha-1} e^{-\beta \tau}$。
+    柔軟な形状を持つ。
+  \item \textbf{対数正規分布}：$f(\tau) = \frac{1}{\tau \sigma \sqrt{2\pi}} e^{-\frac{(\ln \tau - \mu)^2}{2\sigma^2}}$。
+    右裾が重い分布に適合する。
+\end{itemize}
+
+適合度はKolmogorov-Smirnov検定により評価する。
+
+\subsection{Hawkes-Denseモデル}
+
+密集区間の到着時刻列 $\{s_1, s_2, \ldots, s_K\}$ を
+自己励起点過程でモデル化する。
+条件付き強度関数を
+\begin{equation}\label{eq:hawkes-intensity}
+  \lambda(t|\mathcal{H}_t) = \mu + \sum_{s_k < t} \alpha \beta \exp(-\beta(t - s_k))
+\end{equation}
+と定義する。
+ここで $\mu > 0$ はベースライン強度、$0 < \alpha < 1$ は自己励起パラメータ
+（分岐比; branching ratio）、$\beta > 0$ は減衰率である。
+
+$\alpha < 1$ の条件下で過程は定常であり、
+定常強度は $\bar{\lambda} = \mu / (1 - \alpha)$ となる。
+
+\subsubsection{パラメータ推定}
+
+対数尤度関数は点過程の一般理論~\cite{daley2003introduction}より
+\begin{equation}\label{eq:loglikelihood}
+  \ell(\mu, \alpha, \beta) = \sum_{k=1}^{K} \log \lambda(s_k|\mathcal{H}_{s_k}) - \int_0^T \lambda(t|\mathcal{H}_t) \, dt
+\end{equation}
+で与えられる。補償項（integral）は解析的に計算可能で、
+\begin{equation}
+  \int_0^T \lambda(t|\mathcal{H}_t) \, dt = \mu T + \alpha \sum_{k=1}^{K} \left(1 - e^{-\beta(T - s_k)}\right)
+\end{equation}
+となる。Nelder-Mead法により最尤推定を行う。
+
+\subsubsection{次回発生時刻予測}
+
+推定されたパラメータを用いて、
+Ogataのthinningアルゴリズム~\cite{ogata1981lewis}により
+次回の密集区間発生時刻をシミュレーションする。
+
+\begin{theorem}[予測の一致性]
+  $K \to \infty$ のとき、
+  最尤推定量 $(\hat{\mu}, \hat{\alpha}, \hat{\beta})$ は
+  真のパラメータ $(\mu^*, \alpha^*, \beta^*)$ に確率収束する。
+  したがって、thinningアルゴリズムによる予測分布は
+  真の条件付き強度に基づく分布に収束する。
+\end{theorem}
+
+\begin{proof}
+  Hawkes過程の最尤推定量の一致性は点過程の漸近理論により保証される~\cite{daley2003introduction}。
+  thinningアルゴリズムは正確なシミュレーション手法であるため、
+  パラメータの一致性から予測分布の一致性が従う。
+\end{proof}
+
+\subsection{持続時間予測}
+
+密集区間の持続時間 $\{d_1, d_2, \ldots, d_K\}$ を
+Weibull分布~\cite{weibull1951statistical}でモデル化する。
+
+生存関数は
+\begin{equation}
+  S(d) = \exp\left(-\left(\frac{d}{\lambda}\right)^k\right)
+\end{equation}
+で与えられ、ハザード関数は
+\begin{equation}
+  h(d) = \frac{k}{\lambda}\left(\frac{d}{\lambda}\right)^{k-1}
+\end{equation}
+となる。
+
+形状パラメータ $k$ の値により以下の解釈が得られる：
+\begin{itemize}
+  \item $k < 1$：時間とともにハザードが減少（長い密集区間ほど終了しにくい）
+  \item $k = 1$：指数分布（無記憶性; 終了確率は持続時間に依存しない）
+  \item $k > 1$：時間とともにハザードが増加（長い密集区間ほど終了しやすい）
+\end{itemize}
+
+予測持続時間は、フィットされた分布の平均
+$\hat{d} = \lambda \Gamma(1 + 1/k)$
+または中央値
+$\tilde{d} = \lambda (\ln 2)^{1/k}$
+として与えられる。
+信頼区間は分位点から計算する。
+
+\subsection{統合パイプライン}
+
+提案手法の統合パイプラインをAlgorithm~\ref{alg:pipeline}に示す。
+
+\begin{algorithm}[t]
+\caption{Dense Interval Prediction Pipeline}
+\label{alg:pipeline}
+\begin{algorithmic}[1]
+\Require トランザクションDB $\mathcal{D}$, ウィンドウサイズ $W$, 閾値 $\theta$
+\Ensure 次回発生時刻予測 $\hat{s}_{K+1}$, 持続時間予測 $\hat{d}_{K+1}$
+\State $\mathcal{F} \gets \textsc{DenseItemsetMining}(\mathcal{D}, W, \theta)$
+\For{each $(X, \mathcal{I}_X) \in \mathcal{F}$}
+  \State $\{\tau_k\} \gets \textsc{ComputeIDIT}(\mathcal{I}_X, W)$
+  \State $F^* \gets \textsc{FitIDIT}(\{\tau_k\})$ \Comment{AIC/BICで最良分布選択}
+  \State $(\hat{\mu}, \hat{\alpha}, \hat{\beta}) \gets \textsc{FitHawkes}(\{s_k\})$
+  \State $\hat{s}_{K+1} \gets \textsc{ThinningPredict}(\hat{\mu}, \hat{\alpha}, \hat{\beta}, \{s_k\})$
+  \State $(\hat{k}, \hat{\lambda}) \gets \textsc{FitWeibull}(\{d_k\})$
+  \State $\hat{d}_{K+1} \gets \hat{\lambda} \Gamma(1 + 1/\hat{k})$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[計算量]
+  提案パイプラインの計算量は、$K$ 個の密集区間に対して、
+  IDIT分布フィッティングが $O(K \log K)$、
+  Hawkes過程のパラメータ推定が $O(K^2 I)$（$I$ は最適化反復回数）、
+  thinning予測が $O(KM)$（$M$ はサンプル数）、
+  Weibullフィッティングが $O(K)$ である。
+  したがって全体の計算量は $O(K^2 I + KM)$ である。
+\end{theorem}
