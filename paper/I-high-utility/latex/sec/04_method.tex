@@ -105,8 +105,8 @@ Algorithm~\ref{alg:udi-miner}に本レベルワイズマイニング手順を示
 
 \STATE \textbf{// フェーズ2以降：複数アイテム候補}
 \FOR{$k = 2$ \TO $k_{\max}$}
-    \STATE $C_k \gets \textsc{AprioriGen}(L_{k-1})$
-    \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \COMMENT{Apriori性質}
+    \STATE $C_k \gets \textbf{AprioriGen}(L_{k-1})$
+    \STATE $C_k \gets \textbf{Prune}(C_k, L_{k-1})$ \COMMENT{Apriori性質}
     \STATE $L_k \gets \emptyset$
     \FOR{各候補$X \in C_k$}
         \STATE 単一アイテム区間から許容範囲を計算
@@ -143,3 +143,11 @@ $n = |\mathcal{D}|$、$m = |\mathcal{I}|$、$K$を評価された候補数とす
 \end{proof}
 
 累積和最適化により、各ウィンドウの効用クエリが$O(W)$から$O(1)$に削減され、素朴なウィンドウ走査と比較して$W$倍の高速化が達成される。
+
+\begin{theorem}[空間計算量]
+UDI-Minerの空間計算量は$O(m \cdot n + K \cdot n)$である。ここで$m = |\mathcal{I}|$、$n = |\mathcal{D}|$、$K$は同時に保持する候補数である。
+\end{theorem}
+
+\begin{proof}
+アイテム-トランザクション対応表は$O(m \cdot \bar{d} \cdot n / m) = O(\bar{d} \cdot n)$の空間を要する。各候補の累積和配列は$O(n)$であり、レベルワイズ処理では前レベルの候補集合$L_{k-1}$と現レベルの候補$C_k$を同時に保持する必要がある。したがって主要な空間コストはアイテム-トランザクション対応表と候補ごとの累積和配列であり、全体として$O(m \cdot n + K \cdot n)$となる。
+\end{proof}

@@ -4,15 +4,36 @@
 \subsection{高効用アイテムセットマイニング}
 高効用アイテムセットマイニング問題はYaoら~\cite{yao2006mining}により形式化され、内部効用（数量）と外部効用（単位利益）を組み合わせた効用尺度が導入された。支持度とは異なり、効用は反単調ではない。すなわち、高効用アイテムセットの部分集合がその上位集合よりも高い効用を持つ場合がある。このため、新たな枝刈り戦略が必要となった。
 
-トランザクション加重利用度（TWU）モデル~\cite{liu2012mining}は、上界を定義することで反単調性の一形態を回復した。アイテムセット$X$のTWUは、$X$を含むすべてのトランザクションのトランザクション効用の総和である。$\text{TWU}(X) \geq u(X)$かつTWUが反単調であるため、見込みのないアイテムセットを早期に枝刈りできる。
-
-HUI-Miner~\cite{liu2012mining}は効用リスト構造を導入し、候補生成なしの一段階マイニングを可能にした。EFIM~\cite{zida2015efim}はトランザクション併合とサブツリー効用上界によりさらに効率を改善した。Tsengら~\cite{tseng2013efficient}は簡潔表現を研究した。Fournier-Vigerら~\cite{fournier2019survey}が包括的なサーベイを提供している。
+トランザクション加重利用度（TWU）モデル~\cite{liu2012mining}は、上界を定義することで反単調性の一形態を回復した。TWUに基づく二段階アルゴリズムは候補生成後に効用を精査する。HUI-Miner~\cite{liu2012mining}は効用リスト構造を導入し、候補生成なしの一段階マイニングを可能にした。FHM~\cite{fournier2014fhm}はEstimated Utility Co-occurrence Pruning（EUCP）を導入してHUI-Minerを改善した。HMiner~\cite{krishnamoorthy2019hminer}はUtility-Binと呼ばれるデータ構造を用いて結合コストを削減した。EFIM~\cite{zida2015efim}はトランザクション併合とサブツリー効用上界によりさらに効率を改善した。Tsengら~\cite{tseng2013efficient}は簡潔表現を研究した。Top-$k$変種であるTKU~\cite{tseng2016tku}は効用閾値を自動的に引き上げる手法を提案した。Fournier-Vigerら~\cite{fournier2019survey}が包括的なサーベイを提供している。
 
 \subsection{時間的・周期的効用マイニング}
-Lanら~\cite{lan2014discovery}は棚卸期間をHUIMに組み込み、棚卸期間中に高効用であるアイテムセットをマイニングした。Damら~\cite{dam2019towards}は周期性制約付きの系列パターンに効用マイニングを拡張した。Ahmedら~\cite{ahmed2009efficient}は木構造による増分データベースに対処した。これらの研究は時間的側面を考慮しているが、スライディングウィンドウによる連続的な密集区間の特定は行っていない。
+Lanら~\cite{lan2014discovery}は棚卸期間（on-shelf time period）をHUIMに組み込み、棚卸期間中に高効用であるアイテムセットをマイニングした。この研究は時間を離散的な期間として扱うが、連続的なスライディングウィンドウによる密集区間の特定は行わない。Damら~\cite{dam2019towards}は周期性制約付きの系列パターンに効用マイニングを拡張した。Ahmedら~\cite{ahmed2009efficient}は木構造による増分データベースに対処した。Linら~\cite{lin2016high}はHUIMに関するオーバービューを提供した。
+
+近年、THUI~\cite{zhang2023thui}は時間的効用テーブルを用いてトランザクション時間を考慮したHUIMを提案し、LHUI~\cite{fournier2021lhui}はローカル効用に着目してデータベースの部分区間における高効用パターンを検出した。しかし、これらの手法はスライディングウィンドウ内で頻度と効用の二重条件を課す密集区間の概念を導入していない点で本研究と異なる。
 
 \subsection{密集区間マイニング}
-スライディングウィンドウ密集区間検出は、固定サイズのウィンドウ内でアイテムセットの支持度がすべての位置で閾値を超える時間区間を特定する。Apriori-windowフレームワークは、これをレベルワイズ候補生成と組み合わせ、頻度ベースの密集区間の反単調性を枝刈りに活用する。しかし、既存の密集区間手法は純粋に頻度ベースである。
+スライディングウィンドウ密集区間検出は、固定サイズのウィンドウ内でアイテムセットの支持度がすべての位置で閾値を超える連続時間区間を特定する。Apriori-windowフレームワークは、これをレベルワイズ候補生成と組み合わせ、頻度ベースの密集区間の反単調性を枝刈りに活用する。時間的パターンマイニングの文脈では、Giannotttiら~\cite{giannotti2006mining}が系列に対する時間的制約付きマイニングを研究した。しかし、既存の密集区間手法は純粋に頻度ベースであり、効用を考慮しない。
 
 \subsection{本研究の位置づけ}
-本研究は、効用考慮型マイニングと時間的密集区間検出の間の空白を橋渡しする。我々の知る限り、\emph{効用密集区間}---スライディングウィンドウの頻度条件と効用条件を同時に満たす時間区間---を定義しマイニングする先行研究は存在しない。
+
+表~\ref{tab:positioning}に主要な関連研究との比較を示す。
+
+\begin{table}[t]
+\centering
+\caption{関連研究との比較。U: 効用考慮、SW: スライディングウィンドウ、DI: 密集区間（連続条件）、AM: 反単調枝刈り。}
+\label{tab:positioning}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+手法 & U & SW & DI & AM \\
+\midrule
+HUI-Miner~\cite{liu2012mining} & \checkmark & & & \checkmark \\
+EFIM~\cite{zida2015efim} & \checkmark & & & \checkmark \\
+On-shelf HUIM~\cite{lan2014discovery} & \checkmark & & & \checkmark \\
+LHUI~\cite{fournier2021lhui} & \checkmark & & & \checkmark \\
+Apriori-window & & \checkmark & \checkmark & \checkmark \\
+\textbf{UDI-Miner（本研究）} & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+本研究は、効用考慮型マイニングと時間的密集区間検出の間の空白を橋渡しする。我々の知る限り、\emph{効用密集区間}---スライディングウィンドウの頻度条件と効用条件を同時に満たす連続時間区間---を定義しマイニングする先行研究は存在しない。

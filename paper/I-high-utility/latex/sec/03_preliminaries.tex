@@ -39,29 +39,38 @@ $T_t$の\emph{トランザクション効用}は$\text{TU}(T_t) = \sum_{i \in I(
 \subsection{ウィンドウ効用とTWU}
 
 \begin{definition}[ウィンドウ効用]
+\label{def:wu}
 位置$l$におけるアイテムセット$X$の\emph{ウィンドウ効用}は：
 \begin{equation}
     \text{WU}(X, l) = \sum_{t=l}^{l+W} u(X, T_t)
 \end{equation}
+ここで$u(X, T_t)$は定義2より、$X \not\subseteq I(T_t)$の場合は0であることに注意する。したがってWUは、ウィンドウ内で$X$が出現するトランザクションのみから効用を累積する。
 \end{definition}
 
 \begin{definition}[ウィンドウトランザクション加重利用度]
+\label{def:wtwu}
 位置$l$におけるアイテムセット$X$の\emph{ウィンドウTWU}は：
 \begin{equation}
     \text{WTWU}(X, l) = \sum_{\substack{t=l \\ X \subseteq I(T_t)}}^{l+W} \text{TU}(T_t)
 \end{equation}
+直感的には、WTWUはウィンドウ内で$X$を含むトランザクション全体の効用を合算した値であり、WUの上界として機能する。
 \end{definition}
 
 \subsection{問題定義}
 
 \begin{definition}[効用密集区間]
 \label{def:udi}
-アイテムセット$X$は、パラメータ$(W, \theta_f, \theta_u)$に対して、すべての$l \in [s, e]$で以下を満たすとき、\emph{効用密集区間}$[s, e]$を持つ：
+アイテムセット$X$は、パラメータ$(W, \theta_f, \theta_u)$に対して、すべての$l \in [s, e]$で以下を\emph{同時に}満たすとき、\emph{効用密集区間}（UDI）$[s, e]$を持つ：
 \begin{enumerate}
     \item $\sigma_W(X, l) \geq \theta_f$ \quad （頻度条件）
     \item $\text{WU}(X, l) \geq \theta_u$ \quad （効用条件）
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[極大効用密集区間]
+\label{def:maximal-udi}
+効用密集区間$[s, e]$が\emph{極大}であるとは、$[s', e'] \supsetneq [s, e]$なる効用密集区間が存在しないことをいう。すなわち、$s' < s$ならば位置$s'-1$で頻度条件または効用条件が破れ、$e' > e$ならば位置$e'+1$で同様に条件が破れる。
+\end{definition}
+
 \textbf{問題定式化。}
-効用トランザクションデータベース$\mathcal{D}$、ウィンドウサイズ$W$、頻度閾値$\theta_f$、効用閾値$\theta_u$、最大アイテムセット長$k_{\max}$が与えられたとき、$[s, e]$が$X$の極大効用密集区間であり$|X| \leq k_{\max}$を満たすすべてのペア$(X, [s, e])$を求めよ。
+効用トランザクションデータベース$\mathcal{D}$、ウィンドウサイズ$W$、頻度閾値$\theta_f$、効用閾値$\theta_u$、最大アイテムセット長$k_{\max}$が与えられたとき、$[s, e]$が$X$の極大効用密集区間（定義~\ref{def:maximal-udi}）であり$|X| \leq k_{\max}$を満たすすべてのペア$(X, [s, e])$を求めよ。
