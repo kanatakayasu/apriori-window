@@ -1,54 +1,53 @@
-\section{Algorithm: SC-DenseAttrib}
+\section{アルゴリズム：SC-DenseAttrib}
 \label{sec:algorithm}
 
-\Cref{alg:sc-dense} presents the complete SC-DenseAttrib algorithm.
-The procedure consists of five stages: support series computation, donor pool construction, weight estimation, causal effect estimation, and placebo-based inference.
+\Cref{alg:sc-dense} に SC-DenseAttrib アルゴリズムの全体を示す．
+本手続きは5つの段階から構成される：サポート系列の計算，ドナープールの構築，重みの推定，因果効果の推定，およびプラセボベースの推論である．
 
 \begin{algorithm}[t]
-\caption{SC-DenseAttrib: Synthetic Control for Dense Pattern Attribution}
+\caption{SC-DenseAttrib：密集パターン帰属のための合成コントロール}
 \label{alg:sc-dense}
 \begin{algorithmic}[1]
-\REQUIRE Transaction sequence $\mathcal{D}$, treated pattern $P^*$, candidate patterns $\mathcal{P}$, intervention time $t_0$, window size $W$
-\ENSURE Causal effect $\hat{\tau}$, p-value $p$
-\STATE Compute support series $\mathbf{s}_{P^*}$ via \Cref{def:windowed-support}
-\STATE Build donor pool $\mathcal{D}(P^*) \leftarrow \{P \in \mathcal{P} : P \cap P^* = \emptyset\}$
-\FOR{each $P_j \in \mathcal{D}(P^*)$}
-    \STATE Compute $\mathbf{s}_{P_j}$ and filter by variance
+\REQUIRE トランザクション系列 $\mathcal{D}$，処置パターン $P^*$，候補パターン $\mathcal{P}$，介入時刻 $t_0$，ウィンドウサイズ $W$
+\ENSURE 因果効果 $\hat{\tau}$，p値 $p$
+\STATE \Cref{def:windowed-support} によりサポート系列 $\mathbf{s}_{P^*}$ を計算
+\STATE ドナープール $\mathcal{D}(P^*) \leftarrow \{P \in \mathcal{P} : P \cap P^* = \emptyset\}$ を構築
+\FOR{各 $P_j \in \mathcal{D}(P^*)$}
+    \STATE $\mathbf{s}_{P_j}$ を計算し，分散によりフィルタリング
 \ENDFOR
-\STATE Form donor matrix $\mathbf{D} \in \mathbb{R}^{T \times J}$
-\STATE Estimate weights $\mathbf{w}^* \leftarrow \arg\min_{\mathbf{w} \in \Delta^J} \|\mathbf{s}_{P^*}^{\mathrm{pre}} - \mathbf{D}^{\mathrm{pre}} \mathbf{w}\|^2$
-\STATE Compute counterfactual $\hat{\mathbf{s}}^{\mathrm{CF}} \leftarrow \mathbf{D} \mathbf{w}^*$
-\STATE Compute $\hat{\tau}(t) \leftarrow \sigma_{P^*}(t) - \hat{\sigma}^{\mathrm{CF}}(t)$ for all $t$
+\STATE ドナー行列 $\mathbf{D} \in \mathbb{R}^{T \times J}$ を構成
+\STATE 重み $\mathbf{w}^* \leftarrow \arg\min_{\mathbf{w} \in \Delta^J} \|\mathbf{s}_{P^*}^{\mathrm{pre}} - \mathbf{D}^{\mathrm{pre}} \mathbf{w}\|^2$ を推定
+\STATE 反事実 $\hat{\mathbf{s}}^{\mathrm{CF}} \leftarrow \mathbf{D} \mathbf{w}^*$ を計算
+\STATE すべての $t$ に対して $\hat{\tau}(t) \leftarrow \sigma_{P^*}(t) - \hat{\sigma}^{\mathrm{CF}}(t)$ を計算
 \STATE $r^* \leftarrow \mathrm{RMSPE}_{\mathrm{post}}(\hat{\tau}) / \mathrm{RMSPE}_{\mathrm{pre}}(\hat{\tau})$
-\FOR{each donor $P_j$ as placebo treated unit}
-    \STATE Compute placebo effect and ratio $r_j$
+\FOR{各ドナー $P_j$ をプラセボ処置ユニットとして}
+    \STATE プラセボ効果と比 $r_j$ を計算
 \ENDFOR
 \STATE $p \leftarrow |\{j : r_j \geq r^*\}| / (J + 1)$
 \RETURN $\hat{\tau}$, $p$
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Weight Estimation}
+\subsection{重みの推定}
 
-The optimization in~\eqref{eq:weight-opt} is a convex quadratic program over the simplex.
-We solve it using the Frank-Wolfe (conditional gradient) algorithm, which iteratively moves toward the minimizing vertex of the simplex.
-Each iteration requires $O(J)$ for the gradient computation and $O(J)$ for the vertex identification, yielding an overall complexity of $O(KJ)$ per weight estimation, where $K$ is the number of iterations (typically $K \leq 1000$).
+式~\eqref{eq:weight-opt} の最適化は単体上の凸二次計画法である．
+これを Frank-Wolfe（条件付き勾配）アルゴリズムで解く．各反復では，勾配計算に $O(J)$，頂点の特定に $O(J)$ を要し，重み推定全体の計算量は $O(KJ)$ となる．ここで $K$ は反復回数（通常 $K \leq 1000$）である．
 
-\subsection{Donor Pool Construction}
+\subsection{ドナープールの構築}
 
-The item-disjointness criterion (\Cref{def:donor-pool}) ensures that control patterns are not directly affected by interventions targeting items in $P^*$.
-We additionally filter donors by requiring minimum variance in the pre-intervention period (to avoid degenerate flat trajectories) and optionally by pre-intervention correlation with the treated series.
+アイテム非共有基準（\Cref{def:donor-pool}）により，$P^*$ 内のアイテムを対象とする介入の直接的影響を受けない制御パターンが保証される．
+さらに，介入前期間における最小分散（退化した平坦な軌跡を回避するため）および，オプションとして処置系列との介入前相関によりドナーをフィルタリングする．
 
-\subsection{Complexity Analysis}
+\subsection{計算量解析}
 
-\begin{theorem}[Computational Complexity]
+\begin{theorem}[計算量]
 \label{thm:complexity}
-SC-DenseAttrib runs in $O(N \cdot |\mathcal{P}| \cdot |P_{\max}| + J^2 \cdot t_0 + J \cdot (J^2 \cdot t_0))$ time, where $|P_{\max}|$ is the maximum pattern length, $J = |\mathcal{D}(P^*)|$ is the donor pool size, and $t_0$ is the pre-intervention period length.
+SC-DenseAttrib の計算量は $O(N \cdot |\mathcal{P}| \cdot |P_{\max}| + J^2 \cdot t_0 + J \cdot (J^2 \cdot t_0))$ である．ここで $|P_{\max}|$ は最大パターン長，$J = |\mathcal{D}(P^*)|$ はドナープールサイズ，$t_0$ は介入前期間の長さである．
 \end{theorem}
 
 \begin{proof}
-Support series computation takes $O(N \cdot |P|)$ per pattern.
-Donor pool construction is $O(|\mathcal{P}| \cdot |P^*|)$ for set intersection checks.
-Weight estimation is $O(J^2 \cdot t_0)$ for the quadratic form.
-Placebo tests repeat weight estimation $J$ times, each with $J$ donors, giving $O(J \cdot J^2 \cdot t_0)$ total.
+サポート系列の計算はパターンあたり $O(N \cdot |P|)$ を要する．
+ドナープール構築は集合交差チェックに $O(|\mathcal{P}| \cdot |P^*|)$ を要する．
+重み推定は二次形式に $O(J^2 \cdot t_0)$ を要する．
+プラセボ検定は重み推定を $J$ 回繰り返し，各回 $J$ 個のドナーを用いるため，合計 $O(J \cdot J^2 \cdot t_0)$ となる．
 \end{proof}

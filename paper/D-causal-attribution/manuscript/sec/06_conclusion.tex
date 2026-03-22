@@ -1,20 +1,20 @@
-\section{Conclusion}
+\section{結論}
 \label{sec:conclusion}
 
-We introduced SC-DenseAttrib, the first method to apply the Synthetic Control Method to pattern support time series for causal attribution of support changes to external events.
-Our framework formalizes four key concepts---Donor Pool, Counterfactual Support Trajectory, Causal Effect on Support, and Item-Disjoint Pattern Control---and provides theoretical guarantees under parallel trends.
+本研究では，パターンサポート時系列に合成コントロール法を適用し，サポート変動を外部イベントに因果帰属するための初の手法 SC-DenseAttrib を提案した．
+本フレームワークは4つの主要概念---ドナープール，反事実サポート軌跡，サポートに対する因果効果，およびアイテム非共有パターン制御---を形式化し，平行トレンド仮定のもとでの理論的保証を提供する．
 
-Experiments demonstrated that SC-DenseAttrib:
-(1) accurately recovers causal effects with mean absolute error below 0.04;
-(2) controls the false positive rate at 0\% under the null;
-(3) handles seasonal confounds via the synthetic control construction; and
-(4) provides interpretable counterfactual trajectories that simple permutation tests cannot offer.
+実験により，SC-DenseAttrib が以下を達成することが示された：
+(1) 平均絶対誤差 0.04 未満で因果効果を正確に回復する；
+(2) 帰無仮説下で偽陽性率を 0\% に制御する；
+(3) 合成コントロール構成により季節性の交絡を処理する；
+(4) 単純な置換検定では得られない解釈可能な反事実軌跡を提供する．
 
-The primary limitation is the dependence on donor pool size for statistical power: at least 20 item-disjoint donors are needed for $p < 0.05$.
-This requirement may be challenging in datasets with few items or highly correlated pattern supports.
+主な制約は，統計的検出力がドナープールサイズに依存することである：$p < 0.05$ には少なくとも20個のアイテム非共有ドナーが必要となる．
+アイテム数が少ないデータセットや，パターンサポート間の相関が高い場合には，この要件が困難となり得る．
 
-Future work includes:
-(1) extending to multiple simultaneous interventions via augmented SCM;
-(2) relaxing the item-disjointness criterion using conditional independence tests;
-(3) integrating with the dense interval detection pipeline for fully automated causal attribution; and
-(4) application to real-world retail and healthcare datasets.
+今後の研究課題として以下が挙げられる：
+(1) 拡張 SCM による複数同時介入への拡張；
+(2) 条件付き独立性検定によるアイテム非共有基準の緩和；
+(3) 密集区間検出パイプラインとの統合による完全自動化された因果帰属；
+(4) 実世界の小売・医療データセットへの適用．

@@ -1,25 +1,25 @@
-\section{Introduction}
+\section{はじめに}
 \label{sec:introduction}
 
-Frequent itemset mining~\cite{agrawal1994fast} has been a cornerstone of knowledge discovery in databases for three decades.
-While classical algorithms discover itemsets that satisfy a global minimum support threshold, recent work has extended this framework to the temporal dimension: sliding-window approaches identify intervals during which a pattern's support is locally dense, even if its global support is unremarkable.
+頻出アイテムセットマイニング~\cite{agrawal1994fast}は，データベースからの知識発見における30年来の基盤技術である．
+古典的なアルゴリズムは大域的な最小サポート閾値を満たすアイテムセットを発見するが，近年の研究ではこの枠組みを時間方向に拡張し，パターンのサポートが局所的に密集する区間を，大域サポートが目立たなくても特定するスライディングウィンドウ手法が開発されている．
 
-A natural follow-up question arises once dense intervals are detected: \emph{why} did the support increase?
-In retail analytics, a product bundle may exhibit elevated co-purchase frequency during a promotional campaign.
-In healthcare, a drug combination may show increased co-prescription during a policy change.
-Establishing that the event \emph{caused} the support change---rather than merely coinciding with it---is crucial for actionable decision-making.
+密集区間が検出されると，自然に次の問いが生じる：サポートは\emph{なぜ}上昇したのか？
+小売分析では，商品バンドルがプロモーションキャンペーン期間中に共同購入頻度の上昇を示すことがある．
+医療分野では，薬剤の組み合わせが政策変更時に共同処方の増加を示すことがある．
+イベントがサポート変動を\emph{引き起こした}のか，それとも単に時間的に一致しただけなのかを確立することは，実行可能な意思決定にとって極めて重要である．
 
-Existing approaches to temporal pattern analysis are largely correlational.
-Phase~2 pipelines (change-point detection followed by permutation testing) can detect statistically significant support changes but cannot distinguish causal effects from confounding trends.
-The \emph{Rubin Causal Model}~\cite{rubin1974estimating} provides the theoretical foundation for causal inference: the causal effect is the difference between the observed outcome and the counterfactual outcome that would have occurred without the intervention.
-The Synthetic Control Method (SCM)~\cite{abadie2010synthetic} operationalizes this idea for aggregate time series by constructing the counterfactual as a weighted average of untreated units.
+時間パターン分析への既存のアプローチは概ね相関的である．
+Phase~2 パイプライン（変化点検出に続く置換検定）は統計的に有意なサポート変動を検出できるが，因果効果と交絡トレンドを区別することはできない．
+\emph{Rubin因果モデル}~\cite{rubin1974estimating}は因果推論の理論的基盤を提供する：因果効果とは，観測された結果と，介入がなかった場合に生じたであろう反事実的結果との差として定義される．
+合成コントロール法（SCM）~\cite{abadie2010synthetic}は，反事実を未処置ユニットの重み付き平均として構成することで，この考えを集約時系列に対して実用化したものである．
 
-In this paper, we bridge the gap between pattern mining and causal inference by applying SCM to pattern support time series.
-Our contributions are:
+本論文では，SCM をパターンサポート時系列に適用することで，パターンマイニングと因果推論のギャップを架橋する．
+本研究の貢献は以下の通りである：
 
 \begin{enumerate}
-    \item We formalize the problem of \textbf{causal attribution for dense patterns}, defining key concepts including Donor Pool, Counterfactual Support Trajectory, Causal Effect on Support, and Item-Disjoint Pattern Control (\Cref{sec:problem}).
-    \item We propose \textbf{SC-DenseAttrib}, an algorithm that constructs a donor pool of item-disjoint patterns, estimates synthetic control weights via constrained optimization, and provides placebo-based inference (\Cref{sec:algorithm}).
-    \item We prove that the estimator is \textbf{unbiased under parallel trends} and that placebo tests yield exact p-values (\Cref{sec:problem}).
-    \item We conduct comprehensive experiments demonstrating accurate effect recovery, conservative false positive control, and interpretable counterfactual trajectories (\Cref{sec:experiments}).
+    \item \textbf{密集パターンの因果帰属問題}を形式化し，ドナープール，反事実サポート軌跡，サポートに対する因果効果，およびアイテム非共有パターン制御を含む主要概念を定義する（\Cref{sec:problem}）．
+    \item アイテム非共有パターンのドナープールを構成し，制約付き最適化により合成コントロール重みを推定し，プラセボベースの推論を提供するアルゴリズム \textbf{SC-DenseAttrib} を提案する（\Cref{sec:algorithm}）．
+    \item 推定量が\textbf{平行トレンド仮定のもとで不偏}であること，およびプラセボ検定が正確なp値を与えることを証明する（\Cref{sec:problem}）．
+    \item 正確な効果回復，保守的な偽陽性制御，および解釈可能な反事実軌跡を示す包括的な実験を実施する（\Cref{sec:experiments}）．
 \end{enumerate}

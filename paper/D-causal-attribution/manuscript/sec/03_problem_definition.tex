@@ -1,87 +1,87 @@
-\section{Problem Definition}
+\section{問題定義}
 \label{sec:problem}
 
-\subsection{Preliminaries}
+\subsection{準備}
 
-Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a set of items.
-A \emph{transaction} $T \subseteq \mathcal{I}$ is a subset of items.
-A \emph{transaction sequence} $\mathcal{D} = (T_1, T_2, \ldots, T_N)$ is an ordered collection of $N$ transactions indexed by time.
-An \emph{itemset} (or \emph{pattern}) $P \subseteq \mathcal{I}$ is a non-empty subset of items.
+$\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ をアイテムの集合とする．
+\emph{トランザクション} $T \subseteq \mathcal{I}$ はアイテムの部分集合である．
+\emph{トランザクション系列} $\mathcal{D} = (T_1, T_2, \ldots, T_N)$ は，時間順に索引付けされた $N$ 個のトランザクションの順序付き集合である．
+\emph{アイテムセット}（または\emph{パターン}）$P \subseteq \mathcal{I}$ はアイテムの空でない部分集合である．
 
-\begin{definition}[Windowed Support]
+\begin{definition}[ウィンドウサポート]
 \label{def:windowed-support}
-For a pattern $P$ and window size $W \in \mathbb{N}^+$, the \emph{windowed support} at position $t$ is:
+パターン $P$ とウィンドウサイズ $W \in \mathbb{N}^+$ に対して，位置 $t$ における\emph{ウィンドウサポート}は以下で定義される：
 \begin{equation}
     \sigma_P(t) = \frac{|\{i \in [t, t+W) : P \subseteq T_i\}|}{W}, \quad t \in [1, N-W+1]
 \end{equation}
-The resulting sequence $\mathbf{s}_P = (\sigma_P(1), \ldots, \sigma_P(N-W+1))$ is the \emph{support time series} of $P$.
+得られる系列 $\mathbf{s}_P = (\sigma_P(1), \ldots, \sigma_P(N-W+1))$ を $P$ の\emph{サポート時系列}と呼ぶ．
 \end{definition}
 
-\subsection{Causal Attribution Framework}
+\subsection{因果帰属フレームワーク}
 
-We model the intervention as occurring at a known time $t_0$.
-Our goal is to estimate the causal effect of this intervention on the support of a \emph{treated pattern} $P^*$.
+介入は既知の時刻 $t_0$ に発生するものとする．
+目的は，\emph{処置パターン} $P^*$ のサポートに対するこの介入の因果効果を推定することである．
 
-\begin{definition}[Donor Pool]
+\begin{definition}[ドナープール]
 \label{def:donor-pool}
-Given a treated pattern $P^*$ and a set of candidate patterns $\mathcal{P}$, the \emph{donor pool} is:
+処置パターン $P^*$ と候補パターン集合 $\mathcal{P}$ が与えられたとき，\emph{ドナープール}は以下で定義される：
 \begin{equation}
     \mathcal{D}(P^*) = \{P \in \mathcal{P} : P \cap P^* = \emptyset\}
 \end{equation}
-where $P \cap P^*$ denotes the intersection of item sets.
-Patterns in the donor pool share no items with $P^*$.
+ここで $P \cap P^*$ はアイテム集合の共通部分を表す．
+ドナープール内のパターンは $P^*$ とアイテムを共有しない．
 \end{definition}
 
-The rationale for item disjointness is that patterns sharing items with $P^*$ may be directly affected by the same intervention (e.g., a promotion on item $i \in P^*$ would also affect any pattern containing $i$).
+アイテム非共有の根拠は，$P^*$ とアイテムを共有するパターンが同じ介入の直接的影響を受ける可能性があることにある（例：$i \in P^*$ に対するプロモーションは $i$ を含む全てのパターンに影響する）．
 
-\begin{definition}[Counterfactual Support Trajectory]
+\begin{definition}[反事実サポート軌跡]
 \label{def:counterfactual}
-Given the donor pool $\mathcal{D}(P^*) = \{P_1, \ldots, P_J\}$, the \emph{counterfactual support trajectory} is:
+ドナープール $\mathcal{D}(P^*) = \{P_1, \ldots, P_J\}$ が与えられたとき，\emph{反事実サポート軌跡}は以下で定義される：
 \begin{equation}
     \hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_{j=1}^{J} w_j \cdot \sigma_{P_j}(t), \quad t \geq t_0
 \end{equation}
-where weights $\mathbf{w}^* = (w_1^*, \ldots, w_J^*)$ minimize the pre-intervention prediction error:
+ここで重み $\mathbf{w}^* = (w_1^*, \ldots, w_J^*)$ は介入前の予測誤差を最小化する：
 \begin{equation}
     \mathbf{w}^* = \arg\min_{\mathbf{w} \in \Delta^J} \sum_{t=1}^{t_0-1} \left(\sigma_{P^*}(t) - \sum_{j=1}^{J} w_j \cdot \sigma_{P_j}(t)\right)^2
     \label{eq:weight-opt}
 \end{equation}
-subject to the simplex constraint $\Delta^J = \{\mathbf{w} : w_j \geq 0, \sum_j w_j = 1\}$.
+ただし，単体制約 $\Delta^J = \{\mathbf{w} : w_j \geq 0, \sum_j w_j = 1\}$ に従う．
 \end{definition}
 
-\begin{definition}[Causal Effect on Support]
+\begin{definition}[サポートに対する因果効果]
 \label{def:causal-effect}
-The \emph{causal effect} at time $t \geq t_0$ is:
+時刻 $t \geq t_0$ における\emph{因果効果}は以下で定義される：
 \begin{equation}
     \tau(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)
 \end{equation}
-The \emph{cumulative causal effect} is $\mathcal{T} = \sum_{t=t_0}^{T} \tau(t)$.
+\emph{累積因果効果}は $\mathcal{T} = \sum_{t=t_0}^{T} \tau(t)$ である．
 \end{definition}
 
-\begin{definition}[Item-Disjoint Pattern Control]
+\begin{definition}[アイテム非共有パターン制御]
 \label{def:item-disjoint}
-A pattern $P_j$ is a valid \emph{item-disjoint control} for $P^*$ if:
+パターン $P_j$ が $P^*$ に対する妥当な\emph{アイテム非共有制御}であるとは，以下の条件を満たすときをいう：
 \begin{enumerate}
-    \item $P_j \cap P^* = \emptyset$ (item disjointness), and
-    \item the pre-intervention RMSPE of fitting $\sigma_{P_j}$ to $\sigma_{P^*}$ is below a threshold $\delta$.
+    \item $P_j \cap P^* = \emptyset$（アイテム非共有），かつ
+    \item $\sigma_{P_j}$ を $\sigma_{P^*}$ にフィッティングした際の介入前 RMSPE が閾値 $\delta$ 未満である．
 \end{enumerate}
 \end{definition}
 
-\subsection{Theoretical Guarantees}
+\subsection{理論的保証}
 
-\begin{theorem}[Unbiasedness under Parallel Trends]
+\begin{theorem}[平行トレンド仮定のもとでの不偏性]
 \label{thm:unbiased}
-Assume that absent the intervention, the treated pattern's support trajectory satisfies:
+介入がない場合に，処置パターンのサポート軌跡が以下を満たすと仮定する：
 \begin{equation}
     \sigma_{P^*}^{(0)}(t) = \sum_{j=1}^{J} w_j^* \cdot \sigma_{P_j}(t) + \epsilon_t, \quad \mathbb{E}[\epsilon_t] = 0
 \end{equation}
-for all $t \geq t_0$, where $\sigma_{P^*}^{(0)}$ denotes the potential outcome without intervention.
-Then $\hat{\tau}(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)$ is an unbiased estimator of the true causal effect $\tau^*(t) = \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t)$.
+ここで $\sigma_{P^*}^{(0)}$ は介入なしの潜在的結果を表す．すべての $t \geq t_0$ に対してこれが成り立つとき，
+$\hat{\tau}(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)$ は真の因果効果 $\tau^*(t) = \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t)$ の不偏推定量である．
 \end{theorem}
 
 \begin{proof}
-By construction, $\hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_j w_j^* \sigma_{P_j}(t)$.
-Under the assumption, $\sigma_{P^*}^{(0)}(t) = \sum_j w_j^* \sigma_{P_j}(t) + \epsilon_t$.
-Therefore:
+構成により $\hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_j w_j^* \sigma_{P_j}(t)$ である．
+仮定より $\sigma_{P^*}^{(0)}(t) = \sum_j w_j^* \sigma_{P_j}(t) + \epsilon_t$ が成り立つ．
+したがって：
 \begin{align}
     \mathbb{E}[\hat{\tau}(t)] &= \mathbb{E}[\sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)] \\
     &= \sigma_{P^*}(t) - \sum_j w_j^* \sigma_{P_j}(t) \\
@@ -90,18 +90,18 @@ Therefore:
 \end{align}
 \end{proof}
 
-\begin{theorem}[Placebo Test Validity]
+\begin{theorem}[プラセボ検定の妥当性]
 \label{thm:placebo}
-Under the null hypothesis $H_0: \tau^*(t) = 0$ for all $t \geq t_0$, if the post/pre RMSPE ratios of all $J+1$ units (treated + donors) are exchangeable, then the probability that the treated unit's ratio ranks highest is exactly $1/(J+1)$.
+帰無仮説 $H_0: \tau^*(t) = 0$（すべての $t \geq t_0$）のもとで，全 $J+1$ ユニット（処置 + ドナー）の介入後/介入前 RMSPE 比が交換可能であるならば，処置ユニットの比が最大となる確率は正確に $1/(J+1)$ である．
 \end{theorem}
 
 \begin{proof}
-Under $H_0$, the treated unit is statistically indistinguishable from the donors.
-Exchangeability implies that all $(J+1)!$ rankings are equally likely.
-The probability that any specific unit (including the treated) has the highest ratio is $1/(J+1)$.
+$H_0$ のもとでは，処置ユニットはドナーと統計的に区別できない．
+交換可能性により，全 $(J+1)!$ 個の順位付けが等確率である．
+特定のユニット（処置ユニットを含む）が最大の比を持つ確率は $1/(J+1)$ である．
 \end{proof}
 
 \begin{corollary}
-The minimum achievable p-value from placebo tests with $J$ donors is $1/(J+1)$.
-To achieve $p < 0.05$, at least $J \geq 19$ donors are required.
+$J$ 個のドナーによるプラセボ検定で達成可能な最小p値は $1/(J+1)$ である．
+$p < 0.05$ を達成するには，少なくとも $J \geq 19$ 個のドナーが必要である．
 \end{corollary}

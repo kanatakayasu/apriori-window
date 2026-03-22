@@ -1,33 +1,33 @@
-\section{Related Work}
+\section{関連研究}
 \label{sec:related}
 
-\subsection{Temporal Pattern Mining}
+\subsection{時間パターンマイニング}
 
-Frequent itemset mining originates with the Apriori algorithm~\cite{agrawal1994fast}, which exploits the downward closure property for efficient candidate generation.
-FP-Growth~\cite{han2000mining} improved efficiency via a compressed data structure.
-Temporal extensions include sequential pattern mining~\cite{agrawal1995mining}, periodic pattern mining, and sliding-window approaches that compute local support within fixed-width windows.
+頻出アイテムセットマイニングは Apriori アルゴリズム~\cite{agrawal1994fast}に端を発し，下方閉包性を利用した効率的な候補生成を行う．
+FP-Growth~\cite{han2000mining}は圧縮データ構造により効率を改善した．
+時間方向の拡張には，系列パターンマイニング~\cite{agrawal1995mining}，周期パターンマイニング，および固定幅ウィンドウ内の局所サポートを計算するスライディングウィンドウ手法がある．
 
-Our prior work detects \emph{dense intervals}---contiguous periods where a pattern's windowed support exceeds a threshold---and identifies the start and end points of such intervals.
-However, detecting \emph{when} support changes does not explain \emph{why} it changed.
+我々の先行研究では，パターンのウィンドウサポートが閾値を超える連続期間である\emph{密集区間}を検出し，その開始点と終了点を特定する．
+しかし，サポートが\emph{いつ}変化したかを検出することは，\emph{なぜ}変化したかを説明するものではない．
 
-\subsection{Causal Inference for Time Series}
+\subsection{時系列に対する因果推論}
 
-The Rubin Causal Model~\cite{rubin1974estimating} defines the causal effect as the difference between potential outcomes under treatment and control.
-For observational time series, three main approaches exist:
+Rubin因果モデル~\cite{rubin1974estimating}は，因果効果を処置群と対照群のもとでの潜在的結果の差として定義する．
+観測時系列に対しては，主に3つのアプローチが存在する：
 
-\paragraph{Difference-in-Differences (DiD)} assumes parallel trends between treated and control groups~\cite{card1994minimum, angrist2009mostly}.
-DiD requires a single control group with identical pre-treatment trends, which is restrictive for pattern support data where no single control pattern may match the treated pattern's trajectory.
+\paragraph{差の差法（DiD）} 処置群と対照群の間で平行トレンドを仮定する~\cite{card1994minimum, angrist2009mostly}．
+DiD は介入前トレンドが同一の単一対照群を必要とするが，パターンサポートデータでは，処置パターンの軌跡と一致する単一の制御パターンが存在しない可能性があり，制約が大きい．
 
-\paragraph{Synthetic Control Method (SCM)} constructs a weighted average of multiple control units to match the treated unit's pre-intervention trajectory~\cite{abadie2003economic, abadie2010synthetic, abadie2015comparative}.
-SCM is more flexible than DiD because it accommodates heterogeneous controls and provides transparency through the weight vector.
-Inference is typically conducted via placebo tests~\cite{abadie2010synthetic}.
+\paragraph{合成コントロール法（SCM）} 複数の制御ユニットの重み付き平均を構成し，処置ユニットの介入前軌跡を再現する~\cite{abadie2003economic, abadie2010synthetic, abadie2015comparative}．
+SCM は異質な制御ユニットを許容し，重みベクトルを通じた透明性を提供するため，DiD より柔軟である．
+推論は通常プラセボ検定により行われる~\cite{abadie2010synthetic}．
 
-\paragraph{Bayesian Structural Time Series (BSTS)} uses a state-space model to estimate the counterfactual~\cite{brodersen2015inferring}.
-The CausalImpact framework provides posterior intervals for the causal effect.
-While powerful, BSTS requires specification of a generative model, which may not be natural for pattern support data.
+\paragraph{ベイズ構造時系列モデル（BSTS）} 状態空間モデルを用いて反事実を推定する~\cite{brodersen2015inferring}．
+CausalImpact フレームワークは因果効果の事後区間を提供する．
+強力な手法であるが，BSTS は生成モデルの仕様を必要とし，パターンサポートデータに対しては自然な選択とは言えない場合がある．
 
-\subsection{Gap: Causal Inference for Pattern Mining}
+\subsection{ギャップ：パターンマイニングに対する因果推論}
 
-To the best of our knowledge, no prior work applies causal inference methods---SCM, DiD, or BSTS---to pattern support time series.
-The challenge is twofold: (1) defining valid control units for a pattern, and (2) ensuring that the parallel trends assumption holds.
-We address both challenges by introducing \emph{item-disjoint pattern controls}.
+我々の知る限り，パターンサポート時系列に因果推論手法（SCM，DiD，BSTS）を適用した先行研究は存在しない．
+課題は二つある：(1) パターンに対する妥当な制御ユニットの定義，(2) 平行トレンド仮定の保証である．
+本研究では，\emph{アイテム非共有パターン制御}を導入することで，両方の課題に対処する．
