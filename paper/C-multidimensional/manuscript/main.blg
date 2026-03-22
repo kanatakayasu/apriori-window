@@ -1,0 +1,73 @@
+This is BibTeX, Version 0.99d (TeX Live 2024)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: ../research/refs.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty publisher in agrawal1994apriori
+Warning--empty address in agrawal1994apriori
+Warning--empty publisher in ankerst1999optics
+Warning--empty address in ankerst1999optics
+Warning--empty address in edelsbrunner2010computational
+Warning--empty publisher in ester1996dbscan
+Warning--empty address in ester1996dbscan
+Warning--empty publisher in matheny2016scalable
+Warning--empty address in matheny2016scalable
+Warning--can't use both volume and number fields in neill2012fast
+Warning--empty publisher in neill2012fast
+Warning--empty address in neill2012fast
+Warning--no number and no volume in shamos1976geometric
+Warning--no number and no volume in shekhar2001colocation
+Warning--empty publisher in shin2017dcube
+Warning--empty address in shin2017dcube
+Warning--empty publisher in shin2017densealert
+Warning--empty address in shin2017densealert
+You've used 15 entries,
+            5981 wiz_defined-function locations,
+            1562 strings with 20037 characters,
+and the built_in function-call counts, 17559 in all, are:
+= -- 2290
+> -- 440
+< -- 0
++ -- 148
+- -- 164
+* -- 1105
+:= -- 1606
+add.period$ -- 76
+call.type$ -- 15
+change.case$ -- 96
+chr.to.int$ -- 14
+cite$ -- 33
+duplicate$ -- 1650
+empty$ -- 1158
+format.name$ -- 207
+if$ -- 4386
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 65
+newline$ -- 153
+num.names$ -- 104
+pop$ -- 662
+preamble$ -- 1
+purify$ -- 214
+quote$ -- 0
+skip$ -- 597
+stack$ -- 0
+substring$ -- 1409
+swap$ -- 172
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 331
+warning$ -- 18
+while$ -- 123
+width$ -- 0
+write$ -- 318
+(There were 18 warnings)

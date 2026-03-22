@@ -10,9 +10,12 @@
 \usepackage{multirow}
 \usepackage{xcolor}
 \usepackage{subcaption}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
 
-\newtheorem{remark}{Remark}
-\newtheorem{problem}{Problem}
+\newtheorem{remark}{注意}
+\newtheorem{problem}{問題}
 
 \setcopyright{none}
 \settopmatter{printacmref=false}
@@ -21,7 +24,7 @@
 
 \begin{document}
 
-\title{Multi-Dimensional Dense Region Mining:\\From Intervals to Level Sets of Support Surfaces}
+\title{多次元密集領域マイニング：\\区間からサポート曲面のレベル集合へ}
 
 \author{Anonymous Author(s)}
 \affiliation{%
@@ -30,99 +33,99 @@
 }
 
 \begin{abstract}
-Dense interval detection in frequent pattern mining identifies temporal periods where itemset support exceeds a threshold.
-However, real-world data often possesses additional dimensions---spatial location, customer demographics, product category---where dense regions form irregular shapes rather than simple intervals.
-We introduce the \emph{support surface}, a multi-dimensional generalization of the support time series, and define \emph{dense regions} as connected components of its superlevel set.
-We prove the \emph{Dense Region Containment Theorem}, which extends the Apriori anti-monotonicity property to arbitrary dimensions and enables candidate region pruning.
-We further formalize \emph{dimension decomposability}, providing sufficient conditions under which the multi-dimensional problem decomposes into independent 1D sub-problems.
-We present the \emph{Sweep Surface} algorithm that combines prefix-sum computation with union-find connected component labeling, achieving $O(G \cdot \alpha(G))$ complexity where $G$ is the grid size.
-Experiments on synthetic and semi-realistic retail datasets demonstrate:
-(1) perfect recovery of planted dense regions,
-(2) up to 2$\times$ speedup of sweep surface over na\"ive enumeration,
-(3) scalability to million-cell grids in 3D, and
-(4) discovery of interpretable spatiotemporal patterns in simulated retail scenarios.
+頻出パターンマイニングにおける密集区間検出は、アイテムセットのサポートが閾値を超える時間的期間を特定する手法である。
+しかし、現実のデータは空間的位置、顧客属性、商品カテゴリなどの追加次元を持つことが多く、密集領域は単純な区間ではなく不規則な形状をとる。
+本研究では、サポート時系列の多次元一般化である\emph{サポート曲面}を導入し、その上位レベル集合の連結成分として\emph{密集領域}を定義する。
+Apriori の反単調性を任意の次元に拡張する\emph{密集領域包含定理}を証明し、候補領域の枝刈りを可能にする。
+さらに、多次元問題が独立な1次元部分問題に分解できる十分条件を与える\emph{次元分解可能性}を形式化する。
+接頭辞和計算とUnion-Find連結成分ラベリングを組み合わせた\emph{Sweep Surface}アルゴリズムを提案し、グリッドサイズを$G$として$O(G \cdot \alpha(G))$の計算量を達成する。
+合成データおよび半現実的な小売データセットでの実験により、
+(1) 埋め込まれた密集領域の完全な復元、
+(2) 素朴な列挙に対するSweep Surfaceの最大2倍の高速化、
+(3) 3次元における100万セルグリッドへのスケーラビリティ、
+(4) シミュレートされた小売シナリオにおける解釈可能な時空間パターンの発見を実証する。
 \end{abstract}
 
-\keywords{dense region mining, support surface, multi-dimensional patterns, sweep algorithm, superlevel sets}
+\keywords{密集領域マイニング, サポート曲面, 多次元パターン, スイープアルゴリズム, 上位レベル集合}
 
 \maketitle
 
 % ==============================================================
-\section{Introduction}\label{sec:intro}
+\section{はじめに}\label{sec:intro}
 % ==============================================================
 
-Frequent pattern mining~\cite{agrawal1994apriori,han2000mining} is a cornerstone of data mining, identifying itemsets that appear together frequently in transaction databases.
-While most work assumes a single aggregate support threshold, real-world patterns exhibit temporal variation---a product bundle may be popular during a holiday season but rare otherwise.
-The \emph{dense interval} framework addresses this by computing a support time series and identifying contiguous temporal windows where support exceeds a threshold.
+頻出パターンマイニング~\cite{agrawal1994apriori,han2000mining}はデータマイニングの基盤技術であり、トランザクションデータベースにおいて頻繁に共起するアイテムセットを特定する。
+多くの研究は単一の集約サポート閾値を前提としているが、現実のパターンは時間的変動を示す---ある商品の組み合わせが休日シーズンには人気があるが、それ以外の時期には稀であるなどの例がある。
+\emph{密集区間}フレームワークは、サポート時系列を計算し、サポートが閾値を超える連続的な時間窓を特定することで、この問題に対処する。
 
-However, many practical settings involve multiple contextual dimensions beyond time.
-A retail chain may observe that a product combination is popular during summer (temporal) in urban stores (spatial) but not in rural ones.
-Epidemiological surveillance seeks space-time clusters of disease incidence.
-In these settings, the relevant concept is not a 1D interval but a multi-dimensional \emph{dense region}: an arbitrarily shaped connected area in the space of contextual dimensions where pattern support is elevated.
+しかし、多くの実践的な場面では、時間以外にも複数の文脈次元が関与する。
+小売チェーンでは、ある商品の組み合わせが夏季（時間的）に都市部の店舗（空間的）で人気があるが、農村部では人気がないことを観察するかもしれない。
+疫学的サーベイランスでは、疾病発生率の時空間クラスターを探索する。
+これらの場面では、関連する概念は1次元の区間ではなく、パターンサポートが高い文脈次元の空間における任意の形状の連結領域である多次元\emph{密集領域}である。
 
-Existing approaches address related but distinct problems.
-\textbf{Spatial scan statistics}~\cite{kulldorff1997spatial,kulldorff2001prospective} detect clusters in point processes but are restricted to circular or cylindrical scanning windows and do not handle itemset patterns.
-\textbf{Dense subtensor mining}~\cite{shin2017densealert,shin2018mzoom} finds dense blocks in multi-dimensional arrays but only axis-aligned rectangles, missing irregular region shapes.
-\textbf{Density-based clustering}~\cite{ester1996dbscan,ankerst1999optics} discovers clusters of arbitrary shape in point data, but operates on raw data points rather than derived support functions.
-\textbf{Co-location pattern mining}~\cite{shekhar2001colocation} identifies spatially associated feature types but lacks temporal dynamics and the notion of a continuous support surface.
+既存のアプローチは関連するが異なる問題を扱っている。
+\textbf{空間スキャン統計}~\cite{kulldorff1997spatial,kulldorff2001prospective}は点過程におけるクラスターを検出するが、円形または円筒形のスキャン窓に限定されており、アイテムセットパターンを扱えない。
+\textbf{密部分テンソルマイニング}~\cite{shin2017densealert,shin2018mzoom}は多次元配列における密ブロックを検出するが、軸に沿った矩形のみを扱い、不規則な領域形状を見逃す。
+\textbf{密度ベースクラスタリング}~\cite{ester1996dbscan,ankerst1999optics}は点データにおける任意形状のクラスターを発見するが、導出されたサポート関数ではなく生データ点に対して動作する。
+\textbf{共位置パターンマイニング}~\cite{shekhar2001colocation}は空間的に関連する特徴型を特定するが、時間的動態と連続サポート曲面の概念が欠けている。
 
-We bridge these gaps by introducing the \emph{support surface}---a function $S_P(t, \mathbf{v})$ that counts the support of pattern $P$ within a sliding window at each point $(t, \mathbf{v})$ in the multi-dimensional domain.
-Dense regions are then naturally defined as connected components of the superlevel set $\{(t, \mathbf{v}) : S_P(t, \mathbf{v}) \geq \theta\}$.
-This formulation generalizes 1D dense intervals, connects to topological data analysis via persistent homology~\cite{edelsbrunner2010computational}, and enables efficient algorithms based on sweep techniques from computational geometry~\cite{shamos1976geometric}.
+本研究では、パターン$P$のサポートを多次元領域の各点$(t, \mathbf{v})$においてスライディングウィンドウ内で計数する関数$S_P(t, \mathbf{v})$である\emph{サポート曲面}を導入することで、これらのギャップを埋める。
+密集領域は上位レベル集合$\{(t, \mathbf{v}) : S_P(t, \mathbf{v}) \geq \theta\}$の連結成分として自然に定義される。
+この定式化は1次元の密集区間を一般化し、永続ホモロジー~\cite{edelsbrunner2010computational}を通じてトポロジカルデータ解析と接続し、計算幾何学~\cite{shamos1976geometric}のスイープ技法に基づく効率的なアルゴリズムを可能にする。
 
-\paragraph{Contributions.}
+\paragraph{貢献.}
 \begin{enumerate}
-\item We formalize the \textbf{support surface} and \textbf{dense region} concepts for multi-dimensional transaction data (Section~\ref{sec:problem}).
+\item 多次元トランザクションデータに対する\textbf{サポート曲面}と\textbf{密集領域}の概念を形式化する（\ref{sec:problem}節）。
 
-\item We prove the \textbf{Dense Region Containment Theorem}, extending Apriori anti-monotonicity to multi-dimensional regions, enabling pruning during mining (Section~\ref{sec:problem}).
+\item Aprioriの反単調性を多次元領域に拡張する\textbf{密集領域包含定理}を証明し、マイニング時の枝刈りを可能にする（\ref{sec:problem}節）。
 
-\item We introduce \textbf{dimension decomposability}, a property that enables factoring the multi-dimensional problem into independent 1D sub-problems when the support surface is approximately separable (Section~\ref{sec:problem}).
+\item サポート曲面が近似的に分離可能な場合に多次元問題を独立な1次元部分問題に分解できる性質である\textbf{次元分解可能性}を導入する（\ref{sec:problem}節）。
 
-\item We present the \textbf{Sweep Surface algorithm} with $O(G \cdot \alpha(G))$ complexity for dense region extraction, where $G$ is the grid size and $\alpha$ is the inverse Ackermann function (Section~\ref{sec:method}).
+\item グリッドサイズ$G$と逆Ackermann関数$\alpha$に対して$O(G \cdot \alpha(G))$の計算量を持つ\textbf{Sweep Surfaceアルゴリズム}を提案する（\ref{sec:method}節）。
 
-\item We conduct comprehensive experiments demonstrating effectiveness, scalability, and practical utility (Section~\ref{sec:experiments}).
+\item 有効性、スケーラビリティ、実用性を実証する包括的な実験を行う（\ref{sec:experiments}節）。
 \end{enumerate}
 
 % ==============================================================
-% Problem Definition (from sec/03_problem_definition.tex)
+% 問題定義（sec/03_problem_definition.tex より）
 % ==============================================================
 \input{sec/03_problem_definition}
 
 % ==============================================================
-\section{Proposed Method}\label{sec:method}
+\section{提案手法}\label{sec:method}
 % ==============================================================
 
-We present two algorithms for solving Problem~\ref{prob:main}: the \emph{Sweep Surface} algorithm for the general case and a \emph{Decomposed} algorithm when the support surface is approximately separable.
+問題~\ref{prob:main}を解くための2つのアルゴリズムを提案する：一般的な場合の\emph{Sweep Surface}アルゴリズムと、サポート曲面が近似的に分離可能な場合の\emph{分解}アルゴリズムである。
 
-\subsection{Support Surface Computation}
+\subsection{サポート曲面の計算}
 
-\paragraph{Na\"ive approach.}
-For each grid point $(t, \mathbf{v})$, iterate over all transactions in the window $[t, t+W_0) \times \mathrm{Box}(\mathbf{v}, \mathbf{W})$ and count those containing pattern $P$.
-This requires $O(G \cdot N)$ time, which is prohibitive for large datasets.
+\paragraph{素朴なアプローチ.}
+各グリッド点$(t, \mathbf{v})$に対して、窓$[t, t+W_0) \times \mathrm{Box}(\mathbf{v}, \mathbf{W})$内のすべてのトランザクションを走査し、パターン$P$を含むものを計数する。
+これには$O(G \cdot N)$の時間を要し、大規模データセットでは非実用的である。
 
-\paragraph{Prefix-sum approach.}
-We first build a $(k{+}1)$-dimensional indicator array $I$ where $I[t, \mathbf{x}(t)]$ counts transactions at grid position $(t, \mathbf{x}(t))$ that contain $P$.
-We then compute prefix sums along each dimension.
-The support at any grid point is obtained by inclusion-exclusion on $2^{k+1}$ corners of the prefix sum array, requiring $O(G \cdot 2^{k+1} + N)$ total time.
+\paragraph{接頭辞和アプローチ.}
+まず、$(k{+}1)$次元の指示配列$I$を構築する。ここで$I[t, \mathbf{x}(t)]$はグリッド位置$(t, \mathbf{x}(t))$において$P$を含むトランザクションの数を計数する。
+次に各次元に沿って接頭辞和を計算する。
+任意のグリッド点でのサポートは、接頭辞和配列の$2^{k+1}$個の角に対する包除原理により得られ、全体で$O(G \cdot 2^{k+1} + N)$の時間を要する。
 
-\subsection{Dense Region Extraction}
+\subsection{密集領域の抽出}
 
-Given the support surface $S_P$, we extract dense regions using Algorithm~\ref{alg:sweep}.
+サポート曲面$S_P$が与えられた場合、アルゴリズム~\ref{alg:sweep}を用いて密集領域を抽出する。
 
 \begin{algorithm}[t]
-\caption{Sweep Surface Dense Region Detection}
+\caption{Sweep Surface密集領域検出}
 \label{alg:sweep}
 \begin{algorithmic}[1]
-\REQUIRE Support surface $S_P$, threshold $\theta$, grid shape $(T_0, T_1, \ldots, T_k)$
-\ENSURE Set of dense regions $\mathcal{R}_\theta(P)$
-\STATE Initialize UnionFind $U$ with $G = \prod_j T_j$ elements
+\REQUIRE サポート曲面 $S_P$、閾値 $\theta$、グリッド形状 $(T_0, T_1, \ldots, T_k)$
+\ENSURE 密集領域の集合 $\mathcal{R}_\theta(P)$
+\STATE UnionFind $U$ を $G = \prod_j T_j$ 個の要素で初期化
 \STATE $\textit{above} \leftarrow \emptyset$
 \FOR{$t = 0$ to $T_0 - 1$}
-    \FOR{each $\mathbf{v}$ in slice at position $t$}
+    \FOR{位置 $t$ のスライスにおける各 $\mathbf{v}$}
         \IF{$S_P(t, \mathbf{v}) \geq \theta$}
             \STATE $f \leftarrow \textsc{FlatIndex}(t, \mathbf{v})$
             \STATE $\textit{above} \leftarrow \textit{above} \cup \{f\}$
-            \FOR{each grid neighbor $\mathbf{n}$ of $(t, \mathbf{v})$}
+            \FOR{$(t, \mathbf{v})$ の各グリッド隣接点 $\mathbf{n}$}
                 \STATE $f_n \leftarrow \textsc{FlatIndex}(\mathbf{n})$
                 \IF{$f_n \in \textit{above}$}
                     \STATE $U.\textsc{Union}(f, f_n)$
@@ -131,30 +134,30 @@ Given the support surface $S_P$, we extract dense regions using Algorithm~\ref{a
         \ENDIF
     \ENDFOR
 \ENDFOR
-\STATE \textbf{return} connected components of $U$ restricted to \textit{above}
+\STATE \textbf{return} $U$ の \textit{above} に制限された連結成分
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Complexity.}
-Each grid cell is visited once ($O(G)$).
-For each cell above threshold, we check $2(k+1)$ neighbors.
-Each union-find operation is $O(\alpha(G))$.
-Total: $O(G \cdot (k+1) \cdot \alpha(G))$.
-Since $k$ is typically small (2--3) and $\alpha$ is effectively constant, the practical complexity is $O(G)$.
+\paragraph{計算量.}
+各グリッドセルは1回ずつ訪問される（$O(G)$）。
+閾値を超える各セルに対して、$2(k+1)$個の隣接点を確認する。
+各Union-Find操作は$O(\alpha(G))$である。
+合計：$O(G \cdot (k+1) \cdot \alpha(G))$。
+$k$は通常小さく（2--3）、$\alpha$は実質的に定数であるため、実用的な計算量は$O(G)$である。
 
-\subsection{Multi-Dimensional Apriori Mining}
+\subsection{多次元Aprioriマイニング}
 
-The full mining pipeline (Algorithm~\ref{alg:mining}) uses Apriori-style level-wise search with dense region containment pruning.
+完全なマイニングパイプライン（アルゴリズム~\ref{alg:mining}）は、密集領域包含による枝刈りを伴うAprioriスタイルのレベルごとの探索を用いる。
 
 \begin{algorithm}[t]
-\caption{Multi-Dimensional Dense Itemset Mining}
+\caption{多次元密集アイテムセットマイニング}
 \label{alg:mining}
 \begin{algorithmic}[1]
-\REQUIRE Transaction data $D$, window sizes $\mathbf{W}$, threshold $\theta$, max length $L_{\max}$
-\ENSURE All patterns $P$ with $\mathcal{R}_\theta(P) \neq \emptyset$
+\REQUIRE トランザクションデータ $D$、窓サイズ $\mathbf{W}$、閾値 $\theta$、最大長 $L_{\max}$
+\ENSURE $\mathcal{R}_\theta(P) \neq \emptyset$ であるすべてのパターン $P$
 \STATE $\mathcal{F}_1 \leftarrow \emptyset$
-\FOR{each item $i \in \mathcal{I}$}
-    \STATE Compute $S_{\{i\}}$; extract $\mathcal{R}_\theta(\{i\})$
+\FOR{各アイテム $i \in \mathcal{I}$}
+    \STATE $S_{\{i\}}$ を計算; $\mathcal{R}_\theta(\{i\})$ を抽出
     \IF{$\mathcal{R}_\theta(\{i\}) \neq \emptyset$}
         \STATE $\mathcal{F}_1 \leftarrow \mathcal{F}_1 \cup \{\{i\}\}$
     \ENDIF
@@ -163,13 +166,13 @@ The full mining pipeline (Algorithm~\ref{alg:mining}) uses Apriori-style level-w
     \STATE $\mathcal{C}_k \leftarrow \textsc{GenerateCandidates}(\mathcal{F}_{k-1}, k)$
     \STATE $\mathcal{C}_k \leftarrow \textsc{AprioriPrune}(\mathcal{C}_k, \mathcal{F}_{k-1})$
     \STATE $\mathcal{F}_k \leftarrow \emptyset$
-    \FOR{each $P \in \mathcal{C}_k$}
-        \STATE $\mathcal{R}_{\text{cand}} \leftarrow \bigcap_{Q \subset P, |Q|=k-1} \mathcal{L}_\theta(S_Q)$ \COMMENT{Cor.~\ref{cor:candidate_restriction}}
+    \FOR{各 $P \in \mathcal{C}_k$}
+        \STATE $\mathcal{R}_{\text{cand}} \leftarrow \bigcap_{Q \subset P, |Q|=k-1} \mathcal{L}_\theta(S_Q)$ \COMMENT{系~\ref{cor:candidate_restriction}}
         \IF{$\mathcal{R}_{\text{cand}} = \emptyset$}
-            \STATE \textbf{continue} \COMMENT{Pruned by Cor.~\ref{cor:pruning}}
+            \STATE \textbf{continue} \COMMENT{系~\ref{cor:pruning}により枝刈り}
         \ENDIF
-        \STATE Compute $S_P$ restricted to $\mathcal{R}_{\text{cand}}$
-        \STATE Extract $\mathcal{R}_\theta(P)$
+        \STATE $\mathcal{R}_{\text{cand}}$ に制限して $S_P$ を計算
+        \STATE $\mathcal{R}_\theta(P)$ を抽出
         \IF{$\mathcal{R}_\theta(P) \neq \emptyset$}
             \STATE $\mathcal{F}_k \leftarrow \mathcal{F}_k \cup \{P\}$
         \ENDIF
@@ -179,98 +182,98 @@ The full mining pipeline (Algorithm~\ref{alg:mining}) uses Apriori-style level-w
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Decomposition-Aware Variant}
+\subsection{分解を考慮した変形}
 
-When the support surface is approximately dimension-decomposable (Definition~\ref{def:decomposable}), we can exploit Theorem~\ref{thm:decomposition} for significant speedup.
-Our adaptive algorithm first checks decomposability via rank-1 tensor approximation:
+サポート曲面が近似的に次元分解可能（定義~\ref{def:decomposable}）である場合、定理~\ref{thm:decomposition}を活用して大幅な高速化が可能である。
+適応的アルゴリズムはまずランク1テンソル近似により分解可能性を確認する：
 \begin{enumerate}
-\item Compute the rank-1 approximation $\hat{S} = f_0 \otimes f_1 \otimes \cdots \otimes f_k$ (via SVD for 2D, ALS for higher dimensions).
-\item If $\|S - \hat{S}\|_F / \|S\|_F < \epsilon$, use the decomposed algorithm (solve $k{+}1$ independent 1D problems).
-\item Otherwise, fall back to the full sweep surface algorithm.
+\item ランク1近似 $\hat{S} = f_0 \otimes f_1 \otimes \cdots \otimes f_k$ を計算する（2次元の場合はSVD、高次元の場合はALS）。
+\item $\|S - \hat{S}\|_F / \|S\|_F < \epsilon$ であれば、分解アルゴリズムを使用する（$k{+}1$個の独立な1次元問題を解く）。
+\item そうでなければ、完全なSweep Surfaceアルゴリズムにフォールバックする。
 \end{enumerate}
 
 % ==============================================================
-\section{Experiments}\label{sec:experiments}
+\section{実験}\label{sec:experiments}
 % ==============================================================
 
-We evaluate our approach on four experiments designed to answer:
-\textbf{RQ1}: Can the algorithm recover planted dense regions? (E1)
-\textbf{RQ2}: What is the accuracy-speed tradeoff of dimension decomposition? (E2)
-\textbf{RQ3}: How does the algorithm scale? (E3)
-\textbf{RQ4}: Can it discover meaningful patterns in realistic settings? (E4)
+以下の4つの実験を通じて、提案手法を評価する：
+\textbf{RQ1}: アルゴリズムは埋め込まれた密集領域を復元できるか？（E1）
+\textbf{RQ2}: 次元分解の精度と速度のトレードオフは？（E2）
+\textbf{RQ3}: アルゴリズムのスケーラビリティは？（E3）
+\textbf{RQ4}: 現実的な設定で意味のあるパターンを発見できるか？（E4）
 
-\subsection{E1: Planted Dense Region Recovery}
+\subsection{E1: 埋め込み密集領域の復元}
 
-\paragraph{Setup.}
-We generate 2D synthetic data (200 transactions, 20 spatial positions, 10 items) with planted dense regions of varying configurations: single block, two separate blocks, overlapping patterns, and weak signal.
-Window sizes are $(W_0, W_1) = (10, 5)$ with threshold $\theta = 3$.
+\paragraph{実験設定.}
+2次元の合成データ（200トランザクション、20空間位置、10アイテム）を生成し、さまざまな構成の埋め込み密集領域を設定する：単一ブロック、2つの分離ブロック、重複パターン、弱信号。
+窓サイズは$(W_0, W_1) = (10, 5)$、閾値は$\theta = 3$とする。
 
-\paragraph{Results.}
-Table~\ref{tab:e1} shows perfect recovery (F1 = 1.0) across all configurations, demonstrating that the support surface formulation correctly captures multi-dimensional dense patterns.
+\paragraph{結果.}
+表~\ref{tab:e1}に示すように、すべての構成でF1 = 1.0の完全な復元を達成し、サポート曲面の定式化が多次元の密集パターンを正しく捉えることを実証する。
 
 \begin{table}[t]
-\caption{E1: Planted Dense Region Recovery}
+\caption{E1: 埋め込み密集領域の復元}
 \label{tab:e1}
 \centering
 \begin{tabular}{lccccc}
 \toprule
-Configuration & Planted & Found & Precision & Recall & F1 \\
+構成 & 埋め込み数 & 検出数 & 適合率 & 再現率 & F1 \\
 \midrule
-Single block & 1 & 1 & 1.000 & 1.000 & 1.000 \\
-Two blocks & 1 & 1 & 1.000 & 1.000 & 1.000 \\
-Overlapping & 2 & 2 & 1.000 & 1.000 & 1.000 \\
-Weak signal & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+単一ブロック & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+2ブロック & 1 & 1 & 1.000 & 1.000 & 1.000 \\
+重複 & 2 & 2 & 1.000 & 1.000 & 1.000 \\
+弱信号 & 1 & 1 & 1.000 & 1.000 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E2: Dimension Decomposition}
+\subsection{E2: 次元分解}
 
-\paragraph{Setup.}
-We construct 2D support surfaces ($50 \times 30$) with controlled decomposability: a rank-1 base with varying levels of interaction noise (0\%, 30\%, 70\% of mean value).
-We measure the rank-1 approximation error and compare region detection accuracy.
+\paragraph{実験設定.}
+制御された分解可能性を持つ2次元サポート曲面（$50 \times 30$）を構築する：ランク1のベースにさまざまなレベルの交互作用ノイズ（平均値の0\%、30\%、70\%）を付加する。
+ランク1近似誤差を測定し、領域検出精度を比較する。
 
-\paragraph{Results.}
-Table~\ref{tab:e2} shows that the decomposition error faithfully reflects the interaction strength.
-Separable surfaces achieve 1.6\% error; weak interaction 12.6\%; strong interaction 27.8\%.
-The sweep surface algorithm achieves Jaccard = 1.0 with ground truth in all cases, confirming correctness regardless of decomposability.
+\paragraph{結果.}
+表~\ref{tab:e2}に示すように、分解誤差は交互作用の強さを忠実に反映する。
+分離可能な曲面は1.6\%の誤差、弱い交互作用は12.6\%、強い交互作用は27.8\%を示す。
+Sweep Surfaceアルゴリズムはすべてのケースで正解との Jaccard = 1.0 を達成し、分解可能性に関わらず正確性を確認する。
 
 \begin{table}[t]
-\caption{E2: Dimension Decomposition Analysis}
+\caption{E2: 次元分解分析}
 \label{tab:e2}
 \centering
 \begin{tabular}{lccc}
 \toprule
-Scenario & Decomp. Error & Regions & Jaccard \\
+シナリオ & 分解誤差 & 領域数 & Jaccard \\
 \midrule
-Separable & 0.016 & 2 & 1.000 \\
-Weak interaction & 0.126 & 7 & 1.000 \\
-Strong interaction & 0.278 & 29 & 1.000 \\
+分離可能 & 0.016 & 2 & 1.000 \\
+弱い交互作用 & 0.126 & 7 & 1.000 \\
+強い交互作用 & 0.278 & 29 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{E3: Scalability}
+\subsection{E3: スケーラビリティ}
 
-\paragraph{Setup.}
-We measure execution time for increasing transaction counts (100--5000 for 2D; 100--1000 for 3D), comparing na\"ive counting with the prefix-sum + sweep surface approach.
+\paragraph{実験設定.}
+トランザクション数を増加させ（2次元は100--5000、3次元は100--1000）、素朴な計数法と接頭辞和 + Sweep Surfaceアプローチの実行時間を比較する。
 
-\paragraph{Results.}
-Figure~\ref{fig:scalability} and Table~\ref{tab:e3} show that the sweep surface algorithm achieves up to 2.0$\times$ speedup over the na\"ive approach in 2D and scales to million-cell grids in 3D (1.6M cells in 762ms).
+\paragraph{結果.}
+図~\ref{fig:scalability}と表~\ref{tab:e3}に示すように、Sweep Surfaceアルゴリズムは2次元で素朴なアプローチに対して最大2.0倍の高速化を達成し、3次元では100万セルグリッドへのスケーリングが可能である（160万セルを762msで処理）。
 
 \begin{table}[t]
-\caption{E3: Scalability Results}
+\caption{E3: スケーラビリティ結果}
 \label{tab:e3}
 \centering
 \begin{tabular}{rrrrrr}
 \toprule
-Dim & $N$ & Grid Size & Na\"ive (ms) & Sweep (ms) & Speedup \\
+次元 & $N$ & グリッドサイズ & 素朴 (ms) & Sweep (ms) & 高速化率 \\
 \midrule
-2D & 100 & 768 & 0.5 & 0.4 & 1.2$\times$ \\
-2D & 500 & 10,948 & 12.6 & 9.0 & 1.4$\times$ \\
-2D & 1,000 & 43,746 & 81.8 & 56.2 & 1.5$\times$ \\
-2D & 2,000 & 172,991 & 391.3 & 246.4 & 1.6$\times$ \\
-2D & 5,000 & 1,073,726 & 3,282 & 1,610 & 2.0$\times$ \\
+2D & 100 & 768 & 0.5 & 0.4 & 1.2倍 \\
+2D & 500 & 10,948 & 12.6 & 9.0 & 1.4倍 \\
+2D & 1,000 & 43,746 & 81.8 & 56.2 & 1.5倍 \\
+2D & 2,000 & 172,991 & 391.3 & 246.4 & 1.6倍 \\
+2D & 5,000 & 1,073,726 & 3,282 & 1,610 & 2.0倍 \\
 \midrule
 3D & 100 & 864 & --- & 1.1 & --- \\
 3D & 500 & 209,916 & --- & 145.3 & --- \\
@@ -282,69 +285,69 @@ Dim & $N$ & Grid Size & Na\"ive (ms) & Sweep (ms) & Speedup \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\linewidth]{../experiments/figures/e3_scalability.pdf}
-\caption{Scalability: Na\"ive vs.\ Sweep Surface in 2D (left) and 3D (right). Log-log scale.}
+\caption{スケーラビリティ：2次元（左）と3次元（右）における素朴法 vs.\ Sweep Surface。両対数スケール。}
 \label{fig:scalability}
 \end{figure}
 
-\subsection{E4: Semi-Realistic Retail Scenario}
+\subsection{E4: 半現実的小売シナリオ}
 
-\paragraph{Setup.}
-We simulate a retail dataset: 365 days, 20 stores, 50 items, with three planted event types (summer products, winter products, promotional items).
-We mine dense itemsets with window $(W_0, W_1) = (30, 5)$ and threshold $\theta = 5$.
+\paragraph{実験設定.}
+小売データセットをシミュレーションする：365日間、20店舗、50アイテム、3種類の埋め込みイベント（夏季商品、冬季商品、プロモーション商品）。
+窓サイズ$(W_0, W_1) = (30, 5)$、閾値$\theta = 5$で密集アイテムセットをマイニングする。
 
-\paragraph{Results.}
-The algorithm discovers 4 multi-item patterns, all corresponding to planted events.
-The winter pattern \{5, 6, 7\} is detected with 58 dense regions spanning 1,873 grid cells, correctly capturing its seasonal and regional structure.
-Total mining time is 0.53 seconds for 2,000 transactions.
-
-% ==============================================================
-\section{Related Work}\label{sec:related}
-% ==============================================================
-
-\paragraph{Spatial scan statistics.}
-Kulldorff~\cite{kulldorff1997spatial} introduced the spatial scan statistic for detecting clusters in point processes using circular scanning windows.
-Space-time extensions~\cite{kulldorff2001prospective} use cylindrical windows.
-Scalable variants~\cite{matheny2016scalable,neill2012fast} address computational challenges.
-Unlike these approaches, our method works with \emph{itemset patterns} rather than point events, supports \emph{arbitrary region shapes} rather than geometric primitives, and leverages Apriori-style pruning for multi-pattern mining.
-
-\paragraph{Dense subtensor mining.}
-DenseAlert~\cite{shin2017densealert}, M-Zoom~\cite{shin2018mzoom}, and D-Cube~\cite{shin2017dcube} detect dense blocks in multi-dimensional tensors for anomaly detection.
-These methods find \emph{axis-aligned} dense blocks, whereas our dense regions can have arbitrary shapes as connected components of superlevel sets.
-
-\paragraph{Density-based clustering.}
-DBSCAN~\cite{ester1996dbscan} and OPTICS~\cite{ankerst1999optics} find clusters of arbitrary shape in point data.
-Our approach operates on a derived \emph{function} (support surface) rather than raw data points, enabling pattern-specific dense region detection.
-The conceptual connection is through level sets: DBSCAN uses point density, while we use windowed support as the density function.
-
-\paragraph{Co-location pattern mining.}
-Shekhar and Huang~\cite{shekhar2001colocation} formalized spatial co-location patterns with Apriori-based mining.
-Our Dense Region Containment Theorem (Theorem~\ref{thm:containment}) provides the multi-dimensional analog of their anti-monotone participation index, but operates on continuous support surfaces rather than discrete spatial relationships.
-
-\paragraph{Topological data analysis.}
-The characterization of dense regions as connected components of superlevel sets connects to persistent homology~\cite{edelsbrunner2010computational,carlsson2009topology}.
-Varying the threshold $\theta$ induces a filtration whose persistence diagram encodes the robustness of dense regions.
-We leave the integration of persistence-based analysis as future work.
+\paragraph{結果.}
+アルゴリズムは4つの複数アイテムパターンを発見し、すべて埋め込まれたイベントに対応する。
+冬季パターン\{5, 6, 7\}は58個の密集領域にまたがる1,873グリッドセルで検出され、その季節的・地域的構造を正しく捉えている。
+2,000トランザクションに対する総マイニング時間は0.53秒である。
 
 % ==============================================================
-\section{Conclusion}\label{sec:conclusion}
+\section{関連研究}\label{sec:related}
 % ==============================================================
 
-We have introduced a framework for multi-dimensional dense region mining that generalizes dense interval detection from one dimension to arbitrary dimensions.
-The key insight is to view pattern support as a function---the \emph{support surface}---over the product of all contextual dimensions, and to define dense regions as connected components of its superlevel set.
+\paragraph{空間スキャン統計.}
+Kulldorff~\cite{kulldorff1997spatial}は、円形スキャン窓を用いた点過程におけるクラスター検出のための空間スキャン統計を導入した。
+時空間拡張~\cite{kulldorff2001prospective}は円筒形の窓を使用する。
+スケーラブルな変形~\cite{matheny2016scalable,neill2012fast}は計算上の課題に対処する。
+これらのアプローチとは異なり、本手法は点イベントではなく\emph{アイテムセットパターン}を扱い、幾何学的プリミティブではなく\emph{任意の領域形状}をサポートし、複数パターンマイニングのためにAprioriスタイルの枝刈りを活用する。
 
-Our theoretical contributions include the Dense Region Containment Theorem (enabling Apriori pruning in multi-dimensional space) and the Dimension Decomposability Theorem (enabling factored computation when dimensions are approximately independent).
-The Sweep Surface algorithm achieves near-linear complexity in grid size and scales to million-cell grids.
+\paragraph{密部分テンソルマイニング.}
+DenseAlert~\cite{shin2017densealert}、M-Zoom~\cite{shin2018mzoom}、D-Cube~\cite{shin2017dcube}は、異常検出のために多次元テンソルにおける密ブロックを検出する。
+これらの手法は\emph{軸に沿った}密ブロックを見つけるが、本研究の密集領域は上位レベル集合の連結成分として任意の形状をとりうる。
 
-Experiments demonstrate perfect planted region recovery, meaningful scalability improvements, and practical applicability to retail spatiotemporal mining.
+\paragraph{密度ベースクラスタリング.}
+DBSCAN~\cite{ester1996dbscan}とOPTICS~\cite{ankerst1999optics}は点データにおける任意形状のクラスターを発見する。
+本アプローチは生データ点ではなく導出された\emph{関数}（サポート曲面）に対して動作し、パターン固有の密集領域検出を可能にする。
+概念的な接続はレベル集合を通じてある：DBSCANは点密度を使用するが、本手法はウィンドウ化されたサポートを密度関数として使用する。
 
-\paragraph{Future work.}
-(1) Integration with persistent homology for multi-threshold analysis.
-(2) Online/streaming variants for real-time surveillance.
-(3) Extension to non-grid domains (e.g., graph-structured spatial dimensions).
-(4) Application to large-scale epidemiological datasets.
+\paragraph{共位置パターンマイニング.}
+ShekharとHuang~\cite{shekhar2001colocation}は、Aprioriベースのマイニングによる空間共位置パターンを形式化した。
+本研究の密集領域包含定理（定理~\ref{thm:containment}）は、彼らの反単調参加指標の多次元的類似物を提供するが、離散的な空間関係ではなく連続サポート曲面に対して動作する。
+
+\paragraph{トポロジカルデータ解析.}
+密集領域を上位レベル集合の連結成分として特徴づけることは、永続ホモロジー~\cite{edelsbrunner2010computational,carlsson2009topology}と接続する。
+閾値$\theta$を変化させることにより、密集領域の頑健性を符号化する永続図を誘導するフィルトレーションが得られる。
+永続性に基づく解析の統合は今後の課題とする。
 
 % ==============================================================
-% References
+\section{結論}\label{sec:conclusion}
+% ==============================================================
+
+本研究では、密集区間検出を1次元から任意の次元に一般化する多次元密集領域マイニングのフレームワークを提案した。
+重要な着想は、パターンサポートをすべての文脈次元の直積上の関数---\emph{サポート曲面}---として捉え、密集領域をその上位レベル集合の連結成分として定義することである。
+
+理論的貢献として、密集領域包含定理（多次元空間でのApriori枝刈りを可能にする）と次元分解可能性定理（次元が近似的に独立な場合に分解計算を可能にする）を含む。
+Sweep Surfaceアルゴリズムはグリッドサイズに対してほぼ線形の計算量を達成し、100万セルグリッドへのスケーリングが可能である。
+
+実験では、埋め込み領域の完全な復元、有意なスケーラビリティ改善、および小売時空間マイニングへの実用的な適用可能性を実証した。
+
+\paragraph{今後の課題.}
+(1) 多閾値解析のための永続ホモロジーとの統合。
+(2) リアルタイムサーベイランスのためのオンライン/ストリーミング変形。
+(3) 非グリッド領域（例：グラフ構造の空間次元）への拡張。
+(4) 大規模疫学データセットへの適用。
+
+% ==============================================================
+% 参考文献
 % ==============================================================
 
 \bibliographystyle{ACM-Reference-Format}
