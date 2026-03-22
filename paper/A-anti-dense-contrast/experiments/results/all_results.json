@@ -1,0 +1,328 @@
+{
+  "E1": {
+    "experiment": "E1",
+    "description": "Anti-dense interval ground truth recovery",
+    "params": {
+      "W": 10,
+      "theta_low": 2,
+      "N": 500
+    },
+    "per_seed": [
+      {
+        "seed": 42,
+        "n_timestamps": 255,
+        "n_detected": 6,
+        "precision": 0.7321428571428571,
+        "recall": 0.9010989010989011,
+        "f1": 0.8078817733990148
+      },
+      {
+        "seed": 43,
+        "n_timestamps": 231,
+        "n_detected": 11,
+        "precision": 0.5945945945945946,
+        "recall": 0.967032967032967,
+        "f1": 0.7364016736401674
+      },
+      {
+        "seed": 44,
+        "n_timestamps": 259,
+        "n_detected": 8,
+        "precision": 0.7524752475247525,
+        "recall": 0.8351648351648352,
+        "f1": 0.7916666666666667
+      },
+      {
+        "seed": 45,
+        "n_timestamps": 242,
+        "n_detected": 8,
+        "precision": 0.664,
+        "recall": 0.9120879120879121,
+        "f1": 0.7685185185185185
+      },
+      {
+        "seed": 46,
+        "n_timestamps": 239,
+        "n_detected": 8,
+        "precision": 0.7222222222222222,
+        "recall": 1.0,
+        "f1": 0.8387096774193548
+      }
+    ],
+    "summary": {
+      "avg_precision": 0.6930869842968853,
+      "avg_recall": 0.923076923076923,
+      "avg_f1": 0.7886356619287443
+    }
+  },
+  "E2": {
+    "experiment": "E2",
+    "description": "Contrast pattern classification accuracy",
+    "params": {
+      "W": 10,
+      "theta": 4,
+      "N": 400,
+      "regime_boundary": 200
+    },
+    "per_seed": [
+      {
+        "seed": 42,
+        "classifications": {
+          "emerge": "amplification",
+          "vanish": "vanishing",
+          "amplify": "amplification",
+          "contract": "contraction",
+          "stable": "stable"
+        },
+        "accuracy": 0.8
+      },
+      {
+        "seed": 43,
+        "classifications": {
+          "emerge": "amplification",
+          "vanish": "vanishing",
+          "amplify": "amplification",
+          "contract": "contraction",
+          "stable": "stable"
+        },
+        "accuracy": 0.8
+      },
+      {
+        "seed": 44,
+        "classifications": {
+          "emerge": "amplification",
+          "vanish": "vanishing",
+          "amplify": "amplification",
+          "contract": "contraction",
+          "stable": "stable"
+        },
+        "accuracy": 0.8
+      },
+      {
+        "seed": 45,
+        "classifications": {
+          "emerge": "amplification",
+          "vanish": "vanishing",
+          "amplify": "amplification",
+          "contract": "contraction",
+          "stable": "contraction"
+        },
+        "accuracy": 0.6
+      },
+      {
+        "seed": 46,
+        "classifications": {
+          "emerge": "amplification",
+          "vanish": "vanishing",
+          "amplify": "amplification",
+          "contract": "contraction",
+          "stable": "stable"
+        },
+        "accuracy": 0.8
+      }
+    ],
+    "summary": {
+      "avg_accuracy": 0.7600000000000001
+    }
+  },
+  "E3": {
+    "experiment": "E3",
+    "description": "Parameter sensitivity analysis",
+    "params": {
+      "W": 10,
+      "N": 500,
+      "seed": 42
+    },
+    "theta_low_sensitivity": [
+      {
+        "theta_low": 1,
+        "n_intervals": 3,
+        "total_coverage": 94
+      },
+      {
+        "theta_low": 2,
+        "n_intervals": 6,
+        "total_coverage": 112
+      },
+      {
+        "theta_low": 3,
+        "n_intervals": 6,
+        "total_coverage": 147
+      },
+      {
+        "theta_low": 4,
+        "n_intervals": 13,
+        "total_coverage": 177
+      },
+      {
+        "theta_low": 5,
+        "n_intervals": 12,
+        "total_coverage": 231
+      },
+      {
+        "theta_low": 6,
+        "n_intervals": 12,
+        "total_coverage": 270
+      },
+      {
+        "theta_low": 8,
+        "n_intervals": 6,
+        "total_coverage": 317
+      },
+      {
+        "theta_low": 10,
+        "n_intervals": 10,
+        "total_coverage": 456
+      }
+    ],
+    "regime_boundary_sensitivity": [
+      {
+        "regime_boundary": 100,
+        "contrast_statistic": -0.21000521104742054
+      },
+      {
+        "regime_boundary": 150,
+        "contrast_statistic": -0.3152431734947533
+      },
+      {
+        "regime_boundary": 200,
+        "contrast_statistic": -0.14580941446613083
+      },
+      {
+        "regime_boundary": 250,
+        "contrast_statistic": 0.12939407030512484
+      },
+      {
+        "regime_boundary": 300,
+        "contrast_statistic": 0.11581161622063807
+      },
+      {
+        "regime_boundary": 350,
+        "contrast_statistic": -0.023193560106311684
+      }
+    ]
+  },
+  "E4": {
+    "experiment": "E4",
+    "description": "Campaign termination pattern vanishing (simulated Dunnhumby)",
+    "params": {
+      "W": 10,
+      "theta": 4,
+      "N": 300,
+      "campaign_end": 150
+    },
+    "per_seed": [
+      {
+        "seed": 42,
+        "promoted_type": "vanishing",
+        "promoted_delta": -0.9735099337748344,
+        "promoted_pvalue": 0.005,
+        "promoted_significant": true,
+        "background_type": "stable",
+        "background_delta": 0.03591270723143247,
+        "background_pvalue": 0.78,
+        "background_significant": false
+      },
+      {
+        "seed": 43,
+        "promoted_type": "vanishing",
+        "promoted_delta": -0.9801324503311258,
+        "promoted_pvalue": 0.005,
+        "promoted_significant": true,
+        "background_type": "stable",
+        "background_delta": -0.09009289301746748,
+        "background_pvalue": 0.555,
+        "background_significant": false
+      },
+      {
+        "seed": 44,
+        "promoted_type": "vanishing",
+        "promoted_delta": -0.9801324503311258,
+        "promoted_pvalue": 0.005,
+        "promoted_significant": true,
+        "background_type": "contraction",
+        "background_delta": -0.23774389972887688,
+        "background_pvalue": 0.1,
+        "background_significant": false
+      },
+      {
+        "seed": 45,
+        "promoted_type": "contraction",
+        "promoted_delta": -0.9532868127472333,
+        "promoted_pvalue": 0.005,
+        "promoted_significant": true,
+        "background_type": "stable",
+        "background_delta": 0.054091292946353176,
+        "background_pvalue": 0.775,
+        "background_significant": false
+      },
+      {
+        "seed": 46,
+        "promoted_type": "vanishing",
+        "promoted_delta": -0.9602649006622517,
+        "promoted_pvalue": 0.005,
+        "promoted_significant": true,
+        "background_type": "amplification",
+        "background_delta": 0.30196897639895104,
+        "background_pvalue": 0.045,
+        "background_significant": true
+      }
+    ]
+  },
+  "E5": {
+    "experiment": "E5",
+    "description": "Seasonal contrast in simulated retail data",
+    "params": {
+      "W": 10,
+      "theta": 4,
+      "N": 365
+    },
+    "per_seed": [
+      {
+        "seed": 42,
+        "holiday_type": "amplification",
+        "holiday_delta": 0.13853359754999103,
+        "holiday_pvalue": 0.23,
+        "steady_type": "stable",
+        "steady_delta": -0.03903200624512104,
+        "steady_pvalue": 0.63
+      },
+      {
+        "seed": 43,
+        "holiday_type": "amplification",
+        "holiday_delta": 0.12211013030685161,
+        "holiday_pvalue": 0.415,
+        "steady_type": "stable",
+        "steady_delta": 0.010418543205428454,
+        "steady_pvalue": 0.9
+      },
+      {
+        "seed": 44,
+        "holiday_type": "amplification",
+        "holiday_delta": 0.10016213294901818,
+        "holiday_pvalue": 0.52,
+        "steady_type": "contraction",
+        "steady_delta": -0.11040052843331538,
+        "steady_pvalue": 0.21
+      },
+      {
+        "seed": 45,
+        "holiday_type": "amplification",
+        "holiday_delta": 0.14405812766468504,
+        "holiday_pvalue": 0.33,
+        "steady_type": "amplification",
+        "steady_delta": 0.19636101603314715,
+        "steady_pvalue": 0.015
+      },
+      {
+        "seed": 46,
+        "holiday_type": "amplification",
+        "holiday_delta": 0.12208010568666308,
+        "holiday_pvalue": 0.395,
+        "steady_type": "stable",
+        "steady_delta": 0.08109649912928607,
+        "steady_pvalue": 0.39
+      }
+    ]
+  }
+}

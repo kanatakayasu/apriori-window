@@ -1,0 +1,36 @@
+======================================================================
+EXPERIMENT SUMMARY TABLE
+======================================================================
+
+E1: Anti-Dense Ground Truth Recovery
+  Precision: 0.693
+  Recall:    0.923
+  F1:        0.789
+
+E2: Contrast Pattern Classification
+  Accuracy:  0.760
+
+E3: Parameter Sensitivity
+  theta_low | n_intervals | coverage
+          1 |           3 | 94
+          2 |           6 | 112
+          3 |           6 | 147
+          4 |          13 | 177
+          5 |          12 | 231
+          6 |          12 | 270
+          8 |           6 | 317
+         10 |          10 | 456
+
+E4: Campaign Termination
+  Seed 42: promoted=vanishing, bg=stable
+  Seed 43: promoted=vanishing, bg=stable
+  Seed 44: promoted=vanishing, bg=contraction
+  Seed 45: promoted=contraction, bg=stable
+  Seed 46: promoted=vanishing, bg=amplification
+
+E5: Seasonal Contrast
+  Seed 42: holiday=amplification, steady=stable
+  Seed 43: holiday=amplification, steady=stable
+  Seed 44: holiday=amplification, steady=contraction
+  Seed 45: holiday=amplification, steady=amplification
+  Seed 46: holiday=amplification, steady=stable
