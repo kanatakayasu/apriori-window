@@ -1,6 +1,8 @@
 \documentclass[sigconf,natbib=true]{acmart}
 
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsmath,amsfonts}
+\let\Bbbk\relax
+\usepackage{amssymb}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{graphicx}
@@ -8,6 +10,9 @@
 \usepackage{multirow}
 \usepackage{xcolor}
 \usepackage{subcaption}
+
+\newtheorem{remark}{Remark}
+\newtheorem{problem}{Problem}
 
 \setcopyright{none}
 \settopmatter{printacmref=false}
@@ -21,6 +26,7 @@
 \author{Anonymous Author(s)}
 \affiliation{%
   \institution{Anonymous Institution}
+  \country{}
 }
 
 \begin{abstract}
