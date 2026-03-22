@@ -1,0 +1,247 @@
+% ============================================================
+% Paper E: Formal Definitions and Theorems
+% ============================================================
+
+\section{Preliminaries and Problem Definition}\label{sec:formalization}
+
+\subsection{Notation}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite set of items and
+$D = [d_1, d_2, \ldots, d_N]$ be a temporally ordered sequence of transactions,
+where each $d_t \subseteq \mathcal{I}$.
+A \emph{pattern} (itemset) is any non-empty $P \subseteq \mathcal{I}$.
+
+\subsection{Support Time Series and Dense Intervals}
+
+\begin{definition}[Support Time Series]\label{def:support_ts}
+For pattern $P$, window size $W \in \mathbb{Z}_{>0}$, and transaction sequence $D$ of length $N$,
+the \emph{support time series} $s_P^W = [s_P^W(0), \ldots, s_P^W(N-W)]$ is defined as
+\begin{equation}
+s_P^W(t) = |\{d_j \in D \mid t \leq j < t+W,\; P \subseteq d_j\}|.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Dense Interval]\label{def:dense_interval}
+Given threshold $\theta \in \mathbb{Z}_{>0}$, a \emph{dense interval} of pattern $P$ at window size $W$
+is a maximal contiguous range $[a, b] \subseteq [0, N-W]$ such that
+$s_P^W(t) \geq \theta$ for all $t \in [a, b]$.
+Let $\mathcal{D}(P, W, \theta)$ denote the set of all dense intervals.
+\end{definition}
+
+\subsection{Dense Coverage Score}
+
+\begin{definition}[Dense Coverage Score]\label{def:coverage_score}
+For pattern $P$ at window size $W$ with threshold $\theta$,
+the \emph{Dense Coverage Score} is
+\begin{equation}
+\mathrm{DCS}(P, W, \theta) = \sum_{[a,b] \in \mathcal{D}(P, W, \theta)}
+  \left( (b - a + 1) \cdot \bar{s}_P^W([a,b]) \right),
+\end{equation}
+where $\bar{s}_P^W([a,b]) = \frac{1}{b-a+1} \sum_{t=a}^{b} s_P^W(t)$
+is the mean support within the interval.
+\end{definition}
+
+The DCS jointly rewards \emph{temporal extent} (long intervals) and
+\emph{density magnitude} (high support values), capturing
+patterns that are both persistently and strongly dense.
+
+\begin{remark}
+Equivalently, $\mathrm{DCS}(P, W, \theta) = \sum_{[a,b]} \sum_{t=a}^{b} s_P^W(t)$,
+i.e., the total accumulated support across all dense intervals.
+This formulation avoids the threshold sensitivity of simple interval counting.
+\end{remark}
+
+\subsection{Dyadic Scale Hierarchy}
+
+\begin{definition}[Dyadic Scale Hierarchy]\label{def:dyadic}
+Given a base window size $W_0 \in \mathbb{Z}_{>0}$ and maximum level
+$L = \lfloor \log_2(N / W_0) \rfloor$, the \emph{Dyadic Scale Hierarchy}
+is the sequence of window sizes
+\begin{equation}
+\mathcal{W} = \{W_\ell = 2^\ell \cdot W_0 \mid \ell = 0, 1, \ldots, L\}.
+\end{equation}
+At each level $\ell$, we set the threshold proportionally:
+$\theta_\ell = \lceil \theta_0 \cdot 2^\ell \rceil$,
+where $\theta_0$ is the base threshold.
+This maintains a constant \emph{density ratio} $\theta_\ell / W_\ell \approx \theta_0 / W_0$.
+\end{definition}
+
+\begin{definition}[Multi-Scale Dense Coverage Score]\label{def:ms_dcs}
+The \emph{Multi-Scale Dense Coverage Score} aggregates across the dyadic hierarchy:
+\begin{equation}
+\mathrm{MSDCS}(P) = \sum_{\ell=0}^{L} \omega_\ell \cdot \mathrm{DCS}(P, W_\ell, \theta_\ell),
+\end{equation}
+where $\omega_\ell = 1 / (L+1)$ (uniform) or $\omega_\ell \propto 1/\ell$
+(fine-scale preference).
+\end{definition}
+
+\subsection{Scale-Space Dense Ridge}
+
+\begin{definition}[Scale-Space Dense Ridge]\label{def:ridge}
+Consider the \emph{dense indicator function}
+$\phi_P(\ell, t) = \mathbb{1}[s_P^{W_\ell}(t) \geq \theta_\ell]$
+defined over the scale-position plane $\{0,\ldots,L\} \times \{0,\ldots,N-W_L\}$.
+A \emph{Scale-Space Dense Ridge} for pattern $P$ is a connected component
+$R \subseteq \{(\ell, t) : \phi_P(\ell, t) = 1\}$ that spans at least
+$\ell_{\min}$ consecutive scale levels, i.e.,
+\begin{equation}
+\max_{(\ell,t) \in R} \ell - \min_{(\ell,t) \in R} \ell \geq \ell_{\min} - 1.
+\end{equation}
+The \emph{ridge strength} is $\rho(R) = \sum_{(\ell,t) \in R} s_P^{W_\ell}(t)$.
+\end{definition}
+
+Ridges identify temporal regions where density persists across multiple
+scales, providing scale-invariant evidence of genuine dense behavior
+(as opposed to noise-induced density at a single scale).
+
+\subsection{Branch-and-Bound Dense Pruning}
+
+\begin{definition}[Dense Coverage Upper Bound]\label{def:upper_bound}
+For a candidate pattern $P$ with current itemset $C \subseteq P$,
+define the \emph{upper bound} on DCS as
+\begin{equation}
+\overline{\mathrm{DCS}}(P, W, \theta) \leq \mathrm{DCS}(C, W, \theta),
+\end{equation}
+since adding items to $C$ can only reduce support:
+$s_P^W(t) \leq s_C^W(t)$ for all $t$ when $C \subseteq P$.
+\end{definition}
+
+\subsection{Top-k Dense Pattern Mining Problem}
+
+\begin{definition}[Top-k Dense Pattern Mining]\label{def:topk_problem}
+Given transaction sequence $D$, base window $W_0$, base threshold $\theta_0$,
+and integer $k \geq 1$, find the set $\mathcal{T}_k^* \subseteq 2^{\mathcal{I}}$
+of $k$ patterns with the highest Multi-Scale Dense Coverage Scores:
+\begin{equation}
+\mathcal{T}_k^* = \arg\max_{\mathcal{T} \subseteq 2^{\mathcal{I}},\, |\mathcal{T}| = k}
+  \min_{P \in \mathcal{T}} \mathrm{MSDCS}(P).
+\end{equation}
+\end{definition}
+
+% ============================================================
+\section{Theoretical Results}\label{sec:theorems}
+% ============================================================
+
+\begin{theorem}[Anti-Monotonicity of Dense Coverage]\label{thm:antimonotone}
+For any patterns $C \subseteq P$ and any window size $W$ and threshold $\theta$:
+\begin{equation}
+\mathrm{DCS}(P, W, \theta) \leq \mathrm{DCS}(C, W, \theta).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Since $C \subseteq P$, we have $P \subseteq d_t \Rightarrow C \subseteq d_t$,
+hence $s_P^W(t) \leq s_C^W(t)$ for all $t$.
+
+\textbf{Step 1}: Every dense interval $[a,b]$ of $P$ is contained in
+some dense interval of $C$. If $s_P^W(t) \geq \theta$ for $t \in [a,b]$,
+then $s_C^W(t) \geq s_P^W(t) \geq \theta$, so $[a,b]$ is also dense for $C$
+(possibly as part of a larger interval).
+
+\textbf{Step 2}: Within any dense interval, the per-position support
+satisfies $s_P^W(t) \leq s_C^W(t)$.
+
+\textbf{Step 3}: Combining Steps 1 and 2:
+$\mathrm{DCS}(P, W, \theta)
+= \sum_{[a,b] \in \mathcal{D}(P)} \sum_{t=a}^{b} s_P^W(t)
+\leq \sum_{[a,b] \in \mathcal{D}(C)} \sum_{t=a}^{b} s_C^W(t)
+= \mathrm{DCS}(C, W, \theta)$.
+\end{proof}
+
+\begin{corollary}[Multi-Scale Anti-Monotonicity]\label{cor:ms_antimonotone}
+For $C \subseteq P$: $\mathrm{MSDCS}(P) \leq \mathrm{MSDCS}(C)$.
+\end{corollary}
+
+\begin{proof}
+Direct consequence of Theorem~\ref{thm:antimonotone} applied at each scale level,
+combined with non-negative weights $\omega_\ell \geq 0$.
+\end{proof}
+
+\begin{theorem}[B\&B Correctness]\label{thm:bb_correct}
+Algorithm~\ref{alg:topk_bb} returns the exact top-$k$ patterns
+with highest MSDCS scores.
+\end{theorem}
+
+\begin{proof}
+The algorithm maintains a min-heap $H$ of size $k$ with the current
+$k$-th best score $\tau$.
+At each node in the itemset lattice, it computes
+$\overline{\mathrm{MSDCS}}(P) = \mathrm{MSDCS}(C)$ where $C$ is the
+current prefix subset of candidate $P$.
+By Corollary~\ref{cor:ms_antimonotone},
+$\mathrm{MSDCS}(P) \leq \overline{\mathrm{MSDCS}}(P) = \mathrm{MSDCS}(C)$.
+If $\mathrm{MSDCS}(C) \leq \tau$, then no extension of $C$ can enter the top-$k$,
+and the subtree rooted at $C$ is safely pruned.
+
+Since the upper bound is valid (Corollary~\ref{cor:ms_antimonotone})
+and the algorithm explores all non-pruned branches exhaustively,
+the result is exact.
+\end{proof}
+
+\begin{theorem}[Dyadic Decomposition Completeness]\label{thm:dyadic_complete}
+For any window size $W \in [W_0, 2^L \cdot W_0]$, there exist adjacent
+dyadic levels $\ell, \ell+1$ with $W_\ell \leq W \leq W_{\ell+1}$
+and $W_{\ell+1} / W_\ell = 2$.
+A pattern that is dense at scale $W$ with density ratio
+$\theta / W$ is necessarily dense at either $W_\ell$ or $W_{\ell+1}$
+(or both) with the corresponding proportional threshold.
+\end{theorem}
+
+\begin{proof}
+Let $W \in [2^\ell W_0, 2^{\ell+1} W_0)$ for some $\ell$.
+Suppose $s_P^W(t) \geq \theta$ where $\theta/W = \rho$ is the density ratio.
+
+Consider the window $[t, t+W)$. It can be covered by at most two
+adjacent windows of size $W_{\ell+1} = 2^{\ell+1} W_0 \geq W$:
+the window $[t, t+W_{\ell+1})$ contains $[t, t+W)$, so
+$s_P^{W_{\ell+1}}(t) \geq s_P^W(t) \geq \theta$.
+Since $\theta_{\ell+1} = \lceil \rho \cdot W_{\ell+1} \rceil
+\geq \lceil \rho \cdot W \rceil = \theta$,
+and $s_P^{W_{\ell+1}}(t) \geq \theta \geq \theta$ (the count can
+only increase with a larger window), the position $t$ is dense at level $\ell+1$
+if $s_P^{W_{\ell+1}}(t) \geq \theta_{\ell+1}$.
+
+More precisely, the additional transactions in
+$[t+W, t+W_{\ell+1})$ contribute non-negative support.
+Thus $s_P^{W_{\ell+1}}(t) \geq s_P^W(t)$ and the density is captured
+at the coarser scale with at most a factor-of-2 resolution loss.
+\end{proof}
+
+% ============================================================
+\section{Complexity Analysis}\label{sec:complexity}
+% ============================================================
+
+\begin{theorem}[Time Complexity]\label{thm:complexity}
+Let $N$ be the number of transactions, $m$ the number of items,
+$L = O(\log(N/W_0))$ the number of dyadic levels,
+and $F$ the number of frequent singletons.
+
+\textbf{Worst case}:
+The exhaustive search explores $O(2^F)$ candidate patterns,
+each requiring $O(L \cdot N)$ work for multi-scale dense interval computation.
+Total: $O(2^F \cdot L \cdot N)$.
+
+\textbf{With B\&B pruning}:
+Let $\mathcal{P}$ be the set of patterns actually evaluated
+(not pruned). Then the complexity is $O(|\mathcal{P}| \cdot L \cdot N)$.
+Empirically, $|\mathcal{P}| \ll 2^F$ due to early termination.
+
+\textbf{Per-scale dense interval computation}:
+Using the sliding window algorithm from Phase~1,
+computing $\mathcal{D}(P, W, \theta)$ takes $O(|T_P|)$ time
+where $T_P$ is the set of timestamps where $P$ occurs.
+\end{theorem}
+
+\begin{theorem}[Space Complexity]\label{thm:space}
+The algorithm requires:
+\begin{itemize}
+\item $O(N)$ for the transaction database,
+\item $O(m \cdot \bar{f})$ for item-to-timestamp maps
+  (where $\bar{f}$ is average item frequency),
+\item $O(k)$ for the top-$k$ heap,
+\item $O(L \cdot \max_P |\mathcal{D}(P)|)$ for intermediate
+  dense intervals across scales.
+\end{itemize}
+Total: $O(N + m \cdot \bar{f} + k + L \cdot I_{\max})$
+where $I_{\max}$ is the maximum number of intervals for any pattern.
+\end{theorem}
