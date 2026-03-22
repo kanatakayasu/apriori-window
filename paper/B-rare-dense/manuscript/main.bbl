@@ -37,7 +37,7 @@ L.~Szathmary, A.~Napoli, and P.~Valtchev, ``Towards rare itemset mining,'' in
   (ICTAI)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2007, pp. 305--312.
 
 \bibitem{haglin2007mfi}
-D.~J. Haglin and C.~D. Manning, ``On minimal infrequent itemset mining,'' in
+D.~J. Haglin and A.~M. Manning, ``On minimal infrequent itemset mining,'' in
   \emph{Proc.\ DMIN}, 2007, pp. 141--147.
 
 \bibitem{kleinberg2003bursty}
@@ -57,7 +57,7 @@ M.~M. Breunig, H.-P. Kriegel, R.~T. Ng, and J.~Sander, ``{LOF}: Identifying
 \bibitem{gupta2012ifptree}
 A.~Gupta, A.~Mittal, and A.~Bhattacharya, ``Minimally infrequent itemset mining
   using pattern-growth paradigm and residual trees,'' in \emph{Proc.\ COMAD},
-  2012.
+  2011.
 
 \bibitem{bhatt2015mcrp}
 D.~M. Bhatt and U.~Patel, ``{MCRP-Tree}: Maximum constraint based rare pattern
@@ -74,8 +74,9 @@ Y.~Zhu and D.~Shasha, ``{StatStream}: Statistical monitoring of thousands of
   data streams in real time,'' in \emph{Proc.\ VLDB}, 2002, pp. 358--369.
 
 \bibitem{luo2014temporal}
-C.~Luo \emph{et~al.}, ``Mining recent temporal patterns for event detection in
-  multivariate time series data,'' in \emph{Proc.\ KDD}, 2014, pp. 1--10.
+I.~Batal, D.~Fradkin, J.~Harrison, F.~Moerchen, and M.~Hauskrecht, ``Mining
+  recent temporal patterns for event detection in multivariate time series
+  data,'' in \emph{Proc.\ KDD}, 2012, pp. 1--10.
 
 \bibitem{liu2012iforest}
 F.~T. Liu, K.~M. Ting, and Z.-H. Zhou, ``Isolation-based anomaly detection,''
@@ -87,9 +88,9 @@ B.~Sch{\"o}lkopf, J.~C. Platt, J.~Shawe-Taylor, A.~J. Smola, and R.~C.
   \emph{Neural Comput.}, vol.~13, no.~7, pp. 1443--1471, 2001.
 
 \bibitem{he2018mwifim}
-Z.~He \emph{et~al.}, ``Minimal weighted infrequent itemset mining-based outlier
-  detection approach on uncertain data streams,'' \emph{Neural Comput.\ {\&}
-  Appl.}, vol.~32, pp. 6665--6680, 2018.
+S.~Cai, R.~Sun, S.~Hao, S.~Li, and G.~Yuan, ``Minimal weighted infrequent
+  itemset mining-based outlier detection approach on uncertain data streams,''
+  \emph{Neural Comput.\ {\&} Appl.}, vol.~32, pp. 6665--6680, 2018.
 
 \bibitem{datar2002swstatistics}
 M.~Datar, A.~Gionis, P.~Indyk, and R.~Motwani, ``Maintaining stream statistics
@@ -97,9 +98,9 @@ M.~Datar, A.~Gionis, P.~Indyk, and R.~Motwani, ``Maintaining stream statistics
   Algorithms (SODA)}, 2002, pp. 635--644.
 
 \bibitem{chang2009dualsupport}
-J.~H. Chang and W.~S. Lee, ``A sliding windows based dual support framework for
-  discovering emerging trends from temporal data,'' \emph{Knowl.-Based Syst.},
-  vol.~22, no.~3, pp. 157--165, 2009.
+M.~Khan, F.~Coenen, D.~Reid, R.~Patel, and L.~Archer, ``A sliding windows based
+  dual support framework for discovering emerging trends from temporal data,''
+  \emph{Knowl.-Based Syst.}, vol.~22, no.~3, pp. 157--165, 2009.
 
 \bibitem{li2023conceptdrift}
 H.~Li \emph{et~al.}, ``Multi-type concept drift detection under a dual-layer
@@ -107,13 +108,26 @@ H.~Li \emph{et~al.}, ``Multi-type concept drift detection under a dual-layer
   \emph{J.\ Cloud Comput.}, vol.~12, p. 171, 2023.
 
 \bibitem{r3pstreamsw2025}
-R.~Uday~Kiran \emph{et~al.}, ``Sliding window based rare partial periodic
-  pattern mining algorithms over temporal data streams,'' \emph{Frontiers Big
-  Data}, vol.~8, p. 1600267, 2025.
+K.~J. Upadhya, R.~Lobo \emph{et~al.}, ``Sliding window based rare partial
+  periodic pattern mining algorithms over temporal data streams,''
+  \emph{Frontiers Big Data}, vol.~8, p. 1600267, 2025.
+
+\bibitem{moens2013locally}
+S.~Moens and B.~Goethals, ``Mining locally frequent itemsets,'' in \emph{Proc.\
+  Workshop LALD at ECML-PKDD}, 2013.
+
+\bibitem{dong1999emerging}
+G.~Dong and J.~Li, ``Efficient mining of emerging patterns: Discovering trends
+  and differences,'' in \emph{Proc.\ KDD}, 1999, pp. 43--52.
+
+\bibitem{kumar2008mlms}
+X.~Dong, Z.~Niu, D.~Zhu, Z.~Zheng, and Q.~Jia, ``Mining interesting infrequent
+  and frequent itemsets based on {MLMS} model,'' in \emph{Proc.\ ADMA}.\hskip
+  1em plus 0.5em minus 0.4em\relax Springer, 2008, pp. 560--567.
 
 \bibitem{pei2001convertible}
 J.~Pei and J.~Han, ``Can we push more constraints into frequent pattern
-  mining?'' in \emph{Proc.\ KDD}, 2001, pp. 350--354.
+  mining?'' in \emph{Proc.\ KDD}, 2000, pp. 350--354.
 
 \bibitem{bonchi2005tougher}
 F.~Bonchi and C.~Lucchese, ``Pushing tougher constraints in frequent pattern
