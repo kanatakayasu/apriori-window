@@ -1,0 +1,54 @@
+\section{Algorithm: SC-DenseAttrib}
+\label{sec:algorithm}
+
+\Cref{alg:sc-dense} presents the complete SC-DenseAttrib algorithm.
+The procedure consists of five stages: support series computation, donor pool construction, weight estimation, causal effect estimation, and placebo-based inference.
+
+\begin{algorithm}[t]
+\caption{SC-DenseAttrib: Synthetic Control for Dense Pattern Attribution}
+\label{alg:sc-dense}
+\begin{algorithmic}[1]
+\REQUIRE Transaction sequence $\mathcal{D}$, treated pattern $P^*$, candidate patterns $\mathcal{P}$, intervention time $t_0$, window size $W$
+\ENSURE Causal effect $\hat{\tau}$, p-value $p$
+\STATE Compute support series $\mathbf{s}_{P^*}$ via \Cref{def:windowed-support}
+\STATE Build donor pool $\mathcal{D}(P^*) \leftarrow \{P \in \mathcal{P} : P \cap P^* = \emptyset\}$
+\FOR{each $P_j \in \mathcal{D}(P^*)$}
+    \STATE Compute $\mathbf{s}_{P_j}$ and filter by variance
+\ENDFOR
+\STATE Form donor matrix $\mathbf{D} \in \mathbb{R}^{T \times J}$
+\STATE Estimate weights $\mathbf{w}^* \leftarrow \arg\min_{\mathbf{w} \in \Delta^J} \|\mathbf{s}_{P^*}^{\mathrm{pre}} - \mathbf{D}^{\mathrm{pre}} \mathbf{w}\|^2$
+\STATE Compute counterfactual $\hat{\mathbf{s}}^{\mathrm{CF}} \leftarrow \mathbf{D} \mathbf{w}^*$
+\STATE Compute $\hat{\tau}(t) \leftarrow \sigma_{P^*}(t) - \hat{\sigma}^{\mathrm{CF}}(t)$ for all $t$
+\STATE $r^* \leftarrow \mathrm{RMSPE}_{\mathrm{post}}(\hat{\tau}) / \mathrm{RMSPE}_{\mathrm{pre}}(\hat{\tau})$
+\FOR{each donor $P_j$ as placebo treated unit}
+    \STATE Compute placebo effect and ratio $r_j$
+\ENDFOR
+\STATE $p \leftarrow |\{j : r_j \geq r^*\}| / (J + 1)$
+\RETURN $\hat{\tau}$, $p$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Weight Estimation}
+
+The optimization in~\eqref{eq:weight-opt} is a convex quadratic program over the simplex.
+We solve it using the Frank-Wolfe (conditional gradient) algorithm, which iteratively moves toward the minimizing vertex of the simplex.
+Each iteration requires $O(J)$ for the gradient computation and $O(J)$ for the vertex identification, yielding an overall complexity of $O(KJ)$ per weight estimation, where $K$ is the number of iterations (typically $K \leq 1000$).
+
+\subsection{Donor Pool Construction}
+
+The item-disjointness criterion (\Cref{def:donor-pool}) ensures that control patterns are not directly affected by interventions targeting items in $P^*$.
+We additionally filter donors by requiring minimum variance in the pre-intervention period (to avoid degenerate flat trajectories) and optionally by pre-intervention correlation with the treated series.
+
+\subsection{Complexity Analysis}
+
+\begin{theorem}[Computational Complexity]
+\label{thm:complexity}
+SC-DenseAttrib runs in $O(N \cdot |\mathcal{P}| \cdot |P_{\max}| + J^2 \cdot t_0 + J \cdot (J^2 \cdot t_0))$ time, where $|P_{\max}|$ is the maximum pattern length, $J = |\mathcal{D}(P^*)|$ is the donor pool size, and $t_0$ is the pre-intervention period length.
+\end{theorem}
+
+\begin{proof}
+Support series computation takes $O(N \cdot |P|)$ per pattern.
+Donor pool construction is $O(|\mathcal{P}| \cdot |P^*|)$ for set intersection checks.
+Weight estimation is $O(J^2 \cdot t_0)$ for the quadratic form.
+Placebo tests repeat weight estimation $J$ times, each with $J$ donors, giving $O(J \cdot J^2 \cdot t_0)$ total.
+\end{proof}

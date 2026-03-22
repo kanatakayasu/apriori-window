@@ -1,0 +1,25 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Frequent itemset mining~\cite{agrawal1994fast} has been a cornerstone of knowledge discovery in databases for three decades.
+While classical algorithms discover itemsets that satisfy a global minimum support threshold, recent work has extended this framework to the temporal dimension: sliding-window approaches identify intervals during which a pattern's support is locally dense, even if its global support is unremarkable.
+
+A natural follow-up question arises once dense intervals are detected: \emph{why} did the support increase?
+In retail analytics, a product bundle may exhibit elevated co-purchase frequency during a promotional campaign.
+In healthcare, a drug combination may show increased co-prescription during a policy change.
+Establishing that the event \emph{caused} the support change---rather than merely coinciding with it---is crucial for actionable decision-making.
+
+Existing approaches to temporal pattern analysis are largely correlational.
+Phase~2 pipelines (change-point detection followed by permutation testing) can detect statistically significant support changes but cannot distinguish causal effects from confounding trends.
+The \emph{Rubin Causal Model}~\cite{rubin1974estimating} provides the theoretical foundation for causal inference: the causal effect is the difference between the observed outcome and the counterfactual outcome that would have occurred without the intervention.
+The Synthetic Control Method (SCM)~\cite{abadie2010synthetic} operationalizes this idea for aggregate time series by constructing the counterfactual as a weighted average of untreated units.
+
+In this paper, we bridge the gap between pattern mining and causal inference by applying SCM to pattern support time series.
+Our contributions are:
+
+\begin{enumerate}
+    \item We formalize the problem of \textbf{causal attribution for dense patterns}, defining key concepts including Donor Pool, Counterfactual Support Trajectory, Causal Effect on Support, and Item-Disjoint Pattern Control (\Cref{sec:problem}).
+    \item We propose \textbf{SC-DenseAttrib}, an algorithm that constructs a donor pool of item-disjoint patterns, estimates synthetic control weights via constrained optimization, and provides placebo-based inference (\Cref{sec:algorithm}).
+    \item We prove that the estimator is \textbf{unbiased under parallel trends} and that placebo tests yield exact p-values (\Cref{sec:problem}).
+    \item We conduct comprehensive experiments demonstrating accurate effect recovery, conservative false positive control, and interpretable counterfactual trajectories (\Cref{sec:experiments}).
+\end{enumerate}

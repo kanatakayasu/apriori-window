@@ -1,0 +1,107 @@
+\section{Problem Definition}
+\label{sec:problem}
+
+\subsection{Preliminaries}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a set of items.
+A \emph{transaction} $T \subseteq \mathcal{I}$ is a subset of items.
+A \emph{transaction sequence} $\mathcal{D} = (T_1, T_2, \ldots, T_N)$ is an ordered collection of $N$ transactions indexed by time.
+An \emph{itemset} (or \emph{pattern}) $P \subseteq \mathcal{I}$ is a non-empty subset of items.
+
+\begin{definition}[Windowed Support]
+\label{def:windowed-support}
+For a pattern $P$ and window size $W \in \mathbb{N}^+$, the \emph{windowed support} at position $t$ is:
+\begin{equation}
+    \sigma_P(t) = \frac{|\{i \in [t, t+W) : P \subseteq T_i\}|}{W}, \quad t \in [1, N-W+1]
+\end{equation}
+The resulting sequence $\mathbf{s}_P = (\sigma_P(1), \ldots, \sigma_P(N-W+1))$ is the \emph{support time series} of $P$.
+\end{definition}
+
+\subsection{Causal Attribution Framework}
+
+We model the intervention as occurring at a known time $t_0$.
+Our goal is to estimate the causal effect of this intervention on the support of a \emph{treated pattern} $P^*$.
+
+\begin{definition}[Donor Pool]
+\label{def:donor-pool}
+Given a treated pattern $P^*$ and a set of candidate patterns $\mathcal{P}$, the \emph{donor pool} is:
+\begin{equation}
+    \mathcal{D}(P^*) = \{P \in \mathcal{P} : P \cap P^* = \emptyset\}
+\end{equation}
+where $P \cap P^*$ denotes the intersection of item sets.
+Patterns in the donor pool share no items with $P^*$.
+\end{definition}
+
+The rationale for item disjointness is that patterns sharing items with $P^*$ may be directly affected by the same intervention (e.g., a promotion on item $i \in P^*$ would also affect any pattern containing $i$).
+
+\begin{definition}[Counterfactual Support Trajectory]
+\label{def:counterfactual}
+Given the donor pool $\mathcal{D}(P^*) = \{P_1, \ldots, P_J\}$, the \emph{counterfactual support trajectory} is:
+\begin{equation}
+    \hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_{j=1}^{J} w_j \cdot \sigma_{P_j}(t), \quad t \geq t_0
+\end{equation}
+where weights $\mathbf{w}^* = (w_1^*, \ldots, w_J^*)$ minimize the pre-intervention prediction error:
+\begin{equation}
+    \mathbf{w}^* = \arg\min_{\mathbf{w} \in \Delta^J} \sum_{t=1}^{t_0-1} \left(\sigma_{P^*}(t) - \sum_{j=1}^{J} w_j \cdot \sigma_{P_j}(t)\right)^2
+    \label{eq:weight-opt}
+\end{equation}
+subject to the simplex constraint $\Delta^J = \{\mathbf{w} : w_j \geq 0, \sum_j w_j = 1\}$.
+\end{definition}
+
+\begin{definition}[Causal Effect on Support]
+\label{def:causal-effect}
+The \emph{causal effect} at time $t \geq t_0$ is:
+\begin{equation}
+    \tau(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)
+\end{equation}
+The \emph{cumulative causal effect} is $\mathcal{T} = \sum_{t=t_0}^{T} \tau(t)$.
+\end{definition}
+
+\begin{definition}[Item-Disjoint Pattern Control]
+\label{def:item-disjoint}
+A pattern $P_j$ is a valid \emph{item-disjoint control} for $P^*$ if:
+\begin{enumerate}
+    \item $P_j \cap P^* = \emptyset$ (item disjointness), and
+    \item the pre-intervention RMSPE of fitting $\sigma_{P_j}$ to $\sigma_{P^*}$ is below a threshold $\delta$.
+\end{enumerate}
+\end{definition}
+
+\subsection{Theoretical Guarantees}
+
+\begin{theorem}[Unbiasedness under Parallel Trends]
+\label{thm:unbiased}
+Assume that absent the intervention, the treated pattern's support trajectory satisfies:
+\begin{equation}
+    \sigma_{P^*}^{(0)}(t) = \sum_{j=1}^{J} w_j^* \cdot \sigma_{P_j}(t) + \epsilon_t, \quad \mathbb{E}[\epsilon_t] = 0
+\end{equation}
+for all $t \geq t_0$, where $\sigma_{P^*}^{(0)}$ denotes the potential outcome without intervention.
+Then $\hat{\tau}(t) = \sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)$ is an unbiased estimator of the true causal effect $\tau^*(t) = \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t)$.
+\end{theorem}
+
+\begin{proof}
+By construction, $\hat{\sigma}_{P^*}^{\mathrm{CF}}(t) = \sum_j w_j^* \sigma_{P_j}(t)$.
+Under the assumption, $\sigma_{P^*}^{(0)}(t) = \sum_j w_j^* \sigma_{P_j}(t) + \epsilon_t$.
+Therefore:
+\begin{align}
+    \mathbb{E}[\hat{\tau}(t)] &= \mathbb{E}[\sigma_{P^*}(t) - \hat{\sigma}_{P^*}^{\mathrm{CF}}(t)] \\
+    &= \sigma_{P^*}(t) - \sum_j w_j^* \sigma_{P_j}(t) \\
+    &= \sigma_{P^*}(t) - (\sigma_{P^*}^{(0)}(t) - \mathbb{E}[\epsilon_t]) \\
+    &= \sigma_{P^*}(t) - \sigma_{P^*}^{(0)}(t) = \tau^*(t). \qedhere
+\end{align}
+\end{proof}
+
+\begin{theorem}[Placebo Test Validity]
+\label{thm:placebo}
+Under the null hypothesis $H_0: \tau^*(t) = 0$ for all $t \geq t_0$, if the post/pre RMSPE ratios of all $J+1$ units (treated + donors) are exchangeable, then the probability that the treated unit's ratio ranks highest is exactly $1/(J+1)$.
+\end{theorem}
+
+\begin{proof}
+Under $H_0$, the treated unit is statistically indistinguishable from the donors.
+Exchangeability implies that all $(J+1)!$ rankings are equally likely.
+The probability that any specific unit (including the treated) has the highest ratio is $1/(J+1)$.
+\end{proof}
+
+\begin{corollary}
+The minimum achievable p-value from placebo tests with $J$ donors is $1/(J+1)$.
+To achieve $p < 0.05$, at least $J \geq 19$ donors are required.
+\end{corollary}

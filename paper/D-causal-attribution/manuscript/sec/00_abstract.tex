@@ -1,0 +1,9 @@
+\begin{abstract}
+Frequent pattern mining identifies itemsets whose co-occurrence frequency exceeds a support threshold, and sliding-window extensions can detect temporal intervals where this frequency is locally elevated.
+However, attributing such support changes to specific external events---e.g., a marketing campaign or policy intervention---remains an open problem: observed correlations may be spurious.
+We propose \textsc{SC-DenseAttrib}, the first method to apply the Synthetic Control Method (SCM) to pattern support time series for causal attribution.
+Our key idea is to construct a \emph{donor pool} of item-disjoint control patterns whose support trajectories are unaffected by the event of interest, then estimate a counterfactual support trajectory as a weighted combination of these controls.
+The causal effect is measured as the divergence between observed and counterfactual support after the intervention.
+We provide formal definitions of Donor Pool, Counterfactual Support Trajectory, Causal Effect on Support, and Item-Disjoint Pattern Control, and prove unbiasedness under parallel trends.
+Experiments on synthetic data show that SC-DenseAttrib recovers injected causal effects with mean absolute error below 0.04, maintains a false positive rate of 0\% under the null, and provides interpretable counterfactual trajectories that simple permutation tests cannot offer.
+\end{abstract}

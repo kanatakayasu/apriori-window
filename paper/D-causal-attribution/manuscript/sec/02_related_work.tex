@@ -1,0 +1,33 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Temporal Pattern Mining}
+
+Frequent itemset mining originates with the Apriori algorithm~\cite{agrawal1994fast}, which exploits the downward closure property for efficient candidate generation.
+FP-Growth~\cite{han2000mining} improved efficiency via a compressed data structure.
+Temporal extensions include sequential pattern mining~\cite{agrawal1995mining}, periodic pattern mining, and sliding-window approaches that compute local support within fixed-width windows.
+
+Our prior work detects \emph{dense intervals}---contiguous periods where a pattern's windowed support exceeds a threshold---and identifies the start and end points of such intervals.
+However, detecting \emph{when} support changes does not explain \emph{why} it changed.
+
+\subsection{Causal Inference for Time Series}
+
+The Rubin Causal Model~\cite{rubin1974estimating} defines the causal effect as the difference between potential outcomes under treatment and control.
+For observational time series, three main approaches exist:
+
+\paragraph{Difference-in-Differences (DiD)} assumes parallel trends between treated and control groups~\cite{card1994minimum, angrist2009mostly}.
+DiD requires a single control group with identical pre-treatment trends, which is restrictive for pattern support data where no single control pattern may match the treated pattern's trajectory.
+
+\paragraph{Synthetic Control Method (SCM)} constructs a weighted average of multiple control units to match the treated unit's pre-intervention trajectory~\cite{abadie2003economic, abadie2010synthetic, abadie2015comparative}.
+SCM is more flexible than DiD because it accommodates heterogeneous controls and provides transparency through the weight vector.
+Inference is typically conducted via placebo tests~\cite{abadie2010synthetic}.
+
+\paragraph{Bayesian Structural Time Series (BSTS)} uses a state-space model to estimate the counterfactual~\cite{brodersen2015inferring}.
+The CausalImpact framework provides posterior intervals for the causal effect.
+While powerful, BSTS requires specification of a generative model, which may not be natural for pattern support data.
+
+\subsection{Gap: Causal Inference for Pattern Mining}
+
+To the best of our knowledge, no prior work applies causal inference methods---SCM, DiD, or BSTS---to pattern support time series.
+The challenge is twofold: (1) defining valid control units for a pattern, and (2) ensuring that the parallel trends assumption holds.
+We address both challenges by introducing \emph{item-disjoint pattern controls}.

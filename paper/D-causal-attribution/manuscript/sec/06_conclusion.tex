@@ -1,0 +1,20 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We introduced SC-DenseAttrib, the first method to apply the Synthetic Control Method to pattern support time series for causal attribution of support changes to external events.
+Our framework formalizes four key concepts---Donor Pool, Counterfactual Support Trajectory, Causal Effect on Support, and Item-Disjoint Pattern Control---and provides theoretical guarantees under parallel trends.
+
+Experiments demonstrated that SC-DenseAttrib:
+(1) accurately recovers causal effects with mean absolute error below 0.04;
+(2) controls the false positive rate at 0\% under the null;
+(3) handles seasonal confounds via the synthetic control construction; and
+(4) provides interpretable counterfactual trajectories that simple permutation tests cannot offer.
+
+The primary limitation is the dependence on donor pool size for statistical power: at least 20 item-disjoint donors are needed for $p < 0.05$.
+This requirement may be challenging in datasets with few items or highly correlated pattern supports.
+
+Future work includes:
+(1) extending to multiple simultaneous interventions via augmented SCM;
+(2) relaxing the item-disjointness criterion using conditional independence tests;
+(3) integrating with the dense interval detection pipeline for fully automated causal attribution; and
+(4) application to real-world retail and healthcare datasets.
