@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper K: Dense Prescription Patterns and Regulatory Event Attribution</title>
+    <style>
+        :root {
+            --primary: #1565c0;
+            --primary-light: #e3f2fd;
+            --accent: #c62828;
+            --text: #212121;
+            --text-secondary: #616161;
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0d47a1 100%);
+            color: white;
+            padding: 60px 0 48px;
+        }
+        .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+        .hero .subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 24px; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 6px;
+        }
+        .badge-venue { background: rgba(255,255,255,0.2); color: white; }
+        .badge-status { background: #ffab00; color: #212121; }
+
+        /* Sections */
+        section { padding: 48px 0; }
+        section:nth-child(even) { background: var(--card-bg); }
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        h3 { font-size: 1.1rem; margin: 16px 0 8px; color: var(--text); }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+        }
+        .card h3 { margin-top: 0; color: var(--primary); }
+        .card .number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.95rem;
+        }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+        tr:hover td { background: #f5f5f5; }
+
+        /* Pipeline */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+            margin: 24px 0;
+        }
+        .pipeline-step {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 14px 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+        }
+        .pipeline-step .step-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .pipeline-step .step-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .pipeline-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+            padding: 0 6px;
+        }
+
+        /* Figure */
+        .figure-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .figure-container img {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        .figure-caption {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: #263238;
+            color: #b0bec5;
+            padding: 32px 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        footer a { color: #80cbc4; }
+
+        /* Comparison table highlight */
+        .check { color: #2e7d32; font-weight: bold; }
+        .cross { color: #bdbdbd; }
+
+        /* Abstract box */
+        .abstract-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px 24px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="container">
+        <span class="badge badge-venue">Target: JAMIA / AMIA</span>
+        <span class="badge badge-status">Paper K</span>
+        <h1>Dense Prescription Patterns and<br>Regulatory Event Attribution</h1>
+        <p class="subtitle">Bridging frequent itemset mining and pharmacovigilance for automated multi-pattern surveillance</p>
+    </div>
+</div>
+
+<!-- Abstract -->
+<section>
+    <div class="container">
+        <h2>Abstract</h2>
+        <div class="abstract-box">
+            <p>We propose a framework that combines sliding-window frequent itemset mining with automated regulatory event attribution to detect <strong>dense prescription intervals</strong>: time periods where co-prescription patterns become unusually frequent. The method adapts the Apriori-window algorithm to ATC-coded prescription transactions, identifies change points in pattern density, and attributes changes to regulatory events using Welch's <em>t</em>-test with Benjamini-Hochberg FDR control. Experiments demonstrate detection of <strong>3,100 dense patterns</strong> across 19 drug classes, identification of <strong>856 disappearing</strong> and <strong>601 emerging</strong> contrast patterns, and sub-second analysis on 1,000-transaction datasets.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Key Results -->
+<section>
+    <div class="container">
+        <h2>Key Results</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="number">3,100</div>
+                <div class="label">Dense Prescription Patterns</div>
+                <p style="margin-top:8px; font-size:0.9rem; color: var(--text-secondary)">Across 19 ATC level-3 drug classes in 1,000 transactions</p>
+            </div>
+            <div class="card">
+                <div class="number">1,457</div>
+                <div class="label">Significant Contrast Patterns</div>
+                <p style="margin-top:8px; font-size:0.9rem; color: var(--text-secondary)">856 disappearing + 601 emerging after BH correction</p>
+            </div>
+            <div class="card">
+                <div class="number">65.5%</div>
+                <div class="label">Cascade Effects</div>
+                <p style="margin-top:8px; font-size:0.9rem; color: var(--text-secondary)">Disappearing patterns not directly targeted by regulatory event</p>
+            </div>
+            <div class="card">
+                <div class="number">1.05s</div>
+                <div class="label">Mining Time</div>
+                <p style="margin-top:8px; font-size:0.9rem; color: var(--text-secondary)">Pattern detection on 1,000 transactions, W=30, theta=5</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pipeline -->
+<section>
+    <div class="container">
+        <h2>Method Pipeline</h2>
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <div class="step-title">ATC Encoding</div>
+                <div class="step-desc">Drug names to ATC codes (level 3)</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step">
+                <div class="step-title">Dense Mining</div>
+                <div class="step-desc">Apriori-window sliding algorithm</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step">
+                <div class="step-title">Contrast Analysis</div>
+                <div class="step-desc">Pre/post event comparison</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step">
+                <div class="step-title">Attribution</div>
+                <div class="step-desc">Welch t-test + BH FDR</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison -->
+<section>
+    <div class="container">
+        <h2>Comparison with Existing Methods</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Temporal</th>
+                    <th>Multi-drug</th>
+                    <th>Auto-attribution</th>
+                    <th>Dense intervals</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>PRR / ROR</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>BCPNN / GPS</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>Self-Controlled Case Series</td><td class="check">&check;</td><td class="cross">&times;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>Interrupted Time Series</td><td class="check">&check;</td><td class="cross">&times;</td><td>Manual</td><td class="cross">&times;</td></tr>
+                <tr><td>Apriori / FP-Growth</td><td class="cross">&times;</td><td class="check">&check;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr><td>Sequential Pattern Mining</td><td class="check">&check;</td><td class="check">&check;</td><td class="cross">&times;</td><td class="cross">&times;</td></tr>
+                <tr style="background:#e8f5e9; font-weight:600"><td>Ours</td><td class="check">&check;</td><td class="check">&check;</td><td class="check">&check;</td><td class="check">&check;</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Experiments -->
+<section>
+    <div class="container">
+        <h2>Experiments</h2>
+
+        <h3>E2: Contrast Pattern Examples</h3>
+        <table>
+            <thead>
+                <tr><th>Pattern</th><th>Description</th><th>Pre-mean</th><th>Post-mean</th><th>&Delta;</th><th>Class</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>{N02A, N05B}</td><td>Opioid + Benzodiazepine</td><td>6.14</td><td>2.72</td><td style="color:#c62828">-3.42</td><td>Disappearing</td></tr>
+                <tr><td>{N02A, N02B}</td><td>Opioid + Analgesic</td><td>5.80</td><td>3.10</td><td style="color:#c62828">-2.70</td><td>Disappearing</td></tr>
+                <tr><td>{A10B, C10A}</td><td>Antidiabetic + Statin</td><td>8.22</td><td>8.85</td><td style="color:#2e7d32">+0.63</td><td>Emerging</td></tr>
+            </tbody>
+        </table>
+
+        <h3>E3: Parameter Sensitivity</h3>
+        <div class="figure-container">
+            <img src="../experiments/figures/fig2_sensitivity_heatmap.png" alt="Parameter sensitivity heatmap">
+            <div class="figure-caption">Number of dense patterns by window size (W) and threshold (theta)</div>
+        </div>
+
+        <h3>E4: Multi-Drug-Class Analysis</h3>
+        <table>
+            <thead>
+                <tr><th>Drug Class</th><th>Patterns</th><th>Disappearing</th><th>Emerging</th><th>Stable</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Cardiovascular</td><td>1,087</td><td>145</td><td>3</td><td>939</td></tr>
+                <tr><td>Pain Management</td><td>1,096</td><td>182</td><td>36</td><td>878</td></tr>
+                <tr><td>Antibiotics</td><td>1,094</td><td>53</td><td>51</td><td>990</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Research Context -->
+<section>
+    <div class="container">
+        <h2>Research Context</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Domain</h3>
+                <p>Pharmacoepidemiology, pharmacovigilance, clinical data mining</p>
+            </div>
+            <div class="card">
+                <h3>Data</h3>
+                <p>Synthetic MIMIC-IV-style prescription data with 19 ATC drug classes and 2 simulated FDA safety communications</p>
+            </div>
+            <div class="card">
+                <h3>Core Algorithm</h3>
+                <p>Apriori-window sliding dense interval detection adapted for ATC-coded prescription transactions</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>Paper K: Pharmacoepidemiology &mdash; Part of the Apriori-Window research project</p>
+        <p style="margin-top: 8px">Synthetic data used for demonstration. Real MIMIC-IV data requires <a href="https://physionet.org/content/mimiciv/">PhysioNet credentialing</a>.</p>
+    </div>
+</footer>
+
+</body>
+</html>
