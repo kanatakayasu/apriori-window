@@ -1,0 +1,992 @@
+{
+  "paper_id": "L-manufacturing",
+  "timestamp": "2026-03-22T19:14:26",
+  "experiments": {
+    "E1": {
+      "experiment": "E1",
+      "config": {
+        "n_time_bins": 2000,
+        "n_fault_scenarios": 5,
+        "window_size": 20,
+        "threshold": 8,
+        "max_length": 4
+      },
+      "results": {
+        "total_patterns": 53,
+        "singleton_patterns": 15,
+        "pair_patterns": 37,
+        "triple_patterns": 1,
+        "quad_patterns": 0,
+        "total_intervals": 286,
+        "equipment_group_distribution": {
+          "ETCH": 11,
+          "LITHO": 6,
+          "CROSS_EQUIP": 28,
+          "CVD": 8,
+          "GENERAL": 11,
+          "CMP": 8,
+          "INSPECT": 10,
+          "IMPLANT": 12
+        },
+        "elapsed_ms": 11.63
+      },
+      "sample_patterns": [
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "SENSOR_DRIFT",
+            "INSPECT_DEFECT_COUNT"
+          ],
+          "equipment_groups": [
+            "GENERAL",
+            "INSPECT"
+          ],
+          "n_intervals": 1,
+          "intervals": [
+            [
+              1447,
+              1448
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "ETCH_TEMP_HIGH"
+          ],
+          "equipment_groups": [
+            "ETCH",
+            "LITHO"
+          ],
+          "n_intervals": 8,
+          "intervals": [
+            [
+              370,
+              375
+            ],
+            [
+              381,
+              382
+            ],
+            [
+              385,
+              390
+            ],
+            [
+              400,
+              401
+            ],
+            [
+              403,
+              408
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CVD_THICKNESS"
+          ],
+          "equipment_groups": [
+            "CVD",
+            "LITHO"
+          ],
+          "n_intervals": 3,
+          "intervals": [
+            [
+              620,
+              625
+            ],
+            [
+              628,
+              628
+            ],
+            [
+              635,
+              637
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "ETCH_RF_POWER"
+          ],
+          "equipment_groups": [
+            "ETCH",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "intervals": [
+            [
+              375,
+              390
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "VIBRATION_HIGH"
+          ],
+          "equipment_groups": [
+            "GENERAL",
+            "LITHO"
+          ],
+          "n_intervals": 3,
+          "intervals": [
+            [
+              414,
+              416
+            ],
+            [
+              433,
+              434
+            ],
+            [
+              436,
+              441
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CVD_TEMP_HIGH"
+          ],
+          "equipment_groups": [
+            "CVD",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "intervals": [
+            [
+              632,
+              641
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CMP_UNIFORMITY"
+          ],
+          "equipment_groups": [
+            "CMP",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "intervals": [
+            [
+              399,
+              401
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "SENSOR_DRIFT"
+          ],
+          "equipment_groups": [
+            "GENERAL",
+            "INSPECT"
+          ],
+          "n_intervals": 1,
+          "intervals": [
+            [
+              1440,
+              1459
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "IMPLANT_BEAM"
+          ],
+          "equipment_groups": [
+            "IMPLANT",
+            "INSPECT"
+          ],
+          "n_intervals": 5,
+          "intervals": [
+            [
+              1477,
+              1484
+            ],
+            [
+              1496,
+              1497
+            ],
+            [
+              1505,
+              1508
+            ],
+            [
+              1515,
+              1515
+            ],
+            [
+              1553,
+              1554
+            ]
+          ]
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "IMPLANT_ENERGY"
+          ],
+          "equipment_groups": [
+            "IMPLANT",
+            "INSPECT"
+          ],
+          "n_intervals": 3,
+          "intervals": [
+            [
+              1433,
+              1436
+            ],
+            [
+              1486,
+              1507
+            ],
+            [
+              1515,
+              1515
+            ]
+          ]
+        }
+      ]
+    },
+    "E2": {
+      "experiment": "E2",
+      "config": {
+        "lookback": 100,
+        "alpha": 0.05,
+        "n_events": 5
+      },
+      "results": {
+        "total_significant": 81,
+        "resolved": 33,
+        "introduced": 8,
+        "stable": 40
+      },
+      "event_breakdown": {
+        "M1": {
+          "event_type": "scheduled_maintenance",
+          "equipment_group": "ETCH",
+          "timestamp": 500,
+          "description": "Etch chamber PM - resolved F1",
+          "summary": {
+            "resolved": 13,
+            "introduced": 2,
+            "stable": 8,
+            "total": 23
+          },
+          "equipment_related_count": 11
+        },
+        "M2": {
+          "event_type": "part_replacement",
+          "equipment_group": "GENERAL",
+          "timestamp": 700,
+          "description": "Vibration dampener replacement",
+          "summary": {
+            "resolved": 10,
+            "introduced": 1,
+            "stable": 6,
+            "total": 17
+          },
+          "equipment_related_count": 5
+        },
+        "M3": {
+          "event_type": "calibration",
+          "equipment_group": "CVD",
+          "timestamp": 900,
+          "description": "CVD temperature recalibration - resolved F2",
+          "summary": {
+            "resolved": 4,
+            "introduced": 0,
+            "stable": 8,
+            "total": 12
+          },
+          "equipment_related_count": 7
+        },
+        "M4": {
+          "event_type": "recipe_update",
+          "equipment_group": "IMPLANT",
+          "timestamp": 1200,
+          "description": "Implant recipe update - introduced F4",
+          "summary": {
+            "resolved": 0,
+            "introduced": 5,
+            "stable": 6,
+            "total": 11
+          },
+          "equipment_related_count": 9
+        },
+        "M5": {
+          "event_type": "calibration",
+          "equipment_group": "INSPECT",
+          "timestamp": 1800,
+          "description": "Sensor recalibration - resolved F5",
+          "summary": {
+            "resolved": 6,
+            "introduced": 0,
+            "stable": 12,
+            "total": 18
+          },
+          "equipment_related_count": 8
+        }
+      },
+      "sample_contrasts": [
+        {
+          "pattern": [
+            "ETCH_TEMP_HIGH",
+            "ETCH_RF_POWER"
+          ],
+          "event_id": "M1",
+          "pre_mean": 7.52,
+          "post_mean": 0.0,
+          "delta": -7.52,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_PRESSURE",
+            "ETCH_RF_POWER"
+          ],
+          "event_id": "M1",
+          "pre_mean": 7.25,
+          "post_mean": 0.0,
+          "delta": -7.25,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_PRESSURE",
+            "ETCH_TEMP_HIGH"
+          ],
+          "event_id": "M1",
+          "pre_mean": 6.98,
+          "post_mean": 0.0,
+          "delta": -6.98,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_TEMP_HIGH",
+            "CMP_UNIFORMITY"
+          ],
+          "event_id": "M1",
+          "pre_mean": 6.27,
+          "post_mean": 0.21,
+          "delta": -6.06,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "IMPLANT_ENERGY",
+            "IMPLANT_DOSE"
+          ],
+          "event_id": "M4",
+          "pre_mean": 0.46,
+          "post_mean": 6.2,
+          "delta": 5.74,
+          "p_value": 0.0,
+          "classification": "introduced",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_TEMP_HIGH",
+            "VIBRATION_HIGH"
+          ],
+          "event_id": "M1",
+          "pre_mean": 6.1,
+          "post_mean": 0.64,
+          "delta": -5.46,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_RF_POWER",
+            "CMP_UNIFORMITY"
+          ],
+          "event_id": "M1",
+          "pre_mean": 5.41,
+          "post_mean": 0.0,
+          "delta": -5.41,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "SENSOR_DRIFT",
+            "INSPECT_DEFECT_COUNT"
+          ],
+          "event_id": "M5",
+          "pre_mean": 5.17,
+          "post_mean": 0.0,
+          "delta": -5.17,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_PRESSURE",
+            "VIBRATION_HIGH"
+          ],
+          "event_id": "M1",
+          "pre_mean": 5.27,
+          "post_mean": 0.21,
+          "delta": -5.06,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        },
+        {
+          "pattern": [
+            "ETCH_RF_POWER",
+            "VIBRATION_HIGH"
+          ],
+          "event_id": "M1",
+          "pre_mean": 5.1,
+          "post_mean": 0.21,
+          "delta": -4.89,
+          "p_value": 0.0,
+          "classification": "resolved",
+          "equipment_related": true
+        }
+      ]
+    },
+    "E3": {
+      "experiment": "E3",
+      "sensitivity": [
+        {
+          "window_size": 10,
+          "threshold": 8,
+          "total_patterns": 15,
+          "multi_patterns": 0,
+          "total_intervals": 142,
+          "elapsed_ms": 5.77
+        },
+        {
+          "window_size": 15,
+          "threshold": 8,
+          "total_patterns": 33,
+          "multi_patterns": 18,
+          "total_intervals": 289,
+          "elapsed_ms": 7.83
+        },
+        {
+          "window_size": 20,
+          "threshold": 8,
+          "total_patterns": 53,
+          "multi_patterns": 38,
+          "total_intervals": 286,
+          "elapsed_ms": 11.62
+        },
+        {
+          "window_size": 30,
+          "threshold": 8,
+          "total_patterns": 82,
+          "multi_patterns": 67,
+          "total_intervals": 330,
+          "elapsed_ms": 11.84
+        },
+        {
+          "window_size": 50,
+          "threshold": 8,
+          "total_patterns": 101,
+          "multi_patterns": 86,
+          "total_intervals": 229,
+          "elapsed_ms": 10.99
+        },
+        {
+          "window_size": 20,
+          "threshold": 4,
+          "total_patterns": 124,
+          "multi_patterns": 98,
+          "total_intervals": 559,
+          "elapsed_ms": 12.21
+        },
+        {
+          "window_size": 20,
+          "threshold": 6,
+          "total_patterns": 89,
+          "multi_patterns": 74,
+          "total_intervals": 452,
+          "elapsed_ms": 12.65
+        },
+        {
+          "window_size": 20,
+          "threshold": 8,
+          "total_patterns": 53,
+          "multi_patterns": 38,
+          "total_intervals": 286,
+          "elapsed_ms": 11.59
+        },
+        {
+          "window_size": 20,
+          "threshold": 10,
+          "total_patterns": 29,
+          "multi_patterns": 14,
+          "total_intervals": 259,
+          "elapsed_ms": 7.81
+        },
+        {
+          "window_size": 20,
+          "threshold": 12,
+          "total_patterns": 17,
+          "multi_patterns": 2,
+          "total_intervals": 173,
+          "elapsed_ms": 6.02
+        }
+      ]
+    },
+    "E4": {
+      "experiment": "E4",
+      "cross_equipment_patterns": 28,
+      "single_equipment_patterns": 10,
+      "cross_equipment_sample": [
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "ETCH_TEMP_HIGH"
+          ],
+          "groups": [
+            "ETCH",
+            "LITHO"
+          ],
+          "n_intervals": 8,
+          "interval_span": 28
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CVD_THICKNESS"
+          ],
+          "groups": [
+            "CVD",
+            "LITHO"
+          ],
+          "n_intervals": 3,
+          "interval_span": 7
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "ETCH_RF_POWER"
+          ],
+          "groups": [
+            "ETCH",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "interval_span": 15
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "VIBRATION_HIGH"
+          ],
+          "groups": [
+            "GENERAL",
+            "LITHO"
+          ],
+          "n_intervals": 3,
+          "interval_span": 8
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CVD_TEMP_HIGH"
+          ],
+          "groups": [
+            "CVD",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "interval_span": 9
+        },
+        {
+          "pattern": [
+            "LITHO_ALIGNMENT",
+            "CMP_UNIFORMITY"
+          ],
+          "groups": [
+            "CMP",
+            "LITHO"
+          ],
+          "n_intervals": 1,
+          "interval_span": 2
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "SENSOR_DRIFT"
+          ],
+          "groups": [
+            "GENERAL",
+            "INSPECT"
+          ],
+          "n_intervals": 1,
+          "interval_span": 19
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "IMPLANT_BEAM"
+          ],
+          "groups": [
+            "IMPLANT",
+            "INSPECT"
+          ],
+          "n_intervals": 5,
+          "interval_span": 12
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "IMPLANT_ENERGY"
+          ],
+          "groups": [
+            "IMPLANT",
+            "INSPECT"
+          ],
+          "n_intervals": 3,
+          "interval_span": 24
+        },
+        {
+          "pattern": [
+            "INSPECT_PARTICLE",
+            "IMPLANT_DOSE"
+          ],
+          "groups": [
+            "IMPLANT",
+            "INSPECT"
+          ],
+          "n_intervals": 3,
+          "interval_span": 8
+        }
+      ],
+      "fault_coverage": {
+        "F1": {
+          "description": "Etch chamber degradation causing thermal + pressure alarms",
+          "alarm_types": [
+            "ETCH_TEMP_HIGH",
+            "ETCH_PRESSURE",
+            "ETCH_RF_POWER"
+          ],
+          "time_range": [
+            200,
+            500
+          ],
+          "detected_patterns": 3,
+          "matching": [
+            {
+              "pattern": [
+                "ETCH_PRESSURE",
+                "ETCH_TEMP_HIGH"
+              ],
+              "interval": [
+                201,
+                201
+              ],
+              "overlap_alarms": [
+                "ETCH_TEMP_HIGH",
+                "ETCH_PRESSURE"
+              ]
+            },
+            {
+              "pattern": [
+                "ETCH_PRESSURE",
+                "ETCH_RF_POWER"
+              ],
+              "interval": [
+                201,
+                202
+              ],
+              "overlap_alarms": [
+                "ETCH_RF_POWER",
+                "ETCH_PRESSURE"
+              ]
+            },
+            {
+              "pattern": [
+                "ETCH_TEMP_HIGH",
+                "ETCH_RF_POWER"
+              ],
+              "interval": [
+                195,
+                213
+              ],
+              "overlap_alarms": [
+                "ETCH_TEMP_HIGH",
+                "ETCH_RF_POWER"
+              ]
+            }
+          ]
+        },
+        "F2": {
+          "description": "CVD process drift causing deposition anomalies",
+          "alarm_types": [
+            "CVD_TEMP_HIGH",
+            "CVD_DEPOSITION_RATE",
+            "CVD_THICKNESS"
+          ],
+          "time_range": [
+            600,
+            900
+          ],
+          "detected_patterns": 3,
+          "matching": [
+            {
+              "pattern": [
+                "CVD_THICKNESS",
+                "CVD_DEPOSITION_RATE"
+              ],
+              "interval": [
+                612,
+                614
+              ],
+              "overlap_alarms": [
+                "CVD_DEPOSITION_RATE",
+                "CVD_THICKNESS"
+              ]
+            },
+            {
+              "pattern": [
+                "CVD_THICKNESS",
+                "CVD_TEMP_HIGH"
+              ],
+              "interval": [
+                619,
+                623
+              ],
+              "overlap_alarms": [
+                "CVD_TEMP_HIGH",
+                "CVD_THICKNESS"
+              ]
+            },
+            {
+              "pattern": [
+                "CVD_DEPOSITION_RATE",
+                "CVD_TEMP_HIGH"
+              ],
+              "interval": [
+                600,
+                600
+              ],
+              "overlap_alarms": [
+                "CVD_DEPOSITION_RATE",
+                "CVD_TEMP_HIGH"
+              ]
+            }
+          ]
+        },
+        "F3": {
+          "description": "Facility vibration affecting CMP and lithography",
+          "alarm_types": [
+            "VIBRATION_HIGH",
+            "CMP_UNIFORMITY",
+            "LITHO_ALIGNMENT"
+          ],
+          "time_range": [
+            300,
+            700
+          ],
+          "detected_patterns": 3,
+          "matching": [
+            {
+              "pattern": [
+                "LITHO_ALIGNMENT",
+                "VIBRATION_HIGH"
+              ],
+              "interval": [
+                414,
+                416
+              ],
+              "overlap_alarms": [
+                "VIBRATION_HIGH",
+                "LITHO_ALIGNMENT"
+              ]
+            },
+            {
+              "pattern": [
+                "LITHO_ALIGNMENT",
+                "CMP_UNIFORMITY"
+              ],
+              "interval": [
+                399,
+                401
+              ],
+              "overlap_alarms": [
+                "LITHO_ALIGNMENT",
+                "CMP_UNIFORMITY"
+              ]
+            },
+            {
+              "pattern": [
+                "VIBRATION_HIGH",
+                "CMP_UNIFORMITY"
+              ],
+              "interval": [
+                391,
+                411
+              ],
+              "overlap_alarms": [
+                "VIBRATION_HIGH",
+                "CMP_UNIFORMITY"
+              ]
+            }
+          ]
+        },
+        "F4": {
+          "description": "Implant recipe change introducing beam instability",
+          "alarm_types": [
+            "IMPLANT_ENERGY",
+            "IMPLANT_DOSE",
+            "IMPLANT_BEAM"
+          ],
+          "time_range": [
+            1200,
+            1600
+          ],
+          "detected_patterns": 3,
+          "matching": [
+            {
+              "pattern": [
+                "IMPLANT_BEAM",
+                "IMPLANT_ENERGY"
+              ],
+              "interval": [
+                1201,
+                1211
+              ],
+              "overlap_alarms": [
+                "IMPLANT_BEAM",
+                "IMPLANT_ENERGY"
+              ]
+            },
+            {
+              "pattern": [
+                "IMPLANT_BEAM",
+                "IMPLANT_DOSE"
+              ],
+              "interval": [
+                1208,
+                1211
+              ],
+              "overlap_alarms": [
+                "IMPLANT_BEAM",
+                "IMPLANT_DOSE"
+              ]
+            },
+            {
+              "pattern": [
+                "IMPLANT_ENERGY",
+                "IMPLANT_DOSE"
+              ],
+              "interval": [
+                1223,
+                1225
+              ],
+              "overlap_alarms": [
+                "IMPLANT_DOSE",
+                "IMPLANT_ENERGY"
+              ]
+            }
+          ]
+        },
+        "F5": {
+          "description": "Sensor drift causing inspection false positives",
+          "alarm_types": [
+            "INSPECT_DEFECT_COUNT",
+            "INSPECT_PARTICLE",
+            "SENSOR_DRIFT"
+          ],
+          "time_range": [
+            1400,
+            1800
+          ],
+          "detected_patterns": 4,
+          "matching": [
+            {
+              "pattern": [
+                "INSPECT_PARTICLE",
+                "SENSOR_DRIFT"
+              ],
+              "interval": [
+                1440,
+                1459
+              ],
+              "overlap_alarms": [
+                "SENSOR_DRIFT",
+                "INSPECT_PARTICLE"
+              ]
+            },
+            {
+              "pattern": [
+                "INSPECT_PARTICLE",
+                "INSPECT_DEFECT_COUNT"
+              ],
+              "interval": [
+                1441,
+                1459
+              ],
+              "overlap_alarms": [
+                "INSPECT_DEFECT_COUNT",
+                "INSPECT_PARTICLE"
+              ]
+            },
+            {
+              "pattern": [
+                "SENSOR_DRIFT",
+                "INSPECT_DEFECT_COUNT"
+              ],
+              "interval": [
+                1428,
+                1429
+              ],
+              "overlap_alarms": [
+                "SENSOR_DRIFT",
+                "INSPECT_DEFECT_COUNT"
+              ]
+            },
+            {
+              "pattern": [
+                "INSPECT_PARTICLE",
+                "SENSOR_DRIFT",
+                "INSPECT_DEFECT_COUNT"
+              ],
+              "interval": [
+                1447,
+                1448
+              ],
+              "overlap_alarms": [
+                "INSPECT_DEFECT_COUNT",
+                "INSPECT_PARTICLE",
+                "SENSOR_DRIFT"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
