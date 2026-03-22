@@ -1,0 +1,57 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{CJKutf8}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{lemma}{補題}
+\newtheorem{property}{性質}
+\newtheorem{corollary}{系}
+
+\begin{document}
+\begin{CJK}{UTF8}{ipxm}
+
+\title{差分プライバシー密集区間マイニング}
+
+\author{\IEEEauthorblockN{Anonymous Author(s)}
+\IEEEauthorblockA{査読中}}
+
+\maketitle
+
+\begin{abstract}
+トランザクションデータにおける密集区間マイニングは、特定のアイテムセットが時間的に集中して出現する区間を検出する強力な手法であるが、個人のトランザクション情報の漏洩リスクが存在する。
+本研究では、スライディングウィンドウに基づく密集区間検出に$(\varepsilon, \delta)$-差分プライバシー保証を付与する\emph{DP-DIM}（Differentially Private Dense Interval Mining）フレームワークを提案する。
+まず、ウィンドウカウントクエリの\emph{窓感度}（Window Sensitivity）を解析し、感度が$\Delta f = 1$であることを証明する。
+次に、ラプラスメカニズムおよびガウスメカニズムを適用した\emph{DP密集区間}（DP Dense Interval）検出アルゴリズムを提示する。
+さらに、ノイズ付きカウントの閾値判定の信頼性を保証する\emph{閾値安定性}（Threshold Stability）条件を導出し、Sparse Vector Technique による予算効率的な変種も提案する。
+\emph{プライバシ予算合成}（Privacy Budget Composition）として逐次合成定理および高度合成定理を適用し、Apriori型の多レベル探索における総プライバシ消費を管理する。
+合成データに対する実験により、(i) $\varepsilon = 1.0$で平均F1スコア0.60を達成し、(ii) ラプラスメカニズムがガウスメカニズムおよびSVTより高い精度を示し、(iii) 実行時間がトランザクション数に対してほぼ線形にスケールし、(iv) 高度合成定理により$k = 500$クエリで逐次合成比77.5\%の予算削減が可能であることを実証する。
+\end{abstract}
+
+\begin{IEEEkeywords}
+差分プライバシー, 密集区間, アイテムセットマイニング, スライディングウィンドウ, ラプラスメカニズム, プライバシ予算合成
+\end{IEEEkeywords}
+
+\input{sec/01_introduction}
+\input{sec/02_related_work}
+\input{sec/03_preliminaries}
+\input{sec/04_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{CJK}
+\end{document}

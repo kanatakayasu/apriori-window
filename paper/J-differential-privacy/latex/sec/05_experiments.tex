@@ -1,0 +1,128 @@
+\section{実験}\label{sec:experiments}
+
+\subsection{実験設定}
+
+合成データを用いてDP-DIMフレームワークを評価する。
+データ生成では、$n$トランザクション（$n = 300$、スケーラビリティ実験では100--2000）、$|\mathcal{I}| = 20$アイテムを使用し、指定区間$[s_d, e_d]$にアイテムセット$X_d$を出現確率0.85で注入する（背景出現確率0.05）。
+ウィンドウサイズ$W = 20$、閾値$\theta = 5$、最大アイテムセットサイズ$K = 3$とする。
+評価指標としてヤッカード類似度（Jaccard）、F1スコア（位置ベースのprecision/recall）を用いる。
+各条件で10シード（42--51）の平均を報告する。
+
+\subsection{E1: プライバシー・精度トレードオフ}
+
+$\varepsilon$を$\{0.1, 0.5, 1.0, 2.0, 5.0, 10.0\}$で変化させ、非DPの密集区間を真値としてJaccardおよびF1を測定した（表\ref{tab:e1}）。
+
+\begin{table}[t]
+\centering
+\caption{E1: $\varepsilon$に対するJaccardおよびF1（$W=20$, $\theta=5$, 10シード平均）}
+\label{tab:e1}
+\begin{tabular}{crrrr}
+\toprule
+$\varepsilon$ & Jaccard (平均) & Jaccard (標準偏差) & F1 (平均) & F1 (標準偏差) \\
+\midrule
+0.1  & 0.429 & 0.031 & 0.598 & 0.030 \\
+0.5  & 0.430 & 0.031 & 0.599 & 0.029 \\
+1.0  & 0.431 & 0.030 & 0.600 & 0.029 \\
+2.0  & 0.433 & 0.029 & 0.602 & 0.028 \\
+5.0  & 0.439 & 0.030 & 0.608 & 0.029 \\
+10.0 & 0.449 & 0.029 & 0.617 & 0.027 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$\varepsilon$の増大に伴いJaccard・F1ともに単調に向上し、$\varepsilon = 10.0$で最大Jaccard 0.449、F1 0.617を達成した。
+$\varepsilon = 1.0$でもF1 0.60を維持しており、実用的なプライバシーレベルで合理的な精度が得られることを示している。
+$\varepsilon = 0.1$（強いプライバシー保護）でもJaccard 0.429を達成しており、密集パターンの概形は捕捉されている。
+
+\subsection{E2: メカニズム比較}
+
+ラプラスメカニズム、ガウスメカニズム、SVTの3手法を$\varepsilon = 2.0$で比較した（表\ref{tab:e2}）。
+
+\begin{table}[t]
+\centering
+\caption{E2: メカニズム比較（$\varepsilon = 2.0$, 10シード平均）}
+\label{tab:e2}
+\begin{tabular}{lrrr}
+\toprule
+メカニズム & Jaccard (平均) & Jaccard (標準偏差) & 実行時間 (ms) \\
+\midrule
+Laplace  & 0.348 & 0.083 & 0.31 \\
+Gaussian & 0.311 & 0.049 & 0.37 \\
+SVT      & 0.233 & 0.089 & 0.11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+ラプラスメカニズムが最も高いJaccard（0.348）を達成した。
+ガウスメカニズムはやや低いが標準偏差が小さく安定している。
+SVTは最も高速であるが、ノイズ閾値との比較という性質上、区間境界の精度がやや低い。
+
+\subsection{E3: スケーラビリティ}
+
+トランザクション数$n$を$\{100, 200, 500, 1000, 2000\}$で変化させ、実行時間を測定した（表\ref{tab:e3}）。
+
+\begin{table}[t]
+\centering
+\caption{E3: スケーラビリティ（$\varepsilon = 1.0$, 3シード平均）}
+\label{tab:e3}
+\begin{tabular}{rrr}
+\toprule
+$n$ & 実行時間 (ms, 平均) & 実行時間 (ms, 標準偏差) \\
+\midrule
+100   & 2.2  & 0.1 \\
+200   & 4.5  & 0.0 \\
+500   & 12.2 & 0.2 \\
+1000  & 24.9 & 0.9 \\
+2000  & 51.2 & 1.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+実行時間は$n$に対してほぼ線形にスケールしており、$n = 2000$でも51 msと実用的な速度である。
+DPのオーバーヘッド（ノイズ生成）は全体の実行時間に対して無視できる水準である。
+
+\subsection{E4: 閾値安定性}
+
+$\varepsilon$と信頼度$p$に対する安定性マージン$\gamma$を算出した（表\ref{tab:e4}）。
+
+\begin{table}[t]
+\centering
+\caption{E4: 安定性マージン$\gamma$（$\Delta_W = 1$）}
+\label{tab:e4}
+\begin{tabular}{crrrr}
+\toprule
+$\varepsilon$ & $p = 0.80$ & $p = 0.90$ & $p = 0.95$ & $p = 0.99$ \\
+\midrule
+0.5 & 3.22 & 4.61 & 5.99 & 9.21 \\
+1.0 & 1.61 & 2.30 & 3.00 & 4.61 \\
+2.0 & 0.80 & 1.15 & 1.50 & 2.30 \\
+5.0 & 0.32 & 0.46 & 0.60 & 0.92 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$\varepsilon = 2.0$、信頼度$p = 0.95$で安定性マージンは1.50であり、真のカウントが閾値から2以上離れていれば95\%の信頼度で正しい判定が保証される。
+$\varepsilon = 5.0$では$\gamma = 0.60$（$p = 0.95$）となり、閾値近傍のカウントでもほぼ安定した判定が可能である。
+
+\subsection{E5: 予算合成}
+
+逐次合成と高度合成定理による総$\varepsilon$消費を比較した（表\ref{tab:e5}、$\varepsilon_0 = 0.01$）。
+
+\begin{table}[t]
+\centering
+\caption{E5: 逐次合成 vs 高度合成（$\varepsilon_0 = 0.01$, $\delta' = 10^{-5}$）}
+\label{tab:e5}
+\begin{tabular}{rrrr}
+\toprule
+クエリ数$k$ & 逐次合成$\varepsilon$ & 高度合成$\varepsilon$ & 削減率 \\
+\midrule
+10  & 0.10 & 0.15 & $-52.7$\% \\
+50  & 0.50 & 0.34 & 31.1\% \\
+100 & 1.00 & 0.49 & 51.0\% \\
+500 & 5.00 & 1.12 & 77.5\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+クエリ数が少ない場合（$k = 10$）は高度合成の$\sqrt{k}$項のオーバーヘッドが支配的で逐次合成が有利であるが、$k \geq 50$では高度合成が優位となる。
+$k = 500$で77.5\%の予算削減を達成しており、大規模データセットへの適用時に実質的な利点がある。

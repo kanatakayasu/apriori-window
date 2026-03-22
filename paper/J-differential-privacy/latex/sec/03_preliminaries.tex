@@ -1,0 +1,57 @@
+\section{予備知識}\label{sec:preliminaries}
+
+\subsection{密集区間マイニング}
+
+\begin{definition}[トランザクションデータベース]
+トランザクションデータベース$\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$は、各$T_t$がアイテム集合$\mathcal{I}$の部分集合であるトランザクションの時系列である。添字$t$はタイムスタンプを表す。
+\end{definition}
+
+\begin{definition}[ウィンドウカウント]
+アイテムセット$X \subseteq \mathcal{I}$のウィンドウ位置$l$におけるウィンドウカウント$C_W(X, l)$を以下で定義する：
+\[
+C_W(X, l) = |\{t \mid l \leq t \leq l + W,\, X \subseteq T_t\}|
+\]
+ここで$W$はウィンドウサイズである。
+\end{definition}
+
+\begin{definition}[密集区間~\cite{suzuki2024dense}]
+アイテムセット$X$の密集区間とは、$C_W(X, l) \geq \theta$を満たすウィンドウ左端$l$の極大連続区間$[s, e]$である。ここで$\theta$は最小サポート閾値である。
+\end{definition}
+
+\subsection{差分プライバシー}
+
+\begin{definition}[$(\varepsilon, \delta)$-差分プライバシー~\cite{dwork2006calibrating,dwork2014algorithmic}]
+ランダム化メカニズム$\mathcal{M}: \mathcal{X} \to \mathcal{R}$が$(\varepsilon, \delta)$-差分プライバシーを満たすとは、任意の隣接データベース$\mathcal{D}, \mathcal{D}'$（1レコードの追加または削除で異なる）および任意の出力集合$S \subseteq \mathcal{R}$に対して：
+\[
+\Pr[\mathcal{M}(\mathcal{D}) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(\mathcal{D}') \in S] + \delta
+\]
+が成り立つことをいう。$\delta = 0$の場合を純粋差分プライバシー（$\varepsilon$-DP）と呼ぶ。
+\end{definition}
+
+\begin{definition}[グローバル感度~\cite{dwork2006calibrating}]
+関数$f: \mathcal{X} \to \mathbb{R}^d$のグローバル感度$\Delta f$を以下で定義する：
+\[
+\Delta f = \max_{\mathcal{D}, \mathcal{D}':\, |\mathcal{D} \triangle \mathcal{D}'| = 1} \|f(\mathcal{D}) - f(\mathcal{D}')\|_1
+\]
+\end{definition}
+
+\begin{definition}[ラプラスメカニズム~\cite{dwork2006calibrating}]
+関数$f$に対するラプラスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \text{Lap}(\Delta f / \varepsilon)$を出力する。ここで$\text{Lap}(b)$はスケール$b$のラプラス分布からのサンプルである。このメカニズムは$\varepsilon$-DPを満たす。
+\end{definition}
+
+\begin{definition}[ガウスメカニズム~\cite{dwork2014algorithmic}]
+関数$f$に対するガウスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \mathcal{N}(0, \sigma^2)$を出力する。ここで$\sigma = \Delta f \cdot \sqrt{2\ln(1.25/\delta)} / \varepsilon$である。このメカニズムは$(\varepsilon, \delta)$-DPを満たす。
+\end{definition}
+
+\subsection{合成定理}
+
+\begin{property}[逐次合成~\cite{dwork2014algorithmic}]
+$\mathcal{M}_1, \ldots, \mathcal{M}_k$がそれぞれ$(\varepsilon_i, \delta_i)$-DPを満たすとき、合成メカニズム$(\mathcal{M}_1, \ldots, \mathcal{M}_k)$は$(\sum_i \varepsilon_i, \sum_i \delta_i)$-DPを満たす。
+\end{property}
+
+\begin{property}[高度合成定理~\cite{dwork2010boosting}]\label{prop:advanced}
+$k$個のメカニズムがそれぞれ$\varepsilon_0$-DPを満たすとき、任意の$\delta' > 0$に対して、合成メカニズムは$(\varepsilon', k\delta + \delta')$-DPを満たす。ここで：
+\[
+\varepsilon' = \varepsilon_0 \sqrt{2k\ln(1/\delta')} + k\varepsilon_0(e^{\varepsilon_0} - 1)
+\]
+\end{property}

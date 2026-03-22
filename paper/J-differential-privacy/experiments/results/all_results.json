@@ -1,0 +1,227 @@
+{
+  "e1_privacy_accuracy": {
+    "epsilons": [
+      0.1,
+      0.5,
+      1.0,
+      2.0,
+      5.0,
+      10.0
+    ],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "per_epsilon": {
+      "0.1": {
+        "mean_jaccard": 0.4290745343922252,
+        "std_jaccard": 0.03139032008457572,
+        "mean_f1": 0.5979525611864976,
+        "std_f1": 0.029998565839285004,
+        "mean_n_detected": 4.0
+      },
+      "0.5": {
+        "mean_jaccard": 0.4298411842720669,
+        "std_jaccard": 0.030596267750557057,
+        "mean_f1": 0.598725879810948,
+        "std_f1": 0.029203230665480622,
+        "mean_n_detected": 4.0
+      },
+      "1.0": {
+        "mean_jaccard": 0.4307882824806154,
+        "std_jaccard": 0.030258656350848925,
+        "mean_f1": 0.5996752063092871,
+        "std_f1": 0.028897232032014285,
+        "mean_n_detected": 4.0
+      },
+      "2.0": {
+        "mean_jaccard": 0.43297323786740066,
+        "std_jaccard": 0.029452250792028112,
+        "mean_f1": 0.6017811428285429,
+        "std_f1": 0.028087191060745156,
+        "mean_n_detected": 4.0
+      },
+      "5.0": {
+        "mean_jaccard": 0.4393362897555623,
+        "std_jaccard": 0.030439888372905472,
+        "mean_f1": 0.6075933762414343,
+        "std_f1": 0.028896715171009307,
+        "mean_n_detected": 4.0
+      },
+      "10.0": {
+        "mean_jaccard": 0.44943682756282727,
+        "std_jaccard": 0.028993299515335823,
+        "mean_f1": 0.6167491372452099,
+        "std_f1": 0.02743456493030749,
+        "mean_n_detected": 4.0
+      }
+    }
+  },
+  "e2_mechanism_comparison": {
+    "epsilon": 2.0,
+    "mechanisms": {
+      "laplace": {
+        "mean_jaccard": 0.3482112014320877,
+        "std_jaccard": 0.08296297053142736,
+        "mean_runtime_sec": 0.0003144207992590964
+      },
+      "gaussian": {
+        "mean_jaccard": 0.31054235568006056,
+        "std_jaccard": 0.04924217278739291,
+        "mean_runtime_sec": 0.0003719416999956593
+      },
+      "svt": {
+        "mean_jaccard": 0.2333246726441002,
+        "std_jaccard": 0.0894920284983292,
+        "mean_runtime_sec": 0.00011310399859212338
+      }
+    }
+  },
+  "e3_scalability": {
+    "sizes": [
+      100,
+      200,
+      500,
+      1000,
+      2000
+    ],
+    "per_size": {
+      "100": {
+        "mean_runtime_sec": 0.002168610992763812,
+        "std_runtime_sec": 9.037863749389895e-05
+      },
+      "200": {
+        "mean_runtime_sec": 0.004461291663271065,
+        "std_runtime_sec": 3.0027143347321093e-05
+      },
+      "500": {
+        "mean_runtime_sec": 0.012204000008447716,
+        "std_runtime_sec": 0.00022976101504318326
+      },
+      "1000": {
+        "mean_runtime_sec": 0.02489695799886249,
+        "std_runtime_sec": 0.0008645984841497259
+      },
+      "2000": {
+        "mean_runtime_sec": 0.051245222003975265,
+        "std_runtime_sec": 0.0010558553444177709
+      }
+    }
+  },
+  "e4_stability": {
+    "per_config": {
+      "eps=0.5_conf=0.8": {
+        "epsilon": 0.5,
+        "confidence": 0.8,
+        "stability_margin": 3.218875824868201
+      },
+      "eps=0.5_conf=0.9": {
+        "epsilon": 0.5,
+        "confidence": 0.9,
+        "stability_margin": 4.605170185988092
+      },
+      "eps=0.5_conf=0.95": {
+        "epsilon": 0.5,
+        "confidence": 0.95,
+        "stability_margin": 5.99146454710798
+      },
+      "eps=0.5_conf=0.99": {
+        "epsilon": 0.5,
+        "confidence": 0.99,
+        "stability_margin": 9.210340371976182
+      },
+      "eps=1.0_conf=0.8": {
+        "epsilon": 1.0,
+        "confidence": 0.8,
+        "stability_margin": 1.6094379124341005
+      },
+      "eps=1.0_conf=0.9": {
+        "epsilon": 1.0,
+        "confidence": 0.9,
+        "stability_margin": 2.302585092994046
+      },
+      "eps=1.0_conf=0.95": {
+        "epsilon": 1.0,
+        "confidence": 0.95,
+        "stability_margin": 2.99573227355399
+      },
+      "eps=1.0_conf=0.99": {
+        "epsilon": 1.0,
+        "confidence": 0.99,
+        "stability_margin": 4.605170185988091
+      },
+      "eps=2.0_conf=0.8": {
+        "epsilon": 2.0,
+        "confidence": 0.8,
+        "stability_margin": 0.8047189562170503
+      },
+      "eps=2.0_conf=0.9": {
+        "epsilon": 2.0,
+        "confidence": 0.9,
+        "stability_margin": 1.151292546497023
+      },
+      "eps=2.0_conf=0.95": {
+        "epsilon": 2.0,
+        "confidence": 0.95,
+        "stability_margin": 1.497866136776995
+      },
+      "eps=2.0_conf=0.99": {
+        "epsilon": 2.0,
+        "confidence": 0.99,
+        "stability_margin": 2.3025850929940455
+      },
+      "eps=5.0_conf=0.8": {
+        "epsilon": 5.0,
+        "confidence": 0.8,
+        "stability_margin": 0.32188758248682015
+      },
+      "eps=5.0_conf=0.9": {
+        "epsilon": 5.0,
+        "confidence": 0.9,
+        "stability_margin": 0.4605170185988092
+      },
+      "eps=5.0_conf=0.95": {
+        "epsilon": 5.0,
+        "confidence": 0.95,
+        "stability_margin": 0.599146454710798
+      },
+      "eps=5.0_conf=0.99": {
+        "epsilon": 5.0,
+        "confidence": 0.99,
+        "stability_margin": 0.9210340371976182
+      }
+    }
+  },
+  "e5_composition": {
+    "per_k": {
+      "10": {
+        "sequential_epsilon": 0.1,
+        "advanced_epsilon": 0.15274772964693142,
+        "savings_ratio": -0.5274772964693142
+      },
+      "50": {
+        "sequential_epsilon": 0.5,
+        "advanced_epsilon": 0.34433210476283954,
+        "savings_ratio": 0.3113357904743209
+      },
+      "100": {
+        "sequential_epsilon": 1.0,
+        "advanced_epsilon": 0.489902758302976,
+        "savings_ratio": 0.510097241697024
+      },
+      "500": {
+        "sequential_epsilon": 5.0,
+        "advanced_epsilon": 1.1232338485655133,
+        "savings_ratio": 0.7753532302868973
+      }
+    }
+  }
+}

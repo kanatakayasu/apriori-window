@@ -1,0 +1,115 @@
+\section{提案手法：DP-DIM}\label{sec:method}
+
+本節では、差分プライバシー密集区間マイニング（DP-DIM）フレームワークを提示する。
+
+\subsection{窓感度の解析}
+
+\begin{definition}[窓感度（Window Sensitivity）]\label{def:window-sensitivity}
+ウィンドウカウント関数$C_W(X, l)$の窓感度$\Delta_W$を、1トランザクションの追加または削除によるカウントの最大変化量として定義する：
+\[
+\Delta_W = \max_{\mathcal{D}, \mathcal{D}':\, |\mathcal{D} \triangle \mathcal{D}'| = 1} \max_{l} |C_W(X, l; \mathcal{D}) - C_W(X, l; \mathcal{D}')|
+\]
+\end{definition}
+
+\begin{theorem}[窓感度]\label{thm:window-sensitivity}
+任意のアイテムセット$X$およびウィンドウサイズ$W$に対して、窓感度は$\Delta_W = 1$である。
+\end{theorem}
+
+\begin{proof}
+1つのトランザクション$T_t$を追加（または削除）した場合を考える。ウィンドウ位置$l$に対して、$T_t$がウィンドウ$[l, l+W]$に含まれるのは$l \leq t \leq l + W$のときのみである。
+このとき、$X \subseteq T_t$であればカウントが1増加（減少）し、$X \not\subseteq T_t$であればカウントは変化しない。
+したがって、各ウィンドウ位置においてカウントの変化量は最大1であり、$\Delta_W = 1$が成り立つ。
+\end{proof}
+
+\subsection{DP密集区間}
+
+\begin{definition}[DP密集区間（DP Dense Interval）]\label{def:dp-dense}
+ノイズ付きウィンドウカウント$\tilde{C}_W(X, l) = C_W(X, l) + \eta$（$\eta$はラプラスまたはガウスノイズ）に基づいて、$\tilde{C}_W(X, l) \geq \theta$を満たすウィンドウ左端$l$の極大連続区間をDP密集区間と定義する。
+\end{definition}
+
+\begin{algorithm}[t]
+\caption{DP-DIM: 差分プライバシー密集区間検出}\label{alg:dp-dim}
+\begin{algorithmic}[1]
+\REQUIRE タイムスタンプ列$\mathbf{t}$、ウィンドウサイズ$W$、閾値$\theta$、プライバシパラメータ$\varepsilon$
+\ENSURE DP密集区間集合$\mathcal{I}$
+\STATE $L \leftarrow$ ユニークウィンドウ位置の集合
+\STATE $\varepsilon_q \leftarrow \varepsilon / |L|$ \hfill\COMMENT{逐次合成による予算配分}
+\STATE $b \leftarrow \Delta_W / \varepsilon_q$ \hfill\COMMENT{ラプラスノイズのスケール}
+\STATE $\mathcal{I} \leftarrow \emptyset$
+\STATE $\text{in\_dense} \leftarrow \text{false}$
+\FOR{各ウィンドウ位置 $l \in L$}
+  \STATE $c \leftarrow C_W(X, l)$ \hfill\COMMENT{真のカウント}
+  \STATE $\tilde{c} \leftarrow c + \text{Lap}(b)$ \hfill\COMMENT{ノイズ付加}
+  \IF{$\tilde{c} \geq \theta$}
+    \IF{$\neg\text{in\_dense}$}
+      \STATE $\text{start} \leftarrow l$
+    \ENDIF
+    \STATE $\text{end} \leftarrow l$
+    \STATE $\text{in\_dense} \leftarrow \text{true}$
+  \ELSE
+    \IF{$\text{in\_dense}$}
+      \STATE $\mathcal{I} \leftarrow \mathcal{I} \cup \{(\text{start}, \text{end})\}$
+    \ENDIF
+    \STATE $\text{in\_dense} \leftarrow \text{false}$
+  \ENDIF
+\ENDFOR
+\IF{$\text{in\_dense}$}
+  \STATE $\mathcal{I} \leftarrow \mathcal{I} \cup \{(\text{start}, \text{end})\}$
+\ENDIF
+\RETURN $\mathcal{I}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[DP-DIMのプライバシー保証]\label{thm:dp-dim-privacy}
+アルゴリズム\ref{alg:dp-dim}は$\varepsilon$-差分プライバシーを満たす。
+\end{theorem}
+
+\begin{proof}
+各ウィンドウ位置$l$でのクエリにラプラスメカニズム（$\varepsilon_q = \varepsilon/|L|$, 感度$\Delta_W = 1$）を適用する。逐次合成定理より、$|L|$個のクエリの合成は$|L| \cdot \varepsilon_q = \varepsilon$-DPを満たす。
+\end{proof}
+
+\subsection{閾値安定性}
+
+ノイズ付加により、真のカウントが閾値近傍にある場合、密集/非密集の判定が不安定になる。この問題を制御するために閾値安定性の概念を導入する。
+
+\begin{definition}[閾値安定性（Threshold Stability）]\label{def:stability}
+ノイズ付きカウント$\tilde{c}$と閾値$\theta$に対して、安定性マージン$\gamma$を以下で定義する：
+\[
+\gamma = \frac{\Delta_W}{\varepsilon_q} \cdot \ln\frac{1}{1 - p}
+\]
+ここで$p$は所望の信頼度である。$|\tilde{c} - \theta| \geq \gamma$のとき、閾値判定は確率$p$以上で正しい。
+\end{definition}
+
+\begin{theorem}[閾値安定性保証]\label{thm:stability}
+真のカウント$c$が$|c - \theta| \geq \gamma$を満たすとき、ラプラスメカニズムによるノイズ付きカウント$\tilde{c}$に基づく密集判定は確率$p$以上で正しい。
+\end{theorem}
+
+\begin{proof}
+ラプラス分布$\text{Lap}(b)$（$b = \Delta_W / \varepsilon_q$）に対して、$\Pr[|\eta| < b \cdot \ln(1/(1-p))] = p$が成り立つ。
+$|c - \theta| \geq \gamma = b \cdot \ln(1/(1-p))$のとき、$|\eta| < \gamma$ならば$\text{sign}(\tilde{c} - \theta) = \text{sign}(c - \theta)$であり、この事象の確率は$p$以上である。
+\end{proof}
+
+\subsection{Sparse Vector Technique}
+
+ウィンドウ位置の多くが非密集であるスパースなケースでは、Sparse Vector Technique (SVT)~\cite{dwork2009complexity}によりプライバシ予算を節約できる。SVTでは：
+
+\begin{enumerate}
+  \item 予算$\varepsilon$を$\varepsilon/2$（ノイズ閾値用）と$\varepsilon/2$（クエリノイズ用）に分割する。
+  \item 閾値$\theta$にラプラスノイズ$\text{Lap}(2/\varepsilon)$を加えてノイズ閾値$\tilde{\theta}$を生成する。
+  \item 各クエリにラプラスノイズ$\text{Lap}(2c_\text{max}/\varepsilon)$を加え、$\tilde{\theta}$と比較する。
+  \item above-threshold の応答が$c_\text{max}$回に達したら停止する。
+\end{enumerate}
+
+SVTの総プライバシ消費は、above-threshold回数$c_\text{max}$のみに依存し、全クエリ数$|L|$には依存しない。
+
+\subsection{プライバシ予算合成}
+
+\begin{definition}[プライバシ予算合成（Privacy Budget Composition）]\label{def:composition}
+Apriori型の多レベル探索において、レベル$k$（$k = 1, \ldots, K$）に予算$\varepsilon_k = \varepsilon / K$を配分する。レベル$k$内の候補数を$m_k$とすると、各候補に$\varepsilon_k / m_k$を配分する。
+\end{definition}
+
+逐次合成では総消費は$\varepsilon$に一致する。一方、高度合成定理（性質\ref{prop:advanced}）を適用すると、同一$\varepsilon_0$の$k$回クエリに対してより厳密な上界が得られる。
+
+\begin{corollary}[多レベル探索の予算効率]\label{cor:multi-level}
+$K$レベル、各レベル$m_k$候補の探索において、均一配分$\varepsilon_0 = \varepsilon / (\sum_k m_k)$のとき、高度合成定理により総プライバシ消費は$O(\varepsilon_0 \sqrt{\sum_k m_k \cdot \ln(1/\delta')})$に抑えられる。
+\end{corollary}
