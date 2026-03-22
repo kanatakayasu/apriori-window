@@ -10,16 +10,18 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{amsthm}
-\newtheorem{theorem}{Theorem}
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{corollary}{Corollary}
-\newtheorem{proposition}{Proposition}
+\usepackage{CJKutf8}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{lemma}{補題}
+\newtheorem{corollary}{系}
+\newtheorem{proposition}{命題}
 
 \begin{document}
+\begin{CJK}{UTF8}{ipxm}
 
-\title{Anti-Dense Intervals and Contrast Dense Patterns:\\
-Symmetric Extensions of Dense Interval Mining}
+\title{反密集区間とコントラスト密集パターン：\\
+密集区間マイニングの対称的拡張}
 
 \author{
 \IEEEauthorblockN{Anonymous Author(s)}
@@ -28,36 +30,27 @@ Symmetric Extensions of Dense Interval Mining}
 \maketitle
 
 \begin{abstract}
-Dense interval mining identifies contiguous time periods where a
-pattern's sliding-window support exceeds a threshold, effectively
-capturing epochs of sustained high activity in transactional data.
-However, the existing framework is asymmetric: it characterizes
-pattern \emph{presence} but provides no mechanism for characterizing
-pattern \emph{absence} or for comparing temporal structures across
-regimes.
-In this paper, we propose two symmetric extensions.
-First, we define \emph{Anti-Dense Intervals}---maximal contiguous
-periods where support remains below a low threshold---and prove a
-reverse monotonicity property that enables efficient mining.
-Second, we introduce \emph{Contrast Dense Patterns}, a framework for
-comparing dense interval structures across two temporal regimes.
-We define a complete taxonomy of four topology change types
-(Emergence, Vanishing, Amplification, Contraction) and provide a
-permutation-based statistical test with false discovery rate control.
-Both extensions share the same $O(n \log n)$ time complexity as
-standard dense interval detection.
-Experiments on synthetic data demonstrate anti-dense interval
-recovery with F1 = 0.789, topology change classification with 76\%
-accuracy, and statistically significant detection of
-campaign-induced pattern vanishing ($p = 0.005$).
-Our framework enables new analytical capabilities including the
-identification of pattern disappearance epochs and the attribution
-of structural changes to external interventions.
+密集区間マイニングは，パターンのスライディングウィンドウサポートが閾値を超える連続的な時間区間を特定する手法であり，
+トランザクションデータにおける持続的な高活性期間を効果的に捉える．
+しかし，既存のフレームワークは非対称であり，パターンの\emph{存在}（高サポート）を特徴づけるのみで，
+パターンの\emph{不在}（低サポート）や時間レジーム間の構造比較を行う機構を備えていない．
+本論文では，二つの対称的拡張を提案する．
+第一に，サポートが低閾値を下回り続ける極大連続区間として\emph{反密集区間}を定義し，
+効率的なマイニングを可能にする逆単調性を証明する．
+第二に，二つの時間レジーム間で密集区間構造を比較するフレームワークとして\emph{コントラスト密集パターン}を導入する．
+四種類のトポロジー変化（出現・消失・増幅・収縮）の完全な分類体系を定義し，
+偽発見率制御を伴う置換検定に基づく統計的検定を提供する．
+両拡張は標準的な密集区間検出と同じ$O(n \log n)$の計算量を有する．
+合成データを用いた実験により，反密集区間の復元においてF1 = 0.789，
+トポロジー変化分類において76\%の精度，
+キャンペーン誘発パターン消失の統計的に有意な検出（$p = 0.005$）を示す．
+本フレームワークは，パターン消失期間の特定や構造変化の外部介入への帰属など，
+新たな分析能力を実現する．
 \end{abstract}
 
 \begin{IEEEkeywords}
-dense interval mining, anti-dense intervals, contrast patterns,
-temporal pattern analysis, emerging patterns, permutation test
+密集区間マイニング，反密集区間，コントラストパターン，
+時間パターン分析，出現パターン，置換検定
 \end{IEEEkeywords}
 
 \input{sec/01_introduction}
@@ -70,4 +63,5 @@ temporal pattern analysis, emerging patterns, permutation test
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
+\end{CJK}
 \end{document}

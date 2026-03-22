@@ -6,10 +6,11 @@
 \citation{dong2012contrast}
 \citation{agrawal1994apriori}
 \citation{han2000fpgrowth}
-\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
-\newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
-\newlabel{sec:related}{{II}{1}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {I}はじめに}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{はじめに}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}関連研究}{1}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{II}{1}{関連研究}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}頻出パターンマイニングと密集区間マイニング}{1}{subsection.2.1}\protected@file@percent }
 \citation{szathmary2011rptree}
 \citation{haglin2007minimal}
 \citation{akdas2024erim}
@@ -32,72 +33,70 @@
 \citation{3peclat2024}
 \citation{tatirp2025}
 \citation{agrawal1994apriori}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Frequent and Dense Interval Mining}{2}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Rare and Infrequent Pattern Mining}{2}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Emerging and Contrast Patterns}{2}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Change Point Detection}{2}{subsection.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}Concept Drift Detection}{2}{subsection.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-F}}Temporal and Periodic Pattern Mining}{2}{subsection.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {III}Problem Definition}{2}{section.3}\protected@file@percent }
-\newlabel{sec:problem}{{III}{2}{Problem Definition}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Notation and Preliminaries}{2}{subsection.3.1}\protected@file@percent }
-\newlabel{def:support_series}{{1}{2}{Support Time Series}{definition.1}{}}
-\newlabel{eq:support_series}{{1}{2}{Support Time Series}{equation.3.1}{}}
-\newlabel{def:dense_interval}{{2}{2}{Dense Interval~\cite {agrawal1994apriori}}{definition.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Anti-Dense Intervals}{2}{subsection.3.2}\protected@file@percent }
-\newlabel{def:anti_dense}{{3}{2}{Anti-Dense Interval}{definition.3}{}}
-\newlabel{eq:anti_dense}{{2}{2}{Anti-Dense Interval}{equation.3.2}{}}
-\newlabel{thm:anti_monotone}{{1}{3}{Anti-Monotonicity of Anti-Dense Intervals}{theorem.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Contrast Dense Patterns}{3}{subsection.3.3}\protected@file@percent }
-\newlabel{def:regime}{{4}{3}{Temporal Regime}{definition.4}{}}
-\newlabel{def:dis}{{5}{3}{Dense Interval Structure}{definition.5}{}}
-\newlabel{def:topology_change}{{6}{3}{Pattern Topology Change}{definition.6}{}}
-\newlabel{def:cdp}{{7}{3}{Contrast Dense Pattern}{definition.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Statistical Significance of Structural Changes}{3}{subsection.3.4}\protected@file@percent }
-\newlabel{def:contrast_stat}{{8}{3}{Contrast Statistic}{definition.8}{}}
-\newlabel{eq:contrast_stat}{{5}{3}{Contrast Statistic}{equation.3.5}{}}
-\newlabel{def:permtest}{{9}{3}{Permutation Test for Structural Change}{definition.9}{}}
-\newlabel{eq:perm_pvalue}{{6}{3}{Permutation Test for Structural Change}{equation.3.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Computational Complexity}{3}{subsection.3.5}\protected@file@percent }
-\newlabel{thm:complexity_anti}{{2}{3}{Complexity of Anti-Dense Interval Detection}{theorem.2}{}}
-\newlabel{thm:completeness}{{3}{3}{Completeness of Structure Comparison}{theorem.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}希少・低頻度パターンマイニング}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}出現パターンとコントラストパターン}{2}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}変化点検出}{2}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}概念ドリフト検出}{2}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-F}}時間パターンマイニングと周期パターンマイニング}{2}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}問題定義}{2}{section.3}\protected@file@percent }
+\newlabel{sec:problem}{{III}{2}{問題定義}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}記法と準備}{2}{subsection.3.1}\protected@file@percent }
+\newlabel{def:support_series}{{1}{2}{サポート時系列}{definition.1}{}}
+\newlabel{eq:support_series}{{1}{2}{サポート時系列}{equation.3.1}{}}
+\newlabel{def:dense_interval}{{2}{2}{密集区間~\cite {agrawal1994apriori}}{definition.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}反密集区間}{2}{subsection.3.2}\protected@file@percent }
+\newlabel{def:anti_dense}{{3}{2}{反密集区間}{definition.3}{}}
+\newlabel{eq:anti_dense}{{2}{2}{反密集区間}{equation.3.2}{}}
 \citation{benjamini1995fdr}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Anti-Dense Interval Detection}}{4}{algorithm.1}\protected@file@percent }
-\newlabel{alg:anti_dense}{{1}{4}{Anti-Dense Interval Detection}{algorithm.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Proposed Method}{4}{section.4}\protected@file@percent }
-\newlabel{sec:method}{{IV}{4}{Proposed Method}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Anti-Dense Interval Detection}{4}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:anti_dense_algo}{{\mbox  {IV-A}}{4}{Anti-Dense Interval Detection}{subsection.4.1}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Contrast Dense Pattern Mining}}{4}{algorithm.2}\protected@file@percent }
-\newlabel{alg:contrast}{{2}{4}{Contrast Dense Pattern Mining}{algorithm.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-A}0a}Complexity.}{4}{paragraph.4.1.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-A}0b}Reverse Monotonicity for Pruning.}{4}{paragraph.4.1.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Contrast Dense Pattern Mining}{4}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:contrast_algo}{{\mbox  {IV-B}}{4}{Contrast Dense Pattern Mining}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Statistical Significance Testing}{4}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:permtest_algo}{{\mbox  {IV-C}}{4}{Statistical Significance Testing}{subsection.4.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces E1: Anti-dense interval ground truth recovery (5 seeds).}}{5}{table.1}\protected@file@percent }
-\newlabel{tab:e1}{{I}{5}{E1: Anti-dense interval ground truth recovery (5 seeds)}{table.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-C}0a}Complexity.}{5}{paragraph.4.3.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Integration with Dense Interval Mining}{5}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Experiments}{5}{section.5}\protected@file@percent }
-\newlabel{sec:experiments}{{V}{5}{Experiments}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Experimental Setup}{5}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}0a}Implementation.}{5}{paragraph.5.1.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}0b}Metrics.}{5}{paragraph.5.1.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}E1: Anti-Dense Interval Ground Truth Recovery}{5}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0a}Data.}{5}{paragraph.5.2.0.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces E3: Effect of $\theta _{\text  {low}}$ on anti-dense detection.}}{5}{table.2}\protected@file@percent }
-\newlabel{tab:e3}{{II}{5}{E3: Effect of $\theta _{\text {low}}$ on anti-dense detection}{table.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0b}Results.}{5}{paragraph.5.2.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}E2: Contrast Pattern Classification Accuracy}{5}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0a}Data.}{5}{paragraph.5.3.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0b}Results.}{5}{paragraph.5.3.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}E3: Parameter Sensitivity Analysis}{5}{subsection.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-D}0a}Low threshold $\theta _{\text  {low}}$.}{5}{paragraph.5.4.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-D}0b}Regime boundary position.}{5}{paragraph.5.4.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}E4: Campaign Termination Pattern Vanishing}{5}{subsection.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-E}0a}Setup.}{5}{paragraph.5.5.0.1}\protected@file@percent }
+\newlabel{thm:anti_monotone}{{1}{3}{反密集区間の反単調性}{theorem.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}コントラスト密集パターン}{3}{subsection.3.3}\protected@file@percent }
+\newlabel{def:regime}{{4}{3}{時間レジーム}{definition.4}{}}
+\newlabel{def:dis}{{5}{3}{密集区間構造}{definition.5}{}}
+\newlabel{def:topology_change}{{6}{3}{パターンのトポロジー変化}{definition.6}{}}
+\newlabel{def:cdp}{{7}{3}{コントラスト密集パターン}{definition.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}構造変化の統計的有意性}{3}{subsection.3.4}\protected@file@percent }
+\newlabel{def:contrast_stat}{{8}{3}{コントラスト統計量}{definition.8}{}}
+\newlabel{eq:contrast_stat}{{5}{3}{コントラスト統計量}{equation.3.5}{}}
+\newlabel{def:permtest}{{9}{3}{構造変化の置換検定}{definition.9}{}}
+\newlabel{eq:perm_pvalue}{{6}{3}{構造変化の置換検定}{equation.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}計算量}{3}{subsection.3.5}\protected@file@percent }
+\newlabel{thm:complexity_anti}{{2}{3}{反密集区間検出の計算量}{theorem.2}{}}
+\citation{benjamini1995fdr}
+\newlabel{thm:completeness}{{3}{4}{構造比較の完全性}{theorem.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}提案手法}{4}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{IV}{4}{提案手法}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}反密集区間検出}{4}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:anti_dense_algo}{{\mbox  {IV-A}}{4}{反密集区間検出}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-A}0a}計算量}{4}{paragraph.4.1.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-A}0b}枝刈りのための逆単調性}{4}{paragraph.4.1.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}コントラスト密集パターンマイニング}{4}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:contrast_algo}{{\mbox  {IV-B}}{4}{コントラスト密集パターンマイニング}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}統計的有意性検定}{4}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:permtest_algo}{{\mbox  {IV-C}}{4}{統計的有意性検定}{subsection.4.3}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces 反密集区間検出}}{4}{algorithm.1}\protected@file@percent }
+\newlabel{alg:anti_dense}{{1}{4}{反密集区間検出}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-C}0a}計算量}{4}{paragraph.4.3.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}密集区間マイニングとの統合}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces コントラスト密集パターンマイニング}}{5}{algorithm.2}\protected@file@percent }
+\newlabel{alg:contrast}{{2}{5}{コントラスト密集パターンマイニング}{algorithm.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}実験}{5}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{V}{5}{実験}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}実験設定}{5}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}0a}実装}{5}{paragraph.5.1.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}0b}評価指標}{5}{paragraph.5.1.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}E1：反密集区間のグラウンドトゥルース復元}{5}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0a}データ}{5}{paragraph.5.2.0.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces E1：反密集区間のグラウンドトゥルース復元（5シード）}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:e1}{{I}{5}{E1：反密集区間のグラウンドトゥルース復元（5シード）}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces E3：$\theta _{\text  {low}}$が反密集検出に与える影響}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:e3}{{II}{5}{E3：$\theta _{\text {low}}$が反密集検出に与える影響}{table.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0b}結果}{5}{paragraph.5.2.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}E2：コントラストパターン分類の正解率}{5}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0a}データ}{5}{paragraph.5.3.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0b}結果}{5}{paragraph.5.3.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}E3：パラメータ感度分析}{5}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-D}0a}低閾値$\theta _{\text  {low}}$}{5}{paragraph.5.4.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-D}0b}レジーム境界位置}{5}{paragraph.5.4.0.2}\protected@file@percent }
 \citation{killick2012pelt}
 \bibstyle{IEEEtran}
 \bibdata{refs}
@@ -115,20 +114,22 @@
 \bibcite{li2025hucspm}{12}
 \bibcite{page1954cusum}{13}
 \bibcite{killick2012pelt}{14}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces E4：キャンペーン終了の検出（5シード）}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:e4}{{III}{6}{E4：キャンペーン終了の検出（5シード）}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}E4：キャンペーン終了に伴うパターン消失}{6}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-E}0a}設定}{6}{paragraph.5.5.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-E}0b}結果}{6}{paragraph.5.5.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}E5：季節性コントラスト}{6}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-F}0a}設定}{6}{paragraph.5.6.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-F}0b}結果}{6}{paragraph.5.6.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}おわりに}{6}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{VI}{6}{おわりに}{section.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VI-}0a}制約}{6}{paragraph.6.0.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VI-}0b}今後の課題}{6}{paragraph.6.0.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{6}{section*.1}\protected@file@percent }
 \bibcite{bai2003structural}{15}
 \bibcite{truong2020ruptures}{16}
 \bibcite{chen2025pelt}{17}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces E4: Campaign termination detection (5 seeds).}}{6}{table.3}\protected@file@percent }
-\newlabel{tab:e4}{{III}{6}{E4: Campaign termination detection (5 seeds)}{table.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-E}0b}Results.}{6}{paragraph.5.5.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}E5: Seasonal Contrast}{6}{subsection.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-F}0a}Setup.}{6}{paragraph.5.6.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-F}0b}Results.}{6}{paragraph.5.6.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{6}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{VI}{6}{Conclusion}{section.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VI-}0a}Limitations.}{6}{paragraph.6.0.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {VI-}0b}Future Work.}{6}{paragraph.6.0.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{6}{section*.1}\protected@file@percent }
 \bibcite{bifet2007adwin}{18}
 \bibcite{gama2004ddm}{19}
 \bibcite{assis2024adwinu}{20}

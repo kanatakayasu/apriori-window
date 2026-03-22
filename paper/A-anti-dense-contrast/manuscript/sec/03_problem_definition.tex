@@ -1,228 +1,218 @@
 % ==============================================================
-\section{Problem Definition}\label{sec:problem}
+\section{問題定義}\label{sec:problem}
 % ==============================================================
 
-We build upon the dense interval mining framework and introduce
-symmetric extensions for studying pattern \emph{absence} and
-\emph{structural change} across temporal regimes.
+密集区間マイニングフレームワークを基盤とし，パターンの\emph{不在}および
+時間レジーム間の\emph{構造変化}を研究するための対称的拡張を導入する．
 
-\subsection{Notation and Preliminaries}
+\subsection{記法と準備}
 
-Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite item universe and
-$D = [d_1, d_2, \ldots, d_N]$ a temporally ordered sequence of transactions,
-where each $d_t \subseteq \mathcal{I}$.
-An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction
-$d_t$ if $P \subseteq d_t$.
+$\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$を有限のアイテム全体集合，
+$D = [d_1, d_2, \ldots, d_N]$を時間順に並んだトランザクション列とする．
+ここで各$d_t \subseteq \mathcal{I}$である．
+アイテムセット（パターン）$P \subseteq \mathcal{I}$がトランザクション
+$d_t$に\emph{出現}するとは，$P \subseteq d_t$が成り立つことをいう．
 
-\begin{definition}[Support Time Series]\label{def:support_series}
-For pattern $P$, window size $W \in \mathbb{Z}_{>0}$, and transaction
-sequence $D$ of length $N$, the \emph{support time series}
-$s_P = [s_P(0), s_P(1), \ldots, s_P(N-W)]$ is defined as
+\begin{definition}[サポート時系列]\label{def:support_series}
+パターン$P$，ウィンドウサイズ$W \in \mathbb{Z}_{>0}$，長さ$N$の
+トランザクション列$D$に対し，\emph{サポート時系列}
+$s_P = [s_P(0), s_P(1), \ldots, s_P(N-W)]$を以下で定義する：
 \begin{equation}
 s_P(t) = \bigl|\{d_j \in D \mid t \leq j < t + W,\; P \subseteq d_j\}\bigr|.
 \label{eq:support_series}
 \end{equation}
 \end{definition}
 
-\begin{definition}[Dense Interval~\cite{agrawal1994apriori}]\label{def:dense_interval}
-Given threshold $\theta \in \mathbb{Z}_{>0}$, a \emph{dense interval} of
-pattern $P$ is a maximal contiguous range $[s, e]$ such that
-$s_P(t) \geq \theta$ for all $t \in [s, e]$.
-We denote the set of all dense intervals of $P$ as
-$\mathcal{D}(P, W, \theta)$.
+\begin{definition}[密集区間~\cite{agrawal1994apriori}]\label{def:dense_interval}
+閾値$\theta \in \mathbb{Z}_{>0}$が与えられたとき，パターン$P$の\emph{密集区間}とは，
+すべての$t \in [s, e]$に対して$s_P(t) \geq \theta$が成り立つ極大連続範囲$[s, e]$である．
+$P$のすべての密集区間の集合を$\mathcal{D}(P, W, \theta)$と表記する．
 \end{definition}
 
-\subsection{Anti-Dense Intervals}
+\subsection{反密集区間}
 
-\begin{definition}[Anti-Dense Interval]\label{def:anti_dense}
-Given a \emph{low threshold} $\theta_{\text{low}} \in \mathbb{Z}_{>0}$
-(typically $\theta_{\text{low}} < \theta$),
-an \emph{anti-dense interval} of pattern $P$ is a maximal contiguous
-range $[s, e]$ such that
+\begin{definition}[反密集区間]\label{def:anti_dense}
+\emph{低閾値}$\theta_{\text{low}} \in \mathbb{Z}_{>0}$
+（通常$\theta_{\text{low}} < \theta$）が与えられたとき，
+パターン$P$の\emph{反密集区間}とは，以下を満たす極大連続範囲$[s, e]$である：
 \begin{equation}
 s_P(t) < \theta_{\text{low}} \quad \forall\, t \in [s, e].
 \label{eq:anti_dense}
 \end{equation}
-We denote the set of all anti-dense intervals of $P$ as
-$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$.
+$P$のすべての反密集区間の集合を
+$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$と表記する．
 \end{definition}
 
-The anti-dense interval is the \emph{symmetric dual} of the dense interval:
-while $\mathcal{D}$ captures sustained high-support epochs,
-$\overline{\mathcal{D}}$ captures sustained low-support epochs.
-Note that the complement $[0, N-W] \setminus \mathcal{D}$ is \emph{not}
-equivalent to $\overline{\mathcal{D}}$ when $\theta_{\text{low}} < \theta$,
-because an intermediate band exists where
-$\theta_{\text{low}} \leq s_P(t) < \theta$.
+反密集区間は密集区間の\emph{対称双対}である：
+$\mathcal{D}$が持続的な高サポート期間を捉えるのに対し，
+$\overline{\mathcal{D}}$は持続的な低サポート期間を捉える．
+$\theta_{\text{low}} < \theta$の場合，補集合$[0, N-W] \setminus \mathcal{D}$は
+$\overline{\mathcal{D}}$と\emph{同値ではない}ことに注意されたい．
+これは$\theta_{\text{low}} \leq s_P(t) < \theta$となる中間帯域が
+存在するためである．
 
-\begin{theorem}[Anti-Monotonicity of Anti-Dense Intervals]\label{thm:anti_monotone}
-If $P \subset Q$ (i.e., $P$ is a proper subset of $Q$), then for any
-anti-dense interval $[s, e] \in \overline{\mathcal{D}}(Q, W, \theta_{\text{low}})$,
-there exists an anti-dense interval $[s', e'] \in \overline{\mathcal{D}}(P, W, \theta_{\text{low}})$
-such that $[s, e] \subseteq [s', e']$.
+\begin{theorem}[反密集区間の反単調性]\label{thm:anti_monotone}
+$P \subset Q$（すなわち$P$が$Q$の真部分集合）のとき，任意の反密集区間
+$[s, e] \in \overline{\mathcal{D}}(Q, W, \theta_{\text{low}})$に対して，
+$[s, e] \subseteq [s', e']$を満たす反密集区間
+$[s', e'] \in \overline{\mathcal{D}}(P, W, \theta_{\text{low}})$が存在する．
 \end{theorem}
 
 \begin{proof}
-Since $P \subset Q$, every transaction containing $Q$ also contains $P$,
-so $s_Q(t) \leq s_P(t)$ for all $t$.
-Wait---this is the wrong direction.
-Since $P \subset Q$ implies $s_P(t) \geq s_Q(t)$, if $s_Q(t) < \theta_{\text{low}}$
-it does \emph{not} necessarily follow that $s_P(t) < \theta_{\text{low}}$.
+$P \subset Q$であるから，$Q$を含むすべてのトランザクションは$P$も含む．
+したがってすべての$t$に対して$s_Q(t) \leq s_P(t)$である．
+---これは逆方向である．
+$P \subset Q$は$s_P(t) \geq s_Q(t)$を意味するため，
+$s_Q(t) < \theta_{\text{low}}$であっても
+$s_P(t) < \theta_{\text{low}}$が成り立つとは\emph{限らない}．
 
-However, the \emph{containment} relation reverses:
-if $[s, e]$ is anti-dense for $P$
-(i.e., $s_P(t) < \theta_{\text{low}}$ for all $t \in [s, e]$),
-then since $s_Q(t) \leq s_P(t)$, we have
-$s_Q(t) < \theta_{\text{low}}$ for all $t \in [s, e]$.
-Hence $[s, e]$ is covered by some anti-dense interval of $Q$.
+しかし，\emph{包含}関係は逆転する：
+$[s, e]$が$P$に対して反密集
+（すなわちすべての$t \in [s, e]$に対して$s_P(t) < \theta_{\text{low}}$）であれば，
+$s_Q(t) \leq s_P(t)$であるから，
+すべての$t \in [s, e]$に対して$s_Q(t) < \theta_{\text{low}}$が成り立つ．
+したがって$[s, e]$は$Q$のある反密集区間に包含される．
 
-More precisely: the anti-dense intervals of a \emph{superset} $Q$ are
-at least as wide as those of $P$.
-This means anti-dense intervals satisfy a \emph{reverse monotonicity}:
+より正確には：\emph{上位集合}$Q$の反密集区間は$P$のそれと少なくとも同じ幅を持つ．
+これは反密集区間が\emph{逆単調性}を満たすことを意味する：
 \[
 P \subset Q \implies
 \overline{\mathcal{D}}(P, W, \theta_{\text{low}}) \preceq
 \overline{\mathcal{D}}(Q, W, \theta_{\text{low}})
 \]
-where $\preceq$ means every anti-dense interval of $P$ is contained in
-some anti-dense interval of $Q$.
+ここで$\preceq$は$P$のすべての反密集区間が$Q$のある反密集区間に包含されることを意味する．
 
-This property enables a \emph{top-down} search strategy:
-if a superset $Q$ has no anti-dense interval covering a candidate range,
-then no subset of $Q$ can have one either.
+この性質は\emph{トップダウン}探索戦略を可能にする：
+上位集合$Q$が候補範囲を覆う反密集区間を持たなければ，
+$Q$のいかなる部分集合もそこに反密集区間を持ちえない．
 \end{proof}
 
-\subsection{Contrast Dense Patterns}
+\subsection{コントラスト密集パターン}
 
-We now define a framework for comparing dense interval structures across
-two temporal regimes.
+ここで二つの時間レジーム間で密集区間構造を比較するフレームワークを定義する．
 
-\begin{definition}[Temporal Regime]\label{def:regime}
-A \emph{temporal regime} is a contiguous sub-sequence of the transaction
-sequence.
-Given a \emph{regime boundary} $\tau \in \{1, \ldots, N-1\}$,
-we define the \emph{before-regime} $R_1 = [1, \tau]$ and the
-\emph{after-regime} $R_2 = [\tau+1, N]$.
+\begin{definition}[時間レジーム]\label{def:regime}
+\emph{時間レジーム}とはトランザクション列の連続部分列である．
+\emph{レジーム境界}$\tau \in \{1, \ldots, N-1\}$が与えられたとき，
+\emph{前レジーム}$R_1 = [1, \tau]$と\emph{後レジーム}$R_2 = [\tau+1, N]$を定義する．
 \end{definition}
 
-\begin{definition}[Dense Interval Structure]\label{def:dis}
-For pattern $P$ and regime $R_k$, the \emph{dense interval structure}
-restricted to $R_k$ is
+\begin{definition}[密集区間構造]\label{def:dis}
+パターン$P$とレジーム$R_k$に対し，$R_k$に制限された\emph{密集区間構造}は
 \begin{equation}
 \mathcal{D}_k(P) = \{[s, e] \in \mathcal{D}(P, W, \theta) \mid [s, e] \cap R_k \neq \emptyset\},
 \end{equation}
-projected onto $R_k$ (i.e., each interval is clipped to $R_k$).
-The \emph{total dense coverage} in regime $R_k$ is
+を$R_k$上に射影したもの（各区間を$R_k$にクリップしたもの）である．
+レジーム$R_k$における\emph{密集カバレッジ}は
 \begin{equation}
-\text{cov}_k(P) = \frac{\sum_{[s,e] \in \mathcal{D}_k(P)} (e - s + 1)}{|R_k|}.
+\text{cov}_k(P) = \frac{\sum_{[s,e] \in \mathcal{D}_k(P)} (e - s + 1)}{|R_k|}
 \end{equation}
+で定義する．
 \end{definition}
 
-\begin{definition}[Pattern Topology Change]\label{def:topology_change}
-Given pattern $P$ and regime boundary $\tau$, the \emph{topology change type}
-of $P$ is classified as:
+\begin{definition}[パターンのトポロジー変化]\label{def:topology_change}
+パターン$P$とレジーム境界$\tau$が与えられたとき，$P$の\emph{トポロジー変化タイプ}は
+以下のように分類される：
 \begin{enumerate}
-\item \textbf{Emergence}: $\mathcal{D}_1(P) = \emptyset$ and
-  $\mathcal{D}_2(P) \neq \emptyset$.
-  The pattern was anti-dense (or absent) in $R_1$ and becomes dense in $R_2$.
-\item \textbf{Vanishing}: $\mathcal{D}_1(P) \neq \emptyset$ and
-  $\mathcal{D}_2(P) = \emptyset$.
-  The pattern was dense in $R_1$ and becomes anti-dense in $R_2$.
-\item \textbf{Amplification}: $\mathcal{D}_1(P) \neq \emptyset$,
-  $\mathcal{D}_2(P) \neq \emptyset$, and
-  $\text{cov}_2(P) > \text{cov}_1(P) + \delta$ for margin $\delta > 0$.
-\item \textbf{Contraction}: $\mathcal{D}_1(P) \neq \emptyset$,
-  $\mathcal{D}_2(P) \neq \emptyset$, and
-  $\text{cov}_1(P) > \text{cov}_2(P) + \delta$.
-\item \textbf{Stable}: None of the above; the structure is essentially unchanged.
+\item \textbf{出現}：$\mathcal{D}_1(P) = \emptyset$かつ
+  $\mathcal{D}_2(P) \neq \emptyset$．
+  パターンが$R_1$では反密集（または不在）であり，$R_2$で密集となる．
+\item \textbf{消失}：$\mathcal{D}_1(P) \neq \emptyset$かつ
+  $\mathcal{D}_2(P) = \emptyset$．
+  パターンが$R_1$では密集であり，$R_2$で反密集となる．
+\item \textbf{増幅}：$\mathcal{D}_1(P) \neq \emptyset$，
+  $\mathcal{D}_2(P) \neq \emptyset$，かつ
+  マージン$\delta > 0$に対して$\text{cov}_2(P) > \text{cov}_1(P) + \delta$．
+\item \textbf{収縮}：$\mathcal{D}_1(P) \neq \emptyset$，
+  $\mathcal{D}_2(P) \neq \emptyset$，かつ
+  $\text{cov}_1(P) > \text{cov}_2(P) + \delta$．
+\item \textbf{安定}：上記のいずれにも該当しない．構造は本質的に不変．
 \end{enumerate}
 \end{definition}
 
-\begin{definition}[Contrast Dense Pattern]\label{def:cdp}
-A pattern $P$ is a \emph{contrast dense pattern} with respect to regime
-boundary $\tau$ if its topology change type is \emph{not} Stable.
-The set of all contrast dense patterns is denoted $\mathcal{C}(\tau, \delta)$.
+\begin{definition}[コントラスト密集パターン]\label{def:cdp}
+パターン$P$がレジーム境界$\tau$に関する\emph{コントラスト密集パターン}であるとは，
+そのトポロジー変化タイプが安定\emph{ではない}ことをいう．
+すべてのコントラスト密集パターンの集合を$\mathcal{C}(\tau, \delta)$と表記する．
 \end{definition}
 
-\subsection{Statistical Significance of Structural Changes}
+\subsection{構造変化の統計的有意性}
 
-To assess whether an observed topology change is statistically significant
-(rather than arising from random fluctuation), we employ a permutation test.
+観測されたトポロジー変化がランダムな変動ではなく統計的に有意であるかを
+評価するために，置換検定を用いる．
 
-\begin{definition}[Contrast Statistic]\label{def:contrast_stat}
-For pattern $P$ and regime boundary $\tau$, define the \emph{contrast statistic}
+\begin{definition}[コントラスト統計量]\label{def:contrast_stat}
+パターン$P$とレジーム境界$\tau$に対し，\emph{コントラスト統計量}を以下で定義する：
 \begin{equation}
 \Delta(P, \tau) = \text{cov}_2(P) - \text{cov}_1(P).
 \label{eq:contrast_stat}
 \end{equation}
-Large positive $\Delta$ indicates emergence or amplification;
-large negative $\Delta$ indicates vanishing or contraction.
+$\Delta$が大きな正値のとき出現または増幅を，大きな負値のとき消失または収縮を示す．
 \end{definition}
 
-\begin{definition}[Permutation Test for Structural Change]\label{def:permtest}
-Let $\mathbf{t}_P = [t_1, t_2, \ldots, t_n]$ be the occurrence timestamps of pattern $P$.
-Under the null hypothesis $H_0$: ``the regime boundary $\tau$ has no effect on
-$P$'s dense interval structure,'' we generate $B$ random permutations of
-$\mathbf{t}_P$ (or, equivalently, random shifts of $\tau$) and compute the
-permuted contrast statistics $\Delta^{(1)}, \ldots, \Delta^{(B)}$.
-The permutation $p$-value is
+\begin{definition}[構造変化の置換検定]\label{def:permtest}
+$\mathbf{t}_P = [t_1, t_2, \ldots, t_n]$をパターン$P$の出現タイムスタンプとする．
+帰無仮説$H_0$：「レジーム境界$\tau$は$P$の密集区間構造に影響を与えない」の下で，
+$\mathbf{t}_P$の$B$回のランダム置換（または$\tau$のランダムシフトと同値）を生成し，
+置換コントラスト統計量$\Delta^{(1)}, \ldots, \Delta^{(B)}$を計算する．
+置換$p$値は
 \begin{equation}
-p = \frac{1 + \sum_{b=1}^{B} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta(P, \tau)|]}{1 + B}.
+p = \frac{1 + \sum_{b=1}^{B} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta(P, \tau)|]}{1 + B}
 \label{eq:perm_pvalue}
 \end{equation}
-We reject $H_0$ at level $\alpha$ if $p \leq \alpha$, after
-Benjamini--Hochberg correction across all tested patterns.
+で与えられる．
+すべての検定対象パターンに対してBenjamini--Hochberg補正~\cite{benjamini1995fdr}を
+適用した上で，$p \leq \alpha$のとき水準$\alpha$で$H_0$を棄却する．
 \end{definition}
 
-\subsection{Computational Complexity}
+\subsection{計算量}
 
-\begin{theorem}[Complexity of Anti-Dense Interval Detection]\label{thm:complexity_anti}
-Given the occurrence timestamps $\mathbf{t}_P$ of pattern $P$ (with $|\mathbf{t}_P| = n$)
-and window size $W$, the anti-dense intervals
-$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$ can be computed in
-$O(n)$ time by a single pass through $\mathbf{t}_P$, using the same
-sliding-window counting mechanism as dense interval detection with
-the threshold crossing direction reversed.
+\begin{theorem}[反密集区間検出の計算量]\label{thm:complexity_anti}
+パターン$P$の出現タイムスタンプ$\mathbf{t}_P$（$|\mathbf{t}_P| = n$）と
+ウィンドウサイズ$W$が与えられたとき，反密集区間
+$\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$は
+$\mathbf{t}_P$の一回の走査により$O(n)$時間で計算できる．
+これは密集区間検出と同じスライディングウィンドウカウント機構を用い，
+閾値の交差方向を逆にしたものである．
 \end{theorem}
 
 \begin{proof}
-The algorithm maintains a pointer $l$ that advances through the sorted
-timestamps.
-At each position, the count of occurrences in $[l, l+W)$ is computed
-via binary search in $O(\log n)$ amortized time.
-The pointer advances monotonically, and each timestamp is visited
-at most twice (once as a window start, once as a window end).
-The total complexity is $O(n \log n)$ for the binary-search variant,
-or $O(n)$ if a two-pointer approach is used.
-The only modification from dense interval detection is checking
-$< \theta_{\text{low}}$ instead of $\geq \theta$, and tracking the
-start/end of contiguous sub-threshold regions rather than
-super-threshold regions.
+アルゴリズムはソート済みタイムスタンプを走査するポインタ$l$を保持する．
+各位置において$[l, l+W)$内の出現回数が二分探索により
+$O(\log n)$の償却時間で計算される．
+ポインタは単調に進行し，各タイムスタンプは高々2回（ウィンドウ開始として1回，
+ウィンドウ終了として1回）参照される．
+二分探索を用いる場合の総計算量は$O(n \log n)$であり，
+二ポインタ法を用いる場合は$O(n)$となる．
+密集区間検出からの変更点は，$\geq \theta$の代わりに
+$< \theta_{\text{low}}$をチェックすることと，
+閾値超過領域ではなく閾値未達領域の開始・終了を追跡することのみである．
 \end{proof}
 
-\begin{theorem}[Completeness of Structure Comparison]\label{thm:completeness}
-The topology change taxonomy (Definition~\ref{def:topology_change}) is
-\emph{complete}: every pattern $P$ falls into exactly one of the five
-categories (Emergence, Vanishing, Amplification, Contraction, Stable).
+\begin{theorem}[構造比較の完全性]\label{thm:completeness}
+トポロジー変化分類体系（定義~\ref{def:topology_change}）は\emph{完全}である：
+すべてのパターン$P$は五つのカテゴリ（出現・消失・増幅・収縮・安定）の
+いずれか一つにのみ分類される．
 \end{theorem}
 
 \begin{proof}
-The five cases are defined by a decision tree on two Boolean conditions
-($\mathcal{D}_1 = \emptyset$, $\mathcal{D}_2 = \emptyset$) and one
-comparison ($\text{cov}_2 - \text{cov}_1$ vs $\pm\delta$).
+五つの場合は二つのブール条件
+（$\mathcal{D}_1 = \emptyset$，$\mathcal{D}_2 = \emptyset$）と
+一つの比較（$\text{cov}_2 - \text{cov}_1$対$\pm\delta$）による
+決定木で定義される．
 \begin{itemize}
-\item If $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 = \emptyset$:
-  both empty $\Rightarrow$ Stable (no dense intervals in either regime).
-\item If $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 \neq \emptyset$:
-  Emergence.
-\item If $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 = \emptyset$:
-  Vanishing.
-\item If $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 \neq \emptyset$:
+\item $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 = \emptyset$の場合：
+  両方空$\Rightarrow$安定（いずれのレジームにも密集区間なし）．
+\item $\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 \neq \emptyset$の場合：
+  出現．
+\item $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 = \emptyset$の場合：
+  消失．
+\item $\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 \neq \emptyset$の場合：
   \begin{itemize}
-  \item $\text{cov}_2 > \text{cov}_1 + \delta$: Amplification.
-  \item $\text{cov}_1 > \text{cov}_2 + \delta$: Contraction.
-  \item Otherwise: Stable.
+  \item $\text{cov}_2 > \text{cov}_1 + \delta$：増幅．
+  \item $\text{cov}_1 > \text{cov}_2 + \delta$：収縮．
+  \item その他：安定．
   \end{itemize}
 \end{itemize}
-These cases are mutually exclusive and exhaustive. \qed
+これらの場合は相互排他的かつ網羅的である．\qed
 \end{proof}

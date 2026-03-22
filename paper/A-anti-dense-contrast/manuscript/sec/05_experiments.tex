@@ -1,100 +1,92 @@
 % ==============================================================
-\section{Experiments}\label{sec:experiments}
+\section{実験}\label{sec:experiments}
 % ==============================================================
 
-We evaluate our proposed methods through five experiments on synthetic
-and simulated real-world data.
-All experiments use 5 random seeds unless otherwise noted, and
-significance is assessed at $\alpha = 0.05$ with Benjamini--Hochberg
-correction.
+合成データおよびシミュレートされた実世界データを用いた五つの実験により
+提案手法を評価する．
+特に断りのない限り，すべての実験は5つのランダムシードを使用し，
+有意性はBenjamini--Hochberg補正を適用した$\alpha = 0.05$で評価する．
 
-\subsection{Experimental Setup}
+\subsection{実験設定}
 
-\paragraph{Implementation.}
-All algorithms are implemented in Python, building upon the dense
-interval detection module of our prior work.
-The anti-dense interval detector and contrast pattern classifier add
-fewer than 400 lines of code.
-Permutation tests use $B = 199$ permutations unless otherwise stated.
+\paragraph{実装}
+すべてのアルゴリズムはPythonで実装されており，先行研究の密集区間検出モジュールを
+基盤としている．
+反密集区間検出器およびコントラストパターン分類器の追加コード量は400行未満である．
+置換検定は特に断りのない限り$B = 199$回の置換を使用する．
 
-\paragraph{Metrics.}
-For anti-dense interval recovery (E1), we measure precision, recall,
-and F1 score at the position level (each window-start position is
-a prediction instance).
-For classification (E2), we measure accuracy against known ground truth
-types.
+\paragraph{評価指標}
+反密集区間の復元（E1）では，位置レベルでの適合率・再現率・F1値を測定する
+（各ウィンドウ開始位置が一つの予測インスタンスとなる）．
+分類（E2）では，既知のグラウンドトゥルースタイプに対する正解率を測定する．
 
-\subsection{E1: Anti-Dense Interval Ground Truth Recovery}
+\subsection{E1：反密集区間のグラウンドトゥルース復元}
 
-\paragraph{Data.}
-We generate synthetic transaction sequences of length $N = 500$ with
-three zones:
-(i) dense zones at $[50, 150]$ and $[300, 400]$ with occurrence rate 0.9,
-(ii) an anti-dense zone at $[180, 270]$ with rate 0.02, and
-(iii) a background zone with rate 0.3.
+\paragraph{データ}
+長さ$N = 500$の合成トランザクション列を三つのゾーンで生成する：
+(i) $[50, 150]$と$[300, 400]$の密集ゾーン（出現率0.9），
+(ii) $[180, 270]$の反密集ゾーン（出現率0.02），
+(iii) 背景ゾーン（出現率0.3）．
 
-\paragraph{Results.}
-Table~\ref{tab:e1} reports the anti-dense interval recovery results
-with $W = 10$ and $\theta_{\text{low}} = 2$.
+\paragraph{結果}
+表~\ref{tab:e1}に$W = 10$，$\theta_{\text{low}} = 2$での
+反密集区間復元結果を報告する．
 
 \begin{table}[t]
 \centering
-\caption{E1: Anti-dense interval ground truth recovery (5 seeds).}
+\caption{E1：反密集区間のグラウンドトゥルース復元（5シード）}
 \label{tab:e1}
 \begin{tabular}{lccc}
 \toprule
-Metric & Avg & Std \\
+指標 & 平均 & 標準偏差 \\
 \midrule
-Precision & 0.693 & -- \\
-Recall    & 0.923 & -- \\
-F1 Score  & 0.789 & -- \\
+適合率 & 0.693 & -- \\
+再現率 & 0.923 & -- \\
+F1値   & 0.789 & -- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The high recall (92.3\%) indicates that the algorithm successfully
-identifies nearly all ground truth anti-dense positions.
-The moderate precision (69.3\%) reflects detection of additional
-anti-dense intervals in transition zones, where support oscillates
-near the threshold---a legitimate behavior that actually provides
-useful information about pattern dynamics.
+高い再現率（92.3\%）は，アルゴリズムがグラウンドトゥルースの反密集位置を
+ほぼすべて正しく特定していることを示す．
+中程度の適合率（69.3\%）は，サポートが閾値付近で振動する遷移ゾーンにおいて
+追加的な反密集区間が検出されることを反映している---これは
+パターンのダイナミクスに関する有用な情報を実際に提供する正当な挙動である．
 
-\subsection{E2: Contrast Pattern Classification Accuracy}
+\subsection{E2：コントラストパターン分類の正解率}
 
-\paragraph{Data.}
-We generate five synthetic patterns with known topology change types:
-\textsc{Emerge} (rate: 0.02 $\rightarrow$ 0.8),
-\textsc{Vanish} (0.8 $\rightarrow$ 0.02),
-\textsc{Amplify} (0.3 $\rightarrow$ 0.9),
-\textsc{Contract} (0.9 $\rightarrow$ 0.3), and
-\textsc{Stable} (0.5 $\rightarrow$ 0.5),
-with regime boundary at $\tau = 200$ in a sequence of $N = 400$.
+\paragraph{データ}
+既知のトポロジー変化タイプを持つ五つの合成パターンを生成する：
+\textsc{Emerge}（出現率：0.02 $\rightarrow$ 0.8），
+\textsc{Vanish}（0.8 $\rightarrow$ 0.02），
+\textsc{Amplify}（0.3 $\rightarrow$ 0.9），
+\textsc{Contract}（0.9 $\rightarrow$ 0.3），
+\textsc{Stable}（0.5 $\rightarrow$ 0.5）．
+$N = 400$の系列でレジーム境界を$\tau = 200$に設定する．
 
-\paragraph{Results.}
-Average classification accuracy across 5 seeds is \textbf{76.0\%}.
-Emergence and vanishing are correctly identified in all seeds.
-Misclassifications primarily affect the amplification/contraction
-boundary, where stochastic fluctuations in the synthetic data cause
-the coverage difference to fall near the $\delta$ threshold.
+\paragraph{結果}
+5シードにわたる平均分類正解率は\textbf{76.0\%}である．
+出現と消失はすべてのシードで正しく特定される．
+誤分類は主に増幅・収縮の境界で発生し，合成データの確率的変動により
+カバレッジ差が$\delta$閾値付近に収まることが原因である．
 
-\subsection{E3: Parameter Sensitivity Analysis}
+\subsection{E3：パラメータ感度分析}
 
-\paragraph{Low threshold $\theta_{\text{low}}$.}
-Figure~\ref{fig:e3_sensitivity} shows the effect of varying
-$\theta_{\text{low}}$ on the number and total coverage of detected
-anti-dense intervals.
-As $\theta_{\text{low}}$ increases, more positions qualify as
-anti-dense, leading to wider and more numerous intervals.
-The transition is smooth and monotonic, confirming that the parameter
-provides intuitive control over detection granularity.
+\paragraph{低閾値$\theta_{\text{low}}$}
+図~\ref{fig:e3_sensitivity}は，$\theta_{\text{low}}$の変化が
+検出された反密集区間の数と総カバレッジに与える影響を示す．
+$\theta_{\text{low}}$が増加するにつれ，反密集と判定される位置が増え，
+区間はより広く多数となる．
+この遷移は滑らかかつ単調であり，パラメータが検出の粒度に対して
+直感的な制御を提供することを確認する．
 
 \begin{table}[t]
 \centering
-\caption{E3: Effect of $\theta_{\text{low}}$ on anti-dense detection.}
+\caption{E3：$\theta_{\text{low}}$が反密集検出に与える影響}
 \label{tab:e3}
 \begin{tabular}{rcc}
 \toprule
-$\theta_{\text{low}}$ & \#Intervals & Total Coverage \\
+$\theta_{\text{low}}$ & 区間数 & 総カバレッジ \\
 \midrule
 1  &  3 &  94 \\
 2  &  6 & 112 \\
@@ -108,67 +100,61 @@ $\theta_{\text{low}}$ & \#Intervals & Total Coverage \\
 \end{tabular}
 \end{table}
 
-\paragraph{Regime boundary position.}
-The contrast statistic $\Delta$ varies smoothly with the boundary
-position, confirming that small perturbations of $\tau$ do not
-dramatically change the classification outcome.
-This robustness is important for practical applications where the
-exact regime boundary may be uncertain.
+\paragraph{レジーム境界位置}
+コントラスト統計量$\Delta$は境界位置に対して滑らかに変化し，
+$\tau$の小さな摂動が分類結果を劇的に変化させないことを確認する．
+この頑健性は，正確なレジーム境界が不確実な実用的場面において重要である．
 
-\subsection{E4: Campaign Termination Pattern Vanishing}
+\subsection{E4：キャンペーン終了に伴うパターン消失}
 
-\paragraph{Setup.}
-We simulate a Dunnhumby-like scenario where a promotional campaign
-is active during $[0, 150]$ and terminates at $t = 150$.
-A ``promoted'' pattern has high occurrence rate (0.85) during the
-campaign and low rate (0.05) after.
-A ``background'' pattern maintains constant rate (0.4).
+\paragraph{設定}
+Dunnhumbyに類似したシナリオをシミュレートする．
+販促キャンペーンが$[0, 150]$の期間に実施され，$t = 150$で終了する．
+「販促対象」パターンはキャンペーン期間中に高出現率（0.85），
+終了後に低出現率（0.05）を持つ．
+「背景」パターンは一定の出現率（0.4）を維持する．
 
-\paragraph{Results.}
-Table~\ref{tab:e4} shows the results.
-The promoted pattern is correctly classified as \textsc{Vanishing} in
-4 out of 5 seeds (one seed classified as \textsc{Contraction} due to
-a residual dense interval).
-All promoted pattern $p$-values are 0.005 (the minimum possible with
-$B = 199$), indicating high statistical significance.
-The background pattern is correctly classified as \textsc{Stable}
-in 3 out of 5 seeds, with non-significant $p$-values.
+\paragraph{結果}
+表~\ref{tab:e4}に結果を示す．
+販促対象パターンは5シード中4シードで\textsc{Vanishing}と正しく分類される
+（1シードでは残存する密集区間により\textsc{Contraction}と分類）．
+販促対象パターンの$p$値はすべて0.005（$B = 199$での最小可能値）であり，
+高い統計的有意性を示す．
+背景パターンは5シード中3シードで\textsc{Stable}と正しく分類され，
+$p$値は非有意である．
 
 \begin{table}[t]
 \centering
-\caption{E4: Campaign termination detection (5 seeds).}
+\caption{E4：キャンペーン終了の検出（5シード）}
 \label{tab:e4}
 \begin{tabular}{lccc}
 \toprule
-Pattern & Type (mode) & Avg $p$-value & Significant \\
+パターン & タイプ（最頻値） & 平均$p$値 & 有意 \\
 \midrule
-Promoted   & Vanishing (4/5) & 0.005 & Yes (5/5) \\
-Background & Stable (3/5)    & 0.451 & No (0/5) \\
+販促対象 & 消失 (4/5) & 0.005 & はい (5/5) \\
+背景     & 安定 (3/5) & 0.451 & いいえ (0/5) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-This experiment demonstrates the practical utility of contrast dense
-patterns for campaign attribution: the method can identify which
-patterns were affected by a campaign's termination and confirm the
-finding with statistical significance.
+本実験はキャンペーン帰属におけるコントラスト密集パターンの実用的有用性を示す：
+キャンペーン終了により影響を受けたパターンを特定し，
+その発見を統計的有意性により確認できる．
 
-\subsection{E5: Seasonal Contrast}
+\subsection{E5：季節性コントラスト}
 
-\paragraph{Setup.}
-We simulate one year ($N = 365$ days) of retail transaction data.
-A ``holiday'' pattern peaks during summer ($[150, 210]$, rate 0.85)
-and December ($[330, 365]$, rate 0.85), with low rate elsewhere (0.05).
-A ``steady'' pattern has uniform rate (0.5).
-We compare the first half (H1: Jan--Jun) against the second half
-(H2: Jul--Dec) with $\tau = 182$.
+\paragraph{設定}
+1年間（$N = 365$日）の小売トランザクションデータをシミュレートする．
+「ホリデー」パターンは夏季（$[150, 210]$，出現率0.85）と
+12月（$[330, 365]$，出現率0.85）にピークを持ち，
+それ以外では低出現率（0.05）である．
+「定常」パターンは一様な出現率（0.5）を持つ．
+$\tau = 182$として上半期（H1：1月--6月）と下半期（H2：7月--12月）を比較する．
 
-\paragraph{Results.}
-The holiday pattern is classified as \textsc{Amplification} in all
-5 seeds, correctly reflecting higher dense coverage in H2 (containing
-the December peak) compared to H1 (containing only the early summer
-peak).
-The steady pattern is classified as \textsc{Stable} in 3 out of 5
-seeds.
-This demonstrates the framework's ability to detect asymmetric
-seasonal effects in retail data.
+\paragraph{結果}
+ホリデーパターンはすべての5シードで\textsc{Amplification}と分類される．
+これはH2（12月のピークを含む）がH1（初夏のピークのみを含む）に比べて
+密集カバレッジが高いことを正しく反映している．
+定常パターンは5シード中3シードで\textsc{Stable}と分類される．
+これは小売データにおける非対称な季節効果を検出する本フレームワークの
+能力を実証する．

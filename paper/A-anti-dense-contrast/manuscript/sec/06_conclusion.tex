@@ -1,51 +1,40 @@
 % ==============================================================
-\section{Conclusion}\label{sec:conclusion}
+\section{おわりに}\label{sec:conclusion}
 % ==============================================================
 
-We have presented two symmetric extensions of the dense interval
-mining framework: \emph{Anti-Dense Intervals} and \emph{Contrast
-Dense Patterns}.
+本論文では，密集区間マイニングフレームワークの二つの対称的拡張として
+\emph{反密集区間}と\emph{コントラスト密集パターン}を提案した．
 
-Anti-dense intervals formalize the dual concept of dense intervals,
-capturing sustained periods of pattern \emph{absence}.
-We proved a reverse monotonicity property that enables efficient
-top-down search strategies and showed that anti-dense intervals
-can be computed with the same time complexity as dense intervals.
+反密集区間は密集区間の双対概念を形式化し，
+パターンの持続的な\emph{不在}期間を捉える．
+効率的なトップダウン探索戦略を可能にする逆単調性を証明し，
+反密集区間が密集区間と同じ計算量で算出できることを示した．
 
-Contrast dense patterns provide a structured framework for comparing
-dense interval configurations across temporal regimes.
-Our taxonomy of four topology change types (Emergence, Vanishing,
-Amplification, Contraction) gives interpretable characterizations
-of how patterns evolve over time.
-The accompanying permutation test, combined with Benjamini--Hochberg
-correction, ensures statistical rigor.
+コントラスト密集パターンは，時間レジーム間で密集区間構成を比較するための
+構造化されたフレームワークを提供する．
+四種類のトポロジー変化（出現・消失・増幅・収縮）の分類体系は，
+パターンが時間とともにどのように変遷するかの解釈可能な特徴づけを与える．
+付随する置換検定はBenjamini--Hochberg補正と組み合わせることで
+統計的厳密性を確保する．
 
-Experimental evaluation on synthetic data demonstrated effective
-anti-dense interval recovery (F1 = 0.789) and reliable topology
-change classification (76\% accuracy).
-Application to simulated campaign termination scenarios showed that
-the method can identify campaign-dependent patterns with high
-statistical significance ($p = 0.005$), while correctly classifying
-unaffected patterns as stable.
+合成データを用いた実験評価により，反密集区間の効果的な復元（F1 = 0.789）と
+信頼性の高いトポロジー変化分類（76\%の正解率）を実証した．
+シミュレートされたキャンペーン終了シナリオへの適用では，
+キャンペーン依存パターンを高い統計的有意性（$p = 0.005$）で特定できること，
+また非影響パターンを安定と正しく分類できることを示した．
 
-\paragraph{Limitations.}
-The current framework requires a pre-specified regime boundary $\tau$.
-Automatic boundary detection via change point methods could extend
-applicability.
-The permutation test assumes exchangeability of timestamps under the
-null hypothesis, which may be violated in the presence of strong
-temporal autocorrelation.
+\paragraph{制約}
+現在のフレームワークはレジーム境界$\tau$の事前指定を必要とする．
+変化点検出手法による自動的な境界検出は適用範囲を拡大しうる．
+また置換検定は帰無仮説の下でタイムスタンプの交換可能性を仮定しており，
+強い時間的自己相関が存在する場合にはこの仮定が破られる可能性がある．
 
-\paragraph{Future Work.}
-Several directions merit further investigation:
-(i) integration with automatic change point detection (e.g.,
-PELT~\cite{killick2012pelt}) to discover regime boundaries from
-the data;
-(ii) extension to multi-regime comparisons beyond the two-regime
-case;
-(iii) application to real-world retail datasets (Dunnhumby, Online
-Retail) with known campaign calendars;
-(iv) development of more efficient pruning strategies exploiting
-the reverse monotonicity of anti-dense intervals;
-and (v) exploration of dense-to-anti-dense transition dynamics as
-a characterization of pattern lifecycle.
+\paragraph{今後の課題}
+以下の方向性がさらなる研究に値する：
+(i) データからレジーム境界を発見するための自動変化点検出（例：
+PELT~\cite{killick2012pelt}）との統合，
+(ii) 二レジーム比較を超えた多レジーム比較への拡張，
+(iii) 既知のキャンペーンカレンダーを持つ実世界小売データセット（Dunnhumby，
+Online Retail）への適用，
+(iv) 反密集区間の逆単調性を活用したより効率的な枝刈り戦略の開発，
+(v) 密集から反密集への遷移ダイナミクスのパターンライフサイクル特徴づけとしての探求．

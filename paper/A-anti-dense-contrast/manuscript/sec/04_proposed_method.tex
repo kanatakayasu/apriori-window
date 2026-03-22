@@ -1,38 +1,36 @@
 % ==============================================================
-\section{Proposed Method}\label{sec:method}
+\section{提案手法}\label{sec:method}
 % ==============================================================
 
-We present algorithms for (1) anti-dense interval detection,
-(2) contrast dense pattern mining, and (3) statistical significance
-testing of structural changes.
+(1)反密集区間検出，(2)コントラスト密集パターンマイニング，
+(3)構造変化の統計的有意性検定のアルゴリズムを提示する．
 
-\subsection{Anti-Dense Interval Detection}\label{sec:anti_dense_algo}
+\subsection{反密集区間検出}\label{sec:anti_dense_algo}
 
-Algorithm~\ref{alg:anti_dense} computes anti-dense intervals by
-reversing the threshold crossing logic of dense interval detection.
-The key insight is that the same sliding-window counting mechanism
-can be reused---only the comparison operator and interval tracking
-logic change.
+アルゴリズム~\ref{alg:anti_dense}は，密集区間検出の閾値交差論理を
+逆転させることで反密集区間を計算する．
+核心的な知見は，同じスライディングウィンドウカウント機構を再利用でき，
+比較演算子と区間追跡ロジックのみを変更すればよいという点である．
 
 \begin{algorithm}[t]
-\caption{Anti-Dense Interval Detection}
+\caption{反密集区間検出}
 \label{alg:anti_dense}
 \begin{algorithmic}[1]
-\REQUIRE Sorted timestamps $\mathbf{t} = [t_1, \ldots, t_n]$,
-  window size $W$, low threshold $\theta_{\text{low}}$
-\ENSURE Set of anti-dense intervals
+\REQUIRE ソート済みタイムスタンプ$\mathbf{t} = [t_1, \ldots, t_n]$，
+  ウィンドウサイズ$W$，低閾値$\theta_{\text{low}}$
+\ENSURE 反密集区間の集合
   $\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$
-\STATE $\mathcal{A} \leftarrow \emptyset$ \COMMENT{result set}
-\STATE Compute critical positions
+\STATE $\mathcal{A} \leftarrow \emptyset$ \COMMENT{結果集合}
+\STATE 臨界位置を計算：
   $C = \{t_i\} \cup \{t_i - W\} \cup \{t_i + 1\} \cup \{0, t_n\}$
-\STATE Sort $C$ and filter to $[0, t_n]$
+\STATE $C$をソートし$[0, t_n]$の範囲にフィルタ
 \STATE $\texttt{in\_anti} \leftarrow \texttt{false}$;
   $\texttt{start} \leftarrow \texttt{null}$
-\FOR{each $c \in C$ in order}
+\FOR{$C$の各要素$c$を順に}
   \STATE $\texttt{count} \leftarrow |\{t_j \in \mathbf{t} \mid
-    c \leq t_j \leq c + W - 1\}|$ \COMMENT{binary search}
+    c \leq t_j \leq c + W - 1\}|$ \COMMENT{二分探索}
   \IF{$\texttt{count} < \theta_{\text{low}}$}
-    \IF{not $\texttt{in\_anti}$}
+    \IF{$\texttt{in\_anti}$でない}
       \STATE $\texttt{in\_anti} \leftarrow \texttt{true}$;
         $\texttt{start} \leftarrow c$
     \ENDIF
@@ -52,39 +50,38 @@ logic change.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Complexity.}
-The algorithm evaluates support at $O(n)$ critical positions, each
-requiring $O(\log n)$ time for binary search lookup.
-Total time complexity is $O(n \log n)$, matching the dense interval
-detection algorithm.
+\paragraph{計算量}
+アルゴリズムは$O(n)$個の臨界位置でサポートを評価し，各評価には
+二分探索による$O(\log n)$時間を要する．
+総計算量は$O(n \log n)$であり，密集区間検出アルゴリズムと一致する．
 
-\paragraph{Reverse Monotonicity for Pruning.}
-By Theorem~\ref{thm:anti_monotone}, if a superset $Q \supset P$ has
-no anti-dense interval in a candidate region, then $P$ also has no
-anti-dense interval there (since $s_P(t) \geq s_Q(t)$).
-This enables a \emph{top-down} mining strategy:
-start with large itemsets and prune subsets whose supersets lack
-anti-dense intervals in the region of interest.
+\paragraph{枝刈りのための逆単調性}
+定理~\ref{thm:anti_monotone}により，上位集合$Q \supset P$が
+候補領域に反密集区間を持たなければ，$P$もそこに反密集区間を持たない
+（$s_P(t) \geq s_Q(t)$であるため）．
+これは\emph{トップダウン}マイニング戦略を可能にする：
+大きなアイテムセットから開始し，上位集合が関心領域に反密集区間を
+持たない部分集合を枝刈りする．
 
-\subsection{Contrast Dense Pattern Mining}\label{sec:contrast_algo}
+\subsection{コントラスト密集パターンマイニング}\label{sec:contrast_algo}
 
-Given a regime boundary $\tau$ that divides the transaction sequence
-into two regimes $R_1 = [0, \tau]$ and $R_2 = [\tau+1, N-1]$,
-Algorithm~\ref{alg:contrast} classifies each pattern's topology change.
+トランザクション列を二つのレジーム$R_1 = [0, \tau]$と$R_2 = [\tau+1, N-1]$に
+分割するレジーム境界$\tau$が与えられたとき，
+アルゴリズム~\ref{alg:contrast}は各パターンのトポロジー変化を分類する．
 
 \begin{algorithm}[t]
-\caption{Contrast Dense Pattern Mining}
+\caption{コントラスト密集パターンマイニング}
 \label{alg:contrast}
 \begin{algorithmic}[1]
-\REQUIRE Pattern set $\mathcal{F}$ with timestamps, window $W$,
-  threshold $\theta$, boundary $\tau$, margin $\delta$
-\ENSURE Contrast dense patterns $\mathcal{C}$ with topology types
+\REQUIRE パターン集合$\mathcal{F}$（タイムスタンプ付き），ウィンドウ$W$，
+  閾値$\theta$，境界$\tau$，マージン$\delta$
+\ENSURE トポロジータイプ付きコントラスト密集パターン$\mathcal{C}$
 \STATE $\mathcal{C} \leftarrow \emptyset$
-\FOR{each $P \in \mathcal{F}$}
+\FOR{各$P \in \mathcal{F}$}
   \STATE $\mathcal{D}_1 \leftarrow$ \textsc{DenseIntervals}$(P, W,
-    \theta)$ clipped to $R_1$
+    \theta)$を$R_1$にクリップ
   \STATE $\mathcal{D}_2 \leftarrow$ \textsc{DenseIntervals}$(P, W,
-    \theta)$ clipped to $R_2$
+    \theta)$を$R_2$にクリップ
   \STATE $c_1 \leftarrow \text{cov}(\mathcal{D}_1, |R_1|)$;
     $c_2 \leftarrow \text{cov}(\mathcal{D}_2, |R_2|)$
   \IF{$\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 \neq \emptyset$}
@@ -104,47 +101,43 @@ Algorithm~\ref{alg:contrast} classifies each pattern's topology change.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Statistical Significance Testing}\label{sec:permtest_algo}
+\subsection{統計的有意性検定}\label{sec:permtest_algo}
 
-To assess whether a pattern's structural change is statistically
-significant, we employ the permutation test described in
-Definition~\ref{def:permtest}.
-The procedure is as follows:
+パターンの構造変化が統計的に有意であるかを評価するため，
+定義~\ref{def:permtest}で記述した置換検定を用いる．
+手順は以下のとおりである：
 
 \begin{enumerate}
-\item Compute the observed contrast statistic
-  $\Delta_{\text{obs}} = \text{cov}_2(P) - \text{cov}_1(P)$.
-\item For $b = 1, \ldots, B$:
+\item 観測コントラスト統計量
+  $\Delta_{\text{obs}} = \text{cov}_2(P) - \text{cov}_1(P)$を計算する．
+\item $b = 1, \ldots, B$に対して：
   \begin{enumerate}
-  \item Generate a random permutation of the timestamp positions
-    (sampling without replacement from $[0, N-1]$).
-  \item Recompute dense intervals and the contrast statistic
-    $\Delta^{(b)}$.
+  \item タイムスタンプ位置のランダム置換を生成する
+    （$[0, N-1]$からの非復元抽出）．
+  \item 密集区間とコントラスト統計量$\Delta^{(b)}$を再計算する．
   \end{enumerate}
-\item Compute the $p$-value:
-  $p = (1 + \sum_{b} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta_{\text{obs}}|]) / (1 + B)$.
-\item Apply Benjamini--Hochberg~\cite{benjamini1995fdr} correction
-  across all tested patterns.
+\item $p$値を計算する：
+  $p = (1 + \sum_{b} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta_{\text{obs}}|]) / (1 + B)$．
+\item すべての検定対象パターンに対して
+  Benjamini--Hochberg~\cite{benjamini1995fdr}補正を適用する．
 \end{enumerate}
 
-\paragraph{Complexity.}
-Each permutation requires $O(n \log n)$ time for dense interval
-computation.
-With $B$ permutations and $|\mathcal{F}|$ patterns, the total cost is
-$O(|\mathcal{F}| \cdot B \cdot n \log n)$.
-In practice, $B = 199$ or $999$ suffices for reliable $p$-value
-estimation.
+\paragraph{計算量}
+各置換には密集区間計算のための$O(n \log n)$時間を要する．
+$B$回の置換と$|\mathcal{F}|$個のパターンに対し，
+総コストは$O(|\mathcal{F}| \cdot B \cdot n \log n)$である．
+実用的には$B = 199$または$999$で信頼性のある$p$値推定に十分である．
 
-\subsection{Integration with Dense Interval Mining}
+\subsection{密集区間マイニングとの統合}
 
-Our anti-dense and contrast algorithms integrate seamlessly with the
-existing dense interval mining pipeline:
+本研究の反密集アルゴリズムとコントラストアルゴリズムは，
+既存の密集区間マイニングパイプラインにシームレスに統合される：
 \begin{enumerate}
-\item Run standard Apriori-based dense interval mining to obtain
-  $\mathcal{F}$ and their dense intervals.
-\item For each pattern in $\mathcal{F}$, compute anti-dense intervals
-  using Algorithm~\ref{alg:anti_dense}.
-\item Given a regime boundary, classify topology changes using
-  Algorithm~\ref{alg:contrast} and test significance.
+\item 標準的なAprioriベースの密集区間マイニングを実行し，
+  $\mathcal{F}$とその密集区間を取得する．
+\item $\mathcal{F}$の各パターンに対し，
+  アルゴリズム~\ref{alg:anti_dense}を用いて反密集区間を計算する．
+\item レジーム境界が与えられた場合，アルゴリズム~\ref{alg:contrast}を用いて
+  トポロジー変化を分類し，有意性を検定する．
 \end{enumerate}
-No modification to the core mining algorithm is required.
+コアマイニングアルゴリズムの変更は不要である．

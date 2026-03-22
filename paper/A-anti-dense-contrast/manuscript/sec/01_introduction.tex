@@ -1,77 +1,60 @@
 % ==============================================================
-\section{Introduction}\label{sec:intro}
+\section{はじめに}\label{sec:intro}
 % ==============================================================
 
-Frequent pattern mining has been a cornerstone of data mining research
-since the introduction of the Apriori algorithm~\cite{agrawal1994apriori}.
-While extensive work has focused on discovering patterns that occur
-\emph{frequently} in transactional databases, comparatively little
-attention has been paid to the \emph{temporal structure} of pattern
-occurrences---specifically, \emph{when} patterns are frequent and
-\emph{when} they are not.
+頻出パターンマイニングは，Aprioriアルゴリズム~\cite{agrawal1994apriori}の提案以来，
+データマイニング研究の基盤となってきた．
+トランザクションデータベースにおいて\emph{頻出}するパターンの発見に関しては
+膨大な研究がなされてきたが，パターン出現の\emph{時間的構造}---すなわち
+パターンが\emph{いつ}頻出し\emph{いつ}頻出しないか---に対する関心は
+相対的に乏しかった．
 
-Dense interval mining~\cite{dong2012contrast} addresses this gap by
-identifying contiguous time periods during which a pattern's sliding-window
-support exceeds a given threshold.
-These intervals capture epochs of sustained high activity and have
-proven useful for event attribution and temporal analysis of purchasing
-behavior.
-However, the existing framework treats only one side of the coin:
-it characterizes \emph{presence} (high support) but provides no
-symmetric mechanism for characterizing \emph{absence} (low support).
+密集区間マイニング~\cite{dong2012contrast}は，パターンのスライディングウィンドウ
+サポートが所定の閾値を超える連続的な時間区間を特定することで，この空白を埋める．
+これらの区間は持続的な高活性期間を捉え，イベント帰属や購買行動の時間分析において
+有用性が実証されている．
+しかし，既存のフレームワークはコインの片面のみを扱っている．
+すなわち，\emph{存在}（高サポート）は特徴づけるが，
+\emph{不在}（低サポート）を対称的に特徴づける機構が欠けている．
 
-This asymmetry limits the analytical power of dense interval mining
-in several important ways.
-First, practitioners cannot directly identify periods when a
-previously popular pattern \emph{disappears}---a phenomenon of
-significant business interest (e.g., the end of a promotional campaign).
-Second, there is no principled framework for comparing how the
-temporal structure of a pattern changes across different regimes
-(e.g., before vs.\ after an intervention).
-Third, the absence of a formal ``anti-dense'' concept prevents the
-application of anti-monotonicity-like pruning strategies that could
-accelerate the mining of infrequent temporal patterns.
+この非対称性は，密集区間マイニングの分析力をいくつかの重要な点で制限する．
+第一に，以前人気であったパターンが\emph{消失}する期間---例えば販促キャンペーンの
+終了など，ビジネス上重要な現象---を直接特定できない．
+第二に，異なるレジーム間（例：介入前後）でパターンの時間的構造が
+どのように変化するかを比較する原理的枠組みが存在しない．
+第三に，形式的な「反密集」概念の不在は，低頻度時間パターンのマイニングを
+加速しうる反単調性に類似した枝刈り戦略の適用を妨げている．
 
-In this paper, we propose two symmetric extensions of the dense
-interval mining framework:
+本論文では，密集区間マイニングフレームワークの二つの対称的拡張を提案する：
 
 \begin{enumerate}
-\item \textbf{Anti-Dense Intervals}: We define the dual concept of
-dense intervals---maximal contiguous periods where a pattern's support
-remains \emph{below} a low threshold $\theta_{\text{low}}$.
-Anti-dense intervals capture sustained absence and enable the direct
-identification of pattern disappearance epochs.
+\item \textbf{反密集区間}：密集区間の双対概念として，パターンのサポートが
+低閾値$\theta_{\text{low}}$を\emph{下回り}続ける極大連続区間を定義する．
+反密集区間は持続的な不在を捉え，パターン消失期間の直接的な特定を可能にする．
 
-\item \textbf{Contrast Dense Patterns}: We introduce a framework for
-comparing the dense interval \emph{structure} of a pattern across two
-temporal regimes.
-We define a taxonomy of four canonical topology changes
-(Emergence, Vanishing, Amplification, Contraction) and provide a
-permutation-based statistical test for assessing whether observed
-structural changes are significant.
+\item \textbf{コントラスト密集パターン}：二つの時間レジーム間で
+パターンの密集区間\emph{構造}を比較するフレームワークを導入する．
+四種類の正準トポロジー変化（出現・消失・増幅・収縮）の分類体系を定義し，
+観測された構造変化の有意性を評価するための置換検定を提供する．
 \end{enumerate}
 
-Our contributions are as follows:
+本論文の貢献は以下のとおりである：
 \begin{itemize}
-\item We formalize the Anti-Dense Interval and prove a reverse
-monotonicity property that enables efficient top-down search
-(Section~\ref{sec:problem}).
-\item We define the Contrast Dense Pattern framework with a complete
-taxonomy of pattern topology changes and a permutation test for
-statistical significance (Section~\ref{sec:problem}).
-\item We present efficient algorithms that compute anti-dense intervals
-and contrast patterns with the same time complexity as existing dense
-interval detection (Section~\ref{sec:method}).
-\item We validate our approach on synthetic data with known ground truth
-and on simulated retail scenarios, demonstrating effective recovery of
-anti-dense intervals (F1 = 0.789), accurate classification of topology
-changes (76\% accuracy), and statistically significant detection of
-campaign-induced pattern vanishing (Section~\ref{sec:experiments}).
+\item 反密集区間を形式化し，効率的なトップダウン探索を可能にする
+逆単調性を証明する（第~\ref{sec:problem}節）．
+\item パターンのトポロジー変化の完全な分類体系と統計的有意性のための
+置換検定を備えたコントラスト密集パターンフレームワークを定義する（第~\ref{sec:problem}節）．
+\item 反密集区間とコントラストパターンを既存の密集区間検出と同じ
+計算量で算出する効率的なアルゴリズムを提示する（第~\ref{sec:method}節）．
+\item 既知のグラウンドトゥルースを持つ合成データおよびシミュレートされた
+小売シナリオにより提案手法を検証し，反密集区間の効果的な復元（F1 = 0.789），
+トポロジー変化の正確な分類（76\%の精度），およびキャンペーン誘発パターン消失の
+統計的に有意な検出を実証する（第~\ref{sec:experiments}節）．
 \end{itemize}
 
-The remainder of this paper is organized as follows.
-Section~\ref{sec:related} reviews related work.
-Section~\ref{sec:problem} presents the formal problem definitions.
-Section~\ref{sec:method} describes our proposed algorithms.
-Section~\ref{sec:experiments} reports experimental results.
-Section~\ref{sec:conclusion} concludes with future directions.
+本論文の構成は以下のとおりである．
+第~\ref{sec:related}節で関連研究をレビューする．
+第~\ref{sec:problem}節で形式的な問題定義を示す．
+第~\ref{sec:method}節で提案アルゴリズムを記述する．
+第~\ref{sec:experiments}節で実験結果を報告する．
+第~\ref{sec:conclusion}節で今後の方向性とともに結論を述べる．

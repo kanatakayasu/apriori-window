@@ -1,110 +1,92 @@
 % ==============================================================
-\section{Related Work}\label{sec:related}
+\section{関連研究}\label{sec:related}
 % ==============================================================
 
-Our work spans several research areas.
-We review each and highlight the gap that our contributions address.
+本研究は複数の研究領域にまたがる．
+各領域をレビューし，本研究の貢献が埋めるギャップを明確にする．
 
-\subsection{Frequent and Dense Interval Mining}
+\subsection{頻出パターンマイニングと密集区間マイニング}
 
-The Apriori algorithm~\cite{agrawal1994apriori} and
-FP-Growth~\cite{han2000fpgrowth} established the foundations of
-frequent itemset mining.
-Dense interval mining extends this framework by identifying
-contiguous temporal intervals where a pattern's sliding-window
-support exceeds a threshold.
-While dense intervals effectively capture periods of high activity,
-the framework does not provide a symmetric mechanism for
-characterizing periods of sustained \emph{low} activity.
-Our anti-dense interval concept fills this gap.
+Aprioriアルゴリズム~\cite{agrawal1994apriori}および
+FP-Growth~\cite{han2000fpgrowth}は，頻出アイテムセットマイニングの基盤を確立した．
+密集区間マイニングは，パターンのスライディングウィンドウサポートが閾値を超える
+連続的な時間区間を特定することで，このフレームワークを拡張する．
+密集区間は高活性期間を効果的に捉えるが，持続的な\emph{低活性}期間を
+対称的に特徴づける機構を備えていない．
+本研究の反密集区間の概念がこのギャップを埋める．
 
-\subsection{Rare and Infrequent Pattern Mining}
+\subsection{希少・低頻度パターンマイニング}
 
-Mining infrequent or rare patterns has received growing attention.
-RP-Tree~\cite{szathmary2011rptree} extends FP-Growth to mine rare
-itemsets.
-Haglin and Manning~\cite{haglin2007minimal} introduced minimal
-infrequent itemsets.
-ERIM~\cite{akdas2024erim} combines four rare itemset mining
-algorithms in an ensemble.
-Recent work on rare partial periodic patterns in data
-streams~\cite{kiran2025r3pstream} addresses temporal rarity in the
-streaming setting.
-Negative association rules~\cite{wu2024negative} capture item
-co-absence but in a static, non-temporal framework.
+低頻度または希少なパターンのマイニングは注目を集めている．
+RP-Tree~\cite{szathmary2011rptree}はFP-Growthを拡張して
+希少アイテムセットをマイニングする．
+HaglinとManning~\cite{haglin2007minimal}は極小低頻度アイテムセットを導入した．
+ERIM~\cite{akdas2024erim}は四つの希少アイテムセットマイニングアルゴリズムを
+アンサンブルとして統合する．
+データストリームにおける希少部分周期パターンに関する最近の研究~\cite{kiran2025r3pstream}は，
+ストリーミング環境での時間的希少性に取り組んでいる．
+負の相関ルール~\cite{wu2024negative}はアイテムの共欠如を捉えるが，
+静的かつ非時間的な枠組みにとどまる．
 
-These approaches share a focus on \emph{globally} infrequent
-patterns but do not characterize \emph{temporal intervals} of
-infrequency.
-A pattern may be globally frequent yet exhibit sustained periods
-of absence---a phenomenon that our anti-dense intervals capture
-directly.
+これらのアプローチは\emph{大域的に}低頻度なパターンに焦点を当てているが，
+低頻度の\emph{時間区間}を特徴づけるものではない．
+パターンは大域的には頻出でありながら，持続的な不在期間を示すことがあり---
+本研究の反密集区間はまさにこの現象を直接捉える．
 
-\subsection{Emerging and Contrast Patterns}
+\subsection{出現パターンとコントラストパターン}
 
-Dong and Li~\cite{dong1999emerging} introduced emerging patterns
-(EPs)---itemsets whose support ratio between two datasets exceeds a
-threshold.
-The contrast data mining framework~\cite{dong2012contrast} generalizes
-this to multi-class comparisons.
-Garc\'ia-Vico et al.~\cite{garciavico2018ep} provide a comprehensive
-taxonomy of EP mining approaches.
-Loyola-Gonz\'alez et al.~\cite{loyola2020contrast} survey contrast
-pattern mining with statistical validation.
-Recent work by Li et al.~\cite{li2025hucspm} extends contrast
-patterns to high-utility sequential patterns.
+DongとLi~\cite{dong1999emerging}は，二つのデータセット間のサポート比が
+閾値を超えるアイテムセットとして出現パターン（EP）を導入した．
+コントラストデータマイニングフレームワーク~\cite{dong2012contrast}は
+これを多クラス比較に一般化した．
+Garc\'ia-Vicoら~\cite{garciavico2018ep}はEPマイニング手法の包括的な分類体系を提供する．
+Loyola-Gonz\'alezら~\cite{loyola2020contrast}は統計的検証を伴う
+コントラストパターンマイニングをサーベイしている．
+Liら~\cite{li2025hucspm}の最近の研究は，コントラストパターンを
+高ユーティリティ系列パターンに拡張している．
 
-Emerging patterns compare \emph{support values} between datasets.
-Our contrast dense patterns compare \emph{dense interval structures}
-between temporal regimes---a fundamentally different and richer
-comparison that captures not just whether support changed, but
-\emph{how the temporal pattern of support changed}.
+出現パターンはデータセット間の\emph{サポート値}を比較する．
+本研究のコントラスト密集パターンは時間レジーム間の\emph{密集区間構造}を
+比較する---これはサポートが変化したかだけでなく，
+\emph{サポートの時間的パターンがどのように変化したか}を捉える，
+本質的に異なるより豊かな比較である．
 
-\subsection{Change Point Detection}
+\subsection{変化点検出}
 
-Change point detection identifies time points where the statistical
-properties of a time series change.
-CUSUM~\cite{page1954cusum} detects mean shifts sequentially.
-PELT~\cite{killick2012pelt} provides optimal multiple change point
-detection in $O(n)$ time.
-Bai and Perron~\cite{bai2003structural} address multiple structural
-breaks in regression models.
-Truong et al.~\cite{truong2020ruptures} provide a comprehensive
-Python library for offline change point detection.
-Recent applications include financial time series
-analysis~\cite{chen2025pelt}.
+変化点検出は，時系列の統計的性質が変化する時点を特定する．
+CUSUM~\cite{page1954cusum}は平均シフトを逐次的に検出する．
+PELT~\cite{killick2012pelt}は$O(n)$時間での最適な複数変化点検出を提供する．
+BaiとPerron~\cite{bai2003structural}は回帰モデルにおける複数の構造変化に対処する．
+Truongら~\cite{truong2020ruptures}はオフライン変化点検出のための
+包括的なPythonライブラリを提供する．
+最近の応用として金融時系列分析~\cite{chen2025pelt}がある．
 
-These methods operate on \emph{univariate or multivariate time series}
-and detect general distributional changes.
-They do not consider the specific structure of \emph{pattern-level}
-dense intervals or classify the \emph{type} of structural change
-(emergence, vanishing, etc.) as our framework does.
+これらの手法は\emph{単変量または多変量時系列}に対して動作し，
+一般的な分布の変化を検出する．
+\emph{パターンレベル}の密集区間の特定の構造を考慮せず，
+本研究のフレームワークが行うような構造変化の\emph{種類}
+（出現・消失等）の分類も行わない．
 
-\subsection{Concept Drift Detection}
+\subsection{概念ドリフト検出}
 
-Concept drift detection identifies changes in the data-generating
-process over time.
-ADWIN~\cite{bifet2007adwin} uses adaptive windowing with statistical
-bounds.
-DDM~\cite{gama2004ddm} detects drift through error rate monitoring.
-ADWIN-U~\cite{assis2024adwinu} extends ADWIN to unsupervised settings.
-Cerqueira et al.~\cite{cerqueira2024benchmark} benchmark fully
-unsupervised drift detectors.
+概念ドリフト検出は，時間とともにデータ生成過程が変化することを特定する．
+ADWIN~\cite{bifet2007adwin}は統計的境界を用いた適応的ウィンドウ法を使用する．
+DDM~\cite{gama2004ddm}はエラー率の監視によりドリフトを検出する．
+ADWIN-U~\cite{assis2024adwinu}はADWINを教師なし環境に拡張する．
+Cerqueiraら~\cite{cerqueira2024benchmark}は完全教師なしドリフト検出器の
+ベンチマークを行っている．
 
-Concept drift detection signals that ``something changed'' but does
-not provide a structured characterization of \emph{what} changed at
-the level of individual patterns.
-Our topology change taxonomy (Emergence, Vanishing, Amplification,
-Contraction) provides exactly this interpretable characterization.
+概念ドリフト検出は「何かが変化した」というシグナルを提供するが，
+個々のパターンレベルで\emph{何が}変化したかの構造化された特徴づけは提供しない．
+本研究のトポロジー変化分類体系（出現・消失・増幅・収縮）は，
+まさにこの解釈可能な特徴づけを提供する．
 
-\subsection{Temporal and Periodic Pattern Mining}
+\subsection{時間パターンマイニングと周期パターンマイニング}
 
-Temporal pattern mining has been studied extensively.
-3P-ECLAT~\cite{3peclat2024} mines partial periodic patterns in
-columnar databases.
-TaTIRP~\cite{tatirp2025} discovers targeted time-interval related
-patterns using Allen's temporal relations.
+時間パターンマイニングは広く研究されてきた．
+3P-ECLAT~\cite{3peclat2024}は列指向データベースにおける部分周期パターンをマイニングする．
+TaTIRP~\cite{tatirp2025}はAllenの時間関係を用いて対象時間区間関連パターンを発見する．
 
-These approaches focus on periodicity or temporal relations between
-events, which is complementary to our focus on dense/anti-dense
-intervals defined by sliding-window support thresholds.
+これらのアプローチはイベント間の周期性や時間関係に焦点を当てており，
+スライディングウィンドウサポート閾値により定義される
+密集区間・反密集区間に焦点を当てる本研究とは相補的である．
