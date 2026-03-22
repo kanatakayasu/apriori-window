@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper J - 差分プライバシー密集区間マイニング</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;--c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;--c-red-bg:#fff5f5;--c-red-light:#ffcdd2;--max-w:780px;--font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace}
+  html{scroll-behavior:smooth}body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.85;font-weight:400;font-size:15px;background:var(--c-bg)}
+  .top-nav{position:sticky;top:0;z-index:100;background:var(--c-bg);border-bottom:1px solid var(--c-border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}.top-nav .left{display:flex;align-items:center;gap:16px}.top-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.02em}.top-nav a{font-size:13px;color:var(--c-gray);text-decoration:none;transition:color .15s}.top-nav a:hover{color:var(--c-red)}.top-nav .back-link{display:flex;align-items:center;gap:4px;font-weight:500}.top-nav .nav-arrows{display:flex;gap:8px}.top-nav .nav-arrows a{display:flex;align-items:center;gap:4px;padding:4px 12px;border:1px solid var(--c-border);border-radius:6px;font-size:12px;font-weight:500}.top-nav .nav-arrows a:hover{border-color:var(--c-red);color:var(--c-red)}.top-nav .nav-arrows a.disabled{opacity:.3;pointer-events:none}
+  .hero{border-bottom:1px solid var(--c-border);padding:80px 40px 64px;max-width:var(--max-w);margin:0 auto;position:relative;overflow:hidden}.hero .paper-id{position:absolute;top:-20px;right:-10px;font-size:clamp(10rem,20vw,16rem);font-weight:900;color:var(--c-border);opacity:.5;line-height:1;pointer-events:none;letter-spacing:-.05em}.hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.25;letter-spacing:-.03em;position:relative}.hero .lead{font-size:1.05rem;color:var(--c-gray);margin-top:16px;max-width:600px;position:relative}.hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;position:relative}.hero .badge{font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;background:var(--c-surface);border:1px solid var(--c-border)}.hero .badge.accent{background:var(--c-red-bg);border-color:var(--c-red-light);color:var(--c-red);font-weight:700}.hero .badge.wave-1{background:#e3f2fd;border-color:#90caf9;color:#1565c0}.hero .badge.wave-2{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}.hero .badge.wave-3{background:#fff3e0;border-color:#ffcc80;color:#e65100}.hero .badge.wave-4{background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a}.hero .badge.wave-5{background:#fce4ec;border-color:#f48fb1;color:#880e4f}
+  .content-wrap{max-width:var(--max-w);margin:0 auto;padding:48px 40px 120px}.content-wrap h2{font-size:1.5rem;font-weight:900;margin:64px 0 24px;padding-top:20px;letter-spacing:-.01em;border-top:2px solid var(--c-fg)}.content-wrap h2:first-child{border-top:none;margin-top:0}.content-wrap p{margin-bottom:14px}.red{color:var(--c-red)}.muted{color:var(--c-muted)}.small{font-size:13px;color:var(--c-gray)}
+  .box{background:var(--c-surface);border:1px solid var(--c-border);border-radius:10px;padding:24px;margin:20px 0}.box.accent{border-left:4px solid var(--c-red);background:var(--c-red-bg)}.box h4{margin:0 0 8px;font-size:1rem;font-weight:700}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0}
+  .stat-row{display:flex;gap:16px;margin:20px 0;flex-wrap:wrap}.stat-card{flex:1;min-width:140px;text-align:center;padding:24px 12px;border:1px solid var(--c-border);border-radius:10px}.stat-card .val{font-size:2rem;font-weight:900;line-height:1}.stat-card .lbl{font-size:12px;color:var(--c-muted);margin-top:6px}
+  .pipe-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--c-border)}.pipe-step:last-child{border-bottom:none}.pipe-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}.pipe-num.red{background:var(--c-red)}.pipe-body{flex:1}.pipe-body h4{margin:0 0 4px}.pipe-body p{margin:0;font-size:14px;color:var(--c-gray)}
+  .review-bar{display:flex;gap:8px;align-items:center;margin:8px 0}.review-bar .bar-track{flex:1;max-width:200px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden}.review-bar .bar-fill{height:100%;border-radius:4px;background:var(--c-red)}.review-bar .bar-label{font-size:13px;font-weight:700;min-width:60px}.review-bar .bar-score{font-size:13px;color:var(--c-muted)}
+  .dep-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.dep-link{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--c-border);border-radius:8px;text-decoration:none;color:var(--c-fg);font-size:13px;font-weight:500;transition:all .15s}.dep-link:hover{border-color:var(--c-red);color:var(--c-red);background:var(--c-red-bg)}.dep-link .dep-id{width:24px;height:24px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}.dep-link:hover .dep-id{background:var(--c-red)}
+  .bottom-nav{display:flex;justify-content:space-between;align-items:center;padding:32px 0;margin-top:64px;border-top:2px solid var(--c-fg)}.bottom-nav a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--c-gray);font-size:14px;font-weight:500;transition:color .15s}.bottom-nav a:hover{color:var(--c-red)}.bottom-nav .next{margin-left:auto}
+  .site-footer{border-top:1px solid var(--c-border);padding:40px;text-align:center;font-size:12px;color:var(--c-muted)}
+  @media(max-width:640px){.hero,.content-wrap{padding-left:20px;padding-right:20px}.grid-3{grid-template-columns:1fr}.top-nav{padding:0 12px}.top-nav .logo{display:none}.stat-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="left">
+    <span class="logo">Dense Interval Mining</span>
+    <a href="../index.html" class="back-link">&larr; All Papers</a>
+  </div>
+  <div class="nav-arrows">
+    <a href="i.html">&larr; Paper I</a>
+    <a href="k.html">Paper K &rarr;</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="paper-id">J</div>
+  <h1>差分プライバシー密集区間マイニング</h1>
+  <p class="lead">(epsilon,delta)-差分プライバシー保証付きDP-DIMフレームワークとSVTによる予算効率化</p>
+  <div class="badges">
+    <span class="badge accent">Paper J</span>
+    <span class="badge wave-5">Wave 5</span>
+    <span class="badge">CCS/VLDB</span>
+  </div>
+</section>
+
+<div class="content-wrap">
+
+  <h2>Abstract</h2>
+  <div class="box accent">
+    <p>(epsilon,delta)-差分プライバシー保証付きDP-DIMフレームワーク。窓感度=1を証明し、SVTによる予算効率的変種を提案。</p>
+  </div>
+
+  <h2>Key Contributions</h2>
+  <div class="grid-3">
+    <div class="box">
+      <h4><span class="red">C1.</span> 窓感度解析</h4>
+      <p class="small">ウィンドウカウントの窓感度を解析し感度=1を証明</p>
+    </div>
+    <div class="box">
+      <h4><span class="red">C2.</span> SVT予算効率化</h4>
+      <p class="small">閾値安定性条件とSVTによる予算効率化</p>
+    </div>
+    <div class="box">
+      <h4><span class="red">C3.</span> 実用的精度</h4>
+      <p class="small">epsilon=1.0でF1=0.60、逐次合成比77.5%削減</p>
+    </div>
+  </div>
+
+  <h2>Method Overview</h2>
+  <div class="pipe-step">
+    <div class="pipe-num red">1</div>
+    <div class="pipe-body">
+      <h4>ラプラス/ガウスメカニズム</h4>
+      <p>ウィンドウカウントにノイズを付加して差分プライバシーを保証</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">2</div>
+    <div class="pipe-body">
+      <h4>SVT + 高度合成定理</h4>
+      <p>Sparse Vector Techniqueと高度合成定理でプライバシー予算を効率的に配分</p>
+    </div>
+  </div>
+
+  <h2>Experimental Results</h2>
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="val red">0.60</div>
+      <div class="lbl">F1 (epsilon=1.0)</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">77.5%</div>
+      <div class="lbl">Sequential Composition Reduction</div>
+    </div>
+  </div>
+
+  <h2>PDCA Review Status</h2>
+  <div class="review-bar">
+    <span class="bar-label">Technical</span>
+    <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+    <span class="bar-score">3.5 / 5</span>
+  </div>
+  <div class="review-bar">
+    <span class="bar-label">Experiments</span>
+    <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+    <span class="bar-score">3 / 5</span>
+  </div>
+
+  <h2>Related Papers</h2>
+  <p class="small muted">No direct dependencies specified.</p>
+
+  <div class="bottom-nav">
+    <a href="i.html">&larr; Paper I</a>
+    <a href="k.html" class="next">Paper K: 薬剤疫学 &rarr;</a>
+  </div>
+</div>
+
+<footer class="site-footer">Dense Interval Mining Research &mdash; Paper J</footer>
+</body>
+</html>
