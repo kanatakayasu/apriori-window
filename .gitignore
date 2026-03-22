@@ -7,6 +7,8 @@ dataset/**/*.xls
 dataset/**/*.zip
 dataset/**/*.gz
 dataset/**/*.pdf
+dataset/dunnhumby/transactions.txt
+dataset/dunnhumby/product_id_map.json
 
 # Rust ビルド成果物（/target/ とすることで paper/target/ への誤マッチを防ぐ）
 /target/

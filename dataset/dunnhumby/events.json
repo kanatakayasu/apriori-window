@@ -1,0 +1,242 @@
+[
+  {
+    "event_id": "C24",
+    "name": "TypeB_24",
+    "start": 254905,
+    "end": 276483,
+    "start_day": 659,
+    "end_day": 719
+  },
+  {
+    "event_id": "C15",
+    "name": "TypeC_15",
+    "start": 207410,
+    "end": 275250,
+    "start_day": 547,
+    "end_day": 708
+  },
+  {
+    "event_id": "C25",
+    "name": "TypeB_25",
+    "start": 254905,
+    "end": 268625,
+    "start_day": 659,
+    "end_day": 691
+  },
+  {
+    "event_id": "C20",
+    "name": "TypeC_20",
+    "start": 236468,
+    "end": 266197,
+    "start_day": 615,
+    "end_day": 685
+  },
+  {
+    "event_id": "C23",
+    "name": "TypeB_23",
+    "start": 249344,
+    "end": 265774,
+    "start_day": 646,
+    "end_day": 684
+  },
+  {
+    "event_id": "C21",
+    "name": "TypeB_21",
+    "start": 240134,
+    "end": 254122,
+    "start_day": 624,
+    "end_day": 656
+  },
+  {
+    "event_id": "C22",
+    "name": "TypeB_22",
+    "start": 240134,
+    "end": 254122,
+    "start_day": 624,
+    "end_day": 656
+  },
+  {
+    "event_id": "C18",
+    "name": "TypeA_18",
+    "start": 224404,
+    "end": 248570,
+    "start_day": 587,
+    "end_day": 642
+  },
+  {
+    "event_id": "C19",
+    "name": "TypeB_19",
+    "start": 231266,
+    "end": 245208,
+    "start_day": 603,
+    "end_day": 635
+  },
+  {
+    "event_id": "C17",
+    "name": "TypeB_17",
+    "start": 219311,
+    "end": 233374,
+    "start_day": 575,
+    "end_day": 607
+  },
+  {
+    "event_id": "C14",
+    "name": "TypeC_14",
+    "start": 200764,
+    "end": 228737,
+    "start_day": 531,
+    "end_day": 596
+  },
+  {
+    "event_id": "C16",
+    "name": "TypeB_16",
+    "start": 213380,
+    "end": 227535,
+    "start_day": 561,
+    "end_day": 593
+  },
+  {
+    "event_id": "C13",
+    "name": "TypeA_13",
+    "start": 189206,
+    "end": 209535,
+    "start_day": 504,
+    "end_day": 551
+  },
+  {
+    "event_id": "C11",
+    "name": "TypeB_11",
+    "start": 177334,
+    "end": 197787,
+    "start_day": 477,
+    "end_day": 523
+  },
+  {
+    "event_id": "C12",
+    "name": "TypeB_12",
+    "start": 177334,
+    "end": 191810,
+    "start_day": 477,
+    "end_day": 509
+  },
+  {
+    "event_id": "C10",
+    "name": "TypeB_10",
+    "start": 171003,
+    "end": 185549,
+    "start_day": 463,
+    "end_day": 495
+  },
+  {
+    "event_id": "C9",
+    "name": "TypeB_9",
+    "start": 158821,
+    "end": 173238,
+    "start_day": 435,
+    "end_day": 467
+  },
+  {
+    "event_id": "C8",
+    "name": "TypeA_8",
+    "start": 148623,
+    "end": 170159,
+    "start_day": 412,
+    "end_day": 460
+  },
+  {
+    "event_id": "C7",
+    "name": "TypeB_7",
+    "start": 142681,
+    "end": 157974,
+    "start_day": 398,
+    "end_day": 432
+  },
+  {
+    "event_id": "C6",
+    "name": "TypeC_6",
+    "start": 140519,
+    "end": 154920,
+    "start_day": 393,
+    "end_day": 425
+  },
+  {
+    "event_id": "C3",
+    "name": "TypeC_3",
+    "start": 125017,
+    "end": 149063,
+    "start_day": 356,
+    "end_day": 412
+  },
+  {
+    "event_id": "C5",
+    "name": "TypeB_5",
+    "start": 133756,
+    "end": 148622,
+    "start_day": 377,
+    "end_day": 411
+  },
+  {
+    "event_id": "C4",
+    "name": "TypeB_4",
+    "start": 131622,
+    "end": 145539,
+    "start_day": 372,
+    "end_day": 404
+  },
+  {
+    "event_id": "C1",
+    "name": "TypeB_1",
+    "start": 120714,
+    "end": 136760,
+    "start_day": 346,
+    "end_day": 383
+  },
+  {
+    "event_id": "C2",
+    "name": "TypeB_2",
+    "start": 122865,
+    "end": 136760,
+    "start_day": 351,
+    "end_day": 383
+  },
+  {
+    "event_id": "C30",
+    "name": "TypeA_30",
+    "start": 111164,
+    "end": 130823,
+    "start_day": 323,
+    "end_day": 369
+  },
+  {
+    "event_id": "C29",
+    "name": "TypeB_29",
+    "start": 93488,
+    "end": 116158,
+    "start_day": 281,
+    "end_day": 334
+  },
+  {
+    "event_id": "C28",
+    "name": "TypeB_28",
+    "start": 84525,
+    "end": 110366,
+    "start_day": 259,
+    "end_day": 320
+  },
+  {
+    "event_id": "C27",
+    "name": "TypeC_27",
+    "start": 75333,
+    "end": 101865,
+    "start_day": 237,
+    "end_day": 300
+  },
+  {
+    "event_id": "C26",
+    "name": "TypeA_26",
+    "start": 69933,
+    "end": 86991,
+    "start_day": 224,
+    "end_day": 264
+  }
+]

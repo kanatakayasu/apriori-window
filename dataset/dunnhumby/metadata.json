@@ -1,0 +1,11 @@
+{
+  "n_baskets": 276484,
+  "n_products_original": 92339,
+  "n_products_mapped": 92339,
+  "n_campaigns": 30,
+  "day_range": [
+    1,
+    711
+  ],
+  "avg_items_per_basket": 9.388362436886041
+}
