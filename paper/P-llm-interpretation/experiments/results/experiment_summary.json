@@ -1,0 +1,50 @@
+{
+  "small_window": {
+    "config": {
+      "window_size": 3,
+      "threshold": 2,
+      "max_length": 3
+    },
+    "n_patterns": 4,
+    "metrics": {
+      "pattern_count": 4,
+      "avg_confidence": 0.85,
+      "coverage_correlation": 0,
+      "avg_summary_length": 46.5,
+      "has_temporal_info": 1.0,
+      "has_hypothesis": 1.0
+    }
+  },
+  "medium_window": {
+    "config": {
+      "window_size": 5,
+      "threshold": 3,
+      "max_length": 3
+    },
+    "n_patterns": 2,
+    "metrics": {
+      "pattern_count": 2,
+      "avg_confidence": 0.85,
+      "coverage_correlation": 0,
+      "avg_summary_length": 47.0,
+      "has_temporal_info": 1.0,
+      "has_hypothesis": 1.0
+    }
+  },
+  "large_window": {
+    "config": {
+      "window_size": 10,
+      "threshold": 3,
+      "max_length": 4
+    },
+    "n_patterns": 2,
+    "metrics": {
+      "pattern_count": 2,
+      "avg_confidence": 0.85,
+      "coverage_correlation": 0,
+      "avg_summary_length": 47.0,
+      "has_temporal_info": 1.0,
+      "has_hypothesis": 1.0
+    }
+  }
+}

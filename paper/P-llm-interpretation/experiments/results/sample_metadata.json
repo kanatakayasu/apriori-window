@@ -1,0 +1,27 @@
+[
+  {
+    "item_id": 1,
+    "name": "商品A",
+    "category": "カテゴリ1"
+  },
+  {
+    "item_id": 2,
+    "name": "商品B",
+    "category": "カテゴリ1"
+  },
+  {
+    "item_id": 3,
+    "name": "商品C",
+    "category": "カテゴリ2"
+  },
+  {
+    "item_id": 4,
+    "name": "商品D",
+    "category": "カテゴリ2"
+  },
+  {
+    "item_id": 5,
+    "name": "商品E",
+    "category": "カテゴリ3"
+  }
+]

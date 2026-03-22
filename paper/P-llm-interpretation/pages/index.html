@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper P: LLM による密集アイテムセットパターンの自然言語解釈</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;line-height:1.7;color:#333;background:#fafafa}
+.container{max-width:900px;margin:0 auto;padding:20px}
+header{background:linear-gradient(135deg,#1a237e,#4a148c);color:#fff;padding:60px 20px;text-align:center}
+header h1{font-size:1.8em;margin-bottom:10px;font-weight:700}
+header p{font-size:1.1em;opacity:0.9}
+.badge{display:inline-block;background:rgba(255,255,255,0.2);padding:4px 16px;border-radius:20px;font-size:0.85em;margin:8px 4px}
+section{background:#fff;margin:20px 0;padding:30px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+h2{color:#1a237e;font-size:1.3em;margin-bottom:15px;border-left:4px solid #4a148c;padding-left:12px}
+h3{color:#4a148c;font-size:1.1em;margin:15px 0 8px}
+.pipeline{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
+.step{flex:1;min-width:150px;background:#f3e5f5;padding:15px;border-radius:8px;text-align:center;border:1px solid #ce93d8}
+.step .num{font-size:2em;color:#4a148c;font-weight:700}
+.step .label{font-size:0.9em;margin-top:5px}
+.arrow{display:flex;align-items:center;color:#4a148c;font-size:1.5em;padding:0 5px}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{padding:10px 12px;border:1px solid #e0e0e0;text-align:center}
+th{background:#ede7f6;color:#4a148c}
+.code{background:#263238;color:#aed581;padding:15px;border-radius:6px;font-family:'Courier New',monospace;font-size:0.9em;overflow-x:auto;margin:10px 0}
+.highlight{background:#fff3e0;padding:15px;border-radius:6px;border-left:4px solid #ff9800;margin:10px 0}
+ul{padding-left:20px;margin:10px 0}
+li{margin:5px 0}
+footer{text-align:center;padding:30px;color:#888;font-size:0.85em}
+@media(max-width:600px){header h1{font-size:1.3em}.pipeline{flex-direction:column}.arrow{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>LLM による密集アイテムセットパターンの自然言語解釈</h1>
+<p>密集パターン検出結果を大規模言語モデルで自動解釈するフレームワーク</p>
+<div>
+<span class="badge">KDD Demo / AAAI Demo</span>
+<span class="badge">Paper P</span>
+<span class="badge">Python</span>
+</div>
+</div>
+</header>
+
+<div class="container">
+
+<section>
+<h2>概要</h2>
+<p>
+密集アイテムセットマイニングは、スライディングウィンドウ内で共起頻度が閾値を超えるアイテムの組み合わせが連続する時間区間を特定する手法です。
+しかし、検出されたパターンの解釈はドメイン専門家に依存しており、分析のボトルネックとなっています。
+</p>
+<p>
+本研究では、密集パターンの検出結果をLLMに入力し、自然言語による解釈（要約・時間的特徴・ビジネス仮説）を自動生成するフレームワークを提案します。
+</p>
+</section>
+
+<section>
+<h2>システムアーキテクチャ</h2>
+<div class="pipeline">
+<div class="step"><div class="num">1</div><div class="label">密集パターン検出</div></div>
+<div class="arrow">→</div>
+<div class="step"><div class="num">2</div><div class="label">特徴量抽出</div></div>
+<div class="arrow">→</div>
+<div class="step"><div class="num">3</div><div class="label">プロンプト生成</div></div>
+<div class="arrow">→</div>
+<div class="step"><div class="num">4</div><div class="label">LLM 解釈</div></div>
+</div>
+
+<h3>パターン特徴量</h3>
+<ul>
+<li><strong>カバー率</strong>: 密集区間がデータ全体に占める割合</li>
+<li><strong>区間数</strong>: 密集区間の個数</li>
+<li><strong>最大ギャップ</strong>: 連続する密集区間間の最大距離</li>
+<li><strong>時間パターン分類</strong>: 単一連続 / 断続的 / 高頻度断続</li>
+</ul>
+
+<h3>3種類のプロンプト</h3>
+<ul>
+<li><strong>単一パターン解釈</strong>: 1パターンの詳細な自然言語解釈</li>
+<li><strong>比較分析</strong>: 複数パターンの関連性分析</li>
+<li><strong>バッチ要約</strong>: 全パターンの一括要約</li>
+</ul>
+</section>
+
+<section>
+<h2>実験結果</h2>
+<table>
+<tr><th>設定</th><th>Window</th><th>Threshold</th><th>パターン数</th><th>平均確信度</th><th>記述完全率</th></tr>
+<tr><td>Small</td><td>3</td><td>2</td><td>4</td><td>0.850</td><td>100%</td></tr>
+<tr><td>Medium</td><td>5</td><td>3</td><td>2</td><td>0.850</td><td>100%</td></tr>
+<tr><td>Large</td><td>10</td><td>3</td><td>2</td><td>0.850</td><td>100%</td></tr>
+</table>
+
+<div class="highlight">
+<strong>解釈例:</strong> パターン {1, 2} →
+「アイテム1とアイテム2は単一連続パターンを示し、データ期間の100%で密集的に共起しています。安定した需要や継続的なプロモーション効果を示唆しています。」
+</div>
+</section>
+
+<section>
+<h2>使い方</h2>
+<div class="code">
+# パイプライン実行<br>
+python3 llm_pattern_interpreter.py data.txt -w 5 -t 3 -o result.json<br><br>
+# テスト実行<br>
+python3 -m pytest tests/test_interpreter.py -v &nbsp;# 32 tests
+</div>
+</section>
+
+<section>
+<h2>テスト結果</h2>
+<p>32件のユニットテスト: すべてパス</p>
+<table>
+<tr><th>テストカテゴリ</th><th>件数</th><th>結果</th></tr>
+<tr><td>PatternInfo</td><td>2</td><td>PASS</td></tr>
+<tr><td>特徴量抽出</td><td>4</td><td>PASS</td></tr>
+<tr><td>プロンプト生成</td><td>4</td><td>PASS</td></tr>
+<tr><td>モック応答</td><td>6</td><td>PASS</td></tr>
+<tr><td>Interpreter API</td><td>7</td><td>PASS</td></tr>
+<tr><td>評価指標</td><td>3</td><td>PASS</td></tr>
+<tr><td>統合テスト</td><td>4</td><td>PASS</td></tr>
+<tr><td>メタデータ</td><td>2</td><td>PASS</td></tr>
+</table>
+</section>
+
+</div>
+
+<footer>
+Paper P: LLM Pattern Interpretation | apriori_window project
+</footer>
+
+</body>
+</html>
