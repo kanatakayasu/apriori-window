@@ -1,0 +1,77 @@
+% ==============================================================
+\section{Introduction}\label{sec:intro}
+% ==============================================================
+
+Frequent pattern mining has been a cornerstone of data mining research
+since the introduction of the Apriori algorithm~\cite{agrawal1994apriori}.
+While extensive work has focused on discovering patterns that occur
+\emph{frequently} in transactional databases, comparatively little
+attention has been paid to the \emph{temporal structure} of pattern
+occurrences---specifically, \emph{when} patterns are frequent and
+\emph{when} they are not.
+
+Dense interval mining~\cite{dong2012contrast} addresses this gap by
+identifying contiguous time periods during which a pattern's sliding-window
+support exceeds a given threshold.
+These intervals capture epochs of sustained high activity and have
+proven useful for event attribution and temporal analysis of purchasing
+behavior.
+However, the existing framework treats only one side of the coin:
+it characterizes \emph{presence} (high support) but provides no
+symmetric mechanism for characterizing \emph{absence} (low support).
+
+This asymmetry limits the analytical power of dense interval mining
+in several important ways.
+First, practitioners cannot directly identify periods when a
+previously popular pattern \emph{disappears}---a phenomenon of
+significant business interest (e.g., the end of a promotional campaign).
+Second, there is no principled framework for comparing how the
+temporal structure of a pattern changes across different regimes
+(e.g., before vs.\ after an intervention).
+Third, the absence of a formal ``anti-dense'' concept prevents the
+application of anti-monotonicity-like pruning strategies that could
+accelerate the mining of infrequent temporal patterns.
+
+In this paper, we propose two symmetric extensions of the dense
+interval mining framework:
+
+\begin{enumerate}
+\item \textbf{Anti-Dense Intervals}: We define the dual concept of
+dense intervals---maximal contiguous periods where a pattern's support
+remains \emph{below} a low threshold $\theta_{\text{low}}$.
+Anti-dense intervals capture sustained absence and enable the direct
+identification of pattern disappearance epochs.
+
+\item \textbf{Contrast Dense Patterns}: We introduce a framework for
+comparing the dense interval \emph{structure} of a pattern across two
+temporal regimes.
+We define a taxonomy of four canonical topology changes
+(Emergence, Vanishing, Amplification, Contraction) and provide a
+permutation-based statistical test for assessing whether observed
+structural changes are significant.
+\end{enumerate}
+
+Our contributions are as follows:
+\begin{itemize}
+\item We formalize the Anti-Dense Interval and prove a reverse
+monotonicity property that enables efficient top-down search
+(Section~\ref{sec:problem}).
+\item We define the Contrast Dense Pattern framework with a complete
+taxonomy of pattern topology changes and a permutation test for
+statistical significance (Section~\ref{sec:problem}).
+\item We present efficient algorithms that compute anti-dense intervals
+and contrast patterns with the same time complexity as existing dense
+interval detection (Section~\ref{sec:method}).
+\item We validate our approach on synthetic data with known ground truth
+and on simulated retail scenarios, demonstrating effective recovery of
+anti-dense intervals (F1 = 0.789), accurate classification of topology
+changes (76\% accuracy), and statistically significant detection of
+campaign-induced pattern vanishing (Section~\ref{sec:experiments}).
+\end{itemize}
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:related} reviews related work.
+Section~\ref{sec:problem} presents the formal problem definitions.
+Section~\ref{sec:method} describes our proposed algorithms.
+Section~\ref{sec:experiments} reports experimental results.
+Section~\ref{sec:conclusion} concludes with future directions.

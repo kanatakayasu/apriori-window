@@ -1,0 +1,150 @@
+% ==============================================================
+\section{Proposed Method}\label{sec:method}
+% ==============================================================
+
+We present algorithms for (1) anti-dense interval detection,
+(2) contrast dense pattern mining, and (3) statistical significance
+testing of structural changes.
+
+\subsection{Anti-Dense Interval Detection}\label{sec:anti_dense_algo}
+
+Algorithm~\ref{alg:anti_dense} computes anti-dense intervals by
+reversing the threshold crossing logic of dense interval detection.
+The key insight is that the same sliding-window counting mechanism
+can be reused---only the comparison operator and interval tracking
+logic change.
+
+\begin{algorithm}[t]
+\caption{Anti-Dense Interval Detection}
+\label{alg:anti_dense}
+\begin{algorithmic}[1]
+\REQUIRE Sorted timestamps $\mathbf{t} = [t_1, \ldots, t_n]$,
+  window size $W$, low threshold $\theta_{\text{low}}$
+\ENSURE Set of anti-dense intervals
+  $\overline{\mathcal{D}}(P, W, \theta_{\text{low}})$
+\STATE $\mathcal{A} \leftarrow \emptyset$ \COMMENT{result set}
+\STATE Compute critical positions
+  $C = \{t_i\} \cup \{t_i - W\} \cup \{t_i + 1\} \cup \{0, t_n\}$
+\STATE Sort $C$ and filter to $[0, t_n]$
+\STATE $\texttt{in\_anti} \leftarrow \texttt{false}$;
+  $\texttt{start} \leftarrow \texttt{null}$
+\FOR{each $c \in C$ in order}
+  \STATE $\texttt{count} \leftarrow |\{t_j \in \mathbf{t} \mid
+    c \leq t_j \leq c + W - 1\}|$ \COMMENT{binary search}
+  \IF{$\texttt{count} < \theta_{\text{low}}$}
+    \IF{not $\texttt{in\_anti}$}
+      \STATE $\texttt{in\_anti} \leftarrow \texttt{true}$;
+        $\texttt{start} \leftarrow c$
+    \ENDIF
+  \ELSE
+    \IF{$\texttt{in\_anti}$}
+      \STATE $\mathcal{A} \leftarrow \mathcal{A} \cup
+        \{[\texttt{start}, c-1]\}$
+      \STATE $\texttt{in\_anti} \leftarrow \texttt{false}$
+    \ENDIF
+  \ENDIF
+\ENDFOR
+\IF{$\texttt{in\_anti}$}
+  \STATE $\mathcal{A} \leftarrow \mathcal{A} \cup
+    \{[\texttt{start}, t_n]\}$
+\ENDIF
+\RETURN $\mathcal{A}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Complexity.}
+The algorithm evaluates support at $O(n)$ critical positions, each
+requiring $O(\log n)$ time for binary search lookup.
+Total time complexity is $O(n \log n)$, matching the dense interval
+detection algorithm.
+
+\paragraph{Reverse Monotonicity for Pruning.}
+By Theorem~\ref{thm:anti_monotone}, if a superset $Q \supset P$ has
+no anti-dense interval in a candidate region, then $P$ also has no
+anti-dense interval there (since $s_P(t) \geq s_Q(t)$).
+This enables a \emph{top-down} mining strategy:
+start with large itemsets and prune subsets whose supersets lack
+anti-dense intervals in the region of interest.
+
+\subsection{Contrast Dense Pattern Mining}\label{sec:contrast_algo}
+
+Given a regime boundary $\tau$ that divides the transaction sequence
+into two regimes $R_1 = [0, \tau]$ and $R_2 = [\tau+1, N-1]$,
+Algorithm~\ref{alg:contrast} classifies each pattern's topology change.
+
+\begin{algorithm}[t]
+\caption{Contrast Dense Pattern Mining}
+\label{alg:contrast}
+\begin{algorithmic}[1]
+\REQUIRE Pattern set $\mathcal{F}$ with timestamps, window $W$,
+  threshold $\theta$, boundary $\tau$, margin $\delta$
+\ENSURE Contrast dense patterns $\mathcal{C}$ with topology types
+\STATE $\mathcal{C} \leftarrow \emptyset$
+\FOR{each $P \in \mathcal{F}$}
+  \STATE $\mathcal{D}_1 \leftarrow$ \textsc{DenseIntervals}$(P, W,
+    \theta)$ clipped to $R_1$
+  \STATE $\mathcal{D}_2 \leftarrow$ \textsc{DenseIntervals}$(P, W,
+    \theta)$ clipped to $R_2$
+  \STATE $c_1 \leftarrow \text{cov}(\mathcal{D}_1, |R_1|)$;
+    $c_2 \leftarrow \text{cov}(\mathcal{D}_2, |R_2|)$
+  \IF{$\mathcal{D}_1 = \emptyset \land \mathcal{D}_2 \neq \emptyset$}
+    \STATE type $\leftarrow$ \textsc{Emergence}
+  \ELSIF{$\mathcal{D}_1 \neq \emptyset \land \mathcal{D}_2 = \emptyset$}
+    \STATE type $\leftarrow$ \textsc{Vanishing}
+  \ELSIF{$c_2 > c_1 + \delta$}
+    \STATE type $\leftarrow$ \textsc{Amplification}
+  \ELSIF{$c_1 > c_2 + \delta$}
+    \STATE type $\leftarrow$ \textsc{Contraction}
+  \ELSE
+    \STATE type $\leftarrow$ \textsc{Stable}; \textbf{continue}
+  \ENDIF
+  \STATE $\mathcal{C} \leftarrow \mathcal{C} \cup \{(P, \text{type})\}$
+\ENDFOR
+\RETURN $\mathcal{C}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Statistical Significance Testing}\label{sec:permtest_algo}
+
+To assess whether a pattern's structural change is statistically
+significant, we employ the permutation test described in
+Definition~\ref{def:permtest}.
+The procedure is as follows:
+
+\begin{enumerate}
+\item Compute the observed contrast statistic
+  $\Delta_{\text{obs}} = \text{cov}_2(P) - \text{cov}_1(P)$.
+\item For $b = 1, \ldots, B$:
+  \begin{enumerate}
+  \item Generate a random permutation of the timestamp positions
+    (sampling without replacement from $[0, N-1]$).
+  \item Recompute dense intervals and the contrast statistic
+    $\Delta^{(b)}$.
+  \end{enumerate}
+\item Compute the $p$-value:
+  $p = (1 + \sum_{b} \mathbf{1}[|\Delta^{(b)}| \geq |\Delta_{\text{obs}}|]) / (1 + B)$.
+\item Apply Benjamini--Hochberg~\cite{benjamini1995fdr} correction
+  across all tested patterns.
+\end{enumerate}
+
+\paragraph{Complexity.}
+Each permutation requires $O(n \log n)$ time for dense interval
+computation.
+With $B$ permutations and $|\mathcal{F}|$ patterns, the total cost is
+$O(|\mathcal{F}| \cdot B \cdot n \log n)$.
+In practice, $B = 199$ or $999$ suffices for reliable $p$-value
+estimation.
+
+\subsection{Integration with Dense Interval Mining}
+
+Our anti-dense and contrast algorithms integrate seamlessly with the
+existing dense interval mining pipeline:
+\begin{enumerate}
+\item Run standard Apriori-based dense interval mining to obtain
+  $\mathcal{F}$ and their dense intervals.
+\item For each pattern in $\mathcal{F}$, compute anti-dense intervals
+  using Algorithm~\ref{alg:anti_dense}.
+\item Given a regime boundary, classify topology changes using
+  Algorithm~\ref{alg:contrast} and test significance.
+\end{enumerate}
+No modification to the core mining algorithm is required.

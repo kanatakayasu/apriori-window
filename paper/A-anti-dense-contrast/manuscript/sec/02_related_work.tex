@@ -1,0 +1,110 @@
+% ==============================================================
+\section{Related Work}\label{sec:related}
+% ==============================================================
+
+Our work spans several research areas.
+We review each and highlight the gap that our contributions address.
+
+\subsection{Frequent and Dense Interval Mining}
+
+The Apriori algorithm~\cite{agrawal1994apriori} and
+FP-Growth~\cite{han2000fpgrowth} established the foundations of
+frequent itemset mining.
+Dense interval mining extends this framework by identifying
+contiguous temporal intervals where a pattern's sliding-window
+support exceeds a threshold.
+While dense intervals effectively capture periods of high activity,
+the framework does not provide a symmetric mechanism for
+characterizing periods of sustained \emph{low} activity.
+Our anti-dense interval concept fills this gap.
+
+\subsection{Rare and Infrequent Pattern Mining}
+
+Mining infrequent or rare patterns has received growing attention.
+RP-Tree~\cite{szathmary2011rptree} extends FP-Growth to mine rare
+itemsets.
+Haglin and Manning~\cite{haglin2007minimal} introduced minimal
+infrequent itemsets.
+ERIM~\cite{akdas2024erim} combines four rare itemset mining
+algorithms in an ensemble.
+Recent work on rare partial periodic patterns in data
+streams~\cite{kiran2025r3pstream} addresses temporal rarity in the
+streaming setting.
+Negative association rules~\cite{wu2024negative} capture item
+co-absence but in a static, non-temporal framework.
+
+These approaches share a focus on \emph{globally} infrequent
+patterns but do not characterize \emph{temporal intervals} of
+infrequency.
+A pattern may be globally frequent yet exhibit sustained periods
+of absence---a phenomenon that our anti-dense intervals capture
+directly.
+
+\subsection{Emerging and Contrast Patterns}
+
+Dong and Li~\cite{dong1999emerging} introduced emerging patterns
+(EPs)---itemsets whose support ratio between two datasets exceeds a
+threshold.
+The contrast data mining framework~\cite{dong2012contrast} generalizes
+this to multi-class comparisons.
+Garc\'ia-Vico et al.~\cite{garciavico2018ep} provide a comprehensive
+taxonomy of EP mining approaches.
+Loyola-Gonz\'alez et al.~\cite{loyola2020contrast} survey contrast
+pattern mining with statistical validation.
+Recent work by Li et al.~\cite{li2025hucspm} extends contrast
+patterns to high-utility sequential patterns.
+
+Emerging patterns compare \emph{support values} between datasets.
+Our contrast dense patterns compare \emph{dense interval structures}
+between temporal regimes---a fundamentally different and richer
+comparison that captures not just whether support changed, but
+\emph{how the temporal pattern of support changed}.
+
+\subsection{Change Point Detection}
+
+Change point detection identifies time points where the statistical
+properties of a time series change.
+CUSUM~\cite{page1954cusum} detects mean shifts sequentially.
+PELT~\cite{killick2012pelt} provides optimal multiple change point
+detection in $O(n)$ time.
+Bai and Perron~\cite{bai2003structural} address multiple structural
+breaks in regression models.
+Truong et al.~\cite{truong2020ruptures} provide a comprehensive
+Python library for offline change point detection.
+Recent applications include financial time series
+analysis~\cite{chen2025pelt}.
+
+These methods operate on \emph{univariate or multivariate time series}
+and detect general distributional changes.
+They do not consider the specific structure of \emph{pattern-level}
+dense intervals or classify the \emph{type} of structural change
+(emergence, vanishing, etc.) as our framework does.
+
+\subsection{Concept Drift Detection}
+
+Concept drift detection identifies changes in the data-generating
+process over time.
+ADWIN~\cite{bifet2007adwin} uses adaptive windowing with statistical
+bounds.
+DDM~\cite{gama2004ddm} detects drift through error rate monitoring.
+ADWIN-U~\cite{assis2024adwinu} extends ADWIN to unsupervised settings.
+Cerqueira et al.~\cite{cerqueira2024benchmark} benchmark fully
+unsupervised drift detectors.
+
+Concept drift detection signals that ``something changed'' but does
+not provide a structured characterization of \emph{what} changed at
+the level of individual patterns.
+Our topology change taxonomy (Emergence, Vanishing, Amplification,
+Contraction) provides exactly this interpretable characterization.
+
+\subsection{Temporal and Periodic Pattern Mining}
+
+Temporal pattern mining has been studied extensively.
+3P-ECLAT~\cite{3peclat2024} mines partial periodic patterns in
+columnar databases.
+TaTIRP~\cite{tatirp2025} discovers targeted time-interval related
+patterns using Allen's temporal relations.
+
+These approaches focus on periodicity or temporal relations between
+events, which is complementary to our focus on dense/anti-dense
+intervals defined by sliding-window support thresholds.

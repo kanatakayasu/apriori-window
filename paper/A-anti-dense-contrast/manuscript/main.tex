@@ -1,0 +1,67 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\begin{document}
+
+\title{Anti-Dense Intervals and Contrast Dense Patterns:\\
+Symmetric Extensions of Dense Interval Mining}
+
+\author{
+\IEEEauthorblockN{Anonymous Author(s)}
+}
+
+\maketitle
+
+\begin{abstract}
+Dense interval mining identifies contiguous time periods where a
+pattern's sliding-window support exceeds a threshold, effectively
+capturing epochs of sustained high activity in transactional data.
+However, the existing framework is asymmetric: it characterizes
+pattern \emph{presence} but provides no mechanism for characterizing
+pattern \emph{absence} or for comparing temporal structures across
+regimes.
+In this paper, we propose two symmetric extensions.
+First, we define \emph{Anti-Dense Intervals}---maximal contiguous
+periods where support remains below a low threshold---and prove a
+reverse monotonicity property that enables efficient mining.
+Second, we introduce \emph{Contrast Dense Patterns}, a framework for
+comparing dense interval structures across two temporal regimes.
+We define a complete taxonomy of four topology change types
+(Emergence, Vanishing, Amplification, Contraction) and provide a
+permutation-based statistical test with false discovery rate control.
+Both extensions share the same $O(n \log n)$ time complexity as
+standard dense interval detection.
+Experiments on synthetic data demonstrate anti-dense interval
+recovery with F1 = 0.789, topology change classification with 76\%
+accuracy, and statistically significant detection of
+campaign-induced pattern vanishing ($p = 0.005$).
+Our framework enables new analytical capabilities including the
+identification of pattern disappearance epochs and the attribution
+of structural changes to external interventions.
+\end{abstract}
+
+\begin{IEEEkeywords}
+dense interval mining, anti-dense intervals, contrast patterns,
+temporal pattern analysis, emerging patterns, permutation test
+\end{IEEEkeywords}
+
+\input{sec/01_introduction}
+\input{sec/02_related_work}
+\input{sec/03_problem_definition}
+\input{sec/04_proposed_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

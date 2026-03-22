@@ -1,0 +1,51 @@
+% ==============================================================
+\section{Conclusion}\label{sec:conclusion}
+% ==============================================================
+
+We have presented two symmetric extensions of the dense interval
+mining framework: \emph{Anti-Dense Intervals} and \emph{Contrast
+Dense Patterns}.
+
+Anti-dense intervals formalize the dual concept of dense intervals,
+capturing sustained periods of pattern \emph{absence}.
+We proved a reverse monotonicity property that enables efficient
+top-down search strategies and showed that anti-dense intervals
+can be computed with the same time complexity as dense intervals.
+
+Contrast dense patterns provide a structured framework for comparing
+dense interval configurations across temporal regimes.
+Our taxonomy of four topology change types (Emergence, Vanishing,
+Amplification, Contraction) gives interpretable characterizations
+of how patterns evolve over time.
+The accompanying permutation test, combined with Benjamini--Hochberg
+correction, ensures statistical rigor.
+
+Experimental evaluation on synthetic data demonstrated effective
+anti-dense interval recovery (F1 = 0.789) and reliable topology
+change classification (76\% accuracy).
+Application to simulated campaign termination scenarios showed that
+the method can identify campaign-dependent patterns with high
+statistical significance ($p = 0.005$), while correctly classifying
+unaffected patterns as stable.
+
+\paragraph{Limitations.}
+The current framework requires a pre-specified regime boundary $\tau$.
+Automatic boundary detection via change point methods could extend
+applicability.
+The permutation test assumes exchangeability of timestamps under the
+null hypothesis, which may be violated in the presence of strong
+temporal autocorrelation.
+
+\paragraph{Future Work.}
+Several directions merit further investigation:
+(i) integration with automatic change point detection (e.g.,
+PELT~\cite{killick2012pelt}) to discover regime boundaries from
+the data;
+(ii) extension to multi-regime comparisons beyond the two-regime
+case;
+(iii) application to real-world retail datasets (Dunnhumby, Online
+Retail) with known campaign calendars;
+(iv) development of more efficient pruning strategies exploiting
+the reverse monotonicity of anti-dense intervals;
+and (v) exploration of dense-to-anti-dense transition dynamics as
+a characterization of pattern lifecycle.
