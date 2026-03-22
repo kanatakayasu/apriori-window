@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti-Dense Intervals and Contrast Dense Patterns</title>
+<style>
+  :root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --text-light: #666666;
+    --border: #e0e0e0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 48px 0 40px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.8rem; margin-bottom: 12px; line-height: 1.3; }
+  header .venue {
+    display: inline-block;
+    background: var(--accent);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  section { padding: 40px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
+  h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 8px; }
+  p { margin-bottom: 12px; color: var(--text-light); }
+
+  .abstract-box {
+    background: var(--card-bg);
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+
+  .contributions { list-style: none; padding: 0; }
+  .contributions li {
+    padding: 12px 16px;
+    margin: 8px 0;
+    background: var(--card-bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    position: relative;
+    padding-left: 40px;
+  }
+  .contributions li::before {
+    content: attr(data-num);
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 22px; height: 22px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+  }
+  .result-card .metric {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .result-card .label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+
+  .taxonomy {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .tax-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+  .tax-item .arrow { font-size: 1.4rem; margin-bottom: 4px; }
+  .tax-item .name { font-weight: 700; font-size: 0.95rem; }
+  .tax-item .desc { font-size: 0.8rem; color: var(--text-light); }
+
+  .links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .links a {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .links a:hover { background: #2980b9; }
+  .links a.secondary {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+  }
+  .links a.secondary:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px 0;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.3rem; }
+    .results-grid { grid-template-columns: 1fr; }
+    .taxonomy { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Anti-Dense Intervals and Contrast Dense Patterns:<br>
+    Symmetric Extensions of Dense Interval Mining</h1>
+    <div class="venue">DSAA 2026 / ICDM 2026</div>
+  </div>
+</header>
+
+<div class="container">
+
+<section>
+  <h2>Abstract</h2>
+  <div class="abstract-box">
+    <p>Dense interval mining identifies contiguous time periods where a pattern's
+    sliding-window support exceeds a threshold. However, the existing framework
+    is asymmetric: it characterizes pattern <em>presence</em> but not
+    <em>absence</em>. We propose two symmetric extensions: <strong>Anti-Dense
+    Intervals</strong> (maximal periods of sustained low support) and
+    <strong>Contrast Dense Patterns</strong> (a framework for comparing dense
+    interval structures across temporal regimes). We define a complete taxonomy
+    of topology changes, prove reverse monotonicity for efficient mining, and
+    provide permutation-based statistical tests with FDR control.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Key Contributions</h2>
+  <ul class="contributions">
+    <li data-num="1"><strong>Anti-Dense Intervals</strong> &mdash; Formalize the
+    dual of dense intervals with a reverse monotonicity property enabling
+    top-down search. Same O(n log n) complexity as dense interval detection.</li>
+    <li data-num="2"><strong>Contrast Dense Patterns</strong> &mdash; Compare
+    dense interval structures across two temporal regimes with a complete
+    taxonomy of four topology change types.</li>
+    <li data-num="3"><strong>Statistical Testing</strong> &mdash; Permutation
+    test for structural change significance with Benjamini-Hochberg FDR
+    correction.</li>
+    <li data-num="4"><strong>Experimental Validation</strong> &mdash; Five
+    experiments on synthetic and simulated retail data demonstrating practical
+    effectiveness.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Topology Change Taxonomy</h2>
+  <p>We classify how a pattern's dense interval structure transforms across
+  two temporal regimes:</p>
+  <div class="taxonomy">
+    <div class="tax-item">
+      <div class="arrow">&#x2B06;</div>
+      <div class="name">Emergence</div>
+      <div class="desc">Anti-dense &rarr; Dense</div>
+    </div>
+    <div class="tax-item">
+      <div class="arrow">&#x2B07;</div>
+      <div class="name">Vanishing</div>
+      <div class="desc">Dense &rarr; Anti-dense</div>
+    </div>
+    <div class="tax-item">
+      <div class="arrow">&#x2B06;&#x2B06;</div>
+      <div class="name">Amplification</div>
+      <div class="desc">Dense expands</div>
+    </div>
+    <div class="tax-item">
+      <div class="arrow">&#x2B07;&#x2B07;</div>
+      <div class="name">Contraction</div>
+      <div class="desc">Dense shrinks</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Key Results</h2>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="metric">0.789</div>
+      <div class="label">F1 Score<br>Anti-dense GT recovery</div>
+    </div>
+    <div class="result-card">
+      <div class="metric">76%</div>
+      <div class="label">Accuracy<br>Topology classification</div>
+    </div>
+    <div class="result-card">
+      <div class="metric">p=0.005</div>
+      <div class="label">Significance<br>Campaign vanishing detection</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Resources</h2>
+  <div class="links">
+    <a href="../manuscript/" class="secondary">Manuscript</a>
+    <a href="../implementation/" class="secondary">Source Code</a>
+    <a href="../experiments/" class="secondary">Experiments</a>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="container">
+    Anti-Dense Intervals and Contrast Dense Patterns &mdash; 2026
+  </div>
+</footer>
+
+</body>
+</html>
