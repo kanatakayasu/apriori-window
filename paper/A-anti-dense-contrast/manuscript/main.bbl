@@ -37,10 +37,9 @@ J.~Han, J.~Pei, and Y.~Yin, ``Mining frequent patterns without candidate
   Conference on Management of Data}, 2000, pp. 1--12.
 
 \bibitem{szathmary2011rptree}
-L.~Szathm{\'a}ry, P.~Valtchev, A.~Napoli, and R.~Godin, ``{RP-Tree}: Rare
-  pattern tree mining,'' in \emph{Proceedings of the International Conference
-  on Concept Lattices and Their Applications}.\hskip 1em plus 0.5em minus
-  0.4em\relax Springer, 2011, pp. 277--288.
+S.-M. Tsang, Y.-S. Koh, and G.~Dobbie, ``{RP-Tree}: Rare pattern tree mining,''
+  in \emph{Proceedings of DaWaK 2011}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Springer, 2011, pp. 277--288.
 
 \bibitem{haglin2007minimal}
 D.~J. Haglin and A.~M. Manning, ``On minimal infrequent itemset mining,''
@@ -52,14 +51,14 @@ M.~Akdas \emph{et~al.}, ``{ERIM}: An ensemble of rare itemset mining and its
   no.~1, p. e13122, 2024.
 
 \bibitem{kiran2025r3pstream}
-R.~U. Kiran \emph{et~al.}, ``Sliding window based rare partial periodic pattern
-  mining algorithms over temporal data streams,'' \emph{Frontiers in Big Data},
-  vol.~8, p. 1600267, 2025.
+K.~J. Upadhya, R.~Lobo \emph{et~al.}, ``Sliding window based rare partial
+  periodic pattern mining algorithms over temporal data streams,''
+  \emph{Frontiers in Big Data}, vol.~8, p. 1600267, 2025.
 
 \bibitem{wu2024negative}
-H.~Wu \emph{et~al.}, ``Mining negative associations from medical databases
-  considering frequent, regular, closed and maximal patterns,''
-  \emph{Computers}, vol.~13, no.~1, p.~18, 2024.
+R.~R. Budaraju and S.~K.~R. Jammalamadaka, ``Mining negative associations from
+  medical databases considering frequent, regular, closed and maximal
+  patterns,'' \emph{Computers}, vol.~13, no.~1, p.~18, 2024.
 
 \bibitem{dong1999emerging}
 G.~Dong and J.~Li, ``Efficient mining of emerging patterns: Discovering trends
@@ -74,7 +73,7 @@ A.~M. Garc{\'i}a-Vico \emph{et~al.}, ``An overview of emerging pattern mining
   no.~1, p. e1231, 2018.
 
 \bibitem{loyola2020contrast}
-O.~Loyola-Gonz{\'a}lez \emph{et~al.}, ``Contrast pattern mining: A survey,''
+Z.~Chen, W.~Gan, J.~Wu, and P.~S. Yu, ``Contrast pattern mining: A survey,''
   \emph{Intelligent Data Analysis}, vol.~24, pp. S1--S37, 2020.
 
 \bibitem{li2025hucspm}
@@ -117,13 +116,24 @@ J.~Gama, P.~Medas, G.~Castillo, and P.~Rodrigues, ``Learning with drift
 
 \bibitem{assis2024adwinu}
 D.~N. Assis and V.~M.~A. Souza, ``{ADWIN-U}: Adaptive windowing for
-  unsupervised drift detection on data streams,'' \emph{Machine Learning},
-  2024.
+  unsupervised drift detection on data streams,'' \emph{Knowledge and
+  Information Systems}, 2025.
 
 \bibitem{cerqueira2024benchmark}
 V.~Cerqueira \emph{et~al.}, ``A benchmark and survey of fully unsupervised
   concept drift detectors on real-world data streams,'' \emph{International
   Journal of Data Science and Analytics}, 2024.
+
+\bibitem{pellegrina2019westfallyoung}
+L.~Pellegrina, M.~Riondato, and F.~Vandin, ``Hypothesis testing and
+  statistically-sound pattern mining,'' in \emph{Proceedings of the 25th {ACM}
+  {SIGKDD} International Conference on Knowledge Discovery and Data Mining},
+  2019, pp. 3195--3196.
+
+\bibitem{pellegrina2020significant}
+L.~Pellegrina and F.~Vandin, ``Efficient mining of the most significant
+  patterns with permutation testing,'' \emph{Data Mining and Knowledge
+  Discovery}, vol.~34, pp. 1201--1234, 2020.
 
 \bibitem{3peclat2024}
 R.~U. Kiran \emph{et~al.}, ``{3P-ECLAT}: Mining partial periodic patterns in
