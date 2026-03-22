@@ -43,9 +43,41 @@ Wave 1 全体:
   [並列] Pages Designer: インデックスページ作成
 ```
 
+### コード共有戦略
+
+5. **原則: 各論文のコードは独立させる**。各論文の実装は `paper/<paper-id>/implementation/` に閉じる。`apriori_window_suite/` 本体は触らない。論文固有のコードが他の論文に漏れないようにする。
+
+6. **例外: 論文間の依存がある場合のみ共有コードを作る**。依存関係（`dependencies` フィールド）がある論文間で共通して使うモジュールは、リポジトリルート直下の **`extensions/`** フォルダに配置する。
+
+```
+apriori-window/
+├── apriori_window_suite/      ← 既存の Phase 1/2 実装（変更しない）
+├── extensions/                ← 論文間共有コード（依存がある場合のみ）
+│   ├── anti_dense/            ← 論文 A の成果物で、論文 K が依存
+│   ├── rare_dense/            ← 論文 B の成果物で、論文 M が依存
+│   ├── causal/                ← 論文 D の成果物で、論文 L が依存
+│   └── multidim/              ← 論文 C の成果物で、論文 N が依存
+├── paper/A-anti-dense-contrast/
+│   └── implementation/        ← 論文 A 固有のコード（実験用・プロトタイプ）
+├── paper/B-rare-dense/
+│   └── implementation/        ← 論文 B 固有のコード
+└── ...
+```
+
+**昇格ルール**:
+- 論文が完成し main にマージされる時、後続論文が依存するモジュールのみを `extensions/` に昇格する
+- 昇格時にテストも `extensions/<module>/tests/` に配置する
+- `extensions/` のコードは安定 API として扱い、破壊的変更を避ける
+- 後続論文は `extensions/` を import し、`paper/<other-id>/` は直接参照しない
+
+**やってはいけないこと**:
+- `apriori_window_suite/src/` に論文固有の機能を追加する
+- 論文 X のブランチから論文 Y の `paper/Y/implementation/` を直接 import する
+- `extensions/` に依存関係のない単独論文のコードを置く
+
 ### スキル管理
 
-5. **必要なスキルは適宜作成する**: 既存スキル（`.agents/skills/`）で対応できない作業パターンが出てきたら、新しいスキルを作成して `.agents/skills/<skill-name>/SKILL.md` に配置する。スキルは再利用可能な形で設計する。
+7. **必要なスキルは適宜作成する**: 既存スキル（`.agents/skills/`）で対応できない作業パターンが出てきたら、新しいスキルを作成して `.agents/skills/<skill-name>/SKILL.md` に配置する。スキルは再利用可能な形で設計する。
 
 既存スキルで不足する可能性がある領域:
 - `literature-survey`: 体系的文献調査（WebSearch → 構造化レビュー）
@@ -56,8 +88,8 @@ Wave 1 全体:
 
 ### 質問・ユーザーアクション管理
 
-6. **質問は最初にまとめて行う**: 作業開始前に不明点を洗い出し、一括で質問する。作業中に質問で止まるな。
-7. **作業中の質問・ユーザーアクションは別ファイルに蓄積する**: 作業中にユーザー判断が必要な事項が出てきた場合、`paper/<paper-id>/PENDING_QUESTIONS.md` に記録して作業を続行する。最善の仮判断を記載し、ユーザーが後から確認・修正できるようにする。
+8. **質問は最初にまとめて行う**: 作業開始前に不明点を洗い出し、一括で質問する。作業中に質問で止まるな。
+9. **作業中の質問・ユーザーアクションは別ファイルに蓄積する**: 作業中にユーザー判断が必要な事項が出てきた場合、`paper/<paper-id>/PENDING_QUESTIONS.md` に記録して作業を続行する。最善の仮判断を記載し、ユーザーが後から確認・修正できるようにする。
 
 `PENDING_QUESTIONS.md` のフォーマット:
 ```markdown
@@ -74,7 +106,7 @@ Wave 1 全体:
 ## Q2: ...
 ```
 
-8. **ユーザーアクションが必要なタスク**（データセットのダウンロード、外部サービスの認証、産業連携の手配など）も同様に `PENDING_ACTIONS.md` に記録する:
+10. **ユーザーアクションが必要なタスク**（データセットのダウンロード、外部サービスの認証、産業連携の手配など）も同様に `PENDING_ACTIONS.md` に記録する:
 
 ```markdown
 # Pending Actions — 論文 {PAPER_ID}
@@ -89,7 +121,7 @@ Wave 1 全体:
 
 ### 進捗管理
 
-9. **各論文の README.md にステータスダッシュボードを維持する**:
+11. **各論文の README.md にステータスダッシュボードを維持する**:
 
 ```markdown
 # 論文 A: Anti-Dense Intervals and Contrast Dense Patterns
@@ -105,7 +137,7 @@ Wave 1 全体:
 | Pages | ⬜ Not Started | 0% | - |
 ```
 
-10. **全体進捗は `research/future_directions/PROGRESS.md` で一覧管理する**:
+12. **全体進捗は `research/future_directions/PROGRESS.md` で一覧管理する**:
 
 ```markdown
 # 17 Papers Progress Tracker
