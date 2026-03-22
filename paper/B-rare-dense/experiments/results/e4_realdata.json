@@ -1,0 +1,5 @@
+{
+  "experiment": "E4_real_data",
+  "status": "SKIPPED",
+  "reason": "retail.txt not found at /Users/kanata/Documents/GitHub/mining/apriori-window/.claude/worktrees/agent-a1328196/dataset/retail.txt"
+}

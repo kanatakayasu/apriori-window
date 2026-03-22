@@ -1,0 +1,55 @@
+{
+  "experiment": "E1_recovery_rate",
+  "results": [
+    {
+      "seed": 42,
+      "rdp_recovery": 1.0,
+      "aw_recovery": 1.0,
+      "rdp_total_patterns": 6,
+      "aw_total_patterns": 6,
+      "gt_patterns": 3,
+      "rdp_recovered": 3,
+      "aw_recovered": 3
+    },
+    {
+      "seed": 123,
+      "rdp_recovery": 1.0,
+      "aw_recovery": 1.0,
+      "rdp_total_patterns": 6,
+      "aw_total_patterns": 6,
+      "gt_patterns": 3,
+      "rdp_recovered": 3,
+      "aw_recovered": 3
+    },
+    {
+      "seed": 456,
+      "rdp_recovery": 1.0,
+      "aw_recovery": 1.0,
+      "rdp_total_patterns": 6,
+      "aw_total_patterns": 6,
+      "gt_patterns": 3,
+      "rdp_recovered": 3,
+      "aw_recovered": 3
+    },
+    {
+      "seed": 789,
+      "rdp_recovery": 1.0,
+      "aw_recovery": 1.0,
+      "rdp_total_patterns": 6,
+      "aw_total_patterns": 6,
+      "gt_patterns": 3,
+      "rdp_recovered": 3,
+      "aw_recovered": 3
+    },
+    {
+      "seed": 1024,
+      "rdp_recovery": 1.0,
+      "aw_recovery": 1.0,
+      "rdp_total_patterns": 6,
+      "aw_total_patterns": 6,
+      "gt_patterns": 3,
+      "rdp_recovered": 3,
+      "aw_recovered": 3
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "experiment": "E3_scalability",
+  "results": [
+    {
+      "n_transactions": 1000,
+      "time_ms": 4.1925830009859055,
+      "n_patterns": 10
+    },
+    {
+      "n_transactions": 5000,
+      "time_ms": 38.68441699887626,
+      "n_patterns": 17
+    },
+    {
+      "n_transactions": 10000,
+      "time_ms": 83.3287909917999,
+      "n_patterns": 23
+    },
+    {
+      "n_transactions": 50000,
+      "time_ms": 428.57833398738876,
+      "n_patterns": 23
+    },
+    {
+      "n_transactions": 100000,
+      "time_ms": 859.8170840123203,
+      "n_patterns": 21
+    }
+  ]
+}
