@@ -1,0 +1,131 @@
+% ==============================================================
+\section{Two-Phase Mining Algorithm}\label{sec:algorithm}
+% ==============================================================
+
+We present the Two-Phase Rare Dense Pattern Mining algorithm, which implements the framework defined in \S\ref{sec:problem}.
+The algorithm consists of two sequential phases: Phase~1 discovers all locally dense patterns using sliding-window Apriori, and Phase~2 filters the results to retain only globally rare patterns.
+
+\subsection{Phase~1: Dense Interval Discovery}
+
+Phase~1 adapts the Apriori algorithm to use local density as the pruning criterion instead of global support.
+The key insight, established by Theorem~\ref{thm:weak_antimon}, is that the local density condition is anti-monotone: if an itemset has no dense interval, neither does any of its supersets.
+
+Algorithm~\ref{alg:phase1} describes this phase.
+For each candidate itemset, we compute its co-occurrence timestamps (the transaction indices where all items in the itemset appear together) and then apply the sliding-window dense interval computation.
+
+\begin{algorithm}[t]
+\caption{Phase~1: Dense Interval Discovery}
+\label{alg:phase1}
+\begin{algorithmic}[1]
+\REQUIRE Transaction sequence $D$, window size $W$, density threshold $\theta$, max itemset size $k_{\max}$
+\ENSURE Set of locally dense itemsets $\mathcal{F}_{\text{local}}$ with their dense intervals
+
+\STATE Build item$\to$transaction-id map $M$
+\STATE $\mathcal{F}_{\text{local}} \gets \emptyset$
+\STATE $L_1 \gets \emptyset$ \COMMENT{Frequent 1-itemsets}
+
+\FORALL{items $i \in \mathcal{I}$}
+    \STATE $\tau_i \gets M[i]$ \COMMENT{sorted transaction IDs}
+    \STATE $\mathcal{D}_i \gets \textsc{DenseIntervals}(\tau_i, W, \theta)$
+    \IF{$\mathcal{D}_i \neq \emptyset$}
+        \STATE $\mathcal{F}_{\text{local}}[\{i\}] \gets \mathcal{D}_i$
+        \STATE $L_1 \gets L_1 \cup \{\{i\}\}$
+    \ENDIF
+\ENDFOR
+
+\STATE $k \gets 2$
+\WHILE{$L_{k-1} \neq \emptyset$ \AND $k \leq k_{\max}$}
+    \STATE $C_k \gets \textsc{AprioriGen}(L_{k-1})$
+    \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$
+    \STATE $L_k \gets \emptyset$
+    \FORALL{$P \in C_k$}
+        \STATE $R \gets \bigcap_{i \in P} \mathcal{D}_i$ \COMMENT{Candidate ranges from singletons}
+        \STATE $R \gets \{[s,e] \in R \mid e - s \geq W\}$
+        \IF{$R = \emptyset$}
+            \STATE \textbf{continue} \COMMENT{No viable candidate range}
+        \ENDIF
+        \STATE $\tau_P \gets \bigcap_{i \in P} M[i]$ \COMMENT{Co-occurrence timestamps}
+        \STATE $\mathcal{D}_P \gets \textsc{DenseIntervals}(\tau_P, W, \theta, R)$
+        \IF{$\mathcal{D}_P \neq \emptyset$}
+            \STATE $\mathcal{F}_{\text{local}}[P] \gets \mathcal{D}_P$
+            \STATE $L_k \gets L_k \cup \{P\}$
+        \ENDIF
+    \ENDFOR
+    \STATE $k \gets k + 1$
+\ENDWHILE
+
+\RETURN $\mathcal{F}_{\text{local}}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Candidate Range Optimization.}
+At line~17, we intersect the dense intervals of all singleton items in the candidate.
+This restricts the search to temporal ranges where all constituent items are individually dense, avoiding expensive sliding-window computations over the entire timeline.
+This optimization is correct because if none of the constituent items is dense in a region, the multi-item pattern cannot be dense there either (by the anti-monotonicity of density).
+
+\paragraph{Dense Interval Computation.}
+The \textsc{DenseIntervals} subroutine uses a sliding window with binary search to efficiently find all maximal contiguous ranges of window positions where the co-occurrence count meets the threshold $\theta$.
+When candidate ranges are provided, the computation is restricted to those ranges, further reducing work.
+The implementation handles the ``stacking case'' where multiple transactions share the same timestamp~\cite{agrawal1994apriori}.
+
+\subsection{Phase~2: Global Rarity Filtering}
+
+Phase~2 is straightforward: for each pattern discovered in Phase~1, compute its global support and discard patterns that exceed the maximum support threshold $\sigma_{\max}$.
+
+\begin{algorithm}[t]
+\caption{Phase~2: Global Rarity Filtering}
+\label{alg:phase2}
+\begin{algorithmic}[1]
+\REQUIRE Locally dense itemsets $\mathcal{F}_{\text{local}}$, transaction sequence $D$, max support $\sigma_{\max}$
+\ENSURE Rare Dense Patterns $\mathcal{R}$
+
+\STATE $\mathcal{R} \gets \emptyset$
+\FORALL{$(P, \mathcal{D}_P) \in \mathcal{F}_{\text{local}}$}
+    \STATE $g \gets |\{t \mid P \subseteq d_t\}| / N$
+    \IF{$g < \sigma_{\max}$}
+        \STATE $\mathcal{R}[P] \gets \mathcal{D}_P$
+    \ENDIF
+\ENDFOR
+\RETURN $\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}
+
+The global support computation in line~3 is $O(N \cdot |P|)$ per pattern.
+Since $|\mathcal{F}_{\text{local}}|$ is typically small (bounded by the number of locally dense patterns), this phase is fast.
+
+\subsection{Correctness and Complexity}
+
+\begin{corollary}[Algorithm Correctness]
+Algorithms~\ref{alg:phase1} and~\ref{alg:phase2} together compute exactly $\mathcal{R}(D, W, \theta, \sigma_{\max})$ as defined in Definition~\ref{def:rdp}.
+\end{corollary}
+
+\begin{proof}
+Follows directly from Theorem~\ref{thm:completeness}.
+Phase~1 uses Apriori with the anti-monotone local density criterion (Theorem~\ref{thm:weak_antimon}), ensuring all locally dense patterns are discovered.
+Phase~2 applies the global rarity filter.
+\end{proof}
+
+\paragraph{Time Complexity.}
+As stated in Theorem~\ref{thm:complexity}, the overall time complexity is $O\bigl(\sum_{k=1}^{k_{\max}} C_k \cdot N \log N\bigr)$, where $C_k$ is the number of candidates at level $k$.
+The Apriori pruning reduces $C_k$ significantly: any itemset without a dense interval (and all its supersets) is eliminated.
+
+\paragraph{Space Complexity.}
+The algorithm stores the item-to-transaction-ID map ($O(N \cdot \bar{w})$ where $\bar{w}$ is the average transaction width), the current and previous level itemsets ($O(C_k)$), and the output ($O(|\mathcal{R}|)$).
+Dense interval computation uses $O(N)$ temporary space.
+
+\subsection{Parameter Selection}
+
+The algorithm requires four parameters: window size $W$, density threshold $\theta$, maximum support $\sigma_{\max}$, and maximum itemset size $k_{\max}$.
+
+\begin{itemize}
+\item \textbf{Window size $W$}: Controls the temporal resolution. Smaller $W$ detects sharper bursts; larger $W$ captures broader trends. Should be set based on the application's time granularity (e.g., days for retail, seconds for network logs).
+
+\item \textbf{Density threshold $\theta$}: Minimum co-occurrence count within a window. The ratio $\theta / W$ represents the minimum local support rate. Must satisfy $\theta / W > \sigma_{\max}$ for non-trivial RDPs to exist.
+
+\item \textbf{Maximum support $\sigma_{\max}$}: Controls the global rarity filter. Lower values yield rarer patterns. Typical range: 0.01--0.10.
+
+\item \textbf{Maximum itemset size $k_{\max}$}: Bounds the search depth. Setting $k_{\max} = 3$ or $4$ is sufficient for most applications while keeping computation tractable.
+\end{itemize}
+
+The constraint $\theta / W > \sigma_{\max}$ is necessary for the RDP class to be non-empty.
+Intuitively, a pattern can only be both locally dense and globally rare if its occurrences are temporally concentrated rather than uniformly spread.

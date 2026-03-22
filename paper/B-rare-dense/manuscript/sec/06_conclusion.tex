@@ -1,0 +1,31 @@
+% ==============================================================
+\section{Conclusion}\label{sec:conclusion}
+% ==============================================================
+
+We introduced the \emph{Rare Dense Pattern} (RDP) mining problem, a novel formulation that targets itemsets satisfying two simultaneous conditions: global rarity (low overall support) and local temporal density (high co-occurrence count within at least one sliding window).
+This class of patterns captures practically important phenomena---promotional bursts, security incidents, seasonal co-purchases---that are invisible to both standard frequent pattern mining (which prunes rare patterns) and standard rare pattern mining (which ignores temporal structure).
+
+Our key theoretical contribution is the \emph{Weak Anti-Monotonicity} property: while the combined RDP condition is neither monotone nor anti-monotone, the local density component alone is anti-monotone.
+This enables Apriori-style pruning in a \emph{Two-Phase Mining} algorithm that first discovers all locally dense patterns, then filters by global rarity.
+We proved that this algorithm is sound and complete---it discovers exactly the set of all RDPs.
+
+Experimental results on synthetic data demonstrate 100\% recovery of ground-truth RDPs, 80\%+ reduction in false positives via the rarity filter, and near-linear scalability to 100K transactions.
+
+\paragraph{Limitations.}
+The current algorithm assumes a fixed window size $W$ and density threshold $\theta$.
+Automatically selecting these parameters based on data characteristics remains an open problem.
+The global rarity condition uses a single threshold $\sigma_{\max}$; per-item or per-itemset-size thresholds could improve flexibility.
+
+\paragraph{Future Work.}
+Several directions merit investigation:
+\begin{enumerate}
+\item \textbf{Multi-scale analysis}: Detecting RDPs across multiple window sizes simultaneously, potentially using hierarchical decomposition similar to Kleinberg's multi-level burst detection~\cite{kleinberg2003bursty}.
+
+\item \textbf{Streaming setting}: Adapting the algorithm for online mining where transactions arrive continuously, maintaining RDPs incrementally.
+
+\item \textbf{Rarity-aware pruning}: Developing tighter pruning strategies that exploit the rarity condition during Phase~1, potentially reducing the Phase~1 candidate set.
+
+\item \textbf{Event attribution}: Linking discovered RDPs to external events (promotions, incidents) to explain \emph{why} a rare pattern became locally dense at a specific time.
+
+\item \textbf{Large-scale evaluation}: Applying the framework to real-world datasets (retail, network logs, healthcare) to validate the practical utility of RDPs.
+\end{enumerate}

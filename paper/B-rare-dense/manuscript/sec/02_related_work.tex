@@ -1,0 +1,63 @@
+% ==============================================================
+\section{Related Work}\label{sec:related}
+% ==============================================================
+
+We review four lines of related research and position our contribution relative to each.
+
+\subsection{Rare and Infrequent Pattern Mining}
+
+The study of rare (infrequent) patterns emerged from the observation that interesting knowledge often resides in the tails of support distributions.
+Szathmary et al.~\cite{szathmary2007rare} introduced Apriori-Rare and Apriori-Inverse for mining rare itemsets, establishing the foundational framework.
+Tsang et al.~\cite{tsang2011rptree} proposed RP-Tree, an FP-Growth extension that restricts the tree to transactions containing at least one rare item, achieving efficient mining with a single minimum support threshold.
+Haglin and Manning~\cite{haglin2007mfi} studied the boundary between frequent and infrequent itemsets (Minimal Infrequent Itemsets, MFI), proving complexity results for enumerating this boundary.
+Gupta et al.~\cite{gupta2012ifptree} developed IFP-Tree for pattern-growth-based MFI mining.
+Bhatt and Patel~\cite{bhatt2015mcrp} extended RP-Tree with multiple minimum support thresholds (MCRP-Tree) to handle heterogeneous item rarity.
+Cuzzocrea et al.~\cite{cuzzocrea2018rare} surveyed challenges and future directions for rare pattern mining.
+
+All these methods mine rare patterns from \emph{static} transaction databases without considering temporal structure.
+A pattern that appears uniformly across time with low frequency is indistinguishable from one that bursts within a narrow window.
+Our work adds the temporal dimension: we require rare patterns to also exhibit local density.
+
+\subsection{Burst Detection}
+
+Kleinberg~\cite{kleinberg2003bursty} introduced a seminal framework for detecting bursty periods in document streams using an infinite hidden Markov model.
+The algorithm identifies time intervals where the arrival rate of a target event exceeds baseline expectations.
+Zhu and Shasha~\cite{zhu2002statstream} proposed StatStream for real-time monitoring of statistical properties over sliding windows.
+Luo et al.~\cite{luo2014temporal} combined temporal pattern mining with event detection in multivariate time series.
+
+These methods detect bursts in \emph{univariate} event streams (a single event type).
+Extending burst detection to \emph{multi-item co-occurrence patterns} introduces combinatorial complexity: the number of potential itemsets grows exponentially with the item count.
+Our Two-Phase Mining algorithm handles this combinatorial structure using Apriori-style pruning.
+
+\subsection{Anomaly and Outlier Detection}
+
+Liu et al.~\cite{liu2008iforest,liu2012iforest} proposed Isolation Forest, which detects anomalies by measuring how easily data points can be isolated via random partitioning.
+Breunig et al.~\cite{breunig2000lof} introduced the Local Outlier Factor (LOF), which compares the local density of a point to that of its neighbors.
+Sch\"olkopf et al.~\cite{scholkopf2001ocsvm} proposed One-Class SVM for novelty detection.
+He et al.~\cite{he2018mwifim} bridged rare pattern mining and outlier detection by using minimal weighted infrequent itemsets for anomaly detection in uncertain data streams.
+
+These approaches operate at the \emph{instance level} (individual data points or transactions), not at the \emph{pattern level}.
+They cannot identify that a specific \emph{combination of items} exhibits anomalous temporal concentration.
+Our RDP framework provides pattern-level temporal anomaly detection with interpretable outputs (itemset + time interval).
+
+\subsection{Temporal and Sliding-Window Pattern Mining}
+
+Datar et al.~\cite{datar2002swstatistics} established foundational techniques for maintaining stream statistics over sliding windows using exponential histograms.
+Chang and Lee~\cite{chang2009dualsupport} proposed a dual support framework for discovering emerging trends in temporal data, maintaining two support counts to detect support changes.
+Li et al.~\cite{li2023conceptdrift} addressed concept drift in frequent pattern mining using a variable sliding window that adapts to evolving data distributions.
+Most recently, the R3PStreamSW algorithm~\cite{r3pstreamsw2025} mines rare partial periodic patterns from temporal data streams using sliding windows.
+
+Our work differs from these in a critical way: we seek patterns that are \emph{rare globally} but \emph{dense locally}.
+Standard sliding-window frequent pattern mining discovers locally frequent patterns regardless of their global frequency, producing outputs dominated by globally common patterns.
+The dual support framework of Chang and Lee~\cite{chang2009dualsupport} tracks support changes but does not explicitly define or mine the class of rare-yet-locally-dense patterns.
+The R3PStreamSW algorithm~\cite{r3pstreamsw2025} addresses rare periodic patterns (low-frequency periodicity), which is a different problem from our rare dense patterns (low global support but high local concentration).
+
+\subsection{Anti-Monotonicity and Constraint-Based Mining}
+
+The anti-monotonicity of support~\cite{agrawal1994apriori} is the workhorse of efficient itemset mining.
+Pei and Han~\cite{pei2001convertible} studied constraints that are neither monotone nor anti-monotone but can be converted into one form for partial pruning.
+Bonchi and Lucchese~\cite{bonchi2005tougher} introduced relaxation-based approaches for pushing non-prunable constraints into the mining process.
+
+Our Weak Anti-Monotonicity result (Theorem~\ref{thm:weak_antimon}) shows that the local density condition---one half of the RDP definition---is anti-monotone, enabling standard Apriori pruning in Phase~1.
+The global rarity condition is monotone (supersets of rare patterns are also rare), but this does not help with pruning.
+The combined RDP condition is neither monotone nor anti-monotone, which is why we adopt a two-phase approach rather than attempting to push both conditions into a single mining pass.

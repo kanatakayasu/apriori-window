@@ -1,0 +1,12 @@
+\begin{abstract}
+Frequent itemset mining algorithms rely on the anti-monotonicity of support to prune the search space, but this very property ensures that globally rare patterns---those with low overall support---are systematically eliminated.
+We observe that many practically important patterns are \emph{globally rare yet locally dense}: they co-occur infrequently across the entire transaction history but exhibit concentrated bursts within narrow temporal windows.
+Examples include promotional bundles during flash sales, coordinated anomalous activities during security incidents, and seasonal co-purchases in retail data.
+We formalize this observation as the \emph{Rare Dense Pattern} (RDP) mining problem, which requires an itemset to satisfy two simultaneous conditions: (1) global rarity---overall support below a maximum threshold, and (2) local density---at least one sliding-window position where co-occurrence count meets a minimum threshold.
+We prove a \emph{Weak Anti-Monotonicity} property: while the combined RDP condition is neither monotone nor anti-monotone, the local density condition alone is anti-monotone, enabling Apriori-style candidate pruning.
+Based on this insight, we propose a \emph{Two-Phase Mining} algorithm that first discovers all locally dense patterns using sliding-window Apriori, then filters by global rarity.
+We prove that this algorithm is both sound and complete---it discovers exactly the set of all RDPs.
+Experiments on synthetic data with embedded ground-truth patterns show 100\% recovery rate across five random seeds, while the rarity filter removes over 80\% of false positives (globally frequent patterns that happen to be locally dense).
+The algorithm scales near-linearly to 100K transactions with sub-second runtime.
+Our results demonstrate that the RDP framework fills an important gap between rare pattern mining and temporal pattern mining, enabling discovery of actionable patterns invisible to both paradigms individually.
+\end{abstract}
