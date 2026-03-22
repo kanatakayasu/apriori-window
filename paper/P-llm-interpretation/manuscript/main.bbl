@@ -29,38 +29,79 @@ R.~Agrawal and R.~Srikant, ``Fast algorithms for mining association rules,'' in
 J.~Han, J.~Pei, and Y.~Yin, ``Mining frequent patterns without candidate
   generation,'' in \emph{SIGMOD}, 2000, pp. 1--12.
 
-\bibitem{brown2020gpt3}
-T.~Brown \emph{et~al.}, ``Language models are few-shot learners,''
-  \emph{NeurIPS}, vol.~33, pp. 1877--1901, 2020.
-
-\bibitem{openai2023gpt4}
-{OpenAI}, ``Gpt-4 technical report,'' \emph{arXiv preprint arXiv:2303.08774},
-  2023.
-
-\bibitem{zhang2023llm4dm}
-X.~Zhang \emph{et~al.}, ``Large language models for data mining: A survey,'' in
-  \emph{AAAI Workshop on LLM for DM}, 2024.
-
-\bibitem{wei2022chain}
-J.~Wei \emph{et~al.}, ``Chain-of-thought prompting elicits reasoning in large
-  language models,'' \emph{NeurIPS}, vol.~35, pp. 24\,824--24\,837, 2022.
-
 \bibitem{mannila1997discovery}
 H.~Mannila, H.~Toivonen, and A.~I. Verkamo, ``Discovery of frequent episodes in
   event sequences,'' in \emph{Data Mining and Knowledge Discovery}, vol.~1,
   1997, pp. 259--289.
 
+\bibitem{fournier2014spmf}
+P.~Fournier-Viger \emph{et~al.}, ``{SPMF}: A java open-source pattern mining
+  library,'' in \emph{JMLR}, vol.~15, 2014, pp. 3389--3393.
+
+\bibitem{brown2020gpt3}
+T.~Brown \emph{et~al.}, ``Language models are few-shot learners,''
+  \emph{NeurIPS}, vol.~33, pp. 1877--1901, 2020.
+
+\bibitem{openai2023gpt4}
+{OpenAI}, ``{GPT}-4 technical report,'' \emph{arXiv preprint arXiv:2303.08774},
+  2023.
+
+\bibitem{ji2023hallucination}
+Z.~Ji, N.~Lee, R.~Frieske, T.~Yu, D.~Su, Y.~Xu, E.~Ishii, Y.~J. Bang,
+  A.~Madotto, and P.~Fung, ``Survey of hallucination in natural language
+  generation,'' \emph{ACM Computing Surveys}, vol.~55, no.~12, pp. 1--38, 2023.
+
 \bibitem{webb2007discovering}
 G.~I. Webb, ``Discovering significant patterns,'' \emph{Machine Learning},
   vol.~68, pp. 1--33, 2007.
 
+\bibitem{vreeken2011krimp}
+J.~Vreeken, M.~van Leeuwen, and A.~Siebes, ``{KRIMP}: Mining itemsets that
+  compress,'' in \emph{Data Mining and Knowledge Discovery}, vol.~23, 2011, pp.
+  169--214.
+
+\bibitem{ribeiro2016lime}
+M.~T. Ribeiro, S.~Singh, and C.~Guestrin, ````{W}hy should {I} trust you?'':
+  Explaining the predictions of any classifier,'' in \emph{KDD}, 2016, pp.
+  1135--1144.
+
+\bibitem{lundberg2017shap}
+S.~M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model
+  predictions,'' in \emph{NeurIPS}, 2017, pp. 4765--4774.
+
+\bibitem{reiter2007architecture}
+E.~Reiter, ``An architecture for data-to-text systems,'' \emph{ENLG}, pp.
+  97--104, 2007.
+
+\bibitem{shen2023data}
+W.~Shen \emph{et~al.}, ``Data-copilot: Bridging billions of data and humans
+  with autonomous workflow,'' \emph{arXiv preprint arXiv:2306.07209}, 2023.
+
+\bibitem{wei2022chain}
+J.~Wei \emph{et~al.}, ``Chain-of-thought prompting elicits reasoning in large
+  language models,'' \emph{NeurIPS}, vol.~35, pp. 24\,824--24\,837, 2022.
+
+\bibitem{hegselmann2023tabllm}
+S.~Hegselmann, A.~Buendia, H.~Lang, M.~Agrawal, X.~Ber, and D.~Sontag,
+  ``{TabLLM}: Few-shot classification of tabular data with large language
+  models,'' in \emph{AISTATS}, 2023, pp. 5549--5581.
+
 \bibitem{narayan2018dont}
 S.~Narayan, S.~B. Cohen, and M.~Lapata, ``Don't give me the details, just the
-  summary! topic-aware convolutional neural networks for extreme
+  summary! {T}opic-aware convolutional neural networks for extreme
   summarization,'' in \emph{EMNLP}, 2018, pp. 1797--1807.
 
-\bibitem{touvron2023llama}
-H.~Touvron \emph{et~al.}, ``Llama: Open and efficient foundation language
-  models,'' \emph{arXiv preprint arXiv:2302.13971}, 2023.
+\bibitem{zhao2023survey}
+W.~X. Zhao \emph{et~al.}, ``A survey of large language models,'' \emph{arXiv
+  preprint arXiv:2303.18223}, 2023.
+
+\bibitem{liu2023summary}
+Y.~Liu \emph{et~al.}, ``Summary of {ChatGPT}-related research and perspective
+  towards the future of large language models,'' \emph{Meta-Radiology}, vol.~1,
+  no.~2, p. 100017, 2023.
+
+\bibitem{wang2023selfconsistency}
+X.~Wang \emph{et~al.}, ``Self-consistency improves chain of thought reasoning
+  in language models,'' in \emph{ICLR}, 2023.
 
 \end{thebibliography}

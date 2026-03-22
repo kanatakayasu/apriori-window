@@ -1,0 +1,109 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{agrawal1994fast,han2000mining}
+\citation{mannila1997discovery}
+\citation{fournier2014spmf}
+\citation{brown2020gpt3,openai2023gpt4}
+\citation{ji2023hallucination}
+\citation{agrawal1994fast}
+\citation{han2000mining}
+\citation{mannila1997discovery}
+\citation{webb2007discovering}
+\citation{fournier2014spmf}
+\citation{vreeken2011krimp}
+\citation{ribeiro2016lime}
+\citation{lundberg2017shap}
+\citation{reiter2007architecture}
+\citation{shen2023data}
+\citation{brown2020gpt3}
+\citation{wei2022chain}
+\citation{hegselmann2023tabllm}
+\citation{ji2023hallucination}
+\citation{narayan2018dont}
+\citation{zhao2023survey}
+\citation{liu2023summary}
+\citation{brown2020gpt3}
+\citation{wei2022chain}
+\citation{wang2023selfconsistency}
+\@writefile{toc}{\contentsline {section}{\numberline {I}はじめに}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{はじめに}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}関連研究}{1}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{II}{1}{関連研究}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}頻出パターンマイニングと解釈可能性}{1}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}説明可能AI（XAI）とデータ分析の自動解釈}{1}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}LLM による構造化データ理解}{1}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}プロンプトエンジニアリング}{1}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}問題定義}{1}{section.3}\protected@file@percent }
+\newlabel{sec:problem}{{III}{1}{問題定義}{section.3}{}}
+\newlabel{def:dense}{{1}{1}{密集アイテムセット}{definition.1}{}}
+\newlabel{def:features}{{2}{1}{パターン特徴量ベクトル}{definition.2}{}}
+\newlabel{def:interpretation}{{3}{1}{パターン解釈タスク}{definition.3}{}}
+\newlabel{def:metrics}{{4}{1}{解釈品質メトリクス}{definition.4}{}}
+\citation{hegselmann2023tabllm}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces DenseInterp のアーキテクチャ．密集パターン検出の出力から 12次元特徴量を抽出し，3層プロンプトを生成してLLMに入力する． 出力は構造化JSON形式で受け取り，4軸メトリクスで品質を評価する．}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:architecture}{{1}{2}{DenseInterp のアーキテクチャ．密集パターン検出の出力から 12次元特徴量を抽出し，3層プロンプトを生成してLLMに入力する． 出力は構造化JSON形式で受け取り，4軸メトリクスで品質を評価する．}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}提案手法: DenseInterp}{2}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{IV}{2}{提案手法: DenseInterp}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}パターン特徴量抽出器}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}3層プロンプト設計}{2}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Layer 1: 単一パターン解釈}{2}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}Layer 2: 比較分析}{2}{subsubsection.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}3}Layer 3: バッチ要約}{2}{subsubsection.4.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}LLM バックエンド抽象化}{2}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}品質評価パイプライン}{2}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}実験}{2}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{V}{2}{実験}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}実験設定}{2}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}データセット}{2}{subsubsection.5.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces 実験データセット}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:datasets}{{I}{2}{実験データセット}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces 密集パターン検出のパラメータ設定}}{2}{table.2}\protected@file@percent }
+\newlabel{tab:configs}{{II}{2}{密集パターン検出のパラメータ設定}{table.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}密集パターン検出}{2}{subsubsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}3}LLM設定}{2}{subsubsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}4}ベースライン}{2}{subsubsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}主要結果}{2}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}データセット別分析}{2}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}人間評価}{2}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}アブレーション実験}{2}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}解釈例}{2}{subsection.5.6}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{refs}
+\bibcite{agrawal1994fast}{1}
+\bibcite{han2000mining}{2}
+\bibcite{mannila1997discovery}{3}
+\bibcite{fournier2014spmf}{4}
+\bibcite{brown2020gpt3}{5}
+\bibcite{openai2023gpt4}{6}
+\bibcite{ji2023hallucination}{7}
+\bibcite{webb2007discovering}{8}
+\bibcite{vreeken2011krimp}{9}
+\bibcite{ribeiro2016lime}{10}
+\bibcite{lundberg2017shap}{11}
+\bibcite{reiter2007architecture}{12}
+\bibcite{shen2023data}{13}
+\bibcite{wei2022chain}{14}
+\bibcite{hegselmann2023tabllm}{15}
+\bibcite{narayan2018dont}{16}
+\bibcite{zhao2023survey}{17}
+\bibcite{liu2023summary}{18}
+\bibcite{wang2023selfconsistency}{19}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces 解釈品質の比較（全データセット平均）}}{3}{table.3}\protected@file@percent }
+\newlabel{tab:results}{{III}{3}{解釈品質の比較（全データセット平均）}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces データセット別の解釈品質（DenseInterp + GPT-4o）}}{3}{table.4}\protected@file@percent }
+\newlabel{tab:per_dataset}{{IV}{3}{データセット別の解釈品質（DenseInterp + GPT-4o）}{table.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}議論}{3}{section.6}\protected@file@percent }
+\newlabel{sec:discussion}{{VI}{3}{議論}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}構造化プロンプトの効果}{3}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}モデル間差異}{3}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}限界と今後の課題}{3}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}おわりに}{3}{section.7}\protected@file@percent }
+\newlabel{sec:conclusion}{{VII}{3}{おわりに}{section.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces 人間評価結果（Online Retail, 上位20パターン, $n$=3名）}}{3}{table.5}\protected@file@percent }
+\newlabel{tab:human_eval}{{V}{3}{人間評価結果（Online Retail, 上位20パターン, $n$=3名）}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces アブレーション実験結果（GPT-4o, Online Retail）}}{3}{table.6}\protected@file@percent }
+\newlabel{tab:ablation}{{VI}{3}{アブレーション実験結果（GPT-4o, Online Retail）}{table.6}{}}
+\@writefile{toc}{\contentsline {section}{References}{3}{section*.1}\protected@file@percent }
+\gdef \@abspage@last{3}

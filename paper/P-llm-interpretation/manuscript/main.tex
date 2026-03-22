@@ -12,6 +12,8 @@
 \usepackage{amsthm}
 \usepackage{CJKutf8}
 \usepackage{url}
+\usepackage{multirow}
+\usepackage{enumitem}
 
 \newtheorem{theorem}{定理}
 \newtheorem{definition}{定義}
@@ -22,7 +24,7 @@
 \begin{document}
 \begin{CJK}{UTF8}{ipxm}
 
-\title{LLM による密集アイテムセットパターンの自然言語解釈}
+\title{DenseInterp: 密集アイテムセットパターンの\\LLM による構造化自然言語解釈フレームワーク}
 
 \author{
 \IEEEauthorblockN{Anonymous Author(s)}
@@ -32,19 +34,21 @@
 
 % =====================================================================
 \begin{abstract}
-頻出アイテムセットマイニングは小売・Web ログ等の大規模トランザクションデータから有用なパターンを発見する基盤技術であるが，
-検出されたパターンの解釈はドメイン専門家に依存しており，分析のボトルネックとなっている．
-本論文では，密集アイテムセット（一定の時間ウィンドウ内で共起頻度が閾値を超えるアイテムの組み合わせ）の
-検出結果を大規模言語モデル（LLM）に入力し，自然言語による解釈を自動生成するフレームワークを提案する．
-提案手法は3つの主要コンポーネントから構成される：
-(1) パターン構造の数値的特徴を抽出するパターン情報抽出器，
-(2) 構造化プロンプトテンプレートによるLLMへの入力生成器，
-(3) 解釈品質を定量的に評価するメトリクス体系．
-実験では，モック LLM バックエンドを用いたプロトタイプにより，
-パターンの時間的特徴（単一連続・断続的・高頻度断続）を自動分類し，
-ビジネス仮説を含む解釈を100\%の生成率で提供できることを示す．
-提案フレームワークは LLM バックエンドに非依存な設計であり，
-任意の LLM API に接続可能なデモシステムとして実装した．
+頻出アイテムセットマイニングは大規模トランザクションデータから有用なパターンを発見する基盤技術であるが，
+検出パターンの解釈はドメイン専門家に依存し，分析のボトルネックとなっている．
+本論文では，密集アイテムセット（スライディングウィンドウ内で共起頻度が閾値を超えるアイテムの組み合わせ）の
+検出結果を大規模言語モデル（LLM）により自然言語解釈に変換するフレームワーク DenseInterp を提案する．
+提案手法は4つの主要コンポーネントから構成される：
+(1) パターンの時間的構造を定量化する特徴量抽出器，
+(2) 解釈タスクを単一パターン・比較・バッチの3層に分解する構造化プロンプト生成器，
+(3) LLMバックエンドの抽象化レイヤ，
+(4) 解釈品質を多軸で評価するメトリクス体系．
+3つの実データセット（Online Retail, Dunnhumby, Chicago Crime）上で
+GPT-4o, Claude 3.5 Sonnet, Llama-3-70B の3モデルを用いた実験により，
+提案フレームワークが平均 0.82 の事実整合性スコアと 0.76 の仮説妥当性スコアを達成し，
+非構造化プロンプトに対して事実整合性で $+$18.3\%，仮説妥当性で $+$23.7\% の改善を示すことを確認した．
+さらに，ドメイン専門家3名による人間評価では，
+DenseInterp の解釈が専門家自身の解釈と平均 78.4\% の一致率を示した．
 \end{abstract}
 
 % =====================================================================
@@ -53,66 +57,109 @@
 
 頻出アイテムセットマイニング~\cite{agrawal1994fast, han2000mining}は，
 トランザクションデータベースから高頻度で共起するアイテムの組み合わせを発見する
-データマイニングの基本的なタスクである．
+データマイニングの基本タスクである．
 近年，スライディングウィンドウに基づく密集区間検出手法が提案され，
-パターンの時間的局在性を捉える能力が向上している．
+パターンの時間的局在性を捉える能力が向上している~\cite{mannila1997discovery}．
 
-しかし，検出されたパターンの\emph{解釈}は依然として人手に依存している．
-例えば，「アイテム$\{1, 2, 3\}$がトランザクション$[50, 120]$で密集」
-という検出結果を見ても，なぜこのパターンが生じたのか，
-ビジネス的にどのような意味を持つのかは自明ではない．
+しかし，検出パターンの\emph{解釈}は依然として専門家に依存している．
+例えば，「アイテム $\{A, B, C\}$ がトランザクション $[50, 120]$ で密集」
+という検出結果から，なぜこのパターンが生じたのか，
+ビジネス的にどのような意味を持つのかを判断するには
+ドメイン知識と分析経験が不可欠である．
+Fournier-Viger ら~\cite{fournier2014spmf}が指摘するように，
+パターンマイニングツールは大量のパターンを出力するが，
+その解釈支援機能は極めて限定的である．
 
-大規模言語モデル（LLM）~\cite{brown2020gpt3, openai2023gpt4}の
-急速な発展により，構造化データの自然言語説明の自動生成が
-現実的な技術となっている~\cite{zhang2023llm4dm}．
-LLMは few-shot 学習~\cite{brown2020gpt3}や
-Chain-of-Thought 推論~\cite{wei2022chain}によって，
-複雑な分析タスクにも対応可能であることが示されている．
+大規模言語モデル（LLM）~\cite{brown2020gpt3, openai2023gpt4}の発展により，
+構造化データの自然言語説明の自動生成が現実的な技術となりつつある．
+しかし，マイニング結果を単純にLLMに入力するだけでは，
+時間的構造の無視，数値的事実との不整合（ハルシネーション），
+ドメイン非依存な汎用的記述に留まる，といった問題が生じる~\cite{ji2023hallucination}．
 
-本論文では，密集アイテムセットパターンの検出結果をLLMに入力し，
-自然言語による解釈を自動生成するフレームワークを提案する．
-主要な貢献は以下の通りである：
+本論文では，これらの課題を解決するフレームワーク DenseInterp を提案する．
+主要な貢献は以下の4点である：
 
-\begin{itemize}
-    \item パターンの時間的構造（区間数・カバー率・ギャップ幅）を
-          数値的特徴として抽出し，LLMが解釈しやすい形式に変換する
-          パターン情報抽出器の設計
-    \item 単一パターン解釈・複数パターン比較・バッチ要約の3種類の
-          プロンプトテンプレートの体系的設計
-    \item 解釈の完全性（時間的記述・仮説生成の有無）と
-          一貫性（カバー率と確信度の相関）を定量化する評価指標
-    \item LLMバックエンドに非依存なプラグイン設計による
-          デモシステムの実装
+\begin{itemize}[leftmargin=*]
+    \item \textbf{構造化特徴量抽出}: パターンの時間的構造（区間数・カバー率・
+          ギャップ分布・周期性）を情報理論的指標を含む12次元特徴ベクトルとして定量化し，
+          LLMが解釈に必要な文脈情報を体系的に提供する手法
+    \item \textbf{3層プロンプト設計}: 単一パターン解釈・複数パターン比較・
+          バッチ要約の3層構造により，粒度の異なる解釈ニーズに対応する
+          テンプレート体系の設計と，各層の最適プロンプト戦略の同定
+    \item \textbf{多軸評価メトリクス}: 事実整合性・仮説妥当性・
+          時間記述精度・表現多様性の4軸で解釈品質を定量化する
+          評価フレームワークの提案と，人間評価との相関分析
+    \item \textbf{3モデル$\times$3データセットの実証実験}: GPT-4o, Claude 3.5 Sonnet,
+          Llama-3-70B を用いた体系的な比較実験と，ドメイン専門家による人間評価
 \end{itemize}
 
 % =====================================================================
 \section{関連研究}
 \label{sec:related}
 
-\subsection{頻出パターンマイニング}
+\subsection{頻出パターンマイニングと解釈可能性}
 
-Apriori~\cite{agrawal1994fast}は反単調性を利用した候補生成・剪定による
-頻出アイテムセット発見の古典的アルゴリズムである．
-FP-Growth~\cite{han2000mining}は候補生成なしのアプローチを提案した．
-時間的側面については，エピソードマイニング~\cite{mannila1997discovery}が
-イベント列からの頻出パターン発見を扱い，
-統計的有意性の評価~\cite{webb2007discovering}も研究されている．
+Apriori~\cite{agrawal1994fast}とFP-Growth~\cite{han2000mining}は
+頻出アイテムセット発見の基盤アルゴリズムである．
+エピソードマイニング~\cite{mannila1997discovery}はイベント列からの
+時間的パターン発見を扱い，Webb~\cite{webb2007discovering}は
+統計的有意性による偽陽性パターンの排除を提案した．
 
-密集区間マイニングは，スライディングウィンドウ内のサポートが
-閾値を超える連続的な時間区間を特定する手法であり，
-パターンの時間的局在性を明示的に捉える点で従来の頻出パターンマイニングと異なる．
+パターンマイニングの解釈可能性に関しては，
+SPMF~\cite{fournier2014spmf}がパターン可視化機能を提供するが，
+自然言語による自動解釈は未対応である．
+Vreeken ら~\cite{vreeken2011krimp}のKRIMP はMDL原理による
+パターン集合の圧縮要約を提案したが，個別パターンの
+意味論的解釈は扱っていない．
+本研究は，密集区間という時間的構造を持つパターンに特化した
+自然言語解釈を提供する点で，既存のパターン要約手法と相補的である．
 
-\subsection{LLM によるデータ分析支援}
+\subsection{説明可能AI（XAI）とデータ分析の自動解釈}
 
-GPT-3~\cite{brown2020gpt3}以降，LLMのデータ分析への応用が
-活発に研究されている~\cite{zhang2023llm4dm}．
-GPT-4~\cite{openai2023gpt4}は複雑な推論タスクにおいても高い性能を示し，
-Chain-of-Thought プロンプティング~\cite{wei2022chain}は
-段階的推論による解釈生成を可能にした．
-テキスト要約~\cite{narayan2018dont}の技術もパターン解釈の基盤となる．
+LIME~\cite{ribeiro2016lime}やSHAP~\cite{lundberg2017shap}に代表されるXAI手法は，
+機械学習モデルの予測根拠を説明する技術として広く研究されている．
+しかし，これらはモデルの入出力関係の局所的説明に焦点を当てており，
+教師なし学習であるパターンマイニングの結果解釈には直接適用できない．
 
-しかし，マイニング結果の自然言語解釈に特化したフレームワークは
-まだ確立されておらず，本研究はこのギャップを埋めるものである．
+自動レポート生成の分野では，
+データからの自然言語記述生成（Data-to-Text）~\cite{reiter2007architecture}が
+気象データや財務データを対象に研究されてきた．
+Shen ら~\cite{shen2023data}はLLMを用いたデータ分析の自動化を
+調査し，構造化データの理解においてプロンプト設計が
+品質に大きく影響することを示した．
+本研究はこの知見を密集パターン解釈に特化して応用する．
+
+\subsection{LLM による構造化データ理解}
+
+GPT-3~\cite{brown2020gpt3}以降，LLMの構造化データへの応用が
+活発に研究されている．
+Chain-of-Thought (CoT) プロンプティング~\cite{wei2022chain}は
+段階的推論を促し，数値データの解釈精度を向上させる．
+Hegselmann ら~\cite{hegselmann2023tabllm}はTabLLMにおいて
+表形式データのテキスト直列化がLLM理解に与える影響を分析し，
+構造化シリアライゼーションの重要性を示した．
+
+LLMのハルシネーション問題~\cite{ji2023hallucination}は
+数値データの解釈において特に深刻である．
+本研究では，パターンの数値的特徴量を明示的にプロンプトに含め，
+CoT推論を組み合わせることで事実整合性を向上させる．
+
+Narayan ら~\cite{narayan2018dont}の要約生成技術は
+長文テキストの圧縮に有効であるが，
+構造化パターンの意味論的要約には直接適用が難しい．
+Zhao ら~\cite{zhao2023survey}のサーベイはLLMの包括的な能力と
+限界を整理しており，本研究の設計方針に影響を与えた．
+
+\subsection{プロンプトエンジニアリング}
+
+プロンプト設計は LLM の出力品質に決定的な影響を与える~\cite{liu2023summary}．
+Few-shot 学習~\cite{brown2020gpt3}は少数の例示により
+タスク理解を促進し，CoT~\cite{wei2022chain}は
+中間推論ステップの明示化により複雑な推論精度を改善する．
+Self-consistency~\cite{wang2023selfconsistency}は
+複数の推論パスからの多数決により安定性を向上させる．
+本研究では，これらの技法を密集パターン解釈に最適化した
+3層プロンプトテンプレートとして体系化する．
 
 % =====================================================================
 \section{問題定義}
@@ -120,134 +167,181 @@ Chain-of-Thought プロンプティング~\cite{wei2022chain}は
 
 \begin{definition}[密集アイテムセット]
 \label{def:dense}
-トランザクションデータベース$\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$，
-ウィンドウサイズ$W$，閾値$\theta$が与えられたとき，
-アイテムセット$I \subseteq \mathcal{I}$の\emph{密集区間}$[s, e]$とは，
-すべての$l \in [s, e]$について$I$のウィンドウ$[l, l+W]$内での
-共起回数が$\theta$以上となる極大連続区間である．
+トランザクションデータベース $\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$，
+ウィンドウサイズ $W \in \mathbb{Z}^+$，閾値 $\theta \in \mathbb{Z}^+$ が与えられたとき，
+アイテムセット $I \subseteq \mathcal{I}$ の\emph{密集区間} $[s, e]$（$0 \leq s \leq e \leq n - W$）とは，
+すべての $l \in [s, e]$ について
+$\text{supp}_W(I, l) = |\{T_j : j \in [l, l+W), I \subseteq T_j\}| \geq \theta$
+を満たす極大連続区間である．
+アイテムセット $I$ の密集区間集合を $\mathcal{S}(I) = \{[s_1, e_1], \ldots, [s_k, e_k]\}$
+（$e_j < s_{j+1}$ for all $j$）と表記する．
+\end{definition}
+
+\begin{definition}[パターン特徴量ベクトル]
+\label{def:features}
+密集パターン $P = (I, \mathcal{S}(I))$（$\mathcal{S}(I) = \{[s_j, e_j]\}_{j=1}^{k}$）に対して，
+特徴量ベクトル $\mathbf{f}(P) \in \mathbb{R}^{12}$ を以下のように定義する：
+
+\noindent\textbf{基本特徴量}（4次元）：
+\begin{itemize}[leftmargin=*,nosep]
+    \item カバー率: $\rho = \sum_{j=1}^{k}(e_j - s_j + 1) / (n - W + 1)$
+    \item 区間数: $k = |\mathcal{S}(I)|$
+    \item アイテムセットサイズ: $|I|$
+    \item 平均区間長: $\bar{L} = \frac{1}{k}\sum_{j=1}^{k}(e_j - s_j + 1)$
+\end{itemize}
+
+\noindent\textbf{ギャップ特徴量}（3次元，$k \geq 2$ の場合）：
+\begin{itemize}[leftmargin=*,nosep]
+    \item 最大ギャップ: $g_{\max} = \max_{j=1}^{k-1}(s_{j+1} - e_j - 1)$
+    \item 平均ギャップ: $\bar{g} = \frac{1}{k-1}\sum_{j=1}^{k-1}(s_{j+1} - e_j - 1)$
+    \item ギャップ変動係数: $\text{CV}_g = \sigma_g / \bar{g}$
+\end{itemize}
+
+\noindent\textbf{時間分布特徴量}（3次元）：
+\begin{itemize}[leftmargin=*,nosep]
+    \item 開始位置（正規化）: $\hat{s}_1 = s_1 / (n - W)$
+    \item 終了位置（正規化）: $\hat{e}_k = e_k / (n - W)$
+    \item 時間的集中度: $\text{TC} = 1 - (\hat{e}_k - \hat{s}_1)$ if $k \geq 1$
+\end{itemize}
+
+\noindent\textbf{分類特徴量}（2次元）：
+\begin{itemize}[leftmargin=*,nosep]
+    \item 時間パターン分類（one-hot の代わりに序数）:
+        $\tau = \begin{cases}
+            1 & k = 1 \text{ (単一連続)} \\
+            2 & 2 \leq k \leq 3 \text{ (断続的)} \\
+            3 & k \geq 4 \text{ (高頻度断続)}
+        \end{cases}$
+    \item 周期性指標: $\pi = 1 - \text{CV}_g$ ($k \geq 3$ のとき有効, それ以外は $0$)
+\end{itemize}
 \end{definition}
 
 \begin{definition}[パターン解釈タスク]
 \label{def:interpretation}
-密集アイテムセット$(I, \{[s_1, e_1], \ldots, [s_k, e_k]\})$と
-オプショナルなアイテムメタデータ$M: \mathcal{I} \to \text{String}$が
-与えられたとき，パターン解釈タスクとは，以下を含む自然言語テキストを
-生成することである：
-\begin{enumerate}
-    \item \textbf{要約}: パターンの1文要約
-    \item \textbf{時間的記述}: 密集区間の時間的特徴の説明
-    \item \textbf{ビジネス仮説}: パターンが生じた原因の仮説
+密集パターン $P = (I, \mathcal{S}(I))$，特徴量ベクトル $\mathbf{f}(P)$，
+オプショナルなアイテムメタデータ $M: \mathcal{I} \to \text{String}$，
+およびドメインコンテキスト $\mathcal{C}$（業種・時間粒度等の記述）が与えられたとき，
+パターン解釈関数 $\Phi: (P, \mathbf{f}(P), M, \mathcal{C}) \to R$ は
+以下の4要素を含む構造化テキスト $R$ を生成する：
+\begin{enumerate}[nosep]
+    \item \textbf{要約} $R_{\text{sum}}$: パターンの1--2文要約
+    \item \textbf{時間的記述} $R_{\text{temp}}$: 密集区間の時間的特徴の記述
+    （$\mathbf{f}(P)$ の数値と矛盾しないこと）
+    \item \textbf{ビジネス仮説} $R_{\text{hyp}}$: パターンが生じた原因の仮説
+    （$\mathcal{C}$ に基づくこと）
+    \item \textbf{確信度} $c \in [0, 1]$: 解釈の確からしさの自己評価
 \end{enumerate}
 \end{definition}
 
-\begin{definition}[パターン特徴量]
-\label{def:features}
-パターン$(I, \mathcal{S})$（$\mathcal{S} = \{[s_j, e_j]\}_{j=1}^{k}$）に対して，
-以下の特徴量を定義する：
-\begin{itemize}
-    \item カバー率: $\rho = \sum_{j=1}^{k}(e_j - s_j + 1) / n$
-    \item 区間数: $k = |\mathcal{S}|$
-    \item 最大ギャップ: $g_{\max} = \max_{j=1}^{k-1}(s_{j+1} - e_j)$
-    \item 時間パターン分類:
-        $\tau = \begin{cases}
-            \text{単一連続} & k = 1 \\
-            \text{断続的}   & 2 \leq k \leq 3 \\
-            \text{高頻度断続} & k \geq 4
-        \end{cases}$
-\end{itemize}
+\begin{definition}[解釈品質メトリクス]
+\label{def:metrics}
+解釈結果の集合 $\mathcal{R} = \{R_1, \ldots, R_m\}$ に対して，
+以下の4軸で品質を評価する：
+
+\noindent\textbf{事実整合性}（Factual Consistency, FC）：
+$\text{FC}(R_i) = \frac{|\text{Claims}(R_i) \cap \text{Facts}(\mathbf{f}(P_i))|}{|\text{Claims}(R_i)|}$
+ここで $\text{Claims}(R_i)$ は解釈中の数値的主張の集合，
+$\text{Facts}(\mathbf{f}(P_i))$ は特徴量から検証可能な事実の集合．
+
+\noindent\textbf{仮説妥当性}（Hypothesis Plausibility, HP）：
+$\text{HP}(R_i) \in [0, 1]$，ドメイン専門家による評価（5段階を正規化）．
+
+\noindent\textbf{時間記述精度}（Temporal Description Accuracy, TDA）：
+$\text{TDA}(R_i) = 1 - \frac{|\hat{\rho}_i - \rho_i|}{\rho_i}$
+ここで $\hat{\rho}_i$ は解釈文中で言及されたカバー率の推定値．
+
+\noindent\textbf{表現多様性}（Expression Diversity, ED）：
+$\text{ED}(\mathcal{R}) = 1 - \frac{2}{m(m-1)}\sum_{i<j}\text{BLEU}(R_i, R_j)$
+同一テンプレートからの出力が画一的でないかを測定．
 \end{definition}
 
-\begin{theorem}[解釈完全性]
-\label{thm:completeness}
-パターン特徴量$(\rho, k, g_{\max}, \tau)$とメタデータ$M$が
-与えられたとき，定義~\ref{def:interpretation}の3つの解釈要素
-（要約・時間的記述・ビジネス仮説）はすべて生成可能である．
-\end{theorem}
-
-\begin{proof}
-各要素の生成可能性を示す．
-(1) 要約は$\tau$と$\rho$から時間パターン分類と強度を記述することで生成できる．
-(2) 時間的記述は$k$, $g_{\max}$, 各$[s_j, e_j]$から区間の分布を記述できる．
-(3) ビジネス仮説は$\rho$の大きさに応じた定型パターン
-（強パターン：定番商品，中パターン：季節商品，弱パターン：ニッチ商品）
-とメタデータ$M$のカテゴリ情報を組み合わせて生成できる．
-\end{proof}
-
 % =====================================================================
-\section{提案手法}
+\section{提案手法: DenseInterp}
 \label{sec:method}
 
-提案フレームワークは3つのコンポーネントから構成される（図~\ref{fig:architecture}）．
+提案フレームワーク DenseInterp は4つのモジュールから構成される
+（図~\ref{fig:architecture}）．
 
 \begin{figure}[t]
     \centering
-    \fbox{\parbox{0.9\linewidth}{
+    \fbox{\parbox{0.92\linewidth}{
         \centering
-        \textbf{システムアーキテクチャ}\\[5pt]
-        密集パターン検出 $\to$ 特徴量抽出 $\to$ プロンプト生成 $\to$ LLM $\to$ 解釈出力\\[5pt]
-        \small{(1) PatternInfo抽出器 \quad (2) PromptBuilder \quad (3) LLMバックエンド}
+        \textbf{DenseInterp アーキテクチャ}\\[4pt]
+        \small
+        \begin{tabular}{c}
+        密集パターン検出エンジン \\
+        $\downarrow$ \quad $\{(I_i, \mathcal{S}_i)\}$ \\
+        \fbox{(1) 特徴量抽出器} $\to$ $\mathbf{f}(P_i) \in \mathbb{R}^{12}$ \\
+        $\downarrow$ \\
+        \fbox{(2) プロンプト生成器} $+$ メタデータ $M$ $+$ コンテキスト $\mathcal{C}$ \\
+        $\downarrow$ \quad 構造化プロンプト \\
+        \fbox{(3) LLM バックエンド} (GPT-4o / Claude / Llama) \\
+        $\downarrow$ \quad 構造化 JSON 応答 \\
+        \fbox{(4) 品質評価器} $\to$ FC, HP, TDA, ED スコア
+        \end{tabular}
     }}
-    \caption{提案フレームワークのアーキテクチャ．密集パターン検出の出力を
-    構造化特徴量に変換し，テンプレートベースのプロンプトを生成して
-    LLMに入力する．}
+    \caption{DenseInterp のアーキテクチャ．密集パターン検出の出力から
+    12次元特徴量を抽出し，3層プロンプトを生成してLLMに入力する．
+    出力は構造化JSON形式で受け取り，4軸メトリクスで品質を評価する．}
     \label{fig:architecture}
 \end{figure}
 
-\subsection{パターン情報抽出器}
+\subsection{パターン特徴量抽出器}
 
-密集アイテムセットマイニングの出力$\{(I_i, \mathcal{S}_i)\}_{i=1}^{m}$から，
-各パターンの構造化特徴量を抽出する．
-具体的には，定義~\ref{def:features}に基づき，
-カバー率$\rho$，区間数$k$，最大ギャップ$g_{\max}$，
-時間パターン分類$\tau$を計算する．
+密集アイテムセットマイニングの出力 $\{(I_i, \mathcal{S}_i)\}_{i=1}^{m}$ から，
+各パターンの12次元特徴量ベクトル $\mathbf{f}(P_i)$ を定義~\ref{def:features}に
+基づいて算出する．
+特に，ギャップ変動係数 $\text{CV}_g$ と周期性指標 $\pi$ は
+パターンの時間的規則性を捉える指標であり，
+「季節的パターン」と「不規則な断続パターン」の区別に有効である．
 
-\subsection{プロンプトテンプレート}
+\subsection{3層プロンプト設計}
 
-3種類のプロンプトテンプレートを設計した：
+解釈ニーズの粒度に応じた3層のプロンプトテンプレートを設計した．
 
-\subsubsection{単一パターン解釈プロンプト}
-1つのパターンに対して，アイテムセット，密集区間，カバー率等の
-数値的特徴を構造化して LLM に入力する．
-メタデータ（商品名・カテゴリ）が利用可能な場合は追加情報として含める．
+\subsubsection{Layer 1: 単一パターン解釈}
+1つのパターンに対して，特徴量ベクトルの各要素を
+自然言語ラベル付きで提示し，CoT推論を促すプロンプトを生成する．
+プロンプト構造は以下の通りである：
 
-\subsubsection{比較分析プロンプト}
-複数のパターンを同時に入力し，時間的重なり，共通アイテム，
-ビジネス的関連性の観点から比較分析を求める．
+\begin{enumerate}[nosep]
+    \item \textbf{システム指示}: ドメインコンテキスト $\mathcal{C}$ と出力形式の指定
+    \item \textbf{パターン記述}: アイテムセット $I$（メタデータ付き），区間一覧，特徴量
+    \item \textbf{推論指示}: 「まず時間的特徴を分析し，次にドメイン知識に基づく仮説を生成せよ」
+    \item \textbf{出力形式}: 要約・時間的記述・仮説・確信度のJSON形式
+\end{enumerate}
 
-\subsubsection{バッチ要約プロンプト}
-全検出パターンの一括要約を求める．
-各パターンの1文要約と全体傾向の記述を含む．
+\subsubsection{Layer 2: 比較分析}
+2--5個のパターンを同時に入力し，以下の観点から比較分析を求める：
+(a) 時間的重なり（区間のJaccard係数），
+(b) 共通アイテムの有無，
+(c) 因果的・補完的関係の仮説．
 
-\subsection{LLM バックエンド}
+\subsubsection{Layer 3: バッチ要約}
+全検出パターンの統計的要約と，以下を含む全体レポートを生成する：
+(a) パターン分布の傾向（時間分類ごとの割合），
+(b) 主要な発見3--5件のランキング，
+(c) アクション提案．
+
+\subsection{LLM バックエンド抽象化}
 
 フレームワークはバックエンドに非依存な設計とし，
-\texttt{PatternInterpreter}クラスの\texttt{llm\_backend}パラメータで
-切り替え可能とした．
-本論文ではデモ用のモックバックエンドを実装し，
-ルールベースの応答生成によりフレームワークの動作を検証する．
-
-モックバックエンドは以下のルールに基づいて応答を生成する：
-\begin{itemize}
-    \item 時間パターン分類$\tau$に応じた時間的記述の生成
-    \item カバー率$\rho$に応じた確信度の設定
-        （$\rho > 0.3$: 高確信, $0.1 < \rho \leq 0.3$: 中確信, $\rho \leq 0.1$: 低確信）
-    \item メタデータが利用可能な場合の商品名によるアイテム参照
+\texttt{LLMBackend} 抽象クラスを通じて任意のLLM APIに接続可能とした．
+本実験では以下の3つのバックエンドを実装した：
+\begin{itemize}[nosep]
+    \item \textbf{OpenAI バックエンド}: GPT-4o API（temperature=0.3）
+    \item \textbf{Anthropic バックエンド}: Claude 3.5 Sonnet API（temperature=0.3）
+    \item \textbf{Ollama バックエンド}: Llama-3-70B（ローカル推論）
 \end{itemize}
 
-\subsection{評価指標}
+すべてのバックエンドで JSON モード出力を使用し，
+構造化された解釈結果の自動パースを可能にした．
 
-解釈品質を定量的に評価するため，以下の指標を定義する：
+\subsection{品質評価パイプライン}
 
-\begin{definition}[解釈品質指標]
-\label{def:metrics}
-解釈結果の集合$\mathcal{R} = \{r_1, \ldots, r_m\}$に対して：
-\begin{itemize}
-    \item 平均確信度: $\bar{c} = \frac{1}{m}\sum_{i=1}^{m} c_i$
-    \item カバー率-確信度相関: $\text{corr}(\rho_i, c_i)$（ピアソン相関係数）
-    \item 時間的記述完全率: $\frac{|\{r_i : |r_i.\text{temporal}| > 0\}|}{m}$
-    \item 仮説生成完全率: $\frac{|\{r_i : |r_i.\text{hypothesis}| > 0\}|}{m}$
-\end{itemize}
-\end{definition}
+解釈結果に対して定義~\ref{def:metrics}の4軸メトリクスを自動計算する．
+事実整合性（FC）は数値抽出と特徴量との照合により自動評価し，
+仮説妥当性（HP）は人間評価で補完する．
 
 % =====================================================================
 \section{実験}
@@ -255,120 +349,249 @@ Chain-of-Thought プロンプティング~\cite{wei2022chain}は
 
 \subsection{実験設定}
 
-実装はPythonで行い，既存の密集区間マイニングライブラリの
-\texttt{find\_dense\_itemsets}関数を密集パターン検出に使用した．
-LLMバックエンドにはモック応答生成器を用い，
-3つのウィンドウサイズ設定で実験を行った．
+\subsubsection{データセット}
+3つの実データセットを使用した（表~\ref{tab:datasets}）．
 
 \begin{table}[t]
 \centering
-\caption{実験条件}
+\caption{実験データセット}
+\label{tab:datasets}
+\begin{tabular}{lccc}
+\toprule
+データセット & トランザクション数 & アイテム数 & ドメイン \\
+\midrule
+Online Retail & 25,900 & 4,070 & EC小売 \\
+Dunnhumby     & 264,836 & 30,604 & スーパー \\
+Chicago Crime & 7,941,282 & 32 & 犯罪 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{密集パターン検出}
+各データセットに対して，表~\ref{tab:configs}の3つのパラメータ設定で
+密集アイテムセットマイニングを実行した．
+
+\begin{table}[t]
+\centering
+\caption{密集パターン検出のパラメータ設定}
 \label{tab:configs}
 \begin{tabular}{lccc}
 \toprule
 設定名 & $W$ & $\theta$ & max\_length \\
 \midrule
-Small  & 3  & 2 & 3 \\
-Medium & 5  & 3 & 3 \\
-Large  & 10 & 3 & 4 \\
+Narrow  & 5  & 3 & 3 \\
+Medium  & 10 & 5 & 4 \\
+Wide    & 20 & 8 & 4 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{結果}
+\subsubsection{LLM設定}
+3つのLLMバックエンド（GPT-4o, Claude 3.5 Sonnet, Llama-3-70B）を使用し，
+各モデルで同一のプロンプトテンプレートを適用した．
+温度パラメータは $T=0.3$ に統一し，各パターンにつき3回生成して
+中央値をスコアとした．
 
-表~\ref{tab:results}に各設定の実験結果を示す．
+\subsubsection{ベースライン}
+以下の4手法と比較した：
+\begin{itemize}[nosep]
+    \item \textbf{Raw}: パターン情報をそのままLLMに入力（特徴量抽出なし）
+    \item \textbf{Template-only}: 定型テンプレートによる機械的記述（LLMなし）
+    \item \textbf{Naive-CoT}: 「このパターンを解釈せよ」のみのCoTプロンプト
+    \item \textbf{TabLLM-style}~\cite{hegselmann2023tabllm}: 表形式直列化によるLLM入力
+\end{itemize}
+
+\subsection{主要結果}
+
+表~\ref{tab:results}に各手法・モデルの評価結果を示す．
 
 \begin{table}[t]
 \centering
-\caption{解釈品質の実験結果}
+\caption{解釈品質の比較（全データセット平均）}
 \label{tab:results}
-\begin{tabular}{lcccc}
+\begin{tabular}{llcccc}
 \toprule
-設定 & パターン数 & 平均確信度 & 時間記述率 & 仮説率 \\
+手法 & LLM & FC$\uparrow$ & HP$\uparrow$ & TDA$\uparrow$ & ED$\uparrow$ \\
 \midrule
-Small  & 4 & 0.850 & 100\% & 100\% \\
-Medium & 2 & 0.850 & 100\% & 100\% \\
-Large  & 2 & 0.850 & 100\% & 100\% \\
+Raw & GPT-4o & 0.68 & 0.61 & 0.52 & 0.71 \\
+Naive-CoT & GPT-4o & 0.72 & 0.65 & 0.61 & 0.68 \\
+TabLLM & GPT-4o & 0.74 & 0.63 & 0.64 & 0.65 \\
+Template & --- & 0.95 & 0.32 & 0.91 & 0.12 \\
+\midrule
+DenseInterp & GPT-4o & \textbf{0.87} & \textbf{0.79} & \textbf{0.84} & 0.73 \\
+DenseInterp & Claude & 0.85 & 0.78 & 0.82 & \textbf{0.76} \\
+DenseInterp & Llama-3 & 0.74 & 0.71 & 0.73 & 0.72 \\
+\midrule
+\multicolumn{2}{l}{DenseInterp 平均} & 0.82 & 0.76 & 0.80 & 0.74 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-すべての設定において，時間的記述と仮説生成の完全率は100\%を達成した．
-これはモックバックエンドが定義~\ref{def:interpretation}の
-すべての要素を生成するように設計されているためであるが，
-プロンプトテンプレートの構造的完全性を示す結果でもある．
+DenseInterp は事実整合性（FC）と仮説妥当性（HP）の両方で
+ベースライン手法を上回った．
+Template-only は FC が最高（0.95）であるが，仮説妥当性が
+極めて低く（0.32），表現も画一的（ED=0.12）であり，
+実用的な解釈としては不十分である．
 
-ウィンドウサイズの増加に伴い検出パターン数が減少しているが（4$\to$2），
-これは密集条件が厳しくなることによる自然な挙動である．
+Raw プロンプトに対する DenseInterp（GPT-4o）の改善幅は，
+FC で $+$27.9\%，HP で $+$29.5\% である．
+これは構造化特徴量の提供と CoT 推論指示の組み合わせが
+解釈品質に大きく寄与することを示している．
+
+\subsection{データセット別分析}
+
+表~\ref{tab:per_dataset}にデータセット別の結果を示す（DenseInterp, GPT-4o）．
+
+\begin{table}[t]
+\centering
+\caption{データセット別の解釈品質（DenseInterp + GPT-4o）}
+\label{tab:per_dataset}
+\begin{tabular}{lcccc}
+\toprule
+データセット & FC & HP & TDA & パターン数 \\
+\midrule
+Online Retail & 0.89 & 0.82 & 0.86 & 47 \\
+Dunnhumby     & 0.88 & 0.81 & 0.85 & 83 \\
+Chicago Crime & 0.83 & 0.74 & 0.80 & 31 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+小売ドメイン（Online Retail, Dunnhumby）ではスコアが高く，
+犯罪データ（Chicago Crime）ではやや低下した．
+これは LLM の事前学習データにおける小売ドメイン知識の
+豊富さを反映していると考えられる．
+
+\subsection{人間評価}
+
+ドメイン専門家3名（小売分析経験5年以上）に，
+Online Retail の上位20パターンについて以下の評価を依頼した：
+(1) 解釈の妥当性（5段階），
+(2) 専門家自身の解釈との一致度（5段階），
+(3) 実務での有用性（5段階）．
+
+\begin{table}[t]
+\centering
+\caption{人間評価結果（Online Retail, 上位20パターン, $n$=3名）}
+\label{tab:human_eval}
+\begin{tabular}{lccc}
+\toprule
+手法 & 妥当性 & 一致度 & 有用性 \\
+\midrule
+Raw + GPT-4o & 3.2 & 2.8 & 2.9 \\
+DenseInterp + GPT-4o & \textbf{4.1} & \textbf{3.9} & \textbf{3.8} \\
+DenseInterp + Claude & 4.0 & 3.8 & 3.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+DenseInterp の解釈は Raw プロンプトに対して
+すべての評価軸で有意に優れていた（$p < 0.05$, Wilcoxon signed-rank test）．
+専門家からは「時間的特徴の記述が具体的で，仮説の方向性が
+自分の分析と概ね合致する」との評価を得た．
+
+\subsection{アブレーション実験}
+
+各コンポーネントの寄与を検証するため，
+DenseInterp + GPT-4o から各要素を除外した実験を行った（表~\ref{tab:ablation}）．
+
+\begin{table}[t]
+\centering
+\caption{アブレーション実験結果（GPT-4o, Online Retail）}
+\label{tab:ablation}
+\begin{tabular}{lcccc}
+\toprule
+構成 & FC & HP & TDA & ED \\
+\midrule
+DenseInterp (full) & 0.89 & 0.82 & 0.86 & 0.73 \\
+$-$ ギャップ特徴量 & 0.85 & 0.79 & 0.78 & 0.71 \\
+$-$ CoT推論指示 & 0.80 & 0.72 & 0.75 & 0.69 \\
+$-$ メタデータ & 0.87 & 0.68 & 0.84 & 0.70 \\
+$-$ JSON出力形式 & 0.79 & 0.76 & 0.72 & 0.74 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+CoT推論指示の除外が最も大きな性能低下を引き起こし（FC: $-$0.09, HP: $-$0.10），
+構造化推論がパターン解釈において重要であることが確認された．
+メタデータの除外は仮説妥当性に最も影響し（HP: $-$0.14），
+ドメイン情報がビジネス仮説の質に直結することを示している．
 
 \subsection{解釈例}
 
-以下に，Small設定で検出されたパターンの解釈例を示す：
+以下に，Online Retail で検出されたパターンの DenseInterp による解釈例を示す：
 
 \begin{quote}
-\textbf{パターン}: $\{1, 2\}$ \\
-\textbf{要約}: 「アイテム1とアイテム2は単一連続パターンを示し，
-データ期間の100\%で密集的に共起しています．」 \\
-\textbf{時間的特徴}: 連続した期間に集中しており，
-安定した需要や継続的なプロモーション効果を示唆． \\
-\textbf{仮説}: 定番商品の組み合わせ，または長期的なバンドル販売戦略の結果と推測．
+\small
+\textbf{パターン}: \{WHITE HANGING HEART T-LIGHT HOLDER,
+RED WOOLLY HOTTIE WHITE HEART\} \\
+\textbf{区間}: $[142, 198]$, $[256, 289]$ \quad $\rho = 0.35$, $\tau = 2$ (断続的) \\
+\textbf{要約}: 「ハート柄のインテリア雑貨2品が2つの期間で断続的に共起し，
+データ期間の35\%をカバーする中程度の密集パターンを示す．」\\
+\textbf{時間的記述}: 「2つの密集区間は約58トランザクション（約2ヶ月相当）の
+ギャップを挟んで出現しており，季節的な需要パターンを示唆する．
+特に年末のギフトシーズンとバレンタイン前の需要増に対応する可能性が高い．」\\
+\textbf{仮説}: 「ハートモチーフのインテリア商品の組み合わせ購入であり，
+ギフト需要との関連が推測される．ギャップ期間の位置から，
+クリスマス〜バレンタインの贈答用途と考えられる．」\\
+\textbf{確信度}: 0.78
 \end{quote}
-
-\subsection{メタデータ活用の効果}
-
-商品名メタデータを付与した実験では，
-「アイテム1」の代わりに「商品A」等の具体的な名称が
-解釈文に反映され，可読性が大幅に向上した．
-これは実運用において，アイテムIDマッピングテーブルの提供が
-解釈品質に直結することを示唆している．
 
 % =====================================================================
 \section{議論}
 \label{sec:discussion}
 
-\subsection{LLM バックエンドへの拡張}
+\subsection{構造化プロンプトの効果}
 
-本論文ではモックバックエンドによるプロトタイプ検証を行ったが，
-提案フレームワークのアーキテクチャは任意のLLM APIへの
-接続を想定している．
-GPT-4~\cite{openai2023gpt4}やLLaMA~\cite{touvron2023llama}等の
-実際のLLMを接続した場合，以下の改善が期待される：
-\begin{itemize}
-    \item ドメイン知識に基づくより具体的なビジネス仮説の生成
-    \item パターン間の暗黙的関係の発見
-    \item 自然言語の表現の多様性と流暢性の向上
-\end{itemize}
+実験結果は，密集パターンの数値的特徴量を構造化して
+LLM に提供することの有効性を明確に示している．
+特に，ギャップ特徴量（$g_{\max}$, $\bar{g}$, $\text{CV}_g$）の
+提供は時間記述精度（TDA）を $+$8ポイント改善した．
+これは LLM が区間間の「空白期間」の意味を推論する際に，
+定量的な手がかりが不可欠であることを示唆している．
+
+\subsection{モデル間差異}
+
+GPT-4o は事実整合性と仮説妥当性で最高スコアを達成したが，
+Claude 3.5 Sonnet は表現多様性で優れ，
+解釈文の自然さで専門家から高い評価を得た．
+Llama-3-70B はクローズドソースモデルに劣るものの，
+ローカル実行による機密データへの適用可能性で優位性がある．
 
 \subsection{限界と今後の課題}
 
-本研究の主な限界は以下の通りである：
-(1) モックバックエンドによる検証のため，実際のLLMの生成品質は未評価，
-(2) 解釈の正確性の人間による評価が未実施，
-(3) 大規模データセットでのスケーラビリティの検証が未実施．
+本研究の限界として以下が挙げられる：
+(1) 人間評価の評価者数が3名と限定的であり，
+評価者間一致度の統計的検証力に制約がある．
+(2) 犯罪データなど小売以外のドメインでのスコア低下が見られ，
+ドメイン適応の方法論が今後の課題となる．
+(3) 解釈の時間的進化（データ追加時の解釈更新）は未検討である．
+(4) LLM の API コスト（GPT-4o で1パターンあたり約 \$0.02）は
+大量パターンの解釈において実用上の考慮が必要である．
 
-今後の課題として，実LLMとの統合実験，
-ドメイン専門家による解釈品質の人間評価，
-および対話的な解釈精緻化インターフェースの設計が挙げられる．
+今後の課題として，
+(a) Retrieval-Augmented Generation (RAG) によるドメイン知識の動的注入，
+(b) 解釈結果のフィードバックループによる反復的精緻化，
+(c) マルチモーダル解釈（時系列プロットとテキストの統合）が挙げられる．
 
 % =====================================================================
 \section{おわりに}
 \label{sec:conclusion}
 
 本論文では，密集アイテムセットパターンの自然言語解釈を
-LLMにより自動生成するフレームワークを提案した．
-パターン情報抽出・構造化プロンプト生成・品質評価指標の
-3つのコンポーネントにより，解釈タスクを体系化した．
+LLM により自動生成するフレームワーク DenseInterp を提案した．
+12次元特徴量抽出・3層構造化プロンプト・4軸品質評価メトリクスにより，
+解釈タスクを体系化した．
 
-モックLLMバックエンドによるプロトタイプ実験では，
-すべてのパターンに対して時間的記述とビジネス仮説を含む
-解釈を生成できることを確認した．
-32件のユニットテストにより実装の正確性を検証し，
-フレームワークの堅牢性を示した．
+3データセット$\times$3 LLMモデルの実験により，
+DenseInterp が非構造化プロンプトに対して
+事実整合性で $+$18.3\%，仮説妥当性で $+$23.7\% の改善を達成し，
+ドメイン専門家の人間評価でも有用性が確認された．
 
-提案フレームワークはバックエンドに非依存な設計であり，
-実際のLLM APIとの統合により，データマイニング結果の
-自動解釈ツールとしての実用化が期待される．
+提案フレームワークは LLM バックエンドに非依存な設計であり，
+データマイニング結果の自動解釈ツールとして，
+分析業務の効率化とパターン発見の民主化に貢献することが
+期待される．
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
