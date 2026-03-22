@@ -1,0 +1,105 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We evaluate UDI-Miner on four aspects: (E1) pattern recovery accuracy, (E2) TWU pruning efficiency, (E3) scalability, and (E4) multi-pattern discovery in realistic settings.
+
+\subsection{Setup}
+
+All experiments were conducted in Python 3.13 on a single-threaded process. Synthetic datasets were generated with controlled parameters to enable ground-truth evaluation.
+
+\paragraph{Data Generation.}
+We generate utility transaction databases with $n$ transactions over $|\mathcal{I}|$ items. Each transaction contains 1--8 items with random quantities in $[1, 5]$ and external utilities drawn uniformly from $[1, 10]$. For pattern injection, a target itemset is inserted into transactions within a specified interval $[s^*, e^*]$ with probability $f$, and quantities for pattern items are boosted by a factor $h$.
+
+\paragraph{Default Parameters.}
+Unless stated otherwise: $W = 30$--$50$, $\theta_f = 5$--$10$, $\theta_u = 50$--$200$, $k_{\max} = 3$--$4$.
+
+\subsection{E1: Pattern Recovery}
+
+We inject itemset $\{2, 5\}$ into the interval $[200, 400]$ with frequency 0.85 and quantity boost $h=3$. We run UDI-Miner with $W=40$, $\theta_f=8$, $\theta_u=80$, $k_{\max}=3$ across 5 random seeds.
+
+\begin{table}[t]
+\centering
+\caption{E1: Pattern Recovery Results}
+\label{tab:e1}
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+Seed & Recovered & Overlap Ratio & \#Results & Time (ms) \\
+\midrule
+42   & \checkmark & 0.970 & 52 & 39.1 \\
+123  & \checkmark & 0.965 & 62 & 45.5 \\
+456  & \checkmark & 0.950 & 74 & 53.1 \\
+789  & \checkmark & 0.980 & 70 & 50.8 \\
+1024 & \checkmark & 0.960 & 67 & 48.1 \\
+\midrule
+\multicolumn{2}{c}{Recovery Rate: 100\%} & \multicolumn{3}{c}{Avg.\ Overlap: 0.965} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:e1} shows that UDI-Miner recovers the injected pattern in all 5 runs, with an average interval overlap ratio of 0.965. The high overlap indicates precise temporal localization.
+
+\subsection{E2: TWU Pruning Efficiency}
+
+We compare mining with and without TWU pruning at varying scales.
+
+\begin{table}[t]
+\centering
+\caption{E2: TWU Pruning Efficiency}
+\label{tab:e2}
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+$n$ & $|\mathcal{I}|$ & $\theta_u$ & \multicolumn{2}{c}{Candidates Eval.} & Pruned & Speedup \\
+    &                  &            & w/ TWU & w/o TWU &        &         \\
+\midrule
+500  & 10 & 50  & 87  & 87  & 0 & 0.82$\times$ \\
+1000 & 15 & 80  & 119 & 119 & 1 & 0.73$\times$ \\
+2000 & 20 & 100 & 128 & 135 & 7 & 0.75$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:e2} shows that TWU pruning becomes effective as the item space grows. At $|\mathcal{I}|=20$, 7 candidates are eliminated by the TWU upper bound. The speedup is currently offset by the overhead of prefix-sum construction for TWU checking; in larger-scale settings with higher $|\mathcal{I}|$ and stricter $\theta_u$, the pruning benefit is expected to dominate.
+
+\subsection{E3: Scalability}
+
+We vary $n$ from 500 to 10{,}000 with fixed $|\mathcal{I}|=15$, $W=30$, $\theta_f=5$, $\theta_u=50$.
+
+\begin{table}[t]
+\centering
+\caption{E3: Scalability Results}
+\label{tab:e3}
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$n$ & Time (ms) & \#Results & \#Evaluated \\
+\midrule
+500    & 32.6    & 84  & 87  \\
+1{,}000  & 114.7   & 115 & 119 \\
+2{,}000  & 285.6   & 126 & 128 \\
+5{,}000  & 734.8   & 133 & 134 \\
+10{,}000 & 1{,}501.4 & 140 & 141 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:e3} confirms near-linear scalability. Doubling $n$ from 5{,}000 to 10{,}000 increases runtime by a factor of $\approx 2.04$, consistent with the $O(K \cdot n)$ complexity analysis. The number of results stabilizes, reflecting the fixed data generation process.
+
+\subsection{E4: Multi-Pattern Discovery}
+
+We construct a semi-synthetic dataset ($n=2{,}000$, $|\mathcal{I}|=20$) with two injected patterns:
+\begin{itemize}
+    \item Pattern 1: $\{3, 7\}$ in $[300, 600]$, frequency 0.85, quantity boost $h=3$.
+    \item Pattern 2: $\{1, 5, 12\}$ in $[1200, 1500]$, frequency 0.80, quantity boost $h=4$.
+\end{itemize}
+
+UDI-Miner ($W=50$, $\theta_f=10$, $\theta_u=200$, $k_{\max}=4$) successfully recovers both patterns along with their supersets. Pattern 1 $\{3,7\}$ is found with 1 utility-dense interval (max utility 1{,}817.0), and Pattern 2 $\{1,5,12\}$ is found with 1 interval (max utility 4{,}190.2). The algorithm also discovers related patterns such as $\{3,7,15\}$ (12 intervals) and $\{1,5,12,17\}$ (8 intervals), demonstrating the ability to surface higher-order utility-dense co-occurrences.
+
+\subsection{Discussion}
+
+\paragraph{Dual-condition filtering.}
+The UDI framework's key strength is its dual-condition filtering: frequency alone would surface many low-utility itemsets, while utility alone would include sporadic high-value transactions. By requiring both conditions simultaneously within a sliding window, UDI identifies temporally concentrated, economically significant patterns.
+
+\paragraph{Prefix-sum efficiency.}
+The prefix-sum optimization reduces per-window utility computation from $O(W)$ to $O(1)$, making the utility sweep cost independent of window size. This is critical for large $W$ values common in real applications (e.g., monthly windows over daily transactions).
+
+\paragraph{Limitations.}
+The current TWU pruning shows limited benefit in moderate-scale experiments because random data tends to accumulate high TWU values across many items. In real retail data with skewed utility distributions, we expect stronger pruning effects.

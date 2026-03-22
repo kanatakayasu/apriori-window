@@ -1,0 +1,48 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{cite}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{property}{Property}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+
+\title{High-Utility Dense Intervals:\\Joint Frequency-Utility Temporal Mining}
+
+\author{\IEEEauthorblockN{Anonymous Author(s)}
+\IEEEauthorblockA{Under Review}}
+
+\maketitle
+
+\begin{abstract}
+Frequent itemset mining and high-utility itemset mining address complementary aspects of transactional data analysis: the former identifies commonly co-occurring items, while the latter captures economically significant item combinations. However, neither framework is designed to detect \emph{temporal} concentrations---time intervals where specific itemsets exhibit both high frequency and high utility. We introduce the \emph{Utility-Dense Interval} (UDI) framework, which extends sliding-window dense interval detection with a utility dimension. We define Window Utility (WU) and Window Transaction Weighted Utilization (WTWU), prove that WTWU provides an anti-monotone upper bound for window-level utility pruning, and present an Apriori-style algorithm that jointly enforces frequency and utility thresholds. Experiments on synthetic and semi-synthetic datasets demonstrate that (i) the algorithm recovers injected high-utility dense patterns with 100\% precision across multiple seeds, (ii) TWU-based pruning reduces candidate evaluation, and (iii) runtime scales near-linearly with transaction count. Our framework fills a gap at the intersection of temporal pattern mining and utility-aware analysis.
+\end{abstract}
+
+\begin{IEEEkeywords}
+High-utility itemset mining, dense intervals, temporal mining, sliding window, transaction weighted utilization
+\end{IEEEkeywords}
+
+\input{sec/01_introduction}
+\input{sec/02_related_work}
+\input{sec/03_preliminaries}
+\input{sec/04_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

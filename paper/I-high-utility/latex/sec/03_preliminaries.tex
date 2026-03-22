@@ -1,0 +1,67 @@
+\section{Preliminaries and Problem Definition}
+\label{sec:preliminaries}
+
+\subsection{Transactional Database with Utilities}
+
+\begin{definition}[Utility Transaction Database]
+A \emph{utility transaction database} $\mathcal{D} = \{T_0, T_1, \ldots, T_{n-1}\}$ is an ordered sequence of transactions. Each transaction $T_t$ at time position $t$ contains a set of items $I(T_t) \subseteq \mathcal{I}$, where $\mathcal{I}$ is the universe of items. Each item $i \in I(T_t)$ has an \emph{internal utility} (quantity) $q(i, T_t) \in \mathbb{Z}_{>0}$. Each item $i \in \mathcal{I}$ has an \emph{external utility} (unit profit) $p(i) \in \mathbb{R}_{>0}$.
+\end{definition}
+
+\begin{definition}[Item and Itemset Utility]
+The \emph{utility} of item $i$ in transaction $T_t$ is $u(i, T_t) = q(i, T_t) \cdot p(i)$. The \emph{utility} of an itemset $X \subseteq \mathcal{I}$ in $T_t$ is:
+\begin{equation}
+    u(X, T_t) = \begin{cases}
+        \sum_{i \in X} u(i, T_t) & \text{if } X \subseteq I(T_t) \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+The \emph{transaction utility} of $T_t$ is $\text{TU}(T_t) = \sum_{i \in I(T_t)} u(i, T_t)$.
+\end{definition}
+
+\subsection{Sliding Window and Dense Intervals}
+
+\begin{definition}[Sliding Window]
+For a window size $W \in \mathbb{Z}_{>0}$, the \emph{window at position} $l$ is the sub-database $\mathcal{D}[l, l{+}W] = \{T_t \mid l \leq t \leq l + W\}$.
+\end{definition}
+
+\begin{definition}[Window Support]
+The \emph{window support} of itemset $X$ at position $l$ is:
+\begin{equation}
+    \sigma_W(X, l) = |\{T_t \in \mathcal{D}[l, l{+}W] \mid X \subseteq I(T_t)\}|
+\end{equation}
+\end{definition}
+
+\begin{definition}[Dense Interval]
+An itemset $X$ has a \emph{dense interval} $[s, e]$ with respect to window size $W$ and frequency threshold $\theta_f$ if $\sigma_W(X, l) \geq \theta_f$ for all $l \in [s, e]$.
+A dense interval is \emph{maximal} if no proper extension $[s', e'] \supsetneq [s, e]$ satisfies the same condition.
+\end{definition}
+
+\subsection{Window Utility and TWU}
+
+\begin{definition}[Window Utility]
+The \emph{window utility} of itemset $X$ at position $l$ is:
+\begin{equation}
+    \text{WU}(X, l) = \sum_{t=l}^{l+W} u(X, T_t)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Window Transaction Weighted Utilization]
+The \emph{window TWU} of itemset $X$ at position $l$ is:
+\begin{equation}
+    \text{WTWU}(X, l) = \sum_{\substack{t=l \\ X \subseteq I(T_t)}}^{l+W} \text{TU}(T_t)
+\end{equation}
+\end{definition}
+
+\subsection{Problem Definition}
+
+\begin{definition}[Utility-Dense Interval]
+\label{def:udi}
+An itemset $X$ has a \emph{utility-dense interval} $[s, e]$ with respect to parameters $(W, \theta_f, \theta_u)$ if for all $l \in [s, e]$:
+\begin{enumerate}
+    \item $\sigma_W(X, l) \geq \theta_f$ \quad (frequency condition), and
+    \item $\text{WU}(X, l) \geq \theta_u$ \quad (utility condition).
+\end{enumerate}
+\end{definition}
+
+\textbf{Problem Statement.}
+Given a utility transaction database $\mathcal{D}$, window size $W$, frequency threshold $\theta_f$, utility threshold $\theta_u$, and maximum itemset length $k_{\max}$, find all pairs $(X, [s, e])$ such that $[s, e]$ is a maximal utility-dense interval of $X$ and $|X| \leq k_{\max}$.

@@ -1,0 +1,18 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{High-Utility Itemset Mining}
+The high-utility itemset mining problem was formalized by Yao et al.~\cite{yao2006mining}, who introduced the utility measure combining internal utility (quantity) and external utility (unit profit). Unlike support, utility is not anti-monotone: a subset of a high-utility itemset may have higher utility than its superset. This necessitated new pruning strategies.
+
+The Transaction Weighted Utilization (TWU) model~\cite{liu2012mining} restored a form of anti-monotonicity by defining an upper bound: the TWU of an itemset $X$ is the sum of transaction utilities over all transactions containing $X$. Since $\text{TWU}(X) \geq u(X)$ and TWU is anti-monotone, unpromising itemsets can be pruned early.
+
+HUI-Miner~\cite{liu2012mining} introduced the utility-list structure, enabling one-phase mining without candidate generation. EFIM~\cite{zida2015efim} further improved efficiency via transaction merging and sub-tree utility upper bounds. Tseng et al.~\cite{tseng2013efficient} studied concise representations. Fournier-Viger et al.~\cite{fournier2019survey} provide a comprehensive survey.
+
+\subsection{Temporal and Periodic Utility Mining}
+Lan et al.~\cite{lan2014discovery} incorporated on-shelf time periods into HUIM, mining itemsets that are high-utility during their shelf life. Dam et al.~\cite{dam2019towards} extended utility mining to sequential patterns with periodicity constraints. Ahmed et al.~\cite{ahmed2009efficient} addressed incremental databases with tree-based structures. These works consider temporal aspects but do not identify contiguous dense intervals via sliding windows.
+
+\subsection{Dense Interval Mining}
+Sliding-window dense interval detection identifies time periods where an itemset's support within a fixed-size window exceeds a threshold at every position. The Apriori-window framework combines this with level-wise candidate generation, using the anti-monotonicity of frequency-based dense intervals for pruning. However, existing dense interval methods are purely frequency-based.
+
+\subsection{Positioning of This Work}
+Our work bridges the gap between utility-aware mining and temporal dense interval detection. To the best of our knowledge, no prior work defines or mines \emph{utility-dense intervals}---time periods satisfying both a sliding-window frequency condition and a sliding-window utility condition simultaneously.

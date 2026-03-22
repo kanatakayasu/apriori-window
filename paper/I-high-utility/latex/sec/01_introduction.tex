@@ -1,0 +1,19 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Transactional databases are central to retail analytics, web usage mining, and recommendation systems. Two major lines of research have been developed for extracting actionable knowledge from such data: \emph{frequent itemset mining} (FIM)~\cite{agrawal1994fast} and \emph{high-utility itemset mining} (HUIM)~\cite{yao2006mining,fournier2019survey}.
+
+FIM identifies itemsets that co-occur in at least a minimum number of transactions, treating all items and transactions equally. While computationally well-understood, FIM cannot distinguish between a low-margin product bought frequently and a high-margin product bought occasionally. HUIM addresses this limitation by associating each item with an external utility (e.g., profit per unit) and each item occurrence with an internal utility (e.g., purchase quantity), mining itemsets whose total utility exceeds a threshold~\cite{liu2012mining,zida2015efim}.
+
+However, both FIM and HUIM are inherently \emph{atemporal}: they produce a single global result over the entire database. In practice, purchasing patterns are highly non-stationary. Promotional campaigns, seasonal effects, and supply-chain disruptions create time intervals where specific itemsets become temporarily dense or utility-rich. Detecting such temporal concentrations requires a framework that simultaneously considers frequency, utility, and temporal locality.
+
+\textbf{Dense interval detection.} Recent work on sliding-window dense interval mining identifies contiguous time periods where an itemset's occurrence frequency exceeds a threshold within every window position. This approach effectively captures ``bursts'' of co-purchase activity. Yet it remains frequency-only and cannot rank or filter intervals by their economic significance.
+
+\textbf{Our contribution.} We propose the \emph{Utility-Dense Interval} (UDI) framework, which combines sliding-window dense interval detection with utility-aware mining. Specifically, we make the following contributions:
+
+\begin{enumerate}
+    \item We formally define the \emph{Utility-Dense Interval} problem, introducing Window Utility (WU) and Window Transaction Weighted Utilization (WTWU) (Section~\ref{sec:preliminaries}).
+    \item We prove that WTWU is an anti-monotone upper bound on window utility, enabling effective pruning of the candidate space (Section~\ref{sec:method}).
+    \item We present an Apriori-style level-wise algorithm that jointly enforces frequency and utility thresholds, with prefix-sum optimization for O(1) window utility queries (Section~\ref{sec:method}).
+    \item We evaluate the algorithm on synthetic and semi-synthetic datasets, demonstrating high pattern recovery rates, effective TWU pruning, and near-linear scalability (Section~\ref{sec:experiments}).
+\end{enumerate}

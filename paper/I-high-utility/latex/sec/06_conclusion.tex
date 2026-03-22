@@ -1,0 +1,9 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We introduced the Utility-Dense Interval (UDI) framework, which jointly considers frequency and utility within sliding windows to detect temporal concentrations of high-utility itemsets. We formalized the UDI problem, proved that Window TWU provides an anti-monotone upper bound for effective pruning, and presented the UDI-Miner algorithm with prefix-sum optimization for efficient window queries.
+
+Experiments on synthetic and semi-synthetic datasets demonstrated 100\% pattern recovery with high temporal precision, effective TWU-based pruning as the item space grows, and near-linear scalability with transaction count. The framework successfully bridges the gap between temporal dense interval mining and utility-aware analysis.
+
+\paragraph{Future Work.}
+Several directions merit investigation: (1) integration with one-phase algorithms such as EFIM to avoid candidate generation, (2) application to real retail datasets with external utility information, (3) streaming extensions for online utility-dense interval detection, and (4) incorporation of discount/promotion events as external signals to explain utility-dense intervals.

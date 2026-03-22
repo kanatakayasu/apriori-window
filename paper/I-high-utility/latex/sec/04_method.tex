@@ -1,0 +1,145 @@
+\section{Proposed Method}
+\label{sec:method}
+
+\subsection{Theoretical Foundations}
+
+We first establish properties that enable efficient pruning.
+
+\begin{property}[TWU Upper Bound]
+\label{prop:twu-bound}
+For any itemset $X$ and window position $l$:
+\begin{equation}
+    \text{WU}(X, l) \leq \text{WTWU}(X, l)
+\end{equation}
+\end{property}
+
+\begin{proof}
+For each transaction $T_t$ with $l \leq t \leq l + W$ and $X \subseteq I(T_t)$:
+\[
+u(X, T_t) = \sum_{i \in X} u(i, T_t) \leq \sum_{i \in I(T_t)} u(i, T_t) = \text{TU}(T_t)
+\]
+Summing over all such transactions yields $\text{WU}(X, l) \leq \text{WTWU}(X, l)$.
+\end{proof}
+
+\begin{lemma}[Anti-monotonicity of WTWU]
+\label{lem:twu-antimonotone}
+For any itemsets $X \subseteq Y$ and window position $l$:
+\begin{equation}
+    \text{WTWU}(Y, l) \leq \text{WTWU}(X, l)
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $Y \supseteq X$, every transaction containing $Y$ also contains $X$. Therefore, $\{T_t \mid Y \subseteq I(T_t)\} \subseteq \{T_t \mid X \subseteq I(T_t)\}$, and summing $\text{TU}(T_t)$ over a subset yields a value no greater than the sum over the superset.
+\end{proof}
+
+\begin{theorem}[UDI Pruning]
+\label{thm:pruning}
+If $\max_{l} \text{WTWU}(X, l) < \theta_u$, then $X$ has no utility-dense interval, and neither does any superset $Y \supseteq X$.
+\end{theorem}
+
+\begin{proof}
+By Property~\ref{prop:twu-bound}, $\text{WU}(X, l) \leq \text{WTWU}(X, l) < \theta_u$ for all $l$, so $X$ violates the utility condition everywhere. By Lemma~\ref{lem:twu-antimonotone}, $\text{WTWU}(Y, l) \leq \text{WTWU}(X, l) < \theta_u$ for all $l$, so $Y$ can also be pruned.
+\end{proof}
+
+\begin{lemma}[Dense Interval Anti-monotonicity for Frequency]
+\label{lem:freq-antimonotone}
+If itemset $X$ has no frequency-dense interval, then no superset $Y \supseteq X$ has a frequency-dense interval.
+\end{lemma}
+
+\begin{proof}
+$\sigma_W(Y, l) \leq \sigma_W(X, l)$ for all $l$, since $Y \supseteq X$ implies that transactions containing $Y$ are a subset of those containing $X$.
+\end{proof}
+
+\begin{corollary}[Joint Pruning]
+\label{cor:joint}
+An itemset $X$ can be pruned if either (a) it has no frequency-dense interval, or (b) its maximum WTWU across all window positions is below $\theta_u$.
+\end{corollary}
+
+\subsection{Prefix-Sum Optimization}
+
+To avoid recomputing window utilities from scratch for each position, we precompute prefix sums.
+
+\begin{definition}[Utility Prefix Sum]
+For an itemset $X$, define:
+\begin{equation}
+    P_u(X, t) = \sum_{j=0}^{t-1} u(X, T_j)
+\end{equation}
+Then $\text{WU}(X, l) = P_u(X, l{+}W{+}1) - P_u(X, l)$ in $O(1)$ time.
+\end{definition}
+
+Similarly, the TWU prefix sum enables $O(1)$ window TWU queries:
+\begin{equation}
+    P_{\text{TWU}}(X, t) = \sum_{\substack{j=0 \\ X \subseteq I(T_j)}}^{t-1} \text{TU}(T_j)
+\end{equation}
+
+\subsection{Algorithm: UDI-Miner}
+
+Algorithm~\ref{alg:udi-miner} presents our level-wise mining procedure.
+
+\begin{algorithm}[t]
+\caption{UDI-Miner: Utility-Dense Interval Mining}
+\label{alg:udi-miner}
+\begin{algorithmic}[1]
+\REQUIRE Database $\mathcal{D}$, external utilities $p$, window size $W$, frequency threshold $\theta_f$, utility threshold $\theta_u$, max length $k_{\max}$
+\ENSURE Set of $(X, [s,e])$ utility-dense interval pairs
+
+\STATE Compute item-transaction map $M$ and transaction index
+\STATE \textbf{// Phase 1: Single items}
+\FOR{each item $i \in \mathcal{I}$}
+    \STATE Compute $\text{TWU}(i)$ globally
+    \IF{$\text{TWU}(i) < \theta_u$}
+        \STATE Prune item $i$ \COMMENT{Theorem~\ref{thm:pruning}}
+        \STATE \textbf{continue}
+    \ENDIF
+    \STATE Compute frequency-dense intervals $\mathcal{F}_i$ using sliding window
+    \IF{$\mathcal{F}_i = \emptyset$}
+        \STATE \textbf{continue}
+    \ENDIF
+    \STATE Build prefix sums $P_u(\{i\}, \cdot)$ and $P_{\text{TWU}}(\{i\}, \cdot)$
+    \STATE Find utility-dense sub-intervals within $\mathcal{F}_i$
+    \IF{utility-dense intervals found}
+        \STATE Add $\{i\}$ to results and $L_1$
+    \ENDIF
+\ENDFOR
+
+\STATE \textbf{// Phase 2+: Multi-item candidates}
+\FOR{$k = 2$ \TO $k_{\max}$}
+    \STATE $C_k \gets \textsc{AprioriGen}(L_{k-1})$
+    \STATE $C_k \gets \textsc{Prune}(C_k, L_{k-1})$ \COMMENT{Apriori property}
+    \STATE $L_k \gets \emptyset$
+    \FOR{each candidate $X \in C_k$}
+        \STATE Compute allowed ranges from singleton intervals
+        \IF{allowed ranges empty}
+            \STATE \textbf{continue}
+        \ENDIF
+        \STATE Build $P_{\text{TWU}}(X, \cdot)$
+        \IF{$\max_l (\text{WTWU}(X, l)) < \theta_u$}
+            \STATE \textbf{continue} \COMMENT{TWU pruning}
+        \ENDIF
+        \STATE Compute co-occurrence timestamps
+        \STATE Find frequency-dense intervals within allowed ranges
+        \STATE Build $P_u(X, \cdot)$
+        \STATE Find utility-dense sub-intervals
+        \IF{utility-dense intervals found}
+            \STATE Add $X$ to results and $L_k$
+        \ENDIF
+    \ENDFOR
+    \IF{$L_k = \emptyset$}
+        \STATE \textbf{break}
+    \ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{theorem}[Time Complexity]
+Let $n = |\mathcal{D}|$, $m = |\mathcal{I}|$, and $K$ be the number of candidates evaluated. The time complexity of UDI-Miner is $O(K \cdot n + m \cdot n)$.
+\end{theorem}
+
+\begin{proof}
+Building item-transaction maps takes $O(n \cdot \bar{d})$ where $\bar{d}$ is the average transaction size. For each candidate, prefix sum construction is $O(n)$ and window sweeping is $O(n)$. Dense interval computation is $O(c \log c)$ where $c$ is the number of occurrences. Candidate generation at level $k$ is bounded by $O(|L_{k-1}|^2)$. The dominant cost is $O(K \cdot n)$ for prefix sum construction and utility checking across all candidates.
+\end{proof}
+
+The prefix-sum optimization reduces the per-window utility query from $O(W)$ to $O(1)$, yielding an overall speedup factor of $W$ compared to naive window scanning.
