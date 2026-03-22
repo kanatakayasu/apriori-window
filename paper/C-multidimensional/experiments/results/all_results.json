@@ -1,0 +1,309 @@
+{
+  "e1": [
+    {
+      "config": "single_block",
+      "n_planted": 1,
+      "n_found_multi": 1,
+      "n_recovered": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "config": "two_blocks",
+      "n_planted": 1,
+      "n_found_multi": 1,
+      "n_recovered": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "config": "overlapping",
+      "n_planted": 2,
+      "n_found_multi": 2,
+      "n_recovered": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "config": "weak_signal",
+      "n_planted": 1,
+      "n_found_multi": 1,
+      "n_recovered": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  ],
+  "e2": [
+    {
+      "scenario": "separable",
+      "tolerance": 0.01,
+      "decomp_error": 0.0156,
+      "is_decomposable": "False",
+      "n_gt_regions": 2,
+      "n_sweep_regions": 2,
+      "jaccard": 1.0,
+      "time_ms": 1.43
+    },
+    {
+      "scenario": "separable",
+      "tolerance": 0.05,
+      "decomp_error": 0.0156,
+      "is_decomposable": "True",
+      "n_gt_regions": 2,
+      "n_sweep_regions": 2,
+      "jaccard": 1.0,
+      "time_ms": 1.41
+    },
+    {
+      "scenario": "separable",
+      "tolerance": 0.1,
+      "decomp_error": 0.0156,
+      "is_decomposable": "True",
+      "n_gt_regions": 2,
+      "n_sweep_regions": 2,
+      "jaccard": 1.0,
+      "time_ms": 1.45
+    },
+    {
+      "scenario": "separable",
+      "tolerance": 0.2,
+      "decomp_error": 0.0156,
+      "is_decomposable": "True",
+      "n_gt_regions": 2,
+      "n_sweep_regions": 2,
+      "jaccard": 1.0,
+      "time_ms": 1.42
+    },
+    {
+      "scenario": "separable",
+      "tolerance": 0.5,
+      "decomp_error": 0.0156,
+      "is_decomposable": "True",
+      "n_gt_regions": 2,
+      "n_sweep_regions": 2,
+      "jaccard": 1.0,
+      "time_ms": 1.41
+    },
+    {
+      "scenario": "weak_interaction",
+      "tolerance": 0.01,
+      "decomp_error": 0.1256,
+      "is_decomposable": "False",
+      "n_gt_regions": 7,
+      "n_sweep_regions": 7,
+      "jaccard": 1.0,
+      "time_ms": 1.7
+    },
+    {
+      "scenario": "weak_interaction",
+      "tolerance": 0.05,
+      "decomp_error": 0.1256,
+      "is_decomposable": "False",
+      "n_gt_regions": 7,
+      "n_sweep_regions": 7,
+      "jaccard": 1.0,
+      "time_ms": 1.71
+    },
+    {
+      "scenario": "weak_interaction",
+      "tolerance": 0.1,
+      "decomp_error": 0.1256,
+      "is_decomposable": "False",
+      "n_gt_regions": 7,
+      "n_sweep_regions": 7,
+      "jaccard": 1.0,
+      "time_ms": 1.67
+    },
+    {
+      "scenario": "weak_interaction",
+      "tolerance": 0.2,
+      "decomp_error": 0.1256,
+      "is_decomposable": "True",
+      "n_gt_regions": 7,
+      "n_sweep_regions": 7,
+      "jaccard": 1.0,
+      "time_ms": 1.67
+    },
+    {
+      "scenario": "weak_interaction",
+      "tolerance": 0.5,
+      "decomp_error": 0.1256,
+      "is_decomposable": "True",
+      "n_gt_regions": 7,
+      "n_sweep_regions": 7,
+      "jaccard": 1.0,
+      "time_ms": 1.7
+    },
+    {
+      "scenario": "strong_interaction",
+      "tolerance": 0.01,
+      "decomp_error": 0.2784,
+      "is_decomposable": "False",
+      "n_gt_regions": 29,
+      "n_sweep_regions": 29,
+      "jaccard": 1.0,
+      "time_ms": 1.75
+    },
+    {
+      "scenario": "strong_interaction",
+      "tolerance": 0.05,
+      "decomp_error": 0.2784,
+      "is_decomposable": "False",
+      "n_gt_regions": 29,
+      "n_sweep_regions": 29,
+      "jaccard": 1.0,
+      "time_ms": 1.73
+    },
+    {
+      "scenario": "strong_interaction",
+      "tolerance": 0.1,
+      "decomp_error": 0.2784,
+      "is_decomposable": "False",
+      "n_gt_regions": 29,
+      "n_sweep_regions": 29,
+      "jaccard": 1.0,
+      "time_ms": 1.74
+    },
+    {
+      "scenario": "strong_interaction",
+      "tolerance": 0.2,
+      "decomp_error": 0.2784,
+      "is_decomposable": "False",
+      "n_gt_regions": 29,
+      "n_sweep_regions": 29,
+      "jaccard": 1.0,
+      "time_ms": 1.74
+    },
+    {
+      "scenario": "strong_interaction",
+      "tolerance": 0.5,
+      "decomp_error": 0.2784,
+      "is_decomposable": "True",
+      "n_gt_regions": 29,
+      "n_sweep_regions": 29,
+      "jaccard": 1.0,
+      "time_ms": 1.73
+    }
+  ],
+  "e3": [
+    {
+      "dimensions": "2D",
+      "n_transactions": 100,
+      "grid_size": 768,
+      "naive_time_ms": 0.53,
+      "fast_time_ms": 0.43,
+      "speedup": 1.23,
+      "n_regions_naive": 2,
+      "n_regions_fast": 2
+    },
+    {
+      "dimensions": "2D",
+      "n_transactions": 500,
+      "grid_size": 10948,
+      "naive_time_ms": 12.57,
+      "fast_time_ms": 8.96,
+      "speedup": 1.4,
+      "n_regions_naive": 1,
+      "n_regions_fast": 1
+    },
+    {
+      "dimensions": "2D",
+      "n_transactions": 1000,
+      "grid_size": 43746,
+      "naive_time_ms": 81.76,
+      "fast_time_ms": 56.19,
+      "speedup": 1.46,
+      "n_regions_naive": 1,
+      "n_regions_fast": 1
+    },
+    {
+      "dimensions": "2D",
+      "n_transactions": 2000,
+      "grid_size": 172991,
+      "naive_time_ms": 391.3,
+      "fast_time_ms": 246.38,
+      "speedup": 1.59,
+      "n_regions_naive": 1,
+      "n_regions_fast": 1
+    },
+    {
+      "dimensions": "2D",
+      "n_transactions": 5000,
+      "grid_size": 1073726,
+      "naive_time_ms": 3282.25,
+      "fast_time_ms": 1610.16,
+      "speedup": 2.04,
+      "n_regions_naive": 1,
+      "n_regions_fast": 1
+    },
+    {
+      "dimensions": "3D",
+      "n_transactions": 100,
+      "grid_size": 864,
+      "fast_time_ms": 1.13,
+      "n_regions": 2
+    },
+    {
+      "dimensions": "3D",
+      "n_transactions": 500,
+      "grid_size": 209916,
+      "fast_time_ms": 145.28,
+      "n_regions": 1
+    },
+    {
+      "dimensions": "3D",
+      "n_transactions": 1000,
+      "grid_size": 1598631,
+      "fast_time_ms": 762.2,
+      "n_regions": 1
+    }
+  ],
+  "e4": {
+    "n_transactions": 2000,
+    "n_stores": 20,
+    "n_items": 50,
+    "n_events": 3,
+    "n_patterns_found": 7,
+    "n_multi_item": 4,
+    "time_s": 0.53,
+    "patterns": [
+      {
+        "pattern": [
+          5,
+          6,
+          7
+        ],
+        "n_regions": 58,
+        "total_cells": 1873
+      },
+      {
+        "pattern": [
+          5,
+          6
+        ],
+        "n_regions": 58,
+        "total_cells": 1873
+      },
+      {
+        "pattern": [
+          5,
+          7
+        ],
+        "n_regions": 58,
+        "total_cells": 1873
+      },
+      {
+        "pattern": [
+          6,
+          7
+        ],
+        "n_regions": 58,
+        "total_cells": 1873
+      }
+    ]
+  }
+}
