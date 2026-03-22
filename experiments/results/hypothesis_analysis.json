@@ -1,0 +1,389 @@
+{
+  "experiment": "hypothesis_count_analysis",
+  "synthetic_config": {
+    "n_transactions": 5000,
+    "n_planted": 3,
+    "n_decoy": 2,
+    "boost": 0.5,
+    "event_duration": 200,
+    "seed": 0
+  },
+  "phase1_params": {
+    "window_size": 50,
+    "min_support": 3,
+    "max_length": 2
+  },
+  "pipeline_params": {
+    "n_permutations": 5000,
+    "alpha": 0.2,
+    "correction_method": "bh",
+    "global_correction": true,
+    "deduplicate_overlap": true
+  },
+  "n_patterns_total": 355,
+  "n_events": 5,
+  "sweep_results": [
+    {
+      "delta": 0,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 355,
+      "n_patterns_with_change_points": 355,
+      "n_hypotheses": 439,
+      "n_significant_raw": 439,
+      "n_significant_dedup": 22,
+      "precision": 0.13636363636363635,
+      "recall": 1.0,
+      "f1": 0.24000000000000002,
+      "tp": 3,
+      "fp": 19,
+      "fn": 0,
+      "time_ms": 23854.5,
+      "hypothesis_reduction_pct": 0.0
+    },
+    {
+      "delta": 1,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 355,
+      "n_patterns_with_change_points": 355,
+      "n_hypotheses": 439,
+      "n_significant_raw": 439,
+      "n_significant_dedup": 22,
+      "precision": 0.13636363636363635,
+      "recall": 1.0,
+      "f1": 0.24000000000000002,
+      "tp": 3,
+      "fp": 19,
+      "fn": 0,
+      "time_ms": 23895.1,
+      "hypothesis_reduction_pct": 0.0
+    },
+    {
+      "delta": 2,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 355,
+      "n_patterns_with_change_points": 355,
+      "n_hypotheses": 439,
+      "n_significant_raw": 439,
+      "n_significant_dedup": 22,
+      "precision": 0.13636363636363635,
+      "recall": 1.0,
+      "f1": 0.24000000000000002,
+      "tp": 3,
+      "fp": 19,
+      "fn": 0,
+      "time_ms": 23918.1,
+      "hypothesis_reduction_pct": 0.0
+    },
+    {
+      "delta": 3,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 355,
+      "n_patterns_with_change_points": 355,
+      "n_hypotheses": 439,
+      "n_significant_raw": 439,
+      "n_significant_dedup": 22,
+      "precision": 0.13636363636363635,
+      "recall": 1.0,
+      "f1": 0.24000000000000002,
+      "tp": 3,
+      "fp": 19,
+      "fn": 0,
+      "time_ms": 24020.4,
+      "hypothesis_reduction_pct": 0.0
+    },
+    {
+      "delta": 5,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 3,
+      "n_patterns_with_change_points": 3,
+      "n_hypotheses": 4,
+      "n_significant_raw": 4,
+      "n_significant_dedup": 4,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "time_ms": 7201.8,
+      "hypothesis_reduction_pct": 99.1
+    },
+    {
+      "delta": 10,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 3,
+      "n_patterns_with_change_points": 3,
+      "n_hypotheses": 4,
+      "n_significant_raw": 4,
+      "n_significant_dedup": 4,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "time_ms": 7281.1,
+      "hypothesis_reduction_pct": 99.1
+    },
+    {
+      "delta": 20,
+      "n_patterns_total": 355,
+      "n_patterns_passing_filter": 3,
+      "n_patterns_with_change_points": 3,
+      "n_hypotheses": 4,
+      "n_significant_raw": 4,
+      "n_significant_dedup": 4,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "time_ms": 7174.7,
+      "hypothesis_reduction_pct": 99.1
+    }
+  ],
+  "pvalue_distribution": {
+    "n_total_hypotheses": 439,
+    "raw_p_values": {
+      "0.001": 1,
+      "0.01": 42,
+      "0.05": 278,
+      "0.1": 439,
+      "0.2": 439,
+      "0.5": 439,
+      "1.0": 439
+    },
+    "adjusted_p_values": {
+      "0.001": 0,
+      "0.01": 0,
+      "0.05": 0,
+      "0.1": 439,
+      "0.2": 439,
+      "0.5": 439,
+      "1.0": 439
+    }
+  },
+  "top_results": [
+    {
+      "pattern": [
+        361,
+        404
+      ],
+      "event_name": "Decoy_1",
+      "change_direction": "down",
+      "attribution_score": 1.9231,
+      "p_value": 0.0004,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        59
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 2.166,
+      "p_value": 0.0022,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        59
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 2.166,
+      "p_value": 0.0022,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        118,
+        242
+      ],
+      "event_name": "Event_2",
+      "change_direction": "up",
+      "attribution_score": 2.7775,
+      "p_value": 0.0024,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        323
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.7961,
+      "p_value": 0.002599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        323
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.7961,
+      "p_value": 0.002599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        141
+      ],
+      "event_name": "Event_3",
+      "change_direction": "up",
+      "attribution_score": 1.4063,
+      "p_value": 0.003599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        141
+      ],
+      "event_name": "Event_3",
+      "change_direction": "up",
+      "attribution_score": 1.4063,
+      "p_value": 0.003599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        117
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.6512,
+      "p_value": 0.003799,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        133
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 2.9057,
+      "p_value": 0.003799,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        117
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.6512,
+      "p_value": 0.003799,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        133
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 2.9057,
+      "p_value": 0.003799,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        497
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 2.6254,
+      "p_value": 0.004399,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        10,
+        442
+      ],
+      "event_name": "Event_1",
+      "change_direction": "up",
+      "attribution_score": 1.8267,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        11,
+        442
+      ],
+      "event_name": "Event_1",
+      "change_direction": "up",
+      "attribution_score": 1.8267,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        141
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.658,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        30,
+        429
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.7128,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        141
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.658,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        31,
+        429
+      ],
+      "event_name": "Decoy_2",
+      "change_direction": "up",
+      "attribution_score": 1.7128,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    },
+    {
+      "pattern": [
+        303,
+        403
+      ],
+      "event_name": "Event_2",
+      "change_direction": "up",
+      "attribution_score": 1.5736,
+      "p_value": 0.004599,
+      "adjusted_p_value": 0.076592
+    }
+  ]
+}

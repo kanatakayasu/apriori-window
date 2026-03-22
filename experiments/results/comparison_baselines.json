@@ -1,0 +1,150 @@
+{
+  "synthetic_e1a": [
+    {
+      "method": "Full pipeline",
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "n_significant": 4,
+      "time_ms": 88.8,
+      "n_permutations": 5000
+    },
+    {
+      "method": "No dedup",
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "n_significant": 4,
+      "time_ms": 88.3,
+      "n_permutations": 5000
+    },
+    {
+      "method": "Bonferroni",
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "n_significant": 4,
+      "time_ms": 89.2,
+      "n_permutations": 5000
+    },
+    {
+      "method": "No amp filter",
+      "precision": 0.1364,
+      "recall": 1.0,
+      "f1": 0.24,
+      "tp": 3,
+      "fp": 19,
+      "fn": 0,
+      "n_significant": 22,
+      "time_ms": 8375.3,
+      "n_permutations": 5000
+    },
+    {
+      "method": "CUSUM",
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "n_significant": 4,
+      "time_ms": 12676.1,
+      "n_permutations": 5000
+    },
+    {
+      "method": "Naive",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 1,
+      "fn": 3,
+      "n_significant": 1,
+      "time_ms": 8391.1,
+      "n_permutations": 5000
+    }
+  ],
+  "T10I4D100K": [
+    {
+      "method": "Full pipeline",
+      "precision": 0.1429,
+      "recall": 1.0,
+      "f1": 0.25,
+      "tp": 3,
+      "fp": 18,
+      "fn": 0,
+      "n_significant": 21,
+      "time_ms": 9228.5,
+      "n_permutations": 1000
+    },
+    {
+      "method": "No dedup",
+      "precision": 0.0031,
+      "recall": 1.0,
+      "f1": 0.0061,
+      "tp": 3,
+      "fp": 971,
+      "fn": 0,
+      "n_significant": 974,
+      "time_ms": 9244.2,
+      "n_permutations": 1000
+    },
+    {
+      "method": "Bonferroni",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "n_significant": 0,
+      "time_ms": 9228.7,
+      "n_permutations": 1000
+    },
+    {
+      "method": "No amp filter",
+      "precision": 0.1429,
+      "recall": 1.0,
+      "f1": 0.25,
+      "tp": 3,
+      "fp": 18,
+      "fn": 0,
+      "n_significant": 21,
+      "time_ms": 9263.9,
+      "n_permutations": 1000
+    },
+    {
+      "method": "CUSUM",
+      "precision": 0.0833,
+      "recall": 1.0,
+      "f1": 0.1538,
+      "tp": 3,
+      "fp": 33,
+      "fn": 0,
+      "n_significant": 36,
+      "time_ms": 579087.3,
+      "n_permutations": 200
+    },
+    {
+      "method": "Naive",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "n_significant": 0,
+      "time_ms": 9241.6,
+      "n_permutations": 1000
+    }
+  ]
+}
