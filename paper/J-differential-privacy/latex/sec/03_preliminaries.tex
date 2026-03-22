@@ -20,27 +20,34 @@ C_W(X, l) = |\{t \mid l \leq t \leq l + W,\, X \subseteq T_t\}|
 
 \subsection{差分プライバシー}
 
+本研究ではトランザクションレベルの差分プライバシーを採用する。すなわち、1つのトランザクション$T_t$の追加・削除を保護単位とする。ユーザーレベルのプライバシー（1ユーザーが複数トランザクションを持つ場合）については第\ref{sec:conclusion}節で今後の課題として議論する。
+
+\begin{definition}[隣接データベース（有界隣接関係）]\label{def:adjacency}
+2つのトランザクションデータベース$\mathcal{D}$と$\mathcal{D}'$が隣接する（$\mathcal{D} \sim \mathcal{D}'$と記す）とは、ある一つのタイムスタンプ$t^*$が存在し、$T_{t^*} \neq T'_{t^*}$かつ全ての$t \neq t^*$について$T_t = T'_t$が成り立つことをいう。すなわち、1つのトランザクションの内容が任意に置換される関係（有界隣接関係, bounded adjacency）である。
+\end{definition}
+
 \begin{definition}[$(\varepsilon, \delta)$-差分プライバシー~\cite{dwork2006calibrating,dwork2014algorithmic}]
-ランダム化メカニズム$\mathcal{M}: \mathcal{X} \to \mathcal{R}$が$(\varepsilon, \delta)$-差分プライバシーを満たすとは、任意の隣接データベース$\mathcal{D}, \mathcal{D}'$（1レコードの追加または削除で異なる）および任意の出力集合$S \subseteq \mathcal{R}$に対して：
+ランダム化メカニズム$\mathcal{M}: \mathcal{X} \to \mathcal{R}$が$(\varepsilon, \delta)$-差分プライバシーを満たすとは、任意の隣接データベース$\mathcal{D} \sim \mathcal{D}'$（定義\ref{def:adjacency}）および任意の可測集合$S \subseteq \mathcal{R}$に対して：
 \[
 \Pr[\mathcal{M}(\mathcal{D}) \in S] \leq e^{\varepsilon} \cdot \Pr[\mathcal{M}(\mathcal{D}') \in S] + \delta
 \]
-が成り立つことをいう。$\delta = 0$の場合を純粋差分プライバシー（$\varepsilon$-DP）と呼ぶ。
+が成り立つことをいう。$\delta = 0$の場合を純粋差分プライバシー（$\varepsilon$-DP）と呼ぶ。パラメータ$\varepsilon > 0$はプライバシー損失（privacy loss）を表し、小さいほど強いプライバシー保護を意味する。実用的には$\varepsilon \in [0.1, 10]$が使用され、$\varepsilon \leq 1$は強い保護、$\varepsilon \geq 5$は弱い保護と解釈される~\cite{dwork2014algorithmic}。
 \end{definition}
 
 \begin{definition}[グローバル感度~\cite{dwork2006calibrating}]
-関数$f: \mathcal{X} \to \mathbb{R}^d$のグローバル感度$\Delta f$を以下で定義する：
+関数$f: \mathcal{X} \to \mathbb{R}^d$の$L_p$-グローバル感度$\Delta_p f$を以下で定義する：
 \[
-\Delta f = \max_{\mathcal{D}, \mathcal{D}':\, |\mathcal{D} \triangle \mathcal{D}'| = 1} \|f(\mathcal{D}) - f(\mathcal{D}')\|_1
+\Delta_p f = \max_{\mathcal{D} \sim \mathcal{D}'} \|f(\mathcal{D}) - f(\mathcal{D}')\|_p
 \]
+ラプラスメカニズムでは$L_1$感度$\Delta_1 f$を、ガウスメカニズムでは$L_2$感度$\Delta_2 f$を用いる。
 \end{definition}
 
 \begin{definition}[ラプラスメカニズム~\cite{dwork2006calibrating}]
-関数$f$に対するラプラスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \text{Lap}(\Delta f / \varepsilon)$を出力する。ここで$\text{Lap}(b)$はスケール$b$のラプラス分布からのサンプルである。このメカニズムは$\varepsilon$-DPを満たす。
+関数$f: \mathcal{X} \to \mathbb{R}$に対するラプラスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \text{Lap}(\Delta_1 f / \varepsilon)$を出力する。ここで$\text{Lap}(b)$はスケール$b$のラプラス分布（密度$p(x) = \frac{1}{2b}e^{-|x|/b}$）からのサンプルである。このメカニズムは$\varepsilon$-DPを満たす。
 \end{definition}
 
 \begin{definition}[ガウスメカニズム~\cite{dwork2014algorithmic}]
-関数$f$に対するガウスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \mathcal{N}(0, \sigma^2)$を出力する。ここで$\sigma = \Delta f \cdot \sqrt{2\ln(1.25/\delta)} / \varepsilon$である。このメカニズムは$(\varepsilon, \delta)$-DPを満たす。
+関数$f: \mathcal{X} \to \mathbb{R}$に対するガウスメカニズムは$\mathcal{M}(\mathcal{D}) = f(\mathcal{D}) + \mathcal{N}(0, \sigma^2)$を出力する。ここで$\sigma \geq \Delta_2 f \cdot \sqrt{2\ln(1.25/\delta)} / \varepsilon$であり、$\varepsilon \in (0, 1)$が要求される。このメカニズムは$(\varepsilon, \delta)$-DPを満たす。
 \end{definition}
 
 \subsection{合成定理}
@@ -49,9 +56,10 @@ C_W(X, l) = |\{t \mid l \leq t \leq l + W,\, X \subseteq T_t\}|
 $\mathcal{M}_1, \ldots, \mathcal{M}_k$がそれぞれ$(\varepsilon_i, \delta_i)$-DPを満たすとき、合成メカニズム$(\mathcal{M}_1, \ldots, \mathcal{M}_k)$は$(\sum_i \varepsilon_i, \sum_i \delta_i)$-DPを満たす。
 \end{property}
 
-\begin{property}[高度合成定理~\cite{dwork2010boosting}]\label{prop:advanced}
+\begin{property}[高度合成定理~\cite{dwork2010boosting,kairouz2015composition}]\label{prop:advanced}
 $k$個のメカニズムがそれぞれ$\varepsilon_0$-DPを満たすとき、任意の$\delta' > 0$に対して、合成メカニズムは$(\varepsilon', k\delta + \delta')$-DPを満たす。ここで：
 \[
 \varepsilon' = \varepsilon_0 \sqrt{2k\ln(1/\delta')} + k\varepsilon_0(e^{\varepsilon_0} - 1)
 \]
+$\varepsilon_0 \leq 1$のとき第2項は$O(k\varepsilon_0^2)$となるため、$\varepsilon' \approx \varepsilon_0\sqrt{2k\ln(1/\delta')}$と近似できる。すなわち、$k$回の合成で予算は$O(\sqrt{k})$にしかスケールせず、逐次合成の$O(k)$と比較して大幅に効率的である。
 \end{property}
