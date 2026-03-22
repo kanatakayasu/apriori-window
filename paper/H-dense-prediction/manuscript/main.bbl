@@ -1,0 +1,149 @@
+\begin{thebibliography}{10}
+
+\bibitem{agrawal1994fast}
+Rakesh Agrawal and Ramakrishnan Srikant.
+\newblock Fast algorithms for mining association rules.
+\newblock In {\em Proceedings of the 20th International Conference on Very
+  Large Data Bases (VLDB)}, pages 487--499, 1994.
+
+\bibitem{akaike1974new}
+Hirotugu Akaike.
+\newblock A new look at the statistical model identification.
+\newblock {\em IEEE Transactions on Automatic Control}, 19(6):716--723, 1974.
+
+\bibitem{cox1972regression}
+David~R Cox.
+\newblock Regression models and life-tables.
+\newblock {\em Journal of the Royal Statistical Society: Series B
+  (Methodological)}, 34(2):187--202, 1972.
+
+\bibitem{daley2003introduction}
+Daryl~J Daley and David Vere-Jones.
+\newblock {\em An Introduction to the Theory of Point Processes: Volume {I}:
+  Elementary Theory and Methods}.
+\newblock Springer, 2nd edition, 2003.
+
+\bibitem{du2016recurrent}
+Nan Du, Hanjun Dai, Rakshit Trivedi, Utkarsh Upadhyay, Manuel Gomez-Rodriguez,
+  and Le~Song.
+\newblock Recurrent marked temporal point processes: Embedding event history to
+  vector.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pages 1555--1564, 2016.
+
+\bibitem{han1999efficient}
+Jiawei Han, Guozhu Dong, and Yiwen Yin.
+\newblock Efficient mining of partial periodic patterns in time series
+  database.
+\newblock In {\em Proceedings of the 15th International Conference on Data
+  Engineering}, pages 106--115, 1999.
+
+\bibitem{han2000mining}
+Jiawei Han, Jian Pei, and Yiwen Yin.
+\newblock Mining frequent patterns without candidate generation.
+\newblock In {\em Proceedings of the 2000 ACM SIGMOD International Conference
+  on Management of Data}, pages 1--12, 2000.
+
+\bibitem{hawkes1971spectra}
+Alan~G Hawkes.
+\newblock Spectra of some self-exciting and mutually exciting point processes.
+\newblock {\em Biometrika}, 58(1):83--90, 1971.
+
+\bibitem{kaplan1958nonparametric}
+Edward~L Kaplan and Paul Meier.
+\newblock Nonparametric estimation from incomplete observations.
+\newblock {\em Journal of the American Statistical Association},
+  53(282):457--481, 1958.
+
+\bibitem{katzman2018deepsurv}
+Jared~L Katzman, Uri Shaham, Alexander Cloninger, Jonathan Bates, Tingting
+  Jiang, and Yuval Kluger.
+\newblock {DeepSurv}: personalized treatment recommender system using a {Cox}
+  proportional hazards deep neural network.
+\newblock {\em BMC Medical Research Methodology}, 18(1):1--12, 2018.
+
+\bibitem{kleinberg2003bursty}
+Jon Kleinberg.
+\newblock Bursty and hierarchical structure in streams.
+\newblock {\em Data Mining and Knowledge Discovery}, 7(4):373--397, 2003.
+
+\bibitem{mei2017neural}
+Hongyuan Mei and Jason Eisner.
+\newblock The neural {Hawkes} process: A neurally self-modulating multivariate
+  point process.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  6754--6764, 2017.
+
+\bibitem{ogata1978asymptotic}
+Yosihiko Ogata.
+\newblock The asymptotic behaviour of maximum likelihood estimators for
+  stationary point processes.
+\newblock {\em Annals of the Institute of Statistical Mathematics},
+  30(1):243--261, 1978.
+
+\bibitem{ogata1981lewis}
+Yosihiko Ogata.
+\newblock On {Lewis}' simulation method for point processes.
+\newblock {\em IEEE Transactions on Information Theory}, 27(1):23--31, 1981.
+
+\bibitem{oreshkin2020nbeats}
+Boris~N Oreshkin, Dmitri Carpov, Nicolas Chapados, and Yoshua Bengio.
+\newblock {N-BEATS}: Neural basis expansion analysis for interpretable time
+  series forecasting.
+\newblock In {\em International Conference on Learning Representations}, 2020.
+
+\bibitem{pei2004mining}
+Jian Pei, Jiawei Han, Behzad Mortazavi-Asl, Jianyong Wang, Helen Pinto, Qiming
+  Chen, Umeshwar Dayal, and Mei-Chun Hsu.
+\newblock Mining sequential patterns by pattern-growth: The {PrefixSpan}
+  approach.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  16(11):1424--1440, 2004.
+
+\bibitem{schwarz1978estimating}
+Gideon Schwarz.
+\newblock Estimating the dimension of a model.
+\newblock {\em The Annals of Statistics}, 6(2):461--464, 1978.
+
+\bibitem{taylor2018forecasting}
+Sean~J Taylor and Benjamin Letham.
+\newblock Forecasting at scale.
+\newblock {\em The American Statistician}, 72(1):37--45, 2018.
+
+\bibitem{weibull1951statistical}
+Waloddi Weibull.
+\newblock A statistical distribution function of wide applicability.
+\newblock {\em Journal of Applied Mechanics}, 18(3):293--297, 1951.
+
+\bibitem{zaki2000scalable}
+Mohammed~J Zaki.
+\newblock Scalable algorithms for association mining.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  12(3):372--390, 2000.
+
+\bibitem{zhang2020self}
+Qiang Zhang, Aldo Lipani, Omer Kirnap, and Emine Yilmaz.
+\newblock Self-attentive {Hawkes} process.
+\newblock In {\em International Conference on Machine Learning}, pages
+  11183--11193, 2020.
+
+\bibitem{zhang2014burstiness}
+Yongping Zhang and Daniel~G Meyers.
+\newblock Burstiness scale: A parsimonious model for characterizing random
+  series of events.
+\newblock {\em arXiv preprint arXiv:1409.5955}, 2014.
+
+\bibitem{zhou2013learning}
+Ke~Zhou, Hongyuan Zha, and Le~Song.
+\newblock Learning social infectivity in sparse low-rank networks using
+  multi-dimensional {Hawkes} processes.
+\newblock In {\em Artificial Intelligence and Statistics}, pages 641--649,
+  2013.
+
+\bibitem{zuo2020transformer}
+Simiao Zuo, Haoming Jiang, Zichong Li, Tuo Zhao, and Hongyuan Zha.
+\newblock Transformer {Hawkes} process.
+\newblock In {\em International Conference on Machine Learning}, pages
+  11692--11702, 2020.
+
+\end{thebibliography}

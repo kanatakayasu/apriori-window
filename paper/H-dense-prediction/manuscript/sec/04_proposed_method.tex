@@ -56,18 +56,32 @@ $\alpha < 1$ の条件下で過程は定常であり、
 Ogataのthinningアルゴリズム~\cite{ogata1981lewis}により
 次回の密集区間発生時刻をシミュレーションする。
 
-\begin{theorem}[予測の一致性]
-  $K \to \infty$ のとき、
-  最尤推定量 $(\hat{\mu}, \hat{\alpha}, \hat{\beta})$ は
+\begin{proposition}[予測の一致性]\label{prop:consistency}
+  以下の条件を仮定する：
+  (i) 真のパラメータ $(\mu^*, \alpha^*, \beta^*)$ は $\mu^* > 0$, $0 \leq \alpha^* < 1$, $\beta^* > 0$ を満たす、
+  (ii) 観測区間 $[0, T]$ において $T \to \infty$ かつ $K/T \to \bar{\lambda}$（定常強度）。
+  このとき、最尤推定量 $(\hat{\mu}, \hat{\alpha}, \hat{\beta})$ は
   真のパラメータ $(\mu^*, \alpha^*, \beta^*)$ に確率収束する。
-  したがって、thinningアルゴリズムによる予測分布は
-  真の条件付き強度に基づく分布に収束する。
-\end{theorem}
+  さらに、thinningアルゴリズムによる予測分布
+  $\hat{F}_{K+1}(t) = P(s_{K+1} \leq t | \hat{\mu}, \hat{\alpha}, \hat{\beta}, \mathcal{H}_{s_K})$ は
+  真の条件付き分布 $F^*_{K+1}(t)$ に弱収束する。
+\end{proposition}
 
-\begin{proof}
-  Hawkes過程の最尤推定量の一致性は点過程の漸近理論により保証される~\cite{daley2003introduction}。
-  thinningアルゴリズムは正確なシミュレーション手法であるため、
-  パラメータの一致性から予測分布の一致性が従う。
+\begin{proof}[証明のスケッチ]
+  (1) 定常Hawkes過程の最尤推定量の一致性と漸近正規性は
+  Ogata~\cite{ogata1978asymptotic}により示されている。
+  具体的には、$\sqrt{K}(\hat{\theta} - \theta^*) \xrightarrow{d} \mathcal{N}(0, I(\theta^*)^{-1})$
+  が成り立つ（$I(\theta^*)$ はFisher情報行列）。
+  (2) thinningアルゴリズムは条件付き強度関数 $\lambda(t|\mathcal{H}_t)$ からの
+  正確なシミュレーション手法であり~\cite{ogata1981lewis}、
+  $\lambda$ の連続性から
+  $\hat{\theta} \xrightarrow{p} \theta^*$ は
+  $\hat{F}_{K+1} \Rightarrow F^*_{K+1}$ を導く。
+
+  \textbf{注意}：$\alpha^* = 0$ の場合、Hawkes過程はPoisson過程に退化し、
+  $\alpha$ の最尤推定量はパラメータ空間の境界に位置するため、
+  通常の漸近理論は直接適用されない。
+  この場合、尤度比検定で自己励起構造の有意性を検定する必要がある（\S\ref{sec:experiments}参照）。
 \end{proof}
 
 \subsection{持続時間予測}
