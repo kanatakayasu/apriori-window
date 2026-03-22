@@ -1,0 +1,398 @@
+{
+  "E1": {
+    "experiment": "E1",
+    "k": 5,
+    "topk_patterns": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4
+      ],
+      [
+        5
+      ]
+    ],
+    "topk_scores": {
+      "(2,)": 4958.8,
+      "(3,)": 4802.0,
+      "(5,)": 4730.6,
+      "(4,)": 4617.8,
+      "(1,)": 3654.4000000000005
+    },
+    "grid_patterns": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4
+      ],
+      [
+        5
+      ]
+    ],
+    "jaccard_similarity": 1.0,
+    "topk_time_ms": 3.9242079947143793,
+    "grid_time_ms": 5.797541001811624,
+    "speedup": 1.4773786225451062
+  },
+  "E2": {
+    "experiment": "E2",
+    "data": [
+      {
+        "n_items": 10,
+        "k": 1,
+        "total_singletons": 10,
+        "total_possible_candidates": 55,
+        "returned": 1,
+        "time_ms": 1.279166986932978
+      },
+      {
+        "n_items": 10,
+        "k": 3,
+        "total_singletons": 10,
+        "total_possible_candidates": 55,
+        "returned": 3,
+        "time_ms": 1.4426250127144158
+      },
+      {
+        "n_items": 10,
+        "k": 5,
+        "total_singletons": 10,
+        "total_possible_candidates": 55,
+        "returned": 5,
+        "time_ms": 2.2333330125547945
+      },
+      {
+        "n_items": 10,
+        "k": 10,
+        "total_singletons": 10,
+        "total_possible_candidates": 55,
+        "returned": 10,
+        "time_ms": 2.881958003854379
+      },
+      {
+        "n_items": 15,
+        "k": 1,
+        "total_singletons": 15,
+        "total_possible_candidates": 120,
+        "returned": 1,
+        "time_ms": 1.4848749851807952
+      },
+      {
+        "n_items": 15,
+        "k": 3,
+        "total_singletons": 15,
+        "total_possible_candidates": 120,
+        "returned": 3,
+        "time_ms": 1.6511660069227219
+      },
+      {
+        "n_items": 15,
+        "k": 5,
+        "total_singletons": 15,
+        "total_possible_candidates": 120,
+        "returned": 5,
+        "time_ms": 2.624958986416459
+      },
+      {
+        "n_items": 15,
+        "k": 10,
+        "total_singletons": 15,
+        "total_possible_candidates": 120,
+        "returned": 10,
+        "time_ms": 3.043916978640482
+      },
+      {
+        "n_items": 20,
+        "k": 1,
+        "total_singletons": 20,
+        "total_possible_candidates": 210,
+        "returned": 1,
+        "time_ms": 1.7432919994462281
+      },
+      {
+        "n_items": 20,
+        "k": 3,
+        "total_singletons": 20,
+        "total_possible_candidates": 210,
+        "returned": 3,
+        "time_ms": 1.9165410194545984
+      },
+      {
+        "n_items": 20,
+        "k": 5,
+        "total_singletons": 20,
+        "total_possible_candidates": 210,
+        "returned": 5,
+        "time_ms": 2.808084012940526
+      },
+      {
+        "n_items": 20,
+        "k": 10,
+        "total_singletons": 20,
+        "total_possible_candidates": 210,
+        "returned": 10,
+        "time_ms": 3.5155410005245358
+      }
+    ]
+  },
+  "E3": {
+    "experiment": "E3",
+    "data": [
+      {
+        "n": 100,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 1.7059999809134752
+      },
+      {
+        "n": 200,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 2.7515410038176924
+      },
+      {
+        "n": 500,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 8.42220798949711
+      },
+      {
+        "n": 1000,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 22.143624984892085
+      },
+      {
+        "n": 2000,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 49.93300000205636
+      },
+      {
+        "n": 5000,
+        "k": 5,
+        "n_results": 5,
+        "time_ms": 147.17412501340732
+      }
+    ]
+  },
+  "E4": {
+    "experiment": "E4",
+    "topk_w0_values": [
+      5,
+      8,
+      10,
+      15,
+      20,
+      25
+    ],
+    "topk_patterns_by_w0": {
+      "5": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ],
+      "8": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ],
+      "10": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ],
+      "15": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ],
+      "20": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ],
+      "25": [
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    "fixed_patterns": {
+      "W=5,theta=3": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ],
+      "W=10,theta=5": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ],
+      "W=15,theta=7": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ],
+      "W=20,theta=10": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ],
+      "W=25,theta=12": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ]
+    },
+    "topk_avg_jaccard": 1.0,
+    "fixed_avg_jaccard": 1.0,
+    "topk_stability_improvement": 0.0
+  }
+}

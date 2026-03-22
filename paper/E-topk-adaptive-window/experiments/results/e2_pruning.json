@@ -1,0 +1,101 @@
+{
+  "experiment": "E2",
+  "data": [
+    {
+      "n_items": 10,
+      "k": 1,
+      "total_singletons": 10,
+      "total_possible_candidates": 55,
+      "returned": 1,
+      "time_ms": 1.279166986932978
+    },
+    {
+      "n_items": 10,
+      "k": 3,
+      "total_singletons": 10,
+      "total_possible_candidates": 55,
+      "returned": 3,
+      "time_ms": 1.4426250127144158
+    },
+    {
+      "n_items": 10,
+      "k": 5,
+      "total_singletons": 10,
+      "total_possible_candidates": 55,
+      "returned": 5,
+      "time_ms": 2.2333330125547945
+    },
+    {
+      "n_items": 10,
+      "k": 10,
+      "total_singletons": 10,
+      "total_possible_candidates": 55,
+      "returned": 10,
+      "time_ms": 2.881958003854379
+    },
+    {
+      "n_items": 15,
+      "k": 1,
+      "total_singletons": 15,
+      "total_possible_candidates": 120,
+      "returned": 1,
+      "time_ms": 1.4848749851807952
+    },
+    {
+      "n_items": 15,
+      "k": 3,
+      "total_singletons": 15,
+      "total_possible_candidates": 120,
+      "returned": 3,
+      "time_ms": 1.6511660069227219
+    },
+    {
+      "n_items": 15,
+      "k": 5,
+      "total_singletons": 15,
+      "total_possible_candidates": 120,
+      "returned": 5,
+      "time_ms": 2.624958986416459
+    },
+    {
+      "n_items": 15,
+      "k": 10,
+      "total_singletons": 15,
+      "total_possible_candidates": 120,
+      "returned": 10,
+      "time_ms": 3.043916978640482
+    },
+    {
+      "n_items": 20,
+      "k": 1,
+      "total_singletons": 20,
+      "total_possible_candidates": 210,
+      "returned": 1,
+      "time_ms": 1.7432919994462281
+    },
+    {
+      "n_items": 20,
+      "k": 3,
+      "total_singletons": 20,
+      "total_possible_candidates": 210,
+      "returned": 3,
+      "time_ms": 1.9165410194545984
+    },
+    {
+      "n_items": 20,
+      "k": 5,
+      "total_singletons": 20,
+      "total_possible_candidates": 210,
+      "returned": 5,
+      "time_ms": 2.808084012940526
+    },
+    {
+      "n_items": 20,
+      "k": 10,
+      "total_singletons": 20,
+      "total_possible_candidates": 210,
+      "returned": 10,
+      "time_ms": 3.5155410005245358
+    }
+  ]
+}
