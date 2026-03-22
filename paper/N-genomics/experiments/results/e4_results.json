@@ -1,0 +1,849 @@
+{
+  "experiment": "E4_module_detection",
+  "metrics": {
+    "n_ground_truth_modules": 5,
+    "n_detected_multi_gene": 5959,
+    "module_recall": 1.0,
+    "mean_iou": 0.9354075921202755,
+    "precision_at_module": 0.5103205235777815,
+    "matched_modules": 5,
+    "matched_dgcis": 3041
+  },
+  "module_results": [
+    {
+      "module_name": "stem_maintenance",
+      "gt_genes": [
+        "CD34",
+        "KIT",
+        "GATA2",
+        "RUNX1"
+      ],
+      "gt_interval": [
+        0,
+        149
+      ],
+      "n_matching_dgcis": 709,
+      "matching_dgcis": [
+        {
+          "genes": [
+            "CD34",
+            "GATA2"
+          ],
+          "gene_overlap": [
+            "GATA2",
+            "CD34"
+          ],
+          "intervals": [
+            [
+              -33,
+              134
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "KIT"
+          ],
+          "gene_overlap": [
+            "KIT",
+            "CD34"
+          ],
+          "intervals": [
+            [
+              -33,
+              138
+            ],
+            [
+              393,
+              443
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "RUNX1"
+          ],
+          "gene_overlap": [
+            "CD34",
+            "RUNX1"
+          ],
+          "intervals": [
+            [
+              -35,
+              172
+            ],
+            [
+              306,
+              310
+            ],
+            [
+              315,
+              331
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "GATA2",
+            "KIT"
+          ],
+          "gene_overlap": [
+            "GATA2",
+            "KIT"
+          ],
+          "intervals": [
+            [
+              -29,
+              130
+            ],
+            [
+              329,
+              336
+            ],
+            [
+              346,
+              351
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "GATA2",
+            "RUNX1"
+          ],
+          "gene_overlap": [
+            "GATA2",
+            "RUNX1"
+          ],
+          "intervals": [
+            [
+              -29,
+              125
+            ],
+            [
+              356,
+              356
+            ],
+            [
+              361,
+              361
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "module_name": "erythroid_commitment",
+      "gt_genes": [
+        "GATA1",
+        "KLF1",
+        "EPOR"
+      ],
+      "gt_interval": [
+        124,
+        273
+      ],
+      "n_matching_dgcis": 811,
+      "matching_dgcis": [
+        {
+          "genes": [
+            "EPOR",
+            "GATA1"
+          ],
+          "gene_overlap": [
+            "EPOR",
+            "GATA1"
+          ],
+          "intervals": [
+            [
+              85,
+              269
+            ],
+            [
+              362,
+              369
+            ],
+            [
+              384,
+              412
+            ],
+            [
+              426,
+              426
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "EPOR",
+            "KLF1"
+          ],
+          "gene_overlap": [
+            "EPOR",
+            "KLF1"
+          ],
+          "intervals": [
+            [
+              81,
+              267
+            ],
+            [
+              310,
+              332
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "GATA1",
+            "KLF1"
+          ],
+          "gene_overlap": [
+            "KLF1",
+            "GATA1"
+          ],
+          "intervals": [
+            [
+              82,
+              269
+            ],
+            [
+              374,
+              395
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "EPOR",
+            "GATA1"
+          ],
+          "gene_overlap": [
+            "EPOR",
+            "GATA1"
+          ],
+          "intervals": [
+            [
+              97,
+              189
+            ],
+            [
+              191,
+              195
+            ],
+            [
+              199,
+              205
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "EPOR",
+            "KLF1"
+          ],
+          "gene_overlap": [
+            "EPOR",
+            "KLF1"
+          ],
+          "intervals": [
+            [
+              94,
+              186
+            ],
+            [
+              188,
+              189
+            ],
+            [
+              191,
+              195
+            ],
+            [
+              199,
+              207
+            ],
+            [
+              209,
+              217
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "module_name": "erythroid_maturation",
+      "gt_genes": [
+        "HBB",
+        "HBA1",
+        "GYPA"
+      ],
+      "gt_interval": [
+        251,
+        423
+      ],
+      "n_matching_dgcis": 513,
+      "matching_dgcis": [
+        {
+          "genes": [
+            "GYPA",
+            "HBA1"
+          ],
+          "gene_overlap": [
+            "GYPA",
+            "HBA1"
+          ],
+          "intervals": [
+            [
+              209,
+              418
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "GYPA",
+            "HBB"
+          ],
+          "gene_overlap": [
+            "HBB",
+            "GYPA"
+          ],
+          "intervals": [
+            [
+              24,
+              27
+            ],
+            [
+              209,
+              414
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "HBA1",
+            "HBB"
+          ],
+          "gene_overlap": [
+            "HBB",
+            "HBA1"
+          ],
+          "intervals": [
+            [
+              212,
+              415
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "GYPA",
+            "HBA1"
+          ],
+          "gene_overlap": [
+            "GYPA",
+            "HBA1"
+          ],
+          "intervals": [
+            [
+              233,
+              263
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "GYPA",
+            "HBB"
+          ],
+          "gene_overlap": [
+            "HBB",
+            "GYPA"
+          ],
+          "intervals": [
+            [
+              235,
+              260
+            ],
+            [
+              315,
+              325
+            ],
+            [
+              331,
+              338
+            ],
+            [
+              346,
+              350
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "module_name": "myeloid_program",
+      "gt_genes": [
+        "CEBPA",
+        "SPI1",
+        "MPO"
+      ],
+      "gt_interval": [
+        150,
+        324
+      ],
+      "n_matching_dgcis": 744,
+      "matching_dgcis": [
+        {
+          "genes": [
+            "CEBPA",
+            "MPO"
+          ],
+          "gene_overlap": [
+            "CEBPA",
+            "MPO"
+          ],
+          "intervals": [
+            [
+              112,
+              116
+            ],
+            [
+              118,
+              318
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CEBPA",
+            "SPI1"
+          ],
+          "gene_overlap": [
+            "CEBPA",
+            "SPI1"
+          ],
+          "intervals": [
+            [
+              109,
+              317
+            ],
+            [
+              360,
+              363
+            ],
+            [
+              366,
+              393
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "MPO",
+            "SPI1"
+          ],
+          "gene_overlap": [
+            "SPI1",
+            "MPO"
+          ],
+          "intervals": [
+            [
+              119,
+              314
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "CEBPA",
+            "MPO"
+          ],
+          "gene_overlap": [
+            "CEBPA",
+            "MPO"
+          ],
+          "intervals": [
+            [
+              141,
+              142
+            ],
+            [
+              147,
+              187
+            ],
+            [
+              189,
+              197
+            ],
+            [
+              199,
+              200
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "CEBPA",
+            "SPI1"
+          ],
+          "gene_overlap": [
+            "CEBPA",
+            "SPI1"
+          ],
+          "intervals": [
+            [
+              153,
+              203
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "module_name": "proliferation",
+      "gt_genes": [
+        "MKI67",
+        "TOP2A",
+        "CDK1"
+      ],
+      "gt_interval": [
+        51,
+        198
+      ],
+      "n_matching_dgcis": 665,
+      "matching_dgcis": [
+        {
+          "genes": [
+            "CDK1",
+            "MKI67"
+          ],
+          "gene_overlap": [
+            "CDK1",
+            "MKI67"
+          ],
+          "intervals": [
+            [
+              7,
+              196
+            ],
+            [
+              203,
+              203
+            ],
+            [
+              342,
+              344
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CDK1",
+            "TOP2A"
+          ],
+          "gene_overlap": [
+            "TOP2A",
+            "CDK1"
+          ],
+          "intervals": [
+            [
+              12,
+              184
+            ],
+            [
+              342,
+              343
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "MKI67",
+            "TOP2A"
+          ],
+          "gene_overlap": [
+            "TOP2A",
+            "MKI67"
+          ],
+          "intervals": [
+            [
+              11,
+              186
+            ],
+            [
+              189,
+              189
+            ],
+            [
+              246,
+              250
+            ],
+            [
+              378,
+              378
+            ],
+            [
+              389,
+              389
+            ],
+            [
+              397,
+              410
+            ],
+            [
+              421,
+              423
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "CDK1",
+            "MKI67"
+          ],
+          "gene_overlap": [
+            "MKI67",
+            "CDK1"
+          ],
+          "intervals": [
+            [
+              18,
+              129
+            ],
+            [
+              134,
+              151
+            ],
+            [
+              153,
+              160
+            ]
+          ]
+        },
+        {
+          "genes": [
+            "CD34",
+            "CDK1",
+            "TOP2A"
+          ],
+          "gene_overlap": [
+            "TOP2A",
+            "CDK1"
+          ],
+          "intervals": [
+            [
+              23,
+              160
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "top_dgcis": [
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "CEBPA",
+        "GATA2",
+        "MKI67"
+      ],
+      "n_intervals": 1,
+      "total_span": 6,
+      "intervals": [
+        [
+          72,
+          77
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "CEBPA",
+        "KIT",
+        "MKI67"
+      ],
+      "n_intervals": 1,
+      "total_span": 14,
+      "intervals": [
+        [
+          72,
+          85
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "CEBPA",
+        "KIT",
+        "BG_010"
+      ],
+      "n_intervals": 1,
+      "total_span": 14,
+      "intervals": [
+        [
+          72,
+          85
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "GATA1",
+        "KLF1"
+      ],
+      "n_intervals": 1,
+      "total_span": 3,
+      "intervals": [
+        [
+          139,
+          141
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "GATA1",
+        "TOP2A"
+      ],
+      "n_intervals": 1,
+      "total_span": 7,
+      "intervals": [
+        [
+          135,
+          141
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "GATA2",
+        "MKI67"
+      ],
+      "n_intervals": 2,
+      "total_span": 4,
+      "intervals": [
+        [
+          75,
+          76
+        ],
+        [
+          79,
+          80
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "KIT",
+        "MKI67"
+      ],
+      "n_intervals": 2,
+      "total_span": 14,
+      "intervals": [
+        [
+          75,
+          86
+        ],
+        [
+          110,
+          111
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "KIT",
+        "TOP2A"
+      ],
+      "n_intervals": 4,
+      "total_span": 25,
+      "intervals": [
+        [
+          71,
+          80
+        ],
+        [
+          83,
+          86
+        ],
+        [
+          91,
+          99
+        ],
+        [
+          110,
+          111
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "MKI67",
+        "TOP2A"
+      ],
+      "n_intervals": 1,
+      "total_span": 2,
+      "intervals": [
+        [
+          75,
+          76
+        ]
+      ]
+    },
+    {
+      "genes": [
+        "CD34",
+        "CDK1",
+        "EPOR",
+        "MKI67",
+        "BG_007"
+      ],
+      "n_intervals": 1,
+      "total_span": 6,
+      "intervals": [
+        [
+          101,
+          106
+        ]
+      ]
+    }
+  ],
+  "n_total_patterns": 5985,
+  "n_multi_gene": 5959,
+  "total_elapsed_s": 1.446
+}

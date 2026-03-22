@@ -1,0 +1,54 @@
+{
+  "experiment": "E2_threshold_strategies",
+  "results": [
+    {
+      "strategy": "median",
+      "param": 0.0,
+      "n_multi_gene": 2944,
+      "module_recall": 1.0,
+      "mean_iou": 0.9220789977123195,
+      "precision": 0.5614809782608695
+    },
+    {
+      "strategy": "quantile",
+      "param": 0.3,
+      "n_multi_gene": 12543,
+      "module_recall": 1.0,
+      "mean_iou": 0.9422199477351917,
+      "precision": 0.4838555369528821
+    },
+    {
+      "strategy": "quantile",
+      "param": 0.5,
+      "n_multi_gene": 2944,
+      "module_recall": 1.0,
+      "mean_iou": 0.9220789977123195,
+      "precision": 0.5614809782608695
+    },
+    {
+      "strategy": "quantile",
+      "param": 0.7,
+      "n_multi_gene": 790,
+      "module_recall": 1.0,
+      "mean_iou": 0.8711724120312839,
+      "precision": 0.5822784810126582
+    },
+    {
+      "strategy": "zscore",
+      "param": 0.5,
+      "n_multi_gene": 588,
+      "module_recall": 1.0,
+      "mean_iou": 0.9272615182759403,
+      "precision": 0.5561224489795918
+    },
+    {
+      "strategy": "zscore",
+      "param": 1.0,
+      "n_multi_gene": 169,
+      "module_recall": 1.0,
+      "mean_iou": 0.9612845438007387,
+      "precision": 0.7633136094674556
+    }
+  ],
+  "total_elapsed_s": 4.761
+}

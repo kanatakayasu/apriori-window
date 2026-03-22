@@ -1,0 +1,51 @@
+{
+  "experiment": "E3_scalability",
+  "results": [
+    {
+      "n_cells": 100,
+      "n_genes": 26,
+      "window_size": 10,
+      "min_support": 3,
+      "n_multi_gene": 1953,
+      "module_recall": 1.0,
+      "elapsed_ms": 75.57
+    },
+    {
+      "n_cells": 200,
+      "n_genes": 26,
+      "window_size": 20,
+      "min_support": 4,
+      "n_multi_gene": 3056,
+      "module_recall": 1.0,
+      "elapsed_ms": 199.79
+    },
+    {
+      "n_cells": 500,
+      "n_genes": 26,
+      "window_size": 50,
+      "min_support": 10,
+      "n_multi_gene": 1498,
+      "module_recall": 1.0,
+      "elapsed_ms": 296.07
+    },
+    {
+      "n_cells": 1000,
+      "n_genes": 26,
+      "window_size": 100,
+      "min_support": 20,
+      "n_multi_gene": 1164,
+      "module_recall": 1.0,
+      "elapsed_ms": 434.42
+    },
+    {
+      "n_cells": 2000,
+      "n_genes": 26,
+      "window_size": 200,
+      "min_support": 40,
+      "n_multi_gene": 1004,
+      "module_recall": 1.0,
+      "elapsed_ms": 742.08
+    }
+  ],
+  "total_elapsed_s": 1.891
+}

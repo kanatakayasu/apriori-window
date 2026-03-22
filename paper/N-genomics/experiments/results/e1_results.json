@@ -1,0 +1,206 @@
+{
+  "experiment": "E1_sensitivity",
+  "results": [
+    {
+      "window_size": 20,
+      "min_support": 5,
+      "n_single_gene": 26,
+      "n_multi_gene": 3724,
+      "module_recall": 1.0,
+      "mean_iou": 0.9069861569606671,
+      "precision": 0.5789473684210527,
+      "elapsed_ms": 585.6
+    },
+    {
+      "window_size": 20,
+      "min_support": 8,
+      "n_single_gene": 26,
+      "n_multi_gene": 641,
+      "module_recall": 1.0,
+      "mean_iou": 0.753889728950322,
+      "precision": 0.5351014040561622,
+      "elapsed_ms": 96.13
+    },
+    {
+      "window_size": 20,
+      "min_support": 10,
+      "n_single_gene": 26,
+      "n_multi_gene": 243,
+      "module_recall": 1.0,
+      "mean_iou": 0.42266625006509406,
+      "precision": 0.5679012345679012,
+      "elapsed_ms": 38.54
+    },
+    {
+      "window_size": 20,
+      "min_support": 15,
+      "n_single_gene": 16,
+      "n_multi_gene": 13,
+      "module_recall": 0.8,
+      "mean_iou": 0.19692402972749795,
+      "precision": 0.5384615384615384,
+      "elapsed_ms": 10.25
+    },
+    {
+      "window_size": 30,
+      "min_support": 5,
+      "n_single_gene": 26,
+      "n_multi_gene": 5932,
+      "module_recall": 1.0,
+      "mean_iou": 0.8679338826575508,
+      "precision": 0.5795684423465948,
+      "elapsed_ms": 937.21
+    },
+    {
+      "window_size": 30,
+      "min_support": 8,
+      "n_single_gene": 26,
+      "n_multi_gene": 1516,
+      "module_recall": 1.0,
+      "mean_iou": 0.8771716728369146,
+      "precision": 0.5316622691292876,
+      "elapsed_ms": 282.09
+    },
+    {
+      "window_size": 30,
+      "min_support": 10,
+      "n_single_gene": 26,
+      "n_multi_gene": 679,
+      "module_recall": 1.0,
+      "mean_iou": 0.8990307482603637,
+      "precision": 0.5007363770250368,
+      "elapsed_ms": 108.04
+    },
+    {
+      "window_size": 30,
+      "min_support": 15,
+      "n_single_gene": 26,
+      "n_multi_gene": 115,
+      "module_recall": 1.0,
+      "mean_iou": 0.49604936924407567,
+      "precision": 0.5478260869565217,
+      "elapsed_ms": 23.21
+    },
+    {
+      "window_size": 50,
+      "min_support": 5,
+      "n_single_gene": 26,
+      "n_multi_gene": 9499,
+      "module_recall": 1.0,
+      "mean_iou": 0.9290791990221455,
+      "precision": 0.5698494578376672,
+      "elapsed_ms": 1552.48
+    },
+    {
+      "window_size": 50,
+      "min_support": 8,
+      "n_single_gene": 26,
+      "n_multi_gene": 2944,
+      "module_recall": 1.0,
+      "mean_iou": 0.9220789977123195,
+      "precision": 0.5614809782608695,
+      "elapsed_ms": 502.46
+    },
+    {
+      "window_size": 50,
+      "min_support": 10,
+      "n_single_gene": 26,
+      "n_multi_gene": 1587,
+      "module_recall": 1.0,
+      "mean_iou": 0.8431307768362253,
+      "precision": 0.5255198487712666,
+      "elapsed_ms": 311.6
+    },
+    {
+      "window_size": 50,
+      "min_support": 15,
+      "n_single_gene": 26,
+      "n_multi_gene": 448,
+      "module_recall": 1.0,
+      "mean_iou": 0.884206324968887,
+      "precision": 0.45982142857142855,
+      "elapsed_ms": 86.14
+    },
+    {
+      "window_size": 80,
+      "min_support": 5,
+      "n_single_gene": 26,
+      "n_multi_gene": 13435,
+      "module_recall": 1.0,
+      "mean_iou": 0.9726236386426944,
+      "precision": 0.5616672869371045,
+      "elapsed_ms": 2175.1
+    },
+    {
+      "window_size": 80,
+      "min_support": 8,
+      "n_single_gene": 26,
+      "n_multi_gene": 4983,
+      "module_recall": 1.0,
+      "mean_iou": 0.9551651541671935,
+      "precision": 0.5490668272125225,
+      "elapsed_ms": 846.54
+    },
+    {
+      "window_size": 80,
+      "min_support": 10,
+      "n_single_gene": 26,
+      "n_multi_gene": 2885,
+      "module_recall": 1.0,
+      "mean_iou": 0.9482056559975636,
+      "precision": 0.5521663778162912,
+      "elapsed_ms": 497.97
+    },
+    {
+      "window_size": 80,
+      "min_support": 15,
+      "n_single_gene": 26,
+      "n_multi_gene": 1033,
+      "module_recall": 1.0,
+      "mean_iou": 0.9129869419187031,
+      "precision": 0.4666021297192643,
+      "elapsed_ms": 221.85
+    },
+    {
+      "window_size": 100,
+      "min_support": 5,
+      "n_single_gene": 26,
+      "n_multi_gene": 15492,
+      "module_recall": 1.0,
+      "mean_iou": 0.9847163755784445,
+      "precision": 0.556028918151304,
+      "elapsed_ms": 2467.5
+    },
+    {
+      "window_size": 100,
+      "min_support": 8,
+      "n_single_gene": 26,
+      "n_multi_gene": 6032,
+      "module_recall": 1.0,
+      "mean_iou": 0.9838479001514528,
+      "precision": 0.5419429708222812,
+      "elapsed_ms": 1085.27
+    },
+    {
+      "window_size": 100,
+      "min_support": 10,
+      "n_single_gene": 26,
+      "n_multi_gene": 3619,
+      "module_recall": 1.0,
+      "mean_iou": 0.9766565859700629,
+      "precision": 0.5385465598231556,
+      "elapsed_ms": 627.42
+    },
+    {
+      "window_size": 100,
+      "min_support": 15,
+      "n_single_gene": 26,
+      "n_multi_gene": 1361,
+      "module_recall": 1.0,
+      "mean_iou": 0.9405206271148552,
+      "precision": 0.4775900073475386,
+      "elapsed_ms": 312.33
+    }
+  ],
+  "total_elapsed_s": 13.023
+}

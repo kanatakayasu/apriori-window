@@ -1,0 +1,61 @@
+\begin{thebibliography}{1}
+
+\bibitem{aibar2017scenic}
+Sara Aibar, Carmen~Bravo Gonz{\'a}lez-Blas, Thomas Moerman, V{\^a}n~Anh
+  Huynh-Thu, Hana Imrichova, Gert Hulselmans, Florian Rambow, Jean-Christophe
+  Marine, Pierre Geurts, Jan Aerts, et~al.
+\newblock {SCENIC}: single-cell regulatory network inference and clustering.
+\newblock {\em Nature Methods}, 14(11):1083--1086, 2017.
+
+\bibitem{cao2020geneswitches}
+Yifang Cao, Sascha Kitanovski, Gilles Gasparoni, Sabrina Schwarz, and Jorn
+  Walter.
+\newblock {GeneSwitches}: ordering gene expression and functional events in
+  single-cell experiments.
+\newblock {\em Bioinformatics}, 36(10):3273--3275, 2020.
+
+\bibitem{creighton2003mining}
+Chad Creighton and Samir Hanash.
+\newblock Mining gene expression databases for association rules.
+\newblock {\em Bioinformatics}, 19(1):79--86, 2003.
+
+\bibitem{haghverdi2016diffusion}
+Laleh Haghverdi, Florian Buettner, and Fabian~J Theis.
+\newblock Diffusion pseudotime robustly reconstructs lineage branching.
+\newblock {\em Nature Methods}, 13(10):845--848, 2016.
+
+\bibitem{lange2022cellrank}
+Marius Lange, Volker Bergen, Michal Klein, Manu Setty, Bernhard Reuter, Mostafa
+  Bakhti, Heiko Lickert, Meshal Ansari, Janine Schiller, Dana Pe'er, and
+  Fabian~J Theis.
+\newblock {CellRank} for directed single-cell fate mapping.
+\newblock {\em Nature Methods}, 19(2):159--170, 2022.
+
+\bibitem{langfelder2008wgcna}
+Peter Langfelder and Steve Horvath.
+\newblock {WGCNA}: an {R} package for weighted correlation network analysis.
+\newblock {\em BMC Bioinformatics}, 9(1):559, 2008.
+
+\bibitem{street2018slingshot}
+Kelly Street, Davide Risso, Russell~B Fletcher, Diya Das, John Ngai, Nir Yosef,
+  Elizabeth Purdom, and Sandrine Dudoit.
+\newblock Slingshot: cell lineage and pseudotime inference for single-cell
+  transcriptomics.
+\newblock {\em BMC Genomics}, 19(1):477, 2018.
+
+\bibitem{trapnell2014dynamics}
+Cole Trapnell, Davide Cacchiarelli, Jonna Grimsby, Prapti Pokharel, Shuqiang
+  Li, Michael Morse, Niall~J Lennon, Kenneth~J Livak, Tarjei~S Mikkelsen, and
+  John~L Rinn.
+\newblock The dynamics and regulators of cell fate decisions are revealed by
+  pseudotemporal ordering of single cells.
+\newblock {\em Nature Biotechnology}, 32(4):381--386, 2014.
+
+\bibitem{vandenberge2020tradeseq}
+Koen Van~den Berge, Hector Roux~de B{\'e}zieux, Kelly Street, Wouter Saelens,
+  Robrecht Cannoodt, Yvan Saeys, Sandrine Dudoit, and Lieven Clement.
+\newblock Trajectory-based differential expression analysis for single-cell
+  sequencing data.
+\newblock {\em Nature Communications}, 11(1):1201, 2020.
+
+\end{thebibliography}
