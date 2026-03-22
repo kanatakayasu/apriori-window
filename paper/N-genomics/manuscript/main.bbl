@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{aibar2017scenic}
 Sara Aibar, Carmen~Bravo Gonz{\'a}lez-Blas, Thomas Moerman, V{\^a}n~Anh
@@ -8,8 +8,7 @@ Sara Aibar, Carmen~Bravo Gonz{\'a}lez-Blas, Thomas Moerman, V{\^a}n~Anh
 \newblock {\em Nature Methods}, 14(11):1083--1086, 2017.
 
 \bibitem{cao2020geneswitches}
-Yifang Cao, Sascha Kitanovski, Gilles Gasparoni, Sabrina Schwarz, and Jorn
-  Walter.
+Elaine~Y. Cao, John~F. Ouyang, and Owen J.~L. Rackham.
 \newblock {GeneSwitches}: ordering gene expression and functional events in
   single-cell experiments.
 \newblock {\em Bioinformatics}, 36(10):3273--3275, 2020.
@@ -19,10 +18,22 @@ Chad Creighton and Samir Hanash.
 \newblock Mining gene expression databases for association rules.
 \newblock {\em Bioinformatics}, 19(1):79--86, 2003.
 
+\bibitem{detomaso2021hotspot}
+David DeTomaso, Matthew~G Jones, Meena Suber, Jeffrey Settleman, Siddharth
+  Bhatt, and Nir Yosef.
+\newblock Functional interpretation of single cell similarity maps.
+\newblock {\em Nature Communications}, 12(1):1466, 2021.
+
 \bibitem{haghverdi2016diffusion}
 Laleh Haghverdi, Florian Buettner, and Fabian~J Theis.
 \newblock Diffusion pseudotime robustly reconstructs lineage branching.
 \newblock {\em Nature Methods}, 13(10):845--848, 2016.
+
+\bibitem{ji2005mining}
+Lizhuang Ji and Kian-Lee Tan.
+\newblock Mining gene expression data for positive and negative co-regulated
+  gene clusters.
+\newblock {\em Bioinformatics}, 21(21):3993--4000, 2005.
 
 \bibitem{lange2022cellrank}
 Marius Lange, Volker Bergen, Michal Klein, Manu Setty, Bernhard Reuter, Mostafa
@@ -35,6 +46,33 @@ Marius Lange, Volker Bergen, Michal Klein, Manu Setty, Bernhard Reuter, Mostafa
 Peter Langfelder and Steve Horvath.
 \newblock {WGCNA}: an {R} package for weighted correlation network analysis.
 \newblock {\em BMC Bioinformatics}, 9(1):559, 2008.
+
+\bibitem{li2021sclink}
+Wei~Vivian Li and Jingyi~Jessica Li.
+\newblock sc{L}ink: Inferring sparse gene co-expression networks from
+  single-cell expression data.
+\newblock {\em Genomics, Proteomics \& Bioinformatics}, 19(3):475--492, 2021.
+
+\bibitem{paul2015transcriptional}
+Franziska Paul, Ya'ara Arkin, Amir Giladi, Diego~Adhemar Jaitin, Ephraim
+  Kenigsberg, Hadas Keren-Shaul, Deborah Winter, David Lara-Astiaso, Merav Gur,
+  Assaf Weiner, et~al.
+\newblock Transcriptional heterogeneity and lineage commitment in myeloid
+  progenitors.
+\newblock {\em Cell}, 163(7):1663--1677, 2015.
+
+\bibitem{rouxdebezieux2024condiments}
+Hector Roux~de Bezieux, Koen Van~den Berge, Kelly Street, and Sandrine Dudoit.
+\newblock Condiments: differential topology, progression and expression along
+  trajectories.
+\newblock {\em Nature Communications}, 15:1248, 2024.
+
+\bibitem{setty2019palantir}
+Manu Setty, Vaidotas Kiseliovas, Jacob Levine, Adam Gayoso, Linas Mazutis, and
+  Dana Pe'er.
+\newblock Characterization of cell fate probabilities in single-cell data with
+  {Palantir}.
+\newblock {\em Nature Biotechnology}, 37(4):451--460, 2019.
 
 \bibitem{street2018slingshot}
 Kelly Street, Davide Risso, Russell~B Fletcher, Diya Das, John Ngai, Nir Yosef,
@@ -57,5 +95,12 @@ Koen Van~den Berge, Hector Roux~de B{\'e}zieux, Kelly Street, Wouter Saelens,
 \newblock Trajectory-based differential expression analysis for single-cell
   sequencing data.
 \newblock {\em Nature Communications}, 11(1):1201, 2020.
+
+\bibitem{wolf2019paga}
+F~Alexander Wolf, Fiona~K Hamey, Mireille Plass, Jordi Solana, Joakim~S Dahlin,
+  Berthold G{\"o}ttgens, Nikolaus Rajewsky, Lukas Simon, and Fabian~J Theis.
+\newblock {PAGA}: graph abstraction reconciles clustering with trajectory
+  inference through a topology preserving map of single cells.
+\newblock {\em Genome Biology}, 20(1):59, 2019.
 
 \end{thebibliography}
