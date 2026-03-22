@@ -1,0 +1,199 @@
+% ==============================================================
+\section{Problem Definition}\label{sec:problem}
+% ==============================================================
+
+\subsection{Notation}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite set of items,
+and $D = [d_1, d_2, \ldots, d_N]$ be an ordered sequence of transactions
+indexed by time.
+Each transaction $d_t$ ($t = 1, \ldots, N$) is a subset of $\mathcal{I}$.
+An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction $d_t$ if $P \subseteq d_t$.
+
+\begin{definition}[Global Support]\label{def:global_support}
+The \emph{global support} of an itemset $P$ in $D$ is:
+\begin{equation}
+\text{gsupp}(P) = \frac{|\{t \mid 1 \leq t \leq N,\; P \subseteq d_t\}|}{N}
+\label{eq:global_support}
+\end{equation}
+This measures the fraction of all transactions that contain $P$.
+\end{definition}
+
+\begin{definition}[Local Support (Windowed)]\label{def:local_support}
+Given a window size $W \in \mathbb{Z}_{>0}$ and a window position $l \in \{1, \ldots, N - W + 1\}$,
+the \emph{local support count} of $P$ at position $l$ is:
+\begin{equation}
+\text{lsup}(P, l, W) = |\{d_j \in D \mid l \leq j < l + W,\; P \subseteq d_j\}|
+\label{eq:local_support}
+\end{equation}
+This counts the occurrences of $P$ within the sliding window $[l, l+W)$.
+\end{definition}
+
+\begin{definition}[Dense Interval]\label{def:dense_interval}
+Given a density threshold $\theta \in \mathbb{Z}_{>0}$,
+a \emph{dense interval} of $P$ is a maximal contiguous range $[s, e]$ of window positions such that:
+\begin{equation}
+\forall l \in [s, e]: \quad \text{lsup}(P, l, W) \geq \theta
+\end{equation}
+Let $\mathcal{D}(P, W, \theta)$ denote the set of all dense intervals of $P$.
+\end{definition}
+
+\subsection{Rare Dense Pattern}
+
+We now introduce the central concept of this paper.
+
+\begin{definition}[Global Rarity Condition]\label{def:global_rarity}
+An itemset $P$ satisfies the \emph{global rarity condition} with respect to maximum support threshold $\sigma_{\max} \in (0, 1)$ if:
+\begin{equation}
+\text{gsupp}(P) < \sigma_{\max}
+\label{eq:rarity}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Local Density Condition]\label{def:local_density}
+An itemset $P$ satisfies the \emph{local density condition} with respect to window size $W$ and density threshold $\theta$ if:
+\begin{equation}
+\mathcal{D}(P, W, \theta) \neq \emptyset
+\label{eq:density}
+\end{equation}
+That is, there exists at least one dense interval.
+\end{definition}
+
+\begin{definition}[Rare Dense Pattern (RDP)]\label{def:rdp}
+An itemset $P$ is a \emph{Rare Dense Pattern} if it satisfies both:
+\begin{enumerate}
+\item The global rarity condition (Def.~\ref{def:global_rarity}): $\text{gsupp}(P) < \sigma_{\max}$
+\item The local density condition (Def.~\ref{def:local_density}): $\mathcal{D}(P, W, \theta) \neq \emptyset$
+\end{enumerate}
+The set of all RDPs is denoted $\mathcal{R}(D, W, \theta, \sigma_{\max})$.
+\end{definition}
+
+\begin{remark}
+The key tension is between the two conditions: $\sigma_{\max}$ enforces global rarity (the pattern must be \emph{infrequent} overall), while $\theta$ enforces local density (the pattern must be \emph{frequent} within some temporal window). The interplay $\theta / W > \sigma_{\max}$ ensures that a non-trivial class of patterns exists---those whose occurrences are temporally concentrated rather than uniformly distributed.
+\end{remark}
+
+\subsection{Two-Phase Mining}
+
+\begin{definition}[Two-Phase Mining]\label{def:two_phase}
+The \emph{Two-Phase Rare Dense Pattern Mining} algorithm operates as follows:
+\begin{enumerate}
+\item \textbf{Phase~1 (Dense Interval Discovery)}: Using a local density threshold $\theta$ and window size $W$, apply sliding-window Apriori to discover all itemsets $P$ with $\mathcal{D}(P, W, \theta) \neq \emptyset$. Denote this set $\mathcal{F}_{\text{local}}$.
+\item \textbf{Phase~2 (Global Rarity Filtering)}: For each $P \in \mathcal{F}_{\text{local}}$, compute $\text{gsupp}(P)$ and retain only those with $\text{gsupp}(P) < \sigma_{\max}$:
+\begin{equation}
+\mathcal{R} = \{P \in \mathcal{F}_{\text{local}} \mid \text{gsupp}(P) < \sigma_{\max}\}
+\end{equation}
+\end{enumerate}
+\end{definition}
+
+\subsection{Properties and Theorems}
+
+\begin{theorem}[Weak Anti-Monotonicity of Local Density]\label{thm:weak_antimon}
+Let $P$ be an itemset satisfying the local density condition with parameters $(W, \theta)$.
+Then for every subset $P' \subset P$, $P'$ also satisfies the local density condition
+with the same parameters $(W, \theta)$.
+
+Formally:
+\begin{equation}
+\mathcal{D}(P, W, \theta) \neq \emptyset \implies \forall P' \subset P: \mathcal{D}(P', W, \theta) \neq \emptyset
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let $[s, e] \in \mathcal{D}(P, W, \theta)$ be a dense interval of $P$.
+For any window position $l \in [s, e]$:
+\[
+\text{lsup}(P, l, W) = |\{j \mid l \leq j < l+W,\; P \subseteq d_j\}|
+\]
+Since $P' \subset P$, we have $P \subseteq d_j \implies P' \subseteq d_j$, and therefore:
+\[
+\text{lsup}(P', l, W) \geq \text{lsup}(P, l, W) \geq \theta
+\]
+Thus $[s, e]$ is also a dense interval for $P'$ (though $P'$ may have larger dense intervals that contain $[s,e]$).
+Therefore $\mathcal{D}(P', W, \theta) \neq \emptyset$.
+\end{proof}
+
+\begin{remark}
+We call this ``weak'' anti-monotonicity because the \emph{rarity} condition is \emph{monotone} (not anti-monotone): if $P$ is globally rare, supersets of $P$ are also rare.
+Thus, for the \emph{combined} RDP condition, neither classical anti-monotonicity nor monotonicity holds in general.
+However, the local density condition alone is anti-monotone, which enables Apriori-style pruning in Phase~1.
+\end{remark}
+
+\begin{theorem}[Monotonicity of Global Rarity]\label{thm:rarity_monotone}
+If $\text{gsupp}(P) < \sigma_{\max}$, then for every superset $Q \supset P$:
+\begin{equation}
+\text{gsupp}(Q) \leq \text{gsupp}(P) < \sigma_{\max}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Immediate from $Q \supset P$: $P \subseteq d_t$ does not imply $Q \subseteq d_t$,
+but $Q \subseteq d_t \implies P \subseteq d_t$.
+Thus $\{t \mid Q \subseteq d_t\} \subseteq \{t \mid P \subseteq d_t\}$,
+giving $\text{gsupp}(Q) \leq \text{gsupp}(P)$.
+\end{proof}
+
+\begin{theorem}[Completeness of Two-Phase Mining]\label{thm:completeness}
+The Two-Phase Mining algorithm (Def.~\ref{def:two_phase}) discovers exactly the set $\mathcal{R}(D, W, \theta, \sigma_{\max})$ of all Rare Dense Patterns.
+\end{theorem}
+
+\begin{proof}
+We prove both directions:
+
+\textbf{Soundness ($\mathcal{R}_{\text{output}} \subseteq \mathcal{R}$):}
+Every pattern $P$ output by the algorithm satisfies both conditions by construction:
+Phase~1 ensures $\mathcal{D}(P, W, \theta) \neq \emptyset$, and
+Phase~2 ensures $\text{gsupp}(P) < \sigma_{\max}$.
+
+\textbf{Completeness ($\mathcal{R} \subseteq \mathcal{R}_{\text{output}}$):}
+Let $P \in \mathcal{R}$ be any RDP. We must show that Phase~1 discovers $P$.
+Phase~1 uses Apriori with pruning based on local density.
+By Theorem~\ref{thm:weak_antimon}, if $P$ has a dense interval, then every subset $P' \subset P$ also has a dense interval.
+Therefore no subset of $P$ is pruned by Apriori's anti-monotone pruning, and $P$ will be generated as a candidate.
+Since $P$ itself has a dense interval, it passes the Phase~1 filter.
+Phase~2 then checks global rarity; since $P \in \mathcal{R}$, it satisfies $\text{gsupp}(P) < \sigma_{\max}$ and is retained.
+\end{proof}
+
+\begin{theorem}[Pruning Correctness]\label{thm:pruning}
+In Phase~1, if an itemset $P'$ has $\mathcal{D}(P', W, \theta) = \emptyset$
+(no dense interval), then every superset $Q \supset P'$ also has
+$\mathcal{D}(Q, W, \theta) = \emptyset$, and can be safely pruned.
+\end{theorem}
+
+\begin{proof}
+This is the contrapositive of Theorem~\ref{thm:weak_antimon}:
+if $Q$ had a dense interval, then $P' \subset Q$ would also have a dense interval.
+Since $P'$ does not, neither does $Q$.
+\end{proof}
+
+\subsection{Complexity Analysis}
+
+\begin{theorem}[Time Complexity]\label{thm:complexity}
+Let $m = |\mathcal{I}|$ be the number of distinct items,
+$N$ the number of transactions, $k_{\max}$ the maximum itemset size,
+and $C_k$ the number of candidate $k$-itemsets at level $k$.
+The time complexity of Two-Phase Mining is:
+\begin{equation}
+O\Bigl(\sum_{k=1}^{k_{\max}} C_k \cdot N \log N\Bigr)
+\end{equation}
+where the $N \log N$ factor per candidate arises from binary search in the dense interval computation.
+\end{theorem}
+
+\begin{proof}
+For each candidate itemset at level $k$:
+\begin{enumerate}
+\item Computing co-occurrence timestamps via sorted list intersection: $O(N)$
+\item Computing dense intervals via sliding window with binary search: $O(N \log N)$
+\end{enumerate}
+Phase~2 computes global support in $O(N)$ per pattern and is dominated by Phase~1.
+
+The key efficiency gain over na\"ive enumeration comes from Apriori pruning:
+by Theorem~\ref{thm:pruning}, itemsets without dense intervals and their supersets are pruned,
+reducing $C_k$ significantly in practice.
+\end{proof}
+
+\begin{remark}[Comparison with Standard Apriori]
+Standard Apriori with a global minimum support threshold $\sigma_{\min}$ prunes \emph{infrequent} itemsets.
+Our approach prunes itemsets without dense intervals instead.
+Since we target globally rare patterns, standard Apriori would prune exactly the patterns we seek.
+The local density condition provides an alternative anti-monotone criterion that enables efficient search while preserving the rare patterns of interest.
+\end{remark}
