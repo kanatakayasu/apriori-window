@@ -1,0 +1,108 @@
+{
+  "e1_compression": [
+    {
+      "config": {
+        "num_transactions": 100,
+        "num_dense_patterns": 2,
+        "pattern_size": 2
+      },
+      "num_candidates": 11,
+      "num_selected": 2,
+      "compression_ratio": 0.8609995753404822,
+      "baseline_length": 1323.6975567888007,
+      "compressed_length": 1139.7030342743913,
+      "elapsed_sec": 0.0028
+    },
+    {
+      "config": {
+        "num_transactions": 200,
+        "num_dense_patterns": 3,
+        "pattern_size": 3
+      },
+      "num_candidates": 27,
+      "num_selected": 3,
+      "compression_ratio": 0.799370838142211,
+      "baseline_length": 2887.8462259815383,
+      "compressed_length": 2308.460058088683,
+      "elapsed_sec": 0.0095
+    },
+    {
+      "config": {
+        "num_transactions": 500,
+        "num_dense_patterns": 5,
+        "pattern_size": 3
+      },
+      "num_candidates": 65,
+      "num_selected": 5,
+      "compression_ratio": 0.8784944127379207,
+      "baseline_length": 6547.086571499574,
+      "compressed_length": 5751.578972773846,
+      "elapsed_sec": 0.0462
+    },
+    {
+      "config": {
+        "num_transactions": 200,
+        "num_dense_patterns": 3,
+        "pattern_size": 4
+      },
+      "num_candidates": 60,
+      "num_selected": 3,
+      "compression_ratio": 0.7062647805606951,
+      "baseline_length": 3217.457638009571,
+      "compressed_length": 2272.377012672162,
+      "elapsed_sec": 0.0178
+    }
+  ],
+  "e2_reduction": [
+    {
+      "max_pattern_length": 2,
+      "num_candidates": 31,
+      "num_selected": 4,
+      "reduction_rate": 0.871
+    },
+    {
+      "max_pattern_length": 3,
+      "num_candidates": 53,
+      "num_selected": 4,
+      "reduction_rate": 0.9245
+    },
+    {
+      "max_pattern_length": 4,
+      "num_candidates": 59,
+      "num_selected": 4,
+      "reduction_rate": 0.9322
+    }
+  ],
+  "e3_sensitivity": [
+    {
+      "window_size": 5,
+      "num_candidates": 19,
+      "num_selected": 3,
+      "compression_ratio": 0.8007912631734981
+    },
+    {
+      "window_size": 10,
+      "num_candidates": 33,
+      "num_selected": 3,
+      "compression_ratio": 0.8009520891509515
+    },
+    {
+      "window_size": 15,
+      "num_candidates": 58,
+      "num_selected": 4,
+      "compression_ratio": 0.8125874585472537
+    },
+    {
+      "window_size": 20,
+      "num_candidates": 133,
+      "num_selected": 4,
+      "compression_ratio": 0.8126754195621728
+    },
+    {
+      "window_size": 30,
+      "num_candidates": 218,
+      "num_selected": 4,
+      "compression_ratio": 0.8123429697836108
+    }
+  ]
+}
