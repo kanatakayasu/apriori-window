@@ -158,3 +158,30 @@ BH手続きの依存仮説への拡張~\cite{benjamini2001control}により，
 アイテムを共有するパターン間の正の相関下でもFDR制御が保証される．
 Bonferroni補正~\cite{dunn1961multiple}は族単位誤り率（FWER）を制御するが保守的であるため，
 本研究ではFDRを制御するBH手続きを採用した．
+
+\subsection{ポジショニング}
+
+表~\ref{tab:positioning}に，関連手法群と本手法の能力比較を示す．
+本手法は，パターンサポートの時間的変動を検出し，
+それを外部イベントに統計検定付きで帰属させる唯一のフレームワークである．
+
+\begin{table}[t]
+\caption{関連手法群とのポジショニング比較}
+\label{tab:positioning}
+\centering
+\footnotesize
+\begin{tabular}{lccccc}
+\toprule
+手法群 & \rotatebox{70}{パターン発見} & \rotatebox{70}{時間変動検出} & \rotatebox{70}{外部イベント帰属} & \rotatebox{70}{多重検定補正} & \rotatebox{70}{冗長パターン除去} \\
+\midrule
+古典的FPM~\cite{agrawal1994fast,han2000mining} & \checkmark & & & & \\
+時間的FPM~\cite{mahanta2005finding,fournier2021mining} & \checkmark & \checkmark & & & \\
+パターン変化追跡~\cite{chakrabarti1998mining,liu2001fundamental} & \checkmark & \checkmark & & & \\
+コントラスト/EP~\cite{dong1999discovering,bay2001detecting} & \checkmark & \checkmark & & 一部 & \\
+統計的FPM~\cite{terada2013statistical,llinares2015fast} & \checkmark & & & \checkmark & \checkmark \\
+変化点検出~\cite{aminikhanghahi2017survey} & & \checkmark & & & \\
+介入分析~\cite{box1975intervention,brodersen2015causalimpact} & & \checkmark & \checkmark & & \\
+\textbf{本手法} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
