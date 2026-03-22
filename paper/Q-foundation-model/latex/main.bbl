@@ -1,0 +1,271 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{21}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Agrawal and Srikant(1994)]%
+        {agrawal1994fast}
+\bibfield{author}{\bibinfo{person}{Rakesh Agrawal} {and}
+  \bibinfo{person}{Ramakrishnan Srikant}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Fast Algorithms for Mining Association Rules}. In
+  \bibinfo{booktitle}{\emph{Proc.\ VLDB}}. \bibinfo{pages}{487--499}.
+\newblock
+
+
+\bibitem[Arik and Pfister(2021)]%
+        {arik2021tabnet}
+\bibfield{author}{\bibinfo{person}{Sercan~{\"O}. Arik} {and}
+  \bibinfo{person}{Tomas Pfister}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{TabNet}: Attentive Interpretable Tabular
+  Learning}. In \bibinfo{booktitle}{\emph{AAAI}}. \bibinfo{pages}{6679--6687}.
+\newblock
+
+
+\bibitem[Bommasani et~al\mbox{.}(2021)]%
+        {bommasani2021opportunities}
+\bibfield{author}{\bibinfo{person}{Rishi Bommasani}, \bibinfo{person}{Drew~A.
+  Hudson}, {et~al\mbox{.}}} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{On the Opportunities and Risks of Foundation
+  Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2108.07258}}
+  (\bibinfo{year}{2021}).
+\newblock
+
+
+\bibitem[Brown et~al\mbox{.}(2020)]%
+        {brown2020language}
+\bibfield{author}{\bibinfo{person}{Tom Brown} {et~al\mbox{.}}}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Language Models are Few-Shot Learners}. In
+  \bibinfo{booktitle}{\emph{NeurIPS}}.
+\newblock
+
+
+\bibitem[Dao et~al\mbox{.}(2022)]%
+        {dao2022flashattention}
+\bibfield{author}{\bibinfo{person}{Tri Dao}, \bibinfo{person}{Daniel~Y. Fu},
+  \bibinfo{person}{Stefano Ermon}, \bibinfo{person}{Atri Rudra}, {and}
+  \bibinfo{person}{Christopher R{\'e}}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{FlashAttention}: Fast and Memory-Efficient Exact
+  Attention with {IO}-Awareness}. In \bibinfo{booktitle}{\emph{NeurIPS}}.
+\newblock
+
+
+\bibitem[Das et~al\mbox{.}(2024)]%
+        {das2024timesfm}
+\bibfield{author}{\bibinfo{person}{Abhimanyu Das}, \bibinfo{person}{Weihao
+  Kong}, \bibinfo{person}{Andrew Leber}, \bibinfo{person}{Rajat Mathews}, {and}
+  \bibinfo{person}{Rajat Sen}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{A Decoder-Only Foundation Model for Time-Series
+  Forecasting}.
+\newblock \bibinfo{journal}{\emph{ICML}} (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Devlin et~al\mbox{.}(2019)]%
+        {devlin2019bert}
+\bibfield{author}{\bibinfo{person}{Jacob Devlin}, \bibinfo{person}{Ming-Wei
+  Chang}, \bibinfo{person}{Kenton Lee}, {and} \bibinfo{person}{Kristina
+  Toutanova}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{{BERT}: Pre-training of Deep Bidirectional
+  Transformers for Language Understanding}.
+\newblock \bibinfo{journal}{\emph{Proc.\ NAACL-HLT}} (\bibinfo{year}{2019}),
+  \bibinfo{pages}{4171--4186}.
+\newblock
+
+
+\bibitem[Fournier-Viger et~al\mbox{.}(2017)]%
+        {fournier2017spmf}
+\bibfield{author}{\bibinfo{person}{Philippe Fournier-Viger},
+  \bibinfo{person}{Jerry Chun-Wei Lin}, \bibinfo{person}{Antonio Gomariz},
+  \bibinfo{person}{Ted Gueniche}, \bibinfo{person}{Azadeh Soltani},
+  \bibinfo{person}{Zhihong Deng}, {and} \bibinfo{person}{Hoang~Thanh Lam}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{The {SPMF} Open-Source Data Mining Library Version
+  2}. In \bibinfo{booktitle}{\emph{ECML PKDD}}. \bibinfo{pages}{36--40}.
+\newblock
+
+
+\bibitem[Han et~al\mbox{.}(2004)]%
+        {han2004mining}
+\bibfield{author}{\bibinfo{person}{Jiawei Han}, \bibinfo{person}{Jian Pei},
+  \bibinfo{person}{Yiwen Yin}, {and} \bibinfo{person}{Runying Mao}.}
+  \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{Mining Frequent Patterns without Candidate
+  Generation: A Frequent-Pattern Tree Approach}. In
+  \bibinfo{booktitle}{\emph{Data Mining and Knowledge Discovery}},
+  Vol.~\bibinfo{volume}{8}. \bibinfo{pages}{53--87}.
+\newblock
+
+
+\bibitem[He et~al\mbox{.}(2022)]%
+        {he2022masked}
+\bibfield{author}{\bibinfo{person}{Kaiming He}, \bibinfo{person}{Xinlei Chen},
+  \bibinfo{person}{Saining Xie}, \bibinfo{person}{Yanghao Li},
+  \bibinfo{person}{Piotr Doll{\'a}r}, {and} \bibinfo{person}{Ross Girshick}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Masked Autoencoders Are Scalable Vision Learners}.
+  In \bibinfo{booktitle}{\emph{CVPR}}. \bibinfo{pages}{16000--16009}.
+\newblock
+
+
+\bibitem[Huang et~al\mbox{.}(2020)]%
+        {huang2020tabtransformer}
+\bibfield{author}{\bibinfo{person}{Xin Huang}, \bibinfo{person}{Ashish Khetan},
+  \bibinfo{person}{Milan Cvitkovic}, {and} \bibinfo{person}{Zohar Karnin}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{TabTransformer}: Tabular Data Modeling Using
+  Contextual Embeddings}. In \bibinfo{booktitle}{\emph{arXiv preprint
+  arXiv:2012.06678}}.
+\newblock
+
+
+\bibitem[Loshchilov and Hutter(2017)]%
+        {loshchilov2017sgdr}
+\bibfield{author}{\bibinfo{person}{Ilya Loshchilov} {and}
+  \bibinfo{person}{Frank Hutter}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{{SGDR}: Stochastic Gradient Descent with Warm
+  Restarts}. In \bibinfo{booktitle}{\emph{ICLR}}.
+\newblock
+
+
+\bibitem[Nie et~al\mbox{.}(2023)]%
+        {nie2023patchtst}
+\bibfield{author}{\bibinfo{person}{Yuqi Nie}, \bibinfo{person}{Nam~H. Nguyen},
+  \bibinfo{person}{Phanwadee Sinthong}, {and} \bibinfo{person}{Jayant
+  Kalagnanam}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{A Time Series is Worth 64 Words: Long-term
+  Forecasting with Transformers}. In \bibinfo{booktitle}{\emph{ICLR}}.
+\newblock
+
+
+\bibitem[Rasul et~al\mbox{.}(2024)]%
+        {rasul2024lagllama}
+\bibfield{author}{\bibinfo{person}{Kashif Rasul}, \bibinfo{person}{Arjun
+  Ashok}, \bibinfo{person}{Andrew~Robert Williams}, \bibinfo{person}{Arian
+  Khorasani}, \bibinfo{person}{George Adamopoulos}, \bibinfo{person}{Rishika
+  Bhatt}, \bibinfo{person}{Erhan Bayraktar}, \bibinfo{person}{Marin Thissen},
+  \bibinfo{person}{Utku Turber}, {and} \bibinfo{person}{Kari Torkkola}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{Lag-Llama}: Towards Foundation Models for
+  Probabilistic Time Series Forecasting}. In \bibinfo{booktitle}{\emph{ICML}}.
+\newblock
+
+
+\bibitem[Somepalli et~al\mbox{.}(2022)]%
+        {somepalli2022saint}
+\bibfield{author}{\bibinfo{person}{Gowthami Somepalli}, \bibinfo{person}{Micah
+  Goldblum}, \bibinfo{person}{Avi Schwarzschild}, \bibinfo{person}{C.~Bayan
+  Bruss}, {and} \bibinfo{person}{Tom Goldstein}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{SAINT}: Improved Neural Networks for Tabular Data
+  via Row Attention and Contrastive Pre-Training}. In
+  \bibinfo{booktitle}{\emph{arXiv preprint arXiv:2106.01342}}.
+\newblock
+
+
+\bibitem[Sun et~al\mbox{.}(2019)]%
+        {sun2019bert4rec}
+\bibfield{author}{\bibinfo{person}{Fei Sun}, \bibinfo{person}{Jun Liu},
+  \bibinfo{person}{Jian Wu}, \bibinfo{person}{Changhua Pei},
+  \bibinfo{person}{Xiao Lin}, \bibinfo{person}{Wenwu Ou}, {and}
+  \bibinfo{person}{Peng Jiang}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{{BERT4Rec}: Sequential Recommendation with
+  Bidirectional Encoder Representations from Transformers}. In
+  \bibinfo{booktitle}{\emph{CIKM}}. \bibinfo{pages}{1441--1450}.
+\newblock
+
+
+\bibitem[Vaswani et~al\mbox{.}(2017)]%
+        {vaswani2017attention}
+\bibfield{author}{\bibinfo{person}{Ashish Vaswani}, \bibinfo{person}{Noam
+  Shazeer}, \bibinfo{person}{Niki Parmar}, \bibinfo{person}{Jakob Uszkoreit},
+  \bibinfo{person}{Llion Jones}, \bibinfo{person}{Aidan~N. Gomez},
+  \bibinfo{person}{{\L}ukasz Kaiser}, {and} \bibinfo{person}{Illia
+  Polosukhin}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Attention Is All You Need}. In
+  \bibinfo{booktitle}{\emph{NeurIPS}}. \bibinfo{pages}{5998--6008}.
+\newblock
+
+
+\bibitem[Wang et~al\mbox{.}(2020)]%
+        {wang2020linformer}
+\bibfield{author}{\bibinfo{person}{Sinong Wang}, \bibinfo{person}{Belinda~Z.
+  Li}, \bibinfo{person}{Madian Khabsa}, \bibinfo{person}{Han Fang}, {and}
+  \bibinfo{person}{Hao Ma}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{Linformer}: Self-Attention with Linear
+  Complexity}. In \bibinfo{booktitle}{\emph{arXiv preprint arXiv:2006.04768}}.
+\newblock
+
+
+\bibitem[Xiong et~al\mbox{.}(2020)]%
+        {xiong2020layer}
+\bibfield{author}{\bibinfo{person}{Ruibin Xiong}, \bibinfo{person}{Yunchang
+  Yang}, \bibinfo{person}{Di He}, \bibinfo{person}{Kai Zheng},
+  \bibinfo{person}{Shuxin Zheng}, \bibinfo{person}{Chen Xing},
+  \bibinfo{person}{Huishuai Zhang}, \bibinfo{person}{Yanyan Lan},
+  \bibinfo{person}{Liwei Wang}, {and} \bibinfo{person}{Tie-Yan Liu}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{On Layer Normalization in the Transformer
+  Architecture}. In \bibinfo{booktitle}{\emph{ICML}}.
+  \bibinfo{pages}{10524--10533}.
+\newblock
+
+
+\bibitem[Zaheer et~al\mbox{.}(2017)]%
+        {zaheer2017deep}
+\bibfield{author}{\bibinfo{person}{Manzil Zaheer}, \bibinfo{person}{Satwik
+  Kottur}, \bibinfo{person}{Siamak Ravanbakhsh}, \bibinfo{person}{Barnabas
+  Poczos}, \bibinfo{person}{Ruslan~R. Salakhutdinov}, {and}
+  \bibinfo{person}{Alexander~J. Smola}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Deep Sets}. In \bibinfo{booktitle}{\emph{NeurIPS}}.
+  \bibinfo{pages}{3391--3401}.
+\newblock
+
+
+\bibitem[Zaki(2000)]%
+        {zaki2000scalable}
+\bibfield{author}{\bibinfo{person}{Mohammed~J. Zaki}.}
+  \bibinfo{year}{2000}\natexlab{}.
+\newblock \showarticletitle{Scalable Algorithms for Association Mining}.
+\newblock \bibinfo{journal}{\emph{IEEE Trans.\ Knowledge and Data Engineering}}
+  \bibinfo{volume}{12}, \bibinfo{number}{3} (\bibinfo{year}{2000}),
+  \bibinfo{pages}{372--390}.
+\newblock
+
+
+\end{thebibliography}
