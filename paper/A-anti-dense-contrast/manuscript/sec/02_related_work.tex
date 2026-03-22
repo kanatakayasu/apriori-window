@@ -103,6 +103,17 @@ TaTIRP~\cite{tatirp2025}はAllenの時間関係を用いて対象時間区間関
 スライディングウィンドウサポート閾値により定義される
 密集区間・反密集区間に焦点を当てる本研究とは相補的である．
 
+\subsection{統計的パターン冗長性制御}
+
+パターンマイニングにおける冗長性制御は重要な関連課題である．
+Webb~\cite{webb2007selfsufficient}は自己充足アイテムセットの概念を導入し，
+サブセット・スーパーセットの頻度から説明できるパターンを冗長とみなした．
+コントラスト密集パターンにおいても，部分集合と上位集合の間で
+トポロジー変化が連動する冗長性が生じうるが，
+本研究では定理~\ref{thm:anti_monotone}の単調性を活用した枝刈りにより
+部分的にこの問題に対処する．
+網羅的な冗長性除去（閉パターンや極大パターンへの拡張）は今後の課題である．
+
 \subsection{本研究の位置づけ}
 
 表~\ref{tab:related_comparison}に本研究と関連研究の位置づけを要約する．
@@ -114,18 +125,19 @@ TaTIRP~\cite{tatirp2025}はAllenの時間関係を用いて対象時間区間関
 \centering
 \caption{関連研究との比較}
 \label{tab:related_comparison}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \toprule
-手法カテゴリ & 時間的 & 構造比較 & 統計検定 & 低頻度 \\
+手法カテゴリ & 時間的 & 構造比較 & 統計検定 & 低頻度 & 枝刈り \\
 \midrule
-密集区間マイニング & \checkmark & -- & -- & -- \\
-希少パターン & -- & -- & -- & \checkmark \\
-出現パターン & -- & \checkmark & -- & -- \\
-変化点検出 & \checkmark & -- & \checkmark & -- \\
-概念ドリフト & \checkmark & -- & \checkmark & -- \\
-有意パターン & -- & -- & \checkmark & -- \\
-\textbf{反密集区間（本研究）} & \checkmark & -- & -- & \checkmark \\
-\textbf{コントラスト密集（本研究）} & \checkmark & \checkmark & \checkmark & -- \\
+密集区間マイニング & \checkmark & -- & -- & -- & 反単調 \\
+希少パターン & -- & -- & -- & \checkmark & 限定的 \\
+出現パターン & -- & \checkmark & -- & -- & -- \\
+変化点検出 & \checkmark & -- & \checkmark & -- & -- \\
+概念ドリフト & \checkmark & -- & \checkmark & -- & -- \\
+有意パターン & -- & -- & \checkmark & -- & -- \\
+冗長性制御 & -- & -- & \checkmark & -- & -- \\
+\textbf{反密集（本研究）} & \checkmark & -- & -- & \checkmark & 単調性 \\
+\textbf{コントラスト密集（本研究）} & \checkmark & \checkmark & \checkmark & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table}

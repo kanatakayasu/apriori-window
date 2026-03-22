@@ -144,9 +144,18 @@ R.~U. Kiran \emph{et~al.}, ``{3P-ECLAT}: Mining partial periodic patterns in
 O.~Harel and R.~Moskovitch, ``Targeted mining of time-interval related
   patterns,'' \emph{IEEE Transactions on Knowledge and Data Engineering}, 2025.
 
+\bibitem{webb2007selfsufficient}
+G.~I. Webb, ``Discovering significant patterns,'' \emph{Machine Learning},
+  vol.~68, no.~1, pp. 1--33, 2007.
+
 \bibitem{benjamini1995fdr}
 Y.~Benjamini and Y.~Hochberg, ``Controlling the false discovery rate: A
   practical and powerful approach to multiple testing,'' \emph{Journal of the
   Royal Statistical Society: Series B}, vol.~57, no.~1, pp. 289--300, 1995.
+
+\bibitem{westfall1993permutation}
+P.~H. Westfall and S.~S. Young, \emph{Resampling-Based Multiple Testing:
+  Examples and Methods for p-Value Adjustment}.\hskip 1em plus 0.5em minus
+  0.4em\relax John Wiley \& Sons, 1993.
 
 \end{thebibliography}
