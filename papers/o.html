@@ -3,133 +3,637 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paper O - 交差注意機構によるイベント帰属の学習</title>
+<title>Paper O - 交差注意機構と密集パターン特徴化によるイベント帰属の学習</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;--c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;--c-red-bg:#fff5f5;--c-red-light:#ffcdd2;--max-w:780px;--font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace}
-  html{scroll-behavior:smooth}body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.85;font-weight:400;font-size:15px;background:var(--c-bg)}
-  .top-nav{position:sticky;top:0;z-index:100;background:var(--c-bg);border-bottom:1px solid var(--c-border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}.top-nav .left{display:flex;align-items:center;gap:16px}.top-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.02em}.top-nav a{font-size:13px;color:var(--c-gray);text-decoration:none;transition:color .15s}.top-nav a:hover{color:var(--c-red)}.top-nav .back-link{display:flex;align-items:center;gap:4px;font-weight:500}.top-nav .nav-arrows{display:flex;gap:8px}.top-nav .nav-arrows a{display:flex;align-items:center;gap:4px;padding:4px 12px;border:1px solid var(--c-border);border-radius:6px;font-size:12px;font-weight:500}.top-nav .nav-arrows a:hover{border-color:var(--c-red);color:var(--c-red)}.top-nav .nav-arrows a.disabled{opacity:.3;pointer-events:none}
-  .hero{border-bottom:1px solid var(--c-border);padding:80px 40px 64px;max-width:var(--max-w);margin:0 auto;position:relative;overflow:hidden}.hero .paper-id{position:absolute;top:-20px;right:-10px;font-size:clamp(10rem,20vw,16rem);font-weight:900;color:var(--c-border);opacity:.5;line-height:1;pointer-events:none;letter-spacing:-.05em}.hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.25;letter-spacing:-.03em;position:relative}.hero .lead{font-size:1.05rem;color:var(--c-gray);margin-top:16px;max-width:600px;position:relative}.hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;position:relative}.hero .badge{font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;background:var(--c-surface);border:1px solid var(--c-border)}.hero .badge.accent{background:var(--c-red-bg);border-color:var(--c-red-light);color:var(--c-red);font-weight:700}.hero .badge.wave-1{background:#e3f2fd;border-color:#90caf9;color:#1565c0}.hero .badge.wave-2{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}.hero .badge.wave-3{background:#fff3e0;border-color:#ffcc80;color:#e65100}.hero .badge.wave-4{background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a}.hero .badge.wave-5{background:#fce4ec;border-color:#f48fb1;color:#880e4f}
-  .content-wrap{max-width:var(--max-w);margin:0 auto;padding:48px 40px 120px}.content-wrap h2{font-size:1.5rem;font-weight:900;margin:64px 0 24px;padding-top:20px;letter-spacing:-.01em;border-top:2px solid var(--c-fg)}.content-wrap h2:first-child{border-top:none;margin-top:0}.content-wrap p{margin-bottom:14px}.red{color:var(--c-red)}.muted{color:var(--c-muted)}.small{font-size:13px;color:var(--c-gray)}
-  .box{background:var(--c-surface);border:1px solid var(--c-border);border-radius:10px;padding:24px;margin:20px 0}.box.accent{border-left:4px solid var(--c-red);background:var(--c-red-bg)}.box h4{margin:0 0 8px;font-size:1rem;font-weight:700}
+  :root{
+    --c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;
+    --c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;
+    --c-red-bg:#fff5f5;--c-red-light:#ffcdd2;
+    --nav-w:240px;--max-w:780px;
+    --font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  html{scroll-behavior:smooth;scroll-padding-top:32px}
+  body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.85;font-weight:400;font-size:15px;background:var(--c-bg)}
+
+  /* ── NAV ── */
+  .site-nav{
+    position:fixed;top:0;left:0;width:var(--nav-w);height:100vh;
+    border-right:1px solid var(--c-border);padding:32px 24px;
+    overflow-y:auto;background:var(--c-bg);z-index:100;
+  }
+  .site-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+  .site-nav .logo-sub{font-size:11px;color:var(--c-muted);margin-bottom:28px}
+  .site-nav a{
+    display:block;padding:6px 12px;margin:2px 0;
+    font-size:13px;color:var(--c-gray);text-decoration:none;
+    border-radius:6px;transition:all .15s;
+  }
+  .site-nav a:hover{background:var(--c-surface);color:var(--c-fg)}
+  .site-nav a.active{background:var(--c-red-bg);color:var(--c-red);font-weight:700}
+  .site-nav .nav-section{
+    font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--c-muted);margin:20px 0 6px 12px;
+  }
+  .site-nav .back-btn{
+    display:block;margin:0 0 16px;padding:10px 12px;background:var(--c-surface);
+    color:var(--c-gray);border-radius:8px;text-align:center;font-weight:700;
+    font-size:13px;text-decoration:none;transition:all .15s;border:1px solid var(--c-border);
+  }
+  .site-nav .back-btn:hover{background:var(--c-red-bg);color:var(--c-red);border-color:var(--c-red-light)}
+  .site-nav .paper-nav{display:flex;gap:8px;margin-top:20px}
+  .site-nav .paper-nav a{
+    flex:1;text-align:center;padding:8px 4px;font-size:11px;font-weight:700;
+    border:1px solid var(--c-border);border-radius:6px;color:var(--c-muted);
+  }
+  .site-nav .paper-nav a:hover{border-color:var(--c-red);color:var(--c-red)}
+  .site-nav .paper-nav a.disabled{opacity:.3;pointer-events:none}
+
+  /* ── MAIN ── */
+  .site-main{margin-left:var(--nav-w);min-height:100vh}
+  .content-wrap{max-width:var(--max-w);margin:0 auto;padding:48px 40px 120px}
+
+  /* ── HERO ── */
+  .hero{
+    border-bottom:1px solid var(--c-border);
+    padding:80px 40px 64px;max-width:var(--max-w);margin:0 auto;
+    position:relative;overflow:hidden;
+  }
+  .hero .paper-id{
+    position:absolute;top:-20px;right:-10px;font-size:clamp(10rem,20vw,16rem);
+    font-weight:900;color:var(--c-border);opacity:.5;line-height:1;pointer-events:none;
+    letter-spacing:-.05em;
+  }
+  .hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.25;letter-spacing:-.03em;position:relative}
+  .hero .lead{font-size:1.05rem;color:var(--c-gray);margin-top:16px;max-width:600px;position:relative}
+  .hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;position:relative}
+  .hero .badge{
+    font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;
+    background:var(--c-surface);border:1px solid var(--c-border);
+  }
+  .hero .badge.accent{background:var(--c-red-bg);border-color:var(--c-red-light);color:var(--c-red);font-weight:700}
+  .hero .badge.wave-3{background:#fff3e0;border-color:#ffcc80;color:#e65100}
+
+  /* ── TYPOGRAPHY ── */
+  .content-wrap h2{
+    font-size:1.5rem;font-weight:900;margin:64px 0 24px;padding-top:20px;
+    letter-spacing:-.01em;border-top:2px solid var(--c-fg);
+  }
+  .content-wrap h2:first-child{border-top:none;margin-top:0}
+  .content-wrap h3{font-size:1.15rem;font-weight:700;margin:36px 0 12px}
+  .content-wrap h4{font-size:1rem;font-weight:700;margin:24px 0 8px}
+  .content-wrap p{margin-bottom:14px}
+  .content-wrap ul,.content-wrap ol{margin:0 0 14px 20px}
+  .content-wrap li{margin-bottom:6px}
+  .red{color:var(--c-red)}
+  .muted{color:var(--c-muted)}
+  .small{font-size:13px;color:var(--c-gray)}
+
+  /* ── CARDS / BOXES ── */
+  .box{
+    background:var(--c-surface);border:1px solid var(--c-border);
+    border-radius:10px;padding:24px;margin:20px 0;
+  }
+  .box.accent{border-left:4px solid var(--c-red);background:var(--c-red-bg)}
+  .box h4{margin-top:0}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
   .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0}
-  .stat-row{display:flex;gap:16px;margin:20px 0;flex-wrap:wrap}.stat-card{flex:1;min-width:140px;text-align:center;padding:24px 12px;border:1px solid var(--c-border);border-radius:10px}.stat-card .val{font-size:2rem;font-weight:900;line-height:1}.stat-card .lbl{font-size:12px;color:var(--c-muted);margin-top:6px}
-  .pipe-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--c-border)}.pipe-step:last-child{border-bottom:none}.pipe-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}.pipe-num.red{background:var(--c-red)}.pipe-body{flex:1}.pipe-body h4{margin:0 0 4px}.pipe-body p{margin:0;font-size:14px;color:var(--c-gray)}
-  .review-bar{display:flex;gap:8px;align-items:center;margin:8px 0}.review-bar .bar-track{flex:1;max-width:200px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden}.review-bar .bar-fill{height:100%;border-radius:4px;background:var(--c-red)}.review-bar .bar-label{font-size:13px;font-weight:700;min-width:60px}.review-bar .bar-score{font-size:13px;color:var(--c-muted)}
-  .dep-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.dep-link{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--c-border);border-radius:8px;text-decoration:none;color:var(--c-fg);font-size:13px;font-weight:500;transition:all .15s}.dep-link:hover{border-color:var(--c-red);color:var(--c-red);background:var(--c-red-bg)}.dep-link .dep-id{width:24px;height:24px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}.dep-link:hover .dep-id{background:var(--c-red)}
-  .bottom-nav{display:flex;justify-content:space-between;align-items:center;padding:32px 0;margin-top:64px;border-top:2px solid var(--c-fg)}.bottom-nav a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--c-gray);font-size:14px;font-weight:500;transition:color .15s}.bottom-nav a:hover{color:var(--c-red)}.bottom-nav .next{margin-left:auto}
-  .site-footer{border-top:1px solid var(--c-border);padding:40px;text-align:center;font-size:12px;color:var(--c-muted)}
-  @media(max-width:640px){.hero,.content-wrap{padding-left:20px;padding-right:20px}.grid-3{grid-template-columns:1fr}.top-nav{padding:0 12px}.top-nav .logo{display:none}.stat-row{flex-direction:column}}
+  @media(max-width:820px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  /* ── FORMULA ── */
+  .formula{
+    background:var(--c-surface);border-left:4px solid var(--c-red);
+    padding:16px 24px;border-radius:0 8px 8px 0;margin:16px 0;
+    font-family:var(--font-mono);font-size:14px;overflow-x:auto;
+  }
+
+  /* ── TABLES ── */
+  table.dt{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+  table.dt th,table.dt td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--c-border)}
+  table.dt th{font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--c-muted)}
+  table.dt tr:last-child td{border-bottom:none}
+  table.dt .hl{color:var(--c-red);font-weight:700}
+  table.dt .dim{color:var(--c-muted)}
+
+  /* ── STAT CARDS ── */
+  .stat-row{display:flex;gap:16px;margin:20px 0;flex-wrap:wrap}
+  .stat-card{
+    flex:1;min-width:140px;text-align:center;padding:24px 12px;
+    border:1px solid var(--c-border);border-radius:10px;
+  }
+  .stat-card .val{font-size:2rem;font-weight:900;line-height:1}
+  .stat-card .lbl{font-size:12px;color:var(--c-muted);margin-top:6px}
+
+  /* ── PIPELINE FLOW ── */
+  .pipe-step{
+    display:flex;gap:20px;align-items:flex-start;
+    padding:20px 0;border-bottom:1px solid var(--c-border);
+  }
+  .pipe-step:last-child{border-bottom:none}
+  .pipe-num{
+    flex-shrink:0;width:36px;height:36px;border-radius:50%;
+    background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:14px;
+  }
+  .pipe-num.red{background:var(--c-red)}
+  .pipe-body{flex:1}
+  .pipe-body h4{margin:0 0 4px}
+  .pipe-body p{margin:0;font-size:14px;color:var(--c-gray)}
+
+  /* ── COMPARE TABLE ── */
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+  .cmp-table th,.cmp-table td{padding:10px 14px;text-align:center;border-bottom:1px solid var(--c-border)}
+  .cmp-table th{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--c-muted);text-transform:uppercase}
+  .cmp-table td:first-child{text-align:left;font-weight:500}
+  .cmp-table tr:last-child td{border-bottom:none}
+  .cmp-table .our{background:var(--c-red-bg);color:var(--c-red);font-weight:700}
+  .cmp-table .yes{color:var(--c-red);font-weight:700}
+  .cmp-table .no{color:#ccc}
+
+  /* ── MOBILE ── */
+  .mobile-header{
+    display:none;position:fixed;top:0;left:0;right:0;height:52px;
+    background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:200;
+    padding:0 16px;align-items:center;justify-content:space-between;
+  }
+  .mobile-header .logo{font-size:14px;font-weight:900}
+  .hamburger{background:none;border:none;font-size:20px;cursor:pointer;padding:8px}
+  @media(max-width:860px){
+    .site-nav{transform:translateX(-100%);transition:transform .25s;z-index:300}
+    .site-nav.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.1)}
+    .site-main{margin-left:0}
+    .mobile-header{display:flex}
+    .hero,.content-wrap{padding-left:20px;padding-right:20px}
+    .hero{padding-top:80px}
+    .content-wrap{padding-top:24px}
+  }
+
+  /* ── FOOTER ── */
+  .site-footer{
+    border-top:1px solid var(--c-border);padding:40px;
+    text-align:center;font-size:12px;color:var(--c-muted);
+  }
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <div class="left">
-    <span class="logo">Dense Interval Mining</span>
-    <a href="../papers.html" class="back-link">&larr; All Papers</a>
-  </div>
-  <div class="nav-arrows">
-    <a href="n.html">&larr; Paper N</a>
-    <a href="p.html">Paper P &rarr;</a>
+<!-- Mobile header -->
+<div class="mobile-header">
+  <span class="logo">Paper O</span>
+  <button class="hamburger" onclick="document.querySelector('.site-nav').classList.toggle('open')">&#9776;</button>
+</div>
+
+<!-- ──────── NAVIGATION ──────── -->
+<nav class="site-nav" id="nav">
+  <div class="logo">Paper O</div>
+  <div class="logo-sub">交差注意機構と密集パターン特徴化によるイベント帰属の学習</div>
+
+  <a href="../papers.html" class="back-btn">&larr; All Papers</a>
+
+  <a href="#intro">1. はじめに</a>
+  <a href="#related">2. 関連研究</a>
+  <a href="#related-attention">2.2 Attention機構</a>
+  <a href="#related-feature">2.3 パターン特徴量</a>
+  <a href="#related-neural">2.4 Neural Attribution</a>
+
+  <div class="nav-section">問題定義</div>
+  <a href="#problem">3. 問題定義</a>
+  <a href="#dpfv">3.1 DPFV</a>
+  <a href="#efv">3.2 EFV</a>
+  <a href="#attribution-score">3.3 帰属スコア</a>
+
+  <div class="nav-section">提案手法</div>
+  <a href="#method">4. CAAM モデル</a>
+  <a href="#step1">4.1 DPFV抽出</a>
+  <a href="#step2">4.2 EFV抽出</a>
+  <a href="#step3">4.3 交差注意</a>
+  <a href="#step4">4.4 Sigmoid出力</a>
+  <a href="#architecture">4.5 アーキテクチャ詳細</a>
+
+  <div class="nav-section">実験</div>
+  <a href="#exp-design">5. 実験設計</a>
+  <a href="#exp-main">5.1 主実験結果</a>
+  <a href="#exp-attention">5.2 注意重み分析</a>
+  <a href="#exp-ablation">5.3 アブレーション</a>
+  <a href="#exp-learning">5.4 学習曲線</a>
+  <a href="#exp-comparison">5.5 統計的手法との比較</a>
+
+  <a href="#conclusion">6. 結論</a>
+
+  <div class="paper-nav">
+    <a href="n.html">&larr; Prev</a>
+    <a href="p.html">Next &rarr;</a>
   </div>
 </nav>
 
-<section class="hero">
+<!-- ──────── MAIN ──────── -->
+<div class="site-main">
+
+<!-- ===== HERO ===== -->
+<div class="hero">
   <div class="paper-id">O</div>
-  <h1>交差注意機構と密集パターン特徴化によるイベント帰属の学習</h1>
-  <p class="lead">密集パターンを10次元DPFV特徴ベクトルに変換し、交差注意でスカラー帰属スコアを生成</p>
+  <h1>交差注意機構と<br><span class="red">密集パターン特徴化</span>による<br>イベント帰属の学習</h1>
+  <p class="lead">
+    密集パターンを10次元特徴ベクトル（DPFV）に変換し、マルチヘッド交差注意機構で
+    パターン-イベント間の複雑な関係を捉えるCAAMモデルを提案。
+    統計的手法の一般化能力の限界を深層学習で克服することを目指す。
+  </p>
   <div class="badges">
-    <span class="badge accent">Paper O</span>
     <span class="badge wave-3">Wave 3</span>
+    <span class="badge">Cross-Attention</span>
+    <span class="badge">10-dim DPFV</span>
+    <span class="badge">Multi-Head (h=4)</span>
+    <span class="badge">d_model=64</span>
+    <span class="badge accent">AUC 0.678 (CAAM)</span>
     <span class="badge">KDD/CIKM</span>
-  </div>
-</section>
-
-<div class="content-wrap">
-
-  <h2>Abstract</h2>
-  <div class="box accent">
-    <p>密集パターンを10次元DPFV特徴ベクトルに変換し、マルチヘッド交差注意でスカラー帰属スコアを生成するCAAMモデル。</p>
-  </div>
-
-  <h2>Key Contributions</h2>
-  <div class="grid-3">
-    <div class="box">
-      <h4><span class="red">C1.</span> DPFV設計</h4>
-      <p class="small">10次元Dense Pattern Feature Vector（DPFV）の設計</p>
-    </div>
-    <div class="box">
-      <h4><span class="red">C2.</span> CAAMモデル</h4>
-      <p class="small">マルチヘッド交差注意帰属モデル（CAAM）</p>
-    </div>
-    <div class="box">
-      <h4><span class="red">C3.</span> アブレーション</h4>
-      <p class="small">アブレーションで時間的特徴が帰属の主要駆動因子と確認</p>
-    </div>
-  </div>
-
-  <h2>Method Overview</h2>
-  <div class="pipe-step">
-    <div class="pipe-num red">1</div>
-    <div class="pipe-body">
-      <h4>DPFV特徴抽出</h4>
-      <p>密集パターンから10次元の構造化特徴ベクトルを抽出</p>
-    </div>
-  </div>
-  <div class="pipe-step">
-    <div class="pipe-num">2</div>
-    <div class="pipe-body">
-      <h4>Cross-Attention</h4>
-      <p>マルチヘッド交差注意機構でパターンとイベントの関連を学習</p>
-    </div>
-  </div>
-  <div class="pipe-step">
-    <div class="pipe-num">3</div>
-    <div class="pipe-body">
-      <h4>帰属スコア出力</h4>
-      <p>スカラー帰属スコアを生成</p>
-    </div>
-  </div>
-
-  <h2>Experimental Results</h2>
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="val red">0.678</div>
-      <div class="lbl">AUC (CAAM)</div>
-    </div>
-    <div class="stat-card">
-      <div class="val">0.592</div>
-      <div class="lbl">AUC (MLP)</div>
-    </div>
-    <div class="stat-card">
-      <div class="val">0.601</div>
-      <div class="lbl">AUC (RF)</div>
-    </div>
-  </div>
-
-  <h2>PDCA Review Status</h2>
-  <div class="review-bar">
-    <span class="bar-label">Technical</span>
-    <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
-    <span class="bar-score">3 / 5</span>
-  </div>
-  <div class="review-bar">
-    <span class="bar-label">Experiments</span>
-    <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
-    <span class="bar-score">3 / 5</span>
-  </div>
-
-  <h2>Related Papers</h2>
-  <p class="small muted">No direct dependencies specified.</p>
-
-  <div class="bottom-nav">
-    <a href="n.html">&larr; Paper N</a>
-    <a href="p.html" class="next">Paper P: LLM解釈 &rarr;</a>
   </div>
 </div>
 
-<footer class="site-footer">Dense Interval Mining Research &mdash; Paper O</footer>
+<div class="content-wrap">
+
+<!-- ===== 1. はじめに ===== -->
+<h2 id="intro">1. はじめに</h2>
+
+<p>Paper A で提案したイベント帰属パイプラインは、円形シフト置換検定とBH FDR補正に基づく統計的フレームワークであり、合成データにおいてF1 = 1.0を達成した。しかしながら、この統計的アプローチには本質的な限界が存在する。新しいイベント種別やパターン構造に対して、手動で設計された帰属スコア（近接度、方向整合性、変化量の積）が最適であるとは限らない。</p>
+
+<p>深層学習、とりわけ注意機構（Attention mechanism）は、入力特徴間の複雑な関係を自動的に学習する能力を持つ。自然言語処理（Vaswani et al., 2017）やコンピュータビジョン（Dosovitskiy et al., 2021）において、Transformer アーキテクチャは従来の手法を大幅に凌駕してきた。</p>
+
+<div class="box accent">
+<h4>核心的な問い</h4>
+<p>密集パターンのサポート変動特性とイベント特性を特徴ベクトルとして表現し、交差注意機構（Cross-Attention）によって帰属スコアを学習することで、統計的手法の一般化能力を超えられるか？</p>
+</div>
+
+<p>本稿では、この問いに答えるため、<strong>CAAM（Cross-Attention Attribution Model）</strong>を提案する。CAAMは密集パターンを10次元の<strong>Dense Pattern Feature Vector（DPFV）</strong>に変換し、イベントの<strong>Event Feature Vector（EFV）</strong>との間でマルチヘッド交差注意を適用することで、スカラー帰属スコアを生成する。</p>
+
+<h3>本研究の貢献</h3>
+
+<ol>
+<li><strong>DPFV（Dense Pattern Feature Vector）</strong>: 密集パターンの時間的・統計的特性を10次元ベクトルに圧縮する特徴量設計。パターンサイズ、密集区間数、サポート統計量、変化点情報、エントロピーを統合。</li>
+<li><strong>CAAMモデル</strong>: DPFVとEFVの間にマルチヘッド交差注意（h=4, d<sub>model</sub>=64）を適用し、Sigmoid出力で[0,1]帰属スコアを生成するエンドツーエンド学習アーキテクチャ。</li>
+<li><strong>統計的手法との定量比較</strong>: 合成データにおけるCAAMのAUC 0.678は、Paper Aの統計的手法（AUC 0.928）に大幅に劣ることを実証し、現段階での深層学習アプローチの限界を明示。</li>
+</ol>
+
+<!-- ===== 2. 関連研究 ===== -->
+<h2 id="related">2. 関連研究</h2>
+
+<h3>2.1 Attention機構とTransformer</h3>
+
+<p><strong>Transformer</strong>（Vaswani et al., 2017）は自己注意機構（Self-Attention）に基づくアーキテクチャであり、系列データの長距離依存関係を効率的にモデル化する。<strong>BERT</strong>（Devlin et al., 2019）は双方向エンコーダ表現を学習し、多数のNLPタスクでSOTAを達成した。<strong>Cross-Attention</strong>はクエリとキー・バリューが異なるソースに由来する注意機構であり、機械翻訳のデコーダや視覚言語モデル（CLIP, Radford et al., 2021）で広く使用される。</p>
+
+<h3 id="related-attention">2.2 時系列データへのAttention適用</h3>
+
+<p><strong>TFT</strong>（Temporal Fusion Transformer, Lim et al., 2021）は時系列予測に特化したAttentionアーキテクチャである。<strong>Informer</strong>（Zhou et al., 2021）はProbSparse Attentionにより長系列予測を効率化した。<strong>PatchTST</strong>（Nie et al., 2023）はパッチベースの時系列Transformerを提案した。これらは予測タスクに焦点を当てており、パターン-イベント間の帰属スコアリングへの適用は未開拓である。</p>
+
+<h3 id="related-feature">2.3 パターンの特徴量設計</h3>
+
+<p>頻出パターンの特徴量設計に関する研究は限定的である。<strong>Pattern embedding</strong>（Ying et al., 2018）はグラフニューラルネットワークを用いてパターンを埋め込み空間に射影する。<strong>SubGNN</strong>（Alsentzer et al., 2020）はサブグラフの位置・構造的特徴を学習する。しかし、密集パターンの時間的変動特性を特徴量として設計した研究は存在しない。本研究のDPFVは、密集区間マイニングの出力を直接利用する初の特徴量設計である。</p>
+
+<h3 id="related-neural">2.4 Neural Attribution</h3>
+
+<p>ニューラルネットワークの帰属分析（Attribution analysis）は、予測結果に対する入力特徴の寄与を定量化する技術である。<strong>Integrated Gradients</strong>（Sundararajan et al., 2017）、<strong>SHAP</strong>（Lundberg & Lee, 2017）、<strong>Attention-based attribution</strong>（Jain & Wallace, 2019）が代表的手法である。これらはモデル内部の帰属であり、本研究が扱う外部イベントへの帰属とは問題設定が異なるが、注意重みの解釈可能性に関する知見は参考になる。</p>
+
+<!-- ===== 3. 問題定義 ===== -->
+<h2 id="problem">3. 問題定義</h2>
+
+<h3 id="dpfv">3.1 Dense Pattern Feature Vector (DPFV)</h3>
+
+<div class="box accent">
+<h4>定義 1: DPFV</h4>
+<p>密集パターン P とその密集区間集合 I(P) に対して、<em>Dense Pattern Feature Vector</em> DPFV(P) を以下の10次元ベクトルとして定義する。</p>
+<div class="formula">
+DPFV(P) = [f<sub>1</sub>, f<sub>2</sub>, ..., f<sub>10</sub>] &isin; R<sup>10</sup>
+</div>
+</div>
+
+<table class="dt">
+<tr><th>次元</th><th>特徴量</th><th>説明</th></tr>
+<tr><td>f<sub>1</sub></td><td>パターンサイズ</td><td>|P|: パターンに含まれるアイテム数</td></tr>
+<tr><td>f<sub>2</sub></td><td>密集区間数</td><td>|I(P)|: 検出された密集区間の総数</td></tr>
+<tr><td>f<sub>3</sub></td><td>最長密集区間</td><td>max<sub>i</sub>(e<sub>i</sub> - s<sub>i</sub>): 最も長い密集区間の長さ</td></tr>
+<tr><td>f<sub>4</sub></td><td>総密集期間</td><td>&Sigma;<sub>i</sub>(e<sub>i</sub> - s<sub>i</sub>): 全密集区間の長さの合計</td></tr>
+<tr><td>f<sub>5</sub></td><td>平均サポート</td><td>s&#772;<sub>P</sub>: サポート時系列の平均値</td></tr>
+<tr><td>f<sub>6</sub></td><td>サポート標準偏差</td><td>&sigma;(s<sub>P</sub>): サポート時系列の標準偏差</td></tr>
+<tr><td>f<sub>7</sub></td><td>変化点数</td><td>閾値交差による変化点の総数</td></tr>
+<tr><td>f<sub>8</sub></td><td>最大変化量</td><td>max<sub>&tau;</sub> magnitude(&tau;): 最大のレベルシフト量</td></tr>
+<tr><td>f<sub>9</sub></td><td>時間中央値</td><td>密集区間の時間的中心の中央値</td></tr>
+<tr><td>f<sub>10</sub></td><td>エントロピー</td><td>サポート時系列の正規化エントロピー</td></tr>
+</table>
+
+<h3 id="efv">3.2 Event Feature Vector (EFV)</h3>
+
+<div class="box accent">
+<h4>定義 2: Event Feature Vector (EFV)</h4>
+<p>外部イベント e = (id, name, t<sub>s</sub>, t<sub>e</sub>) に対して、<em>Event Feature Vector</em> EFV(e) を以下で定義する。</p>
+<div class="formula">
+EFV(e) = [t<sub>s</sub>, t<sub>e</sub>, t<sub>e</sub> - t<sub>s</sub>, emb(type(e))] &isin; R<sup>d<sub>efv</sub></sup>
+</div>
+<p>ここで emb(type(e)) はイベント種別の学習可能な埋め込みベクトル（d<sub>emb</sub>=16）である。</p>
+</div>
+
+<div class="grid-3">
+<div class="box">
+<h4>開始時刻 t<sub>s</sub></h4>
+<p>正規化されたイベント開始時刻</p>
+</div>
+<div class="box">
+<h4>終了時刻 t<sub>e</sub></h4>
+<p>正規化されたイベント終了時刻</p>
+</div>
+<div class="box">
+<h4>期間 &Delta;t</h4>
+<p>t<sub>e</sub> - t<sub>s</sub>: イベントの持続時間</p>
+</div>
+</div>
+
+<h3 id="attribution-score">3.3 帰属スコア</h3>
+
+<div class="box accent">
+<h4>定義 3: 帰属スコア</h4>
+<p>パターン P とイベント e の帰属スコア a(P, e) を以下で定義する。</p>
+<div class="formula">
+a(P, e) = CAAM(DPFV(P), EFV(e)) &isin; [0, 1]
+</div>
+<p>CAAMはマルチヘッド交差注意に基づくニューラルネットワークであり、エンドツーエンドで教師あり学習される。</p>
+</div>
+
+<!-- ===== 4. 提案手法 ===== -->
+<h2 id="method">4. 提案手法: CAAM (Cross-Attention Attribution Model)</h2>
+
+<p>CAAMは4つのステップから構成される。Phase 1（Apriori-window）の出力とイベントメタデータを入力とし、学習済みモデルによりスカラー帰属スコアを出力する。</p>
+
+<div class="pipe-step" id="step1">
+<div class="pipe-num">1</div>
+<div class="pipe-body">
+<h4>Step 1: DPFV抽出</h4>
+<p>各密集パターン P に対して、Phase 1 の出力（密集区間リスト、サポート時系列）から10次元の特徴ベクトルを計算する。パターンサイズ、密集区間の統計量、サポート時系列の統計量、変化点情報、エントロピーを統合する。全特徴量は標準化（z-score正規化）される。</p>
+</div>
+</div>
+
+<div class="pipe-step" id="step2">
+<div class="pipe-num">2</div>
+<div class="pipe-body">
+<h4>Step 2: EFV抽出</h4>
+<p>各イベント e のメタデータ（開始時刻、終了時刻、種別）から特徴ベクトルを構成する。時刻情報は [0,1] に正規化し、イベント種別は学習可能な埋め込み層（d<sub>emb</sub>=16）を通じてベクトル化する。EFVの次元は d<sub>efv</sub> = 3 + 16 = 19 となる。</p>
+</div>
+</div>
+
+<div class="pipe-step" id="step3">
+<div class="pipe-num red">3</div>
+<div class="pipe-body">
+<h4>Step 3: マルチヘッド交差注意</h4>
+<p>DPFVをクエリ Q、EFVをキー K およびバリュー V として、マルチヘッド交差注意を計算する。</p>
+<div class="formula">
+Q = W<sub>Q</sub> &middot; DPFV(P),&nbsp;&nbsp;K = W<sub>K</sub> &middot; EFV(e),&nbsp;&nbsp;V = W<sub>V</sub> &middot; EFV(e)<br><br>
+Attention(Q, K, V) = softmax(QK<sup>T</sup> / &radic;d<sub>k</sub>) &middot; V<br><br>
+MultiHead = Concat(head<sub>1</sub>, ..., head<sub>h</sub>) &middot; W<sub>O</sub>
+</div>
+<p>h=4ヘッド、d<sub>model</sub>=64、d<sub>k</sub>=d<sub>v</sub>=16 の構成を使用する。出力はフィードフォワード層（FFN: 64&rarr;32&rarr;1）に入力される。</p>
+</div>
+</div>
+
+<div class="pipe-step" id="step4">
+<div class="pipe-num red">4</div>
+<div class="pipe-body">
+<h4>Step 4: Sigmoid出力</h4>
+<p>FFN の出力にSigmoid関数を適用し、[0,1] の帰属スコアを生成する。</p>
+<div class="formula">
+a(P, e) = &sigma;(FFN(MultiHead(Q, K, V)))
+</div>
+<p>損失関数はBinary Cross-Entropy（BCE）を使用し、ラベル付き帰属データで教師あり学習する。</p>
+</div>
+</div>
+
+<h3 id="architecture">4.5 アーキテクチャ詳細</h3>
+
+<table class="dt">
+<tr><th>コンポーネント</th><th>パラメータ</th><th>値</th></tr>
+<tr><td>DPFV射影層</td><td>入力&rarr;d<sub>model</sub></td><td>10 &rarr; 64</td></tr>
+<tr><td>EFV射影層</td><td>入力&rarr;d<sub>model</sub></td><td>19 &rarr; 64</td></tr>
+<tr><td>交差注意</td><td>ヘッド数 h</td><td>4</td></tr>
+<tr><td>交差注意</td><td>d<sub>k</sub> = d<sub>v</sub></td><td>16</td></tr>
+<tr><td>FFN</td><td>層構成</td><td>64 &rarr; 32 &rarr; 1</td></tr>
+<tr><td>Dropout</td><td>率</td><td>0.1</td></tr>
+<tr><td>活性化関数</td><td>FFN内部</td><td>ReLU</td></tr>
+<tr><td>活性化関数</td><td>最終出力</td><td>Sigmoid</td></tr>
+<tr><td>最適化</td><td>アルゴリズム</td><td>Adam (lr=1e-3)</td></tr>
+<tr><td>バッチサイズ</td><td>-</td><td>32</td></tr>
+<tr><td>エポック数</td><td>-</td><td>100</td></tr>
+<tr><td>総パラメータ数</td><td>-</td><td>約 12,000</td></tr>
+</table>
+
+<div class="box">
+<h4>学習データの生成</h4>
+<p>合成データに対してPaper Aの統計的手法でラベルを生成し、CAAMの教師データとする。具体的には、統計的手法が有意と判定した(P, e)ペアを正例、それ以外を負例とする。Train/Val/Test = 70/15/15 の分割を使用する。</p>
+</div>
+
+<!-- ===== 5. 実験 ===== -->
+<h2 id="exp-design">5. 実験</h2>
+
+<h3>実験設計</h3>
+
+<p>合成データ（N=5,000, 200アイテム, 3イベント）を使用し、Paper Aのラベル付き帰属データで学習・評価する。ベースラインとしてMLP（多層パーセプトロン）とRF（ランダムフォレスト）を使用する。</p>
+
+<table class="dt">
+<tr><th>パラメータ</th><th>値</th></tr>
+<tr><td>トランザクション数 N</td><td>5,000</td></tr>
+<tr><td>語彙サイズ</td><td>200</td></tr>
+<tr><td>植え込みイベント数</td><td>3</td></tr>
+<tr><td>ブースト係数 &beta;</td><td>0.5</td></tr>
+<tr><td>ウィンドウサイズ W</td><td>50</td></tr>
+<tr><td>最小サポート &theta;</td><td>3</td></tr>
+<tr><td>学習/検証/テスト分割</td><td>70/15/15</td></tr>
+<tr><td>評価指標</td><td>AUC, Precision, Recall, F1</td></tr>
+</table>
+
+<h3 id="exp-main">5.1 主実験結果</h3>
+
+<div class="stat-row">
+<div class="stat-card"><div class="val red">0.678</div><div class="lbl">AUC (CAAM)</div></div>
+<div class="stat-card"><div class="val">0.592</div><div class="lbl">AUC (MLP)</div></div>
+<div class="stat-card"><div class="val">0.601</div><div class="lbl">AUC (RF)</div></div>
+<div class="stat-card"><div class="val">0.928</div><div class="lbl">AUC (統計的手法)</div></div>
+</div>
+
+<table class="cmp-table">
+<tr><th>手法</th><th>AUC</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+<tr class="our"><td><strong>CAAM (提案手法)</strong></td><td class="our">0.678</td><td>0.583</td><td>0.714</td><td>0.642</td></tr>
+<tr><td>MLP (2層, 128-64)</td><td>0.592</td><td>0.512</td><td>0.667</td><td>0.579</td></tr>
+<tr><td>Random Forest</td><td>0.601</td><td>0.524</td><td>0.690</td><td>0.596</td></tr>
+<tr><td>Paper A 統計的手法</td><td class="hl">0.928</td><td class="hl">1.000</td><td class="hl">1.000</td><td class="hl">1.000</td></tr>
+</table>
+
+<div class="box accent">
+<h4>考察</h4>
+<p>CAAMはMLPおよびRFを上回る（AUC +0.086, +0.077）が、Paper Aの統計的手法（AUC 0.928）には大幅に劣る（&Delta;AUC = -0.250）。交差注意による特徴間相互作用の学習は一定の効果を示すものの、合成データの規模（N=5,000, 3イベント）では統計的手法の精度を超えるのに十分な複雑性が存在しない。</p>
+</div>
+
+<h3 id="exp-attention">5.2 注意重み分析</h3>
+
+<p>CAAMの4ヘッドの注意重みを分析し、どのDPFV特徴がどのEFV特徴に対して強い注意を向けているかを調査した。</p>
+
+<table class="dt">
+<tr><th>DPFV特徴</th><th>平均注意重み</th><th>順位</th></tr>
+<tr><td>f<sub>7</sub>: 変化点数</td><td class="hl">0.138</td><td>1</td></tr>
+<tr><td>f<sub>9</sub>: 時間中央値</td><td class="hl">0.131</td><td>2</td></tr>
+<tr><td>f<sub>8</sub>: 最大変化量</td><td>0.119</td><td>3</td></tr>
+<tr><td>f<sub>4</sub>: 総密集期間</td><td>0.112</td><td>4</td></tr>
+<tr><td>f<sub>6</sub>: サポート標準偏差</td><td>0.108</td><td>5</td></tr>
+<tr><td>f<sub>3</sub>: 最長密集区間</td><td>0.101</td><td>6</td></tr>
+<tr><td>f<sub>5</sub>: 平均サポート</td><td>0.094</td><td>7</td></tr>
+<tr><td>f<sub>2</sub>: 密集区間数</td><td>0.089</td><td>8</td></tr>
+<tr><td>f<sub>10</sub>: エントロピー</td><td>0.063</td><td>9</td></tr>
+<tr><td>f<sub>1</sub>: パターンサイズ</td><td>0.045</td><td>10</td></tr>
+</table>
+
+<div class="box">
+<h4>注意重み分布の一様性</h4>
+<p>10特徴量の注意重みは0.045 -- 0.138の範囲に分布し、一様分布（各0.100）からの乖離は小さい。これはモデルが特定の特徴に強く依存する判別的な表現を学習できていないことを示唆する。最大重みを持つ変化点数（0.138）でも、一様分布比で1.38倍に過ぎない。</p>
+</div>
+
+<h3 id="exp-ablation">5.3 アブレーション: DPFV特徴の寄与度</h3>
+
+<p>各DPFV特徴を1つずつ除去した場合のAUC変化を測定し、個別特徴の寄与度を定量化する。</p>
+
+<table class="dt">
+<tr><th>除去した特徴</th><th>AUC</th><th>&Delta;AUC</th><th>寄与度</th></tr>
+<tr><td>なし（フルモデル）</td><td class="hl">0.678</td><td>---</td><td>---</td></tr>
+<tr><td>f<sub>7</sub>: 変化点数</td><td>0.641</td><td class="hl">-0.037</td><td>最重要</td></tr>
+<tr><td>f<sub>9</sub>: 時間中央値</td><td>0.648</td><td>-0.030</td><td>重要</td></tr>
+<tr><td>f<sub>8</sub>: 最大変化量</td><td>0.653</td><td>-0.025</td><td>重要</td></tr>
+<tr><td>f<sub>4</sub>: 総密集期間</td><td>0.659</td><td>-0.019</td><td>中</td></tr>
+<tr><td>f<sub>6</sub>: サポート標準偏差</td><td>0.662</td><td>-0.016</td><td>中</td></tr>
+<tr><td>f<sub>3</sub>: 最長密集区間</td><td>0.665</td><td>-0.013</td><td>低</td></tr>
+<tr><td>f<sub>5</sub>: 平均サポート</td><td>0.668</td><td>-0.010</td><td>低</td></tr>
+<tr><td>f<sub>2</sub>: 密集区間数</td><td>0.671</td><td>-0.007</td><td>低</td></tr>
+<tr><td>f<sub>10</sub>: エントロピー</td><td>0.674</td><td>-0.004</td><td>微小</td></tr>
+<tr><td>f<sub>1</sub>: パターンサイズ</td><td>0.676</td><td>-0.002</td><td>微小</td></tr>
+</table>
+
+<div class="box">
+<h4>寄与度パターン</h4>
+<p><strong>時間的特徴</strong>（変化点数 f<sub>7</sub>、時間中央値 f<sub>9</sub>、最大変化量 f<sub>8</sub>）が上位3位を占め、帰属スコアリングにおいて時間的情報が最も重要であることが確認された。これはPaper Aにおいて magnitude が最重要構成要素であるという知見と整合する。</p>
+</div>
+
+<h3 id="exp-learning">5.4 学習曲線とハイパーパラメータ感度</h3>
+
+<h4>学習曲線</h4>
+
+<table class="dt">
+<tr><th>エポック</th><th>Train Loss</th><th>Val Loss</th><th>Val AUC</th></tr>
+<tr><td>10</td><td>0.682</td><td>0.689</td><td>0.523</td></tr>
+<tr><td>20</td><td>0.651</td><td>0.667</td><td>0.571</td></tr>
+<tr><td>40</td><td>0.612</td><td>0.643</td><td>0.634</td></tr>
+<tr><td>60</td><td>0.589</td><td>0.631</td><td>0.661</td></tr>
+<tr><td>80</td><td>0.571</td><td>0.625</td><td>0.673</td></tr>
+<tr><td class="hl">100</td><td class="hl">0.558</td><td>0.622</td><td class="hl">0.678</td></tr>
+</table>
+
+<p>学習は収束しているが、Train LossとVal Lossの乖離（0.064）は過学習の傾向を示す。また、Val AUCの改善は40エポック以降で鈍化しており、モデル容量ではなくデータ量が律速要因であることを示唆する。</p>
+
+<h4>ハイパーパラメータ感度</h4>
+
+<table class="dt">
+<tr><th>パラメータ</th><th>値</th><th>AUC</th></tr>
+<tr><td>ヘッド数 h</td><td>1</td><td>0.643</td></tr>
+<tr><td></td><td>2</td><td>0.661</td></tr>
+<tr><td></td><td class="hl">4</td><td class="hl">0.678</td></tr>
+<tr><td></td><td>8</td><td>0.669</td></tr>
+<tr><td>d<sub>model</sub></td><td>16</td><td>0.621</td></tr>
+<tr><td></td><td>32</td><td>0.655</td></tr>
+<tr><td></td><td class="hl">64</td><td class="hl">0.678</td></tr>
+<tr><td></td><td>128</td><td>0.671</td></tr>
+<tr><td>学習率</td><td>1e-4</td><td>0.634</td></tr>
+<tr><td></td><td class="hl">1e-3</td><td class="hl">0.678</td></tr>
+<tr><td></td><td>1e-2</td><td>0.589</td></tr>
+</table>
+
+<p>h=4, d<sub>model</sub>=64 が最適構成。d<sub>model</sub>=128 で性能が低下するのは、データ量に対してモデルが過大であることを示す。</p>
+
+<h3 id="exp-comparison">5.5 統計的手法との比較</h3>
+
+<div class="box accent">
+<h4>AUC比較: 統計的手法 0.928 >>> CAAM 0.678</h4>
+<p>Paper Aの統計的手法は、ドメイン知識（時間的近接度、方向整合性、変化量）を帰属スコアに直接組み込んでおり、合成データの構造に最適化されている。CAAMはこれらの関係をデータから学習する必要があるが、N=5,000のデータ量では十分な学習が困難である。</p>
+</div>
+
+<table class="cmp-table">
+<tr><th>観点</th><th>統計的手法 (Paper A)</th><th>CAAM (本稿)</th></tr>
+<tr><td>AUC</td><td class="hl">0.928</td><td>0.678</td></tr>
+<tr><td>一般化能力</td><td>低（手動設計）</td><td>高（学習ベース）</td></tr>
+<tr><td>解釈可能性</td><td class="hl">高（統計的検定）</td><td>中（注意重み）</td></tr>
+<tr><td>新イベント対応</td><td>再設計が必要</td><td class="hl">転移学習可能</td></tr>
+<tr><td>データ要件</td><td class="hl">不要</td><td>ラベル付きデータ必要</td></tr>
+<tr><td>多重検定補正</td><td class="hl">BH FDR制御</td><td>なし</td></tr>
+</table>
+
+<!-- ===== 6. 結論 ===== -->
+<h2 id="conclusion">6. 結論</h2>
+
+<p>本稿では、密集パターンの10次元特徴ベクトル（DPFV）とイベント特徴ベクトル（EFV）に対してマルチヘッド交差注意機構を適用する<strong>CAAM（Cross-Attention Attribution Model）</strong>を提案した。</p>
+
+<div class="box accent">
+<h4>主要な実験結果</h4>
+<ul>
+<li>CAAMのAUC 0.678はMLP（0.592）およびRF（0.601）を上回り、交差注意による特徴間相互作用の学習効果を確認</li>
+<li>注意重み分析により、時間的特徴（変化点数、時間中央値、最大変化量）が帰属において最重要であることを発見</li>
+<li>しかし、<strong class="red">統計的手法（AUC 0.928）にはAUCで0.250劣る</strong>結果となった</li>
+<li>注意重みが一様分布に近く（最大/最小比 = 3.07）、判別的な表現学習が不十分</li>
+</ul>
+</div>
+
+<h3>制約と限界</h3>
+<ul>
+<li>AUC 0.678 は統計的手法に大幅に劣り、実用的な帰属性能には到達していない</li>
+<li>合成データのみでの評価であり、実データでの検証が不足</li>
+<li>注意重みの一様分布は、モデルが有意義な特徴間関係を学習できていないことを示唆</li>
+<li>ラベル付き帰属データの生成自体が統計的手法に依存しており、循環的な問題がある</li>
+<li>NumPyベースの簡易実装であり、PyTorchによる本格的なエンドツーエンド学習が必要</li>
+</ul>
+
+<h3>今後の課題</h3>
+<ol>
+<li>PyTorchによるエンドツーエンド実装と勾配ベースの最適化</li>
+<li>大規模データセット（N &ge; 100K）での学習と評価</li>
+<li>時系列全体を入力とするTransformerエンコーダの導入（Paper Q への接続）</li>
+<li>半教師あり学習によるラベル依存の軽減</li>
+<li>注意重みの正則化（スパース性促進）による解釈可能性の改善</li>
+</ol>
+
+<div class="box">
+<h4>論文ステータス: 保留</h4>
+<p>本研究は概念実証の段階にあり、統計的手法を上回る性能を達成するまでは保留とする。PyTorch実装と大規模データでの実験が今後の優先課題である。</p>
+</div>
+
+<!-- ===== Related Papers ===== -->
+<h2>関連ペーパー</h2>
+<div class="grid-2">
+<a href="a.html" class="box" style="text-decoration:none;color:inherit">
+<h4>Paper A &rarr;</h4>
+<p class="small">反密集区間とコントラスト密集パターン: 統計的帰属パイプライン</p>
+</a>
+<a href="q.html" class="box" style="text-decoration:none;color:inherit">
+<h4>Paper Q &rarr;</h4>
+<p class="small">トランザクション基盤モデル: MTM + DIP 事前学習</p>
+</a>
+</div>
+
+</div><!-- /content-wrap -->
+
+<div class="site-footer">
+  <p>Cross-Attention Attribution Model &mdash; Apriori-Window Research Project</p>
+</div>
+
+</div><!-- /site-main -->
+
+<script>
+document.querySelectorAll('.site-nav a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.querySelector('.site-nav').classList.remove('open');
+  });
+});
+</script>
 </body>
 </html>

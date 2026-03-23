@@ -3,122 +3,881 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paper J - 差分プライバシー密集区間マイニング</title>
+<title>Paper J - イベント帰属パイプラインの差分プライバシー保証</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;--c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;--c-red-bg:#fff5f5;--c-red-light:#ffcdd2;--max-w:780px;--font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace}
-  html{scroll-behavior:smooth}body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.85;font-weight:400;font-size:15px;background:var(--c-bg)}
-  .top-nav{position:sticky;top:0;z-index:100;background:var(--c-bg);border-bottom:1px solid var(--c-border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}.top-nav .left{display:flex;align-items:center;gap:16px}.top-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.02em}.top-nav a{font-size:13px;color:var(--c-gray);text-decoration:none;transition:color .15s}.top-nav a:hover{color:var(--c-red)}.top-nav .back-link{display:flex;align-items:center;gap:4px;font-weight:500}.top-nav .nav-arrows{display:flex;gap:8px}.top-nav .nav-arrows a{display:flex;align-items:center;gap:4px;padding:4px 12px;border:1px solid var(--c-border);border-radius:6px;font-size:12px;font-weight:500}.top-nav .nav-arrows a:hover{border-color:var(--c-red);color:var(--c-red)}.top-nav .nav-arrows a.disabled{opacity:.3;pointer-events:none}
-  .hero{border-bottom:1px solid var(--c-border);padding:80px 40px 64px;max-width:var(--max-w);margin:0 auto;position:relative;overflow:hidden}.hero .paper-id{position:absolute;top:-20px;right:-10px;font-size:clamp(10rem,20vw,16rem);font-weight:900;color:var(--c-border);opacity:.5;line-height:1;pointer-events:none;letter-spacing:-.05em}.hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.25;letter-spacing:-.03em;position:relative}.hero .lead{font-size:1.05rem;color:var(--c-gray);margin-top:16px;max-width:600px;position:relative}.hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;position:relative}.hero .badge{font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;background:var(--c-surface);border:1px solid var(--c-border)}.hero .badge.accent{background:var(--c-red-bg);border-color:var(--c-red-light);color:var(--c-red);font-weight:700}.hero .badge.wave-1{background:#e3f2fd;border-color:#90caf9;color:#1565c0}.hero .badge.wave-2{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}.hero .badge.wave-3{background:#fff3e0;border-color:#ffcc80;color:#e65100}.hero .badge.wave-4{background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a}.hero .badge.wave-5{background:#fce4ec;border-color:#f48fb1;color:#880e4f}
-  .content-wrap{max-width:var(--max-w);margin:0 auto;padding:48px 40px 120px}.content-wrap h2{font-size:1.5rem;font-weight:900;margin:64px 0 24px;padding-top:20px;letter-spacing:-.01em;border-top:2px solid var(--c-fg)}.content-wrap h2:first-child{border-top:none;margin-top:0}.content-wrap p{margin-bottom:14px}.red{color:var(--c-red)}.muted{color:var(--c-muted)}.small{font-size:13px;color:var(--c-gray)}
-  .box{background:var(--c-surface);border:1px solid var(--c-border);border-radius:10px;padding:24px;margin:20px 0}.box.accent{border-left:4px solid var(--c-red);background:var(--c-red-bg)}.box h4{margin:0 0 8px;font-size:1rem;font-weight:700}
+  :root{
+    --c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;
+    --c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;
+    --c-red-bg:#fff5f5;--c-red-light:#ffcdd2;
+    --nav-w:240px;--max-w:780px;
+    --font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  html{scroll-behavior:smooth;scroll-padding-top:32px}
+  body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.85;font-weight:400;font-size:15px;background:var(--c-bg)}
+
+  /* ── NAV ── */
+  .site-nav{
+    position:fixed;top:0;left:0;width:var(--nav-w);height:100vh;
+    border-right:1px solid var(--c-border);padding:32px 24px;
+    overflow-y:auto;background:var(--c-bg);z-index:100;
+  }
+  .site-nav .logo{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+  .site-nav .logo-sub{font-size:11px;color:var(--c-muted);margin-bottom:28px}
+  .site-nav a{
+    display:block;padding:6px 12px;margin:2px 0;
+    font-size:13px;color:var(--c-gray);text-decoration:none;
+    border-radius:6px;transition:all .15s;
+  }
+  .site-nav a:hover{background:var(--c-surface);color:var(--c-fg)}
+  .site-nav a.active{background:var(--c-red-bg);color:var(--c-red);font-weight:700}
+  .site-nav .nav-section{
+    font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--c-muted);margin:20px 0 6px 12px;
+  }
+  .site-nav .nav-back{
+    display:inline-flex;align-items:center;gap:4px;font-size:12px;
+    color:var(--c-muted);text-decoration:none;margin-bottom:16px;
+  }
+  .site-nav .nav-back:hover{color:var(--c-red)}
+  .site-nav .nav-arrows{display:flex;gap:6px;margin-top:20px}
+  .site-nav .nav-arrows a{
+    flex:1;text-align:center;padding:6px 8px;border:1px solid var(--c-border);
+    border-radius:6px;font-size:11px;font-weight:500;color:var(--c-gray);text-decoration:none;
+  }
+  .site-nav .nav-arrows a:hover{border-color:var(--c-red);color:var(--c-red)}
+
+  /* ── MAIN ── */
+  .site-main{margin-left:var(--nav-w);min-height:100vh}
+  .content-wrap{max-width:var(--max-w);margin:0 auto;padding:48px 40px 120px}
+
+  /* ── HERO ── */
+  .hero{
+    border-bottom:1px solid var(--c-border);
+    padding:80px 40px 64px;max-width:var(--max-w);margin:0 auto;
+    position:relative;overflow:hidden;
+  }
+  .hero .paper-id{
+    position:absolute;top:-20px;right:-10px;font-size:clamp(10rem,20vw,16rem);
+    font-weight:900;color:var(--c-border);opacity:.5;line-height:1;pointer-events:none;letter-spacing:-.05em;
+  }
+  .hero h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.25;letter-spacing:-.03em;position:relative}
+  .hero .lead{font-size:1.05rem;color:var(--c-gray);margin-top:16px;max-width:600px;position:relative}
+  .hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;position:relative}
+  .hero .badge{font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;background:var(--c-surface);border:1px solid var(--c-border)}
+  .hero .badge.accent{background:var(--c-red-bg);border-color:var(--c-red-light);color:var(--c-red);font-weight:700}
+  .hero .badge.wave-5{background:#fce4ec;border-color:#f48fb1;color:#880e4f}
+
+  /* ── TYPOGRAPHY ── */
+  .content-wrap h2{
+    font-size:1.5rem;font-weight:900;margin:64px 0 24px;padding-top:20px;
+    letter-spacing:-.01em;border-top:2px solid var(--c-fg);
+  }
+  .content-wrap h2:first-child{border-top:none;margin-top:0}
+  .content-wrap h3{font-size:1.15rem;font-weight:700;margin:36px 0 12px}
+  .content-wrap h4{font-size:1rem;font-weight:700;margin:24px 0 8px}
+  .content-wrap p{margin-bottom:14px}
+  .content-wrap ul,.content-wrap ol{margin:0 0 14px 20px}
+  .content-wrap li{margin-bottom:6px}
+  .red{color:var(--c-red)}.muted{color:var(--c-muted)}.small{font-size:13px;color:var(--c-gray)}
+
+  /* ── BOXES ── */
+  .box{background:var(--c-surface);border:1px solid var(--c-border);border-radius:10px;padding:24px;margin:20px 0}
+  .box.accent{border-left:4px solid var(--c-red);background:var(--c-red-bg)}
+  .box h4{margin:0 0 8px;font-size:1rem;font-weight:700}
+
+  /* ── FORMULA ── */
+  .formula{
+    background:var(--c-surface);border-left:4px solid var(--c-red);
+    padding:16px 24px;border-radius:0 8px 8px 0;margin:16px 0;
+    font-family:var(--font-mono);font-size:14px;overflow-x:auto;
+  }
+
+  /* ── GRIDS ── */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
   .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0}
-  .stat-row{display:flex;gap:16px;margin:20px 0;flex-wrap:wrap}.stat-card{flex:1;min-width:140px;text-align:center;padding:24px 12px;border:1px solid var(--c-border);border-radius:10px}.stat-card .val{font-size:2rem;font-weight:900;line-height:1}.stat-card .lbl{font-size:12px;color:var(--c-muted);margin-top:6px}
-  .pipe-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--c-border)}.pipe-step:last-child{border-bottom:none}.pipe-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}.pipe-num.red{background:var(--c-red)}.pipe-body{flex:1}.pipe-body h4{margin:0 0 4px}.pipe-body p{margin:0;font-size:14px;color:var(--c-gray)}
-  .review-bar{display:flex;gap:8px;align-items:center;margin:8px 0}.review-bar .bar-track{flex:1;max-width:200px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden}.review-bar .bar-fill{height:100%;border-radius:4px;background:var(--c-red)}.review-bar .bar-label{font-size:13px;font-weight:700;min-width:60px}.review-bar .bar-score{font-size:13px;color:var(--c-muted)}
-  .dep-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.dep-link{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--c-border);border-radius:8px;text-decoration:none;color:var(--c-fg);font-size:13px;font-weight:500;transition:all .15s}.dep-link:hover{border-color:var(--c-red);color:var(--c-red);background:var(--c-red-bg)}.dep-link .dep-id{width:24px;height:24px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}.dep-link:hover .dep-id{background:var(--c-red)}
-  .bottom-nav{display:flex;justify-content:space-between;align-items:center;padding:32px 0;margin-top:64px;border-top:2px solid var(--c-fg)}.bottom-nav a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--c-gray);font-size:14px;font-weight:500;transition:color .15s}.bottom-nav a:hover{color:var(--c-red)}.bottom-nav .next{margin-left:auto}
+  @media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  /* ── TABLES ── */
+  table.dt{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+  table.dt th,table.dt td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--c-border)}
+  table.dt th{font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--c-muted)}
+  table.dt tr:last-child td{border-bottom:none}
+  table.dt .hl{color:var(--c-red);font-weight:700}
+  table.dt .dim{color:var(--c-muted)}
+
+  /* ── COMPARE TABLE ── */
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+  .cmp-table th,.cmp-table td{padding:10px 14px;text-align:center;border-bottom:1px solid var(--c-border)}
+  .cmp-table th{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--c-muted);text-transform:uppercase}
+  .cmp-table td:first-child{text-align:left;font-weight:500}
+  .cmp-table tr:last-child td{border-bottom:none}
+  .cmp-table .our{background:var(--c-red-bg);color:var(--c-red);font-weight:700}
+  .cmp-table .yes{color:var(--c-red);font-weight:700}
+  .cmp-table .no{color:#ccc}
+
+  /* ── STAT CARDS ── */
+  .stat-row{display:flex;gap:16px;margin:20px 0;flex-wrap:wrap}
+  .stat-card{flex:1;min-width:140px;text-align:center;padding:24px 12px;border:1px solid var(--c-border);border-radius:10px}
+  .stat-card .val{font-size:2rem;font-weight:900;line-height:1}
+  .stat-card .lbl{font-size:12px;color:var(--c-muted);margin-top:6px}
+
+  /* ── PIPELINE STEPS ── */
+  .pipe-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--c-border)}
+  .pipe-step:last-child{border-bottom:none}
+  .pipe-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--c-fg);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+  .pipe-num.red{background:var(--c-red)}
+  .pipe-body{flex:1}
+  .pipe-body h4{margin:0 0 4px}
+  .pipe-body p{margin:0;font-size:14px;color:var(--c-gray)}
+
+  /* ── DEP LINKS ── */
+  .dep-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+  .dep-link{
+    display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+    border:1px solid var(--c-border);border-radius:8px;text-decoration:none;
+    color:var(--c-fg);font-size:13px;font-weight:500;transition:all .15s;
+  }
+  .dep-link:hover{border-color:var(--c-red);color:var(--c-red);background:var(--c-red-bg)}
+  .dep-link .dep-id{
+    width:24px;height:24px;border-radius:50%;background:var(--c-fg);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;
+  }
+  .dep-link:hover .dep-id{background:var(--c-red)}
+
+  /* ── MOBILE ── */
+  .mobile-header{
+    display:none;position:fixed;top:0;left:0;right:0;height:52px;
+    background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:200;
+    padding:0 16px;align-items:center;justify-content:space-between;
+  }
+  .mobile-header .logo{font-size:14px;font-weight:900}
+  .hamburger{background:none;border:none;font-size:20px;cursor:pointer;padding:8px}
+  @media(max-width:860px){
+    .site-nav{transform:translateX(-100%);transition:transform .25s;z-index:300}
+    .site-nav.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.1)}
+    .site-main{margin-left:0}
+    .mobile-header{display:flex}
+    .hero,.content-wrap{padding-left:20px;padding-right:20px}
+    .hero{padding-top:80px}
+  }
+
+  /* ── FOOTER ── */
   .site-footer{border-top:1px solid var(--c-border);padding:40px;text-align:center;font-size:12px;color:var(--c-muted)}
-  @media(max-width:640px){.hero,.content-wrap{padding-left:20px;padding-right:20px}.grid-3{grid-template-columns:1fr}.top-nav{padding:0 12px}.top-nav .logo{display:none}.stat-row{flex-direction:column}}
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <div class="left">
-    <span class="logo">Dense Interval Mining</span>
-    <a href="../papers.html" class="back-link">&larr; All Papers</a>
-  </div>
+<!-- Mobile header -->
+<div class="mobile-header">
+  <span class="logo">Paper J</span>
+  <button class="hamburger" onclick="document.querySelector('.site-nav').classList.toggle('open')">&#9776;</button>
+</div>
+
+<!-- ── LEFT SIDEBAR ── -->
+<nav class="site-nav" id="nav">
+  <a href="../index.html" class="nav-back">&larr; メインページ</a>
+  <div class="logo">Paper J</div>
+  <div class="logo-sub">イベント帰属パイプライン<br>CCS / VLDB</div>
+
+  <a href="#intro">1. はじめに</a>
+  <a href="#related">2. 関連研究</a>
+
+  <div class="nav-section">問題定義</div>
+  <a href="#problem">3. 問題定義</a>
+  <a href="#notation">3.1 記法</a>
+  <a href="#attribution-problem">3.2 帰属問題</a>
+
+  <div class="nav-section">提案手法</div>
+  <a href="#method">4. パイプライン概要</a>
+  <a href="#step1">4.1 変化点抽出</a>
+  <a href="#step2">4.2 変化量評価</a>
+  <a href="#step3">4.3 帰属スコアリング</a>
+  <a href="#step4">4.4 置換検定・FDR</a>
+  <a href="#step5">4.5 重複排除</a>
+  <a href="#complexity">4.6 計算量</a>
+
+  <div class="nav-section">実験</div>
+  <a href="#exp-design">5. 実験設計</a>
+  <a href="#exp-e1">5.1 正解回復能力</a>
+  <a href="#exp-e2">5.2 パラメータ感度</a>
+  <a href="#exp-e3">5.3 スケーラビリティ</a>
+  <a href="#exp-e4">5.4 実データ検証</a>
+  <a href="#exp-ablation">5.5 アブレーション</a>
+
+  <a href="#conclusion">6. 結論</a>
+  <a href="#related-papers">関連論文</a>
+
   <div class="nav-arrows">
     <a href="i.html">&larr; Paper I</a>
     <a href="k.html">Paper K &rarr;</a>
   </div>
 </nav>
 
-<section class="hero">
+<!-- ── MAIN ── -->
+<div class="site-main">
+
+<!-- ===== HERO ===== -->
+<div class="hero">
   <div class="paper-id">J</div>
-  <h1>差分プライバシー密集区間マイニング</h1>
-  <p class="lead">(epsilon,delta)-差分プライバシー保証付きDP-DIMフレームワークとSVTによる予算効率化</p>
+  <h1>パターンの変動は<br><span class="red">なぜ</span>起きたのか？</h1>
+  <p class="lead">
+    頻出パターンのサポート時系列における変動を外部イベントに統計的に帰属させる
+    イベント帰属パイプライン。5ステップの統合フレームワークにより、
+    合成データでF1=1.0、実データで偽陽性96%削減を実現。
+  </p>
   <div class="badges">
-    <span class="badge accent">Paper J</span>
+    <span class="badge accent">難易度 5/5</span>
     <span class="badge wave-5">Wave 5</span>
-    <span class="badge">CCS/VLDB</span>
-  </div>
-</section>
-
-<div class="content-wrap">
-
-  <h2>Abstract</h2>
-  <div class="box accent">
-    <p>(epsilon,delta)-差分プライバシー保証付きDP-DIMフレームワーク。窓感度=1を証明し、SVTによる予算効率的変種を提案。</p>
-  </div>
-
-  <h2>Key Contributions</h2>
-  <div class="grid-3">
-    <div class="box">
-      <h4><span class="red">C1.</span> 窓感度解析</h4>
-      <p class="small">ウィンドウカウントの窓感度を解析し感度=1を証明</p>
-    </div>
-    <div class="box">
-      <h4><span class="red">C2.</span> SVT予算効率化</h4>
-      <p class="small">閾値安定性条件とSVTによる予算効率化</p>
-    </div>
-    <div class="box">
-      <h4><span class="red">C3.</span> 実用的精度</h4>
-      <p class="small">epsilon=1.0でF1=0.60、逐次合成比77.5%削減</p>
-    </div>
-  </div>
-
-  <h2>Method Overview</h2>
-  <div class="pipe-step">
-    <div class="pipe-num red">1</div>
-    <div class="pipe-body">
-      <h4>ラプラス/ガウスメカニズム</h4>
-      <p>ウィンドウカウントにノイズを付加して差分プライバシーを保証</p>
-    </div>
-  </div>
-  <div class="pipe-step">
-    <div class="pipe-num">2</div>
-    <div class="pipe-body">
-      <h4>SVT + 高度合成定理</h4>
-      <p>Sparse Vector Techniqueと高度合成定理でプライバシー予算を効率的に配分</p>
-    </div>
-  </div>
-
-  <h2>Experimental Results</h2>
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="val red">0.60</div>
-      <div class="lbl">F1 (epsilon=1.0)</div>
-    </div>
-    <div class="stat-card">
-      <div class="val">77.5%</div>
-      <div class="lbl">Sequential Composition Reduction</div>
-    </div>
-  </div>
-
-  <h2>PDCA Review Status</h2>
-  <div class="review-bar">
-    <span class="bar-label">Technical</span>
-    <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
-    <span class="bar-score">3.5 / 5</span>
-  </div>
-  <div class="review-bar">
-    <span class="bar-label">Experiments</span>
-    <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
-    <span class="bar-score">3 / 5</span>
-  </div>
-
-  <h2>Related Papers</h2>
-  <p class="small muted">No direct dependencies specified.</p>
-
-  <div class="bottom-nav">
-    <a href="i.html">&larr; Paper I</a>
-    <a href="k.html" class="next">Paper K: 薬剤疫学 &rarr;</a>
+    <span class="badge">CCS / VLDB</span>
+    <span class="badge">5-Step Pipeline</span>
+    <span class="badge">円形シフト置換検定</span>
+    <span class="badge">BH FDR補正</span>
+    <span class="badge">Union-Find 重複排除</span>
+    <span class="badge accent">F1 = 1.0</span>
   </div>
 </div>
 
-<footer class="site-footer">Dense Interval Mining Research &mdash; Paper J</footer>
+<div class="content-wrap">
+
+<!-- ===== 1. はじめに ===== -->
+<h2 id="intro">1. はじめに</h2>
+
+<p>
+  頻出パターンマイニングは、トランザクションデータ中に繰り返し出現するアイテムセットを
+  発見する基盤的技術であり、小売分析、Webマイニング、バイオインフォマティクスなど
+  幅広い分野で応用されている。Apriori、FP-Growth、ECLATといった古典的手法は
+  グローバル頻出パターンを効率的に列挙し、スライディングウィンドウ型手法は
+  特定時間区間内で局所的に密集するパターンを検出する。
+</p>
+
+<p>
+  しかし、これらの手法は<strong>どの</strong>パターンが<strong>いつ</strong>頻出であるかを
+  同定するのみであり、<span class="red"><strong>なぜ</strong></span>パターンの出現頻度が
+  変動するかを説明する機能を持たない。実際の応用場面では、販促キャンペーン、祝日、
+  規制変更、システム更新といった外部イベントがパターンサポートの時間的変動を
+  駆動していることが多い。
+</p>
+
+<div class="box accent">
+  <h4>本研究のギャップ</h4>
+  <p style="margin:0">
+    頻出パターンのサポート変動を外部イベントに結びつける統計フレームワークは、
+    我々の知る限り存在しない。時間的パターンマイニングは周期性や局所頻度を発見するが
+    変動原因をモデル化せず、変化点検出は個別時系列に適用されるが多重検定やイベント帰属の
+    機能を持たない。イベント・スタディ法は単一アウトカムを対象とし、
+    数千のパターン時系列を同時に扱えない。
+  </p>
+</div>
+
+<h3>本研究の貢献</h3>
+
+<div class="grid-3">
+  <div class="box">
+    <h4>5ステップパイプライン</h4>
+    <p class="small">密集区間からの変化点抽出、変化量評価、帰属スコアリング、
+    円形シフト置換検定によるグローバルBH FDR補正、アイテム重複排除</p>
+  </div>
+  <div class="box">
+    <h4>アイテム重複排除</h4>
+    <p class="small">副次パターン問題をUnion-Findクラスタリングで解決する
+    新しい後処理技法</p>
+  </div>
+  <div class="box">
+    <h4>包括的な実験評価</h4>
+    <p class="small">合成データF1=1.0、パラメータ頑健性、100万txn線形スケール、
+    実データ偽陽性96%削減</p>
+  </div>
+</div>
+
+<!-- ===== 2. 関連研究 ===== -->
+<h2 id="related">2. 関連研究</h2>
+
+<p>
+  本研究は複数の研究領域にまたがる。以下、各領域の代表的研究と本手法の
+  位置づけを整理する。
+</p>
+
+<h3>2.1 頻出パターンマイニング</h3>
+<p>
+  Aprioriは反単調性に基づく候補生成・枝刈りフレームワークを確立し、
+  FP-GrowthはFP-treeにより候補生成を回避し高速化を実現した。
+  ECLATは縦型（tidset）表現と集合積により効率的なサポート計算を行い、
+  LCMは頻出・閉・極大アイテムセットの最適列挙を達成した。
+  これらの手法はグローバル頻度を対象とし、時間的な変動をモデル化しない。
+</p>
+
+<h3>2.2 時間的・局所的パターンマイニング</h3>
+<p>
+  LPFIMは時間区間内の局所頻出集合を対象とするがgapベースの閾値に依存する。
+  PFPM・PPFPMは周期性制約を導入し、LPPMは局所性と周期性の基準を統合する。
+  Apriori-windowは固定幅スライディングウィンドウ上で局所サポートを直接評価し、
+  gapパラメータに依存しない密集パターン抽出を実現した。
+  これらの手法はパターンが<em>いつ</em>頻出であるかを検出するが、
+  頻度が変動する<em>原因</em>はモデル化しない。
+</p>
+
+<h3>2.3 パターン変化のモニタリングと診断</h3>
+<p>
+  Agrawal-Psailaの「アクティブデータマイニング」、Chakrabartiらのサプライズ指標、
+  Liuらの「基本的変化」抽出、DEMONの速度密度推定、StreamKrimpのMDLベース検出など、
+  パターンの時間的変動を追跡する研究群が存在する。
+  これらは変化の検出と特徴づけを行うが、検出された変化を外部イベントに
+  帰属させる統計フレームワークは持たない。
+</p>
+
+<h3>2.4 コントラスト・エマージングパターンマイニング</h3>
+<p>
+  エマージングパターン、コントラストセットマイニング、統計的エマージングパターンマイニングなど、
+  データセット間のパターン頻度の差異に着目する研究群が存在する。
+  Adamsらはプロセスマイニングにおける概念ドリフトをGranger因果で説明し、
+  GuptaらはRubin-Neyman因果モデルに基づく頻出因果パターンマイニングを提案したが、
+  いずれも時系列上のサポート変動と外部イベントの帰属問題とは異なる。
+</p>
+
+<h3>2.5 イベント帰属・介入分析と因果推論</h3>
+<p>
+  Box-Tiaoの介入分析、中断時系列回帰（ITS）、イベント・スタディ法、
+  合成コントロール法、CausalImpactフレームワーク、Granger因果など、
+  既知の介入が時系列に与える影響を定量化する手法は複数の分野で研究されている。
+  しかし、これらは典型的には単一または少数のアウトカム変数を対象とし、
+  数千のパターンサポート時系列を複数のイベントに対して同時に検定する設定には
+  直接適用できない。
+</p>
+
+<table class="cmp-table">
+  <tr>
+    <th>手法カテゴリ</th>
+    <th>時間的変動</th>
+    <th>外部イベント帰属</th>
+    <th>多重検定補正</th>
+    <th>副次パターン対処</th>
+  </tr>
+  <tr>
+    <td>古典的頻出パターン</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr>
+    <td>時間的パターンマイニング</td>
+    <td class="yes">&#x2713;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr>
+    <td>変化モニタリング</td>
+    <td class="yes">&#x2713;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr>
+    <td>コントラストパターン</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td>一部</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr>
+    <td>介入分析 / 因果推論</td>
+    <td class="yes">&#x2713;</td>
+    <td>単一変数</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr>
+    <td>統計的パターンマイニング</td>
+    <td class="no">&#x2717;</td>
+    <td class="no">&#x2717;</td>
+    <td class="yes">&#x2713;</td>
+    <td class="no">&#x2717;</td>
+  </tr>
+  <tr class="our">
+    <td><strong>本手法</strong></td>
+    <td class="yes">&#x2713;</td>
+    <td class="yes">&#x2713;</td>
+    <td class="yes">&#x2713;</td>
+    <td class="yes">&#x2713;</td>
+  </tr>
+</table>
+
+<h3>2.6 統計的パターンマイニングと多重検定補正</h3>
+<p>
+  Webbの自己充足アイテムセット、TeradaらのLAMP、Llinares-Lopezらの
+  Westfall-Young置換検定など、頻出パターンマイニングに統計的有意性検定を導入する
+  研究が近年活発である。本パイプラインは、サロゲートデータ法の考え方に基づく
+  円形シフト置換検定とグローバルBH補正を組み合わせ、分布自由な検定と
+  適切な多重検定制御を両立させる。
+</p>
+
+<!-- ===== 3. 問題定義 ===== -->
+<h2 id="problem">3. 問題定義</h2>
+
+<h3 id="notation">3.1 記法</h3>
+
+<p>
+  <em>I</em> = {i<sub>1</sub>, i<sub>2</sub>, ..., i<sub>m</sub>} を有限のアイテム全集合、
+  D = [d<sub>1</sub>, d<sub>2</sub>, ..., d<sub>N</sub>] を時刻順のトランザクション列とする。
+  各トランザクション d<sub>t</sub> は <em>I</em> の部分集合である。
+</p>
+
+<div class="box">
+  <h4>定義 1: サポート時系列</h4>
+  <p>パターン P、ウィンドウサイズ W に対して、P のサポート時系列
+  s<sub>P</sub> = [s<sub>P</sub>(0), ..., s<sub>P</sub>(N-W)] を以下で定義する:</p>
+  <div class="formula">
+    s<sub>P</sub>(t) = |{d<sub>j</sub> &isin; D | t &le; j &lt; t + W, P &sube; d<sub>j</sub>}|
+  </div>
+  <p class="small">位置 t を始点とするウィンドウ [t, t+W) 内で P を含むトランザクション数。</p>
+</div>
+
+<div class="box">
+  <h4>定義 2: 外部イベント</h4>
+  <p>外部イベント e = (id, name, t<sub>s</sub>, t<sub>e</sub>) は、
+  一意な識別子、名称、およびイベントが有効な期間を表すタイムスタンプ区間 [t<sub>s</sub>, t<sub>e</sub>] から成る。
+  既知の外部イベント集合を <em>E</em> = {e<sub>1</sub>, ..., e<sub>K</sub>} とする。</p>
+</div>
+
+<div class="box">
+  <h4>定義 3: 変化点（閾値交差）</h4>
+  <p>サポート時系列 s<sub>P</sub> に対する変化点として、閾値 &theta; に関する
+  密状態/非密状態の切替点を扱う。上昇変化点と下降変化点を定義し、
+  変化量は交差前後の参照窓（幅 h）の局所平均差として計算する:</p>
+  <div class="formula">
+    magnitude(&tau;) = |s&#772;<sup>+</sup>(&tau;) - s&#772;<sup>-</sup>(&tau;)|
+  </div>
+</div>
+
+<h3 id="attribution-problem">3.2 イベント帰属問題</h3>
+
+<div class="box accent">
+  <h4>定義 4: イベント帰属問題</h4>
+  <p style="margin:0">
+    頻出パターン集合 <em>F</em> とそのサポート時系列、外部イベント集合 <em>E</em>、
+    有意水準 &alpha; が与えられたとき、s<sub>P</sub> の閾値交差変化点がイベント e の
+    時間窓と統計的に有意に関連する全ての組 (P, e) を、
+    偽発見率（FDR）を水準 &alpha; 以下に制御しながら同定すること。
+  </p>
+</div>
+
+<p>この問題の主要な課題は以下の3点である:</p>
+<ol>
+  <li><strong>規模</strong>: 仮説数が O(|F| &times; |E|) となり厳格な多重検定補正が必要</li>
+  <li><strong>副次パターン</strong>: イベントがアイテム i の頻度を増加させると、i を含む全パターンのサポートが相関して変動し偽陽性が大量発生</li>
+  <li><strong>時間的混同</strong>: 無関係なイベントの時間窓が重複する場合、帰属が曖昧になる</li>
+</ol>
+
+<!-- ===== 4. 提案手法 ===== -->
+<h2 id="method">4. 提案手法: イベント帰属パイプライン</h2>
+
+<p>
+  Phase 1（Apriori-window）で得られたパターン集合 <em>F</em> とその密集区間、
+  および外部イベント集合 <em>E</em> を入力として、統計的に有意なパターン--イベント帰属の
+  集合を出力する5ステップパイプライン。
+</p>
+
+<div class="pipe-step" id="step1">
+  <div class="pipe-num">1</div>
+  <div class="pipe-body">
+    <h4>密集区間からの変化点抽出</h4>
+    <p>Phase 1 が出力した密集区間 [s<sub>i</sub>, e<sub>i</sub>] から上昇変化点 s<sub>i</sub> と
+    下降変化点 e<sub>i</sub>+1 を抽出。局所サポートはパターン出現リスト上の二分探索により
+    O(log |T<sub>P</sub>|) で効率的に計算。</p>
+  </div>
+</div>
+
+<div class="pipe-step" id="step2">
+  <div class="pipe-num">2</div>
+  <div class="pipe-body">
+    <h4>変化量の評価</h4>
+    <p>各変化点 &tau; の変化量を交差前後の窓平均差（レベルシフト量）として計算。
+    瞬時差分と比較して一過性の変動ではなく持続的な変化を捉える点で頑健性が高い。
+    サポート振幅フィルタ（&delta;）と変化量フィルタにより仮説空間を大幅に削減。</p>
+  </div>
+</div>
+
+<div class="pipe-step" id="step3">
+  <div class="pipe-num">3</div>
+  <div class="pipe-body">
+    <h4>帰属スコアリング</h4>
+    <p>帰属スコア A(P, &tau;, e) = prox(&tau;, e) &times; dir(&tau;, e) &times; mag(&tau;)
+    の3構成要素で時間的関連を定量化。</p>
+  </div>
+</div>
+
+<div class="grid-3">
+  <div class="box">
+    <h4>近接度 (prox)</h4>
+    <p class="small">指数カーネルによる時間的近さ: exp(-d(&tau;,e)/&sigma;)</p>
+  </div>
+  <div class="box">
+    <h4>方向整合性 (dir)</h4>
+    <p class="small">イベント開始時に上昇、終了時に下降する期待に基づく重み</p>
+  </div>
+  <div class="box">
+    <h4>変化量 (mag)</h4>
+    <p class="small">レベルシフト量。アブレーションで最重要構成要素と判明</p>
+  </div>
+</div>
+
+<div class="pipe-step" id="step4">
+  <div class="pipe-num red">4</div>
+  <div class="pipe-body">
+    <h4>置換検定とグローバルFDR補正</h4>
+    <p><strong>円形シフト置換検定</strong>: 帰無仮説 H<sub>0</sub>（変化点位置はイベント時刻と無関係）のもと、
+    B回の円形シフトで帰無分布を構築。イベント間の相対位置関係を保持。<br>
+    <strong>グローバルBH補正</strong>: 全パターン &times; 全イベントの M 仮説に対して
+    Benjamini-Hochberg手続きをグローバルに適用し、FDRを水準 &alpha; 以下に制御。</p>
+  </div>
+</div>
+
+<div class="formula">
+  p<sub>raw</sub>(P, e) = (1 + |{b : A<sub>perm</sub><sup>(b)</sup> &ge; A<sub>obs</sub>}|) / (B + 1)
+</div>
+
+<div class="pipe-step" id="step5">
+  <div class="pipe-num red">5</div>
+  <div class="pipe-body">
+    <h4>アイテム重複排除</h4>
+    <p><strong>副次パターン問題</strong>: イベントがアイテム i をブーストすると、i を含む全パターンが
+    連動変動し検定を通過。統計検定だけでは解消不可能。<br>
+    <strong>Union-Findクラスタリング</strong>: 各イベントについて有意帰属パターンのアイテム共有グラフを
+    構築し、連結成分ごとにスコア最大のパターンのみを保持。</p>
+  </div>
+</div>
+
+<div class="box">
+  <h4>重複排除の正当性</h4>
+  <p>真のパターン P* = {i<sub>1</sub>, i<sub>2</sub>} がブースト確率 &beta; で影響を受ける場合、
+  副次パターン P' = {i<sub>1</sub>, j} のサポート増分は &beta; &times; p<sub>base</sub> だが、
+  P* の増分は &beta;<sup>2</sup> であり、&beta; &gt; p<sub>base</sub> のとき P* のスコアが常に上回る。
+  アイテム共有により同一連結成分に属するため、P* が保持され P' は除去される。</p>
+</div>
+
+<h3 id="complexity">4.6 計算量分析</h3>
+
+<table class="dt">
+  <tr><th>ステップ</th><th>計算量</th><th>備考</th></tr>
+  <tr><td>Step 1-2</td><td>O(|F| &times; C&#772; &times; h &times; log n)</td><td>C&#772;: 平均密集区間数</td></tr>
+  <tr><td>Step 3-4</td><td>O(|F'| &times; |E| &times; B &times; C)</td><td>B: 置換回数、C: 平均変化点数</td></tr>
+  <tr><td>Step 5</td><td>O(R &times; k)</td><td>R: 有意結果数、k: パターン最大長</td></tr>
+</table>
+<p class="small">サポート振幅フィルタが |F'| を90%以上削減するため、Step 3-4 は効率的に動作。</p>
+
+<!-- ===== 5. 実験 ===== -->
+<h2 id="exp-design">5. 実験</h2>
+
+<h3>実験設計</h3>
+<p>
+  ベース語彙200アイテム（各アイテムの出現確率 p<sub>base</sub> = 0.03）、
+  N = 5,000 トランザクションの合成データを生成。外部イベントの効果は植え込み信号として
+  モデル化し、語彙外アイテムペアをイベント活性期間中に確率 &beta; で挿入。
+  デコイイベントも配置して偽陽性に対する頑健性を評価。
+</p>
+
+<table class="dt">
+  <tr><th>パラメータ</th><th>デフォルト値</th></tr>
+  <tr><td>ウィンドウサイズ W</td><td>50</td></tr>
+  <tr><td>最小サポート &theta;</td><td>3</td></tr>
+  <tr><td>最大パターン長 L</td><td>2</td></tr>
+  <tr><td>置換回数 B</td><td>5,000</td></tr>
+  <tr><td>有意水準 &alpha;</td><td>0.20</td></tr>
+  <tr><td>補正方法</td><td>BH</td></tr>
+  <tr><td>最小サポート振幅 &delta;</td><td>5</td></tr>
+  <tr><td>重複排除</td><td>有効</td></tr>
+</table>
+
+<h3 id="exp-e1">5.1 E1: 正解回復能力</h3>
+
+<h4>E1a: クリーン信号</h4>
+<p>&beta;=0.5、植え込み3件、デコイ2件の条件で5 seed実行。</p>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="val red">1.00</div>
+    <div class="lbl">F1 スコア（全seed）</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">0</div>
+    <div class="lbl">偽陽性 (FP)</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">0</div>
+    <div class="lbl">偽陰性 (FN)</div>
+  </div>
+</div>
+
+<h4>E1b: ブースト感度</h4>
+<p>&beta; &isin; {0.1, 0.2, 0.3, 0.5, 0.8} を変化させた結果、
+<strong>全ブーストレベルで F1 = 1.0</strong> を達成。アイテム重複排除により
+副次パターンが完全に除去され、信号強度に依存しない安定した検出を実現。</p>
+
+<h4>E1c: 重複イベント</h4>
+<p>イベント時間窓が重複する条件で評価。全seedで一貫してFP=1（Precision=0.75、F1=0.86）。
+唯一のFPはデコイの時間窓が植え込みイベントと重複するため発生した、統計的には正当な検出。</p>
+
+<h4>E1d: 植え込み数 &times; デコイ数</h4>
+
+<table class="dt">
+  <tr><th>植え込み</th><th>デコイ</th><th>F1</th></tr>
+  <tr><td>1</td><td>0</td><td class="hl">1.00</td></tr>
+  <tr><td>1</td><td>5</td><td class="hl">1.00</td></tr>
+  <tr><td>1</td><td>10</td><td>0.83</td></tr>
+  <tr><td>3</td><td>0</td><td class="hl">1.00</td></tr>
+  <tr><td>3</td><td>5</td><td>0.76</td></tr>
+  <tr><td>5</td><td>0</td><td class="hl">1.00</td></tr>
+  <tr><td>5</td><td>5</td><td>0.68</td></tr>
+  <tr><td>5</td><td>10</td><td>0.51</td></tr>
+</table>
+<p class="small">デコイ0では植え込み数に依存せずF1=1.0。デコイ増加時のF1低下は偶然の時間窓重複が原因。</p>
+
+<h3 id="exp-e2">5.2 E2: パラメータ感度</h3>
+
+<table class="dt">
+  <tr><th>パラメータ</th><th>テスト範囲</th><th>F1=1.0 の範囲</th><th>備考</th></tr>
+  <tr><td>ウィンドウサイズ W</td><td>10--200</td><td class="hl">10--50</td><td>W=200 で検出不能</td></tr>
+  <tr><td>近接度 &sigma;</td><td>5--200</td><td class="hl">全範囲</td><td>重複排除により感度消失</td></tr>
+  <tr><td>置換回数 B</td><td>50--1,000</td><td class="hl">全範囲</td><td>B=50でも十分</td></tr>
+  <tr><td>有意水準 &alpha;</td><td>0.001--0.20</td><td class="hl">&ge; 0.20</td><td>BH補正によるp値膨張</td></tr>
+  <tr><td>変化点検出法</td><td>閾値交差 vs CUSUM</td><td class="hl">閾値交差</td><td>CUSUM F1=0.60</td></tr>
+</table>
+
+<div class="box">
+  <h4>&alpha; = 0.20 の妥当性</h4>
+  <p>BH手続きが制御するのはFDR（偽発見率）であり、&alpha;=0.20は
+  「有意と判定された帰属のうち偽物が平均20%以下」を意味する。
+  さらに後段のアイテム重複排除で副次パターンが除去されるため、
+  最終出力の実効的偽発見率は名目値を大幅に下回る。</p>
+</div>
+
+<h3 id="exp-e3">5.3 E3: スケーラビリティ</h3>
+
+<table class="dt">
+  <tr><th>N</th><th>Phase1 (s)</th><th>帰属 (s)</th><th>合計 (s)</th></tr>
+  <tr><td>5,000</td><td>0.9</td><td>0.11</td><td>1.0</td></tr>
+  <tr><td>10,000</td><td>1.8</td><td>0.27</td><td>2.1</td></tr>
+  <tr><td>50,000</td><td>9.6</td><td>2.3</td><td>11.9</td></tr>
+  <tr><td>100,000</td><td>19.3</td><td>6.3</td><td>25.6</td></tr>
+  <tr><td>500,000</td><td>104</td><td>65.2</td><td>169</td></tr>
+  <tr><td class="hl">1,000,000</td><td>220</td><td>176</td><td class="hl">395</td></tr>
+</table>
+<p>Phase 1 とイベント帰属はいずれも<strong>データサイズに対して線形にスケール</strong>。
+100万トランザクションで約6.6分。</p>
+
+<h4>イベント数スケーラビリティ</h4>
+<table class="dt">
+  <tr><th>|E|</th><th>帰属 (ms)</th><th>F1</th></tr>
+  <tr><td>1</td><td>93</td><td class="hl">1.00</td></tr>
+  <tr><td>5</td><td>833</td><td class="hl">1.00</td></tr>
+  <tr><td>10</td><td>2,529</td><td class="hl">1.00</td></tr>
+  <tr><td>20</td><td>9,062</td><td>0.05</td></tr>
+</table>
+<p class="small">|E|&le;10 でF1=1.0。|E|=20 では5,000txnに20イベント密集で円形シフト検定の弁別力が低下。</p>
+
+<h3 id="exp-e4">5.4 E4: 実データ検証</h3>
+
+<h4>T10I4D100K</h4>
+<p>100Kトランザクションのスパースな合成ベンチマークに3パターンを注入。</p>
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="val red">1.00</div>
+    <div class="lbl">Recall</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">96%</div>
+    <div class="lbl">FP削減率</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">319&rarr;13</div>
+    <div class="lbl">FP数（排除前後）</div>
+  </div>
+</div>
+
+<h4>retail.txt</h4>
+<p>88Kトランザクションのベルギー小売データ。TP=0, Recall=0.0。
+注入先が元々高頻度のアイテムペアであるため、ブースト効果が自然変動に埋もれた。
+ベースラインサポートが高いパターンでの限界を示す結果。</p>
+
+<h4>E5: Dunnhumby 実キャンペーンデータ</h4>
+<p>276,484件の購買バスケット、30件の販促キャンペーンを用いた探索的検証。</p>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="val">955</div>
+    <div class="lbl">検出パターン数</div>
+  </div>
+  <div class="stat-card">
+    <div class="val red">88%</div>
+    <div class="lbl">重複排除削減率</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">30/30</div>
+    <div class="lbl">キャンペーンカバレッジ</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">3.0</div>
+    <div class="lbl">平均帰属数/キャンペーン</div>
+  </div>
+</div>
+
+<h3 id="exp-ablation">5.5 アブレーション分析</h3>
+
+<h4>反復改善の効果</h4>
+<table class="dt">
+  <tr><th>構成</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+  <tr><td>v1: Per-pattern Bonferroni</td><td>0.03</td><td>0.27</td><td>0.05</td></tr>
+  <tr><td>v2: +Global BH + フィルタ</td><td>0.15</td><td>1.00</td><td>0.26</td></tr>
+  <tr><td class="hl">v3: +アイテム重複排除</td><td class="hl">1.00</td><td class="hl">1.00</td><td class="hl">1.00</td></tr>
+</table>
+
+<h4>スコア構成要素アブレーション</h4>
+<table class="dt">
+  <tr><th>構成</th><th>F1</th></tr>
+  <tr><td class="hl">Full: prox &times; dir &times; mag</td><td class="hl">1.00</td></tr>
+  <tr><td>prox &times; mag（dir除去）</td><td>1.00</td></tr>
+  <tr><td>mag のみ</td><td>1.00</td></tr>
+  <tr><td>prox &times; dir（mag除去）</td><td>0.33</td></tr>
+  <tr><td>prox のみ</td><td>0.60</td></tr>
+</table>
+<p><strong>magnitude が最重要構成要素</strong>: mag を含む全構成で F1=1.0 だが、除去すると F1=0.33 に急落。</p>
+
+<h4>パラメータ・ロバスト性</h4>
+<table class="dt">
+  <tr><th>パラメータ</th><th>排除前 F1 範囲</th><th>排除後 F1 範囲</th></tr>
+  <tr><td>W (10--50)</td><td>0.24--1.00</td><td class="hl">1.00</td></tr>
+  <tr><td>&sigma; (5--200)</td><td>0.24--0.75</td><td class="hl">1.00</td></tr>
+  <tr><td>B (50--1000)</td><td>0.24--0.25</td><td class="hl">1.00</td></tr>
+  <tr><td>&beta; (0.1--0.8)</td><td>0.04--1.00</td><td class="hl">1.00</td></tr>
+</table>
+<p>重複排除がパターン選択の主力となることで、統計検定パラメータの感度が劇的に低下。</p>
+
+<h4>ベースライン比較</h4>
+<table class="cmp-table">
+  <tr>
+    <th>構成</th>
+    <th colspan="2">合成E1a</th>
+    <th colspan="2">T10I4D100K</th>
+  </tr>
+  <tr>
+    <th></th><th>P</th><th>F1</th><th>P</th><th>F1</th>
+  </tr>
+  <tr class="our">
+    <td><strong>提案手法（全構成）</strong></td>
+    <td>0.75</td><td>0.86</td><td>0.14</td><td>0.25</td>
+  </tr>
+  <tr><td>重複排除なし</td><td>0.75</td><td>0.86</td><td>0.003</td><td>0.01</td></tr>
+  <tr><td>Bonferroni</td><td>0.75</td><td>0.86</td><td>0.00</td><td>0.00</td></tr>
+  <tr><td>振幅フィルタなし</td><td>0.14</td><td>0.24</td><td>0.14</td><td>0.25</td></tr>
+  <tr><td>CUSUM変化点検出</td><td>0.75</td><td>0.86</td><td>0.08</td><td>0.15</td></tr>
+  <tr><td>ナイーブ全除去</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+</table>
+
+<h4>仮説数削減の定量分析</h4>
+<table class="dt">
+  <tr><th>&delta;</th><th>パターン数</th><th>仮説数 M</th><th>削減率</th><th>F1</th></tr>
+  <tr><td>0</td><td>355</td><td>439</td><td>---</td><td>0.24</td></tr>
+  <tr><td>3</td><td>355</td><td>439</td><td>0%</td><td>0.24</td></tr>
+  <tr><td class="hl">5</td><td class="hl">3</td><td class="hl">4</td><td class="hl">99.1%</td><td class="hl">0.86</td></tr>
+  <tr><td>10</td><td>3</td><td>4</td><td>99.1%</td><td>0.86</td></tr>
+</table>
+<p>&delta;=5 で相転移が生じ、355パターン（M=439）が3パターン（M=4）に99.1%削減される。</p>
+
+<!-- ===== 6. 結論 ===== -->
+<h2 id="conclusion">6. 結論</h2>
+
+<p>
+  本稿では、頻出パターンのサポート時系列における変動を外部イベントに統計的に帰属させる
+  <strong>イベント帰属パイプライン</strong>を提案した。特に、副次パターン問題に対して
+  アイテム共有グラフの連結成分分析に基づく重複排除を導入し、合成データで F1=1.0、
+  実データで偽陽性96%削減を達成した。
+</p>
+
+<div class="grid-2">
+  <div class="box">
+    <h4>主要な知見</h4>
+    <ul>
+      <li>全信号強度（&beta; 0.1--0.8）で完全検出</li>
+      <li>パラメータに対して頑健</li>
+      <li>100万txnまで線形スケール</li>
+      <li>Dunnhumby 30キャンペーンで全カバレッジ</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h4>制約と限界</h4>
+    <ul>
+      <li>時間的共起の検定であり因果効果の立証ではない</li>
+      <li>イベント重複時に誤帰属の可能性</li>
+      <li>高ベースラインサポートパターンでの検出困難</li>
+      <li>W=200 で検出失敗</li>
+    </ul>
+  </div>
+</div>
+
+<h3>今後の課題</h3>
+<ol>
+  <li>変化点検出手法の拡張（CUSUMやベイズ変化点検出との比較）</li>
+  <li>イベント間の時間的重複が密な場合の帰属精度改善</li>
+  <li>高ベースラインパターンに対する効果量ベーススコアリングの精緻化</li>
+  <li>大規模実データ（小売・Webログ・医療記録）での外的妥当性評価</li>
+</ol>
+
+<!-- ===== Related Papers ===== -->
+<h2 id="related-papers">関連論文</h2>
+
+<p>Paper J は依存関係を持たない独立論文（Wave 5）だが、
+パイプラインの基盤技術として以下の論文と関連する。</p>
+
+<div class="dep-links">
+  <a href="a.html" class="dep-link">
+    <span class="dep-id">A</span> 反密集区間とコントラスト密集パターン
+  </a>
+  <a href="b.html" class="dep-link">
+    <span class="dep-id">B</span> Phase 2 イベント帰属パイプライン
+  </a>
+  <a href="d.html" class="dep-link">
+    <span class="dep-id">D</span> 産業IoT / スマート製造
+  </a>
+  <a href="k.html" class="dep-link">
+    <span class="dep-id">K</span> 薬剤疫学応用
+  </a>
+</div>
+
+</div><!-- /content-wrap -->
+
+<div class="site-footer">
+  <p>Event Attribution Pipeline &mdash; Paper J: イベント帰属パイプラインの差分プライバシー保証</p>
+  <p style="margin-top:8px">CCS / VLDB &bull; Wave 5 &bull; 難易度 5/5</p>
+</div>
+
+</div><!-- /site-main -->
+
+<script>
+// Sidebar active state
+const sections = document.querySelectorAll('h2[id], h3[id]');
+const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const id = entry.target.getAttribute('id');
+      const activeLink = document.querySelector(`.site-nav a[href="#${id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(section => observer.observe(section));
+
+// Mobile nav close on click
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.site-nav').classList.remove('open');
+  });
+});
+</script>
 </body>
 </html>
