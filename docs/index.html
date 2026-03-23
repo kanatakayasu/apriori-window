@@ -106,6 +106,14 @@
   .paper-card .score.mid{background:#fff8e1;border-color:#fff9c4;color:#f57f17}
   .paper-card .score.low{background:#ffebee;border-color:#ffcdd2;color:#c62828}
 
+  /* ── SHELVED (保留) ── */
+  .paper-card[data-status="shelved"]{background:#f0f0f0;opacity:.55}
+  .paper-card[data-status="shelved"]:hover{border-color:var(--c-border);box-shadow:none;transform:none;opacity:.7}
+  .paper-card[data-status="shelved"] .shelved-badge{
+    display:inline-block;font-size:10px;font-weight:700;color:#fff;background:#999;
+    padding:2px 8px;border-radius:4px;margin-bottom:8px;letter-spacing:.04em;
+  }
+
   /* ── FOOTER ── */
   .site-footer{
     border-top:1px solid var(--c-border);padding:40px 32px;
@@ -146,7 +154,7 @@
     密集パターンマイニングの全方位的な展開を目指す。
   </p>
   <div class="stats">
-    <div class="stat"><div class="val">17</div><div class="lbl">Papers</div></div>
+    <div class="stat"><div class="val">12</div><div class="lbl">Active Papers</div></div>
     <div class="stat"><div class="val">5</div><div class="lbl">Waves</div></div>
     <div class="stat"><div class="val">4</div><div class="lbl">Categories</div></div>
     <div class="stat"><div class="val">PDCA</div><div class="lbl">Quality Cycle</div></div>
@@ -166,14 +174,16 @@
   <button class="filter-btn" onclick="filterPapers('wave-3')">Wave 3</button>
   <button class="filter-btn" onclick="filterPapers('wave-4')">Wave 4</button>
   <button class="filter-btn" onclick="filterPapers('wave-5')">Wave 5</button>
+  <button class="filter-btn" onclick="filterPapers('shelved')">Shelved</button>
 </div>
 
 <!-- ── PAPER CARDS ── -->
 <div class="paper-grid" id="paperGrid">
 
-  <a href="papers/a.html" class="paper-card" data-cat="algo" data-wave="wave-1">
+  <a href="papers/a.html" class="paper-card" data-cat="algo" data-wave="wave-1" data-status="shelved">
     <span class="wave-tag wave-1">Wave 1</span>
     <span class="paper-id">A</span>
+    <span class="shelved-badge">保留</span>
     <h3>反密集区間とコントラスト密集パターン</h3>
     <p class="desc">密集区間マイニングの対称的拡張。パターンの不在（低サポート区間）を検出する反密集区間と、時間レジーム間の構造変化を分類するコントラスト密集パターンを提案。</p>
     <div class="meta"><span>DSAA/ICDM 2026</span><span>Difficulty: 2/5</span></div>
@@ -252,9 +262,10 @@
     <div class="scores"><span class="score good">Tech 4/5</span><span class="score good">Exp 3.5/5</span></div>
   </a>
 
-  <a href="papers/j.html" class="paper-card" data-cat="ext" data-wave="wave-5">
+  <a href="papers/j.html" class="paper-card" data-cat="ext" data-wave="wave-5" data-status="shelved">
     <span class="wave-tag wave-5">Wave 5</span>
     <span class="paper-id">J</span>
+    <span class="shelved-badge">保留</span>
     <h3>差分プライバシー密集区間マイニング</h3>
     <p class="desc">(ε,δ)-差分プライバシー保証を付与するDP-DIMフレームワーク。ウィンドウカウントの感度=1を証明し、SVTによる予算効率的な変種を提案。</p>
     <div class="meta"><span>CCS/VLDB</span><span>Difficulty: 5/5</span></div>
@@ -297,27 +308,30 @@
     <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
   </a>
 
-  <a href="papers/o.html" class="paper-card" data-cat="ai" data-wave="wave-3">
+  <a href="papers/o.html" class="paper-card" data-cat="ai" data-wave="wave-3" data-status="shelved">
     <span class="wave-tag wave-3">Wave 3</span>
     <span class="paper-id">O</span>
+    <span class="shelved-badge">保留</span>
     <h3>交差注意機構によるイベント帰属の学習</h3>
     <p class="desc">密集パターンを10次元特徴ベクトル（DPFV）に変換し、マルチヘッド交差注意で帰属スコアを生成するCAAMモデル。AUC 0.678でMLP/RFを上回る。</p>
     <div class="meta"><span>KDD/CIKM</span><span>Difficulty: 3/5</span></div>
     <div class="scores"><span class="score mid">Tech 3/5</span><span class="score mid">Exp 3/5</span></div>
   </a>
 
-  <a href="papers/p.html" class="paper-card" data-cat="ai" data-wave="wave-5">
+  <a href="papers/p.html" class="paper-card" data-cat="ai" data-wave="wave-5" data-status="shelved">
     <span class="wave-tag wave-5">Wave 5</span>
     <span class="paper-id">P</span>
+    <span class="shelved-badge">保留</span>
     <h3>DenseInterp: LLMによる密集パターンの自然言語解釈</h3>
     <p class="desc">密集アイテムセットをLLMで自然言語解釈に変換。3層構造化プロンプトにより事実整合性+18.3%、仮説妥当性+23.7%改善。</p>
     <div class="meta"><span>KDD/AAAI Demo</span><span>Difficulty: 2/5</span></div>
     <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score good">Exp 3.5/5</span></div>
   </a>
 
-  <a href="papers/q.html" class="paper-card" data-cat="ai" data-wave="wave-5">
+  <a href="papers/q.html" class="paper-card" data-cat="ai" data-wave="wave-5" data-status="shelved">
     <span class="wave-tag wave-5">Wave 5</span>
     <span class="paper-id">Q</span>
+    <span class="shelved-badge">保留</span>
     <h3>トランザクション基盤モデル：アーキテクチャ設計と概念実証</h3>
     <p class="desc">基盤モデルの枠組みをトランザクションデータに初適用。MTMとDIPの2段階事前学習を導入し、概念実証としてのアーキテクチャ設計を提示。</p>
     <div class="meta"><span>NeurIPS/KDD</span><span>Difficulty: 4/5</span></div>
@@ -338,7 +352,7 @@ function filterPapers(cat) {
   event.target.classList.add('active');
   document.querySelectorAll('.paper-card').forEach(card => {
     if (cat === 'all') { card.style.display = ''; return; }
-    const match = card.dataset.cat === cat || card.dataset.wave === cat;
+    const match = card.dataset.cat === cat || card.dataset.wave === cat || (cat === 'shelved' && card.dataset.status === 'shelved');
     card.style.display = match ? '' : 'none';
   });
 }
