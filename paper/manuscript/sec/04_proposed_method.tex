@@ -6,7 +6,15 @@
 Phase 1（Apriori-window）で得られたパターン集合 $\mathcal{F}$ と
 その密集区間，および外部イベント集合 $\mathcal{E}$ を入力として，
 統計的に有意なパターン--イベント帰属の集合を出力する．
+図~\ref{fig:pipeline}にパイプラインの概要と帰属の具体例を，
 アルゴリズム~\ref{alg:pipeline}に全体手順を示す．
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/pipeline_overview.pdf}
+\caption{(a) パイプラインの全体構成．入力（パターン集合，密集区間，イベント）から5ステップを経て有意な帰属を出力する．(b) 帰属スコアリングの例示．サポート時系列上の変化点 $\tau_{\uparrow}, \tau_{\downarrow}$ とイベント区間の関係から，近接度（prox），方向整合性（dir），変化量（mag）を算出する．}
+\label{fig:pipeline}
+\end{figure}
 
 \input{alg/event_attribution_pipeline}
 
