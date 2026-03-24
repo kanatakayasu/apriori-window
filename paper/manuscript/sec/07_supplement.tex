@@ -2,38 +2,11 @@
 \section{付録}\label{sec:supplement}
 % ==============================================================
 
-\subsection{合成データ生成モデル}
-\label{sec:supp_data_gen}
-
-ベース語彙 $|\mathcal{I}| = 200$ アイテム（ID: 0--199）を持つ
-合成トランザクションデータを以下の手順で生成する．
-
-\begin{enumerate}
-\item 各トランザクション $d_t$（$t = 1, \ldots, N$）に対して，
-アイテム $i \in \mathcal{I}$ をそれぞれ独立に確率 $p_{\text{base}} = 0.03$ で含める．
-\item \textbf{Type A}（語彙内ブースト）: ベース語彙内のアイテムペア
-$P_k = \{a_k, b_k\}$（$a_k, b_k \in \mathcal{I}$）と
-対応するイベント $e_k$ を定義する．
-イベント期間外にも $p_{\text{base}}$ でベースラインサポートを持たせる．
-イベント活性期間 $[t_{s,k}, t_{e,k}]$ 内の各トランザクションに対して，
-確率 $\beta$ でパターン $P_k$ の全アイテムを同時挿入する．
-\item \textbf{Type B}（イベント非対応密集パターン）:
-特定期間にサポートが上昇するがイベントとは無関係なパターン．
-季節性やトレンドを模擬する．
-\item \textbf{Type C}（デコイイベント）:
-パターン変動と無関係な偽イベントをランダム配置する（ブーストなし）．
-\end{enumerate}
-
-正解（Ground Truth）は（Type A パターン $P_k$，対応イベント $e_k$）の
-組として定義する．
-評価指標は P/R/F1（Type A の正しい帰属）と
-FAR（Type B の誤帰属率）である．
-
 \subsection{EX3: パラメータ感度}
 \label{sec:supp_ex3}
 
 EX1の語彙内データ（$\beta = 0.3$ 固定）を用いて，
-4つの主要パラメータに対する頑健性を評価する（各3 seeds）．
+主要パラメータに対する頑健性を評価する（各3 seeds）．
 
 \subsubsection{ウィンドウサイズ $W$}
 
@@ -104,27 +77,13 @@ $B$ & F1 & 実行時間 (ms) \\
 
 全 $B$ 値で F1 = 0.71 と完全に安定しており，
 置換回数に対して頑健である．
-$B = 50$ でも $B = 5{,}000$ と同等の精度が得られるが，
 $p$ 値の分解能（$1/(B+1)$）を確保するため $B = 5{,}000$ を
 デフォルトとする．
 
 \subsubsection{変化点検出法}
 
-\begin{table}[h]
-\caption{EX3: 変化点検出法の比較（3 seeds平均）}
-\label{tab:ex3_method}
-\centering
-\begin{tabular}{lc}
-\toprule
-手法 & F1 \\
-\midrule
-閾値交差法 & 0.71 \\
-CUSUM      & 0.71 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-語彙内ブースト条件では両手法で同等の精度を示す．
+閾値交差法とCUSUMを比較した結果，
+語彙内ブースト条件では両手法ともF1 = 0.71で同等の精度を示した．
 
 \subsection{EX4: スケーラビリティ}
 \label{sec:supp_ex4}
@@ -177,52 +136,3 @@ $|\mathcal{E}|$ & Attribution (ms) & Total (s) & F1 \\
 $|\mathcal{E}| \leq 10$ では F1 $\geq 0.80$ を維持するが，
 $|\mathcal{E}| = 20$ では $N = 5{,}000$ に20イベントが密集するため
 円形シフト検定の弁別力が低下し F1 = 0.36 となる．
-
-\subsection{実験パラメータ一覧}
-\label{sec:supp_params}
-
-\begin{table}[h]
-\caption{全実験共通の固定パラメータ}
-\label{tab:supp_fixed_params}
-\centering
-\begin{tabular}{ll}
-\toprule
-パラメータ & 値 \\
-\midrule
-ベースアイテム数 $|\mathcal{I}|$ & 200 \\
-ベース出現確率 $p_{\text{base}}$ & 0.03 \\
-ウィンドウサイズ $W$ & 50（EX3 sweep 時を除く） \\
-最小サポート $\theta$ & 3 \\
-最大パターン長 $L$ & 2 \\
-近接度パラメータ $\sigma$ & $W$ (= 50) \\
-置換回数 $B$ & 5{,}000（EX3/EX4 sweep 時を除く） \\
-有意水準 $\alpha$ & 0.20（EX3 sweep 時を除く） \\
-補正方法 & Benjamini--Hochberg \\
-最小サポート振幅 $\delta$ & 5 \\
-重複排除 & 有効 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\caption{各実験の条件}
-\label{tab:supp_sweep}
-\centering
-\begin{tabular}{llll}
-\toprule
-実験 & 条件 & 値 & seeds \\
-\midrule
-EX1 & $\beta$ sweep & $\{0.1, 0.2, 0.3, 0.5\}$ & 5 \\
-EX1 & 構造条件 & OVERLAP, CONFOUND, DENSE, SHORT & 5 \\
-EX2 & アブレーション & 6モード $\times$ 3シナリオ & 5 \\
-EX3 & $W$ & $\{10, 20, 50, 100, 200\}$ & 3 \\
-EX3 & $\alpha$ & $\{0.01, 0.05, 0.10, 0.20, 0.30\}$ & 3 \\
-EX3 & $B$ & $\{50, 100, 500, 1{,}000, 5{,}000\}$ & 3 \\
-EX3 & 検出法 & 閾値交差 vs CUSUM & 3 \\
-EX4 & $N$ & $\{1\text{K}, \ldots, 1\text{M}\}$ & 1 \\
-EX4 & $|\mathcal{E}|$ & $\{1, 3, 5, 10, 20\}$ & 1 \\
-EX5 & --- & Dunnhumby 30キャンペーン & 1 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
