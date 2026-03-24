@@ -116,3 +116,83 @@ def evaluate_with_event_name_mapping(
         converted.append({"pattern": pat, "event_id": eid})
 
     return evaluate(converted, ground_truth_path)
+
+
+@dataclass
+class FalseAttributionResult:
+    """Result of false attribution rate evaluation for Type B (unrelated) patterns."""
+    n_unrelated_patterns: int
+    n_falsely_attributed: int
+    false_attribution_rate: float
+    falsely_attributed_details: List[Dict]
+
+
+def evaluate_false_attribution_rate(
+    predicted: List,
+    unrelated_path: str,
+    events_path: str,
+) -> FalseAttributionResult:
+    """
+    Evaluate how many unrelated (Type B) patterns are falsely attributed.
+
+    For each predicted significant attribution, checks if its pattern matches
+    any known unrelated pattern. A match means the pipeline incorrectly
+    attributed a pattern that has no true causal link to the event.
+
+    Args:
+        predicted: List of SignificantAttribution-like dicts/objects with
+                   'pattern' and 'event_name' (or 'event_id').
+        unrelated_path: Path to unrelated_patterns.json
+                        (list of dicts with "pattern" key).
+        events_path: Path to events.json for name→id mapping.
+
+    Returns:
+        FalseAttributionResult with false attribution rate and details.
+    """
+    with open(unrelated_path, "r") as f:
+        unrelated_raw = json.load(f)
+
+    with open(events_path, "r") as f:
+        events = json.load(f)
+
+    name_to_id = {e["name"]: e["event_id"] for e in events}
+
+    # Build set of unrelated pattern keys
+    unrelated_set: Set[Tuple[int, ...]] = set()
+    for entry in unrelated_raw:
+        unrelated_set.add(_pattern_key(entry["pattern"]))
+
+    n_unrelated = len(unrelated_set)
+
+    # Check each prediction against unrelated patterns
+    falsely_attributed: List[Dict] = []
+    seen: Set[Tuple[Tuple[int, ...], str]] = set()
+    for p in predicted:
+        if hasattr(p, "pattern"):
+            pat = _pattern_key(p.pattern)
+            name = getattr(p, "event_name", "")
+            eid = getattr(p, "event_id", None) or name_to_id.get(name, name)
+        else:
+            pat = _pattern_key(p["pattern"])
+            name = p.get("event_name", "")
+            eid = p.get("event_id", name_to_id.get(name, name))
+
+        if pat in unrelated_set:
+            key = (pat, eid)
+            if key not in seen:
+                seen.add(key)
+                falsely_attributed.append({
+                    "pattern": list(pat),
+                    "event_id": eid,
+                    "event_name": name,
+                })
+
+    n_falsely = len(falsely_attributed)
+    rate = n_falsely / max(1, n_unrelated)
+
+    return FalseAttributionResult(
+        n_unrelated_patterns=n_unrelated,
+        n_falsely_attributed=n_falsely,
+        false_attribution_rate=rate,
+        falsely_attributed_details=falsely_attributed,
+    )

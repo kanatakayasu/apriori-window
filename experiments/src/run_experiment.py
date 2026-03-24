@@ -28,7 +28,7 @@ from event_attribution import (
     read_events,
     run_attribution_pipeline_v2,
 )
-from experiments.src.evaluate import evaluate_with_event_name_mapping
+from experiments.src.evaluate import evaluate_false_attribution_rate, evaluate_with_event_name_mapping
 
 
 @dataclass
@@ -52,6 +52,8 @@ class ExperimentResult:
     true_positive_pairs: List[Dict]
     false_positive_pairs: List[Dict]
     false_negative_pairs: List[Dict]
+    false_attribution_rate: float = 0.0
+    n_falsely_attributed: int = 0
 
 
 def run_single_experiment(
@@ -62,6 +64,7 @@ def run_single_experiment(
     min_support: int = 5,
     max_length: int = 3,
     config: Optional[AttributionConfig] = None,
+    unrelated_path: Optional[str] = None,
 ) -> ExperimentResult:
     """Run a single experiment and return results with evaluation."""
     if config is None:
@@ -122,6 +125,14 @@ def run_single_experiment(
             "adjusted_p_value": r.adjusted_p_value,
         })
 
+    # False attribution rate (Type B unrelated patterns)
+    far = 0.0
+    n_falsely = 0
+    if unrelated_path is not None and Path(unrelated_path).exists():
+        fa_result = evaluate_false_attribution_rate(results, unrelated_path, events_path)
+        far = fa_result.false_attribution_rate
+        n_falsely = fa_result.n_falsely_attributed
+
     return ExperimentResult(
         config=params,
         n_transactions=len(transactions),
@@ -142,6 +153,8 @@ def run_single_experiment(
         true_positive_pairs=eval_result.true_positive_pairs,
         false_positive_pairs=eval_result.false_positive_pairs,
         false_negative_pairs=eval_result.false_negative_pairs,
+        false_attribution_rate=far,
+        n_falsely_attributed=n_falsely,
     )
 
 
