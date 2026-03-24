@@ -226,28 +226,3 @@ EX5 & --- & Dunnhumby 30キャンペーン & 1 \\
 \end{tabular}
 \end{table}
 
-\subsection{再現手順}
-\label{sec:supp_reproduce}
-
-全実験は以下のコマンドで再現可能である:
-
-\begin{verbatim}
-# EX1: コア帰属精度
-python3 experiments/run_ex1.py
-
-# EX2: スコア構成要素アブレーション
-python3 experiments/run_ex2.py
-
-# EX3: パラメータ感度 (付録)
-python3 experiments/run_ex3.py
-
-# EX4: スケーラビリティ (付録)
-python3 experiments/run_ex4.py
-
-# EX5: 実データ検証 (Dunnhumby)
-python3 experiments/run_ex5.py
-\end{verbatim}
-
-実行環境: Python 3.11+，追加ライブラリ不要（標準ライブラリのみ使用）．
-乱数は Python の \texttt{random.Random(seed)} を用いており，
-同一 seed・同一パラメータで決定的に再現される．
