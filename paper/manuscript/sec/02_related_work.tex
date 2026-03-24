@@ -120,3 +120,35 @@ BH手続きの依存仮説への拡張~\cite{benjamini2001control}により，
 アイテムを共有するパターン間の正の相関下でもFDR制御が保証される．
 Bonferroni補正~\cite{dunn1961multiple}は族単位誤り率（FWER）を制御するが保守的であるため，
 本研究ではFDRを制御するBH手続きを採用した．
+
+\subsection{関連手法との差異のまとめ}
+
+表~\ref{tab:related_comparison}に，関連する各研究群が本研究の問題設定
+（数千のパターンサポート時系列 $\times$ 複数の外部イベントに対する統計的帰属）に
+対応できるかを整理する．
+いずれの既存手法も，サポート変動の検出・特徴づけ・因果効果推定のいずれかには対処するが，
+多数のパターン時系列を複数イベントに同時に帰属させ，
+多重検定を制御しつつ副次パターンの偽陽性を排除する統合フレームワークは存在しない．
+本研究はこのギャップを埋めるものである．
+
+\begin{table}[t]
+\caption{関連手法との機能比較}
+\label{tab:related_comparison}
+\centering
+\footnotesize
+\begin{tabular}{lccccc}
+\toprule
+手法群 & \rotatebox{60}{時系列変化} & \rotatebox{60}{イベント帰属} & \rotatebox{60}{多数パターン} & \rotatebox{60}{多重検定} & \rotatebox{60}{重複排除} \\
+\midrule
+時間的FPM & -- & -- & \checkmark & -- & -- \\
+EP/コントラスト & \checkmark & -- & \checkmark & 一部 & -- \\
+変化点検出 & \checkmark & -- & -- & -- & -- \\
+ITS/介入分析 & \checkmark & \checkmark & -- & -- & -- \\
+イベントスタディ & \checkmark & \checkmark & -- & -- & -- \\
+CausalImpact & \checkmark & \checkmark & -- & -- & -- \\
+ECA & -- & \checkmark & -- & -- & -- \\
+統計的FPM & -- & -- & \checkmark & \checkmark & -- \\
+\textbf{本手法} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
