@@ -1,0 +1,1071 @@
+{
+  "n_transactions": 276484,
+  "n_patterns": 955,
+  "n_campaigns": 30,
+  "n_significant": 91,
+  "n_campaigns_with_attribution": 30,
+  "time_phase1_ms": 257678.6210410064,
+  "time_attribution_ms": 335422.9807500087,
+  "time_total_ms": 593101.6017910151,
+  "campaign_summary": [
+    {
+      "campaign": "TypeB_24",
+      "start": 254905,
+      "end": 276483,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            35570
+          ],
+          "score": 6.8701,
+          "p_adj": 0.1871,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            20968,
+            38256
+          ],
+          "score": 1.7284,
+          "p_adj": 0.0558,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10421,
+            41530
+          ],
+          "score": 0.8187,
+          "p_adj": 0.0454,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            32581,
+            35453
+          ],
+          "score": 0.5239,
+          "p_adj": 0.0561,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            18560,
+            24245
+          ],
+          "score": 0.4364,
+          "p_adj": 0.0476,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_15",
+      "start": 207410,
+      "end": 275250,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            40500
+          ],
+          "score": 4.7115,
+          "p_adj": 0.1451,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_25",
+      "start": 254905,
+      "end": 268625,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            35570
+          ],
+          "score": 8.9055,
+          "p_adj": 0.0713,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10421,
+            41530
+          ],
+          "score": 0.8187,
+          "p_adj": 0.0475,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_20",
+      "start": 236468,
+      "end": 266197,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            35570
+          ],
+          "score": 6.5769,
+          "p_adj": 0.1048,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_23",
+      "start": 249344,
+      "end": 265774,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            35570
+          ],
+          "score": 5.5081,
+          "p_adj": 0.1723,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            23466,
+            29651
+          ],
+          "score": 2.2137,
+          "p_adj": 0.044,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            22055,
+            24048
+          ],
+          "score": 1.486,
+          "p_adj": 0.0384,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            19500,
+            27800
+          ],
+          "score": 0.4585,
+          "p_adj": 0.1247,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_21",
+      "start": 240134,
+      "end": 254122,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            35570
+          ],
+          "score": 7.1857,
+          "p_adj": 0.0783,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            22055,
+            22181
+          ],
+          "score": 2.1454,
+          "p_adj": 0.0536,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            53089,
+            53176
+          ],
+          "score": 1.7474,
+          "p_adj": 0.1216,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            17774,
+            41168
+          ],
+          "score": 1.1514,
+          "p_adj": 0.0853,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            32581,
+            35453
+          ],
+          "score": 0.8615,
+          "p_adj": 0.0476,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_22",
+      "start": 240134,
+      "end": 254122,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            35570
+          ],
+          "score": 7.1857,
+          "p_adj": 0.0783,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            22055,
+            22181
+          ],
+          "score": 2.1454,
+          "p_adj": 0.0536,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            53089,
+            53176
+          ],
+          "score": 1.7474,
+          "p_adj": 0.1216,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            17774,
+            41168
+          ],
+          "score": 1.1514,
+          "p_adj": 0.0853,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            32581,
+            35453
+          ],
+          "score": 0.8615,
+          "p_adj": 0.0476,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_18",
+      "start": 224404,
+      "end": 248570,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            14973,
+            29651
+          ],
+          "score": 2.8459,
+          "p_adj": 0.0322,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            32581,
+            35570
+          ],
+          "score": 1.9989,
+          "p_adj": 0.0946,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_19",
+      "start": 231266,
+      "end": 245208,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            8278,
+            35570
+          ],
+          "score": 4.9776,
+          "p_adj": 0.0551,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            8713,
+            36648
+          ],
+          "score": 2.7488,
+          "p_adj": 0.0953,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            19500,
+            27800
+          ],
+          "score": 2.2767,
+          "p_adj": 0.0476,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            6675,
+            25748
+          ],
+          "score": 0.3112,
+          "p_adj": 0.0921,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_17",
+      "start": 219311,
+      "end": 233374,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            35570
+          ],
+          "score": 8.1497,
+          "p_adj": 0.1097,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_14",
+      "start": 200764,
+      "end": 228737,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            38256
+          ],
+          "score": 4.6667,
+          "p_adj": 0.1686,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            10936,
+            16336
+          ],
+          "score": 0.949,
+          "p_adj": 0.0476,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            24245,
+            34016
+          ],
+          "score": 0.4964,
+          "p_adj": 0.0953,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            11255,
+            25748
+          ],
+          "score": 0.172,
+          "p_adj": 0.0476,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_16",
+      "start": 213380,
+      "end": 227535,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            38256
+          ],
+          "score": 7.0754,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            8719,
+            13156
+          ],
+          "score": 0.9797,
+          "p_adj": 0.0556,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10797,
+            24245
+          ],
+          "score": 0.8978,
+          "p_adj": 0.0717,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_13",
+      "start": 189206,
+      "end": 209535,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            38125
+          ],
+          "score": 4.0049,
+          "p_adj": 0.0599,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            22055,
+            22181
+          ],
+          "score": 0.875,
+          "p_adj": 0.0937,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            8278,
+            41168
+          ],
+          "score": 0.785,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            12681,
+            24245
+          ],
+          "score": 0.5309,
+          "p_adj": 0.101,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            25748,
+            55046
+          ],
+          "score": 0.1626,
+          "p_adj": 0.0844,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_11",
+      "start": 177334,
+      "end": 197787,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            35570
+          ],
+          "score": 7.4326,
+          "p_adj": 0.1398,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            62433,
+            62437
+          ],
+          "score": 3.3805,
+          "p_adj": 0.0877,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            10627,
+            25807
+          ],
+          "score": 0.9006,
+          "p_adj": 0.1144,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            20953,
+            30025
+          ],
+          "score": 0.402,
+          "p_adj": 0.0476,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_12",
+      "start": 177334,
+      "end": 191810,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            24245,
+            35570
+          ],
+          "score": 10.019,
+          "p_adj": 0.031,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            62433,
+            62437
+          ],
+          "score": 3.3805,
+          "p_adj": 0.0802,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_10",
+      "start": 171003,
+      "end": 185549,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            35570
+          ],
+          "score": 5.789,
+          "p_adj": 0.1454,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            8719,
+            29651
+          ],
+          "score": 0.9585,
+          "p_adj": 0.1534,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            20962,
+            25090
+          ],
+          "score": 0.6558,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            15499,
+            24245
+          ],
+          "score": 0.654,
+          "p_adj": 0.0701,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_9",
+      "start": 158821,
+      "end": 173238,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            24245,
+            35570
+          ],
+          "score": 7.7149,
+          "p_adj": 0.0573,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            10627,
+            25807
+          ],
+          "score": 0.8833,
+          "p_adj": 0.1136,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_8",
+      "start": 148623,
+      "end": 170159,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            31290,
+            35570
+          ],
+          "score": 6.6455,
+          "p_adj": 0.0384,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            6675,
+            16010
+          ],
+          "score": 0.3051,
+          "p_adj": 0.0476,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            9363,
+            37353
+          ],
+          "score": 0.1438,
+          "p_adj": 0.0498,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_7",
+      "start": 142681,
+      "end": 157974,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            35570
+          ],
+          "score": 10.2571,
+          "p_adj": 0.051,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            28720,
+            55046
+          ],
+          "score": 1.1802,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10797,
+            12681
+          ],
+          "score": 0.6176,
+          "p_adj": 0.0545,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_6",
+      "start": 140519,
+      "end": 154920,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            40593
+          ],
+          "score": 6.178,
+          "p_adj": 0.109,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            28720,
+            55046
+          ],
+          "score": 2.4228,
+          "p_adj": 0.031,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            15499,
+            35453
+          ],
+          "score": 0.6692,
+          "p_adj": 0.0783,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            8278,
+            29651
+          ],
+          "score": 0.2377,
+          "p_adj": 0.1739,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            62427,
+            62433
+          ],
+          "score": 0.1779,
+          "p_adj": 0.1256,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_3",
+      "start": 125017,
+      "end": 149063,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            29651,
+            40593
+          ],
+          "score": 5.0506,
+          "p_adj": 0.0621,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            28906,
+            40249
+          ],
+          "score": 1.1187,
+          "p_adj": 0.0445,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_5",
+      "start": 133756,
+      "end": 148622,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            9956,
+            35570
+          ],
+          "score": 6.0705,
+          "p_adj": 0.0484,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            9746,
+            13821
+          ],
+          "score": 1.1997,
+          "p_adj": 0.044,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            9363,
+            37353
+          ],
+          "score": 0.1443,
+          "p_adj": 0.0476,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_4",
+      "start": 131622,
+      "end": 145539,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            40593
+          ],
+          "score": 4.8793,
+          "p_adj": 0.1732,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            12681,
+            40500
+          ],
+          "score": 0.8308,
+          "p_adj": 0.044,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            18551,
+            25807
+          ],
+          "score": 0.4086,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            7448,
+            31290
+          ],
+          "score": 0.2291,
+          "p_adj": 0.0476,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_1",
+      "start": 120714,
+      "end": 136760,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "pattern": [
+            11255,
+            35570
+          ],
+          "score": 8.5321,
+          "p_adj": 0.031,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_2",
+      "start": 122865,
+      "end": 136760,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            11255,
+            35570
+          ],
+          "score": 4.9715,
+          "p_adj": 0.0937,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10797,
+            40593
+          ],
+          "score": 1.7294,
+          "p_adj": 0.044,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_30",
+      "start": 111164,
+      "end": 130823,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            31290,
+            35570
+          ],
+          "score": 7.3519,
+          "p_adj": 0.031,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            8719,
+            41168
+          ],
+          "score": 0.1946,
+          "p_adj": 0.065,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            10070,
+            77284
+          ],
+          "score": 0.1372,
+          "p_adj": 0.0505,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_29",
+      "start": 93488,
+      "end": 116158,
+      "n_attributions": 5,
+      "top_patterns": [
+        {
+          "pattern": [
+            25807,
+            35570
+          ],
+          "score": 5.0872,
+          "p_adj": 0.0505,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10421,
+            37103
+          ],
+          "score": 2.415,
+          "p_adj": 0.0384,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            31783,
+            41168
+          ],
+          "score": 1.012,
+          "p_adj": 0.044,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            10170,
+            21044
+          ],
+          "score": 1.012,
+          "p_adj": 0.0475,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            26863,
+            38256
+          ],
+          "score": 0.608,
+          "p_adj": 0.0611,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeB_28",
+      "start": 84525,
+      "end": 110366,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "pattern": [
+            35570,
+            40500
+          ],
+          "score": 9.7059,
+          "p_adj": 0.031,
+          "direction": "up"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeC_27",
+      "start": 75333,
+      "end": 101865,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "pattern": [
+            8713,
+            36648
+          ],
+          "score": 3.8929,
+          "p_adj": 0.064,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            22055,
+            35570
+          ],
+          "score": 3.8504,
+          "p_adj": 0.1216,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            20968,
+            53089
+          ],
+          "score": 0.4871,
+          "p_adj": 0.0629,
+          "direction": "down"
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_26",
+      "start": 69933,
+      "end": 86991,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            40593
+          ],
+          "score": 3.0346,
+          "p_adj": 0.0476,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            6675,
+            13156
+          ],
+          "score": 0.1325,
+          "p_adj": 0.0802,
+          "direction": "down"
+        }
+      ]
+    }
+  ]
+}
