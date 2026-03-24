@@ -50,6 +50,12 @@ class SyntheticConfig:
     decoy_events: List[DecoyEvent] = field(default_factory=list)
     unrelated_dense_patterns: List[UnrelatedDensePattern] = field(default_factory=list)
     seed: int = 42
+    # Per-item probabilities (Zipf etc.). When set, overrides p_base.
+    # Keys are item IDs (1..n_items), values are occurrence probabilities.
+    item_probs: Optional[Dict[int, float]] = None
+    # Correlated item pairs: (item_a, item_b, correlation_prob).
+    # If item_a appears in a transaction, item_b also appears with this prob.
+    correlated_pairs: Optional[List[Tuple[int, int, float]]] = None
 
 
 def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
@@ -62,9 +68,12 @@ def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
 
     for t in range(config.n_transactions):
         items = set()
-        # Base items
+        # Base items (per-item probs if available, else uniform p_base)
         for item in range(1, config.n_items + 1):
-            if rng.random() < config.p_base:
+            p = (config.item_probs[item]
+                 if config.item_probs and item in config.item_probs
+                 else config.p_base)
+            if rng.random() < p:
                 items.add(item)
 
         # Planted signals: boost co-occurrence within event window.
@@ -91,6 +100,12 @@ def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
                 if rng.random() < min(1.0, udp.boost_factor):
                     for item in udp.pattern:
                         items.add(item)
+
+        # Correlated pairs: if item_a present, insert item_b with given prob
+        if config.correlated_pairs:
+            for item_a, item_b, corr_prob in config.correlated_pairs:
+                if item_a in items and rng.random() < corr_prob:
+                    items.add(item_b)
 
         transactions.append(sorted(items))
 
@@ -428,6 +443,134 @@ def make_ex1_short_config(seed: int = 42) -> SyntheticConfig:
         planted_signals=planted, decoy_events=decoys,
         unrelated_dense_patterns=unrelated, seed=seed,
     )
+
+
+def _zipf_item_probs(
+    n_items: int,
+    alpha: float = 1.0,
+    median_target: float = 0.03,
+    max_prob: float = 0.10,
+) -> Dict[int, float]:
+    """Compute Zipf-distributed per-item probabilities.
+
+    p(item_k) = C / k^alpha, where C is chosen so that the median item
+    (k = n_items // 2) has probability ≈ median_target.
+    Probabilities are capped at max_prob to prevent head items from
+    dominating co-occurrence patterns unrealistically.
+    """
+    median_rank = n_items // 2
+    C = median_target * (median_rank ** alpha)
+    probs = {}
+    for k in range(1, n_items + 1):
+        p = C / (k ** alpha)
+        probs[k] = min(p, max_prob)
+    return probs
+
+
+def make_ex6_zipf_config(
+    zipf_alpha: float = 1.0,
+    seed: int = 42,
+) -> SyntheticConfig:
+    """EX6 Zipf: Realistic item-frequency distribution.
+
+    Same signal structure as EX1 baseline (3 Type A + 2 Type B + 2 decoy)
+    but with Zipf-distributed base item frequencies instead of uniform p_base.
+    Planted signal items are chosen from mid-rank items so they are not
+    dominated by head items.
+    """
+    n_transactions = 5000
+    n_items = 200
+    event_duration = 300
+    boost = 0.3
+    median_target = 0.03
+
+    item_probs = _zipf_item_probs(n_items, zipf_alpha, median_target)
+
+    # Type A: same item IDs as EX1 for direct comparison.
+    # Under Zipf these items have varying baseline frequencies,
+    # creating a more realistic and challenging detection scenario.
+    type_a_items = [[5, 15], [25, 35], [45, 55]]
+    spacing = n_transactions // (len(type_a_items) + 1)
+    planted = []
+    for i, pat in enumerate(type_a_items):
+        start = spacing * (i + 1) - event_duration // 2
+        end = start + event_duration
+        start = max(0, start)
+        end = min(n_transactions - 1, end)
+        planted.append(PlantedSignal(
+            pattern=pat,
+            event_id=f"E{i+1}",
+            event_name=f"Event_{i+1}",
+            event_start=start,
+            event_end=end,
+            boost_factor=boost,
+            baseline_prob=median_target,
+        ))
+
+    # Type B: 2 unrelated dense patterns (high-rank / rare items)
+    rng = random.Random(seed)
+    type_b_items = [[150, 160], [170, 180]]
+    unrelated = []
+    for i, pat in enumerate(type_b_items):
+        active_start = rng.randint(0, n_transactions - event_duration - 1)
+        active_end = active_start + event_duration
+        unrelated.append(UnrelatedDensePattern(
+            pattern=pat,
+            active_start=active_start,
+            active_end=min(active_end, n_transactions - 1),
+            boost_factor=boost,
+        ))
+
+    # Type C: 2 decoy events
+    decoys = []
+    for i in range(2):
+        start = rng.randint(0, n_transactions - event_duration - 1)
+        end = start + event_duration
+        decoys.append(DecoyEvent(
+            event_id=f"D{i+1}",
+            event_name=f"Decoy_{i+1}",
+            start=start,
+            end=min(end, n_transactions - 1),
+        ))
+
+    return SyntheticConfig(
+        n_transactions=n_transactions,
+        n_items=n_items,
+        p_base=median_target,  # fallback (item_probs overrides per-item)
+        planted_signals=planted,
+        decoy_events=decoys,
+        unrelated_dense_patterns=unrelated,
+        seed=seed,
+        item_probs=item_probs,
+    )
+
+
+def make_ex6_correlated_config(
+    zipf_alpha: float = 1.0,
+    seed: int = 42,
+) -> SyntheticConfig:
+    """EX6 Correlated: Zipf frequencies + correlated item pairs.
+
+    Same base as make_ex6_zipf_config but adds 5 correlated item pairs
+    (e.g., bread+butter pattern). This tests whether Union-Find deduplication
+    handles spurious co-occurrence from item correlation.
+
+    Correlated pairs use head items (high frequency) to maximise the chance
+    of creating spurious dense itemsets that must be deduplicated.
+    """
+    config = make_ex6_zipf_config(zipf_alpha=zipf_alpha, seed=seed)
+
+    # Add correlated pairs among head items (rank 1-30).
+    # High correlation probability (0.7) to create strong spurious co-occurrence.
+    config.correlated_pairs = [
+        (1, 2, 0.7),    # top-2 items strongly correlated
+        (3, 4, 0.7),
+        (5, 10, 0.6),
+        (8, 15, 0.6),
+        (12, 20, 0.5),
+    ]
+
+    return config
 
 
 def inject_events_into_real_data(

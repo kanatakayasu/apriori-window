@@ -1,0 +1,992 @@
+{
+  "zipf_1.0": {
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 327,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 506.203250028193,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 78071.23637496261,
+        "time_total_ms": 78577.4396249908,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 322,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 503.3952919766307,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 76506.61275000311,
+        "time_total_ms": 77010.00804197975,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 319,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 525.4270829609595,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 76532.09912503371,
+        "time_total_ms": 77057.52620799467,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 303,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 461.526833998505,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 76515.2208750369,
+        "time_total_ms": 76976.74770903541,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 337,
+        "n_change_points_total": 0,
+        "n_significant": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "time_phase1_ms": 525.5835000425577,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 75105.11183395283,
+        "time_total_ms": 75630.69533399539,
+        "significant_attributions": [
+          {
+            "pattern": [
+              1,
+              13
+            ],
+            "change_time": 3545,
+            "change_direction": "down",
+            "change_magnitude": 3.450000000000001,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 22.218477871978287,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.04792374858361661
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              1,
+              13
+            ],
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      }
+    ],
+    "avg_precision": 0.0,
+    "avg_recall": 0.0,
+    "avg_f1": 0.0,
+    "avg_false_attribution_rate": 0.0
+  },
+  "zipf_1.5": {
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 922,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1058.8005000026897,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 247737.6882499666,
+        "time_total_ms": 248796.48874996928,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 929,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1087.001375039108,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 248846.51012497488,
+        "time_total_ms": 249933.511500014,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 943,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1124.8747909558006,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 260209.97429202544,
+        "time_total_ms": 261334.84908298124,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 872,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1035.035707987845,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 245999.10741701024,
+        "time_total_ms": 247034.14312499808,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 922,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1066.3824579678476,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 245965.66508401884,
+        "time_total_ms": 247032.04754198669,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      }
+    ],
+    "avg_precision": 0.0,
+    "avg_recall": 0.0,
+    "avg_f1": 0.0,
+    "avg_false_attribution_rate": 0.0
+  },
+  "correlated": {
+    "seeds": [
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 0
+        },
+        "n_transactions": 5000,
+        "n_patterns": 358,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 527.8944169986062,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 84810.4987500119,
+        "time_total_ms": 85338.39316701051,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 1
+        },
+        "n_transactions": 5000,
+        "n_patterns": 389,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 557.4551660101861,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 86685.31233398244,
+        "time_total_ms": 87242.76749999262,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 355,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 3,
+        "fn": 3,
+        "time_phase1_ms": 532.9858749755658,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 84939.19904105132,
+        "time_total_ms": 85472.18491602689,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              21
+            ],
+            "change_time": 2649,
+            "change_direction": "up",
+            "change_magnitude": 2.5999999999999996,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 3.413807197770772,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.05252282876757982
+          },
+          {
+            "pattern": [
+              7,
+              25
+            ],
+            "change_time": 2350,
+            "change_direction": "up",
+            "change_magnitude": 3.8500000000000005,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 1.0,
+            "attribution_score": 10.668063337278959,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.05252282876757982
+          },
+          {
+            "pattern": [
+              10,
+              16
+            ],
+            "change_time": 995,
+            "change_direction": "up",
+            "change_magnitude": 5.4,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 1.0,
+            "attribution_score": 9.998550108847237,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.05252282876757982
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              21
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              10,
+              16
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              7,
+              25
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 355,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 515.6492090318352,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 82435.74870796874,
+        "time_total_ms": 82951.39791700058,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 10,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 382,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 518.1340000126511,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 88883.04808398243,
+        "time_total_ms": 89401.18208399508,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      }
+    ],
+    "avg_precision": 0.0,
+    "avg_recall": 0.0,
+    "avg_f1": 0.0,
+    "avg_false_attribution_rate": 0.0
+  }
+}

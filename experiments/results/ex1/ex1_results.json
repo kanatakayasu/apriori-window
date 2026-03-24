@@ -13,23 +13,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
         "n_patterns": 150,
         "n_change_points_total": 0,
-        "n_significant": 4,
-        "precision": 0.75,
-        "recall": 1.0,
-        "f1": 0.8571428571428571,
-        "tp": 3,
-        "fp": 1,
-        "fn": 0,
-        "time_phase1_ms": 868.3218749938533,
+        "n_significant": 2,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "time_phase1_ms": 873.2730420015287,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 157.00866602128372,
-        "time_total_ms": 1025.330541015137,
+        "time_attribution_ms": 163.60558298765682,
+        "time_total_ms": 1036.8786249891855,
         "significant_attributions": [
           {
             "pattern": [
@@ -62,48 +62,9 @@
             "attribution_score": 2.7507876339018607,
             "p_value": 0.030193961207758448,
             "adjusted_p_value": 0.060387922415516895
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3886,
-            "change_direction": "down",
-            "change_magnitude": 2.6999999999999997,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.7557837414557255,
-            "attribution_score": 2.2483078703794703,
-            "p_value": 0.09398120375924815,
-            "adjusted_p_value": 0.12530827167899752
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "change_time": 2481,
-            "change_direction": "down",
-            "change_magnitude": 1.4500000000000002,
-            "event_name": "Decoy_2",
-            "event_start": 2121,
-            "event_end": 2421,
-            "proximity": 0.30119421191220214,
-            "attribution_score": 0.693392384226249,
-            "p_value": 0.14857028594281144,
-            "adjusted_p_value": 0.14857028594281144
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
@@ -113,22 +74,22 @@
           },
           {
             "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
               45,
               55
             ],
             "event_id": "E3"
           }
         ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "D2"
-          }
-        ],
-        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       },
@@ -144,7 +105,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -157,10 +118,10 @@
         "tp": 3,
         "fp": 2,
         "fn": 0,
-        "time_phase1_ms": 854.7562499879859,
+        "time_phase1_ms": 854.5620839868207,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 179.46245899656788,
-        "time_total_ms": 1034.2187089845538,
+        "time_attribution_ms": 179.83291600830853,
+        "time_total_ms": 1034.3949999951292,
         "significant_attributions": [
           {
             "pattern": [
@@ -246,17 +207,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -269,17 +230,17 @@
         "false_positive_pairs": [
           {
             "pattern": [
-              25,
-              35
-            ],
-            "event_id": "D2"
-          },
-          {
-            "pattern": [
               65,
               75
             ],
             "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "D2"
           }
         ],
         "false_negative_pairs": [],
@@ -298,23 +259,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
         "n_patterns": 127,
         "n_change_points_total": 0,
-        "n_significant": 7,
-        "precision": 0.42857142857142855,
-        "recall": 1.0,
-        "f1": 0.6,
-        "tp": 3,
-        "fp": 4,
-        "fn": 0,
-        "time_phase1_ms": 858.167250000406,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "tp": 2,
+        "fp": 1,
+        "fn": 1,
+        "time_phase1_ms": 854.6883749950211,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 193.42699999106117,
-        "time_total_ms": 1051.5942499914672,
+        "time_attribution_ms": 192.49612500425428,
+        "time_total_ms": 1047.1844999992754,
         "significant_attributions": [
           {
             "pattern": [
@@ -350,38 +311,6 @@
           },
           {
             "pattern": [
-              65,
-              75
-            ],
-            "change_time": 720,
-            "change_direction": "down",
-            "change_magnitude": 2.4,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.6065306597126334,
-            "attribution_score": 1.2830314763190724,
-            "p_value": 0.09778044391121776,
-            "adjusted_p_value": 0.1294741051789642
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 1068,
-            "change_direction": "up",
-            "change_magnitude": 2.85,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.23223627472975883,
-            "attribution_score": 0.6618733829798127,
-            "p_value": 0.14397120575884823,
-            "adjusted_p_value": 0.14397120575884823
-          },
-          {
-            "pattern": [
               5,
               15
             ],
@@ -395,48 +324,9 @@
             "attribution_score": 2.476505327793898,
             "p_value": 0.03419316136772645,
             "adjusted_p_value": 0.07978404319136172
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "change_time": 1014,
-            "change_direction": "down",
-            "change_magnitude": 2.5999999999999996,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.17906614791149322,
-            "attribution_score": 0.23278599228494115,
-            "p_value": 0.11097780443911218,
-            "adjusted_p_value": 0.1294741051789642
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3887,
-            "change_direction": "down",
-            "change_magnitude": 2.3,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.7710515858035663,
-            "attribution_score": 2.1368058321969,
-            "p_value": 0.09658068386322735,
-            "adjusted_p_value": 0.1294741051789642
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
@@ -446,45 +336,32 @@
           },
           {
             "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
               45,
               55
             ],
             "event_id": "E3"
           }
         ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              65,
-              75
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "E1"
-          }
-        ],
-        "false_negative_pairs": [],
-        "false_attribution_rate": 1.5,
-        "n_falsely_attributed": 3
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -498,23 +375,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 159,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.6,
+        "n_significant": 4,
+        "precision": 0.75,
         "recall": 1.0,
-        "f1": 0.7499999999999999,
+        "f1": 0.8571428571428571,
         "tp": 3,
-        "fp": 2,
+        "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 861.0627909947652,
+        "time_phase1_ms": 845.009917014977,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 131.57275001867674,
-        "time_total_ms": 992.635541013442,
+        "time_attribution_ms": 125.31395797850564,
+        "time_total_ms": 970.3238749934826,
         "significant_attributions": [
           {
             "pattern": [
@@ -579,38 +456,22 @@
             "attribution_score": 2.8784413218276517,
             "p_value": 0.03659268146370726,
             "adjusted_p_value": 0.045740851829634076
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "change_time": 3653,
-            "change_direction": "up",
-            "change_magnitude": 1.85,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.3464558103300574,
-            "attribution_score": 0.7857475796196286,
-            "p_value": 0.13877224555088982,
-            "adjusted_p_value": 0.13877224555088982
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -627,13 +488,6 @@
               15
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E3"
           }
         ],
         "false_negative_pairs": [],
@@ -652,7 +506,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
@@ -665,10 +519,10 @@
         "tp": 3,
         "fp": 2,
         "fn": 0,
-        "time_phase1_ms": 862.2250419866759,
+        "time_phase1_ms": 870.9870829770807,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 137.34841701807454,
-        "time_total_ms": 999.5734590047505,
+        "time_attribution_ms": 137.7520420064684,
+        "time_total_ms": 1008.7391249835491,
         "significant_attributions": [
           {
             "pattern": [
@@ -754,17 +608,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -795,10 +649,10 @@
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.5957142857142858,
-    "avg_recall": 1.0,
-    "avg_f1": 0.7414285714285713,
-    "avg_false_attribution_rate": 0.4
+    "avg_precision": 0.7233333333333334,
+    "avg_recall": 0.8666666666666666,
+    "avg_f1": 0.7647619047619048,
+    "avg_false_attribution_rate": 0.2
   },
   "beta_0.2": {
     "seeds": [
@@ -814,7 +668,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
@@ -827,10 +681,10 @@
         "tp": 3,
         "fp": 0,
         "fn": 0,
-        "time_phase1_ms": 867.5487090076786,
+        "time_phase1_ms": 884.4437910011038,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 100.47899998608045,
-        "time_total_ms": 968.027708993759,
+        "time_attribution_ms": 100.55945898056962,
+        "time_total_ms": 985.0032499816734,
         "significant_attributions": [
           {
             "pattern": [
@@ -884,17 +738,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -921,7 +775,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -934,10 +788,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 866.4315410132986,
+        "time_phase1_ms": 865.1839999947697,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 330.2352500031702,
-        "time_total_ms": 1196.6667910164688,
+        "time_attribution_ms": 330.01408400014043,
+        "time_total_ms": 1195.1980839949101,
         "significant_attributions": [
           {
             "pattern": [
@@ -1007,17 +861,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -1052,23 +906,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
         "n_patterns": 215,
         "n_change_points_total": 0,
-        "n_significant": 7,
-        "precision": 0.42857142857142855,
+        "n_significant": 5,
+        "precision": 0.6,
         "recall": 1.0,
-        "f1": 0.6,
+        "f1": 0.7499999999999999,
         "tp": 3,
-        "fp": 4,
+        "fp": 2,
         "fn": 0,
-        "time_phase1_ms": 863.6402499978431,
+        "time_phase1_ms": 868.1567080202512,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 150.24462499422953,
-        "time_total_ms": 1013.8848749920726,
+        "time_attribution_ms": 153.87024998199195,
+        "time_total_ms": 1022.0269580022432,
         "significant_attributions": [
           {
             "pattern": [
@@ -1101,22 +955,6 @@
             "attribution_score": 1.4826009259104693,
             "p_value": 0.0637872425514897,
             "adjusted_p_value": 0.08930213957208558
-          },
-          {
-            "pattern": [
-              65,
-              75
-            ],
-            "change_time": 754,
-            "change_direction": "down",
-            "change_magnitude": 2.75,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.30727873860113125,
-            "attribution_score": 0.42250826557655546,
-            "p_value": 0.10577884423115377,
-            "adjusted_p_value": 0.10577884423115377
           },
           {
             "pattern": [
@@ -1165,38 +1003,22 @@
             "attribution_score": 2.930006456354908,
             "p_value": 0.029994001199760048,
             "adjusted_p_value": 0.05248950209958009
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "change_time": 1041,
-            "change_direction": "down",
-            "change_magnitude": 2.85,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.30727873860113125,
-            "attribution_score": 0.4378722025066121,
-            "p_value": 0.09038192361527694,
-            "adjusted_p_value": 0.10544557755115642
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -1216,29 +1038,15 @@
           },
           {
             "pattern": [
-              65,
-              75
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
               85,
               95
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "E1"
           }
         ],
         "false_negative_pairs": [],
-        "false_attribution_rate": 1.5,
-        "n_falsely_attributed": 3
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -1252,23 +1060,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 247,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.6,
+        "n_significant": 4,
+        "precision": 0.75,
         "recall": 1.0,
-        "f1": 0.7499999999999999,
+        "f1": 0.8571428571428571,
         "tp": 3,
-        "fp": 2,
+        "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 861.1915830115322,
+        "time_phase1_ms": 867.1977499907371,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 100.0551669858396,
-        "time_total_ms": 961.2467499973718,
+        "time_attribution_ms": 99.96995801338926,
+        "time_total_ms": 967.1677080041263,
         "significant_attributions": [
           {
             "pattern": [
@@ -1333,38 +1141,22 @@
             "attribution_score": 1.8623760131834837,
             "p_value": 0.038592281543691265,
             "adjusted_p_value": 0.04824035192961408
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "change_time": 3653,
-            "change_direction": "up",
-            "change_magnitude": 1.85,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.3464558103300574,
-            "attribution_score": 0.7857475796196286,
-            "p_value": 0.1247750449910018,
-            "adjusted_p_value": 0.12477504499100181
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -1381,13 +1173,6 @@
               15
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E3"
           }
         ],
         "false_negative_pairs": [],
@@ -1406,23 +1191,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
         "n_patterns": 340,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.4,
+        "n_significant": 4,
+        "precision": 0.5,
         "recall": 0.6666666666666666,
-        "f1": 0.5,
+        "f1": 0.5714285714285715,
         "tp": 2,
-        "fp": 3,
+        "fp": 2,
         "fn": 1,
-        "time_phase1_ms": 870.3792910091579,
+        "time_phase1_ms": 880.6613330089021,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 230.08933398523368,
-        "time_total_ms": 1100.4686249943916,
+        "time_attribution_ms": 231.7481669888366,
+        "time_total_ms": 1112.4094999977387,
         "significant_attributions": [
           {
             "pattern": [
@@ -1487,22 +1272,6 @@
             "attribution_score": 2.0058569867258216,
             "p_value": 0.028594281143771244,
             "adjusted_p_value": 0.04575084983003399
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 1052,
-            "change_direction": "up",
-            "change_magnitude": 3.2499999999999996,
-            "event_name": "Decoy_1",
-            "event_start": 845,
-            "event_end": 1145,
-            "proximity": 0.1556726303679973,
-            "attribution_score": 0.5059360486959912,
-            "p_value": 0.1191761647670466,
-            "adjusted_p_value": 0.1191761647670466
           }
         ],
         "true_positive_pairs": [
@@ -1524,10 +1293,10 @@
         "false_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
+              45,
+              55
             ],
-            "event_id": "D1"
+            "event_id": "D2"
           },
           {
             "pattern": [
@@ -1535,13 +1304,6 @@
               85
             ],
             "event_id": "E2"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D2"
           }
         ],
         "false_negative_pairs": [
@@ -1557,10 +1319,10 @@
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.6357142857142857,
+    "avg_precision": 0.72,
     "avg_recall": 0.9333333333333333,
-    "avg_f1": 0.7414285714285713,
-    "avg_false_attribution_rate": 0.3
+    "avg_f1": 0.8071428571428572,
+    "avg_false_attribution_rate": 0.1
   },
   "beta_0.3": {
     "seeds": [
@@ -1576,7 +1338,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
@@ -1589,10 +1351,10 @@
         "tp": 2,
         "fp": 1,
         "fn": 1,
-        "time_phase1_ms": 889.2651249771006,
+        "time_phase1_ms": 891.7580420093145,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 289.62833402329125,
-        "time_total_ms": 1178.8934590003919,
+        "time_attribution_ms": 298.39437498594634,
+        "time_total_ms": 1190.1524169952609,
         "significant_attributions": [
           {
             "pattern": [
@@ -1692,7 +1454,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -1705,10 +1467,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 883.9285830035806,
+        "time_phase1_ms": 885.413707990665,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 389.46162498905323,
-        "time_total_ms": 1273.3902079926338,
+        "time_attribution_ms": 392.0694590196945,
+        "time_total_ms": 1277.4831670103595,
         "significant_attributions": [
           {
             "pattern": [
@@ -1778,17 +1540,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -1823,23 +1585,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
         "n_patterns": 374,
         "n_change_points_total": 0,
-        "n_significant": 7,
-        "precision": 0.42857142857142855,
+        "n_significant": 5,
+        "precision": 0.6,
         "recall": 1.0,
-        "f1": 0.6,
+        "f1": 0.7499999999999999,
         "tp": 3,
-        "fp": 4,
+        "fp": 2,
         "fn": 0,
-        "time_phase1_ms": 873.619999998482,
+        "time_phase1_ms": 888.7602500035428,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 248.4012919885572,
-        "time_total_ms": 1122.0212919870391,
+        "time_attribution_ms": 249.66733300243504,
+        "time_total_ms": 1138.4275830059778,
         "significant_attributions": [
           {
             "pattern": [
@@ -1872,22 +1634,6 @@
             "attribution_score": 1.4826009259104693,
             "p_value": 0.06858628274345131,
             "adjusted_p_value": 0.09144837699126843
-          },
-          {
-            "pattern": [
-              65,
-              75
-            ],
-            "change_time": 754,
-            "change_direction": "down",
-            "change_magnitude": 2.85,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.30727873860113125,
-            "attribution_score": 0.4378722025066121,
-            "p_value": 0.10537892421515697,
-            "adjusted_p_value": 0.11495882641653488
           },
           {
             "pattern": [
@@ -1936,38 +1682,22 @@
             "attribution_score": 3.7377586455199845,
             "p_value": 0.02299540091981604,
             "adjusted_p_value": 0.040449053046533553
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "change_time": 1042,
-            "change_direction": "down",
-            "change_magnitude": 5.3999999999999995,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.3134861808826053,
-            "attribution_score": 0.8464126883830343,
-            "p_value": 0.08938212357528494,
-            "adjusted_p_value": 0.10725854829034191
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -1987,29 +1717,15 @@
           },
           {
             "pattern": [
-              65,
-              75
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
               85,
               95
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "E1"
           }
         ],
         "false_negative_pairs": [],
-        "false_attribution_rate": 1.5,
-        "n_falsely_attributed": 3
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -2023,23 +1739,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 404,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.6,
+        "n_significant": 4,
+        "precision": 0.75,
         "recall": 1.0,
-        "f1": 0.7499999999999999,
+        "f1": 0.8571428571428571,
         "tp": 3,
-        "fp": 2,
+        "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 868.7582919956185,
+        "time_phase1_ms": 881.02533298661,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 194.70020799781196,
-        "time_total_ms": 1063.4584999934305,
+        "time_attribution_ms": 193.0650419963058,
+        "time_total_ms": 1074.0903749829158,
         "significant_attributions": [
           {
             "pattern": [
@@ -2104,38 +1820,22 @@
             "attribution_score": 3.4215635076890303,
             "p_value": 0.023195360927814438,
             "adjusted_p_value": 0.04059188162367527
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "change_time": 3653,
-            "change_direction": "up",
-            "change_magnitude": 1.85,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.3464558103300574,
-            "attribution_score": 0.7857475796196286,
-            "p_value": 0.13877224555088982,
-            "adjusted_p_value": 0.16190095314270478
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -2152,13 +1852,6 @@
               15
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E3"
           }
         ],
         "false_negative_pairs": [],
@@ -2177,23 +1870,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
         "n_patterns": 510,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.4,
+        "n_significant": 6,
+        "precision": 0.3333333333333333,
         "recall": 0.6666666666666666,
-        "f1": 0.5,
+        "f1": 0.4444444444444444,
         "tp": 2,
-        "fp": 3,
+        "fp": 4,
         "fn": 1,
-        "time_phase1_ms": 899.4162919989321,
+        "time_phase1_ms": 903.5020830051508,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 487.42733302060515,
-        "time_total_ms": 1386.8436250195373,
+        "time_attribution_ms": 494.6637499961071,
+        "time_total_ms": 1398.1658330012579,
         "significant_attributions": [
           {
             "pattern": [
@@ -2274,6 +1967,22 @@
             "attribution_score": 1.4054112528726943,
             "p_value": 0.03279344131173765,
             "adjusted_p_value": 0.08683977490216242
+          },
+          {
+            "pattern": [
+              5,
+              56
+            ],
+            "change_time": 1123,
+            "change_direction": "down",
+            "change_magnitude": 1.9,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.6440364210831414,
+            "attribution_score": 1.0298598945425501,
+            "p_value": 0.04619076184763048,
+            "adjusted_p_value": 0.08683977490216242
           }
         ],
         "true_positive_pairs": [
@@ -2295,6 +2004,13 @@
         "false_positive_pairs": [
           {
             "pattern": [
+              5,
+              56
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
               15,
               55
             ],
@@ -2302,17 +2018,17 @@
           },
           {
             "pattern": [
-              35,
-              85
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
               45,
               55
             ],
             "event_id": "D2"
+          },
+          {
+            "pattern": [
+              35,
+              85
+            ],
+            "event_id": "E2"
           }
         ],
         "false_negative_pairs": [
@@ -2328,10 +2044,10 @@
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.569047619047619,
+    "avg_precision": 0.62,
     "avg_recall": 0.8666666666666666,
-    "avg_f1": 0.6747619047619047,
-    "avg_false_attribution_rate": 0.3
+    "avg_f1": 0.715079365079365,
+    "avg_false_attribution_rate": 0.1
   },
   "beta_0.5": {
     "seeds": [
@@ -2347,7 +2063,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
@@ -2360,10 +2076,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 895.9971250151284,
+        "time_phase1_ms": 906.1930419993587,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1269.1442919895053,
-        "time_total_ms": 2165.1414170046337,
+        "time_attribution_ms": 1284.6169999975245,
+        "time_total_ms": 2190.8100419968832,
         "significant_attributions": [
           {
             "pattern": [
@@ -2433,17 +2149,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -2478,7 +2194,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -2491,10 +2207,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 904.0622909960803,
+        "time_phase1_ms": 908.0334169848356,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1218.8336249964777,
-        "time_total_ms": 2122.895915992558,
+        "time_attribution_ms": 1282.4314169993158,
+        "time_total_ms": 2190.4648339841515,
         "significant_attributions": [
           {
             "pattern": [
@@ -2547,34 +2263,34 @@
           {
             "pattern": [
               35,
-              95
+              68
             ],
-            "change_time": 2396,
-            "change_direction": "up",
-            "change_magnitude": 1.7000000000000002,
+            "change_time": 2365,
+            "change_direction": "down",
+            "change_magnitude": 2.4000000000000004,
             "event_name": "Decoy_2",
             "event_start": 2089,
             "event_end": 2389,
-            "proximity": 0.8693582353988059,
-            "attribution_score": 2.0606572525519598,
-            "p_value": 0.09778044391121776,
-            "adjusted_p_value": 0.10864493767913085
+            "proximity": 0.6187833918061408,
+            "attribution_score": 1.2677765705898218,
+            "p_value": 0.046590681863627276,
+            "adjusted_p_value": 0.07865093647937078
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -2588,7 +2304,7 @@
           {
             "pattern": [
               35,
-              95
+              68
             ],
             "event_id": "D2"
           }
@@ -2609,129 +2325,27 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
         "n_patterns": 900,
         "n_change_points_total": 0,
-        "n_significant": 6,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1": 0.6666666666666666,
-        "tp": 3,
-        "fp": 3,
-        "fn": 0,
-        "time_phase1_ms": 898.7565830175299,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 956.8271249881946,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1062.7309999836143,
-        "time_total_ms": 1961.4875830011442,
-        "significant_attributions": [
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "change_time": 706,
-            "change_direction": "up",
-            "change_magnitude": 6.2,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.8025187979624785,
-            "attribution_score": 8.203291997489403,
-            "p_value": 0.005598880223955209,
-            "adjusted_p_value": 0.12669966006798639
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 1052,
-            "change_direction": "up",
-            "change_magnitude": 6.05,
-            "event_name": "Decoy_1",
-            "event_start": 695,
-            "event_end": 995,
-            "proximity": 0.31981902181630395,
-            "attribution_score": 1.9349050819886389,
-            "p_value": 0.06898620275944811,
-            "adjusted_p_value": 0.14264347130573887
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3899,
-            "change_direction": "down",
-            "change_magnitude": 7.5,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.9801986733067553,
-            "attribution_score": 4.48888434438153,
-            "p_value": 0.01279744051189762,
-            "adjusted_p_value": 0.12669966006798639
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 1397,
-            "change_direction": "down",
-            "change_magnitude": 9.649999999999999,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.9417645335842487,
-            "attribution_score": 5.702264854618713,
-            "p_value": 0.015596880623875225,
-            "adjusted_p_value": 0.12669966006798639
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "change_time": 1044,
-            "change_direction": "down",
-            "change_magnitude": 8.6,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.32627979462303947,
-            "attribution_score": 1.4030031168790695,
-            "p_value": 0.08278344331133773,
-            "adjusted_p_value": 0.14264347130573887
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "change_time": 2645,
-            "change_direction": "down",
-            "change_magnitude": 6.550000000000001,
-            "event_name": "Event_2",
-            "event_start": 2350,
-            "event_end": 2650,
-            "proximity": 0.9048374180359595,
-            "attribution_score": 3.840084434453699,
-            "p_value": 0.01739652069586083,
-            "adjusted_p_value": 0.12669966006798639
-          }
-        ],
-        "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
+        "time_attribution_ms": 1062.3570830211975,
+        "time_total_ms": 2019.184208009392,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
           {
             "pattern": [
               25,
@@ -2741,38 +2355,21 @@
           },
           {
             "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
               45,
               55
             ],
             "event_id": "E3"
           }
         ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "E1"
-          }
-        ],
-        "false_negative_pairs": [],
-        "false_attribution_rate": 1.0,
-        "n_falsely_attributed": 2
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
       },
       {
         "config": {
@@ -2786,23 +2383,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 866,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.6,
+        "n_significant": 4,
+        "precision": 0.75,
         "recall": 1.0,
-        "f1": 0.7499999999999999,
+        "f1": 0.8571428571428571,
         "tp": 3,
-        "fp": 2,
+        "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 891.2764170090668,
+        "time_phase1_ms": 890.7624169951305,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 856.5429580048658,
-        "time_total_ms": 1747.8193750139326,
+        "time_attribution_ms": 864.4361659826245,
+        "time_total_ms": 1755.198582977755,
         "significant_attributions": [
           {
             "pattern": [
@@ -2841,22 +2438,6 @@
               25,
               35
             ],
-            "change_time": 3653,
-            "change_direction": "up",
-            "change_magnitude": 1.85,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.3464558103300574,
-            "attribution_score": 0.7857475796196286,
-            "p_value": 0.16376724655068986,
-            "adjusted_p_value": 0.18802906085449575
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
             "change_time": 2648,
             "change_direction": "down",
             "change_magnitude": 7.55,
@@ -2888,17 +2469,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -2915,13 +2496,6 @@
               15
             ],
             "event_id": "D1"
-          },
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E3"
           }
         ],
         "false_negative_pairs": [],
@@ -2940,106 +2514,34 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
         "n_patterns": 960,
         "n_change_points_total": 0,
-        "n_significant": 5,
-        "precision": 0.4,
-        "recall": 0.6666666666666666,
-        "f1": 0.5,
-        "tp": 2,
-        "fp": 3,
-        "fn": 1,
-        "time_phase1_ms": 908.0661670013797,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 898.6080829927232,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1476.9549579941668,
-        "time_total_ms": 2385.0211249955464,
-        "significant_attributions": [
-          {
-            "pattern": [
-              15,
-              55
-            ],
-            "change_time": 1134,
-            "change_direction": "up",
-            "change_magnitude": 1.15,
-            "event_name": "Decoy_1",
-            "event_start": 845,
-            "event_end": 1145,
-            "proximity": 0.8025187979624785,
-            "attribution_score": 3.6377384578151264,
-            "p_value": 0.007798440311937612,
-            "adjusted_p_value": 0.11421049123508632
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3892,
-            "change_direction": "down",
-            "change_magnitude": 7.95,
-            "event_name": "Event_3",
-            "event_start": 3600,
-            "event_end": 3900,
-            "proximity": 0.8521437889662113,
-            "attribution_score": 4.995287473948135,
-            "p_value": 0.029394121175764846,
-            "adjusted_p_value": 0.11421049123508632
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 1398,
-            "change_direction": "down",
-            "change_magnitude": 9.200000000000001,
-            "event_name": "Event_1",
-            "event_start": 1100,
-            "event_end": 1400,
-            "proximity": 0.9607894391523232,
-            "attribution_score": 5.573713049068742,
-            "p_value": 0.018196360727854428,
-            "adjusted_p_value": 0.11421049123508632
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3557,
-            "change_direction": "up",
-            "change_magnitude": 7.6000000000000005,
-            "event_name": "Decoy_2",
-            "event_start": 3244,
-            "event_end": 3544,
-            "proximity": 0.7710515858035663,
-            "attribution_score": 5.859992052107104,
-            "p_value": 0.021195760847830435,
-            "adjusted_p_value": 0.11421049123508632
-          },
+        "time_attribution_ms": 1515.834999998333,
+        "time_total_ms": 2414.443082991056,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
           {
             "pattern": [
               25,
-              95
+              35
             ],
-            "change_time": 2640,
-            "change_direction": "down",
-            "change_magnitude": 3.25,
-            "event_name": "Event_2",
-            "event_start": 2350,
-            "event_end": 2650,
-            "proximity": 0.8187307530779818,
-            "attribution_score": 5.217332339191039,
-            "p_value": 0.03199360127974405,
-            "adjusted_p_value": 0.11421049123508632
-          }
-        ],
-        "true_positive_pairs": [
+            "event_id": "E2"
+          },
           {
             "pattern": [
               5,
@@ -3055,46 +2557,14 @@
             "event_id": "E3"
           }
         ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              25,
-              95
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              15,
-              55
-            ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D2"
-          }
-        ],
-        "false_negative_pairs": [
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E2"
-          }
-        ],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.6,
-    "avg_recall": 0.9333333333333333,
-    "avg_f1": 0.726190476190476,
-    "avg_false_attribution_rate": 0.2
+    "avg_precision": 0.45,
+    "avg_recall": 0.6,
+    "avg_f1": 0.5142857142857142,
+    "avg_false_attribution_rate": 0.0
   },
   "OVERLAP": {
     "seeds": [
@@ -3110,24 +2580,40 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
         "n_patterns": 675,
         "n_change_points_total": 0,
-        "n_significant": 4,
-        "precision": 0.75,
+        "n_significant": 5,
+        "precision": 0.6,
         "recall": 1.0,
-        "f1": 0.8571428571428571,
+        "f1": 0.7499999999999999,
         "tp": 3,
-        "fp": 1,
+        "fp": 2,
         "fn": 0,
-        "time_phase1_ms": 911.9436249893624,
+        "time_phase1_ms": 901.9465000019409,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 465.0873749924358,
-        "time_total_ms": 1377.0309999817982,
+        "time_attribution_ms": 463.0077500187326,
+        "time_total_ms": 1364.9542500206735,
         "significant_attributions": [
+          {
+            "pattern": [
+              35,
+              120
+            ],
+            "change_time": 1408,
+            "change_direction": "up",
+            "change_magnitude": 1.9000000000000001,
+            "event_name": "Event_1",
+            "event_start": 800,
+            "event_end": 1400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 2.4541860651960112,
+            "p_value": 0.010997800439912017,
+            "adjusted_p_value": 0.08748250349930015
+          },
           {
             "pattern": [
               5,
@@ -3162,6 +2648,22 @@
           },
           {
             "pattern": [
+              5,
+              65
+            ],
+            "change_time": 1183,
+            "change_direction": "up",
+            "change_magnitude": 2.75,
+            "event_name": "Event_2",
+            "event_start": 1200,
+            "event_end": 1800,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 1.6752825583012738,
+            "p_value": 0.03499300139972006,
+            "adjusted_p_value": 0.08748250349930015
+          },
+          {
+            "pattern": [
               45,
               55
             ],
@@ -3175,38 +2677,22 @@
             "attribution_score": 2.259421519881712,
             "p_value": 0.033393321335732855,
             "adjusted_p_value": 0.08748250349930015
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3158,
-            "change_direction": "up",
-            "change_magnitude": 4.5,
-            "event_name": "Decoy_1",
-            "event_start": 2800,
-            "event_end": 3100,
-            "proximity": 0.3134861808826053,
-            "attribution_score": 1.410687813971724,
-            "p_value": 0.0657868426314737,
-            "adjusted_p_value": 0.12522495500899822
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -3219,10 +2705,17 @@
         "false_positive_pairs": [
           {
             "pattern": [
-              45,
-              55
+              35,
+              120
             ],
-            "event_id": "D1"
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              5,
+              65
+            ],
+            "event_id": "E2"
           }
         ],
         "false_negative_pairs": [],
@@ -3241,7 +2734,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -3254,10 +2747,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 889.5755409903359,
+        "time_phase1_ms": 893.0614579876419,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 393.71812500758097,
-        "time_total_ms": 1283.2936659979168,
+        "time_attribution_ms": 388.1550829974003,
+        "time_total_ms": 1281.2165409850422,
         "significant_attributions": [
           {
             "pattern": [
@@ -3327,17 +2820,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -3372,23 +2865,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
         "n_patterns": 612,
         "n_change_points_total": 0,
-        "n_significant": 4,
-        "precision": 0.5,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
         "recall": 0.6666666666666666,
-        "f1": 0.5714285714285715,
+        "f1": 0.6666666666666666,
         "tp": 2,
-        "fp": 2,
+        "fp": 1,
         "fn": 1,
-        "time_phase1_ms": 889.8020419874229,
+        "time_phase1_ms": 901.1051249981392,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 469.58479200839065,
-        "time_total_ms": 1359.3868339958135,
+        "time_attribution_ms": 466.6511670220643,
+        "time_total_ms": 1367.7562920202035,
         "significant_attributions": [
           {
             "pattern": [
@@ -3437,22 +2930,6 @@
             "attribution_score": 3.3327263885725564,
             "p_value": 0.027794441111777646,
             "adjusted_p_value": 0.08894221155768847
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3159,
-            "change_direction": "up",
-            "change_magnitude": 5.3999999999999995,
-            "event_name": "Decoy_1",
-            "event_start": 2800,
-            "event_end": 3100,
-            "proximity": 0.30727873860113125,
-            "attribution_score": 1.6593051884461085,
-            "p_value": 0.0653869226154769,
-            "adjusted_p_value": 0.10063441857083127
           }
         ],
         "true_positive_pairs": [
@@ -3478,13 +2955,6 @@
               35
             ],
             "event_id": "E1"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D1"
           }
         ],
         "false_negative_pairs": [
@@ -3511,7 +2981,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
@@ -3524,10 +2994,10 @@
         "tp": 1,
         "fp": 3,
         "fn": 2,
-        "time_phase1_ms": 885.4093750123866,
+        "time_phase1_ms": 904.4857080152724,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 643.9157910062931,
-        "time_total_ms": 1529.3251660186797,
+        "time_attribution_ms": 640.8570829953533,
+        "time_total_ms": 1545.3427910106257,
         "significant_attributions": [
           {
             "pattern": [
@@ -3607,16 +3077,16 @@
           {
             "pattern": [
               35,
-              170
+              55
             ],
-            "event_id": "E2"
+            "event_id": "E1"
           },
           {
             "pattern": [
               35,
-              55
+              170
             ],
-            "event_id": "E1"
+            "event_id": "E2"
           },
           {
             "pattern": [
@@ -3629,17 +3099,17 @@
         "false_negative_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           }
         ],
         "false_attribution_rate": 0.0,
@@ -3657,23 +3127,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
         "n_patterns": 576,
         "n_change_points_total": 0,
-        "n_significant": 4,
-        "precision": 0.5,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
         "recall": 0.6666666666666666,
-        "f1": 0.5714285714285715,
+        "f1": 0.6666666666666666,
         "tp": 2,
-        "fp": 2,
+        "fp": 1,
         "fn": 1,
-        "time_phase1_ms": 895.3987919958308,
+        "time_phase1_ms": 898.4615420049522,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 404.85941601218656,
-        "time_total_ms": 1300.2582080080174,
+        "time_attribution_ms": 409.6378330141306,
+        "time_total_ms": 1308.0993750190828,
         "significant_attributions": [
           {
             "pattern": [
@@ -3722,22 +3192,6 @@
             "attribution_score": 2.5194383544386527,
             "p_value": 0.03739252149570086,
             "adjusted_p_value": 0.09348130373925215
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3154,
-            "change_direction": "up",
-            "change_magnitude": 4.6,
-            "event_name": "Decoy_1",
-            "event_start": 2800,
-            "event_end": 3100,
-            "proximity": 0.3395955256449391,
-            "attribution_score": 1.5621394179667198,
-            "p_value": 0.05578884223155369,
-            "adjusted_p_value": 0.11157768446310738
           }
         ],
         "true_positive_pairs": [
@@ -3763,13 +3217,6 @@
               35
             ],
             "event_id": "E2"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D1"
           }
         ],
         "false_negative_pairs": [
@@ -3785,9 +3232,9 @@
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.55,
+    "avg_precision": 0.5866666666666667,
     "avg_recall": 0.7333333333333333,
-    "avg_f1": 0.6285714285714286,
+    "avg_f1": 0.6452380952380952,
     "avg_false_attribution_rate": 0.0
   },
   "CONFOUND": {
@@ -3804,7 +3251,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
@@ -3817,10 +3264,10 @@
         "tp": 2,
         "fp": 1,
         "fn": 1,
-        "time_phase1_ms": 885.171125002671,
+        "time_phase1_ms": 900.3900839888956,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 849.5214580034371,
-        "time_total_ms": 1734.6925830061082,
+        "time_attribution_ms": 815.0947079993784,
+        "time_total_ms": 1715.484791988274,
         "significant_attributions": [
           {
             "pattern": [
@@ -3920,7 +3367,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -3933,10 +3380,10 @@
         "tp": 3,
         "fp": 0,
         "fn": 0,
-        "time_phase1_ms": 883.9658329961821,
+        "time_phase1_ms": 870.7863749878015,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 821.8240000132937,
-        "time_total_ms": 1705.7898330094758,
+        "time_attribution_ms": 821.4928329980467,
+        "time_total_ms": 1692.2792079858482,
         "significant_attributions": [
           {
             "pattern": [
@@ -3990,17 +3437,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -4027,7 +3474,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
@@ -4040,10 +3487,10 @@
         "tp": 2,
         "fp": 2,
         "fn": 1,
-        "time_phase1_ms": 881.6877079952974,
+        "time_phase1_ms": 868.3259579993319,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 549.4772919919342,
-        "time_total_ms": 1431.1649999872316,
+        "time_attribution_ms": 551.4831669861451,
+        "time_total_ms": 1419.809124985477,
         "significant_attributions": [
           {
             "pattern": [
@@ -4166,23 +3613,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 484,
         "n_change_points_total": 0,
-        "n_significant": 4,
-        "precision": 0.75,
+        "n_significant": 3,
+        "precision": 1.0,
         "recall": 1.0,
-        "f1": 0.8571428571428571,
+        "f1": 1.0,
         "tp": 3,
-        "fp": 1,
+        "fp": 0,
         "fn": 0,
-        "time_phase1_ms": 875.7531669980381,
+        "time_phase1_ms": 869.0086249844171,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 517.9923330142628,
-        "time_total_ms": 1393.745500012301,
+        "time_attribution_ms": 519.965957995737,
+        "time_total_ms": 1388.974582980154,
         "significant_attributions": [
           {
             "pattern": [
@@ -4231,32 +3678,9 @@
             "attribution_score": 3.6175981857952024,
             "p_value": 0.032993401319736056,
             "adjusted_p_value": 0.07465173631940278
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 4662,
-            "change_direction": "up",
-            "change_magnitude": 1.3499999999999999,
-            "event_name": "Decoy_2",
-            "event_start": 4400,
-            "event_end": 4700,
-            "proximity": 0.46766642700990924,
-            "attribution_score": 0.9598730863709057,
-            "p_value": 0.124375124975005,
-            "adjusted_p_value": 0.1421429999714343
           }
         ],
         "true_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
           {
             "pattern": [
               25,
@@ -4266,21 +3690,20 @@
           },
           {
             "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
               45,
               55
             ],
             "event_id": "E3"
           }
         ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D2"
-          }
-        ],
+        "false_positive_pairs": [],
         "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
@@ -4297,7 +3720,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
@@ -4310,10 +3733,10 @@
         "tp": 2,
         "fp": 2,
         "fn": 1,
-        "time_phase1_ms": 888.9968339935876,
+        "time_phase1_ms": 895.1181669835933,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 532.3086660064291,
-        "time_total_ms": 1421.3055000000168,
+        "time_attribution_ms": 527.676416997565,
+        "time_total_ms": 1422.7945839811582,
         "significant_attributions": [
           {
             "pattern": [
@@ -4399,17 +3822,17 @@
         "false_positive_pairs": [
           {
             "pattern": [
-              25,
-              95
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
               65,
               75
             ],
             "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              95
+            ],
+            "event_id": "E2"
           }
         ],
         "false_negative_pairs": [
@@ -4425,9 +3848,9 @@
         "n_falsely_attributed": 1
       }
     ],
-    "avg_precision": 0.6833333333333333,
+    "avg_precision": 0.7333333333333333,
     "avg_recall": 0.8,
-    "avg_f1": 0.7333333333333334,
+    "avg_f1": 0.761904761904762,
     "avg_false_attribution_rate": 0.1
   },
   "DENSE": {
@@ -4444,23 +3867,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
         "n_patterns": 590,
         "n_change_points_total": 0,
-        "n_significant": 12,
-        "precision": 0.4166666666666667,
+        "n_significant": 11,
+        "precision": 0.45454545454545453,
         "recall": 0.8333333333333334,
-        "f1": 0.5555555555555556,
+        "f1": 0.5882352941176471,
         "tp": 5,
-        "fp": 7,
+        "fp": 6,
         "fn": 1,
-        "time_phase1_ms": 910.6144999968819,
+        "time_phase1_ms": 907.8722920094151,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1103.5917089902796,
-        "time_total_ms": 2014.2062089871615,
+        "time_attribution_ms": 1081.765250011813,
+        "time_total_ms": 1989.637542021228,
         "significant_attributions": [
           {
             "pattern": [
@@ -4509,22 +3932,6 @@
             "attribution_score": 2.962979776681285,
             "p_value": 0.01919616076784643,
             "adjusted_p_value": 0.061031272006468275
-          },
-          {
-            "pattern": [
-              165,
-              175
-            ],
-            "change_time": 517,
-            "change_direction": "down",
-            "change_magnitude": 5.800000000000001,
-            "event_name": "Event_1",
-            "event_start": 614,
-            "event_end": 814,
-            "proximity": 0.14370394977770293,
-            "attribution_score": 0.41674145435533855,
-            "p_value": 0.11637672465506899,
-            "adjusted_p_value": 0.11637672465506899
           },
           {
             "pattern": [
@@ -4658,24 +4065,10 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              45,
-              55
+              105,
+              115
             ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "event_id": "E6"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
+            "event_id": "E4"
           },
           {
             "pattern": [
@@ -4686,17 +4079,45 @@
           },
           {
             "pattern": [
-              105,
-              115
+              5,
+              15
             ],
-            "event_id": "E4"
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              145,
+              155
+            ],
+            "event_id": "E6"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
           }
         ],
         "false_positive_pairs": [
           {
             "pattern": [
-              85,
-              135
+              145,
+              155
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              105,
+              115
+            ],
+            "event_id": "D4"
+          },
+          {
+            "pattern": [
+              65,
+              75
             ],
             "event_id": "D3"
           },
@@ -4709,13 +4130,6 @@
           },
           {
             "pattern": [
-              145,
-              155
-            ],
-            "event_id": "D2"
-          },
-          {
-            "pattern": [
               95,
               125
             ],
@@ -4723,22 +4137,8 @@
           },
           {
             "pattern": [
-              105,
-              115
-            ],
-            "event_id": "D4"
-          },
-          {
-            "pattern": [
-              165,
-              175
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
-              65,
-              75
+              85,
+              135
             ],
             "event_id": "D3"
           }
@@ -4752,8 +4152,8 @@
             "event_id": "E5"
           }
         ],
-        "false_attribution_rate": 0.5,
-        "n_falsely_attributed": 2
+        "false_attribution_rate": 0.25,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -4767,23 +4167,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
         "n_patterns": 660,
         "n_change_points_total": 0,
-        "n_significant": 13,
-        "precision": 0.38461538461538464,
+        "n_significant": 9,
+        "precision": 0.5555555555555556,
         "recall": 0.8333333333333334,
-        "f1": 0.5263157894736842,
+        "f1": 0.6666666666666667,
         "tp": 5,
-        "fp": 8,
+        "fp": 4,
         "fn": 1,
-        "time_phase1_ms": 916.0706249822397,
+        "time_phase1_ms": 909.1304169851355,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1250.236334017245,
-        "time_total_ms": 2166.306958999485,
+        "time_attribution_ms": 1245.1023330213502,
+        "time_total_ms": 2154.2327500064857,
         "significant_attributions": [
           {
             "pattern": [
@@ -4851,22 +4251,6 @@
           },
           {
             "pattern": [
-              55,
-              195
-            ],
-            "change_time": 859,
-            "change_direction": "up",
-            "change_magnitude": 1.2,
-            "event_name": "Event_1",
-            "event_start": 614,
-            "event_end": 814,
-            "proximity": 0.4065696597405991,
-            "attribution_score": 0.8484785318617972,
-            "p_value": 0.09958008398320337,
-            "adjusted_p_value": 0.11331526798088659
-          },
-          {
-            "pattern": [
               35,
               75
             ],
@@ -4899,6 +4283,22 @@
           },
           {
             "pattern": [
+              65,
+              75
+            ],
+            "change_time": 1300,
+            "change_direction": "down",
+            "change_magnitude": 7.1000000000000005,
+            "event_name": "Event_2",
+            "event_start": 1328,
+            "event_end": 1528,
+            "proximity": 0.5712090638488149,
+            "attribution_score": 2.027792176663293,
+            "p_value": 0.05798840231953609,
+            "adjusted_p_value": 0.09832033593281345
+          },
+          {
+            "pattern": [
               145,
               155
             ],
@@ -4928,93 +4328,22 @@
             "attribution_score": 2.010751161804372,
             "p_value": 0.04479104179164167,
             "adjusted_p_value": 0.09832033593281345
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3858,
-            "change_direction": "up",
-            "change_magnitude": 1.0,
-            "event_name": "Decoy_3",
-            "event_start": 3682,
-            "event_end": 3882,
-            "proximity": 0.6187833918061408,
-            "attribution_score": 1.0895535748259804,
-            "p_value": 0.1295740851829634,
-            "adjusted_p_value": 0.13362327534493101
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "change_time": 4141,
-            "change_direction": "up",
-            "change_magnitude": 4.55,
-            "event_name": "Decoy_4",
-            "event_start": 3868,
-            "event_end": 4068,
-            "proximity": 0.23223627472975883,
-            "attribution_score": 1.0566750500204027,
-            "p_value": 0.07018596280743851,
-            "adjusted_p_value": 0.10475404919016197
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 3872,
-            "change_direction": "down",
-            "change_magnitude": 1.15,
-            "event_name": "Decoy_4",
-            "event_start": 3868,
-            "event_end": 4068,
-            "proximity": 0.9231163463866358,
-            "attribution_score": 0.9401572757113064,
-            "p_value": 0.13817236552689463,
-            "adjusted_p_value": 0.13817236552689463
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "change_time": 4141,
-            "change_direction": "up",
-            "change_magnitude": 4.55,
-            "event_name": "Decoy_2",
-            "event_start": 4058,
-            "event_end": 4258,
-            "proximity": 0.19013898010152055,
-            "attribution_score": 0.8651323594619185,
-            "p_value": 0.08438312337532493,
-            "adjusted_p_value": 0.1113857228554289
           }
         ],
         "true_positive_pairs": [
+          {
+            "pattern": [
+              105,
+              115
+            ],
+            "event_id": "E4"
+          },
           {
             "pattern": [
               125,
               135
             ],
             "event_id": "E5"
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "event_id": "E6"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
           },
           {
             "pattern": [
@@ -5025,40 +4354,26 @@
           },
           {
             "pattern": [
-              105,
-              115
+              5,
+              15
             ],
-            "event_id": "E4"
-          }
-        ],
-        "false_positive_pairs": [
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D4"
+            "event_id": "E1"
           },
           {
             "pattern": [
               145,
               155
             ],
-            "event_id": "D4"
-          },
+            "event_id": "E6"
+          }
+        ],
+        "false_positive_pairs": [
           {
             "pattern": [
               55,
               195
             ],
             "event_id": "E3"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "D3"
           },
           {
             "pattern": [
@@ -5069,10 +4384,10 @@
           },
           {
             "pattern": [
-              55,
-              195
+              65,
+              75
             ],
-            "event_id": "E1"
+            "event_id": "E2"
           },
           {
             "pattern": [
@@ -5080,13 +4395,6 @@
               135
             ],
             "event_id": "D3"
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "event_id": "D2"
           }
         ],
         "false_negative_pairs": [
@@ -5098,8 +4406,8 @@
             "event_id": "E3"
           }
         ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
+        "false_attribution_rate": 0.25,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -5113,7 +4421,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
@@ -5126,10 +4434,10 @@
         "tp": 5,
         "fp": 8,
         "fn": 1,
-        "time_phase1_ms": 918.8567500095814,
+        "time_phase1_ms": 907.19708398683,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1352.3712499882095,
-        "time_total_ms": 2271.227999997791,
+        "time_attribution_ms": 1369.4931660138536,
+        "time_total_ms": 2276.6902500006836,
         "significant_attributions": [
           {
             "pattern": [
@@ -5343,10 +4651,10 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              45,
-              55
+              105,
+              115
             ],
-            "event_id": "E3"
+            "event_id": "E4"
           },
           {
             "pattern": [
@@ -5357,13 +4665,6 @@
           },
           {
             "pattern": [
-              145,
-              155
-            ],
-            "event_id": "E6"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
@@ -5371,10 +4672,17 @@
           },
           {
             "pattern": [
-              105,
-              115
+              145,
+              155
             ],
-            "event_id": "E4"
+            "event_id": "E6"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
           }
         ],
         "false_positive_pairs": [
@@ -5387,31 +4695,10 @@
           },
           {
             "pattern": [
-              105,
-              115
-            ],
-            "event_id": "D2"
-          },
-          {
-            "pattern": [
               45,
               55
             ],
             "event_id": "D3"
-          },
-          {
-            "pattern": [
-              65,
-              75
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
-              15,
-              165
-            ],
-            "event_id": "E1"
           },
           {
             "pattern": [
@@ -5426,6 +4713,27 @@
               135
             ],
             "event_id": "D4"
+          },
+          {
+            "pattern": [
+              105,
+              115
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              15,
+              165
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -5459,23 +4767,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
         "n_patterns": 585,
         "n_change_points_total": 0,
-        "n_significant": 11,
-        "precision": 0.5454545454545454,
-        "recall": 1.0,
-        "f1": 0.7058823529411764,
-        "tp": 6,
-        "fp": 5,
-        "fn": 0,
-        "time_phase1_ms": 905.1468749821652,
+        "n_significant": 7,
+        "precision": 0.7142857142857143,
+        "recall": 0.8333333333333334,
+        "f1": 0.7692307692307692,
+        "tp": 5,
+        "fp": 2,
+        "fn": 1,
+        "time_phase1_ms": 904.2278749984689,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1042.3594170133583,
-        "time_total_ms": 1947.5062919955235,
+        "time_attribution_ms": 1034.3329999886919,
+        "time_total_ms": 1938.5608749871608,
         "significant_attributions": [
           {
             "pattern": [
@@ -5508,22 +4816,6 @@
             "attribution_score": 3.112591459217834,
             "p_value": 0.01779644071185763,
             "adjusted_p_value": 0.09255291798783101
-          },
-          {
-            "pattern": [
-              165,
-              175
-            ],
-            "change_time": 1261,
-            "change_direction": "down",
-            "change_magnitude": 6.300000000000001,
-            "event_name": "Event_2",
-            "event_start": 1328,
-            "event_end": 1528,
-            "proximity": 0.261845668580326,
-            "attribution_score": 0.8248138560280269,
-            "p_value": 0.09078184363127374,
-            "adjusted_p_value": 0.1014342586028249
           },
           {
             "pattern": [
@@ -5604,63 +4896,15 @@
             "attribution_score": 3.140099015117078,
             "p_value": 0.024795040991801638,
             "adjusted_p_value": 0.09255291798783101
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "change_time": 1997,
-            "change_direction": "up",
-            "change_magnitude": 7.05,
-            "event_name": "Event_3",
-            "event_start": 2042,
-            "event_end": 2242,
-            "proximity": 0.4065696597405991,
-            "attribution_score": 2.517976298413938,
-            "p_value": 0.03939212157568486,
-            "adjusted_p_value": 0.10077984403119375
-          },
-          {
-            "pattern": [
-              145,
-              155
-            ],
-            "change_time": 4149,
-            "change_direction": "up",
-            "change_magnitude": 2.9,
-            "event_name": "Decoy_1",
-            "event_start": 3883,
-            "event_end": 4083,
-            "proximity": 0.26713530196585034,
-            "attribution_score": 0.7746923757009659,
-            "p_value": 0.06638672265546891,
-            "adjusted_p_value": 0.10077984403119375
-          },
-          {
-            "pattern": [
-              115,
-              135
-            ],
-            "change_time": 18,
-            "change_direction": "down",
-            "change_magnitude": 2.5,
-            "event_name": "Decoy_4",
-            "event_start": 107,
-            "event_end": 307,
-            "proximity": 0.1686381472685955,
-            "attribution_score": 0.21079768408574437,
-            "p_value": 0.12077584483103379,
-            "adjusted_p_value": 0.12602696851933962
           }
         ],
         "true_positive_pairs": [
           {
             "pattern": [
-              45,
-              55
+              105,
+              115
             ],
-            "event_id": "E3"
+            "event_id": "E4"
           },
           {
             "pattern": [
@@ -5671,10 +4915,10 @@
           },
           {
             "pattern": [
-              145,
-              155
+              25,
+              35
             ],
-            "event_id": "E6"
+            "event_id": "E2"
           },
           {
             "pattern": [
@@ -5685,41 +4929,13 @@
           },
           {
             "pattern": [
-              25,
-              35
+              145,
+              155
             ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              105,
-              115
-            ],
-            "event_id": "E4"
+            "event_id": "E6"
           }
         ],
         "false_positive_pairs": [
-          {
-            "pattern": [
-              5,
-              139
-            ],
-            "event_id": "D3"
-          },
-          {
-            "pattern": [
-              165,
-              175
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              115,
-              135
-            ],
-            "event_id": "D4"
-          },
           {
             "pattern": [
               85,
@@ -5729,15 +4945,23 @@
           },
           {
             "pattern": [
-              145,
-              155
+              5,
+              139
             ],
-            "event_id": "D1"
+            "event_id": "D3"
           }
         ],
-        "false_negative_pairs": [],
-        "false_attribution_rate": 0.5,
-        "n_falsely_attributed": 2
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.25,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
@@ -5751,23 +4975,23 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
         "n_patterns": 601,
         "n_change_points_total": 0,
-        "n_significant": 15,
-        "precision": 0.26666666666666666,
+        "n_significant": 12,
+        "precision": 0.3333333333333333,
         "recall": 0.6666666666666666,
-        "f1": 0.3809523809523809,
+        "f1": 0.4444444444444444,
         "tp": 4,
-        "fp": 11,
+        "fp": 8,
         "fn": 2,
-        "time_phase1_ms": 920.1024160138331,
+        "time_phase1_ms": 915.9593340009451,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 1346.4516669919249,
-        "time_total_ms": 2266.554083005758,
+        "time_attribution_ms": 1335.1336250198074,
+        "time_total_ms": 2251.0929590207525,
         "significant_attributions": [
           {
             "pattern": [
@@ -5915,22 +5139,6 @@
           },
           {
             "pattern": [
-              85,
-              95
-            ],
-            "change_time": 2683,
-            "change_direction": "down",
-            "change_magnitude": 5.35,
-            "event_name": "Event_4",
-            "event_start": 2756,
-            "event_end": 2956,
-            "proximity": 0.23223627472975883,
-            "attribution_score": 0.6212320349021049,
-            "p_value": 0.11517696460707859,
-            "adjusted_p_value": 0.11866717565577795
-          },
-          {
-            "pattern": [
               125,
               135
             ],
@@ -5944,22 +5152,6 @@
             "attribution_score": 3.620123029403798,
             "p_value": 0.02979404119176165,
             "adjusted_p_value": 0.07038592281543692
-          },
-          {
-            "pattern": [
-              185,
-              195
-            ],
-            "change_time": 3416,
-            "change_direction": "down",
-            "change_magnitude": 3.3499999999999996,
-            "event_name": "Event_5",
-            "event_start": 3470,
-            "event_end": 3670,
-            "proximity": 0.3395955256449391,
-            "attribution_score": 0.5688225054552729,
-            "p_value": 0.10317936412717456,
-            "adjusted_p_value": 0.11026544691061788
           },
           {
             "pattern": [
@@ -5992,22 +5184,6 @@
             "attribution_score": 2.0236839765850614,
             "p_value": 0.04479104179164167,
             "adjusted_p_value": 0.07614477104579084
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "change_time": 808,
-            "change_direction": "down",
-            "change_magnitude": 5.5,
-            "event_name": "Decoy_3",
-            "event_start": 738,
-            "event_end": 938,
-            "proximity": 0.2465969639416065,
-            "attribution_score": 0.6781416508394178,
-            "p_value": 0.10377924415116976,
-            "adjusted_p_value": 0.11026544691061788
           }
         ],
         "true_positive_pairs": [
@@ -6027,41 +5203,20 @@
           },
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               105,
               115
             ],
             "event_id": "E4"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           }
         ],
         "false_positive_pairs": [
-          {
-            "pattern": [
-              85,
-              95
-            ],
-            "event_id": "E4"
-          },
-          {
-            "pattern": [
-              45,
-              182
-            ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
-              185,
-              195
-            ],
-            "event_id": "E5"
-          },
           {
             "pattern": [
               5,
@@ -6071,10 +5226,10 @@
           },
           {
             "pattern": [
-              25,
-              35
+              125,
+              145
             ],
-            "event_id": "D2"
+            "event_id": "E6"
           },
           {
             "pattern": [
@@ -6085,10 +5240,17 @@
           },
           {
             "pattern": [
-              5,
-              15
+              165,
+              175
             ],
             "event_id": "D3"
+          },
+          {
+            "pattern": [
+              165,
+              175
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -6099,24 +5261,17 @@
           },
           {
             "pattern": [
-              165,
-              175
+              25,
+              35
             ],
-            "event_id": "D3"
+            "event_id": "D2"
           },
           {
             "pattern": [
-              165,
-              175
+              45,
+              182
             ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
-              125,
-              145
-            ],
-            "event_id": "E6"
+            "event_id": "E3"
           }
         ],
         "false_negative_pairs": [
@@ -6135,14 +5290,14 @@
             "event_id": "E3"
           }
         ],
-        "false_attribution_rate": 1.25,
-        "n_falsely_attributed": 5
+        "false_attribution_rate": 0.75,
+        "n_falsely_attributed": 3
       }
     ],
-    "avg_precision": 0.39960372960372964,
-    "avg_recall": 0.8333333333333334,
-    "avg_f1": 0.5390043736792962,
-    "avg_false_attribution_rate": 0.55
+    "avg_precision": 0.4884670884670885,
+    "avg_recall": 0.8,
+    "avg_f1": 0.5989785927866423,
+    "avg_false_attribution_rate": 0.4
   },
   "SHORT": {
     "seeds": [
@@ -6158,7 +5313,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 0
         },
         "n_transactions": 5000,
@@ -6171,10 +5326,10 @@
         "tp": 3,
         "fp": 0,
         "fn": 0,
-        "time_phase1_ms": 866.3772919971962,
+        "time_phase1_ms": 865.1112079969607,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 125.38050001603551,
-        "time_total_ms": 991.7577920132317,
+        "time_attribution_ms": 124.87670901464298,
+        "time_total_ms": 989.9879170116037,
         "significant_attributions": [
           {
             "pattern": [
@@ -6228,17 +5383,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -6265,7 +5420,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 1
         },
         "n_transactions": 5000,
@@ -6278,10 +5433,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 861.1089999903925,
+        "time_phase1_ms": 863.8278330035973,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 112.86112500238232,
-        "time_total_ms": 973.9701249927748,
+        "time_attribution_ms": 113.9031249913387,
+        "time_total_ms": 977.730957994936,
         "significant_attributions": [
           {
             "pattern": [
@@ -6351,17 +5506,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -6396,7 +5551,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 2
         },
         "n_transactions": 5000,
@@ -6409,10 +5564,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 854.7409170132596,
+        "time_phase1_ms": 860.3938329906669,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 103.85600000154227,
-        "time_total_ms": 958.5969170148019,
+        "time_attribution_ms": 103.77779201371595,
+        "time_total_ms": 964.1716250043828,
         "significant_attributions": [
           {
             "pattern": [
@@ -6482,17 +5637,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -6527,7 +5682,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 3
         },
         "n_transactions": 5000,
@@ -6540,10 +5695,10 @@
         "tp": 3,
         "fp": 1,
         "fn": 0,
-        "time_phase1_ms": 852.6777079969179,
+        "time_phase1_ms": 852.8754999861121,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 78.92708398867399,
-        "time_total_ms": 931.6047919855919,
+        "time_attribution_ms": 80.42050001677126,
+        "time_total_ms": 933.2960000028834,
         "significant_attributions": [
           {
             "pattern": [
@@ -6613,17 +5768,17 @@
         "true_positive_pairs": [
           {
             "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          },
-          {
-            "pattern": [
               25,
               35
             ],
             "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -6658,7 +5813,7 @@
           "min_relative_change": 0.0,
           "global_correction": true,
           "n_permutations": 5000,
-          "alpha": 0.2,
+          "alpha": 0.1,
           "seed": 4
         },
         "n_transactions": 5000,
@@ -6671,10 +5826,10 @@
         "tp": 2,
         "fp": 1,
         "fn": 1,
-        "time_phase1_ms": 868.3927919773851,
+        "time_phase1_ms": 864.0865000197664,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 198.18483301787637,
-        "time_total_ms": 1066.5776249952614,
+        "time_attribution_ms": 198.3144169789739,
+        "time_total_ms": 1062.4009169987403,
         "significant_attributions": [
           {
             "pattern": [

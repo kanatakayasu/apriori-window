@@ -167,7 +167,7 @@ def run_ex2():
                 attr_config = AttributionConfig(
                     min_support_range=5,
                     n_permutations=5000,
-                    alpha=0.20,
+                    alpha=0.10,
                     correction_method="bh",
                     global_correction=True,
                     deduplicate_overlap=True,

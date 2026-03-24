@@ -1,15 +1,14 @@
 """
-EX1: Core Attribution Accuracy — Can the pipeline correctly attribute event-driven
-changes and reject unrelated dense patterns?
+EX6: Zipf-Distribution Robustness — Does the pipeline degrade under realistic
+(non-uniform) item frequency distributions?
 
-8 conditions testing signal strength and structural diversity:
-  Beta sweep (signal strength):
-    β=0.1, 0.2, 0.3, 0.5
-  Structural conditions (β=0.3 fixed):
-    OVERLAP  — temporally overlapping events
-    CONFOUND — Type B patterns deliberately near events
-    DENSE    — 6 planted + 4 Type B + 4 decoy (2x scale)
-    SHORT    — event duration 80 (vs 300 baseline)
+Addresses reviewer concern that uniform p_base=0.03 is unrealistic; real
+basket data follows Zipf / power-law item frequencies.
+
+3 conditions:
+  zipf_1.0     — Zipf α=1.0 (standard Zipf's law)
+  zipf_1.5     — Zipf α=1.5 (heavy-tailed; few dominant items)
+  correlated   — Zipf α=1.0 + correlated item pairs (bread+butter)
 
 Each condition × 5 seeds. Evaluation: P/R/F1 + FAR.
 """
@@ -24,43 +23,32 @@ if _root not in sys.path:
 
 from experiments.src.gen_synthetic import (
     generate_synthetic,
-    make_ex1_config,
-    make_ex1_overlap_config,
-    make_ex1_confound_config,
-    make_ex1_dense_config,
-    make_ex1_short_config,
+    make_ex6_zipf_config,
+    make_ex6_correlated_config,
 )
 from experiments.src.run_experiment import (
     AttributionConfig,
     run_single_experiment,
 )
 
-RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex1"
-DATA_DIR = Path(__file__).resolve().parent / "data" / "ex1"
+RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex6"
+DATA_DIR = Path(__file__).resolve().parent / "data" / "ex6"
 
-# --- 8 conditions ---
+# --- 3 conditions ---
 CONDITIONS = {
-    # Beta sweep (signal strength)
-    "beta_0.1": lambda seed: make_ex1_config(boost=0.1, seed=seed),
-    "beta_0.2": lambda seed: make_ex1_config(boost=0.2, seed=seed),
-    "beta_0.3": lambda seed: make_ex1_config(boost=0.3, seed=seed),
-    "beta_0.5": lambda seed: make_ex1_config(boost=0.5, seed=seed),
-    # Structural conditions (β=0.3 fixed)
-    "OVERLAP":  lambda seed: make_ex1_overlap_config(seed=seed),
-    "CONFOUND": lambda seed: make_ex1_confound_config(seed=seed),
-    "DENSE":    lambda seed: make_ex1_dense_config(seed=seed),
-    "SHORT":    lambda seed: make_ex1_short_config(seed=seed),
+    "zipf_1.0":   lambda seed: make_ex6_zipf_config(zipf_alpha=1.0, seed=seed),
+    "zipf_1.5":   lambda seed: make_ex6_zipf_config(zipf_alpha=1.5, seed=seed),
+    "correlated": lambda seed: make_ex6_correlated_config(zipf_alpha=1.0, seed=seed),
 }
 
 N_SEEDS = 5
 
 
-def run_ex1():
-    """Run all EX1 conditions."""
+def run_ex6():
+    """Run all EX6 conditions."""
     print("=" * 70)
-    print("EX1: Core Attribution Accuracy")
-    print("  Beta sweep: β ∈ {0.1, 0.2, 0.3, 0.5}")
-    print("  Structural: OVERLAP, CONFOUND, DENSE, SHORT")
+    print("EX6: Zipf-Distribution Robustness")
+    print("  Conditions: zipf_1.0, zipf_1.5, correlated")
     print(f"  Seeds: {N_SEEDS} per condition")
     print("=" * 70)
 
@@ -86,7 +74,7 @@ def run_ex1():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=5, max_length=2,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )
@@ -112,10 +100,10 @@ def run_ex1():
 
     # Save
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    save_path = str(RESULTS_DIR / "ex1_results.json")
+    save_path = str(RESULTS_DIR / "ex6_results.json")
     with open(save_path, "w") as f:
         json.dump(all_results, f, indent=2, default=str)
-    print(f"\nEX1 results saved to {save_path}")
+    print(f"\nEX6 results saved to {save_path}")
 
     # Summary table
     print("\n" + "=" * 70)
@@ -131,4 +119,4 @@ def run_ex1():
 
 
 if __name__ == "__main__":
-    run_ex1()
+    run_ex6()

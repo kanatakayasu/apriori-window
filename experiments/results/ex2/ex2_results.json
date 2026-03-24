@@ -15,7 +15,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -28,10 +28,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 864.6969999826979,
+          "time_phase1_ms": 855.4497089935467,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 73.94062500679865,
-          "time_total_ms": 938.6376249894965,
+          "time_attribution_ms": 70.93191600870341,
+          "time_total_ms": 926.3816250022501,
           "significant_attributions": [
             {
               "pattern": [
@@ -76,7 +76,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -89,10 +89,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 848.7078750040382,
+          "time_phase1_ms": 846.9528749992605,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 56.410707999020815,
-          "time_total_ms": 905.118583003059,
+          "time_attribution_ms": 55.970707995584235,
+          "time_total_ms": 902.9235829948448,
           "significant_attributions": [
             {
               "pattern": [
@@ -137,7 +137,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -150,10 +150,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 849.4312920083757,
+          "time_phase1_ms": 848.0241670040414,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 42.10070797125809,
-          "time_total_ms": 891.5319999796338,
+          "time_attribution_ms": 41.233333002310246,
+          "time_total_ms": 889.2575000063516,
           "significant_attributions": [
             {
               "pattern": [
@@ -198,7 +198,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -211,10 +211,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 844.3426250014454,
+          "time_phase1_ms": 841.0548329993617,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.58437500265427,
-          "time_total_ms": 944.9270000040997,
+          "time_attribution_ms": 99.92625002632849,
+          "time_total_ms": 940.9810830256902,
           "significant_attributions": [
             {
               "pattern": [
@@ -259,42 +259,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 359,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 857.3754999961238,
+          "fn": 1,
+          "time_phase1_ms": 864.7583749843761,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 77.01083298888989,
-          "time_total_ms": 934.3863329850137,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1247,
-              "change_direction": "down",
-              "change_magnitude": 6.15,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.9417645335842487,
-              "attribution_score": 4.278262783889602,
-              "p_value": 0.05678864227154569,
-              "adjusted_p_value": 0.10397920415916817
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 76.5446670120582,
+          "time_total_ms": 941.3030419964343,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -303,16 +288,14 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 1.0,
-      "avg_recall": 1.0,
-      "avg_f1": 1.0,
-      "avg_false_attribution_rate": 1.0
+      "avg_precision": 0.8,
+      "avg_recall": 0.8,
+      "avg_f1": 0.8,
+      "avg_false_attribution_rate": 0.8
     },
     "No direction (prox*mag)": {
       "ablation_mode": "no_dir",
@@ -329,7 +312,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -342,10 +325,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 856.8501249828842,
+          "time_phase1_ms": 860.4738750145771,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 70.32879200414754,
-          "time_total_ms": 927.1789169870317,
+          "time_attribution_ms": 70.01179200597107,
+          "time_total_ms": 930.4856670205481,
           "significant_attributions": [
             {
               "pattern": [
@@ -390,7 +373,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -403,10 +386,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 847.0315000158735,
+          "time_phase1_ms": 846.9196659862064,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.89824999333359,
-          "time_total_ms": 902.929750009207,
+          "time_attribution_ms": 55.18945900257677,
+          "time_total_ms": 902.1091249887832,
           "significant_attributions": [
             {
               "pattern": [
@@ -451,7 +434,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -464,10 +447,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 852.9319999797735,
+          "time_phase1_ms": 854.7187500225846,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 42.673832998843864,
-          "time_total_ms": 895.6058329786174,
+          "time_attribution_ms": 44.430249981814995,
+          "time_total_ms": 899.1490000043996,
           "significant_attributions": [
             {
               "pattern": [
@@ -512,7 +495,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -525,10 +508,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 843.7109170190524,
+          "time_phase1_ms": 854.3159579858184,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.04141697916202,
-          "time_total_ms": 942.7523339982145,
+          "time_attribution_ms": 100.47283300082199,
+          "time_total_ms": 954.7887909866404,
           "significant_attributions": [
             {
               "pattern": [
@@ -573,7 +556,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -586,10 +569,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 858.6387079849374,
+          "time_phase1_ms": 871.0636659816373,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 76.29050000105053,
-          "time_total_ms": 934.9292079859879,
+          "time_attribution_ms": 76.06770901475102,
+          "time_total_ms": 947.1313749963883,
           "significant_attributions": [
             {
               "pattern": [
@@ -643,42 +626,52 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
           "n_patterns": 356,
           "n_change_points_total": 0,
           "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 852.1077079931274,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 1,
+          "fn": 1,
+          "time_phase1_ms": 867.7931250131223,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 71.0375830240082,
-          "time_total_ms": 923.1452910171356,
+          "time_attribution_ms": 71.58258400158957,
+          "time_total_ms": 939.3757090147119,
           "significant_attributions": [
             {
               "pattern": [
                 5,
-                15
+                166
               ],
-              "change_time": 704,
+              "change_time": 719,
               "change_direction": "up",
-              "change_magnitude": 5.9,
+              "change_magnitude": 2.4,
               "event_name": "Sale",
               "event_start": 750,
               "event_end": 1250,
-              "proximity": 0.39851904108451414,
-              "attribution_score": 5.55,
-              "p_value": 0.15996800639872025,
-              "adjusted_p_value": 0.15996800639872025
+              "proximity": 0.5379444375946745,
+              "attribution_score": 4.7,
+              "p_value": 0.039192161567686463,
+              "adjusted_p_value": 0.0587882423515297
             }
           ],
-          "true_positive_pairs": [
+          "true_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                5,
+                166
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -687,10 +680,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -704,42 +695,52 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 338,
           "n_change_points_total": 0,
           "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 849.7064159892034,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 1,
+          "fn": 1,
+          "time_phase1_ms": 860.9367500175722,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.698542011668906,
-          "time_total_ms": 905.4049580008723,
+          "time_attribution_ms": 57.23362500430085,
+          "time_total_ms": 918.170375021873,
           "significant_attributions": [
             {
               "pattern": [
                 5,
-                15
+                135
               ],
-              "change_time": 717,
+              "change_time": 777,
               "change_direction": "up",
-              "change_magnitude": 7.1499999999999995,
+              "change_magnitude": 2.6999999999999997,
               "event_name": "Sale",
               "event_start": 750,
               "event_end": 1250,
-              "proximity": 0.5168513344916992,
-              "attribution_score": 6.449999999999999,
-              "p_value": 0.10477904419116177,
-              "adjusted_p_value": 0.10477904419116175
+              "proximity": 0.5827482523739896,
+              "attribution_score": 3.55,
+              "p_value": 0.03499300139972006,
+              "adjusted_p_value": 0.05248950209958009
             }
           ],
-          "true_positive_pairs": [
+          "true_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                5,
+                135
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -748,10 +749,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -765,42 +764,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 355,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 861.5669999853708,
+          "fn": 1,
+          "time_phase1_ms": 859.9639579770155,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 42.659083992475644,
-          "time_total_ms": 904.2260839778464,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 714,
-              "change_direction": "up",
-              "change_magnitude": 6.7,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.4867522559599717,
-              "attribution_score": 5.75,
-              "p_value": 0.16576684663067387,
-              "adjusted_p_value": 0.16576684663067387
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 42.050625022966415,
+          "time_total_ms": 902.0145829999819,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -809,10 +793,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -826,42 +808,52 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 330,
           "n_change_points_total": 0,
           "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 854.2750409978908,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 1,
+          "fn": 1,
+          "time_phase1_ms": 856.5191659727134,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.35633398708887,
-          "time_total_ms": 953.6313749849796,
+          "time_attribution_ms": 100.1092090154998,
+          "time_total_ms": 956.6283749882132,
           "significant_attributions": [
             {
               "pattern": [
                 5,
-                15
+                96
               ],
-              "change_time": 1249,
-              "change_direction": "down",
-              "change_magnitude": 8.0,
+              "change_time": 1158,
+              "change_direction": "up",
+              "change_magnitude": 3.0999999999999996,
               "event_name": "Sale",
               "event_start": 750,
               "event_end": 1250,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 5.575,
-              "p_value": 0.07118576284743051,
-              "adjusted_p_value": 0.10677864427114578
+              "proximity": 0.15881742610692068,
+              "attribution_score": 4.275,
+              "p_value": 0.03659268146370726,
+              "adjusted_p_value": 0.07518496300739852
             }
           ],
-          "true_positive_pairs": [
+          "true_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                5,
+                96
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -870,10 +862,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -887,42 +877,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 359,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 860.8825000119396,
+          "fn": 1,
+          "time_phase1_ms": 873.3889590075705,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 76.92587497876957,
-          "time_total_ms": 937.8083749907091,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 705,
-              "change_direction": "up",
-              "change_magnitude": 6.8,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.4065696597405991,
-              "attribution_score": 6.475,
-              "p_value": 0.133373325334933,
-              "adjusted_p_value": 0.133373325334933
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 80.55433299159631,
+          "time_total_ms": 953.9432919991668,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -931,16 +906,14 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 1.0,
-      "avg_recall": 1.0,
-      "avg_f1": 1.0,
-      "avg_false_attribution_rate": 1.0
+      "avg_precision": 0.0,
+      "avg_recall": 0.0,
+      "avg_f1": 0.0,
+      "avg_false_attribution_rate": 0.0
     },
     "No magnitude (prox*dir)": {
       "ablation_mode": "no_mag",
@@ -957,7 +930,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -970,10 +943,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 855.2069999859668,
+          "time_phase1_ms": 875.2253749989904,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 70.6244170141872,
-          "time_total_ms": 925.831417000154,
+          "time_attribution_ms": 70.80470802611671,
+          "time_total_ms": 946.0300830251072,
           "significant_attributions": [
             {
               "pattern": [
@@ -1026,7 +999,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -1039,10 +1012,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 847.7098750008736,
+          "time_phase1_ms": 859.8787919909228,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.67658299696632,
-          "time_total_ms": 903.3864579978399,
+          "time_attribution_ms": 56.17725002230145,
+          "time_total_ms": 916.0560420132242,
           "significant_attributions": [
             {
               "pattern": [
@@ -1087,7 +1060,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -1100,10 +1073,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 855.9807499987073,
+          "time_phase1_ms": 871.0013749951031,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.19645801256411,
-          "time_total_ms": 897.1772080112714,
+          "time_attribution_ms": 43.37220801971853,
+          "time_total_ms": 914.3735830148216,
           "significant_attributions": [
             {
               "pattern": [
@@ -1148,80 +1121,11 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 330,
-          "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "tp": 0,
-          "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 848.0988329974934,
-          "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.14195799501613,
-          "time_total_ms": 947.2407909925096,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                174
-              ],
-              "change_time": 1196,
-              "change_direction": "up",
-              "change_magnitude": 1.0,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.3395955256449391,
-              "attribution_score": 0.951977232224237,
-              "p_value": 0.09298140371925614,
-              "adjusted_p_value": 0.11157768446310738
-            }
-          ],
-          "true_positive_pairs": [],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                174
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_attribution_rate": 0.0,
-          "n_falsely_attributed": 0
-        },
-        {
-          "config": {
-            "window_size": 50,
-            "min_support": 3,
-            "max_length": 2,
-            "change_method": "threshold_crossing",
-            "sigma": null,
-            "max_distance": null,
-            "min_magnitude": 0.0,
-            "min_relative_change": 0.0,
-            "global_correction": true,
-            "n_permutations": 5000,
-            "alpha": 0.2,
-            "seed": 4
-          },
-          "n_transactions": 5000,
-          "n_patterns": 359,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -1230,26 +1134,26 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 861.6651250049472,
+          "time_phase1_ms": 854.6166669984814,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 68.0043329775799,
-          "time_total_ms": 929.6694579825271,
+          "time_attribution_ms": 99.07283302163705,
+          "time_total_ms": 953.6895000201184,
           "significant_attributions": [
             {
               "pattern": [
                 5,
                 15
               ],
-              "change_time": 1247,
+              "change_time": 1249,
               "change_direction": "down",
-              "change_magnitude": 6.15,
+              "change_magnitude": 8.0,
               "event_name": "Sale",
               "event_start": 750,
               "event_end": 1250,
-              "proximity": 0.9417645335842487,
-              "attribution_score": 0.6741670966624239,
-              "p_value": 0.10777844431113777,
-              "adjusted_p_value": 0.11077784443111378
+              "proximity": 0.9801986733067553,
+              "attribution_score": 0.7059545983679175,
+              "p_value": 0.04619076184763048,
+              "adjusted_p_value": 0.09438112377524495
             }
           ],
           "true_positive_pairs": [
@@ -1265,6 +1169,50 @@
           "false_negative_pairs": [],
           "false_attribution_rate": 1.0,
           "n_falsely_attributed": 1
+        },
+        {
+          "config": {
+            "window_size": 50,
+            "min_support": 3,
+            "max_length": 2,
+            "change_method": "threshold_crossing",
+            "sigma": null,
+            "max_distance": null,
+            "min_magnitude": 0.0,
+            "min_relative_change": 0.0,
+            "global_correction": true,
+            "n_permutations": 5000,
+            "alpha": 0.1,
+            "seed": 4
+          },
+          "n_transactions": 5000,
+          "n_patterns": 359,
+          "n_change_points_total": 0,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "time_phase1_ms": 876.4818749914411,
+          "time_support_series_ms": 0.0,
+          "time_attribution_ms": 67.47608300065622,
+          "time_total_ms": 943.9579579920974,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
       "avg_precision": 0.6,
@@ -1287,7 +1235,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -1300,10 +1248,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 852.8479580127168,
+          "time_phase1_ms": 888.2909580133855,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 70.52699997439049,
-          "time_total_ms": 923.3749579871073,
+          "time_attribution_ms": 94.2601669812575,
+          "time_total_ms": 982.551124994643,
           "significant_attributions": [
             {
               "pattern": [
@@ -1348,7 +1296,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -1361,10 +1309,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 853.8897919934243,
+          "time_phase1_ms": 897.1192500030156,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.54649999248795,
-          "time_total_ms": 909.4362919859122,
+          "time_attribution_ms": 57.56912499782629,
+          "time_total_ms": 954.6883750008419,
           "significant_attributions": [
             {
               "pattern": [
@@ -1409,7 +1357,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -1422,10 +1370,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 852.2302499914076,
+          "time_phase1_ms": 865.6637909880374,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.36287499568425,
-          "time_total_ms": 893.5931249870919,
+          "time_attribution_ms": 42.38179200910963,
+          "time_total_ms": 908.045582997147,
           "significant_attributions": [
             {
               "pattern": [
@@ -1470,7 +1418,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -1483,10 +1431,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 847.5112080050167,
+          "time_phase1_ms": 852.7017080050427,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.01875000307336,
-          "time_total_ms": 947.52995800809,
+          "time_attribution_ms": 99.2216250160709,
+          "time_total_ms": 951.9233330211136,
           "significant_attributions": [
             {
               "pattern": [
@@ -1531,7 +1479,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -1544,10 +1492,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 861.2549589888658,
+          "time_phase1_ms": 869.2561660136562,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 76.30458299536258,
-          "time_total_ms": 937.5595419842284,
+          "time_attribution_ms": 75.8850839920342,
+          "time_total_ms": 945.1412500056904,
           "significant_attributions": [
             {
               "pattern": [
@@ -1601,7 +1549,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -1614,10 +1562,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 858.1344170088414,
+          "time_phase1_ms": 856.4292910159566,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 70.76808298006654,
-          "time_total_ms": 928.902499988908,
+          "time_attribution_ms": 70.77429199125618,
+          "time_total_ms": 927.2035830072127,
           "significant_attributions": [
             {
               "pattern": [
@@ -1670,7 +1618,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -1683,10 +1631,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 849.3502089986578,
+          "time_phase1_ms": 848.2334160071332,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.71837502066046,
-          "time_total_ms": 905.0685840193182,
+          "time_attribution_ms": 56.53737499960698,
+          "time_total_ms": 904.7707910067402,
           "significant_attributions": [
             {
               "pattern": [
@@ -1731,7 +1679,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -1744,10 +1692,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 853.9194579934701,
+          "time_phase1_ms": 901.3126670033671,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.46179198869504,
-          "time_total_ms": 895.3812499821652,
+          "time_attribution_ms": 42.04349999781698,
+          "time_total_ms": 943.3561670011841,
           "significant_attributions": [
             {
               "pattern": [
@@ -1792,7 +1740,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -1805,10 +1753,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 858.8241249963176,
+          "time_phase1_ms": 848.4102090005763,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.04874999867752,
-          "time_total_ms": 958.8728749949951,
+          "time_attribution_ms": 100.99266600445844,
+          "time_total_ms": 949.4028750050347,
           "significant_attributions": [
             {
               "pattern": [
@@ -1853,42 +1801,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 359,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 863.9604169875383,
+          "fn": 1,
+          "time_phase1_ms": 866.7013750236947,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 77.04629100044258,
-          "time_total_ms": 941.0067079879809,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1247,
-              "change_direction": "down",
-              "change_magnitude": 6.15,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.9417645335842487,
-              "attribution_score": 1.3483341933248478,
-              "p_value": 0.03979204159168166,
-              "adjusted_p_value": 0.1365726854629074
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 76.7269589996431,
+          "time_total_ms": 943.4283340233378,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -1897,16 +1830,14 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.8,
-      "avg_recall": 0.8,
-      "avg_f1": 0.8,
-      "avg_false_attribution_rate": 0.8
+      "avg_precision": 0.6,
+      "avg_recall": 0.6,
+      "avg_f1": 0.6,
+      "avg_false_attribution_rate": 0.6
     }
   },
   "B_dir_required": {
@@ -1925,7 +1856,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -1938,10 +1869,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 858.7617090088315,
+          "time_phase1_ms": 871.2865829875227,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 60.440750006819144,
-          "time_total_ms": 919.2024590156507,
+          "time_attribution_ms": 60.99841700051911,
+          "time_total_ms": 932.2849999880418,
           "significant_attributions": [
             {
               "pattern": [
@@ -2010,7 +1941,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -2023,10 +1954,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 858.0891659948975,
+          "time_phase1_ms": 876.6542910016142,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 101.77470900816843,
-          "time_total_ms": 959.8638750030659,
+          "time_attribution_ms": 102.85954200662673,
+          "time_total_ms": 979.5138330082409,
           "significant_attributions": [
             {
               "pattern": [
@@ -2095,23 +2026,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
+          "n_significant": 2,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 1.0,
+          "f1": 0.6666666666666666,
           "tp": 1,
-          "fp": 0,
+          "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 857.9218749946449,
+          "time_phase1_ms": 855.4238750075456,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 77.53708399832249,
-          "time_total_ms": 935.4589589929674,
+          "time_attribution_ms": 77.2369579935912,
+          "time_total_ms": 932.6608330011368,
           "significant_attributions": [
             {
               "pattern": [
@@ -2128,6 +2059,22 @@
               "attribution_score": 5.663756555809722,
               "p_value": 0.01779644071185763,
               "adjusted_p_value": 0.05358928214357129
+            },
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "change_time": 995,
+              "change_direction": "down",
+              "change_magnitude": 6.9,
+              "event_name": "Campaign",
+              "event_start": 1000,
+              "event_end": 1500,
+              "proximity": 0.9048374180359595,
+              "attribution_score": 3.1216890922240603,
+              "p_value": 0.026794641071785644,
+              "adjusted_p_value": 0.05358928214357129
             }
           ],
           "true_positive_pairs": [
@@ -2139,10 +2086,18 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "event_id": "E1"
+            }
+          ],
           "false_negative_pairs": [],
-          "false_attribution_rate": 0.0,
-          "n_falsely_attributed": 0
+          "false_attribution_rate": 1.0,
+          "n_falsely_attributed": 1
         },
         {
           "config": {
@@ -2156,7 +2111,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -2169,10 +2124,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 850.7224589993712,
+          "time_phase1_ms": 855.3234999999404,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 40.59137500007637,
-          "time_total_ms": 891.3138339994475,
+          "time_attribution_ms": 40.98954101209529,
+          "time_total_ms": 896.3130410120357,
           "significant_attributions": [
             {
               "pattern": [
@@ -2241,7 +2196,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -2254,10 +2209,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 862.4056249973364,
+          "time_phase1_ms": 876.8234580056742,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 63.07487498270348,
-          "time_total_ms": 925.4804999800399,
+          "time_attribution_ms": 61.831917002564296,
+          "time_total_ms": 938.6553750082385,
           "significant_attributions": [
             {
               "pattern": [
@@ -2315,10 +2270,10 @@
           "n_falsely_attributed": 1
         }
       ],
-      "avg_precision": 0.6,
+      "avg_precision": 0.5,
       "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
-      "avg_false_attribution_rate": 0.8
+      "avg_f1": 0.6666666666666666,
+      "avg_false_attribution_rate": 1.0
     },
     "No direction (prox*mag)": {
       "ablation_mode": "no_dir",
@@ -2335,7 +2290,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -2348,10 +2303,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 858.3062910183799,
+          "time_phase1_ms": 857.3006249789614,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 61.450791981769726,
-          "time_total_ms": 919.7570830001496,
+          "time_attribution_ms": 59.78525002137758,
+          "time_total_ms": 917.085875000339,
           "significant_attributions": [
             {
               "pattern": [
@@ -2420,7 +2375,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -2433,10 +2388,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 856.2342499790248,
+          "time_phase1_ms": 851.9081250124145,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.82175000570714,
-          "time_total_ms": 957.0559999847319,
+          "time_attribution_ms": 99.28245798801072,
+          "time_total_ms": 951.1905830004252,
           "significant_attributions": [
             {
               "pattern": [
@@ -2505,23 +2460,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
+          "n_significant": 2,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 1.0,
+          "f1": 0.6666666666666666,
           "tp": 1,
-          "fp": 0,
+          "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 860.2119999995921,
+          "time_phase1_ms": 860.590249998495,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 77.30995799647644,
-          "time_total_ms": 937.5219579960685,
+          "time_attribution_ms": 76.62170799449086,
+          "time_total_ms": 937.2119579929858,
           "significant_attributions": [
             {
               "pattern": [
@@ -2538,6 +2493,22 @@
               "attribution_score": 11.327513111619444,
               "p_value": 0.0003999200159968006,
               "adjusted_p_value": 0.0015996800639872025
+            },
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "change_time": 995,
+              "change_direction": "down",
+              "change_magnitude": 6.9,
+              "event_name": "Campaign",
+              "event_start": 1000,
+              "event_end": 1500,
+              "proximity": 0.9048374180359595,
+              "attribution_score": 6.243378184448121,
+              "p_value": 0.016396720655868825,
+              "adjusted_p_value": 0.03279344131173765
             }
           ],
           "true_positive_pairs": [
@@ -2549,10 +2520,18 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "event_id": "E1"
+            }
+          ],
           "false_negative_pairs": [],
-          "false_attribution_rate": 0.0,
-          "n_falsely_attributed": 0
+          "false_attribution_rate": 1.0,
+          "n_falsely_attributed": 1
         },
         {
           "config": {
@@ -2566,7 +2545,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -2579,10 +2558,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 853.1629589851946,
+          "time_phase1_ms": 842.9396670253482,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.49875001166947,
-          "time_total_ms": 894.661708996864,
+          "time_attribution_ms": 40.47695797635242,
+          "time_total_ms": 883.4166250017006,
           "significant_attributions": [
             {
               "pattern": [
@@ -2651,7 +2630,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -2664,10 +2643,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 866.1181250063237,
+          "time_phase1_ms": 862.618792016292,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 62.867458997061476,
-          "time_total_ms": 928.9855840033852,
+          "time_attribution_ms": 62.13020798168145,
+          "time_total_ms": 924.7489999979734,
           "significant_attributions": [
             {
               "pattern": [
@@ -2725,10 +2704,10 @@
           "n_falsely_attributed": 1
         }
       ],
-      "avg_precision": 0.6,
+      "avg_precision": 0.5,
       "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
-      "avg_false_attribution_rate": 0.8
+      "avg_f1": 0.6666666666666666,
+      "avg_false_attribution_rate": 1.0
     },
     "No proximity (dir*mag)": {
       "ablation_mode": "no_prox",
@@ -2745,7 +2724,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -2758,10 +2737,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 859.7831249935552,
+          "time_phase1_ms": 849.4066669954918,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 60.31987501773983,
-          "time_total_ms": 920.1030000112951,
+          "time_attribution_ms": 60.11074999696575,
+          "time_total_ms": 909.5174169924576,
           "significant_attributions": [
             {
               "pattern": [
@@ -2830,127 +2809,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 429,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 1.0,
-          "f1": 0.6666666666666666,
-          "tp": 1,
-          "fp": 1,
-          "fn": 0,
-          "time_phase1_ms": 858.413957990706,
-          "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.87420900142752,
-          "time_total_ms": 958.2881669921335,
-          "significant_attributions": [
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "change_time": 987,
-              "change_direction": "down",
-              "change_magnitude": 10.700000000000001,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.7710515858035663,
-              "attribution_score": 5.3500000000000005,
-              "p_value": 0.09938012397520496,
-              "adjusted_p_value": 0.12224221822302206
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1492,
-              "change_direction": "down",
-              "change_magnitude": 5.1,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.8521437889662113,
-              "attribution_score": 7.075,
-              "p_value": 0.08058388322335533,
-              "adjusted_p_value": 0.12224221822302206
-            }
-          ],
-          "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
-        },
-        {
-          "config": {
-            "window_size": 50,
-            "min_support": 3,
-            "max_length": 2,
-            "change_method": "threshold_crossing",
-            "sigma": null,
-            "max_distance": null,
-            "min_magnitude": 0.0,
-            "min_relative_change": 0.0,
-            "global_correction": true,
-            "n_permutations": 5000,
-            "alpha": 0.2,
-            "seed": 2
-          },
-          "n_transactions": 5000,
-          "n_patterns": 422,
-          "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 858.6302080075257,
+          "fn": 1,
+          "time_phase1_ms": 870.7214999885764,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 76.65375000215136,
-          "time_total_ms": 935.283958009677,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1499,
-              "change_direction": "down",
-              "change_magnitude": 8.7,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 7.725,
-              "p_value": 0.030193961207758448,
-              "adjusted_p_value": 0.12077584483103379
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 100.23991702473722,
+          "time_total_ms": 970.9614170133136,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -2959,8 +2838,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -2976,58 +2853,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
-            "seed": 3
+            "alpha": 0.1,
+            "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 367,
+          "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 1.0,
-          "f1": 0.6666666666666666,
-          "tp": 1,
-          "fp": 1,
-          "fn": 0,
-          "time_phase1_ms": 864.6323330176529,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "time_phase1_ms": 855.8598329836968,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 40.340708976145834,
-          "time_total_ms": 904.9730419937987,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 957,
-              "change_direction": "up",
-              "change_magnitude": 5.6,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.4231620823177488,
-              "attribution_score": 5.275,
-              "p_value": 0.08078384323135374,
-              "adjusted_p_value": 0.10057988402319536
-            },
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "change_time": 992,
-              "change_direction": "down",
-              "change_magnitude": 6.199999999999999,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.8521437889662113,
-              "attribution_score": 3.0999999999999996,
-              "p_value": 0.10057988402319536,
-              "adjusted_p_value": 0.10057988402319536
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 77.12158400681801,
+          "time_total_ms": 932.9814169905148,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -3036,18 +2882,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -3061,23 +2897,67 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
+            "seed": 3
+          },
+          "n_transactions": 5000,
+          "n_patterns": 367,
+          "n_change_points_total": 0,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "time_phase1_ms": 848.9377090008929,
+          "time_support_series_ms": 0.0,
+          "time_attribution_ms": 39.972791011678055,
+          "time_total_ms": 888.910500012571,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
+        },
+        {
+          "config": {
+            "window_size": 50,
+            "min_support": 3,
+            "max_length": 2,
+            "change_method": "threshold_crossing",
+            "sigma": null,
+            "max_distance": null,
+            "min_magnitude": 0.0,
+            "min_relative_change": 0.0,
+            "global_correction": true,
+            "n_permutations": 5000,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 428,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
+          "n_significant": 1,
+          "precision": 1.0,
           "recall": 1.0,
-          "f1": 0.6666666666666666,
+          "f1": 1.0,
           "tp": 1,
-          "fp": 1,
+          "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 864.8199580202345,
+          "time_phase1_ms": 870.6540839921217,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 62.127041979692876,
-          "time_total_ms": 926.9469999999274,
+          "time_attribution_ms": 62.365374993532896,
+          "time_total_ms": 933.0194589856546,
           "significant_attributions": [
             {
               "pattern": [
@@ -3094,22 +2974,6 @@
               "attribution_score": 6.25,
               "p_value": 0.03439312137572485,
               "adjusted_p_value": 0.07918416316736653
-            },
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "change_time": 992,
-              "change_direction": "down",
-              "change_magnitude": 7.8,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.8521437889662113,
-              "attribution_score": 3.9,
-              "p_value": 0.10377924415116976,
-              "adjusted_p_value": 0.10377924415116976
             }
           ],
           "true_positive_pairs": [
@@ -3121,24 +2985,16 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                25,
-                35
-              ],
-              "event_id": "E1"
-            }
-          ],
+          "false_positive_pairs": [],
           "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.6,
-      "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
-      "avg_false_attribution_rate": 0.8
+      "avg_precision": 0.3,
+      "avg_recall": 0.4,
+      "avg_f1": 0.3333333333333333,
+      "avg_false_attribution_rate": 0.2
     },
     "No magnitude (prox*dir)": {
       "ablation_mode": "no_mag",
@@ -3155,7 +3011,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -3168,10 +3024,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 862.381415994605,
+          "time_phase1_ms": 863.8347910018638,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 61.08812498860061,
-          "time_total_ms": 923.4695409832057,
+          "time_attribution_ms": 59.87983400700614,
+          "time_total_ms": 923.7146250088699,
           "significant_attributions": [
             {
               "pattern": [
@@ -3240,7 +3096,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -3253,10 +3109,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 857.2602499916684,
+          "time_phase1_ms": 857.8755000198726,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.11783400457352,
-          "time_total_ms": 956.3780839962419,
+          "time_attribution_ms": 100.59083299711347,
+          "time_total_ms": 958.466333016986,
           "significant_attributions": [
             {
               "pattern": [
@@ -3325,42 +3181,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 863.6149999802001,
+          "fn": 1,
+          "time_phase1_ms": 863.3332919853274,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 78.3419170184061,
-          "time_total_ms": 941.9569169986062,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1499,
-              "change_direction": "down",
-              "change_magnitude": 8.7,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 0.6974907924941683,
-              "p_value": 0.051789642071585686,
-              "adjusted_p_value": 0.10357928414317137
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 78.4574160061311,
+          "time_total_ms": 941.7907079914585,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -3369,8 +3210,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -3386,7 +3225,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -3399,10 +3238,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 848.6109579971526,
+          "time_phase1_ms": 862.2840830066707,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 40.25870902114548,
-          "time_total_ms": 888.8696670182981,
+          "time_attribution_ms": 40.887583018047735,
+          "time_total_ms": 903.1716660247184,
           "significant_attributions": [
             {
               "pattern": [
@@ -3471,7 +3310,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -3484,10 +3323,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 863.8514170015696,
+          "time_phase1_ms": 866.9252500112634,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 61.72187498304993,
-          "time_total_ms": 925.5732919846196,
+          "time_attribution_ms": 62.14770799851976,
+          "time_total_ms": 929.0729580097832,
           "significant_attributions": [
             {
               "pattern": [
@@ -3545,9 +3384,9 @@
           "n_falsely_attributed": 1
         }
       ],
-      "avg_precision": 0.6,
-      "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
+      "avg_precision": 0.4,
+      "avg_recall": 0.8,
+      "avg_f1": 0.5333333333333333,
       "avg_false_attribution_rate": 0.8
     },
     "Magnitude only": {
@@ -3565,7 +3404,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -3578,10 +3417,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 863.9382499968633,
+          "time_phase1_ms": 861.4916669903323,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 61.33308299467899,
-          "time_total_ms": 925.2713329915423,
+          "time_attribution_ms": 60.91508301324211,
+          "time_total_ms": 922.4067500035744,
           "significant_attributions": [
             {
               "pattern": [
@@ -3650,7 +3489,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -3663,10 +3502,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 860.7044579985086,
+          "time_phase1_ms": 859.7391250077635,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 99.9756250239443,
-          "time_total_ms": 960.6800830224529,
+          "time_attribution_ms": 101.74583300249651,
+          "time_total_ms": 961.48495801026,
           "significant_attributions": [
             {
               "pattern": [
@@ -3735,42 +3574,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 859.2864579986781,
+          "fn": 1,
+          "time_phase1_ms": 864.4582499982789,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 77.57141700130887,
-          "time_total_ms": 936.857874999987,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1499,
-              "change_direction": "down",
-              "change_magnitude": 8.7,
-              "event_name": "Campaign",
-              "event_start": 1000,
-              "event_end": 1500,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 15.45,
-              "p_value": 0.030193961207758448,
-              "adjusted_p_value": 0.12077584483103379
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 77.52450002590194,
+          "time_total_ms": 941.9827500241809,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -3779,8 +3603,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -3796,7 +3618,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -3809,10 +3631,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 852.8047500003595,
+          "time_phase1_ms": 856.4517500053626,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 40.28466701856814,
-          "time_total_ms": 893.0894170189276,
+          "time_attribution_ms": 41.41516701201908,
+          "time_total_ms": 897.8669170173816,
           "significant_attributions": [
             {
               "pattern": [
@@ -3881,7 +3703,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -3894,10 +3716,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 865.6746670021676,
+          "time_phase1_ms": 866.6556669923011,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 61.89912499394268,
-          "time_total_ms": 927.5737919961102,
+          "time_attribution_ms": 62.4140829895623,
+          "time_total_ms": 929.0697499818634,
           "significant_attributions": [
             {
               "pattern": [
@@ -3955,9 +3777,9 @@
           "n_falsely_attributed": 1
         }
       ],
-      "avg_precision": 0.6,
-      "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
+      "avg_precision": 0.4,
+      "avg_recall": 0.8,
+      "avg_f1": 0.5333333333333333,
       "avg_false_attribution_rate": 0.8
     },
     "Proximity only": {
@@ -3975,7 +3797,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -3988,10 +3810,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 856.2340829812456,
+          "time_phase1_ms": 865.4257500020321,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 60.52379199536517,
-          "time_total_ms": 916.7578749766108,
+          "time_attribution_ms": 60.614542016992345,
+          "time_total_ms": 926.0402920190245,
           "significant_attributions": [
             {
               "pattern": [
@@ -4060,7 +3882,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -4073,10 +3895,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 860.8433330082335,
+          "time_phase1_ms": 860.609374998603,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.27612498379312,
-          "time_total_ms": 961.1194579920266,
+          "time_attribution_ms": 101.06987500330433,
+          "time_total_ms": 961.6792500019073,
           "significant_attributions": [
             {
               "pattern": [
@@ -4145,24 +3967,40 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 422,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
+          "n_significant": 2,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 1.0,
+          "f1": 0.6666666666666666,
           "tp": 1,
-          "fp": 0,
+          "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 857.6213330088649,
+          "time_phase1_ms": 859.0301250224002,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 75.87404199875891,
-          "time_total_ms": 933.4953750076238,
+          "time_attribution_ms": 77.36870797816664,
+          "time_total_ms": 936.3988330005668,
           "significant_attributions": [
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "change_time": 995,
+              "change_direction": "down",
+              "change_magnitude": 6.9,
+              "event_name": "Campaign",
+              "event_start": 1000,
+              "event_end": 1500,
+              "proximity": 0.9048374180359595,
+              "attribution_score": 0.9048374180359595,
+              "p_value": 0.017196560687862426,
+              "adjusted_p_value": 0.03519296140771846
+            },
             {
               "pattern": [
                 5,
@@ -4189,10 +4027,18 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                25,
+                35
+              ],
+              "event_id": "E1"
+            }
+          ],
           "false_negative_pairs": [],
-          "false_attribution_rate": 0.0,
-          "n_falsely_attributed": 0
+          "false_attribution_rate": 1.0,
+          "n_falsely_attributed": 1
         },
         {
           "config": {
@@ -4206,7 +4052,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -4219,10 +4065,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 851.1216669867281,
+          "time_phase1_ms": 852.0879580173641,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.52970798895694,
-          "time_total_ms": 892.651374975685,
+          "time_attribution_ms": 40.850791992852464,
+          "time_total_ms": 892.9387500102166,
           "significant_attributions": [
             {
               "pattern": [
@@ -4291,7 +4137,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -4304,10 +4150,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 0,
-          "time_phase1_ms": 864.9493749835528,
+          "time_phase1_ms": 868.4920830128249,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 62.38025001948699,
-          "time_total_ms": 927.3296250030398,
+          "time_attribution_ms": 62.66245897859335,
+          "time_total_ms": 931.1545419914182,
           "significant_attributions": [
             {
               "pattern": [
@@ -4365,10 +4211,10 @@
           "n_falsely_attributed": 1
         }
       ],
-      "avg_precision": 0.6,
+      "avg_precision": 0.5,
       "avg_recall": 1.0,
-      "avg_f1": 0.7333333333333333,
-      "avg_false_attribution_rate": 0.8
+      "avg_f1": 0.6666666666666666,
+      "avg_false_attribution_rate": 1.0
     }
   },
   "C_mag_required": {
@@ -4387,7 +4233,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -4400,10 +4246,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 866.0611670056824,
+          "time_phase1_ms": 870.8257079997566,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 166.42166700330563,
-          "time_total_ms": 1032.482834008988,
+          "time_attribution_ms": 166.8100829992909,
+          "time_total_ms": 1037.6357909990475,
           "significant_attributions": [
             {
               "pattern": [
@@ -4471,23 +4317,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 319,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 851.837833004538,
+          "fn": 1,
+          "time_phase1_ms": 864.0815000107978,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 87.59079198352993,
-          "time_total_ms": 939.4286249880679,
+          "time_attribution_ms": 87.66837499570101,
+          "time_total_ms": 951.7498750064988,
           "significant_attributions": [
             {
               "pattern": [
@@ -4504,32 +4350,9 @@
               "attribution_score": 4.543177465197606,
               "p_value": 0.02559488102379524,
               "adjusted_p_value": 0.05118976204759048
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2531,
-              "change_direction": "up",
-              "change_magnitude": 2.15,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5379444375946745,
-              "attribution_score": 1.7060885925651934,
-              "p_value": 0.09458108378324336,
-              "adjusted_p_value": 0.10357928414317137
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -4539,7 +4362,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -4555,7 +4386,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -4568,10 +4399,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 854.717417008942,
+          "time_phase1_ms": 860.2627080108505,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 123.35012498078868,
-          "time_total_ms": 978.0675419897307,
+          "time_attribution_ms": 128.29879199853167,
+          "time_total_ms": 988.5615000093821,
           "significant_attributions": [
             {
               "pattern": [
@@ -4639,23 +4470,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 279,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 847.5528749986552,
+          "fn": 1,
+          "time_phase1_ms": 853.7430840078741,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 119.29887501173653,
-          "time_total_ms": 966.8517500103917,
+          "time_attribution_ms": 118.43233299441636,
+          "time_total_ms": 972.1754170022905,
           "significant_attributions": [
             {
               "pattern": [
@@ -4672,32 +4503,9 @@
               "attribution_score": 5.821233795070341,
               "p_value": 0.01899620075984803,
               "adjusted_p_value": 0.03799240151969606
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2870,
-              "change_direction": "down",
-              "change_magnitude": 3.4,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5488116360940264,
-              "attribution_score": 1.3445896337830903,
-              "p_value": 0.19976004799040192,
-              "adjusted_p_value": 0.19976004799040192
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -4707,7 +4515,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -4723,7 +4539,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -4736,10 +4552,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 877.8914170106873,
+          "time_phase1_ms": 864.8274169827346,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 111.64487499627285,
-          "time_total_ms": 989.5362920069601,
+          "time_attribution_ms": 110.4200420086272,
+          "time_total_ms": 975.2474589913618,
           "significant_attributions": [
             {
               "pattern": [
@@ -4797,8 +4613,8 @@
         }
       ],
       "avg_precision": 1.0,
-      "avg_recall": 1.0,
-      "avg_f1": 1.0,
+      "avg_recall": 0.8,
+      "avg_f1": 0.8666666666666666,
       "avg_false_attribution_rate": 0.0
     },
     "No direction (prox*mag)": {
@@ -4816,7 +4632,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -4829,10 +4645,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 857.1375000174157,
+          "time_phase1_ms": 864.098083024146,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 159.27041598479263,
-          "time_total_ms": 1016.4079160022084,
+          "time_attribution_ms": 164.2466249759309,
+          "time_total_ms": 1028.344708000077,
           "significant_attributions": [
             {
               "pattern": [
@@ -4900,23 +4716,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 319,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 855.6004579877481,
+          "fn": 1,
+          "time_phase1_ms": 860.3218749922235,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 85.74608401977457,
-          "time_total_ms": 941.3465420075227,
+          "time_attribution_ms": 87.2465000138618,
+          "time_total_ms": 947.5683750060853,
           "significant_attributions": [
             {
               "pattern": [
@@ -4933,32 +4749,9 @@
               "attribution_score": 9.086354930395212,
               "p_value": 0.004599080183963208,
               "adjusted_p_value": 0.01839632073585283
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2531,
-              "change_direction": "up",
-              "change_magnitude": 2.15,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5379444375946745,
-              "attribution_score": 2.2555966443018365,
-              "p_value": 0.09658068386322735,
-              "adjusted_p_value": 0.10117976404719056
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -4968,7 +4761,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -4984,7 +4785,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -4997,10 +4798,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 866.6148749762215,
+          "time_phase1_ms": 864.3126669921912,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 121.7137920029927,
-          "time_total_ms": 988.3286669792142,
+          "time_attribution_ms": 125.51866698777303,
+          "time_total_ms": 989.8313339799643,
           "significant_attributions": [
             {
               "pattern": [
@@ -5068,23 +4869,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 279,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 858.8661249959841,
+          "fn": 1,
+          "time_phase1_ms": 860.6365419982467,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 119.14437499945052,
-          "time_total_ms": 978.0104999954347,
+          "time_attribution_ms": 120.4104170028586,
+          "time_total_ms": 981.0469590011053,
           "significant_attributions": [
             {
               "pattern": [
@@ -5101,32 +4902,9 @@
               "attribution_score": 11.642467590140683,
               "p_value": 0.0021995600879824036,
               "adjusted_p_value": 0.013197360527894421
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2870,
-              "change_direction": "down",
-              "change_magnitude": 3.4,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5488116360940264,
-              "attribution_score": 2.6891792675661805,
-              "p_value": 0.14877024595080984,
-              "adjusted_p_value": 0.14877024595080984
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -5136,7 +4914,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -5152,7 +4938,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -5165,10 +4951,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 858.6942499969155,
+          "time_phase1_ms": 864.2284999950789,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 105.87649999069981,
-          "time_total_ms": 964.5707499876153,
+          "time_attribution_ms": 106.80987499654293,
+          "time_total_ms": 971.0383749916218,
           "significant_attributions": [
             {
               "pattern": [
@@ -5226,8 +5012,8 @@
         }
       ],
       "avg_precision": 1.0,
-      "avg_recall": 1.0,
-      "avg_f1": 1.0,
+      "avg_recall": 0.8,
+      "avg_f1": 0.8666666666666666,
       "avg_false_attribution_rate": 0.0
     },
     "No proximity (dir*mag)": {
@@ -5245,58 +5031,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
           "n_patterns": 328,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 862.8267909807619,
+          "fn": 2,
+          "time_phase1_ms": 869.2744169966318,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 160.0449590187054,
-          "time_total_ms": 1022.8717499994673,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 751,
-              "change_direction": "up",
-              "change_magnitude": 7.1,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.37531109885139957,
-              "attribution_score": 6.6,
-              "p_value": 0.11797640471905618,
-              "adjusted_p_value": 0.14077184563087383
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2559,
-              "change_direction": "up",
-              "change_magnitude": 2.6500000000000004,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.30727873860113125,
-              "attribution_score": 6.575000000000001,
-              "p_value": 0.14077184563087383,
-              "adjusted_p_value": 0.14077184563087383
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 162.20849999808706,
+          "time_total_ms": 1031.4829169947188,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -5312,8 +5067,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -5329,58 +5082,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 319,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 851.3764170056675,
+          "fn": 2,
+          "time_phase1_ms": 859.347916994011,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 86.20358299231157,
-          "time_total_ms": 937.579999997979,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 754,
-              "change_direction": "up",
-              "change_magnitude": 7.25,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.39851904108451414,
-              "attribution_score": 6.85,
-              "p_value": 0.07998400319936012,
-              "adjusted_p_value": 0.13383989868692928
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2531,
-              "change_direction": "up",
-              "change_magnitude": 2.15,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5379444375946745,
-              "attribution_score": 3.3249999999999997,
-              "p_value": 0.10037992401519696,
-              "adjusted_p_value": 0.13383989868692928
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 87.26075000595301,
+          "time_total_ms": 946.608666999964,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -5396,8 +5118,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -5413,23 +5133,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 337,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 860.02783299773,
+          "fn": 1,
+          "time_phase1_ms": 861.2063339969609,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 122.86825000774115,
-          "time_total_ms": 982.8960830054712,
+          "time_attribution_ms": 125.03316599759273,
+          "time_total_ms": 986.2394999945536,
           "significant_attributions": [
             {
               "pattern": [
@@ -5446,32 +5166,9 @@
               "attribution_score": 8.05,
               "p_value": 0.02439512097580484,
               "adjusted_p_value": 0.0603879224155169
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2901,
-              "change_direction": "down",
-              "change_magnitude": 1.7,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 6.275,
-              "p_value": 0.09538092381523695,
-              "adjusted_p_value": 0.10657868426314737
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -5481,7 +5178,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -5497,7 +5202,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -5510,10 +5215,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 860.9222920204047,
+          "time_phase1_ms": 855.3198750014417,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 116.99474998749793,
-          "time_total_ms": 977.9170420079026,
+          "time_attribution_ms": 118.36929200217128,
+          "time_total_ms": 973.689167003613,
           "significant_attributions": [
             {
               "pattern": [
@@ -5566,7 +5271,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -5579,10 +5284,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 864.6024169865996,
+          "time_phase1_ms": 863.2124590221792,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 108.19020800408907,
-          "time_total_ms": 972.7926249906886,
+          "time_attribution_ms": 109.16445800103247,
+          "time_total_ms": 972.3769170232117,
           "significant_attributions": [
             {
               "pattern": [
@@ -5639,9 +5344,9 @@
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 1.0,
-      "avg_recall": 0.9,
-      "avg_f1": 0.9333333333333333,
+      "avg_precision": 0.6,
+      "avg_recall": 0.4,
+      "avg_f1": 0.4666666666666666,
       "avg_false_attribution_rate": 0.0
     },
     "No magnitude (prox*dir)": {
@@ -5659,76 +5364,34 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
           "n_patterns": 328,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
-          "tp": 1,
-          "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 862.4636669992469,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "time_phase1_ms": 867.7237500087358,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 158.8814580172766,
-          "time_total_ms": 1021.3451250165235,
-          "significant_attributions": [
-            {
-              "pattern": [
-                15,
-                80
-              ],
-              "change_time": 836,
-              "change_direction": "up",
-              "change_magnitude": 1.0,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.4867522559599717,
-              "attribution_score": 1.322552863289198,
-              "p_value": 0.04379124175164967,
-              "adjusted_p_value": 0.17516496700659867
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2507,
-              "change_direction": "down",
-              "change_magnitude": 2.75,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.8693582353988059,
-              "attribution_score": 1.3272411828691875,
-              "p_value": 0.0613877224555089,
-              "adjusted_p_value": 0.17516496700659867
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 160.1096249942202,
+          "time_total_ms": 1027.833375002956,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
                 15
               ],
               "event_id": "E2"
-            }
-          ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                15,
-                80
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [
+            },
             {
               "pattern": [
                 5,
@@ -5752,7 +5415,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -5765,10 +5428,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 859.0630410180893,
+          "time_phase1_ms": 861.5519999875687,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 86.75645900075324,
-          "time_total_ms": 945.8195000188425,
+          "time_attribution_ms": 87.29200001107529,
+          "time_total_ms": 948.843999998644,
           "significant_attributions": [
             {
               "pattern": [
@@ -5845,23 +5508,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 337,
           "n_change_points_total": 0,
           "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 859.2528750014026,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "time_phase1_ms": 863.3500409778208,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 124.97425000765361,
-          "time_total_ms": 984.2271250090562,
+          "time_attribution_ms": 124.85300001571886,
+          "time_total_ms": 988.2030409935396,
           "significant_attributions": [
             {
               "pattern": [
@@ -5882,18 +5545,18 @@
             {
               "pattern": [
                 5,
-                15
+                132
               ],
-              "change_time": 1201,
-              "change_direction": "down",
-              "change_magnitude": 4.85,
+              "change_time": 827,
+              "change_direction": "up",
+              "change_magnitude": 2.6500000000000004,
               "event_name": "BigSale",
               "event_start": 800,
               "event_end": 1200,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 1.167854222732455,
-              "p_value": 0.10257948410317937,
-              "adjusted_p_value": 0.10257948410317937
+              "proximity": 0.5827482523739896,
+              "attribution_score": 0.5827482523739896,
+              "p_value": 0.029394121175764846,
+              "adjusted_p_value": 0.04409118176364727
             }
           ],
           "true_positive_pairs": [
@@ -5903,7 +5566,18 @@
                 15
               ],
               "event_id": "E2"
-            },
+            }
+          ],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                5,
+                132
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -5912,8 +5586,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -5929,23 +5601,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 279,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
-          "tp": 1,
+          "n_significant": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 847.220916999504,
+          "fn": 2,
+          "time_phase1_ms": 849.5569590013474,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 118.51641698740423,
-          "time_total_ms": 965.7373339869082,
+          "time_attribution_ms": 116.91666601109318,
+          "time_total_ms": 966.4736250124406,
           "significant_attributions": [
             {
               "pattern": [
@@ -5962,33 +5634,9 @@
               "attribution_score": 1.2538485854322494,
               "p_value": 0.014997000599880024,
               "adjusted_p_value": 0.04499100179964007
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2870,
-              "change_direction": "down",
-              "change_magnitude": 3.4,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5488116360940264,
-              "attribution_score": 0.4658522610345692,
-              "p_value": 0.14737052589482103,
-              "adjusted_p_value": 0.14737052589482103
             }
           ],
-          "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            }
-          ],
+          "true_positive_pairs": [],
           "false_positive_pairs": [
             {
               "pattern": [
@@ -5999,6 +5647,13 @@
             }
           ],
           "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            },
             {
               "pattern": [
                 5,
@@ -6022,76 +5677,34 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 351,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
-          "tp": 1,
-          "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 859.1794999956619,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "time_phase1_ms": 867.4776249972638,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 107.48858301667497,
-          "time_total_ms": 966.6680830123369,
-          "significant_attributions": [
-            {
-              "pattern": [
-                15,
-                142
-              ],
-              "change_time": 827,
-              "change_direction": "up",
-              "change_magnitude": 1.0,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.5827482523739896,
-              "attribution_score": 1.2278641526123308,
-              "p_value": 0.05338932213557288,
-              "adjusted_p_value": 0.11237752449510098
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2506,
-              "change_direction": "up",
-              "change_magnitude": 1.2999999999999998,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.8869204367171575,
-              "attribution_score": 1.7151894082281895,
-              "p_value": 0.05618876224755049,
-              "adjusted_p_value": 0.11237752449510098
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 107.6659579994157,
+          "time_total_ms": 975.1435829966795,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
                 15
               ],
               "event_id": "E2"
-            }
-          ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                15,
-                142
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [
+            },
             {
               "pattern": [
                 5,
@@ -6104,9 +5717,9 @@
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.6,
-      "avg_recall": 0.6,
-      "avg_f1": 0.6,
+      "avg_precision": 0.2,
+      "avg_recall": 0.2,
+      "avg_f1": 0.2,
       "avg_false_attribution_rate": 0.0
     },
     "Magnitude only": {
@@ -6124,7 +5737,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -6137,10 +5750,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 860.25037500076,
+          "time_phase1_ms": 864.8614170087967,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 160.3159170190338,
-          "time_total_ms": 1020.5662920197938,
+          "time_attribution_ms": 166.60224998486228,
+          "time_total_ms": 1031.463666993659,
           "significant_attributions": [
             {
               "pattern": [
@@ -6208,58 +5821,27 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
           "n_patterns": 319,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 851.3560830033384,
+          "fn": 2,
+          "time_phase1_ms": 867.4497089814395,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 86.5651250060182,
-          "time_total_ms": 937.9212080093566,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 754,
-              "change_direction": "up",
-              "change_magnitude": 7.25,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.39851904108451414,
-              "attribution_score": 13.7,
-              "p_value": 0.028794241151769647,
-              "adjusted_p_value": 0.11517696460707859
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2862,
-              "change_direction": "down",
-              "change_magnitude": 2.3499999999999996,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.46766642700990924,
-              "attribution_score": 4.5,
-              "p_value": 0.15396920615876825,
-              "adjusted_p_value": 0.18136372725454908
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 89.04729102505371,
+          "time_total_ms": 956.4970000064932,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -6275,8 +5857,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -6292,7 +5872,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
@@ -6305,10 +5885,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 868.0349170172121,
+          "time_phase1_ms": 859.4284589926247,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 123.50829198840074,
-          "time_total_ms": 991.5432090056129,
+          "time_attribution_ms": 126.00887499866076,
+          "time_total_ms": 985.4373339912854,
           "significant_attributions": [
             {
               "pattern": [
@@ -6376,7 +5956,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
@@ -6389,10 +5969,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 850.1206249929965,
+          "time_phase1_ms": 846.7319579795003,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 119.47475001215935,
-          "time_total_ms": 969.5953750051558,
+          "time_attribution_ms": 118.11958299949765,
+          "time_total_ms": 964.851540978998,
           "significant_attributions": [
             {
               "pattern": [
@@ -6445,7 +6025,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
@@ -6458,10 +6038,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 864.6203330135904,
+          "time_phase1_ms": 870.2204160217661,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 108.74333398533054,
-          "time_total_ms": 973.363666998921,
+          "time_attribution_ms": 108.97633398417383,
+          "time_total_ms": 979.19675000594,
           "significant_attributions": [
             {
               "pattern": [
@@ -6518,9 +6098,9 @@
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 1.0,
-      "avg_recall": 0.9,
-      "avg_f1": 0.9333333333333333,
+      "avg_precision": 0.8,
+      "avg_recall": 0.7,
+      "avg_f1": 0.7333333333333333,
       "avg_false_attribution_rate": 0.0
     },
     "Proximity only": {
@@ -6538,7 +6118,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 0
           },
           "n_transactions": 5000,
@@ -6551,10 +6131,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 862.7084590261802,
+          "time_phase1_ms": 877.1520410082303,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 162.28554098051973,
-          "time_total_ms": 1024.9940000067,
+          "time_attribution_ms": 169.05008399044164,
+          "time_total_ms": 1046.202124998672,
           "significant_attributions": [
             {
               "pattern": [
@@ -6631,7 +6211,7 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 1
           },
           "n_transactions": 5000,
@@ -6644,10 +6224,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 850.5488749942742,
+          "time_phase1_ms": 860.7990409946069,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 86.14266599761322,
-          "time_total_ms": 936.6915409918875,
+          "time_attribution_ms": 88.33037500153296,
+          "time_total_ms": 949.1294159961399,
           "significant_attributions": [
             {
               "pattern": [
@@ -6724,23 +6304,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 2
           },
           "n_transactions": 5000,
           "n_patterns": 337,
           "n_change_points_total": 0,
           "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 855.4676250205375,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "time_phase1_ms": 866.5868749958463,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 122.88741700467654,
-          "time_total_ms": 978.3550420252141,
+          "time_attribution_ms": 126.37629199889489,
+          "time_total_ms": 992.9631669947412,
           "significant_attributions": [
             {
               "pattern": [
@@ -6760,19 +6340,19 @@
             },
             {
               "pattern": [
-                5,
-                15
+                15,
+                164
               ],
-              "change_time": 1201,
-              "change_direction": "down",
-              "change_magnitude": 4.85,
+              "change_time": 769,
+              "change_direction": "up",
+              "change_magnitude": 2.4000000000000004,
               "event_name": "BigSale",
               "event_start": 800,
               "event_end": 1200,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 1.3555097721581548,
-              "p_value": 0.11577684463107378,
-              "adjusted_p_value": 0.11577684463107378
+              "proximity": 0.5379444375946745,
+              "attribution_score": 0.8844002479247319,
+              "p_value": 0.07598480303939212,
+              "adjusted_p_value": 0.09118176364727054
             }
           ],
           "true_positive_pairs": [
@@ -6782,7 +6362,18 @@
                 15
               ],
               "event_id": "E2"
-            },
+            }
+          ],
+          "false_positive_pairs": [
+            {
+              "pattern": [
+                15,
+                164
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -6791,8 +6382,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -6808,23 +6397,23 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 3
           },
           "n_transactions": 5000,
           "n_patterns": 279,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
-          "tp": 1,
+          "n_significant": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 864.5498749974649,
+          "fn": 2,
+          "time_phase1_ms": 858.4144999913406,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 117.83037500572391,
-          "time_total_ms": 982.3802500031888,
+          "time_attribution_ms": 118.03608399350196,
+          "time_total_ms": 976.4505839848425,
           "significant_attributions": [
             {
               "pattern": [
@@ -6841,33 +6430,9 @@
               "attribution_score": 1.562946925680745,
               "p_value": 0.0011997600479904018,
               "adjusted_p_value": 0.0035992801439712055
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2870,
-              "change_direction": "down",
-              "change_magnitude": 3.4,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.5488116360940264,
-              "attribution_score": 0.9317045220691385,
-              "p_value": 0.11497700459908018,
-              "adjusted_p_value": 0.11497700459908018
             }
           ],
-          "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            }
-          ],
+          "true_positive_pairs": [],
           "false_positive_pairs": [
             {
               "pattern": [
@@ -6878,6 +6443,13 @@
             }
           ],
           "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            },
             {
               "pattern": [
                 5,
@@ -6901,76 +6473,34 @@
             "min_relative_change": 0.0,
             "global_correction": true,
             "n_permutations": 5000,
-            "alpha": 0.2,
+            "alpha": 0.1,
             "seed": 4
           },
           "n_transactions": 5000,
           "n_patterns": 351,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
-          "tp": 1,
-          "fp": 1,
-          "fn": 1,
-          "time_phase1_ms": 870.6948330218438,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "time_phase1_ms": 863.9422080013901,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 107.36566700506955,
-          "time_total_ms": 978.0605000269134,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2506,
-              "change_direction": "up",
-              "change_magnitude": 1.2999999999999998,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.8869204367171575,
-              "attribution_score": 2.3673433077006205,
-              "p_value": 0.03079384123175365,
-              "adjusted_p_value": 0.11144437779110844
-            },
-            {
-              "pattern": [
-                15,
-                142
-              ],
-              "change_time": 827,
-              "change_direction": "up",
-              "change_magnitude": 1.0,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.5827482523739896,
-              "attribution_score": 1.7109543019167912,
-              "p_value": 0.05798840231953609,
-              "adjusted_p_value": 0.11144437779110844
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 109.33212499367073,
+          "time_total_ms": 973.2743329950608,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
                 15
               ],
               "event_id": "E2"
-            }
-          ],
-          "false_positive_pairs": [
-            {
-              "pattern": [
-                15,
-                142
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_negative_pairs": [
+            },
             {
               "pattern": [
                 5,
@@ -6983,9 +6513,9 @@
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.6,
-      "avg_recall": 0.6,
-      "avg_f1": 0.6,
+      "avg_precision": 0.3,
+      "avg_recall": 0.3,
+      "avg_f1": 0.3,
       "avg_false_attribution_rate": 0.0
     }
   }
