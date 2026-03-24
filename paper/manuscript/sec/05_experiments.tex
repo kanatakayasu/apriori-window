@@ -12,22 +12,20 @@ $N = 5{,}000$ トランザクションの合成データを生成する．
 3種類の信号を1つのデータセットに混在させることで，
 パイプラインの弁別能力を多面的に評価する:
 
-\begin{description}
-\item[Type A（語彙内ブースト）]
+\noindent\textbf{Type A}（語彙内ブースト）:
 ベース語彙内のアイテムペアを使用し，
 イベント期間外にも $p_{\text{base}}$ でベースラインサポートを持たせる．
 イベント活性期間中に確率 $\beta$ で全パターンアイテムを同時挿入し
 サポートを上昇させる．
 magnitude単独では不十分な\textbf{現実的条件}を構成する．
 
-\item[Type B（イベント非対応密集パターン）]
+\noindent\textbf{Type B}（イベント非対応密集パターン）:
 特定期間にサポートが上昇するが，いずれのイベントとも
 対応しないパターン．季節性やトレンドを模擬し，
 パイプラインが\textbf{無関係な変動を棄却}できるかを検証する．
 
-\item[Type C（デコイイベント）]
+\noindent\textbf{Type C}（デコイイベント）:
 パターン変動と無関係なイベント．
-\end{description}
 
 \subsubsection{評価指標}
 
@@ -138,21 +136,19 @@ F1 = 0.85と最高値を示し，
 各構成要素の必要性を実証する3つのシナリオを設計し，
 全6アブレーションモードを各シナリオに適用する（3シナリオ $\times$ 6モード $\times$ 5 seeds = 90条件）:
 
-\begin{description}
-\item[Scenario A (prox必要)]
+\noindent\textbf{Scenario A} (prox必要):
 パターン $(5, 15)$ に2つの密集区間 --- 1つはイベント近傍（因果的），
 1つは遠方（偶発的）．proxなしでは両者に等しいスコアが付与される．
 
-\item[Scenario B (dir必要)]
+\noindent\textbf{Scenario B} (dir必要):
 イベント開始付近でパターン $(5, 15)$ のサポートが上昇（整合），
 別パターン $(25, 35)$ が事前に密集期間を終えてサポート下降（不整合）．
 dirなしでは下降も帰属される．
 
-\item[Scenario C (mag必要)]
+\noindent\textbf{Scenario C} (mag必要):
 パターン $(5, 15)$ が2イベントの影響を受けるが，
 ブースト量が $\beta=0.5$ と $\beta=0.1$ で大小異なる．
 magなしでは両者が同等に扱われる．
-\end{description}
 
 結果を表~\ref{tab:ex2}に示す．
 
