@@ -213,7 +213,6 @@
   <div class="nav-section">実験</div>
   <a href="#exp-design">5. 実験設計</a>
   <a href="#exp-results">5.1 実験結果</a>
-  <a href="#exp-ablation">5.2 アブレーション</a>
 
   <a href="#conclusion">6. 結論</a>
 </nav>
@@ -609,14 +608,14 @@
 <h3>実験設計</h3>
 <div class="grid-2">
   <div>
-    <h4>合成データ生成モデル</h4>
+    <h4>合成データ生成モデル（語彙内ブースト）</h4>
     <ol style="font-size:14px">
-      <li>ベース語彙 |I|=200，各アイテム独立に確率 p_base=0.03 で出現</li>
-      <li>植え込みパターン P_k = {a_k, b_k}（語彙外 ID ≥ 1001）と対応イベント e_k を定義</li>
-      <li>イベント活性期間 [t_s, t_e] 内の各トランザクションに確率 β でパターンの全アイテムを同時挿入</li>
-      <li>デコイイベント（GT に含まれない偽イベント）をランダム配置（ブーストなし）</li>
+      <li>ベース語彙 |I|=200，各アイテム独立に確率 p<sub>base</sub>=0.03 で出現</li>
+      <li><strong>Type A（語彙内ブースト）</strong>: ベース語彙内のペアを使用。イベント期間外にもベースラインサポートが存在する上でブーストを付与</li>
+      <li><strong>Type B（イベント非対応密集）</strong>: 特定期間にサポートが上昇するがイベントとは無関係。季節性・トレンドを模擬</li>
+      <li><strong>Type C（デコイイベント）</strong>: パターン変動と無関係なイベント</li>
     </ol>
-    <p class="small">GT = (植え込みパターン P_k, イベント e_k) の組。評価指標: 厳密一致の Precision / Recall / F1。</p>
+    <p class="small">評価: P/R/F1（Type A の正しい帰属）+ <strong>FAR</strong>（Type B の誤帰属率）</p>
   </div>
   <div>
     <h4>デフォルトパラメータ</h4>
@@ -625,6 +624,7 @@
         <tr><td>ウィンドウサイズ W</td><td>50</td></tr>
         <tr><td>最小サポート θ</td><td>3</td></tr>
         <tr><td>最大パターン長 L</td><td>2</td></tr>
+        <tr><td>変化点検出法</td><td>閾値交差</td></tr>
         <tr><td>近接度 σ</td><td>W = 50</td></tr>
         <tr><td>置換回数 B</td><td>5,000</td></tr>
         <tr><td>有意水準 α</td><td>0.20</td></tr>
@@ -638,16 +638,11 @@
 
 <h4>実験一覧</h4>
 <table class="dt">
-  <thead><tr><th>実験</th><th>目的</th><th>Sweep 軸</th><th>Seeds</th></tr></thead>
+  <thead><tr><th>実験</th><th>目的</th><th>条件</th><th>Seeds</th></tr></thead>
   <tbody>
-    <tr><td><strong>E1a</strong></td><td>クリーン信号での完全検出</td><td>β=0.5, 植え込み3, デコイ2</td><td>5</td></tr>
-    <tr><td><strong>E1b</strong></td><td>ブースト感度</td><td>β ∈ {0.1, 0.2, 0.3, 0.5, 0.8}</td><td>5</td></tr>
-    <tr><td><strong>E1c</strong></td><td>重複イベント条件</td><td>時間窓重複配置</td><td>5</td></tr>
-    <tr><td><strong>E1d</strong></td><td>植え込み数×デコイ数</td><td>{1,3,5} × {0,5,10}</td><td>3</td></tr>
-    <tr><td><strong>E2</strong></td><td>パラメータ感度</td><td>W, σ, B, α, 検出法</td><td>3</td></tr>
-    <tr><td><strong>E3</strong></td><td>スケーラビリティ</td><td>N ∈ {5K..1M}, |E| ∈ {1..20}</td><td>1–3</td></tr>
-    <tr><td><strong>E4</strong></td><td>実データ検証（半合成）</td><td>T10I4D100K, retail.txt</td><td>1</td></tr>
-    <tr><td><strong>E5</strong></td><td>実キャンペーンデータ（探索的）</td><td>Dunnhumby 276K txn, 30 campaigns</td><td>1</td></tr>
+    <tr><td><strong>EX1</strong></td><td>コア帰属精度</td><td>β感度 + 構造条件（OVERLAP/CONFOUND/DENSE/SHORT）</td><td>5</td></tr>
+    <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/dir/mag）× 3シナリオ</td><td>5</td></tr>
+    <tr><td><strong>EX5</strong></td><td>実データ検証</td><td>Dunnhumby（276K txn, 30キャンペーン）</td><td>1</td></tr>
   </tbody>
 </table>
 
@@ -656,602 +651,159 @@
 
 <!-- Tab navigation -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('e1')">E1: 正解回復</button>
-  <button class="tab-btn" onclick="showTab('e2')">E2: 感度分析</button>
-  <button class="tab-btn" onclick="showTab('e3')">E3: スケーラビリティ</button>
-  <button class="tab-btn" onclick="showTab('e4')">E4: 実データ</button>
-  <button class="tab-btn" onclick="showTab('e5')">E5: Dunnhumby</button>
+  <button class="tab-btn active" onclick="showTab('ex1')">EX1: コア帰属精度</button>
+  <button class="tab-btn" onclick="showTab('ex2')">EX2: アブレーション</button>
+  <button class="tab-btn" onclick="showTab('ex5')">EX5: 実データ検証</button>
 </div>
 
-<!-- E1 -->
-<div class="tab-panel active" id="panel-e1">
+<!-- EX1 -->
+<div class="tab-panel active" id="panel-ex1">
 
-  <h4>E1a: クリーン信号（β=0.5, 植え込み3, デコイ2, N=5,000）</h4>
+  <h4>Table 1: β感度（5 seeds 平均）</h4>
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>seed</th><th>TP</th><th>FP</th><th>FN</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+        <thead><tr><th>β</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>0</td><td>3</td><td>0</td><td>0</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>1</td><td>3</td><td>0</td><td>0</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>2</td><td>3</td><td>0</td><td>0</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>3</td><td>3</td><td>0</td><td>0</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>4</td><td>3</td><td>0</td><td>0</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr style="border-top:2px solid var(--c-border)"><td class="hl">平均</td><td class="hl">3.0</td><td class="hl">0.0</td><td class="hl">0.0</td><td class="hl">1.00</td><td class="hl">1.00</td><td class="hl">1.00</td></tr>
+          <tr><td>0.1</td><td>0.60</td><td class="hl">1.00</td><td>0.74</td><td>0.40</td></tr>
+          <tr><td>0.2</td><td>0.64</td><td>0.93</td><td class="hl">0.74</td><td>0.30</td></tr>
+          <tr><td>0.3</td><td>0.57</td><td>0.87</td><td>0.67</td><td>0.30</td></tr>
+          <tr><td>0.5</td><td>0.60</td><td>0.93</td><td>0.73</td><td>0.20</td></tr>
         </tbody>
       </table>
-      <p class="small">全5 seedで FP=0, FN=0 の<strong>完全検出</strong>を達成。</p>
     </div>
     <div>
-      <p class="small" style="margin-top:8px"><strong>条件:</strong> 植え込み3件（区間 800–1200, 2000–2400, 3200–3600），デコイ2件。パイプラインが3件の真のパターン–イベント帰属を正しく回復し，デコイには帰属しない。</p>
+      <p class="small" style="margin-top:8px"><strong>語彙内ブースト条件</strong>（ベースラインサポートが存在するパターン）で，β=0.1--0.5 の範囲において F1=0.67--0.74 の現実的な検出精度を確認。Recall は 0.87--1.00 と高水準を維持。FARはβ増加に伴い0.40→0.20に低下。</p>
     </div>
   </div>
 
-  <h4 style="margin-top:32px">E1b: ブースト感度（β = 0.1–0.8, 5 seeds/条件）</h4>
+  <h4 style="margin-top:32px">Table 2: 構造条件（5 seeds 平均）</h4>
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>β</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+        <thead><tr><th>条件</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>0.1</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>0.2</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>0.3</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>0.5</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>0.8</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
+          <tr><td>OVERLAP</td><td>0.55</td><td>0.73</td><td>0.63</td><td class="hl">0.00</td></tr>
+          <tr><td>CONFOUND</td><td>0.68</td><td>0.80</td><td>0.73</td><td>0.10</td></tr>
+          <tr><td>DENSE</td><td>0.40</td><td>0.83</td><td>0.54</td><td style="color:var(--c-red);font-weight:700">0.55</td></tr>
+          <tr><td class="hl">SHORT</td><td class="hl">0.78</td><td class="hl">0.93</td><td class="hl">0.85</td><td>0.30</td></tr>
         </tbody>
       </table>
-      <p class="small"><strong>全信号強度で F1 = 1.0。</strong>重複排除により副次パターンが完全に除去され，信号強度に依存しない安定した検出が実現されている。</p>
-    </div>
-    <div class="chart-container">
-      <svg viewBox="0 0 300 180" width="100%">
-        <line x1="50" y1="15" x2="50" y2="150" stroke="#e5e5e5" stroke-width="1"/>
-        <line x1="50" y1="150" x2="290" y2="150" stroke="#e5e5e5" stroke-width="1"/>
-        <text x="42" y="155" text-anchor="end" fill="#999" font-size="9">0</text>
-        <text x="42" y="87" text-anchor="end" fill="#999" font-size="9">0.5</text>
-        <text x="42" y="22" text-anchor="end" fill="#999" font-size="9">1.0</text>
-        <line x1="50" y1="82" x2="290" y2="82" stroke="#f0f0f0" stroke-width="0.5"/>
-        <rect x="70" y="18" width="30" height="132" rx="3" fill="#d32f2f"/>
-        <rect x="115" y="18" width="30" height="132" rx="3" fill="#d32f2f"/>
-        <rect x="160" y="18" width="30" height="132" rx="3" fill="#d32f2f"/>
-        <rect x="205" y="18" width="30" height="132" rx="3" fill="#d32f2f"/>
-        <rect x="250" y="18" width="30" height="132" rx="3" fill="#d32f2f"/>
-        <text x="85" y="168" text-anchor="middle" fill="#666" font-size="9">0.1</text>
-        <text x="130" y="168" text-anchor="middle" fill="#666" font-size="9">0.2</text>
-        <text x="175" y="168" text-anchor="middle" fill="#666" font-size="9">0.3</text>
-        <text x="220" y="168" text-anchor="middle" fill="#666" font-size="9">0.5</text>
-        <text x="265" y="168" text-anchor="middle" fill="#666" font-size="9">0.8</text>
-        <text x="175" y="180" text-anchor="middle" fill="#999" font-size="9">β (boost)</text>
-        <line x1="50" y1="18" x2="290" y2="18" stroke="#d32f2f" stroke-width="0.5" stroke-dasharray="3,2"/>
-        <text x="292" y="22" fill="#d32f2f" font-size="8" font-weight="700">F1</text>
-      </svg>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">E1c: 重複イベント（5 seeds）</h4>
-  <p class="small">イベント時間窓が重複する条件（E1: 1000–1500, E2: 1200–1700, デコイD1: 1100–1600）で評価。</p>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>seed</th><th>TP</th><th>FP</th><th>FN</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>0–4</td><td>3</td><td>1</td><td>0</td><td>0.75</td><td>1.00</td><td>0.86</td></tr>
-          <tr style="border-top:2px solid var(--c-border)"><td><strong>平均</strong></td><td><strong>3.0</strong></td><td><strong>1.0</strong></td><td><strong>0.0</strong></td><td><strong>0.75</strong></td><td><strong>1.00</strong></td><td><strong>0.86</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <p class="small">全seedで一貫して FP=1。唯一の FP は (1003,1004)→Decoy_1 であり，デコイの時間窓(1100–1600)が植え込みイベント(1200–1700)と重複するため，パイプラインが時間的関連を正しく検出した結果。<strong>GT定義上は FP だが統計的には正当な検出。</strong></p>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">E1d: 植え込み数 × デコイ数（3 seeds/条件）</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>planted</th><th>decoy</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>0</td><td class="hl">1.00</td></tr>
-          <tr><td>1</td><td>5</td><td class="hl">1.00</td></tr>
-          <tr><td>1</td><td>10</td><td>0.83</td></tr>
-          <tr><td>3</td><td>0</td><td class="hl">1.00</td></tr>
-          <tr><td>3</td><td>5</td><td>0.76</td></tr>
-          <tr><td>3</td><td>10</td><td>0.54</td></tr>
-          <tr><td>5</td><td>0</td><td class="hl">1.00</td></tr>
-          <tr><td>5</td><td>5</td><td>0.68</td></tr>
-          <tr><td>5</td><td>10</td><td>0.51</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <div class="chart-container">
-        <svg viewBox="0 0 300 200" width="100%">
-          <line x1="50" y1="10" x2="50" y2="170" stroke="#e5e5e5"/>
-          <line x1="50" y1="170" x2="290" y2="170" stroke="#e5e5e5"/>
-          <text x="42" y="175" text-anchor="end" fill="#999" font-size="9">0</text>
-          <text x="42" y="15" text-anchor="end" fill="#999" font-size="9">1.0</text>
-          <!-- decoy=0 -->
-          <circle cx="90" cy="14" r="5" fill="#d32f2f"/>
-          <circle cx="170" cy="14" r="5" fill="#d32f2f"/>
-          <circle cx="250" cy="14" r="5" fill="#d32f2f"/>
-          <polyline points="90,14 170,14 250,14" fill="none" stroke="#d32f2f" stroke-width="2"/>
-          <text x="258" y="12" fill="#d32f2f" font-size="8" font-weight="700">d=0</text>
-          <!-- decoy=5 -->
-          <circle cx="90" cy="14" r="3" fill="#888"/>
-          <circle cx="170" cy="52" r="3" fill="#888"/>
-          <circle cx="250" cy="65" r="3" fill="#888"/>
-          <polyline points="90,14 170,52 250,65" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <text x="258" y="63" fill="#888" font-size="8">d=5</text>
-          <!-- decoy=10 -->
-          <circle cx="90" cy="41" r="3" fill="#ccc"/>
-          <circle cx="170" cy="88" r="3" fill="#ccc"/>
-          <circle cx="250" cy="93" r="3" fill="#ccc"/>
-          <polyline points="90,41 170,88 250,93" fill="none" stroke="#ccc" stroke-width="1.5" stroke-dasharray="2,2"/>
-          <text x="258" y="97" fill="#999" font-size="8">d=10</text>
-          <!-- x labels -->
-          <text x="90" y="186" text-anchor="middle" fill="#666" font-size="9">p=1</text>
-          <text x="170" y="186" text-anchor="middle" fill="#666" font-size="9">p=3</text>
-          <text x="250" y="186" text-anchor="middle" fill="#666" font-size="9">p=5</text>
-          <text x="170" y="199" text-anchor="middle" fill="#999" font-size="9">植え込み数</text>
-        </svg>
-      </div>
-      <p class="small"><strong>デコイ 0 で植え込み数に依存せず F1=1.0。</strong>デコイ増加時の低下はランダム配置されたデコイの時間窓が植え込みイベントと偶然重複するため（E1c と同一メカニズム）。</p>
-    </div>
-  </div>
-</div>
-
-<!-- E2 -->
-<div class="tab-panel" id="panel-e2">
-
-  <h4>ウィンドウサイズ W（3 seeds 平均）</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>W</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>10</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>20</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>50</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>100</td><td>0.80</td><td>0.89</td><td>0.83</td></tr>
-          <tr><td class="dim">200</td><td class="dim">0.00</td><td class="dim">0.00</td><td class="dim">0.00</td></tr>
-        </tbody>
-      </table>
-      <p class="small">W=10–50 で F1=1.0 を維持。W=200 では変化点が平滑化され検出不能。</p>
-    </div>
-    <div class="chart-container">
-      <svg viewBox="0 0 300 160" width="100%">
-        <line x1="50" y1="10" x2="50" y2="130" stroke="#e5e5e5"/>
-        <line x1="50" y1="130" x2="290" y2="130" stroke="#e5e5e5"/>
-        <text x="42" y="135" text-anchor="end" fill="#999" font-size="9">0</text>
-        <text x="42" y="15" text-anchor="end" fill="#999" font-size="9">1.0</text>
-        <rect x="60" y="14" width="30" height="116" rx="3" fill="#d32f2f"/>
-        <rect x="105" y="14" width="30" height="116" rx="3" fill="#d32f2f"/>
-        <rect x="150" y="14" width="30" height="116" rx="3" fill="#d32f2f"/>
-        <rect x="195" y="34" width="30" height="96" rx="3" fill="#888"/>
-        <rect x="240" y="130" width="30" height="0" rx="3" fill="#ddd"/>
-        <text x="75" y="148" text-anchor="middle" fill="#666" font-size="9">10</text>
-        <text x="120" y="148" text-anchor="middle" fill="#666" font-size="9">20</text>
-        <text x="165" y="148" text-anchor="middle" fill="#666" font-size="9">50</text>
-        <text x="210" y="148" text-anchor="middle" fill="#666" font-size="9">100</text>
-        <text x="255" y="148" text-anchor="middle" fill="#999" font-size="9">200</text>
-        <text x="165" y="160" text-anchor="middle" fill="#999" font-size="9">W</text>
-      </svg>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">近接度パラメータ σ（3 seeds 平均）</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>σ</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>5</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>10</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>25</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>50</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>100</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>200</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <p class="small"><strong>全 σ 値で F1 = 1.0。</strong>重複排除の導入により，σ の選択が性能に影響しなくなった。σ はスコアの近接度項の減衰速度を制御するが，magnitude が弁別の主力であるため σ への依存が解消されている。</p>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">置換回数 B（3 seeds 平均）</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>B</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>50</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>100</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>200</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>500</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-          <tr><td>1,000</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <p class="small"><strong>全値で F1 = 1.0。</strong>B=50 の極小値でも十分な精度が得られる。重複排除がパターン選択の主力となっていることを示す。p 値の精度は B に依存する（p の分解能は 1/(B+1)）が，帰属の弁別力は magnitude と重複排除で確保されるため B への感度は低い。</p>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">有意水準 α（3 seeds 平均）</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>α</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td class="dim">0.001</td><td class="dim">0.00</td><td class="dim">0.00</td><td class="dim">0.00</td></tr>
-          <tr><td class="dim">0.01</td><td class="dim">0.00</td><td class="dim">0.00</td><td class="dim">0.00</td></tr>
-          <tr><td class="dim">0.05</td><td class="dim">0.00</td><td class="dim">0.00</td><td class="dim">0.00</td></tr>
-          <tr><td>0.10</td><td>0.67</td><td>0.67</td><td>0.67</td></tr>
-          <tr><td>0.20</td><td>1.00</td><td>1.00</td><td class="hl">1.00</td></tr>
-        </tbody>
-      </table>
-      <p class="small">α ≥ 0.10 が安定検出に必要。</p>
     </div>
     <div>
       <div class="box accent">
-        <h4>p値膨張のメカニズム</h4>
-        <p class="small" style="margin:0">サポート振幅フィルタで 310パターン → 31パターンに削減後，31パターン × 最大5イベントから <strong>M=23 仮説</strong>が生成。3件の TP の未補正 p 値は 0.020–0.024 と十分小さいが，BH手続きでは最も有意な仮説に対して p × M/1 の補正がかかるため <strong>0.024 × 23 ≈ 0.114</strong> となり α=0.05 を超過。α=0.20 の妥当性:（1）BH が制御する FDR は「偽物の割合」であり 20% は実用的，（2）フィルタが M を 90%以上削減済み，（3）重複排除が第2段フィルタとして最終精度を保証。</p>
+        <h4>主な知見</h4>
+        <ul style="font-size:13px;margin:0">
+          <li><strong>FAR</strong>: OVERLAP は完全棄却（0.00），DENSE では 0.55 と課題あり</li>
+          <li><strong>SHORT</strong>（短イベント）が最高 F1=0.85 -- 急峻な変化が検出に有利</li>
+          <li><strong>CONFOUND</strong>: Type B がイベント近傍でも FAR=0.10 と低い -- 置換検定が交絡を適切に排除</li>
+        </ul>
       </div>
     </div>
   </div>
+</div>
 
-  <h4 style="margin-top:32px">変化点検出法の比較</h4>
+<!-- EX2 -->
+<div class="tab-panel" id="panel-ex2">
+
+  <h4>スコア構成要素のアブレーション（F1, 5 seeds 平均）</h4>
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>手法</th><th>F1</th></tr></thead>
+        <thead><tr><th>構成</th><th>Scenario A<br>(prox)</th><th>Scenario B<br>(dir)</th><th>Scenario C<br>(mag)</th></tr></thead>
         <tbody>
-          <tr><td class="hl">閾値交差法（提案）</td><td class="hl">1.00</td></tr>
-          <tr><td>CUSUM</td><td>0.60</td></tr>
+          <tr><td class="hl">Full (prox×dir×mag)</td><td class="hl">1.00</td><td>0.73</td><td class="hl">1.00</td></tr>
+          <tr><td>No dir (prox×mag)</td><td>1.00</td><td>0.73</td><td>1.00</td></tr>
+          <tr><td>No prox (dir×mag)</td><td>1.00</td><td>0.73</td><td>0.93</td></tr>
+          <tr style="color:var(--c-red)"><td><strong>No mag (prox×dir)</strong></td><td><strong>0.60</strong></td><td>0.73</td><td><strong>0.60</strong></td></tr>
+          <tr><td>mag only</td><td>1.00</td><td>0.73</td><td>0.93</td></tr>
+          <tr><td>prox only</td><td>0.80</td><td>0.73</td><td>0.60</td></tr>
         </tbody>
       </table>
-      <p class="small">CUSUM は累積和ベースのためランダムな変動にも反応しやすく，閾値交差法が明確に優位。</p>
     </div>
     <div>
-      <div class="chart-container">
+      <div class="box accent">
+        <h4>Magnitude が支配的</h4>
+        <p class="small" style="margin:0"><strong>mag 除去で F1 低下</strong>（Scenario A: 1.00→0.60, Scenario C: 1.00→0.60）。prox は副次的寄与（No prox で Scenario C が 1.00→0.93）。<strong>dir は独立効果なし</strong>（No dir でも全シナリオ変化なし）。Scenario B では置換検定が帰属判定を支配し，スコア構成要素の影響が表出しない。</p>
+      </div>
+      <div class="chart-container" style="margin-top:16px">
         <svg viewBox="0 0 300 100" width="100%">
-          <text x="10" y="30" fill="#666" font-size="11">閾値交差法</text>
-          <rect x="110" y="15" width="180" height="24" rx="4" fill="#f0f0f0"/>
-          <rect x="110" y="15" width="180" height="24" rx="4" fill="#d32f2f"/>
-          <text x="200" y="31" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">F1 = 1.00</text>
-          <text x="10" y="70" fill="#666" font-size="11">CUSUM</text>
-          <rect x="110" y="55" width="180" height="24" rx="4" fill="#f0f0f0"/>
-          <rect x="110" y="55" width="108" height="24" rx="4" fill="#888"/>
-          <text x="164" y="71" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">F1 = 0.60</text>
+          <text x="10" y="25" fill="#666" font-size="10">Full</text>
+          <rect x="80" y="12" width="210" height="22" rx="4" fill="#f0f0f0"/>
+          <rect x="80" y="12" width="210" height="22" rx="4" fill="#d32f2f"/>
+          <text x="185" y="27" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 1.00</text>
+          <text x="10" y="55" fill="#666" font-size="10">No mag</text>
+          <rect x="80" y="42" width="210" height="22" rx="4" fill="#f0f0f0"/>
+          <rect x="80" y="42" width="126" height="22" rx="4" fill="#888"/>
+          <text x="143" y="57" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.60</text>
+          <text x="10" y="85" fill="#666" font-size="10">prox only</text>
+          <rect x="80" y="72" width="210" height="22" rx="4" fill="#f0f0f0"/>
+          <rect x="80" y="72" width="168" height="22" rx="4" fill="#bbb"/>
+          <text x="164" y="87" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.80</text>
         </svg>
+        <p class="small" style="margin-top:4px;text-align:center">Scenario A での比較</p>
       </div>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">ロバスト性: 重複排除の前後比較</h4>
-  <table class="dt">
-    <thead><tr><th>パラメータ</th><th>排除前 F1 範囲</th><th>排除後 F1</th></tr></thead>
-    <tbody>
-      <tr><td>W (10–50)</td><td>0.24 – 1.00</td><td class="hl">1.00</td></tr>
-      <tr><td>σ (5–200)</td><td>0.24 – 0.75</td><td class="hl">1.00</td></tr>
-      <tr><td>B (50–1000)</td><td>0.24 – 0.25</td><td class="hl">1.00</td></tr>
-      <tr><td>β (0.1–0.8)</td><td>0.04 – 1.00</td><td class="hl">1.00</td></tr>
-    </tbody>
-  </table>
-  <p class="small">重複排除の導入でパラメータ感度が劇的に低下。排除前は W, σ, β で F1 が大きくばらつくが，排除後は<strong>全パラメータ範囲で F1=1.0</strong>。重複排除がパターン選択の主力となることで，統計検定パラメータの感度が実質的に解消されている。</p>
-</div>
-
-<!-- E3 -->
-<div class="tab-panel" id="panel-e3">
-  <h4>データサイズ vs 実行時間</h4>
-  <div class="grid-2">
-    <div class="chart-container">
-      <svg viewBox="0 0 360 240" width="100%">
-        <line x1="55" y1="10" x2="55" y2="200" stroke="#e5e5e5"/>
-        <line x1="55" y1="200" x2="340" y2="200" stroke="#e5e5e5"/>
-        <line x1="55" y1="152" x2="340" y2="152" stroke="#f5f5f5" stroke-dasharray="3,3"/>
-        <line x1="55" y1="105" x2="340" y2="105" stroke="#f5f5f5" stroke-dasharray="3,3"/>
-        <line x1="55" y1="57" x2="340" y2="57" stroke="#f5f5f5" stroke-dasharray="3,3"/>
-        <text x="47" y="204" text-anchor="end" fill="#999" font-size="9">0</text>
-        <text x="47" y="156" text-anchor="end" fill="#999" font-size="9">100s</text>
-        <text x="47" y="109" text-anchor="end" fill="#999" font-size="9">200s</text>
-        <text x="47" y="61" text-anchor="end" fill="#999" font-size="9">300s</text>
-        <text x="47" y="18" text-anchor="end" fill="#999" font-size="9">400s</text>
-        <!-- Total -->
-        <polyline points="90,199 130,199 170,198 218,195 250,188 282,174 318,121 340,12"
-                  fill="none" stroke="#d32f2f" stroke-width="2.5"/>
-        <circle cx="340" cy="12" r="4" fill="#d32f2f"/>
-        <text x="340" y="30" text-anchor="middle" fill="#d32f2f" font-size="9" font-weight="700">395s</text>
-        <!-- Phase1 -->
-        <polyline points="90,199 130,199 170,198 218,196 250,191 282,181 318,150 340,94"
-                  fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="330" y="88" fill="#888" font-size="8">Phase 1</text>
-        <!-- Attribution -->
-        <polyline points="90,200 130,200 170,199 218,199 250,197 282,192 318,169 340,116"
-                  fill="none" stroke="#bbb" stroke-width="1.5" stroke-dasharray="2,2"/>
-        <text x="328" y="130" fill="#999" font-size="8">Attrib.</text>
-        <!-- X labels -->
-        <text x="90" y="214" text-anchor="middle" fill="#666" font-size="8">5K</text>
-        <text x="170" y="214" text-anchor="middle" fill="#666" font-size="8">20K</text>
-        <text x="250" y="214" text-anchor="middle" fill="#666" font-size="8">100K</text>
-        <text x="318" y="214" text-anchor="middle" fill="#666" font-size="8">500K</text>
-        <text x="340" y="214" text-anchor="middle" fill="#666" font-size="8" font-weight="700">1M</text>
-        <text x="215" y="232" text-anchor="middle" fill="#999" font-size="9">N</text>
-      </svg>
-    </div>
-    <div>
-      <table class="dt">
-        <thead><tr><th>N</th><th>Phase1</th><th>Attrib.</th><th>Total</th></tr></thead>
-        <tbody>
-          <tr><td>5K</td><td>0.9s</td><td>0.11s</td><td>1.0s</td></tr>
-          <tr><td>10K</td><td>1.8s</td><td>0.27s</td><td>2.1s</td></tr>
-          <tr><td>20K</td><td>3.8s</td><td>0.67s</td><td>4.4s</td></tr>
-          <tr><td>50K</td><td>9.6s</td><td>2.3s</td><td>11.9s</td></tr>
-          <tr><td>100K</td><td>19.3s</td><td>6.3s</td><td>25.6s</td></tr>
-          <tr><td>200K</td><td>39.3s</td><td>16.6s</td><td>55.9s</td></tr>
-          <tr><td>500K</td><td>104s</td><td>65.2s</td><td>169s</td></tr>
-          <tr><td class="hl">1M</td><td class="hl">220s</td><td class="hl">176s</td><td class="hl">395s</td></tr>
-        </tbody>
-      </table>
-      <p class="small">Phase 1 と Attribution の両方がデータサイズに対して<strong>線形にスケール</strong>。100万txnで約6.6分。</p>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">イベント数 vs 性能</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>|E|</th><th>Attrib. Time</th><th>Total</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>93ms</td><td>1.8s</td><td class="hl">1.00</td></tr>
-          <tr><td>3</td><td>376ms</td><td>2.3s</td><td class="hl">1.00</td></tr>
-          <tr><td>5</td><td>833ms</td><td>3.0s</td><td class="hl">1.00</td></tr>
-          <tr><td>10</td><td>2.5s</td><td>5.3s</td><td class="hl">1.00</td></tr>
-          <tr><td class="dim">20</td><td class="dim">9.1s</td><td class="dim">13.1s</td><td class="dim">0.05</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <p class="small">|E| ≤ 10 で F1=1.0，帰属時間はイベント数に対して線形。<br><br><strong>|E|=20 の急落:</strong> 5,000txnに20イベントが密集（間隔≈238, イベント幅200）し，円形シフト検定の弁別力が低下するため。データサイズ N を増やせば解消が見込まれる。</p>
-    </div>
-  </div>
-
-  <h4 style="margin-top:32px">置換回数 B vs 計算時間</h4>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>B</th><th>帰属時間 (ms)</th></tr></thead>
-        <tbody>
-          <tr><td>50</td><td>9</td></tr>
-          <tr><td>100</td><td>16</td></tr>
-          <tr><td>200</td><td>30</td></tr>
-          <tr><td>500</td><td>69</td></tr>
-          <tr><td>1,000</td><td>137</td></tr>
-          <tr><td>2,000</td><td>274</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <div class="chart-container">
-        <svg viewBox="0 0 300 160" width="100%">
-          <line x1="50" y1="10" x2="50" y2="130" stroke="#e5e5e5"/>
-          <line x1="50" y1="130" x2="290" y2="130" stroke="#e5e5e5"/>
-          <text x="42" y="135" text-anchor="end" fill="#999" font-size="9">0</text>
-          <text x="42" y="72" text-anchor="end" fill="#999" font-size="9">150ms</text>
-          <text x="42" y="15" text-anchor="end" fill="#999" font-size="9">300ms</text>
-          <line x1="50" y1="72" x2="290" y2="72" stroke="#f0f0f0" stroke-dasharray="3,3"/>
-          <!-- points: 50→9ms, 100→16, 200→30, 500→69, 1000→137, 2000→274 -->
-          <!-- scale: 300ms=y10, 0ms=y130. factor=(130-10)/300=0.4 -->
-          <polyline points="70,126 110,124 150,118 190,102 230,75 270,21"
-                    fill="none" stroke="#d32f2f" stroke-width="2"/>
-          <circle cx="70" cy="126" r="3" fill="#d32f2f"/>
-          <circle cx="110" cy="124" r="3" fill="#d32f2f"/>
-          <circle cx="150" cy="118" r="3" fill="#d32f2f"/>
-          <circle cx="190" cy="102" r="3" fill="#d32f2f"/>
-          <circle cx="230" cy="75" r="3" fill="#d32f2f"/>
-          <circle cx="270" cy="21" r="4" fill="#d32f2f"/>
-          <text x="270" y="16" text-anchor="middle" fill="#d32f2f" font-size="8" font-weight="700">274ms</text>
-          <text x="70" y="148" text-anchor="middle" fill="#666" font-size="8">50</text>
-          <text x="150" y="148" text-anchor="middle" fill="#666" font-size="8">200</text>
-          <text x="230" y="148" text-anchor="middle" fill="#666" font-size="8">1K</text>
-          <text x="270" y="148" text-anchor="middle" fill="#666" font-size="8">2K</text>
-          <text x="170" y="160" text-anchor="middle" fill="#999" font-size="9">B (置換回数)</text>
-        </svg>
-      </div>
-      <p class="small">帰属時間は B に対して<strong>線形にスケール</strong>。B=2,000 でも 274ms と実用的。デフォルト B=5,000 でも秒単位で完了する。</p>
     </div>
   </div>
 </div>
 
-<!-- E4 -->
-<div class="tab-panel" id="panel-e4">
-  <h4>T10I4D100K（100K transactions）</h4>
-  <p class="small">IBM Quest 合成ベンチマーク。語彙外アイテムペア 3件を注入。</p>
-  <div class="grid-2">
-    <div>
-      <table class="dt">
-        <thead><tr><th>β</th><th>TP</th><th>FP</th><th>FN</th><th>Prec.</th><th>Rec.</th><th>F1</th></tr></thead>
-        <tbody>
-          <tr><td>3.0</td><td>3</td><td>13</td><td>0</td><td>0.19</td><td class="hl">1.00</td><td>0.32</td></tr>
-          <tr><td>5.0</td><td>3</td><td>13</td><td>0</td><td>0.19</td><td class="hl">1.00</td><td>0.32</td></tr>
-          <tr><td>10.0</td><td>3</td><td>13</td><td>0</td><td>0.19</td><td class="hl">1.00</td><td>0.32</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <div class="box accent">
-        <p style="margin:0;font-size:14px">
-          <strong>Recall = 1.0</strong>: 植え込みパターンは全て検出。<br>
-          <strong>FP 削減: 319 → 13</strong>（重複排除で<strong class="red">96%削減</strong>）。<br>
-          残る 13 FP は自然にサポート変動を持つ独立パターン。
-        </p>
-      </div>
-    </div>
-  </div>
+<!-- EX5 -->
+<div class="tab-panel" id="panel-ex5">
 
-  <div class="chart-container">
-    <svg viewBox="0 0 500 120" width="100%">
-      <text x="10" y="35" fill="#666" font-size="11">排除前</text>
-      <rect x="80" y="20" width="400" height="28" rx="4" fill="#f0f0f0"/>
-      <rect x="80" y="20" width="400" height="28" rx="4" fill="#d32f2f" opacity="0.15"/>
-      <text x="90" y="39" fill="#d32f2f" font-size="11" font-weight="700">FP = 319</text>
-      <rect x="80" y="22" width="12" height="24" rx="2" fill="#d32f2f"/>
-
-      <text x="10" y="80" fill="#666" font-size="11">排除後</text>
-      <rect x="80" y="65" width="400" height="28" rx="4" fill="#f0f0f0"/>
-      <rect x="80" y="65" width="16" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
-      <text x="100" y="84" fill="#d32f2f" font-size="11" font-weight="700">FP = 13</text>
-      <rect x="80" y="67" width="12" height="24" rx="2" fill="#d32f2f"/>
-
-      <text x="300" y="110" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">96% 削減</text>
-    </svg>
-  </div>
-
-  <h4 style="margin-top:32px">retail.txt（88K transactions）</h4>
-  <p class="small">ベルギー小売 POS データ。語彙外アイテムペア 2件を注入。</p>
-  <table class="dt" style="max-width:500px">
-    <thead><tr><th></th><th>TP</th><th>FP</th><th>FN</th><th>Prec.</th><th>Rec.</th></tr></thead>
-    <tbody>
-      <tr class="dim"><td>結果</td><td>0</td><td>5</td><td>2</td><td>0.00</td><td>0.00</td></tr>
-    </tbody>
-  </table>
-  <p class="small">FP は 258→5 に削減。しかし注入先が高ベースラインサポートのためブースト効果が自然変動に埋もれ検出に至らず。<strong>高ベースラインサポート条件での限界</strong>を示す結果。</p>
-</div>
-
-<!-- E5 -->
-<div class="tab-panel" id="panel-e5">
-  <h4>E5: Dunnhumby — 実キャンペーンデータによる探索的検証</h4>
-  <p class="small">Dunnhumby "The Complete Journey" データセット。276,484件の購買バスケット（711日間）と30件の販促キャンペーン（TypeA/B/C）を使用。<br>
-  正解ラベル（どのパターンがどのキャンペーンに対応するか）は存在しないため、<strong>探索的分析</strong>として位置づける。</p>
+  <h4>Dunnhumby 実データ検証</h4>
+  <p class="small">Dunnhumby "The Complete Journey" データセット（276,484 トランザクション，30 キャンペーン）に対するパイプライン適用結果。正解ラベルが存在しないため<strong>定性的検証</strong>。</p>
 
   <div class="grid-2">
     <div>
       <table class="dt">
         <thead><tr><th>指標</th><th>値</th></tr></thead>
         <tbody>
-          <tr><td>トランザクション数</td><td>276,484</td></tr>
-          <tr><td>パターン数（|P| ≥ 2）</td><td>955</td></tr>
+          <tr><td>トランザクション数</td><td class="hl">276,484</td></tr>
+          <tr><td>パターン数</td><td>955</td></tr>
           <tr><td>キャンペーン数</td><td>30</td></tr>
-          <tr><td>重複排除前 有意帰属数</td><td>765</td></tr>
-          <tr><td class="hl">重複排除後 有意帰属数</td><td class="hl">91</td></tr>
-          <tr><td class="hl">重複排除 削減率</td><td class="hl red">88%</td></tr>
-          <tr><td>帰属のあるキャンペーン数</td><td class="hl">30/30 (100%)</td></tr>
+          <tr><td>重複排除前の有意帰属数</td><td>765</td></tr>
+          <tr><td>重複排除後の有意帰属数</td><td class="hl">91</td></tr>
+          <tr><td>重複排除による削減率</td><td class="hl">88%</td></tr>
+          <tr><td>帰属のあるキャンペーン数</td><td class="hl">30/30</td></tr>
           <tr><td>キャンペーンあたり平均帰属数</td><td>3.0</td></tr>
-          <tr><td>合計処理時間</td><td>913 s（約15分）</td></tr>
+          <tr><td>処理時間</td><td>593秒</td></tr>
         </tbody>
       </table>
     </div>
     <div>
       <div class="box accent">
-        <h4 style="margin-bottom:8px">主要な知見</h4>
+        <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
-          <li><strong>重複排除効果</strong>: 765件 → 91件（<strong class="red">88%削減</strong>）。E4の96%削減と同等の大幅な冗長性除去</li>
-          <li><strong>キャンペーンカバレッジ 100%</strong>: 全30キャンペーンに少なくとも1件の有意な帰属を生成</li>
-          <li><strong>ハブ商品の検出</strong>: 商品ID 35570が28件（全91件の31%）と突出。複数キャンペーンに跨いで販売変動を示す「ハブ商品」を特定</li>
-          <li><strong>キャンペーン種別</strong>: TypeB（短期販促）60件 > TypeC（クーポン）16件 > TypeA（大型）15件 — キャンペーン数の分布と整合</li>
+          <li><strong>カバレッジ 100%</strong>: 全30キャンペーンに帰属を割り当て</li>
+          <li><strong>重複排除で 765→91件</strong>（88%削減）-- 分析者にとって管理可能な帰属数</li>
+          <li>キャンペーンあたり平均 <strong>3.0件</strong> の帰属 -- 解釈可能な粒度</li>
         </ul>
       </div>
-      <p class="small" style="margin-top:12px"><strong>設定</strong>: W=300, θ=5, L=2, B=5,000, α=0.20（BH補正）, δ=3, 重複排除有効</p>
+      <div class="chart-container" style="margin-top:16px">
+        <svg viewBox="0 0 400 100" width="100%">
+          <text x="10" y="35" fill="#666" font-size="11">排除前</text>
+          <rect x="80" y="20" width="300" height="28" rx="4" fill="#f0f0f0"/>
+          <rect x="80" y="20" width="300" height="28" rx="4" fill="#d32f2f" opacity="0.15"/>
+          <text x="90" y="39" fill="#d32f2f" font-size="11" font-weight="700">765 帰属</text>
+
+          <text x="10" y="80" fill="#666" font-size="11">排除後</text>
+          <rect x="80" y="65" width="300" height="28" rx="4" fill="#f0f0f0"/>
+          <rect x="80" y="65" width="36" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
+          <text x="120" y="84" fill="#d32f2f" font-size="11" font-weight="700">91 帰属</text>
+
+          <text x="250" y="100" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">88% 削減</text>
+        </svg>
+      </div>
     </div>
-  </div>
-
-  <div class="chart-container">
-    <svg viewBox="0 0 500 120" width="100%">
-      <text x="10" y="35" fill="#666" font-size="11">排除前</text>
-      <rect x="80" y="20" width="400" height="28" rx="4" fill="#f0f0f0"/>
-      <rect x="80" y="20" width="400" height="28" rx="4" fill="#d32f2f" opacity="0.15"/>
-      <text x="90" y="39" fill="#d32f2f" font-size="11" font-weight="700">有意帰属 = 765</text>
-      <rect x="80" y="22" width="12" height="24" rx="2" fill="#d32f2f"/>
-
-      <text x="10" y="80" fill="#666" font-size="11">排除後</text>
-      <rect x="80" y="65" width="400" height="28" rx="4" fill="#f0f0f0"/>
-      <rect x="80" y="65" width="48" height="28" rx="4" fill="#2e7d32" opacity="0.3"/>
-      <text x="132" y="84" fill="#2e7d32" font-size="11" font-weight="700">有意帰属 = 91</text>
-      <rect x="80" y="67" width="12" height="24" rx="2" fill="#2e7d32"/>
-
-      <text x="300" y="110" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">88% 削減</text>
-    </svg>
-  </div>
-
-  <div class="box" style="margin-top:20px">
-    <p style="margin:0;font-size:13px"><strong>注意</strong>: E5は正解ラベルが存在しないため、F1等の定量評価は行えない。パイプラインが実データ上で意味のある帰属を生成できるかを定性的に検証する探索的分析である。</p>
-  </div>
-</div>
-
-<!-- ── アブレーション ── -->
-<h3 id="exp-ablation">5.2 アブレーション</h3>
-
-<h4>反復改善の効果（v1 → v2 → v3）</h4>
-<div class="grid-2">
-  <div>
-    <table class="dt">
-      <thead><tr><th>構成</th><th>Prec.</th><th>Rec.</th><th>F1</th></tr></thead>
-      <tbody>
-        <tr><td>v1: Per-pattern Bonferroni</td><td>0.03</td><td>0.27</td><td>0.05</td></tr>
-        <tr><td>v2: + Global BH + フィルタ</td><td>0.15</td><td>1.00</td><td>0.26</td></tr>
-        <tr><td class="hl">v3: + アイテム重複排除</td><td class="hl">1.00</td><td class="hl">1.00</td><td class="hl">1.00</td></tr>
-      </tbody>
-    </table>
-    <ul style="font-size:13px;margin-top:12px">
-      <li><strong>Global BH</strong>: Recall 0.27→1.00</li>
-      <li><strong>サポート振幅フィルタ</strong>: 仮説数 310→23</li>
-      <li><strong>重複排除</strong>: Precision 0.15→1.00</li>
-    </ul>
-  </div>
-  <div class="chart-container">
-    <svg viewBox="0 0 280 180" width="100%">
-      <line x1="45" y1="10" x2="45" y2="155" stroke="#e5e5e5"/>
-      <text x="37" y="160" text-anchor="end" fill="#999" font-size="9">0</text>
-      <text x="37" y="15" text-anchor="end" fill="#999" font-size="9">1.0</text>
-      <text x="37" y="88" text-anchor="end" fill="#999" font-size="9">0.5</text>
-      <!-- v1 -->
-      <rect x="60" y="148" width="50" height="7" rx="2" fill="#ddd"/>
-      <text x="85" y="172" text-anchor="middle" fill="#666" font-size="10">v1</text>
-      <text x="85" y="144" text-anchor="middle" fill="#999" font-size="9">0.05</text>
-      <!-- v2 -->
-      <rect x="125" y="117" width="50" height="38" rx="2" fill="#888"/>
-      <text x="150" y="172" text-anchor="middle" fill="#666" font-size="10">v2</text>
-      <text x="150" y="112" text-anchor="middle" fill="#888" font-size="9">0.26</text>
-      <!-- v3 -->
-      <rect x="190" y="12" width="50" height="143" rx="2" fill="#d32f2f"/>
-      <text x="215" y="172" text-anchor="middle" fill="#666" font-size="10" font-weight="700">v3</text>
-      <text x="215" y="9" text-anchor="middle" fill="#d32f2f" font-size="9" font-weight="700">1.00</text>
-    </svg>
-  </div>
-</div>
-
-<h4 style="margin-top:32px">スコア構成要素のアブレーション</h4>
-<div class="grid-2">
-  <div>
-    <table class="dt">
-      <thead><tr><th>構成</th><th>F1</th></tr></thead>
-      <tbody>
-        <tr><td class="hl">Full: prox × dir × mag</td><td class="hl">1.00</td></tr>
-        <tr><td>prox × mag（dir除去）</td><td>1.00</td></tr>
-        <tr><td>dir × mag（prox除去）</td><td>1.00</td></tr>
-        <tr style="color:var(--c-red)"><td><strong>prox × dir（mag除去）</strong></td><td><strong>0.33</strong></td></tr>
-        <tr><td>mag のみ</td><td>1.00</td></tr>
-        <tr><td>prox のみ</td><td>0.60</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h4>Magnitude の弁別力</h4>
-    <div class="bar-h"><div class="lbl" style="font-weight:700">TARGET</div><div class="track"><div class="fill" style="width:100%;background:#d32f2f">5.2 – 7.9</div></div></div>
-    <div class="bar-h"><div class="lbl">SUBSIDIARY</div><div class="track"><div class="fill" style="width:48%;background:#888">max 3.8</div></div></div>
-    <div class="bar-h"><div class="lbl">NOISE</div><div class="track"><div class="fill" style="width:34%;background:#ccc;color:#666">max 2.65</div></div></div>
-    <p class="small" style="margin-top:12px"><strong>magnitude が最重要要素。</strong>mag を含む全構成で F1=1.0，除去時 0.33 に急落。TARGET と SUBSIDIARY/NOISE の間に明確なギャップが存在。</p>
   </div>
 </div>
 
 <h4 style="margin-top:32px">結果まとめ</h4>
 <div class="stat-row">
-  <div class="stat-card"><div class="val red">1.0</div><div class="lbl">合成データ F1<br>(β = 0.1–0.8)</div></div>
-  <div class="stat-card"><div class="val">96%</div><div class="lbl">実データ FP削減<br>(E4 重複排除)</div></div>
-  <div class="stat-card"><div class="val">88%</div><div class="lbl">Dunnhumby FP削減<br>(E5 重複排除)</div></div>
-  <div class="stat-card"><div class="val red">30/30</div><div class="lbl">キャンペーン<br>カバレッジ (E5)</div></div>
-  <div class="stat-card"><div class="val">395s</div><div class="lbl">100万txn<br>(パイプライン全体)</div></div>
-  <div class="stat-card"><div class="val red">線形</div><div class="lbl">スケーラビリティ<br>(N, |E|, B)</div></div>
+  <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT条件)</div></div>
+  <div class="stat-card"><div class="val">88%</div><div class="lbl">実データ帰属削減<br>(重複排除効果)</div></div>
+  <div class="stat-card"><div class="val">100%</div><div class="lbl">キャンペーン<br>カバレッジ</div></div>
+  <div class="stat-card"><div class="val red">mag</div><div class="lbl">支配的<br>スコア要素</div></div>
 </div>
 
 
@@ -1273,11 +825,9 @@
 
 <h3>主要な知見</h3>
 <ul>
-  <li>全信号強度（β = 0.1–0.8）で真のパターン–イベント帰属を<strong>完全に回復</strong>（E1）</li>
-  <li>W, σ, B に対して<strong>頑健</strong>（重複排除によりパラメータ感度が劇的に低下）（E2）</li>
-  <li>処理時間はデータサイズ・イベント数・置換回数に対して<strong>線形にスケール</strong>し，100万txnまで動作確認（E3）</li>
-  <li>実データにおいて高い再現率を維持しつつ偽陽性を<strong>96%削減</strong>（E4）</li>
-  <li>Dunnhumby実キャンペーンデータで全30キャンペーンに帰属を生成、重複排除で<strong>88%削減</strong>（E5）</li>
+  <li>語彙内ブースト条件で <strong>F1 = 0.54--0.85</strong> の現実的な検出精度を達成し，8条件で多面的に弁別能力を検証（EX1）</li>
+  <li>magnitude が帰属スコアの<strong>支配的構成要素</strong>であり，prox は副次的に寄与（EX2）</li>
+  <li>実データ（Dunnhumby 30キャンペーン）で<strong>カバレッジ100%</strong>を達成し，重複排除で帰属数を<strong>88%削減</strong>（EX5）</li>
 </ul>
 
 <h3>今後の課題</h3>
@@ -1304,7 +854,7 @@
 
 <footer class="site-footer">
   Event Attribution Pipeline — Bridging Frequent Pattern Mining and External Event Attribution<br>
-  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-03-23</span>
+  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-03-24</span>
 </footer>
 
 </div><!-- /site-main -->
