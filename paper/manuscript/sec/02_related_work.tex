@@ -116,8 +116,10 @@ FWER制御下での高速な有意パターンマイニングを実現した．
 円形シフト置換検定~\cite{davison1997bootstrap,yuan2024rigorous,haiminen2008pairwise}と
 全パターン・全イベントにわたるグローバルBH補正~\cite{benjamini1995controlling}を組み合わせ，
 分布自由な検定と適切な多重検定制御を両立させる．
-BH手続きの依存仮説への拡張~\cite{benjamini2001control}により，
-アイテムを共有するパターン間の正の相関下でもFDR制御が保証される．
+BH手続きの依存仮説への拡張~\cite{benjamini2001control}は
+PRDS（Positive Regression Dependency on Subsets）条件下でのFDR制御を示しているが，
+実データにおけるPRDS条件の厳密な検証は一般に困難であり，
+本稿では実務的妥当性に基づいて適用する（\ref{sec:method}節参照）．
 Bonferroni補正~\cite{dunn1961multiple}は族単位誤り率（FWER）を制御するが保守的であるため，
 本研究ではFDRを制御するBH手続きを採用した．
 

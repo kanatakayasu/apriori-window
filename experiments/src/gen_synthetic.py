@@ -573,6 +573,41 @@ def make_ex6_correlated_config(
     return config
 
 
+def make_null_config(
+    n_transactions: int = 5000,
+    n_events: int = 5,
+    event_duration: int = 300,
+    seed: int = 42,
+) -> SyntheticConfig:
+    """Null experiment: NO planted signals, only random decoy events.
+
+    Under the null hypothesis, no event causes any pattern change.
+    All significant attributions are false positives.
+    Used to validate that BH FDR control keeps false discovery rate ≤ α.
+    """
+    rng = random.Random(seed)
+    decoys = []
+    for i in range(n_events):
+        start = rng.randint(0, n_transactions - event_duration - 1)
+        end = start + event_duration
+        decoys.append(DecoyEvent(
+            event_id=f"D{i+1}",
+            event_name=f"NullEvent_{i+1}",
+            start=start,
+            end=min(end, n_transactions - 1),
+        ))
+
+    return SyntheticConfig(
+        n_transactions=n_transactions,
+        n_items=200,
+        p_base=0.03,
+        planted_signals=[],       # NO planted signals
+        decoy_events=decoys,
+        unrelated_dense_patterns=[],  # No Type B either — pure null
+        seed=seed,
+    )
+
+
 def inject_events_into_real_data(
     input_path: str,
     out_dir: str,
