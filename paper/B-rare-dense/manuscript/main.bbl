@@ -78,6 +78,11 @@ I.~Batal, D.~Fradkin, J.~Harrison, F.~Moerchen, and M.~Hauskrecht, ``Mining
   recent temporal patterns for event detection in multivariate time series
   data,'' in \emph{Proc.\ KDD}, 2012, pp. 1--10.
 
+\bibitem{lancaster2018surrogate}
+G.~Lancaster, D.~Iatsenko, A.~Pidde, V.~Ticcinelli, and A.~Stefanovska,
+  ``Surrogate data for hypothesis testing of physical systems,'' \emph{Physics
+  Reports}, vol. 748, pp. 1--60, 2018.
+
 \bibitem{liu2012iforest}
 F.~T. Liu, K.~M. Ting, and Z.-H. Zhou, ``Isolation-based anomaly detection,''
   \emph{ACM Trans.\ Knowl.\ Discov.\ Data}, vol.~6, no.~1, pp. 1--39, 2012.
