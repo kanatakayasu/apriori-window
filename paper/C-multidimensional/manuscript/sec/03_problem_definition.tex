@@ -165,3 +165,10 @@ $G = \prod_{j=0}^{k} T_j$ をグリッド点の総数とする。
 
 \textbf{出力}：$|P| \leq L_{\max}$ かつ $\mathcal{R}_\theta(P) \neq \emptyset$ であるすべてのパターン $P$ とその密集領域集合 $\mathcal{R}_\theta(P)$。
 \end{problem}
+
+\begin{remark}[$L_{\max} = 2$ の設計前提]\label{rem:lmax2}
+多次元設定では、2アイテムの組み合わせ（$|P| = 2$）が分析の基本単位となる場面が多い。
+例えば、小売分析では「商品カテゴリ$\times$地域」の2次元組み合わせが購買パターンの基本構造を成し、疫学では「疾病$\times$リスク要因」の対が介入設計の基礎となる。
+定理~\ref{thm:containment}の枝刈り効果は $|P| \geq 2$ で作用するため、$L_{\max} = 2$ は密集領域包含定理の最小適用単位でもある。
+本論文の実験（E1--E5）は $L_{\max} \leq 3$ の設定で実施しており、$L_{\max}$ の拡大に伴う候補爆発（$\binom{m}{L_{\max}}$ の増大）は今後の課題として\ref{sec:conclusion}節で議論する。
+\end{remark}

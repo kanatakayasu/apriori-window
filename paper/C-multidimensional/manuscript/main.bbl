@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{21}
+\begin{thebibliography}{22}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -150,6 +150,19 @@
 \newblock \bibinfo{journal}{\emph{Journal of the Royal Statistical Society:
   Series A}} \bibinfo{volume}{164}, \bibinfo{number}{1} (\bibinfo{year}{2001}),
   \bibinfo{pages}{61--72}.
+\newblock
+
+
+\bibitem[Lancaster et~al\mbox{.}(2018)]%
+        {lancaster2018surrogate}
+\bibfield{author}{\bibinfo{person}{Gemma Lancaster}, \bibinfo{person}{Dmytro
+  Iatsenko}, \bibinfo{person}{Aleksandra Pidde}, \bibinfo{person}{Valentina
+  Ticcinelli}, {and} \bibinfo{person}{Aneta Stefanovska}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Surrogate Data for Hypothesis Testing of Physical
+  Systems}.
+\newblock \bibinfo{journal}{\emph{Physics Reports}}  \bibinfo{volume}{748}
+  (\bibinfo{year}{2018}), \bibinfo{pages}{1--60}.
 \newblock
 
 
