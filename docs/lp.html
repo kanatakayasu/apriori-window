@@ -212,6 +212,7 @@
   <a href="#exp-design">5. 実験設計</a>
   <a href="#exp-results">5.1 実験結果</a>
   <a href="#exp-ablation">5.2 アブレーション</a>
+  <a href="#exp-null">5.3 帰無FDR検証</a>
 
   <a href="#conclusion">6. 結論</a>
 </nav>
@@ -232,7 +233,7 @@
     <span class="badge">BH FDR補正</span>
     <span class="badge">Union-Find 重複排除</span>
     <span class="badge">100万txn 線形スケール</span>
-    <span class="badge accent">合成データ F1 = 0.51–0.85</span>
+    <span class="badge accent">合成データ F1 = 0.67–0.92</span>
   </div>
 </div>
 
@@ -251,19 +252,23 @@
 
 <p>本研究は，頻出パターンマイニングと外部イベント帰属を橋渡しする統計フレームワーク<strong>「イベント帰属パイプライン」</strong>を提案する。</p>
 
-<h3>3つの貢献</h3>
-<div class="grid-3">
+<h3>4つの貢献</h3>
+<div class="grid-2">
   <div class="box">
-    <h4>① 5ステップ統合パイプライン</h4>
-    <p class="small" style="margin:0">変化点抽出→帰属スコアリング→置換検定(FDR制御)→重複排除。パターンマイニングとイベント帰属を<strong>初めて橋渡し</strong>する。</p>
+    <h4>① イベント帰属問題の定式化</h4>
+    <p class="small" style="margin:0">頻出パターンのサポート変動を外部イベントに帰属させるタスクを，FDR制御付き多重検定問題として<strong>新たに形式的に定義</strong>。仮説空間の規模・副次パターン・時間的混同の3つの構造的課題を同定する。</p>
   </div>
   <div class="box">
-    <h4>② アイテム重複排除</h4>
-    <p class="small" style="margin:0">統計検定だけでは解消できない副次パターンの偽陽性を Union-Find で除去。<strong>Precision 0.15→1.00</strong>。</p>
+    <h4>② 統計的帰属フレームワーク</h4>
+    <p class="small" style="margin:0">変化点抽出→帰属スコアリング→置換検定(FDR制御)→重複排除の5ステップ。帰属スコアは<strong>ランキング用指標</strong>に留め，最終判定を置換検定に委ねる二層構造。</p>
   </div>
   <div class="box">
-    <h4>③ 包括的な実験評価</h4>
-    <p class="small" style="margin:0">語彙内ブースト条件で F1=0.51–0.85，100万txnまで線形スケール，実データ（Dunnhumby）で重複排除が<strong>76%の冗長性を除去</strong>。</p>
+    <h4>③ 副次パターン問題の同定と解決</h4>
+    <p class="small" style="margin:0">統計検定だけでは解消できない副次パターンの偽陽性を Union-Find で除去。</p>
+  </div>
+  <div class="box">
+    <h4>④ 包括的な実験評価</h4>
+    <p class="small" style="margin:0">合成8条件で F1=0.67–0.92，帰無条件でFDR制御を経験的確認，100万txnまで線形スケール，実データ（Dunnhumby）で重複排除が<strong>76%の冗長性を除去</strong>。</p>
   </div>
 </div>
 
@@ -330,7 +335,7 @@
 
 <h3>統計的パターンマイニングと多重検定補正</h3>
 <p>Webb (2007) の自己充足アイテムセット，Webb (2011) の生産的ルールフィルタリング，LAMP (Terada+ 2013) の検定可能パターン数最小化，Llinares-López ら (2015) の Tarone + Westfall-Young (1993) を組み合わせた高速有意パターンマイニング等がある。</p>
-<p>これらは二群間の頻度差を検定するが，本研究ではパターンサポートの<strong>時間的変動</strong>と<strong>外部イベント</strong>の関連を検定する点が異なる。円形シフト置換検定はサロゲートデータ法 (Theiler+ 1992, Haiminen+ 2008) に基づき，自己相関構造を保存した分布自由な検定を実現する。全仮説にグローバル BH 補正 (Benjamini &amp; Hochberg 1995) を適用し，依存仮説への拡張 (Benjamini &amp; Yekutieli 2001) によりアイテム共有パターン間の正相関下でも FDR 制御が保証される。</p>
+<p>これらは二群間の頻度差を検定するが，本研究ではパターンサポートの<strong>時間的変動</strong>と<strong>外部イベント</strong>の関連を検定する点が異なる。円形シフト置換検定はサロゲートデータ法 (Theiler+ 1992, Haiminen+ 2008) に基づき，自己相関構造を保存した分布自由な検定を実現する。全仮説にグローバル BH 補正 (Benjamini &amp; Hochberg 1995) を適用し，依存仮説への拡張 (Benjamini &amp; Yekutieli 2001) は PRDS 条件下での FDR 制御を示しているが，実データにおける PRDS 条件の厳密な検証は一般に困難であり，本稿では実務的妥当性に基づいて適用する。</p>
 
 
 <!-- ===== 3. 問題定義 ===== -->
@@ -574,8 +579,8 @@
 </div>
 
 <div class="box">
-  <h4>正当性</h4>
-  <p class="small" style="margin:0">真のパターン P* = {i₁, i₂} は全アイテムが同時にブーストされるため副次パターン P' = {i₁, j} よりサポート変動が大きく，A* > A(P', e) となる。よって P* が保持され P' は除去される。計算量は O(R × k)（有意結果数 × パターン最大長）であり，置換検定に比して無視可能。</p>
+  <h4>正当性（簡約的独立出現モデル下）</h4>
+  <p class="small" style="margin:0">各アイテムの出現が独立と仮定すると，真のパターン P* = {i₁, i₂} は全アイテムが同時にブーストされるため副次パターン P' = {i₁, j} よりサポート変動が大きく，A* > A(P', e) となる。よって P* が保持され P' は除去される。ただし，アイテム間の強い相関がある場合には順序が逆転しうる（EX6 Correlated条件で確認）。計算量は O(R × k)。</p>
 </div>
 
 <!-- ── 計算量 ── -->
@@ -630,7 +635,9 @@
   <tbody>
     <tr><td><strong>EX1</strong></td><td>コア帰属精度</td><td>β感度 + 構造条件（OVERLAP/CONFOUND/DENSE/SHORT）</td><td>5</td></tr>
     <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/mag）× 2シナリオ</td><td>5</td></tr>
+    <tr><td><strong>EX3</strong></td><td>帰無FDR検証</td><td>植え込み信号なし・ランダムイベントで偽発見抑制を確認</td><td>20</td></tr>
     <tr><td><strong>EX5</strong></td><td>実データ検証</td><td>Dunnhumby（276K txn, 30キャンペーン）</td><td>1</td></tr>
+    <tr><td><strong>EX6</strong></td><td>Zipf頑健性</td><td>Zipf分布下での精度低下（F1=0.22–0.40）→ 主要制約</td><td>5</td></tr>
   </tbody>
 </table>
 
@@ -639,9 +646,11 @@
 
 <!-- Tab navigation -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('ex1')">EX1: コア帰属精度</button>
+  <button class="tab-btn active" onclick="showTab('ex1')">EX1: コア精度</button>
   <button class="tab-btn" onclick="showTab('ex2')">EX2: アブレーション</button>
-  <button class="tab-btn" onclick="showTab('ex5')">EX5: 実データ検証</button>
+  <button class="tab-btn" onclick="showTab('ex3')">EX3: 帰無FDR</button>
+  <button class="tab-btn" onclick="showTab('ex5')">EX5: 実データ</button>
+  <button class="tab-btn" onclick="showTab('ex6')">EX6: Zipf</button>
 </div>
 
 <!-- EX1 -->
@@ -653,15 +662,15 @@
       <table class="dt">
         <thead><tr><th>β</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>0.1</td><td>0.72</td><td>0.87</td><td>0.76</td><td>0.20</td></tr>
-          <tr><td>0.2</td><td>0.72</td><td>0.93</td><td class="hl">0.81</td><td>0.10</td></tr>
-          <tr><td>0.3</td><td>0.62</td><td>0.87</td><td>0.72</td><td>0.10</td></tr>
-          <tr><td>0.5</td><td>0.45</td><td>0.60</td><td>0.51</td><td class="hl">0.00</td></tr>
+          <tr><td>0.1</td><td>0.74</td><td>1.00</td><td>0.84</td><td>0.20</td></tr>
+          <tr><td>0.2</td><td>0.80</td><td>1.00</td><td class="hl">0.89</td><td>0.10</td></tr>
+          <tr><td>0.3</td><td>0.87</td><td>1.00</td><td class="hl">0.92</td><td>0.20</td></tr>
+          <tr><td>0.5</td><td>0.85</td><td>1.00</td><td>0.91</td><td class="hl">0.00</td></tr>
         </tbody>
       </table>
     </div>
     <div>
-      <p class="small" style="margin-top:8px"><strong>語彙内ブースト条件</strong>（ベースラインサポートが存在するパターン）で，β≤0.3 の範囲で F1=0.72--0.81, Recall 0.87--0.93 と安定。β=0.5 では F1=0.51 に低下（FAR=0.00）。</p>
+      <p class="small" style="margin-top:8px"><strong>語彙内ブースト条件</strong>（ベースラインサポートが存在するパターン）で，全βで Recall=1.00 を達成。F1=0.84–0.92 と安定。ただし EX1 は植え込み信号が明瞭な設定であり，Zipf条件（EX6）等での一般化は限定的。</p>
     </div>
   </div>
 
@@ -671,9 +680,9 @@
       <table class="dt">
         <thead><tr><th>条件</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>OVERLAP</td><td>0.59</td><td>0.73</td><td>0.65</td><td class="hl">0.00</td></tr>
+          <tr><td>OVERLAP</td><td>0.85</td><td>1.00</td><td>0.91</td><td class="hl">0.00</td></tr>
           <tr><td>CONFOUND</td><td>0.73</td><td>0.80</td><td>0.76</td><td>0.10</td></tr>
-          <tr><td>DENSE</td><td>0.49</td><td>0.80</td><td>0.60</td><td style="color:var(--c-red);font-weight:700">0.40</td></tr>
+          <tr><td>DENSE</td><td>0.51</td><td>0.97</td><td>0.67</td><td style="color:var(--c-red);font-weight:700">0.55</td></tr>
           <tr><td class="hl">SHORT</td><td class="hl">0.78</td><td class="hl">0.93</td><td class="hl">0.85</td><td>0.30</td></tr>
         </tbody>
       </table>
@@ -682,9 +691,9 @@
       <div class="box accent">
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
-          <li><strong>FAR</strong>: OVERLAP は完全棄却（0.00），DENSE では 0.40 と課題あり</li>
-          <li><strong>SHORT</strong>（短イベント）が最高 F1=0.85 -- 急峻な変化が検出に有利</li>
-          <li>語彙内ブースト条件で現実的な検出精度を確認</li>
+          <li><strong>OVERLAP</strong>: F1=0.91, FAR=0.00 — 時間重複下でも高精度</li>
+          <li><strong>DENSE</strong>: FAR=0.55 と最大 — 高密度条件は主要な制約</li>
+          <li><strong>SHORT</strong>: F1=0.85 — 急峻な変化は検出に有利</li>
         </ul>
       </div>
     </div>
@@ -732,6 +741,34 @@
   </div>
 </div>
 
+<!-- EX3 -->
+<div class="tab-panel" id="panel-ex3">
+
+  <h4>帰無条件下のFDR制御検証</h4>
+  <p class="small">植え込み信号なし（帰無仮説）のデータで，パイプラインが偽発見を抑制できるか検証。5件のランダムイベント × 20 seeds。</p>
+
+  <div class="grid-2">
+    <div>
+      <table class="dt">
+        <thead><tr><th>指標</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td>Seeds数</td><td>20</td></tr>
+          <tr><td>平均パターン数</td><td>86.5</td></tr>
+          <tr><td>平均有意帰属数</td><td class="hl">0.00</td></tr>
+          <tr><td>最大有意帰属数</td><td class="hl">0</td></tr>
+          <tr><td>全seedで有意帰属=0</td><td class="hl">20/20 (100%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="box accent">
+        <h4>帰無条件で偽発見を完全抑制</h4>
+        <p class="small" style="margin:0">全20 seedで有意帰属数が0であり，BH手続きと円形シフト置換検定が帰無条件下で過剰な偽発見を生じないことを経験的に確認。EX1のRecall=1.00と合わせて，検出力と偽発見抑制のバランスを実証。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- EX5 -->
 <div class="tab-panel" id="panel-ex5">
 
@@ -746,10 +783,10 @@
           <tr><td>トランザクション数</td><td class="hl">276,484</td></tr>
           <tr><td>パターン数</td><td>955</td></tr>
           <tr><td>キャンペーン数</td><td>30</td></tr>
-          <tr><td>重複排除後の有意帰属数</td><td class="hl">118</td></tr>
+          <tr><td>重複排除後の有意帰属数</td><td class="hl">124</td></tr>
           <tr><td>帰属のあるキャンペーン数</td><td class="hl">30/30</td></tr>
-          <tr><td>キャンペーンあたり平均帰属数</td><td>3.9</td></tr>
-          <tr><td>処理時間</td><td>592秒</td></tr>
+          <tr><td>キャンペーンあたり平均帰属数</td><td>4.1</td></tr>
+          <tr><td>処理時間</td><td>595秒</td></tr>
         </tbody>
       </table>
     </div>
@@ -758,8 +795,8 @@
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
           <li><strong>カバレッジ 100%</strong>: 全30キャンペーンに帰属を割り当て</li>
-          <li><strong>重複排除で 493→118件</strong>（76%削減）-- 分析者にとって管理可能な帰属数</li>
-          <li>キャンペーンあたり平均 <strong>3.9件</strong> の帰属 -- 解釈可能な粒度</li>
+          <li><strong>重複排除で 493→124件</strong>（76%削減）-- 分析者にとって管理可能な帰属数</li>
+          <li>キャンペーンあたり平均 <strong>4.1件</strong> の帰属 -- 解釈可能な粒度</li>
         </ul>
       </div>
       <div class="chart-container" style="margin-top:16px">
@@ -771,8 +808,8 @@
 
           <text x="10" y="80" fill="#666" font-size="11">排除後</text>
           <rect x="80" y="65" width="300" height="28" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="65" width="72" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
-          <text x="160" y="84" fill="#d32f2f" font-size="11" font-weight="700">118 帰属</text>
+          <rect x="80" y="65" width="76" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
+          <text x="164" y="84" fill="#d32f2f" font-size="11" font-weight="700">124 帰属</text>
 
           <text x="250" y="100" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">76% 削減</text>
         </svg>
@@ -781,11 +818,38 @@
   </div>
 </div>
 
+<!-- EX6 -->
+<div class="tab-panel" id="panel-ex6">
+
+  <h4>Zipf分布下での頑健性</h4>
+  <p class="small">現実的なアイテム頻度分布（Zipf / べき乗則）下でのパイプライン精度を検証。EX1と同一の信号構造だがアイテム頻度を非一様に。</p>
+
+  <div class="grid-2">
+    <div>
+      <table class="dt">
+        <thead><tr><th>条件</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
+        <tbody>
+          <tr><td>Zipf-1.0</td><td>0.26</td><td>0.93</td><td>0.40</td><td>0.30</td></tr>
+          <tr><td>Zipf-1.5</td><td>0.20</td><td>0.87</td><td>0.32</td><td>0.10</td></tr>
+          <tr><td>Correlated</td><td>0.14</td><td>0.47</td><td>0.22</td><td>0.10</td></tr>
+          <tr class="dim"><td><em>参考: EX1一様 (β=0.3)</em></td><td><em>0.87</em></td><td><em>1.00</em></td><td><em>0.92</em></td><td><em>0.20</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="box accent">
+        <h4>主要な制約: Zipf分布下の精度低下</h4>
+        <p class="small" style="margin:0"><strong>F1 = 0.22–0.40</strong> と一様分布 (0.92) から大幅低下。高頻度アイテムの自然変動がノイズ仮説を大量生成し Precision を低下させる。本手法は現状では<strong>アイテム頻度が中程度に均質</strong>か，大規模イベントによる明確な変動がある条件を主対象とする。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <h4 style="margin-top:32px">結果まとめ</h4>
 <div class="stat-row">
-  <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT条件)</div></div>
+  <div class="stat-card"><div class="val red">0.92</div><div class="lbl">最高 F1<br>(β=0.3条件)</div></div>
   <div class="stat-card"><div class="val">76%</div><div class="lbl">実データ帰属削減<br>(重複排除効果)</div></div>
-  <div class="stat-card"><div class="val">100%</div><div class="lbl">キャンペーン<br>カバレッジ</div></div>
+  <div class="stat-card"><div class="val">0/20</div><div class="lbl">帰無条件<br>偽発見数</div></div>
   <div class="stat-card"><div class="val red">prox+mag</div><div class="lbl">相補的<br>スコア要素</div></div>
 </div>
 
@@ -793,7 +857,7 @@
 <!-- ===== 6. 結論 ===== -->
 <h2 id="conclusion">6. 結論</h2>
 
-<p>本稿では，頻出パターンのサポート時系列における変動を外部イベントに統計的に帰属させる<strong>イベント帰属パイプライン</strong>を提案した。</p>
+<p>本稿では，頻出パターンのサポート変動を外部イベントに帰属させる<strong>イベント帰属問題</strong>を形式的に定義し，FDR制御付き多重検定問題としての構造的課題を同定した。この問題に対する解法として<strong>統計的帰属フレームワーク</strong>を構成した。</p>
 
 <div class="box">
   <h4>5ステップの統合</h4>
@@ -808,9 +872,11 @@
 
 <h3>主要な知見</h3>
 <ul>
-  <li>語彙内ブースト条件で <strong>F1 = 0.51–0.85</strong> の現実的な検出精度を達成し，8条件で多面的に弁別能力を検証（EX1）</li>
+  <li>語彙内ブースト条件で <strong>F1 = 0.67–0.92</strong> の検出精度を達成し，8条件で多面的に弁別能力を検証（EX1）</li>
   <li>proximity と magnitude が帰属スコアの<strong>相補的構成要素</strong>であり，両方が精度に不可欠（EX2）</li>
+  <li>帰無条件下で全20 seedにおいて有意帰属数が0 — 過剰な偽発見を生じないことを経験的に確認（EX3）</li>
   <li>実データ（Dunnhumby 30キャンペーン）で<strong>カバレッジ100%</strong>を達成し，重複排除で帰属数を<strong>76%削減</strong>（EX5）</li>
+  <li>Zipf分布下では F1=0.22–0.40 と精度が低下 — アイテム頻度均質性への依存を主要制約として同定（EX6）</li>
 </ul>
 
 <h3>今後の課題</h3>
@@ -821,6 +887,7 @@
       <li>変化点検出手法の拡張（CUSUM・ベイズ変化点検出との比較）</li>
       <li>イベント間の時間的重複が密な場合の帰属精度改善</li>
       <li>効果量ベーススコアリングの精緻化（高ベースライン問題への対応）</li>
+      <li>Zipf分布下での適応的フィルタリング・相対的変化率ベーススコアリング</li>
     </ul>
   </div>
   <div class="box">
