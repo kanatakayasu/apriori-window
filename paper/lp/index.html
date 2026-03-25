@@ -212,6 +212,7 @@
   <a href="#exp-design">5. 実験設計</a>
   <a href="#exp-results">5.1 実験結果</a>
   <a href="#exp-ablation">5.2 アブレーション</a>
+  <a href="#exp-null">5.3 帰無FDR検証</a>
 
   <a href="#conclusion">6. 結論</a>
 </nav>
@@ -232,7 +233,7 @@
     <span class="badge">BH FDR補正</span>
     <span class="badge">Union-Find 重複排除</span>
     <span class="badge">100万txn 線形スケール</span>
-    <span class="badge accent">合成データ F1 = 1.0</span>
+    <span class="badge accent">合成データ F1 = 0.67–0.92</span>
   </div>
 </div>
 
@@ -251,19 +252,23 @@
 
 <p>本研究は，頻出パターンマイニングと外部イベント帰属を橋渡しする統計フレームワーク<strong>「イベント帰属パイプライン」</strong>を提案する。</p>
 
-<h3>3つの貢献</h3>
-<div class="grid-3">
+<h3>4つの貢献</h3>
+<div class="grid-2">
   <div class="box">
-    <h4>① 5ステップ統合パイプライン</h4>
-    <p class="small" style="margin:0">変化点抽出→帰属スコアリング→置換検定(FDR制御)→重複排除。パターンマイニングとイベント帰属を<strong>初めて橋渡し</strong>する。</p>
+    <h4>① イベント帰属問題の定式化</h4>
+    <p class="small" style="margin:0">頻出パターンのサポート変動を外部イベントに帰属させるタスクを，FDR制御付き多重検定問題として<strong>新たに形式的に定義</strong>。仮説空間の規模・副次パターン・時間的混同の3つの構造的課題を同定する。</p>
   </div>
   <div class="box">
-    <h4>② アイテム重複排除</h4>
-    <p class="small" style="margin:0">統計検定だけでは解消できない副次パターンの偽陽性を Union-Find で除去。<strong>Precision 0.15→1.00</strong>。</p>
+    <h4>② 統計的帰属フレームワーク</h4>
+    <p class="small" style="margin:0">変化点抽出→帰属スコアリング→置換検定(FDR制御)→重複排除の5ステップ。帰属スコアは<strong>ランキング用指標</strong>に留め，最終判定を置換検定に委ねる二層構造。</p>
   </div>
   <div class="box">
-    <h4>③ 包括的な実験評価</h4>
-    <p class="small" style="margin:0">合成データで F1=1.0，100万txnまで線形スケール，実データで偽陽性 <strong>96%削減</strong>。</p>
+    <h4>③ 副次パターン問題の同定と解決</h4>
+    <p class="small" style="margin:0">統計検定だけでは解消できない副次パターンの偽陽性を Union-Find で除去。</p>
+  </div>
+  <div class="box">
+    <h4>④ 包括的な実験評価</h4>
+    <p class="small" style="margin:0">合成8条件で F1=0.67–0.92，帰無条件でFDR制御を経験的確認，100万txnまで線形スケール，実データ（Dunnhumby）で重複排除が<strong>76%の冗長性を除去</strong>。</p>
   </div>
 </div>
 
@@ -285,25 +290,22 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td>Apriori / FP-Growth / ECLAT / LCM</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+    <tr><td>Apriori / FP-Growth / ECLAT</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>LPFIM / PFPM / PPFPM / LPPM</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-    <tr><td>Active Mining / SPAMINE / DEMON</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+    <tr><td>Active Mining / Temporal Surprise</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>Emerging Patterns / Contrast Sets</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>変化点検出（CUSUM, BOCPD）</td><td class="no">—</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>Box-Tiao 介入分析 / ITS</td><td class="no">—</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>CausalImpact / 合成コントロール</td><td class="no">—</td><td class="yes">○</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td></tr>
-    <tr><td>Adtributor / Squeeze (KPI帰属)</td><td class="no">—</td><td class="yes">○</td><td class="yes">○*</td><td class="no">—</td><td class="no">—</td></tr>
     <tr><td>LAMP / WY-Permutation</td><td class="yes">○</td><td class="no">—</td><td class="no">—</td><td class="yes">○</td><td class="no">—</td></tr>
     <tr class="our"><td>本手法（Event Attribution Pipeline）</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
   </tbody>
 </table>
-<p class="small">*Adtributor/Squeeze はKPI変動をデータ次元（国・ブラウザ等）に帰属。時間的イベントへの帰属ではない。</p>
-
 <h3>頻出パターンマイニング</h3>
-<p>Apriori は反単調性に基づく候補生成・枝刈りを確立した。FP-Growth は FP-tree により候補生成を回避し高速化を実現。ECLAT は縦型表現と集合積，LCM は頻出・閉・極大アイテムセットの最適列挙を達成した。包括的なサーベイは Fournier-Viger+ (2017) を参照。これらの手法は<strong>グローバル頻度を対象とし，時間的な変動をモデル化しない</strong>。</p>
+<p>Apriori は反単調性に基づく候補生成・枝刈りを確立した。FP-Growth は FP-tree により候補生成を回避し高速化を実現。ECLAT は縦型表現と集合積による効率的なサポート計算を行う。包括的なサーベイは Fournier-Viger+ (2017) を参照。これらの手法は<strong>グローバル頻度を対象とし，時間的な変動をモデル化しない</strong>。</p>
 
 <h3>時間的・局所的パターンマイニング</h3>
-<p>時間的アソシエーションルールマイニングの包括的サーベイ (Segura-Delgado+ 2020) が各種アプローチを整理している。LPFIM は時間区間内の局所頻出集合を対象とするが gap ベース閾値に依存。PFPM・PPFPM は周期性制約を導入し，LPPM は局所性と周期性を統合する。Ho ら (2022) は相互情報量を用いた枝刈りにより大規模時系列からの時間的パターンマイニングを高速化した。ストリームデータに対しては estWin, Moment 等のスライディングウィンドウ手法が研究されている。</p>
+<p>時間的アソシエーションルールマイニングの包括的サーベイ (Segura-Delgado+ 2020) が各種アプローチを整理している。LPFIM は時間区間内の局所頻出集合を対象とするが gap ベース閾値に依存。PFPM・PPFPM は周期性制約を導入し，LPPM は局所性と周期性を統合する。Apriori-window は固定幅スライディングウィンドウ上で局所サポートを直接評価し，gapパラメータに依存しない密集パターン抽出を実現した。Batal ら (2012) は多変量時系列からの最近時間パターンマイニングによるイベント検出を提案した。</p>
 <p>これらの手法はパターンが<em>いつ</em>頻出であるかを検出するが，頻度が変動する<em>原因</em>はモデル化しない。本研究はこれらを補完し，<strong>検出されたサポート変動を外部イベントに帰属させる</strong>。</p>
 
 <h3 id="related-monitor">パターン変化のモニタリングと診断</h3>
@@ -312,14 +314,11 @@
   <li><strong>Active Data Mining</strong> (Agrawal &amp; Psaila 1995): ルール統計量の履歴に対する形状クエリでトレンドを検出する最初期の研究</li>
   <li><strong>Temporal Surprise</strong> (Chakrabarti+ 1998): 記述長に基づくサプライズ指標で，サポートが予想外に変動するアイテムセットを同定</li>
   <li><strong>Fundamental Rule Changes</strong> (Liu+ 2001): 二時点間のルール変化から「基本的変化」（他から導出不可能な変化）のみを抽出</li>
-  <li><strong>DEMON</strong> (Ganti+ 2001): 進化するデータのモデル維持を効率化し，速度密度推定で変化の種類を診断</li>
-  <li><strong>SPAMINE</strong> (Yoo &amp; Shekhar 2009): サポートプロファイル（時間軸上のサポート推移）の類似性に基づくパターン検索</li>
-  <li><strong>StreamKrimp</strong> (van Leeuwen &amp; Siebes 2008): MDL 圧縮に基づくストリーム中のパターン分布変化検出</li>
 </ul>
-<p>Böttcher &amp; Spiliopoulou (2011) がコントラストマイニングと変化マイニングの統合サーベイを提供している。これらの手法は変化の<em>検出</em>と<em>特徴づけ</em>を行うが，検出された変化を<strong>外部イベントに帰属させる統計フレームワークは持たない</strong>。本研究はこのギャップを埋める。</p>
+<p>これらの手法は変化の<em>検出</em>と<em>特徴づけ</em>を行うが，検出された変化を<strong>外部イベントに帰属させる統計フレームワークは持たない</strong>。本研究はこのギャップを埋める。</p>
 
 <h3>コントラスト・エマージングパターンマイニング</h3>
-<p>エマージングパターン (Dong &amp; Li 1999) はサポートの有意な増加を捉え，コントラストセットマイニング (Bay &amp; Pazzani 2001) はグループ間の判別的特徴を発見する。Novak ら (2009) は，コントラストセット・エマージングパターン・サブグループ発見を「教師あり記述的ルール発見」として統一し，いずれも<em>何が</em>異なるかを記述する手法であることを示した。Adams ら (2023) はプロセスマイニングにおける概念ドリフトの原因を Granger 因果で説明する試みを行ったが，内部プロセス指標間の因果であり外部イベントカレンダーへの帰属ではない。Gupta ら (KDD 2020) は Rubin-Neyman 因果モデルに基づく「頻出因果パターンマイニング」を提案したが，横断的な治療効果推定であり，時系列上のサポート変動と外部イベントの帰属問題とは異なる。</p>
+<p>エマージングパターン (Dong &amp; Li 1999) はサポートの有意な増加を捉え，コントラストセットマイニング (Bay &amp; Pazzani 2001) はグループ間の判別的特徴を発見する。Novak ら (2009) は，コントラストセット・エマージングパターン・サブグループ発見を「教師あり記述的ルール発見」として統一し，いずれも<em>何が</em>異なるかを記述する手法であることを示した。Komiyama ら (2017) は多重検定補正を伴う統計的エマージングパターンマイニングを提案した。</p>
 <p>これらの手法は<em>何が</em>変わったかを検出するが，<em>なぜ</em>（どのイベントにより）変わったかは説明しない。本研究はサポート変動の検出に留まらず，<strong>統計検定による外部イベントへの帰属</strong>まで踏み込む。</p>
 
 <h3>イベント帰属・介入分析と因果推論</h3>
@@ -331,12 +330,12 @@
   <li><strong>合成コントロール法</strong> (Abadie+ 2010): コントロール群の加重平均から反事実を構築し介入効果を推定</li>
   <li><strong>CausalImpact</strong> (Brodersen+ 2015): ベイズ構造時系列モデルによる因果効果推定</li>
 </ul>
-<p>分散システムにおける根本原因分析 (Chen 2004, Jeyakumar 2019, Liu 2021) は異常を特定のコンポーネントに帰属させる。Adtributor (Bhagwan+ 2014) は KPI 変動をデータ次元に帰属させるが，時間的イベントへの帰属ではない。Donges ら (2016) はイベント時系列間の共起の統計的有意性を検定するイベント一致分析を提案した。プロセスマイニング分野では，Banham ら (xPM, 2022) が外部データ（ICU病床数，天候等）をプロセスモデルに統合するフレームワークを提案したが，プロセスの制御フロー分析であり，アイテムセットのサポート時系列への帰属ではない。</p>
+<p>Donges ら (2016) はイベント時系列間の共起の統計的有意性を検定するイベント一致分析を提案した。</p>
 <p>これらのアプローチは典型的には<strong>単一または少数のアウトカム変数</strong>を対象とし，数千のパターンサポート時系列を複数のイベントに対して同時に検定する設定には直接適用できない。本研究は，我々の知る限り，パターンマイニングの出力（サポート時系列）と外部イベントの帰属を統合する<strong>初の統計フレームワーク</strong>を提供する。</p>
 
 <h3>統計的パターンマイニングと多重検定補正</h3>
-<p>Webb (2007) の自己充足アイテムセット，Webb (2011) の生産的ルールフィルタリング，LAMP (Terada+ 2013) の検定可能パターン数最小化，Llinares-López ら (2015) の Tarone + Westfall-Young (1993) を組み合わせた高速有意パターンマイニング，Pellegrina &amp; Vandin (2020) の拡張等がある。Lijffijt ら (2014) は最大エントロピーモデルの逐次更新により非冗長な有意パターン集合を選択した。</p>
-<p>これらは二群間の頻度差を検定するが，本研究ではパターンサポートの<strong>時間的変動</strong>と<strong>外部イベント</strong>の関連を検定する点が異なる。円形シフト置換検定はサロゲートデータ法 (Theiler+ 1992, Haiminen+ 2008) に基づき，自己相関構造を保存した分布自由な検定を実現する。全仮説にグローバル BH 補正 (Benjamini &amp; Hochberg 1995) を適用し，依存仮説への拡張 (Benjamini &amp; Yekutieli 2001) によりアイテム共有パターン間の正相関下でも FDR 制御が保証される。</p>
+<p>Webb (2007) の自己充足アイテムセット，Webb (2011) の生産的ルールフィルタリング，LAMP (Terada+ 2013) の検定可能パターン数最小化，Llinares-López ら (2015) の Tarone + Westfall-Young (1993) を組み合わせた高速有意パターンマイニング等がある。</p>
+<p>これらは二群間の頻度差を検定するが，本研究ではパターンサポートの<strong>時間的変動</strong>と<strong>外部イベント</strong>の関連を検定する点が異なる。円形シフト置換検定はサロゲートデータ法 (Theiler+ 1992, Haiminen+ 2008) に基づき，自己相関構造を保存した分布自由な検定を実現する。全仮説にグローバル BH 補正 (Benjamini &amp; Hochberg 1995) を適用し，依存仮説への拡張 (Benjamini &amp; Yekutieli 2001) は PRDS 条件下での FDR 制御を示しているが，実データにおける PRDS 条件の厳密な検証は一般に困難であり，本稿では実務的妥当性に基づいて適用する。</p>
 
 
 <!-- ===== 3. 問題定義 ===== -->
@@ -383,7 +382,7 @@
 
 <h3>イベント帰属問題</h3>
 <div class="box accent">
-  <p style="margin:0;font-size:15px"><strong>定義:</strong> 頻出パターン集合 F，サポート時系列 {s_P}，外部イベント集合 E，有意水準 α が与えられたとき，s_P の変化点がイベント e の時間窓と統計的に有意に関連する<strong>全ての組 (P, e) ∈ F × E</strong> を，<strong class="red">FDR ≤ α</strong> を保ちながら同定する。</p>
+  <p style="margin:0;font-size:15px"><strong>定義:</strong> 頻出パターン集合 F，サポート時系列 {s_P}，外部イベント集合 E，有意水準 α が与えられたとき，s_P の閾値交差変化点がイベント e の時間窓と統計的に有意に関連する<strong>全ての組 (P, e) ∈ F × E</strong> を，<strong class="red">FDR ≤ α</strong> を保ちながら同定する。これは時間的共起の検定であり，因果効果の立証ではない。</p>
 </div>
 
 <h3>3つの技術的課題</h3>
@@ -437,7 +436,7 @@
 <h3>パイプライン全体像</h3>
 <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>密集区間からの変化点抽出</h4><p>Phase 1 の密集区間 [s,e] の端点から上昇変化点 s と下降変化点 e+1 を取得</p></div></div>
 <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>変化量の評価 + フィルタ</h4><p>交差前後 h=20 期間のレベルシフト量を計算。サポート振幅フィルタで仮説数を 90%以上削減</p></div></div>
-<div class="pipe-step"><div class="pipe-num red">3</div><div class="pipe-body"><h4>帰属スコアリング</h4><p>A(P,τ,e) = prox × dir × mag の3要素で変化点–イベント間の関連を定量化</p></div></div>
+<div class="pipe-step"><div class="pipe-num red">3</div><div class="pipe-body"><h4>帰属スコアリング</h4><p>A(P,τ,e) = prox × mag の2要素で変化点–イベント間の関連を定量化（ランキング用指標）</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">4</div><div class="pipe-body"><h4>円形シフト置換検定 + グローバル BH 補正</h4><p>分布自由な置換検定で p 値を算出し，全仮説にBH手続きを適用して FDR ≤ α を制御</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">5</div><div class="pipe-body"><h4>アイテム重複排除（Union-Find）</h4><p>副次パターンの連鎖的偽陽性を連結成分分析で除去。各成分でスコア最大のパターンのみ保持</p></div></div>
 
@@ -472,25 +471,21 @@
 <!-- ── Step 3 ── -->
 <h3 id="step3">4.3 Step 3: 帰属スコアリング</h3>
 <p>パターン P の変化点 τ と各イベント e に対して，時間的関連を定量化する帰属スコアを計算する。</p>
+<p class="small">本フレームワークはスコア関数の具体的形状に依存しない一般構造を持つ（Step 4 の置換検定が最終判定を行うため）。本稿では最小限のインスタンスとして以下を採用:</p>
 <div class="formula" style="font-size:16px;text-align:center">
-  A(P, τ, e) = <span class="red" style="font-weight:900">prox</span>(τ, e) × dir(τ, e) × <span class="red" style="font-weight:900">mag</span>(τ)
+  A(P, τ, e) = <span class="red" style="font-weight:900">prox</span>(τ, e) × <span class="red" style="font-weight:900">mag</span>(τ)
 </div>
 
-<div class="grid-3">
+<div class="grid-2">
   <div class="box">
     <h4>近接度 prox</h4>
     <div class="formula">exp(−d(τ,e) / σ)</div>
     <p class="small" style="margin:8px 0 0">d(τ,e) = min(|τ−t_s|, |τ−t_e|)<br>変化点からイベント境界までの最小距離に基づく指数カーネル。σ で減衰速度を制御（デフォルト σ = W = 50）。</p>
   </div>
-  <div class="box">
-    <h4>方向整合性 dir</h4>
-    <div class="formula">1.0 : 開始時に上昇 or 終了時に下降<br>0.5 : その他</div>
-    <p class="small" style="margin:8px 0 0">イベント開始でサポート上昇，終了で下降という直感的な期待を符号化。整合しない場合もスコアをゼロにはせず半減。</p>
-  </div>
   <div class="box" style="border-color:var(--c-red);background:var(--c-red-bg)">
-    <h4>変化量 mag <span class="red">★最重要</span></h4>
+    <h4>変化量 mag</h4>
     <div class="formula">|s̄⁺(τ) − s̄⁻(τ)|</div>
-    <p class="small" style="margin:8px 0 0">アブレーション実験で最重要と判明。除去すると F1: 1.0→0.33 に急落（後述）。植え込み信号とデコイの弁別に最も寄与。</p>
+    <p class="small" style="margin:8px 0 0">交差前後のレベルシフト量。アブレーション実験（EX2）で proximity と相補的に機能することを実証。</p>
   </div>
 </div>
 
@@ -539,14 +534,14 @@
 
 <div class="box">
   <h4>p値膨張のメカニズム</h4>
-  <p class="small" style="margin:0">未補正 p = 0.020–0.024（十分小）→ BH補正で 0.024 × 23/1 ≈ <strong class="red">0.114</strong> に膨張 → α = 0.05 を超過し α = 0.20 で検出可能。サポート振幅フィルタが仮説数を 310→23 に削減してBH検出力を維持し，さらに重複排除が第2段フィルタとして機能する。</p>
+  <p class="small" style="margin:0">未補正 p = 0.020–0.024（十分小）→ BH補正で 0.024 × 23/1 ≈ <strong class="red">0.114</strong> に膨張 → α = 0.05 では超過するが α = 0.10 で検出可能。サポート振幅フィルタが仮説数を大幅削減してBH検出力を維持し，さらに重複排除が第2段フィルタとして機能する。</p>
 </div>
 
 <!-- ── Step 5 ── -->
 <h3 id="step5">4.5 Step 5: アイテム重複排除（Union-Find）</h3>
 
 <h4>副次パターン問題</h4>
-<p>外部イベントがアイテム i の出現頻度を増加させると，i を含む<strong>全ての</strong>パターンのサポートが相関して増加する。例えば，真のパターン {1001, 1002} の場合，{78, 1001}, {155, 1002} 等の副次パターンも共有アイテム経由でサポートが連動変動し，置換検定でも有意と判定されてしまう。</p>
+<p>外部イベントがアイテム i の出現頻度を増加させると，i を含む<strong>全ての</strong>パターンのサポートが相関して増加する。例えば，真のパターン {5, 15} の場合，{5, 42}, {15, 78} 等の副次パターンも共有アイテム経由でサポートが連動変動し，置換検定でも有意と判定されてしまう。</p>
 <p><strong>統計検定だけでは解消できない:</strong> 副次パターンも実際にサポートが変動しているため。</p>
 
 <h4>Union-Find クラスタリングによる解決</h4>
@@ -584,8 +579,8 @@
 </div>
 
 <div class="box">
-  <h4>正当性</h4>
-  <p class="small" style="margin:0">真のパターン P* = {i₁, i₂} は全アイテムが同時にブーストされるため副次パターン P' = {i₁, j} よりサポート変動が大きく，A* > A(P', e) となる。よって P* が保持され P' は除去される。計算量は O(R × k)（有意結果数 × パターン最大長）であり，置換検定に比して無視可能。</p>
+  <h4>正当性（簡約的独立出現モデル下）</h4>
+  <p class="small" style="margin:0">各アイテムの出現が独立と仮定すると，真のパターン P* = {i₁, i₂} は全アイテムが同時にブーストされるため副次パターン P' = {i₁, j} よりサポート変動が大きく，A* > A(P', e) となる。よって P* が保持され P' は除去される。ただし，アイテム間の強い相関がある場合には順序が逆転しうる（EX6 Correlated条件で確認）。計算量は O(R × k)。</p>
 </div>
 
 <!-- ── 計算量 ── -->
@@ -610,9 +605,9 @@
     <h4>合成データ生成モデル</h4>
     <ol style="font-size:14px">
       <li>ベース語彙 |I|=200，各アイテム独立に確率 p_base=0.03 で出現</li>
-      <li>植え込みパターン P_k = {a_k, b_k}（語彙外 ID ≥ 1001）と対応イベント e_k を定義</li>
+      <li>植え込みパターン P_k = {a_k, b_k}（語彙内アイテム）と対応イベント e_k を定義。ベースラインサポートが既に存在する現実的条件</li>
       <li>イベント活性期間 [t_s, t_e] 内の各トランザクションに確率 β でパターンの全アイテムを同時挿入</li>
-      <li>デコイイベント（GT に含まれない偽イベント）をランダム配置（ブーストなし）</li>
+      <li>Type B（イベント非対応密集パターン）とType C（デコイイベント）を配置</li>
     </ol>
     <p class="small">GT = (植え込みパターン P_k, イベント e_k) の組。評価指標: 厳密一致の Precision / Recall / F1。</p>
   </div>
@@ -625,7 +620,7 @@
         <tr><td>最大パターン長 L</td><td>2</td></tr>
         <tr><td>近接度 σ</td><td>W = 50</td></tr>
         <tr><td>置換回数 B</td><td>5,000</td></tr>
-        <tr><td>有意水準 α</td><td>0.20</td></tr>
+        <tr><td>有意水準 α</td><td>0.10</td></tr>
         <tr><td>最小サポート振幅 δ</td><td>5</td></tr>
         <tr><td>補正方法</td><td>BH</td></tr>
         <tr><td>重複排除</td><td>有効</td></tr>
@@ -639,8 +634,10 @@
   <thead><tr><th>実験</th><th>目的</th><th>条件</th><th>Seeds</th></tr></thead>
   <tbody>
     <tr><td><strong>EX1</strong></td><td>コア帰属精度</td><td>β感度 + 構造条件（OVERLAP/CONFOUND/DENSE/SHORT）</td><td>5</td></tr>
-    <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/dir/mag）× 3シナリオ</td><td>5</td></tr>
+    <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/mag）× 2シナリオ</td><td>5</td></tr>
+    <tr><td><strong>EX3</strong></td><td>帰無FDR検証</td><td>植え込み信号なし・ランダムイベントで偽発見抑制を確認</td><td>20</td></tr>
     <tr><td><strong>EX5</strong></td><td>実データ検証</td><td>Dunnhumby（276K txn, 30キャンペーン）</td><td>1</td></tr>
+    <tr><td><strong>EX6</strong></td><td>Zipf頑健性</td><td>Zipf分布下での精度低下（F1=0.22–0.40）→ 主要制約</td><td>5</td></tr>
   </tbody>
 </table>
 
@@ -649,9 +646,11 @@
 
 <!-- Tab navigation -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('ex1')">EX1: コア帰属精度</button>
+  <button class="tab-btn active" onclick="showTab('ex1')">EX1: コア精度</button>
   <button class="tab-btn" onclick="showTab('ex2')">EX2: アブレーション</button>
-  <button class="tab-btn" onclick="showTab('ex5')">EX5: 実データ検証</button>
+  <button class="tab-btn" onclick="showTab('ex3')">EX3: 帰無FDR</button>
+  <button class="tab-btn" onclick="showTab('ex5')">EX5: 実データ</button>
+  <button class="tab-btn" onclick="showTab('ex6')">EX6: Zipf</button>
 </div>
 
 <!-- EX1 -->
@@ -663,15 +662,15 @@
       <table class="dt">
         <thead><tr><th>β</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>0.1</td><td>0.60</td><td class="hl">1.00</td><td>0.74</td><td>0.40</td></tr>
-          <tr><td>0.2</td><td>0.64</td><td>0.93</td><td class="hl">0.74</td><td>0.30</td></tr>
-          <tr><td>0.3</td><td>0.57</td><td>0.87</td><td>0.67</td><td>0.30</td></tr>
-          <tr><td>0.5</td><td>0.60</td><td>0.93</td><td>0.73</td><td>0.20</td></tr>
+          <tr><td>0.1</td><td>0.74</td><td>1.00</td><td>0.84</td><td>0.20</td></tr>
+          <tr><td>0.2</td><td>0.80</td><td>1.00</td><td class="hl">0.89</td><td>0.10</td></tr>
+          <tr><td>0.3</td><td>0.87</td><td>1.00</td><td class="hl">0.92</td><td>0.20</td></tr>
+          <tr><td>0.5</td><td>0.85</td><td>1.00</td><td>0.91</td><td class="hl">0.00</td></tr>
         </tbody>
       </table>
     </div>
     <div>
-      <p class="small" style="margin-top:8px"><strong>語彙内ブースト条件</strong>（ベースラインサポートが存在するパターン）で，β=0.1--0.5 の範囲において F1=0.67--0.74 の現実的な検出精度を確認。Recall は 0.87--1.00 と高水準を維持。</p>
+      <p class="small" style="margin-top:8px"><strong>語彙内ブースト条件</strong>（ベースラインサポートが存在するパターン）で，全βで Recall=1.00 を達成。F1=0.84–0.92 と安定。ただし EX1 は植え込み信号が明瞭な設定であり，Zipf条件（EX6）等での一般化は限定的。</p>
     </div>
   </div>
 
@@ -681,9 +680,9 @@
       <table class="dt">
         <thead><tr><th>条件</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
         <tbody>
-          <tr><td>OVERLAP</td><td>0.55</td><td>0.73</td><td>0.63</td><td class="hl">0.00</td></tr>
-          <tr><td>CONFOUND</td><td>0.68</td><td>0.80</td><td>0.73</td><td>0.10</td></tr>
-          <tr><td>DENSE</td><td>0.40</td><td>0.83</td><td>0.54</td><td style="color:var(--c-red);font-weight:700">0.55</td></tr>
+          <tr><td>OVERLAP</td><td>0.85</td><td>1.00</td><td>0.91</td><td class="hl">0.00</td></tr>
+          <tr><td>CONFOUND</td><td>0.73</td><td>0.80</td><td>0.76</td><td>0.10</td></tr>
+          <tr><td>DENSE</td><td>0.51</td><td>0.97</td><td>0.67</td><td style="color:var(--c-red);font-weight:700">0.55</td></tr>
           <tr><td class="hl">SHORT</td><td class="hl">0.78</td><td class="hl">0.93</td><td class="hl">0.85</td><td>0.30</td></tr>
         </tbody>
       </table>
@@ -692,9 +691,9 @@
       <div class="box accent">
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
-          <li><strong>FAR</strong>: OVERLAP は完全棄却（0.00），DENSE では 0.55 と課題あり</li>
-          <li><strong>SHORT</strong>（短イベント）が最高 F1=0.85 -- 急峻な変化が検出に有利</li>
-          <li>語彙内ブースト条件で現実的な検出精度を確認</li>
+          <li><strong>OVERLAP</strong>: F1=0.91, FAR=0.00 — 時間重複下でも高精度</li>
+          <li><strong>DENSE</strong>: FAR=0.55 と最大 — 高密度条件は主要な制約</li>
+          <li><strong>SHORT</strong>: F1=0.85 — 急峻な変化は検出に有利</li>
         </ul>
       </div>
     </div>
@@ -708,38 +707,63 @@
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>構成</th><th>Scenario A<br>(prox)</th><th>Scenario B<br>(dir)</th><th>Scenario C<br>(mag)</th></tr></thead>
+        <thead><tr><th>構成</th><th>Scenario A<br>(prox必要)</th><th>Scenario B<br>(mag必要)</th></tr></thead>
         <tbody>
-          <tr><td class="hl">Full (prox×dir×mag)</td><td class="hl">1.00</td><td>0.73</td><td class="hl">1.00</td></tr>
-          <tr><td>No dir (prox×mag)</td><td>1.00</td><td>0.73</td><td>1.00</td></tr>
-          <tr><td>No prox (dir×mag)</td><td>1.00</td><td>0.73</td><td>0.93</td></tr>
-          <tr style="color:var(--c-red)"><td><strong>No mag (prox×dir)</strong></td><td><strong>0.60</strong></td><td>0.73</td><td><strong>0.60</strong></td></tr>
-          <tr><td>mag only</td><td>1.00</td><td>0.73</td><td>0.93</td></tr>
-          <tr><td>prox only</td><td>0.80</td><td>0.73</td><td>0.60</td></tr>
+          <tr><td class="hl">Full (prox×mag)</td><td class="hl">1.00</td><td class="hl">0.87</td></tr>
+          <tr><td>mag のみ（prox除去）</td><td>1.00</td><td>0.73</td></tr>
+          <tr style="color:var(--c-red)"><td><strong>prox のみ（mag除去）</strong></td><td><strong>0.60</strong></td><td><strong>0.30</strong></td></tr>
         </tbody>
       </table>
     </div>
     <div>
       <div class="box accent">
-        <h4>Magnitude が支配的</h4>
-        <p class="small" style="margin:0"><strong>mag 除去で F1 低下</strong>（Scenario A: 1.00→0.60, Scenario C: 1.00→0.60）。prox は副次的寄与（No prox で Scenario C が 1.00→0.93）。<strong>dir は独立効果なし</strong>（No dir でも全シナリオ変化なし）。</p>
+        <h4>proximity と magnitude が相補的</h4>
+        <p class="small" style="margin:0"><strong>mag 除去で F1 が大幅低下</strong>（Scenario A: 1.00→0.60, Scenario B: 0.87→0.30）。magnitude が帰属精度に最も寄与し、proximity と組み合わせることで安定した高精度を達成（F1 = 0.87–1.00）。</p>
       </div>
       <div class="chart-container" style="margin-top:16px">
         <svg viewBox="0 0 300 100" width="100%">
           <text x="10" y="25" fill="#666" font-size="10">Full</text>
           <rect x="80" y="12" width="210" height="22" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="12" width="210" height="22" rx="4" fill="#d32f2f"/>
-          <text x="185" y="27" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 1.00</text>
-          <text x="10" y="55" fill="#666" font-size="10">No mag</text>
+          <rect x="80" y="12" width="183" height="22" rx="4" fill="#d32f2f"/>
+          <text x="171" y="27" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.87</text>
+          <text x="10" y="55" fill="#666" font-size="10">mag only</text>
           <rect x="80" y="42" width="210" height="22" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="42" width="126" height="22" rx="4" fill="#888"/>
-          <text x="143" y="57" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.60</text>
+          <rect x="80" y="42" width="153" height="22" rx="4" fill="#888"/>
+          <text x="156" y="57" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.73</text>
           <text x="10" y="85" fill="#666" font-size="10">prox only</text>
           <rect x="80" y="72" width="210" height="22" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="72" width="168" height="22" rx="4" fill="#bbb"/>
-          <text x="164" y="87" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.80</text>
+          <rect x="80" y="72" width="63" height="22" rx="4" fill="#bbb"/>
+          <text x="150" y="87" fill="#bbb" font-size="10" font-weight="700">F1 = 0.30</text>
         </svg>
-        <p class="small" style="margin-top:4px;text-align:center">Scenario A での比較</p>
+        <p class="small" style="margin-top:4px;text-align:center">Scenario B（mag必要）での比較</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EX3 -->
+<div class="tab-panel" id="panel-ex3">
+
+  <h4>帰無条件下のFDR制御検証</h4>
+  <p class="small">植え込み信号なし（帰無仮説）のデータで，パイプラインが偽発見を抑制できるか検証。5件のランダムイベント × 20 seeds。</p>
+
+  <div class="grid-2">
+    <div>
+      <table class="dt">
+        <thead><tr><th>指標</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td>Seeds数</td><td>20</td></tr>
+          <tr><td>平均パターン数</td><td>86.5</td></tr>
+          <tr><td>平均有意帰属数</td><td class="hl">0.00</td></tr>
+          <tr><td>最大有意帰属数</td><td class="hl">0</td></tr>
+          <tr><td>全seedで有意帰属=0</td><td class="hl">20/20 (100%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="box accent">
+        <h4>帰無条件で偽発見を完全抑制</h4>
+        <p class="small" style="margin:0">全20 seedで有意帰属数が0であり，BH手続きと円形シフト置換検定が帰無条件下で過剰な偽発見を生じないことを経験的に確認。EX1のRecall=1.00と合わせて，検出力と偽発見抑制のバランスを実証。</p>
       </div>
     </div>
   </div>
@@ -759,12 +783,10 @@
           <tr><td>トランザクション数</td><td class="hl">276,484</td></tr>
           <tr><td>パターン数</td><td>955</td></tr>
           <tr><td>キャンペーン数</td><td>30</td></tr>
-          <tr><td>重複排除前の有意帰属数</td><td>765</td></tr>
-          <tr><td>重複排除後の有意帰属数</td><td class="hl">91</td></tr>
-          <tr><td>重複排除による削減率</td><td class="hl">88%</td></tr>
+          <tr><td>重複排除後の有意帰属数</td><td class="hl">124</td></tr>
           <tr><td>帰属のあるキャンペーン数</td><td class="hl">30/30</td></tr>
-          <tr><td>キャンペーンあたり平均帰属数</td><td>3.0</td></tr>
-          <tr><td>処理時間</td><td>593秒</td></tr>
+          <tr><td>キャンペーンあたり平均帰属数</td><td>4.1</td></tr>
+          <tr><td>処理時間</td><td>595秒</td></tr>
         </tbody>
       </table>
     </div>
@@ -773,8 +795,8 @@
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
           <li><strong>カバレッジ 100%</strong>: 全30キャンペーンに帰属を割り当て</li>
-          <li><strong>重複排除で 765→91件</strong>（88%削減）-- 分析者にとって管理可能な帰属数</li>
-          <li>キャンペーンあたり平均 <strong>3.0件</strong> の帰属 -- 解釈可能な粒度</li>
+          <li><strong>重複排除で 493→124件</strong>（76%削減）-- 分析者にとって管理可能な帰属数</li>
+          <li>キャンペーンあたり平均 <strong>4.1件</strong> の帰属 -- 解釈可能な粒度</li>
         </ul>
       </div>
       <div class="chart-container" style="margin-top:16px">
@@ -782,15 +804,42 @@
           <text x="10" y="35" fill="#666" font-size="11">排除前</text>
           <rect x="80" y="20" width="300" height="28" rx="4" fill="#f0f0f0"/>
           <rect x="80" y="20" width="300" height="28" rx="4" fill="#d32f2f" opacity="0.15"/>
-          <text x="90" y="39" fill="#d32f2f" font-size="11" font-weight="700">765 帰属</text>
+          <text x="90" y="39" fill="#d32f2f" font-size="11" font-weight="700">493 帰属</text>
 
           <text x="10" y="80" fill="#666" font-size="11">排除後</text>
           <rect x="80" y="65" width="300" height="28" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="65" width="36" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
-          <text x="120" y="84" fill="#d32f2f" font-size="11" font-weight="700">91 帰属</text>
+          <rect x="80" y="65" width="76" height="28" rx="4" fill="#d32f2f" opacity="0.3"/>
+          <text x="164" y="84" fill="#d32f2f" font-size="11" font-weight="700">124 帰属</text>
 
-          <text x="250" y="100" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">88% 削減</text>
+          <text x="250" y="100" text-anchor="middle" fill="#d32f2f" font-size="12" font-weight="700">76% 削減</text>
         </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EX6 -->
+<div class="tab-panel" id="panel-ex6">
+
+  <h4>Zipf分布下での頑健性</h4>
+  <p class="small">現実的なアイテム頻度分布（Zipf / べき乗則）下でのパイプライン精度を検証。EX1と同一の信号構造だがアイテム頻度を非一様に。</p>
+
+  <div class="grid-2">
+    <div>
+      <table class="dt">
+        <thead><tr><th>条件</th><th>Precision</th><th>Recall</th><th>F1</th><th>FAR</th></tr></thead>
+        <tbody>
+          <tr><td>Zipf-1.0</td><td>0.26</td><td>0.93</td><td>0.40</td><td>0.30</td></tr>
+          <tr><td>Zipf-1.5</td><td>0.20</td><td>0.87</td><td>0.32</td><td>0.10</td></tr>
+          <tr><td>Correlated</td><td>0.14</td><td>0.47</td><td>0.22</td><td>0.10</td></tr>
+          <tr class="dim"><td><em>参考: EX1一様 (β=0.3)</em></td><td><em>0.87</em></td><td><em>1.00</em></td><td><em>0.92</em></td><td><em>0.20</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="box accent">
+        <h4>主要な制約: Zipf分布下の精度低下</h4>
+        <p class="small" style="margin:0"><strong>F1 = 0.22–0.40</strong> と一様分布 (0.92) から大幅低下。高頻度アイテムの自然変動がノイズ仮説を大量生成し Precision を低下させる。本手法は現状では<strong>アイテム頻度が中程度に均質</strong>か，大規模イベントによる明確な変動がある条件を主対象とする。</p>
       </div>
     </div>
   </div>
@@ -798,24 +847,24 @@
 
 <h4 style="margin-top:32px">結果まとめ</h4>
 <div class="stat-row">
-  <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT条件)</div></div>
-  <div class="stat-card"><div class="val">88%</div><div class="lbl">実データ帰属削減<br>(重複排除効果)</div></div>
-  <div class="stat-card"><div class="val">100%</div><div class="lbl">キャンペーン<br>カバレッジ</div></div>
-  <div class="stat-card"><div class="val red">mag</div><div class="lbl">支配的<br>スコア要素</div></div>
+  <div class="stat-card"><div class="val red">0.92</div><div class="lbl">最高 F1<br>(β=0.3条件)</div></div>
+  <div class="stat-card"><div class="val">76%</div><div class="lbl">実データ帰属削減<br>(重複排除効果)</div></div>
+  <div class="stat-card"><div class="val">0/20</div><div class="lbl">帰無条件<br>偽発見数</div></div>
+  <div class="stat-card"><div class="val red">prox+mag</div><div class="lbl">相補的<br>スコア要素</div></div>
 </div>
 
 
 <!-- ===== 6. 結論 ===== -->
 <h2 id="conclusion">6. 結論</h2>
 
-<p>本稿では，頻出パターンのサポート時系列における変動を外部イベントに統計的に帰属させる<strong>イベント帰属パイプライン</strong>を提案した。</p>
+<p>本稿では，頻出パターンのサポート変動を外部イベントに帰属させる<strong>イベント帰属問題</strong>を形式的に定義し，FDR制御付き多重検定問題としての構造的課題を同定した。この問題に対する解法として<strong>統計的帰属フレームワーク</strong>を構成した。</p>
 
 <div class="box">
   <h4>5ステップの統合</h4>
   <ol style="font-size:14px">
     <li>Phase 1（Apriori-window）で得られた密集区間からの変化点抽出</li>
     <li>交差前後のレベル差による変化量評価</li>
-    <li>時間的近接度・方向整合性・変化量に基づく帰属スコアリング</li>
+    <li>近接度・変化量に基づく帰属スコアリング（ランキング用指標）</li>
     <li>円形シフト置換検定とグローバル BH FDR 補正</li>
     <li>Union-Find クラスタリングによるアイテム重複排除</li>
   </ol>
@@ -823,9 +872,11 @@
 
 <h3>主要な知見</h3>
 <ul>
-  <li>語彙内ブースト条件で <strong>F1 = 0.54--0.85</strong> の現実的な検出精度を達成し，8条件で多面的に弁別能力を検証（EX1）</li>
-  <li>magnitude が帰属スコアの<strong>支配的構成要素</strong>であり，prox は副次的に寄与（EX2）</li>
-  <li>実データ（Dunnhumby 30キャンペーン）で<strong>カバレッジ100%</strong>を達成し，重複排除で帰属数を<strong>88%削減</strong>（EX5）</li>
+  <li>語彙内ブースト条件で <strong>F1 = 0.67–0.92</strong> の検出精度を達成し，8条件で多面的に弁別能力を検証（EX1）</li>
+  <li>proximity と magnitude が帰属スコアの<strong>相補的構成要素</strong>であり，両方が精度に不可欠（EX2）</li>
+  <li>帰無条件下で全20 seedにおいて有意帰属数が0 — 過剰な偽発見を生じないことを経験的に確認（EX3）</li>
+  <li>実データ（Dunnhumby 30キャンペーン）で<strong>カバレッジ100%</strong>を達成し，重複排除で帰属数を<strong>76%削減</strong>（EX5）</li>
+  <li>Zipf分布下では F1=0.22–0.40 と精度が低下 — アイテム頻度均質性への依存を主要制約として同定（EX6）</li>
 </ul>
 
 <h3>今後の課題</h3>
@@ -836,6 +887,7 @@
       <li>変化点検出手法の拡張（CUSUM・ベイズ変化点検出との比較）</li>
       <li>イベント間の時間的重複が密な場合の帰属精度改善</li>
       <li>効果量ベーススコアリングの精緻化（高ベースライン問題への対応）</li>
+      <li>Zipf分布下での適応的フィルタリング・相対的変化率ベーススコアリング</li>
     </ul>
   </div>
   <div class="box">
