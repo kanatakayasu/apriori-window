@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{21}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -54,6 +54,19 @@ Klaus Julisch.
 \newblock Clustering intrusion detection alarms to support root cause analysis.
 \newblock In \emph{Proc. Annual Computer Security Applications Conference
   (ACSAC)}, pages 4--13, 2003.
+
+\bibitem[Garcia et~al.(2014)Garcia, Grill, Stiborek, and
+  Zunino]{garcia2014empirical}
+Sebastian Garcia, Martin Grill, Jan Stiborek, and Alejandro Zunino.
+\newblock An empirical comparison of botnet detection methods.
+\newblock \emph{Computers \& Security}, 45:\penalty0 100--123, 2014.
+
+\bibitem[Lancaster et~al.(2018)Lancaster, Iatsenko, Pidde, Ticcinelli, and
+  Stefanovska]{lancaster2018surrogate}
+Gemma Lancaster, Dmytro Iatsenko, Aleksandra Pidde, Valentina Ticcinelli, and
+  Aneta Stefanovska.
+\newblock Surrogate data for hypothesis testing of physical systems.
+\newblock \emph{Physics Reports}, 748:\penalty0 1--60, 2018.
 
 \bibitem[Laxman and Sastry(2006)]{laxman2006survey}
 Srivatsan Laxman and PS~Sastry.
