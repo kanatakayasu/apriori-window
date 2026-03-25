@@ -44,17 +44,18 @@ Precision，Recall，F1を用いる．
 \midrule
 ウィンドウサイズ $W$ & 50 \\
 最小サポート $\theta$ & 3 \\
-最大パターン長 $L$ & 2 \\
+最大パターン長 $L$ & 2\footnotemark \\
 変化点検出法 & 閾値交差 \\
 $\sigma$ & $W$ (= 50) \\
 置換回数 $B$ & 5{,}000 \\
-有意水準 $\alpha$ & 0.20 \\
+有意水準 $\alpha$ & 0.10 \\
 補正方法 & BH \\
 最小サポート振幅 $\delta$ & 5 \\
 重複排除 & 有効 \\
 \bottomrule
 \end{tabular}
 \end{table}
+\footnotetext{本パイプラインは2アイテムセットを対象として設計されている（\ref{sec:method}節の前提条件を参照）．}
 
 \subsubsection{パイプライン動作例}
 
@@ -458,12 +459,12 @@ v3: +アイテム重複排除 & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
 \end{itemize}
 
 \paragraph{実効的偽発見率}
-名目上の有意水準は$\alpha = 0.20$であるが，
+名目上の有意水準は$\alpha = 0.10$であるが，
 E1a--E1cの全3データセット・全seedにおいて，
 重複排除後の最終出力ではFP = 0（偽発見率 0\%）を達成している．
 これは，BH手続きによるFDR制御と重複排除の組合せが
 名目$\alpha$よりも遥かに保守的に作用することを実証しており，
-$\alpha = 0.20$ という設定が実用上の偽発見リスクを増大させないことを裏付ける．
+$\alpha = 0.10$ という設定が実用上の偽発見リスクを増大させないことを裏付ける．
 
 % ------------------------------------------------------------------
 \subsection{パラメータ・ロバスト性}
@@ -494,7 +495,7 @@ $\beta$ (0.1--0.8) & 0.04--1.00 & \textbf{1.00} \\
 \subsection{スコア構成要素のアブレーション}
 \label{sec:exp_ablation_score}
 
-帰属スコア $A = \text{prox} \times \text{dir} \times \text{mag}$ の
+帰属スコア $A = \text{prox} \times \text{mag}$ の
 各構成要素の寄与を評価するため，E1a条件（$\beta=0.5$，植え込み3件，
 デコイ2件，5 seeds）でアブレーション実験を行った（表~\ref{tab:ablation_score}）．
 
@@ -506,10 +507,7 @@ $\beta$ (0.1--0.8) & 0.04--1.00 & \textbf{1.00} \\
 \toprule
 構成 & Precision & Recall & F1 \\
 \midrule
-Full: $\text{prox} \times \text{dir} \times \text{mag}$ & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
-$\text{prox} \times \text{mag}$（dir除去） & 1.00 & 1.00 & 1.00 \\
-$\text{dir} \times \text{mag}$（prox除去） & 1.00 & 1.00 & 1.00 \\
-$\text{prox} \times \text{dir}$（mag除去） & 0.33 & 0.33 & 0.33 \\
+Full: $\text{prox} \times \text{mag}$ & \textbf{1.00} & \textbf{1.00} & \textbf{1.00} \\
 mag のみ & 1.00 & 1.00 & 1.00 \\
 prox のみ & 0.60 & 0.60 & 0.60 \\
 \bottomrule
@@ -518,13 +516,11 @@ prox のみ & 0.60 & 0.60 & 0.60 \\
 
 \textbf{magnitude が最も重要な構成要素}であり，
 mag を含む全構成でF1 = 1.0を達成する一方，
-mag を除去すると F1 = 0.33 に急落する．
+mag を除去すると prox のみ（F1 = 0.60）となり弁別力が低下する．
 これは，置換検定において変化量の大きさが
 植え込み信号とデコイの弁別に最も寄与するためである．
-proximity のみ（F1 = 0.60）でも一定の弁別力を示すが，
+proximity のみでも一定の弁別力を示すが，
 時間窓の重複するデコイとの区別が不十分となる．
-direction は本実験条件では冗長であり，
-prox と mag の組合せで十分な弁別力が得られることを示している．
 
 % ------------------------------------------------------------------
 \subsection{ベースライン比較}
@@ -628,7 +624,7 @@ Dunnhumby ``The Complete Journey'' データセット~\cite{dunnhumby2014complet
 
 \subsubsection{設定}
 
-$W = 300$, $\theta = 5$, $L = 2$, $B = 5{,}000$, $\alpha = 0.20$（BH補正），
+$W = 300$, $\theta = 5$, $L = 2$, $B = 5{,}000$, $\alpha = 0.10$（BH補正），
 $\delta = 3$, 重複排除有効．
 Phase 1 で955パターン（$|P| \geq 2$）が検出された．
 
