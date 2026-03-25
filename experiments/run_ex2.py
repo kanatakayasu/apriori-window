@@ -1,16 +1,14 @@
 """
-EX2: Score Component Ablation — How do prox, dir, mag contribute under realistic conditions?
+EX2: Score Component Ablation — How do prox and mag contribute under realistic conditions?
 
-Three designed scenarios where each component is essential:
+Two designed scenarios where each component is essential:
   - Scenario A (prox required): Same pattern, two dense intervals — one near event (causal),
     one far from event (coincidental). Without prox, both get equal scores.
-  - Scenario B (dir required): Near event start, one pattern's support rises (consistent),
-    another's falls (inconsistent). Without dir, both get attributed.
-  - Scenario C (mag required): Two events affect the same pattern — one with large change,
+  - Scenario B (mag required): Two events affect the same pattern — one with large change,
     one with small change. Without mag, both get equal weight.
 
-Ablation modes: Full, no_dir, no_prox, no_mag, mag_only, prox_only
-All 6 modes are tested on each scenario (3 × 6 = 18 conditions × 5 seeds).
+Ablation modes: Full (prox*mag), mag_only, prox_only
+All 3 modes are tested on each scenario (2 × 3 = 6 conditions × 5 seeds).
 """
 import json
 import sys
@@ -38,12 +36,9 @@ RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex2"
 DATA_DIR = Path(__file__).resolve().parent / "data" / "ex2"
 
 ABLATION_MODES = OrderedDict([
-    ("Full (prox*dir*mag)", None),
-    ("No direction (prox*mag)", "no_dir"),
-    ("No proximity (dir*mag)", "no_prox"),
-    ("No magnitude (prox*dir)", "no_mag"),
-    ("Magnitude only", "mag_only"),
-    ("Proximity only", "prox_only"),
+    ("Full (prox*mag)", None),
+    ("No proximity (mag only)", "no_prox"),
+    ("No magnitude (prox only)", "no_mag"),
 ])
 
 
@@ -76,37 +71,7 @@ def _make_scenario_a(seed=42):
 
 
 def _make_scenario_b(seed=42):
-    """Scenario B: dir is required.
-
-    Near event E1 (t=1000-1500):
-      - Pattern [5, 15]: support RISES (consistent with event causing increase)
-      - Pattern [25, 35]: support DROPS (inconsistent — decline happens to coincide)
-
-    We plant [5, 15] as a true causal signal (boosted during event).
-    We use an UnrelatedDensePattern for [25, 35] that is active BEFORE the event
-    and stops at event start (simulating a decline during event).
-    Only [5, 15]→E1 is ground truth.
-    """
-    return SyntheticConfig(
-        n_transactions=5000,
-        n_items=200,
-        p_base=0.03,
-        planted_signals=[
-            # Causal: rises during event
-            PlantedSignal([5, 15], "E1", "Campaign", 1000, 1500, boost_factor=0.4,
-                          baseline_prob=0.03),
-        ],
-        unrelated_dense_patterns=[
-            # Pre-event boost that ends at event start (creates support DROP at event)
-            UnrelatedDensePattern([25, 35], 500, 1000, boost_factor=0.4),
-        ],
-        decoy_events=[],
-        seed=seed,
-    )
-
-
-def _make_scenario_c(seed=42):
-    """Scenario C: mag is required.
+    """Scenario B: mag is required.
 
     Pattern [5, 15] is affected by two events:
       - E1 (t=800-1200): large boost (0.5) → large magnitude change
@@ -134,8 +99,7 @@ def _make_scenario_c(seed=42):
 
 SCENARIOS = {
     "A_prox_required": _make_scenario_a,
-    "B_dir_required": _make_scenario_b,
-    "C_mag_required": _make_scenario_c,
+    "B_mag_required": _make_scenario_b,
 }
 
 

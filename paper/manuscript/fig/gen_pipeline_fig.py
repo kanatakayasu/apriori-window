@@ -27,7 +27,7 @@ boxes = [
     # (x, y, w, h, text, bg_color, border_color)
     (0.5, 10.2, 9, 1.2, 'Input: Patterns $\\mathcal{F}$, Dense Intervals, Events $\\mathcal{E}$', c_input, c_border_input),
     (0.5, 8.2, 9, 1.4, 'Step 1–2: Change Point Extraction\n& Magnitude Evaluation', c_step, c_border_step),
-    (0.5, 6.2, 9, 1.4, 'Step 3: Attribution Scoring\n$A = \\mathrm{prox} \\times \\mathrm{dir} \\times \\mathrm{mag}$', c_step, c_border_step),
+    (0.5, 6.2, 9, 1.4, 'Step 3: Attribution Scoring\n$A = \\mathrm{prox} \\times \\mathrm{mag}$', c_step, c_border_step),
     (0.5, 4.2, 9, 1.4, 'Step 4: Circular-Shift Permutation Test\n& Global BH Correction', c_step, c_border_step),
     (0.5, 2.2, 9, 1.4, 'Step 5: Union-Find Deduplication\n(Item-Overlap Graph)', c_step, c_border_step),
     (0.5, 0.2, 9, 1.4, 'Output: Significant Attributions\n$(P, e)$ pairs with FDR $\\leq \\alpha$', c_output, c_border_output),

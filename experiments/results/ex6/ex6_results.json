@@ -4,7 +4,7 @@
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -17,30 +17,182 @@
           "seed": 0
         },
         "n_transactions": 5000,
-        "n_patterns": 327,
+        "n_patterns": 226,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 506.203250028193,
+        "n_significant": 10,
+        "precision": 0.3,
+        "recall": 1.0,
+        "f1": 0.4615384615384615,
+        "tp": 3,
+        "fp": 7,
+        "fn": 0,
+        "time_phase1_ms": 1008.9527499512769,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 78071.23637496261,
-        "time_total_ms": 78577.4396249908,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 3768.3574160328135,
+        "time_total_ms": 4777.31016598409,
+        "significant_attributions": [
           {
             "pattern": [
               25,
               35
             ],
-            "event_id": "E2"
+            "change_time": 2642,
+            "change_direction": "down",
+            "change_magnitude": 7.3,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 9.393722006657079,
+            "p_value": 0.011197760447910418,
+            "adjusted_p_value": 0.06393315931408314
           },
+          {
+            "pattern": [
+              25,
+              37
+            ],
+            "change_time": 2409,
+            "change_direction": "down",
+            "change_magnitude": 2.8500000000000005,
+            "event_name": "Decoy_2",
+            "event_start": 2121,
+            "event_end": 2421,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 5.074630555725333,
+            "p_value": 0.02399520095980804,
+            "adjusted_p_value": 0.07082693050431009
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1383,
+            "change_direction": "down",
+            "change_magnitude": 4.449999999999999,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 7.049896238434824,
+            "p_value": 0.015596880623875225,
+            "adjusted_p_value": 0.06451436985330207
+          },
+          {
+            "pattern": [
+              14,
+              31
+            ],
+            "change_time": 1391,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.835270211411272,
+            "attribution_score": 1.5910539528669974,
+            "p_value": 0.009798040391921616,
+            "adjusted_p_value": 0.06393315931408314
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3889,
+            "change_direction": "down",
+            "change_magnitude": 7.3500000000000005,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 8.693163012452375,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.06393315931408314
+          },
+          {
+            "pattern": [
+              1,
+              31
+            ],
+            "change_time": 3616,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 1.4100104462860468,
+            "p_value": 0.016596680663867228,
+            "adjusted_p_value": 0.06451436985330207
+          },
+          {
+            "pattern": [
+              6,
+              22
+            ],
+            "change_time": 305,
+            "change_direction": "down",
+            "change_magnitude": 3.1,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.5945205479701944,
+            "attribution_score": 2.564031914737595,
+            "p_value": 0.023795240951809637,
+            "adjusted_p_value": 0.07082693050431009
+          },
+          {
+            "pattern": [
+              10,
+              21
+            ],
+            "change_time": 291,
+            "change_direction": "down",
+            "change_magnitude": 2.0999999999999996,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.44932896411722156,
+            "attribution_score": 1.293748491594467,
+            "p_value": 0.02959408118376325,
+            "adjusted_p_value": 0.07082693050431009
+          },
+          {
+            "pattern": [
+              4,
+              41
+            ],
+            "change_time": 279,
+            "change_direction": "down",
+            "change_magnitude": 1.85,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.35345468195878016,
+            "attribution_score": 1.4455207201341609,
+            "p_value": 0.033793241351729654,
+            "adjusted_p_value": 0.07214287479582734
+          },
+          {
+            "pattern": [
+              17,
+              20
+            ],
+            "change_time": 237,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.1525901057568839,
+            "attribution_score": 0.1525901057568839,
+            "p_value": 0.04779044191161767,
+            "adjusted_p_value": 0.07841344352488726
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               45,
@@ -50,19 +202,78 @@
           },
           {
             "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              10,
+              21
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              1,
+              31
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              4,
+              41
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              17,
+              20
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              6,
+              22
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              25,
+              37
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              14,
+              31
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -75,217 +286,228 @@
           "seed": 1
         },
         "n_transactions": 5000,
-        "n_patterns": 322,
+        "n_patterns": 204,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 503.3952919766307,
+        "n_significant": 9,
+        "precision": 0.2222222222222222,
+        "recall": 0.6666666666666666,
+        "f1": 0.3333333333333333,
+        "tp": 2,
+        "fp": 7,
+        "fn": 1,
+        "time_phase1_ms": 1039.062166993972,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 76506.61275000311,
-        "time_total_ms": 77010.00804197975,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          }
-        ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
-      },
-      {
-        "config": {
-          "window_size": 50,
-          "min_support": 10,
-          "max_length": 2,
-          "change_method": "threshold_crossing",
-          "sigma": null,
-          "max_distance": null,
-          "min_magnitude": 0.0,
-          "min_relative_change": 0.0,
-          "global_correction": true,
-          "n_permutations": 5000,
-          "alpha": 0.1,
-          "seed": 2
-        },
-        "n_transactions": 5000,
-        "n_patterns": 319,
-        "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 525.4270829609595,
-        "time_support_series_ms": 0.0,
-        "time_attribution_ms": 76532.09912503371,
-        "time_total_ms": 77057.52620799467,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          }
-        ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
-      },
-      {
-        "config": {
-          "window_size": 50,
-          "min_support": 10,
-          "max_length": 2,
-          "change_method": "threshold_crossing",
-          "sigma": null,
-          "max_distance": null,
-          "min_magnitude": 0.0,
-          "min_relative_change": 0.0,
-          "global_correction": true,
-          "n_permutations": 5000,
-          "alpha": 0.1,
-          "seed": 3
-        },
-        "n_transactions": 5000,
-        "n_patterns": 303,
-        "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 461.526833998505,
-        "time_support_series_ms": 0.0,
-        "time_attribution_ms": 76515.2208750369,
-        "time_total_ms": 76976.74770903541,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
-          {
-            "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
-              45,
-              55
-            ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
-          }
-        ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
-      },
-      {
-        "config": {
-          "window_size": 50,
-          "min_support": 10,
-          "max_length": 2,
-          "change_method": "threshold_crossing",
-          "sigma": null,
-          "max_distance": null,
-          "min_magnitude": 0.0,
-          "min_relative_change": 0.0,
-          "global_correction": true,
-          "n_permutations": 5000,
-          "alpha": 0.1,
-          "seed": 4
-        },
-        "n_transactions": 5000,
-        "n_patterns": 337,
-        "n_change_points_total": 0,
-        "n_significant": 1,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 1,
-        "fn": 3,
-        "time_phase1_ms": 525.5835000425577,
-        "time_support_series_ms": 0.0,
-        "time_attribution_ms": 75105.11183395283,
-        "time_total_ms": 75630.69533399539,
+        "time_attribution_ms": 4413.985625025816,
+        "time_total_ms": 5453.047792019788,
         "significant_attributions": [
           {
             "pattern": [
-              1,
-              13
+              45,
+              55
             ],
-            "change_time": 3545,
+            "change_time": 3892,
             "change_direction": "down",
-            "change_magnitude": 3.450000000000001,
+            "change_magnitude": 8.3,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 8.825176408476718,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.08521152912274688
+          },
+          {
+            "pattern": [
+              19,
+              35
+            ],
+            "change_time": 2385,
+            "change_direction": "up",
+            "change_magnitude": 2.2,
             "event_name": "Decoy_2",
-            "event_start": 3244,
-            "event_end": 3544,
-            "proximity": 0.9801986733067553,
-            "attribution_score": 22.218477871978287,
-            "p_value": 0.0001999600079984003,
-            "adjusted_p_value": 0.04792374858361661
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 5.034607401945479,
+            "p_value": 0.001999600079984003,
+            "adjusted_p_value": 0.08521152912274688
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "change_time": 2376,
+            "change_direction": "down",
+            "change_magnitude": 2.0500000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 2.2119393964042366,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.08969634644499672
+          },
+          {
+            "pattern": [
+              3,
+              7
+            ],
+            "change_time": 2099,
+            "change_direction": "up",
+            "change_magnitude": 2.3,
+            "event_name": "Decoy_2",
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 3.0978566620382004,
+            "p_value": 0.01759648070385923,
+            "adjusted_p_value": 0.09325781902443042
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1390,
+            "change_direction": "down",
+            "change_magnitude": 5.550000000000001,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 7.91862719345831,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.0874539377838718
+          },
+          {
+            "pattern": [
+              150,
+              160
+            ],
+            "change_time": 1073,
+            "change_direction": "up",
+            "change_magnitude": 6.1499999999999995,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5827482523739896,
+            "attribution_score": 6.026113532718453,
+            "p_value": 0.010397920415916816,
+            "adjusted_p_value": 0.08969634644499672
+          },
+          {
+            "pattern": [
+              21,
+              35
+            ],
+            "change_time": 2329,
+            "change_direction": "up",
+            "change_magnitude": 2.05,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.6570468198150567,
+            "attribution_score": 5.869820649427187,
+            "p_value": 0.015996800639872025,
+            "adjusted_p_value": 0.08969634644499672
+          },
+          {
+            "pattern": [
+              5,
+              36
+            ],
+            "change_time": 2657,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 2.2475259490216013,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.0874539377838718
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "change_time": 2376,
+            "change_direction": "down",
+            "change_magnitude": 2.0500000000000003,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.5945205479701944,
+            "attribution_score": 1.9449161604125895,
+            "p_value": 0.015596880623875225,
+            "adjusted_p_value": 0.08969634644499672
           }
         ],
-        "true_positive_pairs": [],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          }
+        ],
         "false_positive_pairs": [
           {
             "pattern": [
-              1,
-              13
+              24,
+              34
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              150,
+              160
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              21,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              3,
+              7
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              36
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              19,
+              35
             ],
             "event_id": "D2"
           }
@@ -297,7 +519,267 @@
               35
             ],
             "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 5,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 5000,
+        "n_patterns": 214,
+        "n_change_points_total": 0,
+        "n_significant": 14,
+        "precision": 0.21428571428571427,
+        "recall": 1.0,
+        "f1": 0.35294117647058826,
+        "tp": 3,
+        "fp": 11,
+        "fn": 0,
+        "time_phase1_ms": 1052.9322089860216,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4699.221457995009,
+        "time_total_ms": 5752.15366698103,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1392,
+            "change_direction": "down",
+            "change_magnitude": 5.15,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 7.357729274531816,
+            "p_value": 0.007798440311937612,
+            "adjusted_p_value": 0.05964191777029209
           },
+          {
+            "pattern": [
+              6,
+              7
+            ],
+            "change_time": 1400,
+            "change_direction": "down",
+            "change_magnitude": 1.7000000000000002,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 1.0,
+            "attribution_score": 2.623116346386636,
+            "p_value": 0.0005998800239952009,
+            "adjusted_p_value": 0.03299340131973605
+          },
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "change_time": 1040,
+            "change_direction": "down",
+            "change_magnitude": 5.3,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.30119421191220214,
+            "attribution_score": 1.5963293231346714,
+            "p_value": 0.07978404319136173,
+            "adjusted_p_value": 0.09989668732920082
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3892,
+            "change_direction": "down",
+            "change_magnitude": 6.4,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 9.249151070512328,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.043991201759648074
+          },
+          {
+            "pattern": [
+              12,
+              56
+            ],
+            "change_time": 3808,
+            "change_direction": "down",
+            "change_magnitude": 2.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.15881742610692068,
+            "attribution_score": 0.31763485221384136,
+            "p_value": 0.08118376324735053,
+            "adjusted_p_value": 0.09989668732920082
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2634,
+            "change_direction": "down",
+            "change_magnitude": 6.6000000000000005,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 7.445383439668206,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.05964191777029209
+          },
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "change_time": 715,
+            "change_direction": "up",
+            "change_magnitude": 6.0,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.6703200460356393,
+            "attribution_score": 6.17673947283901,
+            "p_value": 0.013197360527894421,
+            "adjusted_p_value": 0.07472035004763754
+          },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "change_time": 664,
+            "change_direction": "down",
+            "change_magnitude": 2.0999999999999996,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.5379444375946745,
+            "attribution_score": 1.735156463754524,
+            "p_value": 0.028194361127774445,
+            "adjusted_p_value": 0.08786663719887601
+          },
+          {
+            "pattern": [
+              17,
+              52
+            ],
+            "change_time": 600,
+            "change_direction": "up",
+            "change_magnitude": 2.5,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.14956861922263506,
+            "attribution_score": 0.7345542057104857,
+            "p_value": 0.0615876824635073,
+            "adjusted_p_value": 0.09497165987363275
+          },
+          {
+            "pattern": [
+              16,
+              35
+            ],
+            "change_time": 936,
+            "change_direction": "down",
+            "change_magnitude": 3.45,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.30727873860113125,
+            "attribution_score": 1.5558902749069778,
+            "p_value": 0.06638672265546891,
+            "adjusted_p_value": 0.09725880910774369
+          },
+          {
+            "pattern": [
+              16,
+              29
+            ],
+            "change_time": 2947,
+            "change_direction": "down",
+            "change_magnitude": 1.8500000000000005,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 2.1334352850004077,
+            "p_value": 0.008198360327934412,
+            "adjusted_p_value": 0.05964191777029209
+          },
+          {
+            "pattern": [
+              15,
+              33
+            ],
+            "change_time": 3246,
+            "change_direction": "down",
+            "change_magnitude": 1.8000000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 2.404954199497008,
+            "p_value": 0.014997000599880024,
+            "adjusted_p_value": 0.07472035004763754
+          },
+          {
+            "pattern": [
+              10,
+              17
+            ],
+            "change_time": 2938,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.6838614092123558,
+            "attribution_score": 1.27838195718255,
+            "p_value": 0.016396720655868825,
+            "adjusted_p_value": 0.07515163633939878
+          },
+          {
+            "pattern": [
+              13,
+              19
+            ],
+            "change_time": 3207,
+            "change_direction": "up",
+            "change_magnitude": 2.3000000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.36787944117144233,
+            "attribution_score": 1.491656039807927,
+            "p_value": 0.03679264147170566,
+            "adjusted_p_value": 0.08786663719887601
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               45,
@@ -307,27 +789,698 @@
           },
           {
             "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              12,
+              56
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              10,
+              17
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              17,
+              52
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              6,
+              7
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              16,
+              29
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              15,
+              33
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              13,
+              19
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              16,
+              35
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 1.0,
+        "n_falsely_attributed": 2
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 5,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 5000,
+        "n_patterns": 195,
+        "n_change_points_total": 0,
+        "n_significant": 11,
+        "precision": 0.2727272727272727,
+        "recall": 1.0,
+        "f1": 0.42857142857142855,
+        "tp": 3,
+        "fp": 8,
+        "fn": 0,
+        "time_phase1_ms": 1085.8835409744643,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3926.3900000369176,
+        "time_total_ms": 5012.273541011382,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1066,
+            "change_direction": "up",
+            "change_magnitude": 6.55,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 11.582397725958923,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "change_time": 1057,
+            "change_direction": "down",
+            "change_magnitude": 1.4499999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 1.8613285831166246,
+            "p_value": 0.013397320535892822,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              6,
+              16
+            ],
+            "change_time": 3332,
+            "change_direction": "down",
+            "change_magnitude": 1.7999999999999998,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 2.53193978843666,
+            "p_value": 0.001799640071985603,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              25,
+              38
+            ],
+            "change_time": 3037,
+            "change_direction": "down",
+            "change_magnitude": 1.25,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 1.991535212284467,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              5,
+              36
+            ],
+            "change_time": 3233,
+            "change_direction": "up",
+            "change_magnitude": 1.5,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.14370394977770293,
+            "attribution_score": 0.42988599711187575,
+            "p_value": 0.07398520295940812,
+            "adjusted_p_value": 0.09870902531822402
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1389,
+            "change_direction": "down",
+            "change_magnitude": 8.049999999999999,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 9.778617623592563,
+            "p_value": 0.009398120375924815,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "change_time": 1057,
+            "change_direction": "down",
+            "change_magnitude": 1.4499999999999997,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.4231620823177488,
+            "attribution_score": 0.9814644605321781,
+            "p_value": 0.03839232153569286,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2638,
+            "change_direction": "down",
+            "change_magnitude": 7.550000000000001,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 9.030415172251558,
+            "p_value": 0.006998600279944011,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "change_time": 2708,
+            "change_direction": "up",
+            "change_magnitude": 1.65,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.3134861808826053,
+            "attribution_score": 0.9437403780131175,
+            "p_value": 0.05158968206358728,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3891,
+            "change_direction": "down",
+            "change_magnitude": 5.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.835270211411272,
+            "attribution_score": 7.2516164972819706,
+            "p_value": 0.009998000399920015,
+            "adjusted_p_value": 0.09578564287142571
+          },
+          {
+            "pattern": [
+              5,
+              6
+            ],
+            "change_time": 3917,
+            "change_direction": "down",
+            "change_magnitude": 1.1999999999999997,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 1.7062681762813428,
+            "p_value": 0.05878824235152969,
+            "adjusted_p_value": 0.09578564287142571
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              38
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              6
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              6,
+              16
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              5,
+              36
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 50,
+          "min_support": 5,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "max_distance": null,
+          "min_magnitude": 0.0,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 5000,
+        "n_patterns": 240,
+        "n_change_points_total": 0,
+        "n_significant": 11,
+        "precision": 0.2727272727272727,
+        "recall": 1.0,
+        "f1": 0.42857142857142855,
+        "tp": 3,
+        "fp": 8,
+        "fn": 0,
+        "time_phase1_ms": 1028.7305829697289,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4418.627375038341,
+        "time_total_ms": 5447.3579580080695,
+        "significant_attributions": [
+          {
+            "pattern": [
+              2,
+              5
+            ],
+            "change_time": 1099,
+            "change_direction": "up",
+            "change_magnitude": 2.5500000000000003,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.39851904108451414,
+            "attribution_score": 4.953222085821292,
+            "p_value": 0.020795840831833633,
+            "adjusted_p_value": 0.09424305615067463
+          },
+          {
+            "pattern": [
+              3,
+              9
+            ],
+            "change_time": 797,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.38289288597511206,
+            "attribution_score": 0.7363475679338922,
+            "p_value": 0.04499100179964007,
+            "adjusted_p_value": 0.09487218202617981
+          },
+          {
+            "pattern": [
+              12,
+              24
+            ],
+            "change_time": 918,
+            "change_direction": "down",
+            "change_magnitude": 1.5,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.23223627472975883,
+            "attribution_score": 0.58528217077676,
+            "p_value": 0.05358928214357129,
+            "adjusted_p_value": 0.09487218202617981
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1396,
+            "change_direction": "down",
+            "change_magnitude": 8.0,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 9.031370180786068,
+            "p_value": 0.0027994401119776045,
+            "adjusted_p_value": 0.0647370525894821
+          },
+          {
+            "pattern": [
+              39,
+              41
+            ],
+            "change_time": 1009,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.16202575093388075,
+            "attribution_score": 0.3057297007115837,
+            "p_value": 0.07658468306338732,
+            "adjusted_p_value": 0.09573085382923416
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3888,
+            "change_direction": "down",
+            "change_magnitude": 6.3500000000000005,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 8.085450571202712,
+            "p_value": 0.010197960407918417,
+            "adjusted_p_value": 0.08956103516138879
+          },
+          {
+            "pattern": [
+              24,
+              31
+            ],
+            "change_time": 3665,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.2725317930340126,
+            "attribution_score": 0.9245960075882551,
+            "p_value": 0.05558888222355529,
+            "adjusted_p_value": 0.09487218202617981
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2627,
+            "change_direction": "down",
+            "change_magnitude": 6.8999999999999995,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.631283645506926,
+            "attribution_score": 7.140390030115354,
+            "p_value": 0.014797040591881624,
+            "adjusted_p_value": 0.08956103516138879
+          },
+          {
+            "pattern": [
+              4,
+              22
+            ],
+            "change_time": 3523,
+            "change_direction": "down",
+            "change_magnitude": 2.9,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.6570468198150567,
+            "attribution_score": 2.380317353235652,
+            "p_value": 0.022195560887822437,
+            "adjusted_p_value": 0.09487218202617981
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3566,
+            "change_direction": "up",
+            "change_magnitude": 6.1000000000000005,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.6440364210831414,
+            "attribution_score": 3.9286221686071627,
+            "p_value": 0.04439112177564487,
+            "adjusted_p_value": 0.09487218202617981
+          },
+          {
+            "pattern": [
+              11,
+              29
+            ],
+            "change_time": 3307,
+            "change_direction": "up",
+            "change_magnitude": 1.0999999999999996,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.2836540264997704,
+            "attribution_score": 1.0409368342628753,
+            "p_value": 0.052789442111577684,
+            "adjusted_p_value": 0.09487218202617981
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              2,
+              5
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              24,
+              31
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              3,
+              9
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              4,
+              22
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              39,
+              41
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              12,
+              24
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              11,
+              29
+            ],
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.0,
-    "avg_recall": 0.0,
-    "avg_f1": 0.0,
-    "avg_false_attribution_rate": 0.0
+    "avg_precision": 0.2563924963924964,
+    "avg_recall": 0.9333333333333333,
+    "avg_f1": 0.40099116569704807,
+    "avg_false_attribution_rate": 0.3
   },
   "zipf_1.5": {
     "seeds": [
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -340,30 +1493,214 @@
           "seed": 0
         },
         "n_transactions": 5000,
-        "n_patterns": 922,
+        "n_patterns": 301,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 1058.8005000026897,
+        "n_significant": 12,
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1": 0.4,
+        "tp": 3,
+        "fp": 9,
+        "fn": 0,
+        "time_phase1_ms": 966.6301669785753,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 247737.6882499666,
-        "time_total_ms": 248796.48874996928,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 5406.088749994524,
+        "time_total_ms": 6372.718916973099,
+        "significant_attributions": [
           {
             "pattern": [
               25,
               35
             ],
-            "event_id": "E2"
+            "change_time": 2642,
+            "change_direction": "down",
+            "change_magnitude": 7.3,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 9.393722006657079,
+            "p_value": 0.011197760447910418,
+            "adjusted_p_value": 0.05932384951581112
           },
+          {
+            "pattern": [
+              34,
+              44
+            ],
+            "change_time": 2675,
+            "change_direction": "up",
+            "change_magnitude": 2.6500000000000004,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.6065306597126334,
+            "attribution_score": 2.0566352123557,
+            "p_value": 0.027994401119776045,
+            "adjusted_p_value": 0.07283904043933481
+          },
+          {
+            "pattern": [
+              21,
+              51
+            ],
+            "change_time": 2729,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.20597509820488344,
+            "attribution_score": 0.396114078306404,
+            "p_value": 0.0649870025994801,
+            "adjusted_p_value": 0.08264651417542579
+          },
+          {
+            "pattern": [
+              29,
+              35
+            ],
+            "change_time": 2418,
+            "change_direction": "down",
+            "change_magnitude": 1.9000000000000004,
+            "event_name": "Decoy_2",
+            "event_start": 2121,
+            "event_end": 2421,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 7.834482201585214,
+            "p_value": 0.0013997200559888023,
+            "adjusted_p_value": 0.05932384951581112
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1383,
+            "change_direction": "down",
+            "change_magnitude": 4.449999999999999,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 7.049896238434824,
+            "p_value": 0.015596880623875225,
+            "adjusted_p_value": 0.0614127174565087
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3889,
+            "change_direction": "down",
+            "change_magnitude": 7.3500000000000005,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 8.693163012452375,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.05932384951581112
+          },
+          {
+            "pattern": [
+              1,
+              31
+            ],
+            "change_time": 3616,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 1.4100104462860468,
+            "p_value": 0.016596680663867228,
+            "adjusted_p_value": 0.0614127174565087
+          },
+          {
+            "pattern": [
+              27,
+              68
+            ],
+            "change_time": 643,
+            "change_direction": "up",
+            "change_magnitude": 2.0999999999999996,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 2.39273672892148,
+            "p_value": 0.012397520495900819,
+            "adjusted_p_value": 0.05932384951581112
+          },
+          {
+            "pattern": [
+              6,
+              22
+            ],
+            "change_time": 305,
+            "change_direction": "down",
+            "change_magnitude": 3.1,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.5945205479701944,
+            "attribution_score": 2.564031914737595,
+            "p_value": 0.023795240951809637,
+            "adjusted_p_value": 0.07107439271639343
+          },
+          {
+            "pattern": [
+              7,
+              40
+            ],
+            "change_time": 659,
+            "change_direction": "up",
+            "change_magnitude": 1.2999999999999998,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.5712090638488149,
+            "attribution_score": 1.2805162205981337,
+            "p_value": 0.027994401119776045,
+            "adjusted_p_value": 0.07283904043933481
+          },
+          {
+            "pattern": [
+              54,
+              62
+            ],
+            "change_time": 275,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.32627979462303947,
+            "attribution_score": 0.6460988164393434,
+            "p_value": 0.028994201159768047,
+            "adjusted_p_value": 0.07283904043933481
+          },
+          {
+            "pattern": [
+              17,
+              20
+            ],
+            "change_time": 237,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.1525901057568839,
+            "attribution_score": 0.1525901057568839,
+            "p_value": 0.04779044191161767,
+            "adjusted_p_value": 0.07820254130991983
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               45,
@@ -373,19 +1710,92 @@
           },
           {
             "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              21,
+              51
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              1,
+              31
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              7,
+              40
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              17,
+              20
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              6,
+              22
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              34,
+              44
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              54,
+              62
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              27,
+              68
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              29,
+              35
+            ],
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -398,29 +1808,204 @@
           "seed": 1
         },
         "n_transactions": 5000,
-        "n_patterns": 929,
+        "n_patterns": 293,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 1087.001375039108,
+        "n_significant": 11,
+        "precision": 0.18181818181818182,
+        "recall": 0.6666666666666666,
+        "f1": 0.28571428571428575,
+        "tp": 2,
+        "fp": 9,
+        "fn": 1,
+        "time_phase1_ms": 952.347542042844,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 248846.51012497488,
-        "time_total_ms": 249933.511500014,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 6297.007415967528,
+        "time_total_ms": 7249.354958010372,
+        "significant_attributions": [
           {
             "pattern": [
-              25,
+              21,
               35
             ],
-            "event_id": "E2"
+            "change_time": 2369,
+            "change_direction": "down",
+            "change_magnitude": 2.6,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.6838614092123558,
+            "attribution_score": 7.1578526475425495,
+            "p_value": 0.013397320535892822,
+            "adjusted_p_value": 0.08559263757004697
+          },
+          {
+            "pattern": [
+              5,
+              36
+            ],
+            "change_time": 2657,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 2.2475259490216013,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.07975677591754377
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "change_time": 2376,
+            "change_direction": "down",
+            "change_magnitude": 2.0500000000000003,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.5945205479701944,
+            "attribution_score": 1.9449161604125895,
+            "p_value": 0.015596880623875225,
+            "adjusted_p_value": 0.08559263757004697
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1390,
+            "change_direction": "down",
+            "change_magnitude": 5.550000000000001,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 7.91862719345831,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.07975677591754377
+          },
+          {
+            "pattern": [
+              150,
+              160
+            ],
+            "change_time": 1073,
+            "change_direction": "up",
+            "change_magnitude": 6.1499999999999995,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5827482523739896,
+            "attribution_score": 6.026113532718453,
+            "p_value": 0.010397920415916816,
+            "adjusted_p_value": 0.083554717627903
+          },
+          {
+            "pattern": [
+              35,
+              38
+            ],
+            "change_time": 1382,
+            "change_direction": "down",
+            "change_magnitude": 2.9,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.697676326071031,
+            "attribution_score": 2.6060705522352476,
+            "p_value": 0.019596080783843232,
+            "adjusted_p_value": 0.09273655472987036
+          },
+          {
+            "pattern": [
+              36,
+              46
+            ],
+            "change_time": 1374,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5945205479701944,
+            "attribution_score": 1.1544189145355963,
+            "p_value": 0.021795640871825634,
+            "adjusted_p_value": 0.09430806146463014
+          },
+          {
+            "pattern": [
+              35,
+              42
+            ],
+            "change_time": 2385,
+            "change_direction": "up",
+            "change_magnitude": 1.4500000000000002,
+            "event_name": "Decoy_2",
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 6.726763496656453,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.059988002399520096
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "change_time": 2376,
+            "change_direction": "down",
+            "change_magnitude": 2.0500000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 2.2119393964042366,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.08559263757004697
+          },
+          {
+            "pattern": [
+              3,
+              7
+            ],
+            "change_time": 2099,
+            "change_direction": "up",
+            "change_magnitude": 2.3,
+            "event_name": "Decoy_2",
+            "event_start": 2089,
+            "event_end": 2389,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 3.0978566620382004,
+            "p_value": 0.01759648070385923,
+            "adjusted_p_value": 0.08998200359928016
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3892,
+            "change_direction": "down",
+            "change_magnitude": 8.3,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 8.825176408476718,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.07123575284943011
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
           },
           {
             "pattern": [
@@ -428,22 +2013,89 @@
               55
             ],
             "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              150,
+              160
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              36,
+              46
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              21,
+              35
+            ],
+            "event_id": "E2"
           },
           {
             "pattern": [
               5,
-              15
+              36
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              35,
+              42
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              24,
+              34
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              3,
+              7
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              35,
+              38
             ],
             "event_id": "E1"
           }
         ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -456,30 +2108,294 @@
           "seed": 2
         },
         "n_transactions": 5000,
-        "n_patterns": 943,
+        "n_patterns": 310,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 1124.8747909558006,
+        "n_significant": 17,
+        "precision": 0.17647058823529413,
+        "recall": 1.0,
+        "f1": 0.3,
+        "tp": 3,
+        "fp": 14,
+        "fn": 0,
+        "time_phase1_ms": 967.9711250355467,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 260209.97429202544,
-        "time_total_ms": 261334.84908298124,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 6807.2169160004705,
+        "time_total_ms": 7775.188041036017,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1392,
+            "change_direction": "down",
+            "change_magnitude": 5.15,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 7.357729274531816,
+            "p_value": 0.007798440311937612,
+            "adjusted_p_value": 0.07898420315936812
+          },
+          {
+            "pattern": [
+              6,
+              7
+            ],
+            "change_time": 1400,
+            "change_direction": "down",
+            "change_magnitude": 1.7000000000000002,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 1.0,
+            "attribution_score": 2.623116346386636,
+            "p_value": 0.0005998800239952009,
+            "adjusted_p_value": 0.035542891421715656
+          },
+          {
+            "pattern": [
+              12,
+              32
+            ],
+            "change_time": 1104,
+            "change_direction": "up",
+            "change_magnitude": 1.6999999999999997,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 3.415097068026156,
+            "p_value": 0.052189562087582485,
+            "adjusted_p_value": 0.09663223605278945
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3897,
+            "change_direction": "down",
+            "change_magnitude": 6.85,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 10.246517876180679,
+            "p_value": 0.0023995200959808036,
+            "adjusted_p_value": 0.05133973205358928
+          },
+          {
+            "pattern": [
+              45,
+              170
+            ],
+            "change_time": 1002,
+            "change_direction": "down",
+            "change_magnitude": 2.8499999999999996,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 6.422147443243246,
+            "p_value": 0.01779644071185763,
+            "adjusted_p_value": 0.08384476950763695
+          },
+          {
+            "pattern": [
+              15,
+              47
+            ],
+            "change_time": 675,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.6703200460356393,
+            "attribution_score": 1.28910343784178,
+            "p_value": 0.016196760647870425,
+            "adjusted_p_value": 0.08384476950763695
+          },
+          {
+            "pattern": [
+              22,
+              60
+            ],
+            "change_time": 1022,
+            "change_direction": "down",
+            "change_magnitude": 1.4499999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.5827482523739896,
+            "attribution_score": 1.5288463751546406,
+            "p_value": 0.016396720655868825,
+            "adjusted_p_value": 0.08384476950763695
+          },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "change_time": 664,
+            "change_direction": "down",
+            "change_magnitude": 2.0999999999999996,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.5379444375946745,
+            "attribution_score": 1.735156463754524,
+            "p_value": 0.028194361127774445,
+            "adjusted_p_value": 0.0901450144753658
+          },
+          {
+            "pattern": [
+              17,
+              52
+            ],
+            "change_time": 600,
+            "change_direction": "up",
+            "change_magnitude": 2.5,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.14956861922263506,
+            "attribution_score": 0.7345542057104857,
+            "p_value": 0.0615876824635073,
+            "adjusted_p_value": 0.09997452564281664
+          },
           {
             "pattern": [
               25,
               35
             ],
-            "event_id": "E2"
+            "change_time": 2634,
+            "change_direction": "down",
+            "change_magnitude": 6.6000000000000005,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 7.445383439668206,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.07898420315936812
           },
+          {
+            "pattern": [
+              16,
+              29
+            ],
+            "change_time": 2947,
+            "change_direction": "down",
+            "change_magnitude": 1.8500000000000005,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 2.1334352850004077,
+            "p_value": 0.008198360327934412,
+            "adjusted_p_value": 0.07898420315936812
+          },
+          {
+            "pattern": [
+              15,
+              33
+            ],
+            "change_time": 3246,
+            "change_direction": "down",
+            "change_magnitude": 1.8000000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 2.404954199497008,
+            "p_value": 0.014997000599880024,
+            "adjusted_p_value": 0.08384476950763695
+          },
+          {
+            "pattern": [
+              10,
+              17
+            ],
+            "change_time": 2938,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.6838614092123558,
+            "attribution_score": 1.27838195718255,
+            "p_value": 0.016396720655868825,
+            "adjusted_p_value": 0.08384476950763695
+          },
+          {
+            "pattern": [
+              34,
+              42
+            ],
+            "change_time": 2915,
+            "change_direction": "up",
+            "change_magnitude": 1.9499999999999997,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.43171052342907973,
+            "attribution_score": 1.3484525130522949,
+            "p_value": 0.028394321135772844,
+            "adjusted_p_value": 0.0901450144753658
+          },
+          {
+            "pattern": [
+              39,
+              55
+            ],
+            "change_time": 2982,
+            "change_direction": "up",
+            "change_magnitude": 2.0,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.6065306597126334,
+            "attribution_score": 1.6901752349463013,
+            "p_value": 0.02979404119176165,
+            "adjusted_p_value": 0.0901450144753658
+          },
+          {
+            "pattern": [
+              13,
+              19
+            ],
+            "change_time": 3207,
+            "change_direction": "up",
+            "change_magnitude": 2.3000000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.36787944117144233,
+            "attribution_score": 1.491656039807927,
+            "p_value": 0.03679264147170566,
+            "adjusted_p_value": 0.09136110922145468
+          },
+          {
+            "pattern": [
+              4,
+              48
+            ],
+            "change_time": 2905,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.35345468195878016,
+            "attribution_score": 0.6998280256578127,
+            "p_value": 0.04379124175164967,
+            "adjusted_p_value": 0.0926653954923301
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               45,
@@ -489,19 +2405,127 @@
           },
           {
             "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              10,
+              17
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              17,
+              52
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              34,
+              42
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              13,
+              19
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              12,
+              32
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              15,
+              33
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              6,
+              7
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              16,
+              29
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              39,
+              55
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              4,
+              48
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              45,
+              170
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              15,
+              47
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              22,
+              60
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -514,30 +2538,278 @@
           "seed": 3
         },
         "n_transactions": 5000,
-        "n_patterns": 872,
+        "n_patterns": 287,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 1035.035707987845,
+        "n_significant": 16,
+        "precision": 0.1875,
+        "recall": 1.0,
+        "f1": 0.3157894736842105,
+        "tp": 3,
+        "fp": 13,
+        "fn": 0,
+        "time_phase1_ms": 967.6035000011325,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 245999.10741701024,
-        "time_total_ms": 247034.14312499808,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 5670.223374967463,
+        "time_total_ms": 6637.826874968596,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1066,
+            "change_direction": "up",
+            "change_magnitude": 6.55,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 11.582397725958923,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "change_time": 1057,
+            "change_direction": "down",
+            "change_magnitude": 1.4499999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 1.8613285831166246,
+            "p_value": 0.013397320535892822,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              23,
+              44
+            ],
+            "change_time": 1420,
+            "change_direction": "up",
+            "change_magnitude": 1.85,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.35345468195878016,
+            "attribution_score": 1.0003469719538007,
+            "p_value": 0.04039192161567687,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              6,
+              16
+            ],
+            "change_time": 3332,
+            "change_direction": "down",
+            "change_magnitude": 1.7999999999999998,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 2.53193978843666,
+            "p_value": 0.001799640071985603,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              25,
+              38
+            ],
+            "change_time": 3037,
+            "change_direction": "down",
+            "change_magnitude": 1.25,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 1.991535212284467,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              22,
+              46
+            ],
+            "change_time": 2992,
+            "change_direction": "down",
+            "change_magnitude": 2.05,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.46766642700990924,
+            "attribution_score": 1.3340272742217134,
+            "p_value": 0.03499300139972006,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1389,
+            "change_direction": "down",
+            "change_magnitude": 8.049999999999999,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 9.778617623592563,
+            "p_value": 0.009398120375924815,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              23,
+              44
+            ],
+            "change_time": 1420,
+            "change_direction": "up",
+            "change_magnitude": 1.85,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.6703200460356393,
+            "attribution_score": 1.8971389049809895,
+            "p_value": 0.014997000599880024,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "change_time": 1057,
+            "change_direction": "down",
+            "change_magnitude": 1.4499999999999997,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.4231620823177488,
+            "attribution_score": 0.9814644605321781,
+            "p_value": 0.03839232153569286,
+            "adjusted_p_value": 0.09937771481848211
+          },
           {
             "pattern": [
               25,
               35
             ],
-            "event_id": "E2"
+            "change_time": 2638,
+            "change_direction": "down",
+            "change_magnitude": 7.550000000000001,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 9.030415172251558,
+            "p_value": 0.006998600279944011,
+            "adjusted_p_value": 0.09937771481848211
           },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "change_time": 2388,
+            "change_direction": "up",
+            "change_magnitude": 2.7,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.46766642700990924,
+            "attribution_score": 1.7747295131774985,
+            "p_value": 0.03539292141571686,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "change_time": 2708,
+            "change_direction": "up",
+            "change_magnitude": 1.65,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.3134861808826053,
+            "attribution_score": 0.9437403780131175,
+            "p_value": 0.05158968206358728,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              43,
+              46
+            ],
+            "change_time": 2286,
+            "change_direction": "down",
+            "change_magnitude": 3.5999999999999996,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.27803730045319414,
+            "attribution_score": 1.0009342816314988,
+            "p_value": 0.06778644271145771,
+            "adjusted_p_value": 0.0996859451639084
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3891,
+            "change_direction": "down",
+            "change_magnitude": 5.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.835270211411272,
+            "attribution_score": 7.121202205614189,
+            "p_value": 0.010197960407918417,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              2,
+              36
+            ],
+            "change_time": 3941,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.4404316545059993,
+            "attribution_score": 0.8635937368237481,
+            "p_value": 0.03219356128774245,
+            "adjusted_p_value": 0.09937771481848211
+          },
+          {
+            "pattern": [
+              5,
+              6
+            ],
+            "change_time": 3917,
+            "change_direction": "down",
+            "change_magnitude": 1.1999999999999997,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 1.7062681762813428,
+            "p_value": 0.05878824235152969,
+            "adjusted_p_value": 0.09937771481848211
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               45,
@@ -547,19 +2819,120 @@
           },
           {
             "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              23,
+              44
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              31,
+              36
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              6,
+              16
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              43,
+              46
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              2,
+              36
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              38
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              6
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              22,
+              46
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              4,
+              49
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              23,
+              44
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -572,23 +2945,182 @@
           "seed": 4
         },
         "n_transactions": 5000,
-        "n_patterns": 922,
+        "n_patterns": 324,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 1066.3824579678476,
+        "n_significant": 10,
+        "precision": 0.2,
+        "recall": 0.6666666666666666,
+        "f1": 0.30769230769230765,
+        "tp": 2,
+        "fp": 8,
+        "fn": 1,
+        "time_phase1_ms": 971.901084005367,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 245965.66508401884,
-        "time_total_ms": 247032.04754198669,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 6391.796790994704,
+        "time_total_ms": 7363.697875000071,
+        "significant_attributions": [
+          {
+            "pattern": [
+              2,
+              5
+            ],
+            "change_time": 1099,
+            "change_direction": "up",
+            "change_magnitude": 2.5500000000000003,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.39851904108451414,
+            "attribution_score": 4.953222085821292,
+            "p_value": 0.020795840831833633,
+            "adjusted_p_value": 0.09721915266069593
+          },
+          {
+            "pattern": [
+              34,
+              55
+            ],
+            "change_time": 1150,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.9048374180359595,
+            "attribution_score": 1.7569812070021709,
+            "p_value": 0.011197760447910418,
+            "adjusted_p_value": 0.0828634273145371
+          },
+          {
+            "pattern": [
+              13,
+              26
+            ],
+            "change_time": 861,
+            "change_direction": "up",
+            "change_magnitude": 2.0000000000000004,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 2.0011097102414084,
+            "p_value": 0.01839632073585283,
+            "adjusted_p_value": 0.09162782828049774
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1396,
+            "change_direction": "down",
+            "change_magnitude": 8.0,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 9.031370180786068,
+            "p_value": 0.0027994401119776045,
+            "adjusted_p_value": 0.05577346069247689
+          },
+          {
+            "pattern": [
+              7,
+              40
+            ],
+            "change_time": 1430,
+            "change_direction": "down",
+            "change_magnitude": 2.35,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5488116360940264,
+            "attribution_score": 2.1966478345678326,
+            "p_value": 0.021395720855828835,
+            "adjusted_p_value": 0.09721915266069593
+          },
+          {
+            "pattern": [
+              21,
+              45
+            ],
+            "change_time": 3601,
+            "change_direction": "up",
+            "change_magnitude": 1.9000000000000004,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 8.913304547152377,
+            "p_value": 0.005598880223955209,
+            "adjusted_p_value": 0.07904734842505183
+          },
+          {
+            "pattern": [
+              14,
+              47
+            ],
+            "change_time": 3880,
+            "change_direction": "up",
+            "change_magnitude": 2.8499999999999996,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.6703200460356393,
+            "attribution_score": 4.948688736600548,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.08056166544468885
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2627,
+            "change_direction": "down",
+            "change_magnitude": 6.8999999999999995,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.631283645506926,
+            "attribution_score": 7.140390030115354,
+            "p_value": 0.014797040591881624,
+            "adjusted_p_value": 0.08443963381236796
+          },
+          {
+            "pattern": [
+              18,
+              56
+            ],
+            "change_time": 3536,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.8521437889662113,
+            "attribution_score": 1.6387716500327647,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.08056166544468885
+          },
+          {
+            "pattern": [
+              4,
+              22
+            ],
+            "change_time": 3523,
+            "change_direction": "down",
+            "change_magnitude": 2.9,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.6570468198150567,
+            "attribution_score": 2.380317353235652,
+            "p_value": 0.022195560887822437,
+            "adjusted_p_value": 0.09911465982665536
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               25,
@@ -598,34 +3130,94 @@
           },
           {
             "pattern": [
-              45,
-              55
-            ],
-            "event_id": "E3"
-          },
-          {
-            "pattern": [
               5,
               15
             ],
             "event_id": "E1"
           }
         ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              2,
+              5
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              21,
+              45
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              4,
+              22
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              18,
+              56
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              7,
+              40
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              13,
+              26
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              14,
+              47
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              34,
+              55
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
+          }
+        ],
         "false_attribution_rate": 0.0,
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.0,
-    "avg_recall": 0.0,
-    "avg_f1": 0.0,
-    "avg_false_attribution_rate": 0.0
+    "avg_precision": 0.1991577540106952,
+    "avg_recall": 0.8666666666666666,
+    "avg_f1": 0.3218392134181608,
+    "avg_false_attribution_rate": 0.1
   },
   "correlated": {
     "seeds": [
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -638,23 +3230,150 @@
           "seed": 0
         },
         "n_transactions": 5000,
-        "n_patterns": 358,
+        "n_patterns": 324,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 527.8944169986062,
+        "n_significant": 8,
+        "precision": 0.25,
+        "recall": 0.6666666666666666,
+        "f1": 0.36363636363636365,
+        "tp": 2,
+        "fp": 6,
+        "fn": 1,
+        "time_phase1_ms": 1087.3492500395514,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 84810.4987500119,
-        "time_total_ms": 85338.39316701051,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 10102.08020900609,
+        "time_total_ms": 11189.429459045641,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2633,
+            "change_direction": "down",
+            "change_magnitude": 5.3500000000000005,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 6.059603808907467,
+            "p_value": 0.013397320535892822,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              2,
+              45
+            ],
+            "change_time": 3616,
+            "change_direction": "down",
+            "change_magnitude": 3.25,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 8.239415946327618,
+            "p_value": 0.011797640471905619,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              25,
+              27
+            ],
+            "change_time": 3604,
+            "change_direction": "up",
+            "change_magnitude": 2.3,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 2.9097954577558154,
+            "p_value": 0.0061987602479504095,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1066,
+            "change_direction": "up",
+            "change_magnitude": 6.9,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5066169923655895,
+            "attribution_score": 6.690713010446808,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              2,
+              19
+            ],
+            "change_time": 318,
+            "change_direction": "up",
+            "change_magnitude": 2.3000000000000003,
+            "event_name": "Decoy_1",
+            "event_start": 331,
+            "event_end": 631,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 2.7342080865005256,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              10,
+              25
+            ],
+            "change_time": 2418,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2121,
+            "event_end": 2421,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 3.044697112794101,
+            "p_value": 0.012397520495900819,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              2,
+              7
+            ],
+            "change_time": 2111,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2121,
+            "event_end": 2421,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 1.5897823388815482,
+            "p_value": 0.010797840431913617,
+            "adjusted_p_value": 0.08869654640500471
+          },
+          {
+            "pattern": [
+              3,
+              43
+            ],
+            "change_time": 2137,
+            "change_direction": "down",
+            "change_magnitude": 1.6500000000000004,
+            "event_name": "Decoy_2",
+            "event_start": 2121,
+            "event_end": 2421,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 2.0675041465703963,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.08869654640500471
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               25,
@@ -664,17 +3383,63 @@
           },
           {
             "pattern": [
-              45,
-              55
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              2,
+              45
             ],
             "event_id": "E3"
           },
           {
             "pattern": [
-              5,
-              15
+              2,
+              19
             ],
-            "event_id": "E1"
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              3,
+              43
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              25,
+              27
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              2,
+              7
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              10,
+              25
+            ],
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "event_id": "E3"
           }
         ],
         "false_attribution_rate": 0.0,
@@ -683,7 +3448,7 @@
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -696,7 +3461,7 @@
           "seed": 1
         },
         "n_transactions": 5000,
-        "n_patterns": 389,
+        "n_patterns": 284,
         "n_change_points_total": 0,
         "n_significant": 0,
         "precision": 0.0,
@@ -705,27 +3470,27 @@
         "tp": 0,
         "fp": 0,
         "fn": 3,
-        "time_phase1_ms": 557.4551660101861,
+        "time_phase1_ms": 1041.2339169997722,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 86685.31233398244,
-        "time_total_ms": 87242.76749999262,
+        "time_attribution_ms": 10064.577333047055,
+        "time_total_ms": 11105.811250046827,
         "significant_attributions": [],
         "true_positive_pairs": [],
         "false_positive_pairs": [],
         "false_negative_pairs": [
           {
             "pattern": [
-              25,
-              35
-            ],
-            "event_id": "E2"
-          },
-          {
-            "pattern": [
               45,
               55
             ],
             "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "event_id": "E2"
           },
           {
             "pattern": [
@@ -741,7 +3506,7 @@
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -754,94 +3519,166 @@
           "seed": 2
         },
         "n_transactions": 5000,
-        "n_patterns": 355,
+        "n_patterns": 290,
         "n_change_points_total": 0,
-        "n_significant": 3,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 3,
-        "fn": 3,
-        "time_phase1_ms": 532.9858749755658,
+        "n_significant": 9,
+        "precision": 0.2222222222222222,
+        "recall": 0.6666666666666666,
+        "f1": 0.3333333333333333,
+        "tp": 2,
+        "fp": 7,
+        "fn": 1,
+        "time_phase1_ms": 1114.9926249636337,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 84939.19904105132,
-        "time_total_ms": 85472.18491602689,
+        "time_attribution_ms": 10228.393084020354,
+        "time_total_ms": 11343.385708983988,
         "significant_attributions": [
           {
             "pattern": [
-              5,
-              21
-            ],
-            "change_time": 2649,
-            "change_direction": "up",
-            "change_magnitude": 2.5999999999999996,
-            "event_name": "Event_2",
-            "event_start": 2350,
-            "event_end": 2650,
-            "proximity": 0.9801986733067553,
-            "attribution_score": 3.413807197770772,
-            "p_value": 0.0001999600079984003,
-            "adjusted_p_value": 0.05252282876757982
-          },
-          {
-            "pattern": [
-              7,
-              25
-            ],
-            "change_time": 2350,
-            "change_direction": "up",
-            "change_magnitude": 3.8500000000000005,
-            "event_name": "Event_2",
-            "event_start": 2350,
-            "event_end": 2650,
-            "proximity": 1.0,
-            "attribution_score": 10.668063337278959,
-            "p_value": 0.0001999600079984003,
-            "adjusted_p_value": 0.05252282876757982
-          },
-          {
-            "pattern": [
               10,
-              16
+              150
             ],
-            "change_time": 995,
-            "change_direction": "up",
-            "change_magnitude": 5.4,
+            "change_time": 700,
+            "change_direction": "down",
+            "change_magnitude": 1.35,
             "event_name": "Decoy_1",
             "event_start": 695,
             "event_end": 995,
-            "proximity": 1.0,
-            "attribution_score": 9.998550108847237,
-            "p_value": 0.0001999600079984003,
-            "adjusted_p_value": 0.05252282876757982
-          }
-        ],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [
+            "proximity": 0.9048374180359595,
+            "attribution_score": 6.542329987241051,
+            "p_value": 0.011797640471905619,
+            "adjusted_p_value": 0.09652614931559143
+          },
           {
             "pattern": [
-              5,
-              21
+              9,
+              15
             ],
-            "event_id": "E2"
+            "change_time": 1002,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.8693582353988059,
+            "attribution_score": 1.6718770333612842,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.08928983434082415
+          },
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "change_time": 728,
+            "change_direction": "up",
+            "change_magnitude": 5.55,
+            "event_name": "Decoy_1",
+            "event_start": 695,
+            "event_end": 995,
+            "proximity": 0.5168513344916992,
+            "attribution_score": 5.343069319364433,
+            "p_value": 0.014797040591881624,
+            "adjusted_p_value": 0.09838032393521294
+          },
+          {
+            "pattern": [
+              15,
+              25
+            ],
+            "change_time": 1129,
+            "change_direction": "down",
+            "change_magnitude": 1.8000000000000003,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.559898366565402,
+            "attribution_score": 5.929079253593741,
+            "p_value": 0.014197160567886422,
+            "adjusted_p_value": 0.09838032393521294
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3885,
+            "change_direction": "down",
+            "change_magnitude": 7.249999999999999,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7408182206817179,
+            "attribution_score": 8.554039589287807,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.08928983434082415
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "change_time": 3888,
+            "change_direction": "up",
+            "change_magnitude": 1.2999999999999998,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 1.9274536374224789,
+            "p_value": 0.0057988402319536095,
+            "adjusted_p_value": 0.08928983434082415
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2641,
+            "change_direction": "down",
+            "change_magnitude": 7.050000000000001,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.835270211411272,
+            "attribution_score": 8.66201135884607,
+            "p_value": 0.007798440311937612,
+            "adjusted_p_value": 0.08928983434082415
+          },
+          {
+            "pattern": [
+              19,
+              20
+            ],
+            "change_time": 2364,
+            "change_direction": "up",
+            "change_magnitude": 2.3,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.7557837414557255,
+            "attribution_score": 2.3095116691969833,
+            "p_value": 0.015196960607878424,
+            "adjusted_p_value": 0.09838032393521294
           },
           {
             "pattern": [
               10,
-              16
+              12
             ],
-            "event_id": "D1"
-          },
-          {
-            "pattern": [
-              7,
-              25
-            ],
-            "event_id": "E2"
+            "change_time": 2946,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_2",
+            "event_start": 2957,
+            "event_end": 3257,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 1.5205732776354521,
+            "p_value": 0.008198360327934412,
+            "adjusted_p_value": 0.08928983434082415
           }
         ],
-        "false_negative_pairs": [
+        "true_positive_pairs": [
           {
             "pattern": [
               25,
@@ -855,7 +3692,60 @@
               55
             ],
             "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              9,
+              15
+            ],
+            "event_id": "D1"
           },
+          {
+            "pattern": [
+              10,
+              150
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              15,
+              25
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              10,
+              12
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              19,
+              20
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              170,
+              180
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              16,
+              18
+            ],
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
           {
             "pattern": [
               5,
@@ -864,13 +3754,13 @@
             "event_id": "E1"
           }
         ],
-        "false_attribution_rate": 0.0,
-        "n_falsely_attributed": 0
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
       },
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -883,22 +3773,324 @@
           "seed": 3
         },
         "n_transactions": 5000,
-        "n_patterns": 355,
+        "n_patterns": 282,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 515.6492090318352,
+        "n_significant": 13,
+        "precision": 0.07692307692307693,
+        "recall": 0.3333333333333333,
+        "f1": 0.125,
+        "tp": 1,
+        "fp": 12,
+        "fn": 2,
+        "time_phase1_ms": 1067.108166986145,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 82435.74870796874,
-        "time_total_ms": 82951.39791700058,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
+        "time_attribution_ms": 8619.235958030913,
+        "time_total_ms": 9686.344125017058,
+        "significant_attributions": [
+          {
+            "pattern": [
+              15,
+              35
+            ],
+            "change_time": 2325,
+            "change_direction": "up",
+            "change_magnitude": 4.9,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.6065306597126334,
+            "attribution_score": 8.904645837599595,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1055,
+            "change_direction": "up",
+            "change_magnitude": 3.9499999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 6.041110025048987,
+            "p_value": 0.010197960407918417,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              8,
+              19
+            ],
+            "change_time": 1069,
+            "change_direction": "down",
+            "change_magnitude": 1.4,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 2.3524768159362126,
+            "p_value": 0.0011997600479904018,
+            "adjusted_p_value": 0.08012683177650184
+          },
+          {
+            "pattern": [
+              27,
+              34
+            ],
+            "change_time": 1041,
+            "change_direction": "down",
+            "change_magnitude": 1.0,
+            "event_name": "Decoy_1",
+            "event_start": 1068,
+            "event_end": 1368,
+            "proximity": 0.5827482523739896,
+            "attribution_score": 1.1539573162228045,
+            "p_value": 0.024795040991801638,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              10,
+              15
+            ],
+            "change_time": 3914,
+            "change_direction": "down",
+            "change_magnitude": 2.0500000000000003,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7557837414557255,
+            "attribution_score": 9.723174703023437,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.08012683177650184
+          },
+          {
+            "pattern": [
+              12,
+              26
+            ],
+            "change_time": 3916,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7261490370736909,
+            "attribution_score": 1.3831958568887477,
+            "p_value": 0.013997200559888023,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              5,
+              43
+            ],
+            "change_time": 3612,
+            "change_direction": "up",
+            "change_magnitude": 1.9000000000000004,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 3.124882113304068,
+            "p_value": 0.027194561087782444,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "change_time": 1397,
+            "change_direction": "down",
+            "change_magnitude": 5.35,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 6.644390410651097,
+            "p_value": 0.001999600079984003,
+            "adjusted_p_value": 0.08012683177650184
+          },
+          {
+            "pattern": [
+              8,
+              19
+            ],
+            "change_time": 1069,
+            "change_direction": "down",
+            "change_magnitude": 1.4,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.5379444375946745,
+            "attribution_score": 1.2699735471242435,
+            "p_value": 0.027594481103779243,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              4,
+              29
+            ],
+            "change_time": 3330,
+            "change_direction": "down",
+            "change_magnitude": 2.95,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 1.0,
+            "attribution_score": 5.700145665733024,
+            "p_value": 0.014597080583883223,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              14,
+              26
+            ],
+            "change_time": 3332,
+            "change_direction": "down",
+            "change_magnitude": 2.05,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 3.705303286615009,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              15,
+              39
+            ],
+            "change_time": 3062,
+            "change_direction": "up",
+            "change_magnitude": 1.4000000000000004,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.5272924240430485,
+            "attribution_score": 2.155564966433226,
+            "p_value": 0.029194161167766446,
+            "adjusted_p_value": 0.09943011397720455
+          },
+          {
+            "pattern": [
+              5,
+              12
+            ],
+            "change_time": 3355,
+            "change_direction": "up",
+            "change_magnitude": 2.4,
+            "event_name": "Decoy_2",
+            "event_start": 3030,
+            "event_end": 3330,
+            "proximity": 0.6065306597126334,
+            "attribution_score": 4.143243348837302,
+            "p_value": 0.030393921215756847,
+            "adjusted_p_value": 0.09943011397720455
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              12
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              15,
+              39
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              10,
+              15
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              43
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              8,
+              19
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              15,
+              35
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              27,
+              34
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              4,
+              29
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              14,
+              26
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              12,
+              26
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              8,
+              19
+            ],
+            "event_id": "E1"
+          }
+        ],
         "false_negative_pairs": [
           {
             "pattern": [
@@ -913,13 +4105,6 @@
               55
             ],
             "event_id": "E3"
-          },
-          {
-            "pattern": [
-              5,
-              15
-            ],
-            "event_id": "E1"
           }
         ],
         "false_attribution_rate": 0.0,
@@ -928,7 +4113,7 @@
       {
         "config": {
           "window_size": 50,
-          "min_support": 10,
+          "min_support": 5,
           "max_length": 2,
           "change_method": "threshold_crossing",
           "sigma": null,
@@ -941,23 +4126,214 @@
           "seed": 4
         },
         "n_transactions": 5000,
-        "n_patterns": 382,
+        "n_patterns": 324,
         "n_change_points_total": 0,
-        "n_significant": 0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
-        "fn": 3,
-        "time_phase1_ms": 518.1340000126511,
+        "n_significant": 12,
+        "precision": 0.16666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.26666666666666666,
+        "tp": 2,
+        "fp": 10,
+        "fn": 1,
+        "time_phase1_ms": 1079.5639170100912,
         "time_support_series_ms": 0.0,
-        "time_attribution_ms": 88883.04808398243,
-        "time_total_ms": 89401.18208399508,
-        "significant_attributions": [],
-        "true_positive_pairs": [],
-        "false_positive_pairs": [],
-        "false_negative_pairs": [
+        "time_attribution_ms": 10094.147666997742,
+        "time_total_ms": 11173.711584007833,
+        "significant_attributions": [
+          {
+            "pattern": [
+              2,
+              15
+            ],
+            "change_time": 1083,
+            "change_direction": "up",
+            "change_magnitude": 1.7999999999999998,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.7117703227626097,
+            "attribution_score": 8.260544837754612,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.0619876024795041
+          },
+          {
+            "pattern": [
+              24,
+              29
+            ],
+            "change_time": 1394,
+            "change_direction": "down",
+            "change_magnitude": 1.9,
+            "event_name": "Event_1",
+            "event_start": 1100,
+            "event_end": 1400,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 3.5752994572046557,
+            "p_value": 0.014397120575884824,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              2,
+              21
+            ],
+            "change_time": 3597,
+            "change_direction": "up",
+            "change_magnitude": 2.0,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 3.129127132003064,
+            "p_value": 0.001799640071985603,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "change_time": 3880,
+            "change_direction": "down",
+            "change_magnitude": 6.9,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.6703200460356393,
+            "attribution_score": 6.315178249530482,
+            "p_value": 0.011597680463907219,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              20,
+              30
+            ],
+            "change_time": 3619,
+            "change_direction": "down",
+            "change_magnitude": 2.3999999999999995,
+            "event_name": "Event_3",
+            "event_start": 3600,
+            "event_end": 3900,
+            "proximity": 0.6838614092123558,
+            "attribution_score": 2.621466055416409,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              3,
+              10
+            ],
+            "change_time": 1140,
+            "change_direction": "down",
+            "change_magnitude": 2.1999999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.9048374180359595,
+            "attribution_score": 5.035490415080175,
+            "p_value": 0.007998400319936013,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              30,
+              56
+            ],
+            "change_time": 1141,
+            "change_direction": "down",
+            "change_magnitude": 1.7000000000000002,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.9231163463866358,
+            "attribution_score": 2.3101160095389988,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              15,
+              24
+            ],
+            "change_time": 1143,
+            "change_direction": "down",
+            "change_magnitude": 1.7500000000000004,
+            "event_name": "Decoy_1",
+            "event_start": 845,
+            "event_end": 1145,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 3.888753596116482,
+            "p_value": 0.007998400319936013,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              4,
+              170
+            ],
+            "change_time": 2652,
+            "change_direction": "down",
+            "change_magnitude": 1.8499999999999996,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 7.33943143618143,
+            "p_value": 0.002999400119976005,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "change_time": 2320,
+            "change_direction": "up",
+            "change_magnitude": 7.199999999999999,
+            "event_name": "Event_2",
+            "event_start": 2350,
+            "event_end": 2650,
+            "proximity": 0.5488116360940264,
+            "attribution_score": 6.581273195053088,
+            "p_value": 0.015996800639872025,
+            "adjusted_p_value": 0.09918016396720657
+          },
+          {
+            "pattern": [
+              10,
+              28
+            ],
+            "change_time": 3547,
+            "change_direction": "down",
+            "change_magnitude": 1.7999999999999998,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.9417645335842487,
+            "attribution_score": 3.097092049336977,
+            "p_value": 0.0057988402319536095,
+            "adjusted_p_value": 0.0975975017762405
+          },
+          {
+            "pattern": [
+              1,
+              15
+            ],
+            "change_time": 3258,
+            "change_direction": "up",
+            "change_magnitude": 1.2999999999999998,
+            "event_name": "Decoy_2",
+            "event_start": 3244,
+            "event_end": 3544,
+            "proximity": 0.7557837414557255,
+            "attribution_score": 1.6528389099280822,
+            "p_value": 0.014397120575884824,
+            "adjusted_p_value": 0.0975975017762405
+          }
+        ],
+        "true_positive_pairs": [
           {
             "pattern": [
               25,
@@ -971,7 +4347,81 @@
               55
             ],
             "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              1,
+              15
+            ],
+            "event_id": "D2"
           },
+          {
+            "pattern": [
+              3,
+              10
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              24,
+              29
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              10,
+              28
+            ],
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              20,
+              30
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              4,
+              170
+            ],
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              30,
+              56
+            ],
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              2,
+              15
+            ],
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              2,
+              21
+            ],
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              15,
+              24
+            ],
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [
           {
             "pattern": [
               5,
@@ -984,9 +4434,9 @@
         "n_falsely_attributed": 0
       }
     ],
-    "avg_precision": 0.0,
-    "avg_recall": 0.0,
-    "avg_f1": 0.0,
-    "avg_false_attribution_rate": 0.0
+    "avg_precision": 0.14316239316239315,
+    "avg_recall": 0.4666666666666666,
+    "avg_f1": 0.2177272727272727,
+    "avg_false_attribution_rate": 0.1
   }
 }

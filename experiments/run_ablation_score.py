@@ -38,12 +38,9 @@ DATA_DIR = Path(__file__).resolve().parent / "data" / "ablation_score"
 
 # Ablation variants: label -> ablation_mode value
 VARIANTS = OrderedDict([
-    ("Full (prox*dir*mag)", None),
-    ("No direction (prox*mag)", "no_dir"),
-    ("No proximity (dir*mag)", "no_prox"),
-    ("No magnitude (prox*dir)", "no_mag"),
-    ("Magnitude only", "mag_only"),
-    ("Proximity only", "prox_only"),
+    ("Full (prox*mag)", None),
+    ("No proximity (mag only)", "no_prox"),
+    ("No magnitude (prox only)", "no_mag"),
 ])
 
 

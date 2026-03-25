@@ -17,7 +17,6 @@ from event_attribution import (
     Event,
     SignificantAttribution,
     circular_shift_events,
-    compute_direction_match,
     compute_proximity,
     compute_support_series,
     detect_change_points,
@@ -219,43 +218,6 @@ class TestComputeProximity:
 
 
 # =========================================================================
-# Step 3: compute_direction_match
-# =========================================================================
-
-
-class TestComputeDirectionMatch:
-    def test_up_after_event_start(self):
-        cp = ChangePoint(time=6, direction="up", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 1.0
-
-    def test_up_before_event_start(self):
-        cp = ChangePoint(time=3, direction="up", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 0.5
-
-    def test_down_after_event_end(self):
-        cp = ChangePoint(time=12, direction="down", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 1.0
-
-    def test_down_before_event_end(self):
-        cp = ChangePoint(time=8, direction="down", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 0.5
-
-    def test_up_at_event_start(self):
-        cp = ChangePoint(time=5, direction="up", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 1.0
-
-    def test_down_at_event_end(self):
-        cp = ChangePoint(time=10, direction="down", magnitude=3.0)
-        e = Event("E1", "test", start=5, end=10)
-        assert compute_direction_match(cp, e) == 1.0
-
-
-# =========================================================================
 # Step 3: score_attributions
 # =========================================================================
 
@@ -283,7 +245,6 @@ class TestScoreAttributions:
         assert c.pattern == (1, 2)
         assert c.event.event_id == "E1"
         assert c.proximity == pytest.approx(1.0)
-        assert c.direction_match == 1.0
         assert c.attribution_score == pytest.approx(3.0)
 
     def test_threshold_filtering(self):

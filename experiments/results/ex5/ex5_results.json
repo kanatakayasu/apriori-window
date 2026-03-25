@@ -2,11 +2,11 @@
   "n_transactions": 276484,
   "n_patterns": 955,
   "n_campaigns": 30,
-  "n_significant": 118,
+  "n_significant": 124,
   "n_campaigns_with_attribution": 30,
-  "time_phase1_ms": 246728.11137497774,
-  "time_attribution_ms": 339252.84279100015,
-  "time_total_ms": 585980.9541659779,
+  "time_phase1_ms": 260286.39887500321,
+  "time_attribution_ms": 334763.4469170007,
+  "time_total_ms": 595049.8457920039,
   "campaign_summary": [
     {
       "campaign": "TypeB_24",
@@ -19,8 +19,8 @@
             20968,
             38256
           ],
-          "score": 1.7284,
-          "p_adj": 0.0558,
+          "score": 2.2427,
+          "p_adj": 0.0564,
           "direction": "up"
         },
         {
@@ -28,8 +28,8 @@
             35570,
             53129
           ],
-          "score": 1.2713,
-          "p_adj": 0.0701,
+          "score": 1.6591,
+          "p_adj": 0.0723,
           "direction": "up"
         },
         {
@@ -37,8 +37,8 @@
             10421,
             41530
           ],
-          "score": 0.8187,
-          "p_adj": 0.0454,
+          "score": 1.6373,
+          "p_adj": 0.0442,
           "direction": "down"
         },
         {
@@ -46,8 +46,8 @@
             32581,
             35453
           ],
-          "score": 0.5239,
-          "p_adj": 0.0561,
+          "score": 0.6931,
+          "p_adj": 0.058,
           "direction": "up"
         },
         {
@@ -55,8 +55,8 @@
             18560,
             24245
           ],
-          "score": 0.4364,
-          "p_adj": 0.0476,
+          "score": 0.5941,
+          "p_adj": 0.0486,
           "direction": "up"
         }
       ]
@@ -65,15 +65,15 @@
       "campaign": "TypeC_15",
       "start": 207410,
       "end": 275250,
-      "n_attributions": 3,
+      "n_attributions": 4,
       "top_patterns": [
         {
           "pattern": [
             35570,
             55046
           ],
-          "score": 4.07,
-          "p_adj": 0.0476,
+          "score": 4.4712,
+          "p_adj": 0.0654,
           "direction": "up"
         },
         {
@@ -81,8 +81,17 @@
             25748,
             37103
           ],
-          "score": 1.4884,
-          "p_adj": 0.0921,
+          "score": 2.9768,
+          "p_adj": 0.0724,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            22055,
+            22181
+          ],
+          "score": 1.384,
+          "p_adj": 0.0901,
           "direction": "down"
         },
         {
@@ -90,9 +99,9 @@
             29651,
             62437
           ],
-          "score": 0.8664,
-          "p_adj": 0.0555,
-          "direction": "up"
+          "score": 1.1558,
+          "p_adj": 0.054,
+          "direction": "down"
         }
       ]
     },
@@ -100,15 +109,15 @@
       "campaign": "TypeB_25",
       "start": 254905,
       "end": 268625,
-      "n_attributions": 3,
+      "n_attributions": 4,
       "top_patterns": [
         {
           "pattern": [
             29651,
             35570
           ],
-          "score": 8.9055,
-          "p_adj": 0.0713,
+          "score": 12.808,
+          "p_adj": 0.0486,
           "direction": "up"
         },
         {
@@ -116,8 +125,8 @@
             10421,
             41530
           ],
-          "score": 0.8187,
-          "p_adj": 0.0475,
+          "score": 1.6373,
+          "p_adj": 0.0442,
           "direction": "down"
         },
         {
@@ -125,9 +134,18 @@
             7625,
             25748
           ],
-          "score": 0.2732,
-          "p_adj": 0.0476,
-          "direction": "up"
+          "score": 0.3772,
+          "p_adj": 0.0486,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            24048,
+            41445
+          ],
+          "score": 0.1399,
+          "p_adj": 0.0486,
+          "direction": "down"
         }
       ]
     },
@@ -135,25 +153,16 @@
       "campaign": "TypeC_20",
       "start": 236468,
       "end": 266197,
-      "n_attributions": 2,
+      "n_attributions": 1,
       "top_patterns": [
         {
           "pattern": [
-            17774,
-            26292
+            35570,
+            40500
           ],
-          "score": 1.3141,
-          "p_adj": 0.0384,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            16858,
-            29651
-          ],
-          "score": 0.9604,
-          "p_adj": 0.0822,
-          "direction": "up"
+          "score": 6.8324,
+          "p_adj": 0.0851,
+          "direction": "down"
         }
       ]
     },
@@ -161,33 +170,33 @@
       "campaign": "TypeB_23",
       "start": 249344,
       "end": 265774,
-      "n_attributions": 4,
+      "n_attributions": 5,
       "top_patterns": [
-        {
-          "pattern": [
-            35570,
-            37353
-          ],
-          "score": 2.8777,
-          "p_adj": 0.0976,
-          "direction": "up"
-        },
         {
           "pattern": [
             23466,
             29651
           ],
-          "score": 2.2137,
-          "p_adj": 0.044,
+          "score": 4.4275,
+          "p_adj": 0.0432,
           "direction": "down"
         },
         {
           "pattern": [
-            22055,
-            24048
+            5935,
+            35570
           ],
-          "score": 1.486,
-          "p_adj": 0.0384,
+          "score": 3.3987,
+          "p_adj": 0.0695,
+          "direction": "up"
+        },
+        {
+          "pattern": [
+            22055,
+            55049
+          ],
+          "score": 2.243,
+          "p_adj": 0.0442,
           "direction": "up"
         },
         {
@@ -195,8 +204,17 @@
             25748,
             53089
           ],
-          "score": 0.3737,
-          "p_adj": 0.0718,
+          "score": 0.6606,
+          "p_adj": 0.0681,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            17774,
+            26292
+          ],
+          "score": 0.3208,
+          "p_adj": 0.0486,
           "direction": "up"
         }
       ]
@@ -205,16 +223,16 @@
       "campaign": "TypeB_21",
       "start": 240134,
       "end": 254122,
-      "n_attributions": 6,
+      "n_attributions": 7,
       "top_patterns": [
         {
           "pattern": [
             25748,
             35570
           ],
-          "score": 7.1857,
-          "p_adj": 0.0783,
-          "direction": "up"
+          "score": 11.4622,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
@@ -222,7 +240,7 @@
             41445
           ],
           "score": 2.7282,
-          "p_adj": 0.031,
+          "p_adj": 0.0432,
           "direction": "up"
         },
         {
@@ -231,7 +249,7 @@
             22181
           ],
           "score": 2.1454,
-          "p_adj": 0.0536,
+          "p_adj": 0.0609,
           "direction": "up"
         },
         {
@@ -239,8 +257,8 @@
             17774,
             41168
           ],
-          "score": 1.1514,
-          "p_adj": 0.0853,
+          "score": 2.1045,
+          "p_adj": 0.0651,
           "direction": "down"
         },
         {
@@ -248,8 +266,8 @@
             32581,
             35453
           ],
-          "score": 0.8615,
-          "p_adj": 0.0476,
+          "score": 1.2628,
+          "p_adj": 0.049,
           "direction": "down"
         }
       ]
@@ -258,16 +276,16 @@
       "campaign": "TypeB_22",
       "start": 240134,
       "end": 254122,
-      "n_attributions": 6,
+      "n_attributions": 7,
       "top_patterns": [
         {
           "pattern": [
             25748,
             35570
           ],
-          "score": 7.1857,
-          "p_adj": 0.0783,
-          "direction": "up"
+          "score": 11.4622,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
@@ -275,7 +293,7 @@
             41445
           ],
           "score": 2.7282,
-          "p_adj": 0.031,
+          "p_adj": 0.0432,
           "direction": "up"
         },
         {
@@ -284,7 +302,7 @@
             22181
           ],
           "score": 2.1454,
-          "p_adj": 0.0536,
+          "p_adj": 0.0609,
           "direction": "up"
         },
         {
@@ -292,8 +310,8 @@
             17774,
             41168
           ],
-          "score": 1.1514,
-          "p_adj": 0.0853,
+          "score": 2.1045,
+          "p_adj": 0.0651,
           "direction": "down"
         },
         {
@@ -301,8 +319,8 @@
             32581,
             35453
           ],
-          "score": 0.8615,
-          "p_adj": 0.0476,
+          "score": 1.2628,
+          "p_adj": 0.049,
           "direction": "down"
         }
       ]
@@ -318,26 +336,26 @@
             14973,
             29651
           ],
-          "score": 2.8459,
-          "p_adj": 0.0322,
+          "score": 3.2498,
+          "p_adj": 0.0442,
           "direction": "down"
         },
         {
           "pattern": [
-            32581,
+            10935,
             35570
           ],
-          "score": 1.9989,
-          "p_adj": 0.0946,
-          "direction": "up"
+          "score": 2.405,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
             10421,
             31290
           ],
-          "score": 0.1095,
-          "p_adj": 0.0536,
+          "score": 0.2191,
+          "p_adj": 0.0501,
           "direction": "down"
         }
       ]
@@ -353,8 +371,8 @@
             8278,
             35570
           ],
-          "score": 4.9776,
-          "p_adj": 0.0551,
+          "score": 5.5107,
+          "p_adj": 0.0809,
           "direction": "up"
         },
         {
@@ -362,8 +380,8 @@
             8713,
             36648
           ],
-          "score": 2.7488,
-          "p_adj": 0.0953,
+          "score": 4.9437,
+          "p_adj": 0.0624,
           "direction": "up"
         },
         {
@@ -371,8 +389,8 @@
             19500,
             27800
           ],
-          "score": 2.2767,
-          "p_adj": 0.0476,
+          "score": 4.5534,
+          "p_adj": 0.0442,
           "direction": "down"
         },
         {
@@ -380,8 +398,8 @@
             6675,
             25748
           ],
-          "score": 0.3112,
-          "p_adj": 0.0921,
+          "score": 0.487,
+          "p_adj": 0.0901,
           "direction": "down"
         }
       ]
@@ -394,11 +412,11 @@
       "top_patterns": [
         {
           "pattern": [
-            24245,
-            29651
+            29651,
+            35570
           ],
-          "score": 5.4658,
-          "p_adj": 0.0657,
+          "score": 11.2349,
+          "p_adj": 0.092,
           "direction": "down"
         }
       ]
@@ -407,51 +425,42 @@
       "campaign": "TypeC_14",
       "start": 200764,
       "end": 228737,
-      "n_attributions": 6,
+      "n_attributions": 4,
       "top_patterns": [
         {
           "pattern": [
             29651,
             40593
           ],
-          "score": 3.9907,
-          "p_adj": 0.0771,
-          "direction": "up"
+          "score": 7.0674,
+          "p_adj": 0.0501,
+          "direction": "down"
         },
         {
           "pattern": [
             55046,
             55049
           ],
-          "score": 2.2424,
-          "p_adj": 0.0551,
-          "direction": "up"
+          "score": 3.2402,
+          "p_adj": 0.054,
+          "direction": "down"
         },
         {
           "pattern": [
             10936,
             16336
           ],
-          "score": 0.949,
-          "p_adj": 0.0476,
+          "score": 1.898,
+          "p_adj": 0.0462,
           "direction": "down"
         },
         {
           "pattern": [
-            6675,
-            8719
+            11255,
+            25748
           ],
-          "score": 0.543,
-          "p_adj": 0.0927,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            24245,
-            34016
-          ],
-          "score": 0.4964,
-          "p_adj": 0.0953,
+          "score": 0.3191,
+          "p_adj": 0.0486,
           "direction": "up"
         }
       ]
@@ -467,26 +476,8 @@
             35570,
             38256
           ],
-          "score": 7.0754,
-          "p_adj": 0.0476,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            29651,
-            55046
-          ],
-          "score": 1.0208,
-          "p_adj": 0.07,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            8719,
-            13156
-          ],
-          "score": 0.9797,
-          "p_adj": 0.0556,
+          "score": 8.3503,
+          "p_adj": 0.0502,
           "direction": "up"
         },
         {
@@ -494,8 +485,26 @@
             10797,
             24245
           ],
-          "score": 0.8978,
-          "p_adj": 0.0717,
+          "score": 1.7956,
+          "p_adj": 0.054,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            29651,
+            55046
+          ],
+          "score": 1.3888,
+          "p_adj": 0.0709,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            8719,
+            13156
+          ],
+          "score": 1.3648,
+          "p_adj": 0.0557,
           "direction": "down"
         }
       ]
@@ -504,15 +513,15 @@
       "campaign": "TypeA_13",
       "start": 189206,
       "end": 209535,
-      "n_attributions": 5,
+      "n_attributions": 6,
       "top_patterns": [
         {
           "pattern": [
             35570,
             38125
           ],
-          "score": 4.0049,
-          "p_adj": 0.0599,
+          "score": 4.3581,
+          "p_adj": 0.0777,
           "direction": "down"
         },
         {
@@ -520,36 +529,36 @@
             16175,
             31290
           ],
-          "score": 1.3276,
-          "p_adj": 0.0498,
+          "score": 2.0218,
+          "p_adj": 0.0501,
           "direction": "up"
+        },
+        {
+          "pattern": [
+            12681,
+            24245
+          ],
+          "score": 1.4231,
+          "p_adj": 0.0849,
+          "direction": "down"
         },
         {
           "pattern": [
             22055,
             22181
           ],
-          "score": 0.875,
-          "p_adj": 0.0937,
-          "direction": "up"
+          "score": 1.2402,
+          "p_adj": 0.0922,
+          "direction": "down"
         },
         {
           "pattern": [
             8278,
             41168
           ],
-          "score": 0.785,
-          "p_adj": 0.0476,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            25748,
-            55046
-          ],
-          "score": 0.1626,
-          "p_adj": 0.0844,
-          "direction": "up"
+          "score": 1.0783,
+          "p_adj": 0.0486,
+          "direction": "down"
         }
       ]
     },
@@ -557,15 +566,15 @@
       "campaign": "TypeB_11",
       "start": 177334,
       "end": 197787,
-      "n_attributions": 5,
+      "n_attributions": 4,
       "top_patterns": [
         {
           "pattern": [
-            35453,
+            29651,
             35570
           ],
-          "score": 4.2577,
-          "p_adj": 0.0622,
+          "score": 11.376,
+          "p_adj": 0.0901,
           "direction": "down"
         },
         {
@@ -573,26 +582,17 @@
             62433,
             62437
           ],
-          "score": 3.3805,
-          "p_adj": 0.0877,
+          "score": 5.2288,
+          "p_adj": 0.0649,
           "direction": "down"
-        },
-        {
-          "pattern": [
-            16858,
-            40593
-          ],
-          "score": 3.3735,
-          "p_adj": 0.0425,
-          "direction": "up"
         },
         {
           "pattern": [
             10627,
             22181
           ],
-          "score": 0.7653,
-          "p_adj": 0.0532,
+          "score": 1.0103,
+          "p_adj": 0.0553,
           "direction": "up"
         },
         {
@@ -600,8 +600,8 @@
             20953,
             30025
           ],
-          "score": 0.402,
-          "p_adj": 0.0476,
+          "score": 0.804,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -617,8 +617,8 @@
             24245,
             35570
           ],
-          "score": 10.019,
-          "p_adj": 0.031,
+          "score": 11.8306,
+          "p_adj": 0.0442,
           "direction": "up"
         },
         {
@@ -626,8 +626,8 @@
             62433,
             62437
           ],
-          "score": 3.3805,
-          "p_adj": 0.0802,
+          "score": 5.2288,
+          "p_adj": 0.0587,
           "direction": "down"
         },
         {
@@ -635,8 +635,8 @@
             8278,
             25748
           ],
-          "score": 3.2468,
-          "p_adj": 0.0475,
+          "score": 3.6786,
+          "p_adj": 0.0486,
           "direction": "up"
         },
         {
@@ -644,8 +644,8 @@
             10627,
             22181
           ],
-          "score": 0.7653,
-          "p_adj": 0.0527,
+          "score": 1.0103,
+          "p_adj": 0.054,
           "direction": "up"
         },
         {
@@ -653,8 +653,8 @@
             20953,
             30025
           ],
-          "score": 0.402,
-          "p_adj": 0.0476,
+          "score": 0.804,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -663,25 +663,43 @@
       "campaign": "TypeB_10",
       "start": 171003,
       "end": 185549,
-      "n_attributions": 7,
+      "n_attributions": 8,
       "top_patterns": [
         {
           "pattern": [
             9956,
             35570
           ],
-          "score": 4.7775,
-          "p_adj": 0.0738,
-          "direction": "up"
+          "score": 6.2175,
+          "p_adj": 0.0742,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            15499,
+            24245
+          ],
+          "score": 1.0364,
+          "p_adj": 0.0658,
+          "direction": "down"
         },
         {
           "pattern": [
             6675,
             8719
           ],
-          "score": 0.6782,
-          "p_adj": 0.0859,
-          "direction": "up"
+          "score": 0.9355,
+          "p_adj": 0.0845,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            31290,
+            35453
+          ],
+          "score": 0.7465,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
@@ -689,25 +707,7 @@
             25090
           ],
           "score": 0.6558,
-          "p_adj": 0.0476,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            15499,
-            24245
-          ],
-          "score": 0.654,
-          "p_adj": 0.0701,
-          "direction": "down"
-        },
-        {
-          "pattern": [
-            10421,
-            29651
-          ],
-          "score": 0.4329,
-          "p_adj": 0.0756,
+          "p_adj": 0.0486,
           "direction": "up"
         }
       ]
@@ -723,8 +723,8 @@
             24245,
             35570
           ],
-          "score": 7.7149,
-          "p_adj": 0.0573,
+          "score": 11.5481,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -740,8 +740,8 @@
             31290,
             35570
           ],
-          "score": 6.6455,
-          "p_adj": 0.0384,
+          "score": 7.4167,
+          "p_adj": 0.0486,
           "direction": "down"
         },
         {
@@ -749,8 +749,8 @@
             25748,
             30726
           ],
-          "score": 0.781,
-          "p_adj": 0.0611,
+          "score": 1.2578,
+          "p_adj": 0.0564,
           "direction": "down"
         },
         {
@@ -758,8 +758,8 @@
             6675,
             16010
           ],
-          "score": 0.3051,
-          "p_adj": 0.0476,
+          "score": 0.6102,
+          "p_adj": 0.0486,
           "direction": "down"
         },
         {
@@ -767,8 +767,8 @@
             9363,
             37353
           ],
-          "score": 0.1438,
-          "p_adj": 0.0498,
+          "score": 0.2876,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -784,8 +784,8 @@
             29651,
             35570
           ],
-          "score": 10.2571,
-          "p_adj": 0.051,
+          "score": 15.432,
+          "p_adj": 0.0462,
           "direction": "down"
         },
         {
@@ -793,8 +793,8 @@
             28720,
             55046
           ],
-          "score": 1.1802,
-          "p_adj": 0.0476,
+          "score": 1.5337,
+          "p_adj": 0.0486,
           "direction": "up"
         },
         {
@@ -803,7 +803,7 @@
             12681
           ],
           "score": 0.6176,
-          "p_adj": 0.0545,
+          "p_adj": 0.0602,
           "direction": "up"
         },
         {
@@ -812,7 +812,7 @@
             25748
           ],
           "score": 0.4405,
-          "p_adj": 0.0737,
+          "p_adj": 0.0836,
           "direction": "up"
         }
       ]
@@ -821,15 +821,15 @@
       "campaign": "TypeC_6",
       "start": 140519,
       "end": 154920,
-      "n_attributions": 5,
+      "n_attributions": 4,
       "top_patterns": [
         {
           "pattern": [
             16175,
             35570
           ],
-          "score": 3.3786,
-          "p_adj": 0.0322,
+          "score": 3.8206,
+          "p_adj": 0.0462,
           "direction": "down"
         },
         {
@@ -837,8 +837,8 @@
             12681,
             40593
           ],
-          "score": 2.4505,
-          "p_adj": 0.0476,
+          "score": 3.2669,
+          "p_adj": 0.0486,
           "direction": "up"
         },
         {
@@ -847,16 +847,7 @@
             55046
           ],
           "score": 2.4228,
-          "p_adj": 0.031,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            22146,
-            25748
-          ],
-          "score": 0.6949,
-          "p_adj": 0.0622,
+          "p_adj": 0.0442,
           "direction": "up"
         },
         {
@@ -865,7 +856,7 @@
             35453
           ],
           "score": 0.6692,
-          "p_adj": 0.0783,
+          "p_adj": 0.0922,
           "direction": "up"
         }
       ]
@@ -874,15 +865,24 @@
       "campaign": "TypeC_3",
       "start": 125017,
       "end": 149063,
-      "n_attributions": 4,
+      "n_attributions": 5,
       "top_patterns": [
         {
           "pattern": [
-            29651,
-            40593
+            12681,
+            35570
           ],
-          "score": 5.0506,
-          "p_adj": 0.0621,
+          "score": 8.26,
+          "p_adj": 0.0666,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            20968,
+            38256
+          ],
+          "score": 1.6667,
+          "p_adj": 0.0681,
           "direction": "down"
         },
         {
@@ -890,26 +890,26 @@
             28906,
             40249
           ],
-          "score": 1.1187,
-          "p_adj": 0.0445,
+          "score": 1.2639,
+          "p_adj": 0.0486,
           "direction": "up"
-        },
-        {
-          "pattern": [
-            20968,
-            38256
-          ],
-          "score": 0.8333,
-          "p_adj": 0.0881,
-          "direction": "down"
         },
         {
           "pattern": [
             25748,
             25829
           ],
-          "score": 0.1096,
-          "p_adj": 0.0476,
+          "score": 0.2191,
+          "p_adj": 0.0486,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            24048,
+            31290
+          ],
+          "score": 0.1501,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -918,33 +918,24 @@
       "campaign": "TypeB_5",
       "start": 133756,
       "end": 148622,
-      "n_attributions": 5,
+      "n_attributions": 6,
       "top_patterns": [
         {
           "pattern": [
             9956,
             35570
           ],
-          "score": 6.0705,
-          "p_adj": 0.0484,
+          "score": 9.2276,
+          "p_adj": 0.0486,
           "direction": "down"
-        },
-        {
-          "pattern": [
-            12681,
-            25748
-          ],
-          "score": 2.7809,
-          "p_adj": 0.0754,
-          "direction": "up"
         },
         {
           "pattern": [
             9746,
             13821
           ],
-          "score": 1.1997,
-          "p_adj": 0.044,
+          "score": 2.3993,
+          "p_adj": 0.0432,
           "direction": "up"
         },
         {
@@ -952,17 +943,26 @@
             6675,
             16010
           ],
-          "score": 0.4475,
-          "p_adj": 0.0476,
-          "direction": "up"
+          "score": 0.6123,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
-            9363,
-            37353
+            25708,
+            30726
           ],
-          "score": 0.1443,
-          "p_adj": 0.0476,
+          "score": 0.4402,
+          "p_adj": 0.0486,
+          "direction": "down"
+        },
+        {
+          "pattern": [
+            57193,
+            57244
+          ],
+          "score": 0.3246,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -979,7 +979,7 @@
             35570
           ],
           "score": 4.5659,
-          "p_adj": 0.031,
+          "p_adj": 0.0486,
           "direction": "down"
         },
         {
@@ -987,8 +987,8 @@
             12681,
             40500
           ],
-          "score": 0.8308,
-          "p_adj": 0.044,
+          "score": 1.6617,
+          "p_adj": 0.0432,
           "direction": "down"
         },
         {
@@ -996,17 +996,17 @@
             18551,
             25807
           ],
-          "score": 0.4086,
-          "p_adj": 0.0476,
-          "direction": "up"
+          "score": 0.5723,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
             7448,
             31290
           ],
-          "score": 0.2291,
-          "p_adj": 0.0476,
+          "score": 0.4582,
+          "p_adj": 0.0486,
           "direction": "down"
         }
       ]
@@ -1022,8 +1022,8 @@
             11255,
             35570
           ],
-          "score": 8.5321,
-          "p_adj": 0.031,
+          "score": 10.4207,
+          "p_adj": 0.0442,
           "direction": "up"
         },
         {
@@ -1031,9 +1031,9 @@
             31230,
             38256
           ],
-          "score": 1.4399,
-          "p_adj": 0.0384,
-          "direction": "up"
+          "score": 1.984,
+          "p_adj": 0.0442,
+          "direction": "down"
         }
       ]
     },
@@ -1045,21 +1045,21 @@
       "top_patterns": [
         {
           "pattern": [
-            11255,
-            35570
+            24245,
+            25748
           ],
-          "score": 4.9715,
-          "p_adj": 0.0937,
-          "direction": "up"
+          "score": 6.3524,
+          "p_adj": 0.077,
+          "direction": "down"
         },
         {
           "pattern": [
             10797,
             40593
           ],
-          "score": 1.7294,
-          "p_adj": 0.044,
-          "direction": "up"
+          "score": 2.4621,
+          "p_adj": 0.0442,
+          "direction": "down"
         }
       ]
     },
@@ -1074,17 +1074,17 @@
             31290,
             35570
           ],
-          "score": 7.3519,
-          "p_adj": 0.031,
-          "direction": "up"
+          "score": 9.6722,
+          "p_adj": 0.0442,
+          "direction": "down"
         },
         {
           "pattern": [
             8719,
             41168
           ],
-          "score": 0.1946,
-          "p_adj": 0.065,
+          "score": 0.3892,
+          "p_adj": 0.0649,
           "direction": "down"
         },
         {
@@ -1093,7 +1093,7 @@
             77284
           ],
           "score": 0.1372,
-          "p_adj": 0.0505,
+          "p_adj": 0.054,
           "direction": "up"
         }
       ]
@@ -1109,8 +1109,8 @@
             25807,
             35570
           ],
-          "score": 5.0872,
-          "p_adj": 0.0505,
+          "score": 6.0638,
+          "p_adj": 0.0618,
           "direction": "up"
         },
         {
@@ -1119,7 +1119,7 @@
             37103
           ],
           "score": 2.415,
-          "p_adj": 0.0384,
+          "p_adj": 0.0486,
           "direction": "up"
         },
         {
@@ -1128,8 +1128,17 @@
             25748
           ],
           "score": 1.868,
-          "p_adj": 0.0633,
+          "p_adj": 0.085,
           "direction": "up"
+        },
+        {
+          "pattern": [
+            26990,
+            29651
+          ],
+          "score": 1.2682,
+          "p_adj": 0.0486,
+          "direction": "down"
         },
         {
           "pattern": [
@@ -1137,16 +1146,7 @@
             41168
           ],
           "score": 1.012,
-          "p_adj": 0.044,
-          "direction": "up"
-        },
-        {
-          "pattern": [
-            10170,
-            21044
-          ],
-          "score": 1.012,
-          "p_adj": 0.0475,
+          "p_adj": 0.0486,
           "direction": "up"
         }
       ]
@@ -1155,16 +1155,25 @@
       "campaign": "TypeB_28",
       "start": 84525,
       "end": 110366,
-      "n_attributions": 1,
+      "n_attributions": 2,
       "top_patterns": [
         {
           "pattern": [
             35570,
             40500
           ],
-          "score": 9.7059,
-          "p_adj": 0.031,
+          "score": 10.7216,
+          "p_adj": 0.0486,
           "direction": "up"
+        },
+        {
+          "pattern": [
+            53089,
+            62433
+          ],
+          "score": 0.1362,
+          "p_adj": 0.0568,
+          "direction": "down"
         }
       ]
     },
@@ -1172,33 +1181,42 @@
       "campaign": "TypeC_27",
       "start": 75333,
       "end": 101865,
-      "n_attributions": 3,
+      "n_attributions": 4,
       "top_patterns": [
+        {
+          "pattern": [
+            25748,
+            26863
+          ],
+          "score": 4.2223,
+          "p_adj": 0.0442,
+          "direction": "up"
+        },
         {
           "pattern": [
             8713,
             36648
           ],
           "score": 3.8929,
-          "p_adj": 0.064,
+          "p_adj": 0.0865,
           "direction": "up"
         },
         {
           "pattern": [
-            25748,
-            26863
+            35570,
+            37429
           ],
-          "score": 2.815,
-          "p_adj": 0.044,
-          "direction": "up"
+          "score": 1.6788,
+          "p_adj": 0.0737,
+          "direction": "down"
         },
         {
           "pattern": [
             20968,
             53089
           ],
-          "score": 0.4871,
-          "p_adj": 0.0629,
+          "score": 1.1213,
+          "p_adj": 0.059,
           "direction": "down"
         }
       ]
@@ -1214,9 +1232,9 @@
             25748,
             40593
           ],
-          "score": 3.0346,
-          "p_adj": 0.0476,
-          "direction": "up"
+          "score": 5.1881,
+          "p_adj": 0.0442,
+          "direction": "down"
         },
         {
           "pattern": [
@@ -1224,37 +1242,37 @@
             24245
           ],
           "score": 1.5983,
-          "p_adj": 0.0536,
+          "p_adj": 0.0645,
           "direction": "up"
         },
         {
           "pattern": [
-            22146,
+            16158,
             35570
           ],
-          "score": 0.4754,
-          "p_adj": 0.0946,
-          "direction": "up"
+          "score": 0.8423,
+          "p_adj": 0.0605,
+          "direction": "down"
         },
         {
           "pattern": [
             6675,
             13156
           ],
-          "score": 0.1325,
-          "p_adj": 0.0802,
+          "score": 0.265,
+          "p_adj": 0.0776,
           "direction": "down"
         }
       ]
     }
   ],
   "coupon_consistency": {
-    "n_attributions_evaluated": 118,
-    "n_coupon_hits": 13,
-    "coupon_hit_rate": 0.1102,
-    "n_with_coupon_gt": 118,
-    "n_hits_among_gt": 13,
-    "coupon_precision": 0.1102,
+    "n_attributions_evaluated": 124,
+    "n_coupon_hits": 14,
+    "coupon_hit_rate": 0.1129,
+    "n_with_coupon_gt": 124,
+    "n_hits_among_gt": 14,
+    "coupon_precision": 0.1129,
     "per_campaign": {
       "TypeB_9": {
         "event_id": "C9",
@@ -1263,72 +1281,10 @@
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeA_13": {
-        "event_id": "C13",
-        "n_coupon_items": 35603,
-        "n_attributions": 5,
-        "n_hits": 5,
-        "hit_patterns": [
-          {
-            "pattern": [
-              35570,
-              38125
-            ],
-            "overlap_items": [
-              35570,
-              38125
-            ],
-            "score": 4.0049
-          },
-          {
-            "pattern": [
-              16175,
-              31290
-            ],
-            "overlap_items": [
-              16175,
-              31290
-            ],
-            "score": 1.3276
-          },
-          {
-            "pattern": [
-              8278,
-              41168
-            ],
-            "overlap_items": [
-              8278,
-              41168
-            ],
-            "score": 0.785
-          },
-          {
-            "pattern": [
-              25748,
-              55046
-            ],
-            "overlap_items": [
-              25748
-            ],
-            "score": 0.1626
-          },
-          {
-            "pattern": [
-              22055,
-              22181
-            ],
-            "overlap_items": [
-              22055,
-              22181
-            ],
-            "score": 0.875
-          }
-        ]
-      },
-      "TypeB_25": {
-        "event_id": "C25",
-        "n_coupon_items": 826,
-        "n_attributions": 3,
+      "TypeB_5": {
+        "event_id": "C5",
+        "n_coupon_items": 443,
+        "n_attributions": 6,
         "n_hits": 0,
         "hit_patterns": []
       },
@@ -1339,10 +1295,73 @@
         "n_hits": 0,
         "hit_patterns": []
       },
+      "TypeC_3": {
+        "event_id": "C3",
+        "n_coupon_items": 506,
+        "n_attributions": 5,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeC_6": {
+        "event_id": "C6",
+        "n_coupon_items": 18,
+        "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
       "TypeB_4": {
         "event_id": "C4",
         "n_coupon_items": 200,
         "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_19": {
+        "event_id": "C19",
+        "n_coupon_items": 375,
+        "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_23": {
+        "event_id": "C23",
+        "n_coupon_items": 766,
+        "n_attributions": 5,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_21": {
+        "event_id": "C21",
+        "n_coupon_items": 242,
+        "n_attributions": 7,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_22": {
+        "event_id": "C22",
+        "n_coupon_items": 1917,
+        "n_attributions": 7,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_29": {
+        "event_id": "C29",
+        "n_coupon_items": 689,
+        "n_attributions": 7,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_17": {
+        "event_id": "C17",
+        "n_coupon_items": 713,
+        "n_attributions": 1,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_10": {
+        "event_id": "C10",
+        "n_coupon_items": 393,
+        "n_attributions": 8,
         "n_hits": 0,
         "hit_patterns": []
       },
@@ -1353,17 +1372,17 @@
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeB_21": {
-        "event_id": "C21",
-        "n_coupon_items": 242,
-        "n_attributions": 6,
+      "TypeB_25": {
+        "event_id": "C25",
+        "n_coupon_items": 826,
+        "n_attributions": 4,
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeB_22": {
-        "event_id": "C22",
-        "n_coupon_items": 1917,
-        "n_attributions": 6,
+      "TypeB_11": {
+        "event_id": "C11",
+        "n_coupon_items": 278,
+        "n_attributions": 4,
         "n_hits": 0,
         "hit_patterns": []
       },
@@ -1381,7 +1400,7 @@
             "overlap_items": [
               24245
             ],
-            "score": 10.019
+            "score": 11.8306
           },
           {
             "pattern": [
@@ -1391,51 +1410,82 @@
             "overlap_items": [
               8278
             ],
-            "score": 3.2468
+            "score": 3.6786
           }
         ]
       },
-      "TypeB_28": {
-        "event_id": "C28",
-        "n_coupon_items": 535,
-        "n_attributions": 1,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_1": {
-        "event_id": "C1",
-        "n_coupon_items": 383,
-        "n_attributions": 2,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_19": {
-        "event_id": "C19",
-        "n_coupon_items": 375,
-        "n_attributions": 4,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_29": {
-        "event_id": "C29",
-        "n_coupon_items": 689,
-        "n_attributions": 7,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeC_6": {
-        "event_id": "C6",
-        "n_coupon_items": 18,
-        "n_attributions": 5,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_17": {
-        "event_id": "C17",
-        "n_coupon_items": 713,
-        "n_attributions": 1,
-        "n_hits": 0,
-        "hit_patterns": []
+      "TypeA_13": {
+        "event_id": "C13",
+        "n_coupon_items": 35603,
+        "n_attributions": 6,
+        "n_hits": 6,
+        "hit_patterns": [
+          {
+            "pattern": [
+              35570,
+              38125
+            ],
+            "overlap_items": [
+              35570,
+              38125
+            ],
+            "score": 4.3581
+          },
+          {
+            "pattern": [
+              16175,
+              31290
+            ],
+            "overlap_items": [
+              16175,
+              31290
+            ],
+            "score": 2.0218
+          },
+          {
+            "pattern": [
+              8278,
+              41168
+            ],
+            "overlap_items": [
+              8278,
+              41168
+            ],
+            "score": 1.0783
+          },
+          {
+            "pattern": [
+              25748,
+              55046
+            ],
+            "overlap_items": [
+              25748
+            ],
+            "score": 0.2988
+          },
+          {
+            "pattern": [
+              12681,
+              24245
+            ],
+            "overlap_items": [
+              12681,
+              24245
+            ],
+            "score": 1.4231
+          },
+          {
+            "pattern": [
+              22055,
+              22181
+            ],
+            "overlap_items": [
+              22055,
+              22181
+            ],
+            "score": 1.2402
+          }
+        ]
       },
       "TypeA_8": {
         "event_id": "C8",
@@ -1452,7 +1502,7 @@
               31290,
               35570
             ],
-            "score": 6.6455
+            "score": 7.4167
           },
           {
             "pattern": [
@@ -1462,7 +1512,7 @@
             "overlap_items": [
               16010
             ],
-            "score": 0.3051
+            "score": 0.6102
           },
           {
             "pattern": [
@@ -1472,21 +1522,42 @@
             "overlap_items": [
               25748
             ],
-            "score": 0.781
+            "score": 1.2578
           }
         ]
       },
-      "TypeB_11": {
-        "event_id": "C11",
-        "n_coupon_items": 278,
+      "TypeA_26": {
+        "event_id": "C26",
+        "n_coupon_items": 3395,
+        "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeC_14": {
+        "event_id": "C14",
+        "n_coupon_items": 714,
+        "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_7": {
+        "event_id": "C7",
+        "n_coupon_items": 259,
+        "n_attributions": 4,
+        "n_hits": 0,
+        "hit_patterns": []
+      },
+      "TypeB_24": {
+        "event_id": "C24",
+        "n_coupon_items": 1887,
         "n_attributions": 5,
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeB_5": {
-        "event_id": "C5",
-        "n_coupon_items": 443,
-        "n_attributions": 5,
+      "TypeB_1": {
+        "event_id": "C1",
+        "n_coupon_items": 383,
+        "n_attributions": 2,
         "n_hits": 0,
         "hit_patterns": []
       },
@@ -1505,18 +1576,18 @@
               14973,
               29651
             ],
-            "score": 2.8459
+            "score": 3.2498
           },
           {
             "pattern": [
-              32581,
+              10935,
               35570
             ],
             "overlap_items": [
-              32581,
+              10935,
               35570
             ],
-            "score": 1.9989
+            "score": 2.405
           },
           {
             "pattern": [
@@ -1527,83 +1598,41 @@
               10421,
               31290
             ],
-            "score": 0.1095
+            "score": 0.2191
           }
         ]
       },
       "TypeC_20": {
         "event_id": "C20",
         "n_coupon_items": 609,
-        "n_attributions": 2,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeC_3": {
-        "event_id": "C3",
-        "n_coupon_items": 506,
-        "n_attributions": 4,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_23": {
-        "event_id": "C23",
-        "n_coupon_items": 766,
-        "n_attributions": 4,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeC_14": {
-        "event_id": "C14",
-        "n_coupon_items": 714,
-        "n_attributions": 6,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_7": {
-        "event_id": "C7",
-        "n_coupon_items": 259,
-        "n_attributions": 4,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_10": {
-        "event_id": "C10",
-        "n_coupon_items": 393,
-        "n_attributions": 7,
-        "n_hits": 0,
-        "hit_patterns": []
-      },
-      "TypeB_16": {
-        "event_id": "C16",
-        "n_coupon_items": 1025,
-        "n_attributions": 4,
+        "n_attributions": 1,
         "n_hits": 0,
         "hit_patterns": []
       },
       "TypeC_27": {
         "event_id": "C27",
         "n_coupon_items": 632,
-        "n_attributions": 3,
+        "n_attributions": 4,
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeB_24": {
-        "event_id": "C24",
-        "n_coupon_items": 1887,
-        "n_attributions": 5,
+      "TypeB_28": {
+        "event_id": "C28",
+        "n_coupon_items": 535,
+        "n_attributions": 2,
         "n_hits": 0,
         "hit_patterns": []
       },
       "TypeC_15": {
         "event_id": "C15",
         "n_coupon_items": 55,
-        "n_attributions": 3,
+        "n_attributions": 4,
         "n_hits": 0,
         "hit_patterns": []
       },
-      "TypeA_26": {
-        "event_id": "C26",
-        "n_coupon_items": 3395,
+      "TypeB_16": {
+        "event_id": "C16",
+        "n_coupon_items": 1025,
         "n_attributions": 4,
         "n_hits": 0,
         "hit_patterns": []

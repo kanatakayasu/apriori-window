@@ -50,7 +50,6 @@ class AttributionCandidate:
     change_point: ChangePoint
     event: Event
     proximity: float
-    direction_match: float
     attribution_score: float
 
 
@@ -420,38 +419,6 @@ def compute_proximity(
     return math.exp(-dist / sigma) if sigma > 0 else (1.0 if dist == 0 else 0.0)
 
 
-def compute_direction_match(
-    change_point: ChangePoint,
-    event: Event,
-) -> float:
-    """
-    変化点とイベントの方向整合性を計算する。
-
-    - 上昇 × イベント開始直後 → 1.0
-    - 下降 × イベント終了直後 → 1.0
-    - 上昇 × イベント開始直前 → 0.5（予兆的）
-    - 不整合 → 0.0
-    """
-    t = change_point.time
-
-    if change_point.direction == "up":
-        # イベント開始の直後に上昇
-        if t >= event.start:
-            return 1.0
-        # イベント開始の直前に上昇（予兆）
-        elif t < event.start:
-            return 0.5
-    elif change_point.direction == "down":
-        # イベント終了の直後に下降
-        if t >= event.end:
-            return 1.0
-        # イベント終了の直前に下降
-        elif t < event.end:
-            return 0.5
-
-    return 0.0
-
-
 def score_attributions(
     pattern: Tuple[int, ...],
     change_points: List[ChangePoint],
@@ -465,16 +432,17 @@ def score_attributions(
     """
     変化点-イベント間の帰属スコアを計算し、閾値を超えた候補を返す。
 
+    帰属スコア A = prox × mag（近接度 × 変化量）。
+
     use_effect_size=True の場合、magnitude の代わりに相対変化量
     (magnitude / max(1, support_before)) を使用する。これにより高ベースライン
     パターンの弱い変動が抑制される。
 
     ablation_mode: スコア構成要素のアブレーション設定（None=Full）。
-        "no_dir"   : prox × mag (dir=1.0)
-        "no_prox"  : dir × mag  (prox=1.0)
-        "no_mag"   : prox × dir (mag=1.0)
-        "mag_only" : mag only   (prox=1.0, dir=1.0)
-        "prox_only": prox only  (dir=1.0, mag=1.0)
+        "no_prox"  : mag only  (prox=1.0)
+        "no_mag"   : prox only (mag=1.0)
+        "mag_only" : mag only  (prox=1.0)
+        "prox_only": prox only (mag=1.0)
     """
     candidates: List[AttributionCandidate] = []
 
@@ -485,25 +453,18 @@ def score_attributions(
                 continue
 
             prox = compute_proximity(cp.time, event, sigma)
-            dir_match = compute_direction_match(cp, event)
             if use_effect_size:
                 mag = abs(cp.magnitude) / max(1.0, cp.support_before)
             else:
                 mag = abs(cp.magnitude)
 
             # Apply ablation overrides
-            if ablation_mode == "no_dir":
-                score = prox * 1.0 * mag
-            elif ablation_mode == "no_prox":
-                score = 1.0 * dir_match * mag
-            elif ablation_mode == "no_mag":
-                score = prox * dir_match * 1.0
-            elif ablation_mode == "mag_only":
-                score = 1.0 * 1.0 * mag
-            elif ablation_mode == "prox_only":
-                score = prox * 1.0 * 1.0
+            if ablation_mode in ("no_prox", "mag_only"):
+                score = mag
+            elif ablation_mode in ("no_mag", "prox_only"):
+                score = prox
             else:
-                score = prox * dir_match * mag
+                score = prox * mag
 
             if score >= attribution_threshold:
                 candidates.append(AttributionCandidate(
@@ -511,7 +472,6 @@ def score_attributions(
                     change_point=cp,
                     event=event,
                     proximity=prox,
-                    direction_match=dir_match,
                     attribution_score=score,
                 ))
 
