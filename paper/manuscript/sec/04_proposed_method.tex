@@ -10,6 +10,17 @@ Phase 1（Apriori-window）で得られたパターン集合 $\mathcal{F}$ と
 
 \input{alg/event_attribution_pipeline}
 
+\paragraph{前提条件: パターン長}
+本パイプラインは\textbf{2アイテムセット}（$|P| = 2$）を対象として設計されている．
+Step~5（重複排除）のProposition~\ref{prop:dedup}は
+2アイテムセットの簡約独立出現モデル下で証明されており，
+またアイテム共有グラフにおいて2アイテム中1アイテムの共有は
+50\%の重複に相当し，統合の妥当な根拠となる．
+$|P| \geq 3$ では，ヘッドアイテム（高頻度アイテム）1つの共有だけで
+無関係なパターンが同一クラスタに過剰統合される（over-merging）リスクが増大し，
+Proposition~\ref{prop:dedup}の順序保存性も追加の理論的検討を要する．
+$|P| \geq 3$ への拡張は\ref{sec:conclusion}節で今後の課題として議論する．
+
 \subsection{Step 1: 密集区間からの変化点抽出}
 
 Phase 1（Apriori-window）は各パターン $P \in \mathcal{F}$（$|P| \geq 2$）に対して，
@@ -55,11 +66,11 @@ $h$ はレベルウィンドウ幅（デフォルト $h = 20$）である．
 パターン $P$ の変化点 $\tau$ と各イベント $e \in \mathcal{E}$ に対して，
 時間的関連を定量化する\emph{帰属スコア}を計算する:
 \begin{equation}
-A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{dir}(\tau, e) \cdot \text{mag}(\tau)
+A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{mag}(\tau)
 \label{eq:attribution_score}
 \end{equation}
 
-3つの構成要素は以下の通りである．
+2つの構成要素は以下の通りである．
 
 \textbf{近接度}: 指数カーネルによる時間的近さの指標:
 \begin{equation}
@@ -68,24 +79,6 @@ A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{dir}(\tau, e) \cdot \text{mag}(
 \end{equation}
 ここで $d(\tau, e) = \min(|\tau - t_s|, |\tau - t_e|)$ は
 変化点からイベント境界までの最小距離，$\sigma > 0$ は減衰パラメータである．
-
-\textbf{方向整合性}: イベントの開始時にサポートが上昇し，
-終了時に下降するという期待に基づく重み:
-\begin{equation}
-\text{dir}(\tau, e) = \begin{cases}
-1.0 & \tau \geq t_s \text{ かつ方向が「上昇」} \\
-1.0 & \tau \geq t_e \text{ かつ方向が「下降」} \\
-0.5 & \text{その他（イベント前の変化等）} \\
-\end{cases}
-\label{eq:direction}
-\end{equation}
-「その他」の重みを $0.5$（完全排除ではなく半減）とする理由は，
-(1) イベント前の先行的な在庫積み増しや周知効果による早期変動を
-完全に排除すると偽陰性のリスクがあること，
-(2) アブレーション実験（\ref{sec:exp_ablation_score}節，表~\ref{tab:ablation_score}）で
-direction の寄与が限定的であることが実証されており，
-$0.5$ の選択がパイプライン全体の性能に対して頑健であること，
-の2点による．
 
 \textbf{変化量}: 式~(\ref{eq:magnitude})のレベルシフト量．
 
@@ -159,6 +152,8 @@ PRDS 条件は自明に成立する．
 \end{remark}
 
 \subsection{Step 5: アイテム重複排除}\label{sec:dedup}
+
+本ステップは $|P| = 2$ を前提とする（前提条件を参照）．
 
 \subsubsection{副次パターン問題}
 
