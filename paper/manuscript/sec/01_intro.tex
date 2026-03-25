@@ -19,8 +19,8 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 意思決定に直結する知見が得られる．
 
 このように帰属タスクは実用上重要であるにもかかわらず，
-頻出パターンのサポート変動を外部イベントに結びつける統計フレームワークは，
-我々の知る限り存在しない．
+頻出パターンのサポート変動を外部イベントに結びつける統計フレームワークは
+新たな研究課題として残されている．
 時間的パターンマイニング~\cite{mahanta2005finding,tanbeer2009discovering,kiran2017discovering,fournier2021mining}
 は周期性や局所頻度を持つパターンを発見するが，
 パターン変動と外生イベントの関連はモデル化しない．
@@ -37,7 +37,7 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 
 本稿では，頻出パターンマイニングと外部イベント帰属を橋渡しする
 統計フレームワーク\textbf{「イベント帰属パイプライン」}を提案する．
-貢献は以下の3点である．
+貢献は以下の4点である．
 
 \begin{enumerate}
 \item \textbf{5ステップパイプライン}（\ref{sec:method}節）:
@@ -50,8 +50,14 @@ Apriori~\cite{agrawal1994fast}，FP-Growth~\cite{han2000mining}，ECLAT~\cite{za
 相関した偽陽性を生む問題（\emph{副次パターン問題}）を，
 イベントごとの Union-Find クラスタリングにより解決する新しい後処理技法．
 
+\item \textbf{帰無実験による偽発見率の実証的検証}（\ref{sec:exp_null}節）:
+全パターンがイベント非対応（Type B のみ）の帰無条件下で，
+棄却率が名目水準 $\alpha$ 以下に制御されることを実証する．
+
 \item \textbf{包括的な実験評価}（\ref{sec:experiments}節）:
-(i) 合成データにおける完全検出（F1 = 1.0），
+語彙内ブースト型信号・イベント非対応パターン・デコイイベントを含む
+公正な実験設計のもと，
+(i) 合成データにおける高精度検出と偽帰属率 0.0，
 (ii) パラメータ選択に対する頑健性，
 (iii) 100万トランザクションまでの線形スケーラビリティ，
 (iv) 実データにおける偽陽性96\%削減を実証する．
