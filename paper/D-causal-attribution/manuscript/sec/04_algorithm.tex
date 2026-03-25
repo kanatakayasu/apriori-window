@@ -9,7 +9,7 @@
 \label{alg:sc-dense}
 \begin{algorithmic}[1]
 \REQUIRE トランザクション系列 $\mathcal{D}$，処置パターン $P^*$，候補パターン $\mathcal{P}$，介入時刻 $t_0$，ウィンドウサイズ $W$
-\ENSURE 因果効果 $\hat{\tau}$，p値 $p$
+\ENSURE 因果効果 $\hat{\tau}$，p値 $p$，帰属スコア $\mathrm{Score}$
 \STATE \Cref{def:windowed-support} によりサポート系列 $\mathbf{s}_{P^*}$ を計算
 \STATE ドナープール $\mathcal{D}(P^*) \leftarrow \{P \in \mathcal{P} : P \cap P^* = \emptyset\}$ を構築
 \FOR{各 $P_j \in \mathcal{D}(P^*)$}
@@ -24,7 +24,8 @@
     \STATE プラセボ効果と比 $r_j$ を計算
 \ENDFOR
 \STATE $p \leftarrow |\{j : r_j \geq r^*\}| / (J + 1)$
-\RETURN $\hat{\tau}$, $p$
+\STATE $\mathrm{Score}(P^*, e) \leftarrow \mathrm{prox}(t_0, t_e) \times \mathrm{mag}(P^*, t_0)$ を計算（\Cref{def:attribution-score}）
+\RETURN $\hat{\tau}$, $p$, $\mathrm{Score}$
 \end{algorithmic}
 \end{algorithm}
 

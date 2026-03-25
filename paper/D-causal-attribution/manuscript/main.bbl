@@ -25,6 +25,11 @@
 R.~Agrawal and R.~Srikant, ``Fast algorithms for mining association rules,'' in
   \emph{Proc.\ VLDB}, 1994, pp. 487--499.
 
+\bibitem{lancaster2018surges}
+G.~Lancaster, P.~Leng, and C.~K.-S. Leung, ``Surges in frequent itemset counts
+  under temporal variation,'' in \emph{Proc.\ ICDM Workshops}, 2018, pp.
+  888--895.
+
 \bibitem{rubin1974estimating}
 D.~B. Rubin, ``Estimating causal effects of treatments in randomized and
   nonrandomized studies,'' \emph{Journal of Educational Psychology}, vol.~66,
