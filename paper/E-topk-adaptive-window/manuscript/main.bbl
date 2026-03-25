@@ -26,13 +26,13 @@ R.~Agrawal and R.~Srikant, ``Fast algorithms for mining association rules,'' in
   \emph{Proc.\ VLDB}, 1994, pp. 487--499.
 
 \bibitem{ho2022temporal}
-D.~H. Ho \emph{et~al.}, ``Efficient temporal pattern mining in big time series
-  using mutual information,'' \emph{Proc.\ VLDB Endowment}, vol.~15, no.~3, pp.
-  673--685, 2022.
+V.~L. Ho, N.~Ho, and T.~B. Pedersen, ``Efficient temporal pattern mining in big
+  time series using mutual information,'' \emph{Proc.\ VLDB Endowment},
+  vol.~15, no.~3, pp. 673--685, 2022.
 
 \bibitem{batal2012temporal}
 I.~Batal, H.~Valizadegan, G.~F. Cooper, and M.~Hauskrecht, ``A temporal pattern
-  mining approach for classifying electronic health record data,'' in \emph{ACM
+  mining approach for classifying electronic health record data,'' \emph{ACM
   Trans.\ Intelligent Systems and Technology}, vol.~4, no.~4, 2013.
 
 \bibitem{keogh2004parameter}
@@ -46,12 +46,12 @@ A.~Ermshaus, P.~Schäfer, and U.~Leser, ``Window size selection in unsupervised
 
 \bibitem{fu2004mining}
 A.~W.-c. Fu, R.~W.-w. Kwong, and J.~Tang, ``Mining {N}-most interesting
-  itemsets,'' \emph{IEEE Trans.\ KDE}, 2004.
+  itemsets,'' in \emph{Proc.\ ISMIS}, 2000.
 
 \bibitem{yadav2016topkminer}
-P.~Yadav and S.~Soni, ``Top-{K} miner: Top-{K} identical frequent itemsets
-  discovery without user support threshold,'' \emph{Knowledge and Information
-  Systems}, vol.~48, no.~3, pp. 741--762, 2016.
+K.~Saif-ur Rehman, J.~Ashraf, and A.~Habib, ``Top-{K} miner: Top-{K} identical
+  frequent itemsets discovery without user support threshold,'' \emph{Knowledge
+  and Information Systems}, vol.~48, no.~3, pp. 741--762, 2016.
 
 \bibitem{duong2016kHMC}
 Q.-H. Duong, B.~Liao, P.~Fournier-Viger, and T.-L. Dam, ``An efficient
@@ -60,9 +60,9 @@ Q.-H. Duong, B.~Liao, P.~Fournier-Viger, and T.-L. Dam, ``An efficient
   pp. 106--122, 2016.
 
 \bibitem{fatima2021tkfim}
-A.~Fatima \emph{et~al.}, ``{TKFIM}: Top-{K} frequent itemset mining technique
-  based on equivalence classes,'' \emph{PeerJ Computer Science}, vol.~7, p.
-  e385, 2021.
+S.~Iqbal, A.~Shahid, M.~Roman, Z.~Khan, S.~Al-Otaibi, and L.~Yu, ``{TKFIM}:
+  Top-{K} frequent itemset mining technique based on equivalence classes,''
+  \emph{PeerJ Computer Science}, vol.~7, p. e385, 2021.
 
 \bibitem{fournierviger2013tks}
 P.~Fournier-Viger, A.~Gomariz, T.~Gueniche, E.~Mwamikazi, and R.~Thomas,
@@ -71,12 +71,12 @@ P.~Fournier-Viger, A.~Gomariz, T.~Gueniche, E.~Mwamikazi, and R.~Thomas,
 
 \bibitem{tseng2015tko}
 V.~S. Tseng, C.-W. Wu, P.~Fournier-Viger, and P.~S. Yu, ``Efficient algorithms
-  for mining top-k high utility itemsets,'' in \emph{IEEE Trans.\ KDE},
-  vol.~28, no.~1, 2015, pp. 54--67.
+  for mining top-k high utility itemsets,'' \emph{IEEE Trans.\ KDE}, vol.~28,
+  no.~1, pp. 54--67, 2016.
 
 \bibitem{krishnamoorthy2018tkeh}
-S.~Krishnamoorthy, ``{TKEH}: An efficient algorithm for mining top-k high
-  utility itemsets,'' \emph{Applied Intelligence}, vol.~49, pp. 1--15, 2018.
+K.~Singh \emph{et~al.}, ``{TKEH}: An efficient algorithm for mining top-k high
+  utility itemsets,'' \emph{Applied Intelligence}, vol.~49, pp. 1--15, 2019.
 
 \bibitem{lindeberg1994scale}
 T.~Lindeberg, \emph{Scale-Space Theory in Computer Vision}.\hskip 1em plus
@@ -97,8 +97,8 @@ A.~Bifet and R.~Gavaldà, ``Learning from time-changing data with adaptive
   windowing,'' in \emph{Proc.\ SIAM SDM}, 2007, pp. 443--448.
 
 \bibitem{morrison2024topk}
-J.~Morrison \emph{et~al.}, ``Efficient top-k frequent itemset mining on massive
-  data,'' \emph{Data Science and Engineering}, 2024.
+X.~Wan and X.~Han, ``Efficient top-k frequent itemset mining on massive data,''
+  \emph{Data Science and Engineering}, 2024.
 
 \bibitem{lindeberg1993blob}
 T.~Lindeberg, ``Detecting salient blob-like image structures and their scales
@@ -119,5 +119,10 @@ M.~Linardi, Y.~Zhu, T.~Palpanas, and E.~Keogh, ``Matrix profile goes {MAD}:
 J.~Sun, C.~Faloutsos, S.~Papadimitriou, and P.~S. Yu, ``{GraphScope}:
   Parameter-free mining of large time-evolving graphs,'' in \emph{Proc.\ ACM
   SIGKDD}, 2007, pp. 687--696.
+
+\bibitem{lancaster2018surrogate}
+G.~Lancaster, D.~Iatsenko, A.~Pidde, V.~Ticcinelli, and A.~Stefanovska,
+  ``Surrogate data for hypothesis testing of physical systems,'' \emph{Physics
+  Reports}, vol. 748, pp. 1--60, 2018.
 
 \end{thebibliography}
