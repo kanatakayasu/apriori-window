@@ -132,6 +132,24 @@ Algorithm~\ref{alg:udi-miner}に本レベルワイズマイニング手順を示
 \end{algorithmic}
 \end{algorithm}
 
+\subsection{2アイテムセット簡約モデルの正当化}
+\label{subsec:l2-justification}
+
+本アルゴリズムでは最大アイテムセット長$k_{\max}$をパラメータとして設定できるが、高効用マイニングの実務的応用---特に小売業におけるクロスセル分析---では$k_{\max} = 2$が重要な設計点となる。以下にその根拠を述べる。
+
+\begin{property}[$L=2$における計算効率]
+\label{prop:l2-efficiency}
+$k_{\max} = 2$のとき、UDI-Minerは以下の簡素化を享受する：
+\begin{enumerate}
+    \item \textbf{TWU計算の効率性}: 2アイテムセット$\{i, j\}$のWTWUは、各アイテムの出現トランザクション集合の共通部分のみから計算される。候補生成がAprioriGenの1回で完了するため、レベルワイズ探索のオーバーヘッドが最小化される。
+    \item \textbf{効用上界の緊密化}: $|X| = 2$では$\text{WTWU}(X, l)$と$\text{WU}(X, l)$の差がアイテムセット長の増加に伴う累積的な過大評価を受けないため、TWU上界が比較的タイトになり、枝刈り効率が向上する。
+    \item \textbf{実務的解釈性}: 2商品の組み合わせ（例：肉とソース、ワインとチーズ）は小売業のクロスセル戦略において直接的なアクションに結びつきやすく、3商品以上の組み合わせに比べて解釈と施策への展開が容易である。
+\end{enumerate}
+\end{property}
+
+\noindent
+以降の理論的性質（定理~\ref{thm:pruning}、補題~\ref{lem:twu-antimonotone}等）は任意の$k_{\max}$に対して成立するが、$k_{\max} = 2$を設定した場合に枝刈りの効果が最も顕著に発揮されることを付記する。
+
 \subsection{計算量解析}
 
 \begin{theorem}[時間計算量]
