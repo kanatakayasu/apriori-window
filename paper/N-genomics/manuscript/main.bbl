@@ -35,6 +35,12 @@ Lizhuang Ji and Kian-Lee Tan.
   gene clusters.
 \newblock {\em Bioinformatics}, 21(21):3993--4000, 2005.
 
+\bibitem{lancaster2018dense}
+Joseph Lancaster and David Soeria-Atmadja.
+\newblock Dense itemset mining in a time evolving environment.
+\newblock In {\em Proceedings of the 2018 IEEE International Conference on Data
+  Mining Workshops (ICDMW)}, pages 521--528. IEEE, 2018.
+
 \bibitem{lange2022cellrank}
 Marius Lange, Volker Bergen, Michal Klein, Manu Setty, Bernhard Reuter, Mostafa
   Bakhti, Heiko Lickert, Meshal Ansari, Janine Schiller, Dana Pe'er, and
@@ -80,6 +86,12 @@ Kelly Street, Davide Risso, Russell~B Fletcher, Diya Das, John Ngai, Nir Yosef,
 \newblock Slingshot: cell lineage and pseudotime inference for single-cell
   transcriptomics.
 \newblock {\em BMC Genomics}, 19(1):477, 2018.
+
+\bibitem{tabula2018single}
+{The Tabula Muris Consortium}.
+\newblock Single-cell transcriptomics of 20 mouse organs creates a {Tabula
+  Muris}.
+\newblock {\em Nature}, 562(7727):367--372, 2018.
 
 \bibitem{trapnell2014dynamics}
 Cole Trapnell, Davide Cacchiarelli, Jonna Grimsby, Prapti Pokharel, Shuqiang
