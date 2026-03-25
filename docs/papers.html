@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apriori-Window Research Portal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --c-bg:#fff;--c-fg:#1a1a1a;--c-gray:#666;--c-muted:#999;
+    --c-border:#e5e5e5;--c-surface:#fafafa;--c-red:#d32f2f;
+    --c-red-bg:#fff5f5;--c-red-light:#ffcdd2;
+    --max-w:1200px;
+    --font-sans:'Noto Sans JP','Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-sans);color:var(--c-fg);line-height:1.7;font-size:15px;background:var(--c-bg)}
+
+  /* ── TOP NAV ── */
+  .topnav{
+    position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--c-border);
+  }
+  .topnav-inner{
+    max-width:var(--max-w);margin:0 auto;padding:0 32px;
+    display:flex;align-items:center;height:56px;gap:24px;
+  }
+  .topnav .logo{font-size:14px;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+  .topnav .logo span{color:var(--c-red)}
+  .topnav-links{display:flex;gap:4px;margin-left:auto}
+  .topnav-links a{
+    font-size:13px;font-weight:500;color:var(--c-gray);text-decoration:none;
+    padding:6px 14px;border-radius:6px;transition:all .15s;
+  }
+  .topnav-links a:hover{background:var(--c-surface);color:var(--c-fg)}
+  .topnav-links a.active{background:var(--c-red-bg);color:var(--c-red);font-weight:700}
+  .btn-lp{
+    font-size:12px;font-weight:700;color:#fff;background:var(--c-red);
+    padding:6px 16px;border-radius:6px;text-decoration:none;transition:opacity .15s;
+  }
+  .btn-lp:hover{opacity:.85}
+
+  /* ── HERO ── */
+  .hero{
+    max-width:var(--max-w);margin:0 auto;padding:80px 32px 60px;
+    border-bottom:1px solid var(--c-border);
+  }
+  .hero h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;line-height:1.2;letter-spacing:-.04em}
+  .hero .lead{font-size:1.1rem;color:var(--c-gray);margin-top:16px;max-width:700px}
+  .hero .stats{display:flex;gap:32px;margin-top:32px;flex-wrap:wrap}
+  .hero .stat{text-align:center}
+  .hero .stat .val{font-size:2.4rem;font-weight:900;color:var(--c-red);line-height:1}
+  .hero .stat .lbl{font-size:12px;color:var(--c-muted);margin-top:4px}
+
+  /* ── WAVE FILTER ── */
+  .filter-bar{
+    max-width:var(--max-w);margin:0 auto;padding:24px 32px 0;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  }
+  .filter-bar .label{font-size:12px;font-weight:700;color:var(--c-muted);letter-spacing:.06em;text-transform:uppercase;margin-right:8px}
+  .filter-btn{
+    font-size:12px;font-weight:600;padding:6px 16px;border-radius:100px;
+    border:1px solid var(--c-border);background:var(--c-bg);color:var(--c-gray);
+    cursor:pointer;transition:all .15s;
+  }
+  .filter-btn:hover{border-color:var(--c-red);color:var(--c-red)}
+  .filter-btn.active{background:var(--c-red);color:#fff;border-color:var(--c-red)}
+
+  /* ── PAPER GRID ── */
+  .paper-grid{
+    max-width:var(--max-w);margin:0 auto;padding:24px 32px 80px;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;
+  }
+  .paper-card{
+    border:1px solid var(--c-border);border-radius:12px;padding:24px;
+    transition:all .2s;cursor:pointer;position:relative;overflow:hidden;
+    text-decoration:none;color:inherit;display:block;
+  }
+  .paper-card:hover{border-color:var(--c-red);box-shadow:0 4px 20px rgba(211,47,47,.08);transform:translateY(-2px)}
+  .paper-card .wave-tag{
+    position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;
+    padding:3px 10px;border-radius:100px;letter-spacing:.04em;
+  }
+  .wave-1{background:#ffebee;color:#c62828}
+  .wave-2{background:#fff3e0;color:#e65100}
+  .wave-3{background:#e8f5e9;color:#2e7d32}
+  .wave-4{background:#e3f2fd;color:#1565c0}
+  .wave-5{background:#f3e5f5;color:#7b1fa2}
+  .paper-card .paper-id{
+    font-size:28px;font-weight:900;color:var(--c-red);line-height:1;margin-bottom:8px;
+    opacity:.15;position:absolute;bottom:12px;right:16px;font-family:var(--font-mono);
+  }
+  .paper-card h3{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:8px;padding-right:60px}
+  .paper-card .desc{font-size:13px;color:var(--c-gray);line-height:1.6;margin-bottom:12px;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .paper-card .meta{display:flex;gap:12px;font-size:11px;color:var(--c-muted);flex-wrap:wrap}
+  .paper-card .meta span{display:flex;align-items:center;gap:4px}
+  .paper-card .scores{display:flex;gap:8px;margin-top:12px}
+  .paper-card .score{
+    font-size:11px;font-weight:600;padding:3px 10px;border-radius:4px;
+    background:var(--c-surface);border:1px solid var(--c-border);
+  }
+  .paper-card .score.good{background:#e8f5e9;border-color:#c8e6c9;color:#2e7d32}
+  .paper-card .score.mid{background:#fff8e1;border-color:#fff9c4;color:#f57f17}
+  .paper-card .score.low{background:#ffebee;border-color:#ffcdd2;color:#c62828}
+
+  /* ── SHELVED (保留) ── */
+  .paper-card[data-status="shelved"]{background:#f0f0f0;opacity:.55}
+  .paper-card[data-status="shelved"]:hover{border-color:var(--c-border);box-shadow:none;transform:none;opacity:.7}
+  .paper-card[data-status="shelved"] .shelved-badge{
+    display:inline-block;font-size:10px;font-weight:700;color:#fff;background:#999;
+    padding:2px 8px;border-radius:4px;margin-bottom:8px;letter-spacing:.04em;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer{
+    border-top:1px solid var(--c-border);padding:40px 32px;
+    text-align:center;font-size:12px;color:var(--c-muted);
+    max-width:var(--max-w);margin:0 auto;
+  }
+
+  @media(max-width:720px){
+    .paper-grid{grid-template-columns:1fr}
+    .hero{padding:48px 20px 40px}
+    .hero .stats{gap:20px}
+    .filter-bar,.paper-grid{padding-left:20px;padding-right:20px}
+    .topnav-inner{padding:0 16px}
+    .topnav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="logo">Apriori-Window <span>Research</span></div>
+    <div class="topnav-links">
+      <a href="papers.html" class="active">Papers</a>
+      <a href="index.html">Main Paper</a>
+    </div>
+    <a href="index.html" class="btn-lp">Event Attribution Pipeline &rarr;</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <h1>密集区間マイニングの<br>研究フロンティア</h1>
+  <p class="lead">
+    Apriori-Window フレームワークを基盤とした17の研究論文。
+    アルゴリズム拡張からドメイン応用、AI統合まで、
+    密集パターンマイニングの全方位的な展開を目指す。
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="val">12</div><div class="lbl">Active Papers</div></div>
+    <div class="stat"><div class="val">5</div><div class="lbl">Waves</div></div>
+    <div class="stat"><div class="val">4</div><div class="lbl">Categories</div></div>
+    <div class="stat"><div class="val">PDCA</div><div class="lbl">Quality Cycle</div></div>
+  </div>
+</div>
+
+<!-- ── FILTER ── -->
+<div class="filter-bar">
+  <span class="label">Filter</span>
+  <button class="filter-btn active" onclick="filterPapers('all')">All</button>
+  <button class="filter-btn" onclick="filterPapers('algo')">Algorithm</button>
+  <button class="filter-btn" onclick="filterPapers('ext')">Extension</button>
+  <button class="filter-btn" onclick="filterPapers('domain')">Domain</button>
+  <button class="filter-btn" onclick="filterPapers('ai')">AI/ML</button>
+  <button class="filter-btn" onclick="filterPapers('wave-1')">Wave 1</button>
+  <button class="filter-btn" onclick="filterPapers('wave-2')">Wave 2</button>
+  <button class="filter-btn" onclick="filterPapers('wave-3')">Wave 3</button>
+  <button class="filter-btn" onclick="filterPapers('wave-4')">Wave 4</button>
+  <button class="filter-btn" onclick="filterPapers('wave-5')">Wave 5</button>
+  <button class="filter-btn" onclick="filterPapers('shelved')">Shelved</button>
+</div>
+
+<!-- ── PAPER CARDS ── -->
+<div class="paper-grid" id="paperGrid">
+
+  <a href="papers/a.html" class="paper-card" data-cat="algo" data-wave="wave-1" data-status="shelved">
+    <span class="wave-tag wave-1">Wave 1</span>
+    <span class="paper-id">A</span>
+    <span class="shelved-badge">保留</span>
+    <h3>反密集区間とコントラスト密集パターン</h3>
+    <p class="desc">密集区間マイニングの対称的拡張。パターンの不在（低サポート区間）を検出する反密集区間と、時間レジーム間の構造変化を分類するコントラスト密集パターンを提案。</p>
+    <div class="meta"><span>DSAA/ICDM 2026</span><span>Difficulty: 2/5</span></div>
+    <div class="scores"><span class="score good">Tech 4/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/b.html" class="paper-card" data-cat="algo" data-wave="wave-1">
+    <span class="wave-tag wave-1">Wave 1</span>
+    <span class="paper-id">B</span>
+    <h3>Rare Dense Patterns: 大域的に稀少だが局所的に密集するパターン</h3>
+    <p class="desc">サポート反単調性が除外する大域的稀少パターンを、局所的密集性で救出。弱反単調性に基づく二段階マイニングアルゴリズムを提案。</p>
+    <div class="meta"><span>KDD/SDM 2026</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 4/5</span><span class="score good">Exp 3.5/5</span></div>
+  </a>
+
+  <a href="papers/c.html" class="paper-card" data-cat="algo" data-wave="wave-2">
+    <span class="wave-tag wave-2">Wave 2</span>
+    <span class="paper-id">C</span>
+    <h3>多次元密集領域マイニング</h3>
+    <p class="desc">密集区間検出を多次元に一般化。サポート曲面の上位レベル集合の連結成分として密集領域を定義し、Sweep Surfaceアルゴリズムを提案。</p>
+    <div class="meta"><span>KDD/ICDM 2027</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score mid">Tech 3/5</span><span class="score low">Exp 2.5/5</span></div>
+  </a>
+
+  <a href="papers/d.html" class="paper-card" data-cat="algo" data-wave="wave-3">
+    <span class="wave-tag wave-3">Wave 3</span>
+    <span class="paper-id">D</span>
+    <h3>相関から因果へ：合成コントロール法による密集パターン帰属</h3>
+    <p class="desc">パターンサポート時系列に合成コントロール法（SCM）を初めて適用。反事実サポート軌跡から因果効果を測定する SC-DenseAttrib を提案。</p>
+    <div class="meta"><span>KDD/AAAI 2027</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score good">Exp 3.5/5</span></div>
+  </a>
+
+  <a href="papers/e.html" class="paper-card" data-cat="algo" data-wave="wave-2">
+    <span class="wave-tag wave-2">Wave 2</span>
+    <span class="paper-id">E</span>
+    <h3>構造認識型密集区間マイニング：Top-k + 適応的ウィンドウ</h3>
+    <p class="desc">パラメータフリーなTop-kマイニング。Dense Coverage Score、スケール空間密集リッジにより複数スケールで密度が持続するパターンを自動発見。</p>
+    <div class="meta"><span>VLDB/ICDM 2027</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score mid">Tech 3/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/f.html" class="paper-card" data-cat="ext" data-wave="wave-4">
+    <span class="wave-tag wave-4">Wave 4</span>
+    <span class="paper-id">F</span>
+    <h3>最小記述長原理による密集区間要約</h3>
+    <p class="desc">MDL原理で密集区間を要約。Temporal Code Table（TCT）と時間スコープ付き符号長（TSCL）により候補パターンの87-93%を削減。</p>
+    <div class="meta"><span>KDD/ECML</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/g.html" class="paper-card" data-cat="ext" data-wave="wave-4">
+    <span class="wave-tag wave-4">Wave 4</span>
+    <span class="paper-id">G</span>
+    <h3>系列密集パターン：時間順序付き共起バーストのマイニング</h3>
+    <p class="desc">アイテム間の時間的順序を考慮した系列密集パターン（SDP）を定義。窓内系列サポートの反単調性を証明し、効率的な剪定を実現。</p>
+    <div class="meta"><span>KDD/VLDB</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score low">Exp 2.5/5</span></div>
+  </a>
+
+  <a href="papers/h.html" class="paper-card" data-cat="ext" data-wave="wave-4">
+    <span class="wave-tag wave-4">Wave 4</span>
+    <span class="paper-id">H</span>
+    <h3>密集区間予測：記述的から予測的パターンマイニングへ</h3>
+    <p class="desc">Hawkes過程と生存分析で将来の密集区間発生を予測。自己励起がない場合はPoisson過程に適切に退化する健全性を実証。</p>
+    <div class="meta"><span>KDD/SDM</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/i.html" class="paper-card" data-cat="ext" data-wave="wave-3">
+    <span class="wave-tag wave-3">Wave 3</span>
+    <span class="paper-id">I</span>
+    <h3>高効用密集区間：頻度・効用同時マイニング</h3>
+    <p class="desc">頻出アイテムセットマイニングとHUIMを統合。WTWUによる反単調上界を証明し、頻度と効用を同時に閾値判定するUDI-Minerを提案。</p>
+    <div class="meta"><span>IEEE TKDE/KAIS</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 4/5</span><span class="score good">Exp 3.5/5</span></div>
+  </a>
+
+  <a href="papers/j.html" class="paper-card" data-cat="ext" data-wave="wave-5" data-status="shelved">
+    <span class="wave-tag wave-5">Wave 5</span>
+    <span class="paper-id">J</span>
+    <span class="shelved-badge">保留</span>
+    <h3>差分プライバシー密集区間マイニング</h3>
+    <p class="desc">(ε,δ)-差分プライバシー保証を付与するDP-DIMフレームワーク。ウィンドウカウントの感度=1を証明し、SVTによる予算効率的な変種を提案。</p>
+    <div class="meta"><span>CCS/VLDB</span><span>Difficulty: 5/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/k.html" class="paper-card" data-cat="domain" data-wave="wave-2">
+    <span class="wave-tag wave-2">Wave 2</span>
+    <span class="paper-id">K</span>
+    <h3>薬剤疫学：密集処方パターン検出と規制イベント帰属</h3>
+    <p class="desc">WHO ATC分類に基づく処方トランザクションの密集区間検出。FDA安全性情報への自動帰属により、オピオイド-ベンゾジアゼピン併用減少等を検出。</p>
+    <div class="meta"><span>JAMIA/AMIA</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/l.html" class="paper-card" data-cat="domain" data-wave="wave-5">
+    <span class="wave-tag wave-5">Wave 5</span>
+    <span class="paper-id">L</span>
+    <h3>製造業故障診断：密集アラームパターンマイニング</h3>
+    <p class="desc">DenseAlarmフレームワーク。半導体製造のアラーム共起パターンを検出し、保全イベントへの帰属をCohen's d効果量で評価。</p>
+    <div class="meta"><span>IEEE Trans. SM</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score good">Exp 3.5/5</span></div>
+  </a>
+
+  <a href="papers/m.html" class="paper-card" data-cat="domain" data-wave="wave-4">
+    <span class="wave-tag wave-4">Wave 4</span>
+    <span class="paper-id">M</span>
+    <h3>サイバー脅威帰属：密集ATT&CK技術共起マイニング</h3>
+    <p class="desc">MITRE ATT&CK技術IDをアイテムとした密集共起マイニング。temporal IoUベースのキャンペーン推定でキャンペーン再現率100%を達成。</p>
+    <div class="meta"><span>RAID/ACSAC</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score mid">Tech 3/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/n.html" class="paper-card" data-cat="domain" data-wave="wave-4">
+    <span class="wave-tag wave-4">Wave 4</span>
+    <span class="paper-id">N</span>
+    <h3>シングルセルトランスクリプトミクス：擬時間上の密集遺伝子共発現</h3>
+    <p class="desc">scRNA-seqデータの擬時間上で遺伝子セットが密集的に共発現する区間（DGCI）を検出。造血分化の全5モジュールを検出、平均IoU 0.94。</p>
+    <div class="meta"><span>Bioinformatics/ISMB</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/o.html" class="paper-card" data-cat="ai" data-wave="wave-3" data-status="shelved">
+    <span class="wave-tag wave-3">Wave 3</span>
+    <span class="paper-id">O</span>
+    <span class="shelved-badge">保留</span>
+    <h3>交差注意機構によるイベント帰属の学習</h3>
+    <p class="desc">密集パターンを10次元特徴ベクトル（DPFV）に変換し、マルチヘッド交差注意で帰属スコアを生成するCAAMモデル。AUC 0.678でMLP/RFを上回る。</p>
+    <div class="meta"><span>KDD/CIKM</span><span>Difficulty: 3/5</span></div>
+    <div class="scores"><span class="score mid">Tech 3/5</span><span class="score mid">Exp 3/5</span></div>
+  </a>
+
+  <a href="papers/p.html" class="paper-card" data-cat="ai" data-wave="wave-5" data-status="shelved">
+    <span class="wave-tag wave-5">Wave 5</span>
+    <span class="paper-id">P</span>
+    <span class="shelved-badge">保留</span>
+    <h3>DenseInterp: LLMによる密集パターンの自然言語解釈</h3>
+    <p class="desc">密集アイテムセットをLLMで自然言語解釈に変換。3層構造化プロンプトにより事実整合性+18.3%、仮説妥当性+23.7%改善。</p>
+    <div class="meta"><span>KDD/AAAI Demo</span><span>Difficulty: 2/5</span></div>
+    <div class="scores"><span class="score good">Tech 3.5/5</span><span class="score good">Exp 3.5/5</span></div>
+  </a>
+
+  <a href="papers/q.html" class="paper-card" data-cat="ai" data-wave="wave-5" data-status="shelved">
+    <span class="wave-tag wave-5">Wave 5</span>
+    <span class="paper-id">Q</span>
+    <span class="shelved-badge">保留</span>
+    <h3>トランザクション基盤モデル：アーキテクチャ設計と概念実証</h3>
+    <p class="desc">基盤モデルの枠組みをトランザクションデータに初適用。MTMとDIPの2段階事前学習を導入し、概念実証としてのアーキテクチャ設計を提示。</p>
+    <div class="meta"><span>NeurIPS/KDD</span><span>Difficulty: 4/5</span></div>
+    <div class="scores"><span class="score mid">Tech 3/5</span><span class="score low">Exp 2/5</span></div>
+  </a>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="site-footer">
+  <p>Apriori-Window Research Portal &mdash; 17 Papers Orchestration Project</p>
+  <p style="margin-top:4px">Built with care. Last updated: 2026-03-22</p>
+</div>
+
+<script>
+function filterPapers(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.paper-card').forEach(card => {
+    if (cat === 'all') { card.style.display = ''; return; }
+    const match = card.dataset.cat === cat || card.dataset.wave === cat || (cat === 'shelved' && card.dataset.status === 'shelved');
+    card.style.display = match ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
