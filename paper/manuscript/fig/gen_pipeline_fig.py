@@ -56,16 +56,18 @@ np.random.seed(42)
 N = 200
 t = np.arange(N)
 
-# Baseline support ~3
-baseline = np.random.poisson(3, N).astype(float)
+# Baseline support ~2
+baseline = np.random.poisson(2, N).astype(float)
 
-# Event 1: boost at t=50-90
-event1_start, event1_end = 50, 90
-for i in range(event1_start, event1_end):
-    baseline[i] += np.random.poisson(5)
+# Support boost at t=45–130 (change point detectable ~t=45, event at t=70–110)
+boost_start = 45
+event1_start, event1_end = 70, 110
+for i in range(boost_start, 130):
+    factor = 5 if i < event1_end else max(0, 5 - (i - event1_end) * 0.4)
+    baseline[i] += np.random.poisson(max(1, int(factor)))
 
-# Smooth with simple moving average (no scipy dependency)
-kernel = np.ones(10) / 10
+# Smooth
+kernel = np.ones(8) / 8
 support = np.convolve(baseline, kernel, mode='same')
 
 ax2.plot(t, support, color='#1565C0', linewidth=1.0, alpha=0.9)
@@ -73,43 +75,34 @@ ax2.set_xlabel('Transaction index $t$', fontsize=7)
 ax2.set_ylabel('Support $s_P(t)$', fontsize=7)
 ax2.tick_params(labelsize=6)
 
-# Mark threshold
-theta = 4.5
-ax2.axhline(y=theta, color='#999', linestyle='--', linewidth=0.8, alpha=0.7)
-ax2.text(195, theta + 0.3, '$\\theta$', fontsize=7, ha='right', color='#666')
-
-# Mark change points
-cp_up = 48
-cp_down = 92
+# Change point τ↑ at the rise (t=47)
+cp_up = 47
 ax2.axvline(x=cp_up, color='#E53935', linestyle=':', linewidth=1.0, alpha=0.8)
-ax2.axvline(x=cp_down, color='#E53935', linestyle=':', linewidth=1.0, alpha=0.8)
 ax2.annotate('$\\tau_{\\uparrow}$', xy=(cp_up, support[cp_up]),
-             xytext=(cp_up - 15, support[cp_up] + 1.5),
-             fontsize=7, color='#E53935', fontweight='bold',
-             arrowprops=dict(arrowstyle='->', color='#E53935', lw=0.8))
-ax2.annotate('$\\tau_{\\downarrow}$', xy=(cp_down, support[cp_down]),
-             xytext=(cp_down + 8, support[cp_down] + 2.0),
-             fontsize=7, color='#E53935', fontweight='bold',
+             xytext=(cp_up - 16, support[cp_up] + 1.5),
+             fontsize=8, color='#E53935', fontweight='bold',
              arrowprops=dict(arrowstyle='->', color='#E53935', lw=0.8))
 
-# Mark event period
-ax2.axvspan(event1_start, event1_end, alpha=0.12, color='#FF9800')
-ax2.annotate('Event $e$', xy=((event1_start + event1_end)/2, 1.0),
-             fontsize=7, ha='center', color='#E65100', fontweight='bold')
+# Event period (shaded)
+ax2.axvspan(event1_start, event1_end, alpha=0.15, color='#FF9800')
+ax2.text((event1_start + event1_end) / 2, 0.6, 'Event $e$',
+         fontsize=8, ha='center', color='#E65100', fontweight='bold')
 
-# Mark magnitude
-mag_y_high = np.mean(support[cp_up:cp_up+20])
-mag_y_low = np.mean(support[cp_up-20:cp_up])
-ax2.annotate('', xy=(38, mag_y_high), xytext=(38, mag_y_low),
-             arrowprops=dict(arrowstyle='<->', color='#43A047', lw=1.2))
-ax2.text(33, (mag_y_high + mag_y_low)/2, 'mag', fontsize=6, color='#2E7D32',
-         ha='right', fontweight='bold')
+# Magnitude arrow (before vs after change point)
+mag_y_low = np.mean(support[cp_up - 20:cp_up])
+mag_y_high = np.mean(support[cp_up + 5:cp_up + 30])
+mag_x = cp_up - 6
+ax2.annotate('', xy=(mag_x, mag_y_high), xytext=(mag_x, mag_y_low),
+             arrowprops=dict(arrowstyle='<->', color='#43A047', lw=1.5))
+ax2.text(mag_x - 4, (mag_y_high + mag_y_low) / 2, 'mag', fontsize=7,
+         color='#2E7D32', ha='right', fontweight='bold')
 
-# Proximity annotation
-ax2.annotate('', xy=(cp_up, 0.5), xytext=(event1_start, 0.5),
-             arrowprops=dict(arrowstyle='<->', color='#7B1FA2', lw=0.8))
-ax2.text((cp_up + event1_start)/2, 1.2, 'prox', fontsize=6, color='#7B1FA2',
-         ha='center', fontweight='bold')
+# Proximity arrow (τ↑ → event start — 23 unit gap, clearly visible)
+prox_y = 1.5
+ax2.annotate('', xy=(event1_start, prox_y), xytext=(cp_up, prox_y),
+             arrowprops=dict(arrowstyle='<->', color='#7B1FA2', lw=1.2))
+ax2.text((cp_up + event1_start) / 2, prox_y + 0.5, 'prox', fontsize=7,
+         color='#7B1FA2', ha='center', fontweight='bold')
 
 ax2.set_ylim(0, max(support) + 2)
 ax2.set_xlim(0, N)
