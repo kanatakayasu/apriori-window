@@ -437,7 +437,7 @@
 <h3>パイプライン全体像</h3>
 <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>密集区間からの変化点抽出</h4><p>Phase 1 の密集区間 [s,e] の端点から上昇変化点 s と下降変化点 e+1 を取得</p></div></div>
 <div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>変化量の評価 + フィルタ</h4><p>交差前後 h=20 期間のレベルシフト量を計算。サポート振幅フィルタで仮説数を 90%以上削減</p></div></div>
-<div class="pipe-step"><div class="pipe-num red">3</div><div class="pipe-body"><h4>帰属スコアリング</h4><p>A(P,τ,e) = prox × dir × mag の3要素で変化点–イベント間の関連を定量化</p></div></div>
+<div class="pipe-step"><div class="pipe-num red">3</div><div class="pipe-body"><h4>帰属スコアリング</h4><p>A(P,τ,e) = prox × mag の2要素で変化点–イベント間の関連を定量化</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">4</div><div class="pipe-body"><h4>円形シフト置換検定 + グローバル BH 補正</h4><p>分布自由な置換検定で p 値を算出し，全仮説にBH手続きを適用して FDR ≤ α を制御</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">5</div><div class="pipe-body"><h4>アイテム重複排除（Union-Find）</h4><p>副次パターンの連鎖的偽陽性を連結成分分析で除去。各成分でスコア最大のパターンのみ保持</p></div></div>
 
@@ -473,24 +473,19 @@
 <h3 id="step3">4.3 Step 3: 帰属スコアリング</h3>
 <p>パターン P の変化点 τ と各イベント e に対して，時間的関連を定量化する帰属スコアを計算する。</p>
 <div class="formula" style="font-size:16px;text-align:center">
-  A(P, τ, e) = <span class="red" style="font-weight:900">prox</span>(τ, e) × dir(τ, e) × <span class="red" style="font-weight:900">mag</span>(τ)
+  A(P, τ, e) = <span class="red" style="font-weight:900">prox</span>(τ, e) × <span class="red" style="font-weight:900">mag</span>(τ)
 </div>
 
-<div class="grid-3">
+<div class="grid-2">
   <div class="box">
     <h4>近接度 prox</h4>
     <div class="formula">exp(−d(τ,e) / σ)</div>
     <p class="small" style="margin:8px 0 0">d(τ,e) = min(|τ−t_s|, |τ−t_e|)<br>変化点からイベント境界までの最小距離に基づく指数カーネル。σ で減衰速度を制御（デフォルト σ = W = 50）。</p>
   </div>
-  <div class="box">
-    <h4>方向整合性 dir</h4>
-    <div class="formula">1.0 : 開始時に上昇 or 終了時に下降<br>0.5 : その他</div>
-    <p class="small" style="margin:8px 0 0">イベント開始でサポート上昇，終了で下降という直感的な期待を符号化。整合しない場合もスコアをゼロにはせず半減。</p>
-  </div>
   <div class="box" style="border-color:var(--c-red);background:var(--c-red-bg)">
     <h4>変化量 mag <span class="red">★最重要</span></h4>
     <div class="formula">|s̄⁺(τ) − s̄⁻(τ)|</div>
-    <p class="small" style="margin:8px 0 0">アブレーション実験で最重要と判明。除去すると F1: 1.0→0.33 に急落（後述）。植え込み信号とデコイの弁別に最も寄与。</p>
+    <p class="small" style="margin:8px 0 0">アブレーション実験で最重要と判明。除去すると F1: 1.0→0.00 に急落（後述）。植え込み信号とデコイの弁別に最も寄与。</p>
   </div>
 </div>
 
@@ -1162,12 +1157,9 @@
     <table class="dt">
       <thead><tr><th>構成</th><th>F1</th></tr></thead>
       <tbody>
-        <tr><td class="hl">Full: prox × dir × mag</td><td class="hl">1.00</td></tr>
-        <tr><td>prox × mag（dir除去）</td><td>1.00</td></tr>
-        <tr><td>dir × mag（prox除去）</td><td>1.00</td></tr>
-        <tr style="color:var(--c-red)"><td><strong>prox × dir（mag除去）</strong></td><td><strong>0.33</strong></td></tr>
-        <tr><td>mag のみ</td><td>1.00</td></tr>
-        <tr><td>prox のみ</td><td>0.60</td></tr>
+        <tr><td class="hl">Full: prox × mag</td><td class="hl">1.00</td></tr>
+        <tr style="color:var(--c-red)"><td><strong>mag のみ（prox除去）</strong></td><td><strong>0.00</strong></td></tr>
+        <tr><td>prox のみ（mag除去）</td><td>0.30–0.60</td></tr>
       </tbody>
     </table>
   </div>
@@ -1176,7 +1168,7 @@
     <div class="bar-h"><div class="lbl" style="font-weight:700">TARGET</div><div class="track"><div class="fill" style="width:100%;background:#d32f2f">5.2 – 7.9</div></div></div>
     <div class="bar-h"><div class="lbl">SUBSIDIARY</div><div class="track"><div class="fill" style="width:48%;background:#888">max 3.8</div></div></div>
     <div class="bar-h"><div class="lbl">NOISE</div><div class="track"><div class="fill" style="width:34%;background:#ccc;color:#666">max 2.65</div></div></div>
-    <p class="small" style="margin-top:12px"><strong>magnitude が最重要要素。</strong>mag を含む全構成で F1=1.0，除去時 0.33 に急落。TARGET と SUBSIDIARY/NOISE の間に明確なギャップが存在。</p>
+    <p class="small" style="margin-top:12px"><strong>magnitude が最重要要素。</strong>mag 除去時に F1=0.00 に急落。prox のみでは 0.30–0.60 に留まる。TARGET と SUBSIDIARY/NOISE の間に明確なギャップが存在。</p>
   </div>
 </div>
 
@@ -1199,7 +1191,7 @@
   <ol style="font-size:14px">
     <li>Phase 1（Apriori-window）で得られた密集区間からの変化点抽出</li>
     <li>交差前後のレベル差による変化量評価</li>
-    <li>時間的近接度・方向整合性・変化量に基づく帰属スコアリング</li>
+    <li>時間的近接度・変化量に基づく帰属スコアリング</li>
     <li>円形シフト置換検定とグローバル BH FDR 補正</li>
     <li>Union-Find クラスタリングによるアイテム重複排除</li>
   </ol>

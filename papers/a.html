@@ -398,15 +398,11 @@
 <div class="pipe-body">
 <h4>帰属スコアリング</h4>
 <p>パターン P の変化点 &tau; と各イベント e に対して帰属スコアを計算。</p>
-<div class="formula">A(P, &tau;, e) = prox(&tau;, e) &middot; dir(&tau;, e) &middot; mag(&tau;)</div>
-<div class="grid-3">
+<div class="formula">A(P, &tau;, e) = prox(&tau;, e) &middot; mag(&tau;)</div>
+<div class="grid-2">
 <div class="box">
 <h4>近接度 (prox)</h4>
 <p>指数カーネル: exp(-d(&tau;,e)/&sigma;)</p>
-</div>
-<div class="box">
-<h4>方向整合性 (dir)</h4>
-<p>イベント開始時上昇=1.0、終了時下降=1.0、その他=0.5</p>
 </div>
 <div class="box">
 <h4>変化量 (mag)</h4>
@@ -575,16 +571,13 @@
 
 <h4>スコア構成要素のアブレーション</h4>
 <table class="dt">
-<tr><th>構成</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
-<tr><td class="hl">Full: prox &times; dir &times; mag</td><td class="hl">1.00</td><td class="hl">1.00</td><td class="hl">1.00</td></tr>
-<tr><td>prox &times; mag (dir除去)</td><td>1.00</td><td>1.00</td><td>1.00</td></tr>
-<tr><td>dir &times; mag (prox除去)</td><td>1.00</td><td>1.00</td><td>1.00</td></tr>
-<tr><td>prox &times; dir (mag除去)</td><td>0.33</td><td>0.33</td><td>0.33</td></tr>
-<tr><td>mag のみ</td><td>1.00</td><td>1.00</td><td>1.00</td></tr>
-<tr><td>prox のみ</td><td>0.60</td><td>0.60</td><td>0.60</td></tr>
+<tr><th>構成</th><th>Precision</th><th>Recall</th></tr>
+<tr><td class="hl">Full: prox &times; mag</td><td class="hl">1.00</td><td class="hl">0.80</td></tr>
+<tr><td>mag のみ（prox除去）</td><td>0.00</td><td>0.00</td></tr>
+<tr><td>prox のみ（mag除去）</td><td>0.60</td><td>0.30</td></tr>
 </table>
 
-<p><strong>magnitude が最も重要な構成要素</strong>であり、magを含む全構成でF1 = 1.0を達成する一方、magを除去するとF1 = 0.33に急落する。</p>
+<p><strong>proximity が帰属に不可欠</strong>であり、prox除去でF1 = 0.00に崩壊する。Full構成（prox × mag）はF1 = 0.80–1.00と安定し、両構成要素の相補性を実証。</p>
 
 <h4>ベースライン比較</h4>
 
@@ -634,7 +627,7 @@
 <ol>
 <li>Phase 1（Apriori-window）で得られた密集区間からの変化点抽出</li>
 <li>交差前後のレベル差による変化量評価</li>
-<li>時間的近接度・方向整合性・変化量に基づく帰属スコアリング</li>
+<li>時間的近接度・変化量に基づく帰属スコアリング</li>
 <li>円形シフト置換検定とグローバル Benjamini-Hochberg FDR 補正</li>
 <li>Union-Find クラスタリングによるアイテム重複排除</li>
 </ol>
