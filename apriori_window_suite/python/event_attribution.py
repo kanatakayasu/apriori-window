@@ -79,7 +79,7 @@ class AttributionConfig:
     min_support_range: int = 0  # パターンのサポート振幅 (max-min) の最小値
     # Attribution scoring
     sigma: Optional[float] = None  # defaults to window_size
-    max_distance: Optional[int] = None  # defaults to 2 * window_size
+    # max_distance は廃止: prox の指数減衰が距離フィルタを兼ねるため不要
     attribution_threshold: float = 0.1
     use_effect_size: bool = False  # スコアに相対変化量を組み込む
     # Significance testing
@@ -424,7 +424,6 @@ def score_attributions(
     change_points: List[ChangePoint],
     events: List[Event],
     sigma: float,
-    max_distance: int,
     attribution_threshold: float = 0.1,
     use_effect_size: bool = False,
     ablation_mode: Optional[str] = None,
@@ -433,6 +432,8 @@ def score_attributions(
     変化点-イベント間の帰属スコアを計算し、閾値を超えた候補を返す。
 
     帰属スコア A = prox × mag（近接度 × 変化量）。
+    prox の指数減衰 exp(-d/σ) が距離に応じた重み付けを行うため、
+    ハード距離カットオフ (max_distance) は不要。
 
     use_effect_size=True の場合、magnitude の代わりに相対変化量
     (magnitude / max(1, support_before)) を使用する。これにより高ベースライン
@@ -448,10 +449,6 @@ def score_attributions(
 
     for cp in change_points:
         for event in events:
-            dist = min(abs(cp.time - event.start), abs(cp.time - event.end))
-            if dist > max_distance:
-                continue
-
             prox = compute_proximity(cp.time, event, sigma)
             if use_effect_size:
                 mag = abs(cp.magnitude) / max(1.0, cp.support_before)
@@ -520,7 +517,6 @@ def permutation_test_raw(
     change_points: List[ChangePoint],
     events: List[Event],
     sigma: float,
-    max_distance: int,
     max_time: int,
     n_permutations: int = 1000,
     attribution_threshold: float = 0.1,
@@ -537,7 +533,7 @@ def permutation_test_raw(
     rng = random.Random(seed)
 
     obs_candidates = score_attributions(
-        pattern, change_points, events, sigma, max_distance, attribution_threshold,
+        pattern, change_points, events, sigma, attribution_threshold,
         use_effect_size=use_effect_size, ablation_mode=ablation_mode,
     )
     if not obs_candidates:
@@ -556,7 +552,7 @@ def permutation_test_raw(
         offset = rng.randint(1, max_time - 1)
         shifted_events = circular_shift_events(events, offset, max_time)
         perm_candidates = score_attributions(
-            pattern, change_points, shifted_events, sigma, max_distance,
+            pattern, change_points, shifted_events, sigma,
             attribution_threshold, use_effect_size=use_effect_size,
             ablation_mode=ablation_mode,
         )
@@ -595,7 +591,6 @@ def permutation_test(
     change_points: List[ChangePoint],
     events: List[Event],
     sigma: float,
-    max_distance: int,
     max_time: int,
     n_permutations: int = 1000,
     alpha: float = 0.05,
@@ -611,7 +606,7 @@ def permutation_test(
     帰無仮説: 変化点の位置はイベントと独立
     """
     raw_results = permutation_test_raw(
-        pattern, change_points, events, sigma, max_distance,
+        pattern, change_points, events, sigma,
         max_time, n_permutations, attribution_threshold, seed,
         use_effect_size=use_effect_size, ablation_mode=ablation_mode,
     )
@@ -677,13 +672,12 @@ def run_attribution_pipeline(
         config = AttributionConfig()
 
     sigma = config.sigma if config.sigma is not None else float(window_size)
-    max_distance = config.max_distance if config.max_distance is not None else 2 * window_size
 
     # グローバル補正が有効な場合: まず全パターンの p 値を収集してから判定
     if config.global_correction:
         return _run_pipeline_global(
             support_series_map, events, window_size, threshold, sigma,
-            max_distance, config,
+            config,
         )
 
     # per-pattern 補正（後方互換）
@@ -706,7 +700,6 @@ def run_attribution_pipeline(
             change_points=change_points,
             events=events,
             sigma=sigma,
-            max_distance=max_distance,
             max_time=max_time,
             n_permutations=config.n_permutations,
             alpha=config.alpha,
@@ -772,7 +765,6 @@ def _run_pipeline_global(
     window_size: int,
     threshold: int,
     sigma: float,
-    max_distance: int,
     config: AttributionConfig,
 ) -> List[SignificantAttribution]:
     """全パターン横断でグローバル多重検定補正を行うパイプライン。"""
@@ -801,7 +793,6 @@ def _run_pipeline_global(
             change_points=change_points,
             events=events,
             sigma=sigma,
-            max_distance=max_distance,
             max_time=max_time,
             n_permutations=config.n_permutations,
             attribution_threshold=config.attribution_threshold,
@@ -878,12 +869,11 @@ def run_attribution_pipeline_v2(
         config = AttributionConfig()
 
     sigma = config.sigma if config.sigma is not None else float(window_size)
-    max_distance = config.max_distance if config.max_distance is not None else 2 * window_size
 
     if config.global_correction:
         return _run_pipeline_global_v2(
             frequents, item_transaction_map, events, window_size,
-            threshold, n_transactions, sigma, max_distance, config,
+            threshold, n_transactions, sigma, config,
         )
 
     # per-pattern 補正
@@ -908,7 +898,6 @@ def run_attribution_pipeline_v2(
             change_points=change_points,
             events=events,
             sigma=sigma,
-            max_distance=max_distance,
             max_time=max_pos,
             n_permutations=config.n_permutations,
             alpha=config.alpha,
@@ -930,7 +919,6 @@ def _run_pipeline_global_v2(
     threshold: int,
     n_transactions: int,
     sigma: float,
-    max_distance: int,
     config: AttributionConfig,
 ) -> List[SignificantAttribution]:
     """全パターン横断でグローバル多重検定補正を行うパイプライン (v2: 密集区間直接利用)。"""
@@ -987,7 +975,6 @@ def _run_pipeline_global_v2(
             change_points=change_points,
             events=events,
             sigma=sigma,
-            max_distance=max_distance,
             max_time=max_pos,
             n_permutations=config.n_permutations,
             attribution_threshold=config.attribution_threshold,
@@ -1190,7 +1177,6 @@ def main():
         min_magnitude=cd.get("min_magnitude", 0.0),
         min_relative_change=cd.get("min_relative_change", 0.0),
         sigma=at.get("sigma"),
-        max_distance=at.get("max_distance"),
         attribution_threshold=at.get("attribution_threshold", 0.1),
         n_permutations=sg.get("n_permutations", 1000),
         alpha=sg.get("alpha", 0.05),

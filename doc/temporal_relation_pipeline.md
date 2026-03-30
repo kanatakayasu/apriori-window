@@ -143,8 +143,9 @@ Phase 1 のウィンドウ走査と同時に算出可能。追加コストは O(
 | パラメータ | 意味 | デフォルト |
 |-----------|------|-----------|
 | `sigma` | 近接度の減衰幅 | `window_size` |
-| `max_distance` | 最大距離 | `2 * window_size` |
 | `attribution_threshold` | 最小帰属スコア | 0.1 |
+
+> **注**: ハード距離カットオフ (`max_distance`) は廃止。prox の指数減衰 `exp(-d/σ)` が距離に応じた自然な重み付けを行うため不要。
 
 ### 3.4 Step 4: Permutation-based Significance Testing
 
@@ -196,7 +197,6 @@ Phase 1 のウィンドウ走査と同時に算出可能。追加コストは O(
     },
     "attribution": {
       "sigma": null,
-      "max_distance": null,
       "attribution_threshold": 0.1
     },
     "significance": {
@@ -208,7 +208,7 @@ Phase 1 のウィンドウ走査と同時に算出可能。追加コストは O(
 }
 ```
 
-`sigma` と `max_distance` が `null` の場合、Phase 1 の `window_size` から自動設定。
+`sigma` が `null` の場合、Phase 1 の `window_size` から自動設定。
 
 ---
 

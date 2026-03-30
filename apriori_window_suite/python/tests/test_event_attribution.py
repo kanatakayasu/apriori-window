@@ -225,21 +225,24 @@ class TestComputeProximity:
 class TestScoreAttributions:
     def test_no_change_points(self):
         events = [Event("E1", "test", 5, 10)]
-        assert score_attributions((1, 2), [], events, 5.0, 20) == []
+        assert score_attributions((1, 2), [], events, 5.0) == []
 
     def test_no_events(self):
         cps = [ChangePoint(time=5, direction="up", magnitude=3.0)]
-        assert score_attributions((1, 2), cps, [], 5.0, 20) == []
+        assert score_attributions((1, 2), cps, [], 5.0) == []
 
-    def test_beyond_max_distance(self):
+    def test_distant_event_low_score(self):
+        """遠いイベントはproxの指数減衰により低スコアになる。"""
         cps = [ChangePoint(time=5, direction="up", magnitude=3.0)]
         events = [Event("E1", "test", 100, 110)]
-        assert score_attributions((1, 2), cps, events, 5.0, 20) == []
+        candidates = score_attributions((1, 2), cps, events, 5.0)
+        # prox = exp(-95/5) ≈ 0, score ≈ 0 → threshold 未満で空
+        assert candidates == []
 
-    def test_within_max_distance(self):
+    def test_close_event_high_score(self):
         cps = [ChangePoint(time=5, direction="up", magnitude=3.0)]
         events = [Event("E1", "test", 5, 10)]
-        candidates = score_attributions((1, 2), cps, events, 5.0, 20)
+        candidates = score_attributions((1, 2), cps, events, 5.0)
         assert len(candidates) == 1
         c = candidates[0]
         assert c.pattern == (1, 2)
@@ -252,7 +255,7 @@ class TestScoreAttributions:
         events = [Event("E1", "test", 5, 10)]
         # Very small magnitude → score below default threshold
         candidates = score_attributions(
-            (1, 2), cps, events, 5.0, 20, attribution_threshold=0.1
+            (1, 2), cps, events, 5.0, attribution_threshold=0.1
         )
         assert len(candidates) == 0
 
@@ -265,7 +268,7 @@ class TestScoreAttributions:
             Event("E1", "sale", 5, 10),
             Event("E2", "holiday", 14, 16),
         ]
-        candidates = score_attributions((1, 2), cps, events, 5.0, 20)
+        candidates = score_attributions((1, 2), cps, events, 5.0)
         assert len(candidates) >= 2
 
 
@@ -327,16 +330,14 @@ class TestPermutationTest:
     def test_no_change_points(self):
         events = [Event("E1", "test", 5, 10)]
         results = permutation_test(
-            (1, 2), [], events, sigma=5.0, max_distance=20,
-            max_time=50, n_permutations=100, seed=42,
+            (1, 2), [], events, sigma=5.0,             max_time=50, n_permutations=100, seed=42,
         )
         assert results == []
 
     def test_no_events(self):
         cps = [ChangePoint(time=5, direction="up", magnitude=3.0)]
         results = permutation_test(
-            (1, 2), cps, [], sigma=5.0, max_distance=20,
-            max_time=50, n_permutations=100, seed=42,
+            (1, 2), cps, [], sigma=5.0,             max_time=50, n_permutations=100, seed=42,
         )
         assert results == []
 
@@ -345,8 +346,7 @@ class TestPermutationTest:
         cps = [ChangePoint(time=10, direction="up", magnitude=50.0)]
         events = [Event("E1", "sale", start=10, end=15)]
         results = permutation_test(
-            (1, 2), cps, events, sigma=5.0, max_distance=20,
-            max_time=100, n_permutations=200, alpha=0.1, seed=42,
+            (1, 2), cps, events, sigma=5.0,             max_time=100, n_permutations=200, alpha=0.1, seed=42,
         )
         # With a very strong signal at the exact event time, it should be significant
         # (though permutation test is stochastic, seed=42 makes it deterministic)
@@ -363,7 +363,7 @@ class TestPermutationTest:
         events = [Event("E1", "sale", start=10, end=15)]
         kwargs = dict(
             pattern=(1, 2), change_points=cps, events=events,
-            sigma=5.0, max_distance=20, max_time=50,
+            sigma=5.0, max_time=50,
             n_permutations=100, seed=123,
         )
         r1 = permutation_test(**kwargs)
@@ -376,8 +376,7 @@ class TestPermutationTest:
         cps = [ChangePoint(time=5, direction="up", magnitude=3.0)]
         events = [Event("E1", "sale", start=5, end=10)]
         results = permutation_test(
-            (1, 2), cps, events, sigma=5.0, max_distance=20,
-            max_time=50, n_permutations=100, alpha=1.0, seed=42,
+            (1, 2), cps, events, sigma=5.0,             max_time=50, n_permutations=100, alpha=1.0, seed=42,
         )
         for r in results:
             assert 0 < r.p_value <= 1.0
@@ -494,7 +493,6 @@ class TestRunAttributionPipeline:
         config = AttributionConfig(
             change_method="threshold_crossing",
             sigma=3.0,
-            max_distance=10,
             n_permutations=50,
             alpha=1.0,
             seed=99,

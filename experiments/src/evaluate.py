@@ -187,7 +187,7 @@ def evaluate_false_attribution_rate(
                     "event_name": name,
                 })
 
-    n_falsely = len(falsely_attributed)
+    n_falsely = len({pat for pat, _ in seen})  # unique patterns falsely attributed
     rate = n_falsely / max(1, n_unrelated)
 
     return FalseAttributionResult(

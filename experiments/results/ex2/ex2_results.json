@@ -10,7 +10,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -28,10 +27,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 867.0662079821341,
+          "time_phase1_ms": 863.1084589869715,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 70.25650003924966,
-          "time_total_ms": 937.3227080213837,
+          "time_attribution_ms": 86.69716602889821,
+          "time_total_ms": 949.8056250158697,
           "significant_attributions": [
             {
               "pattern": [
@@ -71,7 +70,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -89,10 +87,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 853.2364589627832,
+          "time_phase1_ms": 839.3405419774354,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.99345802329481,
-          "time_total_ms": 909.229916986078,
+          "time_attribution_ms": 100.72412498993799,
+          "time_total_ms": 940.0646669673733,
           "significant_attributions": [
             {
               "pattern": [
@@ -108,7 +106,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 9.331629413129491,
               "p_value": 0.0061987602479504095,
-              "adjusted_p_value": 0.01859628074385123
+              "adjusted_p_value": 0.030993801239752046
             }
           ],
           "true_positive_pairs": [
@@ -132,7 +130,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -150,10 +147,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 873.9911669981666,
+          "time_phase1_ms": 842.6507499534637,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 41.17779101943597,
-          "time_total_ms": 915.1689580176026,
+          "time_attribution_ms": 45.83845799788833,
+          "time_total_ms": 888.489207951352,
           "significant_attributions": [
             {
               "pattern": [
@@ -193,7 +190,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -211,10 +207,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 847.1978330053389,
+          "time_phase1_ms": 834.6105410018936,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 96.92579199327156,
-          "time_total_ms": 944.1236249986105,
+          "time_attribution_ms": 127.09312496008351,
+          "time_total_ms": 961.7036659619771,
           "significant_attributions": [
             {
               "pattern": [
@@ -254,7 +250,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -272,10 +267,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 868.5582090402022,
+          "time_phase1_ms": 846.4595419936813,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 74.13320796331391,
-          "time_total_ms": 942.6914170035161,
+          "time_attribution_ms": 93.67291699163616,
+          "time_total_ms": 940.1324589853175,
           "significant_attributions": [
             {
               "pattern": [
@@ -324,7 +319,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -335,36 +329,21 @@
           "n_transactions": 5000,
           "n_patterns": 356,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 853.4649170469493,
+          "fn": 1,
+          "time_phase1_ms": 845.2293330337852,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 68.92974994843826,
-          "time_total_ms": 922.3946669953875,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 704,
-              "change_direction": "up",
-              "change_magnitude": 5.9,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.39851904108451414,
-              "attribution_score": 11.1,
-              "p_value": 0.059988002399520096,
-              "adjusted_p_value": 0.059988002399520096
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 170.3434999799356,
+          "time_total_ms": 1015.5728330137208,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -373,10 +352,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -385,7 +362,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -396,36 +372,21 @@
           "n_transactions": 5000,
           "n_patterns": 338,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 846.3092080201022,
+          "fn": 1,
+          "time_phase1_ms": 842.5237500341609,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.33050000667572,
-          "time_total_ms": 901.639708026778,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 717,
-              "change_direction": "up",
-              "change_magnitude": 7.1499999999999995,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.5168513344916992,
-              "attribution_score": 12.899999999999999,
-              "p_value": 0.03119376124775045,
-              "adjusted_p_value": 0.055988802239552084
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 223.66591601166874,
+          "time_total_ms": 1066.1896660458297,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -434,10 +395,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -446,7 +405,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -457,36 +415,21 @@
           "n_transactions": 5000,
           "n_patterns": 355,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 857.0464169606566,
+          "fn": 1,
+          "time_phase1_ms": 851.4519589953125,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 43.610042019281536,
-          "time_total_ms": 900.6564589799382,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 714,
-              "change_direction": "up",
-              "change_magnitude": 6.7,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.4867522559599717,
-              "attribution_score": 11.5,
-              "p_value": 0.0639872025594881,
-              "adjusted_p_value": 0.0639872025594881
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 134.2345830053091,
+          "time_total_ms": 985.6865420006216,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -495,10 +438,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -507,7 +448,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -518,36 +458,21 @@
           "n_transactions": 5000,
           "n_patterns": 330,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 848.4109159908257,
+          "fn": 1,
+          "time_phase1_ms": 841.5292089921422,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 95.41216702200472,
-          "time_total_ms": 943.8230830128305,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1249,
-              "change_direction": "down",
-              "change_magnitude": 8.0,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 11.15,
-              "p_value": 0.05798840231953609,
-              "adjusted_p_value": 0.08698260347930414
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 172.1728330012411,
+          "time_total_ms": 1013.7020419933833,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -556,10 +481,8 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         },
         {
           "config": {
@@ -568,7 +491,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -579,36 +501,21 @@
           "n_transactions": 5000,
           "n_patterns": 359,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 862.2335420222953,
+          "fn": 1,
+          "time_phase1_ms": 854.2499170289375,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 74.34533297782764,
-          "time_total_ms": 936.5788750001229,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 705,
-              "change_direction": "up",
-              "change_magnitude": 6.8,
-              "event_name": "Sale",
-              "event_start": 750,
-              "event_end": 1250,
-              "proximity": 0.4065696597405991,
-              "attribution_score": 12.95,
-              "p_value": 0.0625874825034993,
-              "adjusted_p_value": 0.09944677731120442
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 155.5284169735387,
+          "time_total_ms": 1009.7783340024762,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -617,16 +524,14 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 1.0,
-          "n_falsely_attributed": 1
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 1.0,
-      "avg_recall": 1.0,
-      "avg_f1": 1.0,
-      "avg_false_attribution_rate": 1.0
+      "avg_precision": 0.0,
+      "avg_recall": 0.0,
+      "avg_f1": 0.0,
+      "avg_false_attribution_rate": 0.0
     },
     "No magnitude (prox only)": {
       "ablation_mode": "no_mag",
@@ -638,7 +543,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -656,10 +560,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 856.6918339929543,
+          "time_phase1_ms": 854.2401249869727,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 69.80283296434209,
-          "time_total_ms": 926.4946669572964,
+          "time_attribution_ms": 83.0696250195615,
+          "time_total_ms": 937.3097500065342,
           "significant_attributions": [
             {
               "pattern": [
@@ -674,8 +578,8 @@
               "event_end": 1250,
               "proximity": 0.5827482523739896,
               "attribution_score": 2.6809826544232487,
-              "p_value": 0.03259348130373925,
-              "adjusted_p_value": 0.048890221955608874
+              "p_value": 0.033193361327734455,
+              "adjusted_p_value": 0.04979004199160168
             }
           ],
           "true_positive_pairs": [],
@@ -707,7 +611,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -725,10 +628,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 858.32483303966,
+          "time_phase1_ms": 870.2413749997504,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 55.149791995063424,
-          "time_total_ms": 913.4746250347234,
+          "time_attribution_ms": 63.046000024769455,
+          "time_total_ms": 933.2873750245199,
           "significant_attributions": [
             {
               "pattern": [
@@ -768,7 +671,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -786,10 +688,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 852.7795000118203,
+          "time_phase1_ms": 852.6460000430234,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 40.948916983325034,
-          "time_total_ms": 893.7284169951454,
+          "time_attribution_ms": 43.91329095233232,
+          "time_total_ms": 896.5592909953557,
           "significant_attributions": [
             {
               "pattern": [
@@ -829,7 +731,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -847,10 +748,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 885.9289999818429,
+          "time_phase1_ms": 837.9447080078535,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 96.48120898054913,
-          "time_total_ms": 982.4102089623921,
+          "time_attribution_ms": 118.55458404170349,
+          "time_total_ms": 956.499292049557,
           "significant_attributions": [
             {
               "pattern": [
@@ -890,7 +791,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -908,10 +808,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 874.2571250186302,
+          "time_phase1_ms": 895.078333967831,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 75.57649997761473,
-          "time_total_ms": 949.8336249962449,
+          "time_attribution_ms": 89.85829103039578,
+          "time_total_ms": 984.9366249982268,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -945,7 +845,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -963,10 +862,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 861.1336660105735,
+          "time_phase1_ms": 873.2252089539543,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 158.80608395673335,
-          "time_total_ms": 1019.9397499673069,
+          "time_attribution_ms": 237.3024999978952,
+          "time_total_ms": 1110.5277089518495,
           "significant_attributions": [
             {
               "pattern": [
@@ -982,7 +881,7 @@
               "proximity": 0.9607894391523232,
               "attribution_score": 8.525524380674108,
               "p_value": 0.00639872025594881,
-              "adjusted_p_value": 0.029694061187762445
+              "adjusted_p_value": 0.033593281343731254
             },
             {
               "pattern": [
@@ -1029,7 +928,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1047,10 +945,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 857.6512500294484,
+          "time_phase1_ms": 841.503375035245,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 84.3396249692887,
-          "time_total_ms": 941.9908749987371,
+          "time_attribution_ms": 165.40183394681662,
+          "time_total_ms": 1006.9052089820616,
           "significant_attributions": [
             {
               "pattern": [
@@ -1066,7 +964,7 @@
               "proximity": 0.9607894391523232,
               "attribution_score": 9.086354930395212,
               "p_value": 0.004599080183963208,
-              "adjusted_p_value": 0.01839632073585283
+              "adjusted_p_value": 0.03679264147170566
             }
           ],
           "true_positive_pairs": [
@@ -1098,7 +996,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1109,17 +1006,17 @@
           "n_transactions": 5000,
           "n_patterns": 337,
           "n_change_points_total": 0,
-          "n_significant": 2,
+          "n_significant": 1,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 865.6628339667805,
+          "fn": 1,
+          "time_phase1_ms": 857.309749990236,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 119.40470803529024,
-          "time_total_ms": 985.0675420020707,
+          "time_attribution_ms": 246.0731250466779,
+          "time_total_ms": 1103.382875036914,
           "significant_attributions": [
             {
               "pattern": [
@@ -1135,33 +1032,10 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 7.155954598186721,
               "p_value": 0.0057988402319536095,
-              "adjusted_p_value": 0.03479304139172166
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2901,
-              "change_direction": "down",
-              "change_magnitude": 1.7,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.9801986733067553,
-              "attribution_score": 4.90910781441042,
-              "p_value": 0.03779244151169766,
-              "adjusted_p_value": 0.06458708258348331
+              "adjusted_p_value": 0.06958608278344332
             }
           ],
           "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
             {
               "pattern": [
                 5,
@@ -1171,7 +1045,15 @@
             }
           ],
           "false_positive_pairs": [],
-          "false_negative_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            }
+          ],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -1182,7 +1064,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1200,10 +1081,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 845.2275829622522,
+          "time_phase1_ms": 836.7909590015188,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 113.73337503755465,
-          "time_total_ms": 958.9609579998069,
+          "time_attribution_ms": 199.8565829708241,
+          "time_total_ms": 1036.6475419723429,
           "significant_attributions": [
             {
               "pattern": [
@@ -1219,7 +1100,7 @@
               "proximity": 0.9231163463866358,
               "attribution_score": 11.642467590140683,
               "p_value": 0.0021995600879824036,
-              "adjusted_p_value": 0.013197360527894421
+              "adjusted_p_value": 0.01759648070385923
             }
           ],
           "true_positive_pairs": [
@@ -1251,7 +1132,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1269,10 +1149,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 861.878500028979,
+          "time_phase1_ms": 848.786290967837,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 104.23379199346527,
-          "time_total_ms": 966.1122920224443,
+          "time_attribution_ms": 147.80754200182855,
+          "time_total_ms": 996.5938329696655,
           "significant_attributions": [
             {
               "pattern": [
@@ -1302,9 +1182,9 @@
               "event_start": 2500,
               "event_end": 2900,
               "proximity": 0.8025187979624785,
-              "attribution_score": 5.22275643015646,
-              "p_value": 0.04519096180763847,
-              "adjusted_p_value": 0.07158568286342731
+              "attribution_score": 5.465862697659927,
+              "p_value": 0.04319136172765447,
+              "adjusted_p_value": 0.07518496300739852
             }
           ],
           "true_positive_pairs": [
@@ -1330,8 +1210,8 @@
         }
       ],
       "avg_precision": 1.0,
-      "avg_recall": 0.8,
-      "avg_f1": 0.8666666666666666,
+      "avg_recall": 0.7,
+      "avg_f1": 0.8,
       "avg_false_attribution_rate": 0.0
     },
     "No proximity (mag only)": {
@@ -1344,7 +1224,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1355,90 +1234,6 @@
           "n_transactions": 5000,
           "n_patterns": 328,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
-          "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 856.7233750363812,
-          "time_support_series_ms": 0.0,
-          "time_attribution_ms": 154.02274997904897,
-          "time_total_ms": 1010.7461250154302,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 751,
-              "change_direction": "up",
-              "change_magnitude": 7.1,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.37531109885139957,
-              "attribution_score": 13.2,
-              "p_value": 0.03119376124775045,
-              "adjusted_p_value": 0.0623875224955009
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2456,
-              "change_direction": "up",
-              "change_magnitude": 3.05,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.4147829116815814,
-              "attribution_score": 10.5,
-              "p_value": 0.05358928214357129,
-              "adjusted_p_value": 0.07238552289542091
-            }
-          ],
-          "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E2"
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E1"
-            }
-          ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
-          "false_attribution_rate": 0.0,
-          "n_falsely_attributed": 0
-        },
-        {
-          "config": {
-            "window_size": 50,
-            "min_support": 3,
-            "max_length": 2,
-            "change_method": "threshold_crossing",
-            "sigma": null,
-            "max_distance": null,
-            "min_magnitude": 0.0,
-            "min_relative_change": 0.0,
-            "global_correction": true,
-            "n_permutations": 5000,
-            "alpha": 0.1,
-            "seed": 1
-          },
-          "n_transactions": 5000,
-          "n_patterns": 319,
-          "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
           "recall": 0.0,
@@ -1446,10 +1241,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 853.1313330167904,
+          "time_phase1_ms": 850.505415990483,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 82.86420902004465,
-          "time_total_ms": 935.9955420368351,
+          "time_attribution_ms": 456.20595902437344,
+          "time_total_ms": 1306.7113750148565,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1479,7 +1274,56 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
+            "min_magnitude": 0.0,
+            "min_relative_change": 0.0,
+            "global_correction": true,
+            "n_permutations": 5000,
+            "alpha": 0.1,
+            "seed": 1
+          },
+          "n_transactions": 5000,
+          "n_patterns": 319,
+          "n_change_points_total": 0,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "time_phase1_ms": 896.1748330038972,
+          "time_support_series_ms": 0.0,
+          "time_attribution_ms": 315.70758298039436,
+          "time_total_ms": 1211.8824159842916,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E2"
+            },
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E1"
+            }
+          ],
+          "false_attribution_rate": 0.0,
+          "n_falsely_attributed": 0
+        },
+        {
+          "config": {
+            "window_size": 50,
+            "min_support": 3,
+            "max_length": 2,
+            "change_method": "threshold_crossing",
+            "sigma": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1490,52 +1334,21 @@
           "n_transactions": 5000,
           "n_patterns": 337,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 852.6842080173083,
+          "fn": 2,
+          "time_phase1_ms": 875.4206249723211,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 121.17666698759422,
-          "time_total_ms": 973.8608750049025,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 751,
-              "change_direction": "up",
-              "change_magnitude": 6.4,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.37531109885139957,
-              "attribution_score": 11.25,
-              "p_value": 0.028794241151769647,
-              "adjusted_p_value": 0.08908218356328734
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2834,
-              "change_direction": "down",
-              "change_magnitude": 1.7999999999999998,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.26713530196585034,
-              "attribution_score": 8.549999999999999,
-              "p_value": 0.0593881223755249,
-              "adjusted_p_value": 0.08908218356328734
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 360.5481249978766,
+          "time_total_ms": 1235.9687499701977,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -1551,8 +1364,6 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         },
@@ -1563,7 +1374,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1574,44 +1384,19 @@
           "n_transactions": 5000,
           "n_patterns": 279,
           "n_change_points_total": 0,
-          "n_significant": 1,
-          "precision": 1.0,
-          "recall": 0.5,
-          "f1": 0.6666666666666666,
-          "tp": 1,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 1,
-          "time_phase1_ms": 868.6862920294516,
+          "fn": 2,
+          "time_phase1_ms": 854.4745410326868,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 113.98970801383257,
-          "time_total_ms": 982.6760000432841,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1196,
-              "change_direction": "down",
-              "change_magnitude": 9.65,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.9231163463866358,
-              "attribution_score": 16.65,
-              "p_value": 0.03079384123175365,
-              "adjusted_p_value": 0.0615876824635073
-            }
-          ],
-          "true_positive_pairs": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "event_id": "E1"
-            }
-          ],
+          "time_attribution_ms": 296.81395896477625,
+          "time_total_ms": 1151.288499997463,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
           "false_positive_pairs": [],
           "false_negative_pairs": [
             {
@@ -1620,6 +1405,13 @@
                 15
               ],
               "event_id": "E2"
+            },
+            {
+              "pattern": [
+                5,
+                15
+              ],
+              "event_id": "E1"
             }
           ],
           "false_attribution_rate": 0.0,
@@ -1632,7 +1424,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1643,52 +1434,21 @@
           "n_transactions": 5000,
           "n_patterns": 351,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
-          "tp": 2,
+          "n_significant": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
           "fp": 0,
-          "fn": 0,
-          "time_phase1_ms": 854.2054580175318,
+          "fn": 2,
+          "time_phase1_ms": 884.0793329873122,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 101.91516700433567,
-          "time_total_ms": 956.1206250218675,
-          "significant_attributions": [
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 1194,
-              "change_direction": "down",
-              "change_magnitude": 8.2,
-              "event_name": "BigSale",
-              "event_start": 800,
-              "event_end": 1200,
-              "proximity": 0.8869204367171575,
-              "attribution_score": 15.2,
-              "p_value": 0.03459308138372325,
-              "adjusted_p_value": 0.0619876024795041
-            },
-            {
-              "pattern": [
-                5,
-                15
-              ],
-              "change_time": 2889,
-              "change_direction": "down",
-              "change_magnitude": 3.1999999999999997,
-              "event_name": "SmallPromo",
-              "event_start": 2500,
-              "event_end": 2900,
-              "proximity": 0.8025187979624785,
-              "attribution_score": 11.049999999999999,
-              "p_value": 0.051989602079584085,
-              "adjusted_p_value": 0.0619876024795041
-            }
-          ],
-          "true_positive_pairs": [
+          "time_attribution_ms": 230.12279201066121,
+          "time_total_ms": 1114.2021249979734,
+          "significant_attributions": [],
+          "true_positive_pairs": [],
+          "false_positive_pairs": [],
+          "false_negative_pairs": [
             {
               "pattern": [
                 5,
@@ -1704,15 +1464,13 @@
               "event_id": "E1"
             }
           ],
-          "false_positive_pairs": [],
-          "false_negative_pairs": [],
           "false_attribution_rate": 0.0,
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.8,
-      "avg_recall": 0.7,
-      "avg_f1": 0.7333333333333333,
+      "avg_precision": 0.0,
+      "avg_recall": 0.0,
+      "avg_f1": 0.0,
       "avg_false_attribution_rate": 0.0
     },
     "No magnitude (prox only)": {
@@ -1725,7 +1483,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1743,10 +1500,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 853.762291953899,
+          "time_phase1_ms": 870.583624986466,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 152.43150002788752,
-          "time_total_ms": 1006.1937919817865,
+          "time_attribution_ms": 220.13812500517815,
+          "time_total_ms": 1090.7217499916442,
           "significant_attributions": [
             {
               "pattern": [
@@ -1818,7 +1575,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1836,10 +1592,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 848.9216660382226,
+          "time_phase1_ms": 868.5527499765158,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 83.8180419523269,
-          "time_total_ms": 932.7397079905495,
+          "time_attribution_ms": 108.06337499525398,
+          "time_total_ms": 976.6161249717698,
           "significant_attributions": [
             {
               "pattern": [
@@ -1855,7 +1611,7 @@
               "proximity": 1.0,
               "attribution_score": 1.3605949401730784,
               "p_value": 0.04819036192761448,
-              "adjusted_p_value": 0.0627874425114977
+              "adjusted_p_value": 0.0631873625274945
             },
             {
               "pattern": [
@@ -1871,7 +1627,7 @@
               "proximity": 0.5379444375946745,
               "attribution_score": 1.0056108646045838,
               "p_value": 0.03479304139172166,
-              "adjusted_p_value": 0.0627874425114977
+              "adjusted_p_value": 0.0631873625274945
             }
           ],
           "true_positive_pairs": [
@@ -1911,7 +1667,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -1929,10 +1684,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 855.3568340139464,
+          "time_phase1_ms": 862.9392920411192,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 119.72366599366069,
-          "time_total_ms": 975.080500007607,
+          "time_attribution_ms": 185.7028749655001,
+          "time_total_ms": 1048.6421670066193,
           "significant_attributions": [
             {
               "pattern": [
@@ -1948,23 +1703,23 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 3.369415819918419,
               "p_value": 0.016996600679864027,
-              "adjusted_p_value": 0.05098980203959208
+              "adjusted_p_value": 0.06798640271945611
             },
             {
               "pattern": [
-                15,
-                164
+                5,
+                132
               ],
-              "change_time": 769,
+              "change_time": 827,
               "change_direction": "up",
-              "change_magnitude": 2.4000000000000004,
+              "change_magnitude": 2.6500000000000004,
               "event_name": "BigSale",
               "event_start": 800,
               "event_end": 1200,
-              "proximity": 0.5379444375946745,
-              "attribution_score": 0.8844002479247319,
-              "p_value": 0.07598480303939212,
-              "adjusted_p_value": 0.09118176364727054
+              "proximity": 0.5827482523739896,
+              "attribution_score": 0.7180835356106023,
+              "p_value": 0.049590081983603276,
+              "adjusted_p_value": 0.09918016396720655
             }
           ],
           "true_positive_pairs": [
@@ -1979,8 +1734,8 @@
           "false_positive_pairs": [
             {
               "pattern": [
-                15,
-                164
+                5,
+                132
               ],
               "event_id": "E1"
             }
@@ -2004,7 +1759,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -2022,10 +1776,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 2,
-          "time_phase1_ms": 847.8815829730593,
+          "time_phase1_ms": 854.2998749762774,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 114.8287919932045,
-          "time_total_ms": 962.7103749662638,
+          "time_attribution_ms": 175.7742909830995,
+          "time_total_ms": 1030.0741659593768,
           "significant_attributions": [
             {
               "pattern": [
@@ -2041,7 +1795,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 1.562946925680745,
               "p_value": 0.0011997600479904018,
-              "adjusted_p_value": 0.0035992801439712055
+              "adjusted_p_value": 0.004199160167966407
             }
           ],
           "true_positive_pairs": [],
@@ -2080,7 +1834,6 @@
             "max_length": 2,
             "change_method": "threshold_crossing",
             "sigma": null,
-            "max_distance": null,
             "min_magnitude": 0.0,
             "min_relative_change": 0.0,
             "global_correction": true,
@@ -2098,10 +1851,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 867.5015000044368,
+          "time_phase1_ms": 935.7865829952061,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 107.0367909851484,
-          "time_total_ms": 974.5382909895852,
+          "time_attribution_ms": 142.65845902264118,
+          "time_total_ms": 1078.4450420178473,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],

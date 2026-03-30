@@ -97,7 +97,6 @@ def count_patterns_and_hypotheses(
 ):
     """Count patterns passing filter and hypotheses (patterns x events with change points)."""
     sigma = config.sigma if config.sigma is not None else float(window_size)
-    max_distance = config.max_distance if config.max_distance is not None else 2 * window_size
     max_pos = max(0, n_transactions - window_size + 1)
 
     n_patterns_total = sum(1 for k in frequents if len(k) > 1)
@@ -152,7 +151,7 @@ def count_patterns_and_hypotheses(
             for event in events:
                 from event_attribution import score_attributions
                 candidates = score_attributions(
-                    pattern, change_points, [event], sigma, max_distance,
+                    pattern, change_points, [event], sigma,
                     config.attribution_threshold,
                 )
                 if candidates:

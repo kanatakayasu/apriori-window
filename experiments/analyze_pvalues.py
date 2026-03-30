@@ -106,7 +106,6 @@ def run_analysis():
     )
 
     sigma = float(window_size)
-    max_distance = 2 * window_size
 
     all_raw: list[_RawTestResult] = []
     patterns_tested = 0
@@ -136,7 +135,6 @@ def run_analysis():
             change_points=change_points,
             events=events,
             sigma=sigma,
-            max_distance=max_distance,
             max_time=max_time,
             n_permutations=attr_config.n_permutations,
             attribution_threshold=attr_config.attribution_threshold,
