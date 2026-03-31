@@ -1,32 +1,36 @@
 \begin{algorithm}[!ht]
-\caption{イベント帰属パイプライン}
-\label{alg:pipeline}
+\caption{帰属スコアリングと統計検定（Step 1--4）}
+\label{alg:scoring}
 \begin{algorithmic}[1]
 \Require 共起パターン $\mathcal{F}\;(|P| \geq 2)$, 密集区間 $\{\mathcal{I}_P\}$, イベント $\mathcal{E}$, 設定 $(\theta, \sigma, B, \alpha, \delta)$
 \Ensure 有意帰属集合 $\mathcal{R}$
-\Statex \textbf{// Step 1--2: 変化点抽出}
-\State $\text{Raw} \gets []$
-\For{$P \in \mathcal{F}$ with $\mathcal{I}_P \neq \emptyset$}
-    \State $\mathcal{C}_P \gets \{s_i, e_i{+}1 \mid [s_i,e_i] \in \mathcal{I}_P\}$
-    \State 各 $\tau \in \mathcal{C}_P$ の変化量を計算
-    \Statex \textbf{// Step 3--4: スコアリング + 置換検定}
-    \For{$e \in \mathcal{E}$}
-        \State $A_{\text{obs}} \gets \sum_{\tau} A(P,\tau,e)$; $c \gets 0$
+\Statex \textbf{// Step 1--2: 変化点抽出 + フィルタリング}
+\State $\text{RawResults} \gets []$
+\For{各パターン $P \in \mathcal{F}$ with $\mathcal{I}_P \neq \emptyset$}
+    \State $\mathcal{C}_P \gets \{s_i \text{(上昇)},\; e_i{+}1 \text{(下降)} \mid [s_i, e_i] \in \mathcal{I}_P\}$
+    \State 各 $\tau \in \mathcal{C}_P$ の変化量を局所サポートから計算 \Comment{式~(\ref{eq:magnitude})}
+    \If{$\mathcal{C}_P = \emptyset$} \textbf{continue} \EndIf
+    \Statex \textbf{// Step 3: 帰属スコアリング}
+    \For{各イベント $e \in \mathcal{E}$}
+        \State $A_{\text{obs}} \gets \sum_{\tau \in \mathcal{C}_P} A(P, \tau, e)$ \Comment{式~(\ref{eq:attribution_score})}
+        \Statex \textbf{// Step 4: 円形シフト置換検定}
+        \State $\text{count} \gets 0$
         \For{$b = 1$ to $B$}
-            \State $A_b \gets \sum_{\tau} A(P,\tau,\Call{CircShift}{e,\delta_b})$
-            \If{$A_b \geq A_{\text{obs}}$} $c \gets c+1$ \EndIf
+            \State $\mathcal{E}_b \gets \Call{CircularShift}{\mathcal{E}, \delta_b}$
+            \State $A_b \gets \sum_{\tau \in \mathcal{C}_P} A(P, \tau, e_b)$
+            \If{$A_b \geq A_{\text{obs}}$} $\text{count} \gets \text{count} + 1$ \EndIf
         \EndFor
-        \State $\text{Raw}.\text{append}(P,e,A_{\text{obs}},(1{+}c)/(B{+}1))$
+        \State $p_{\text{raw}} \gets (1 + \text{count}) / (B + 1)$ \Comment{式~(\ref{eq:pvalue})}
+        \State $\text{RawResults}.\text{append}(P, e, A_{\text{obs}}, p_{\text{raw}})$
     \EndFor
 \EndFor
 \Statex \textbf{// Step 4 (続): グローバル BH 補正}
-\State $\text{Raw}$ を $p$ 昇順にソート; $M \gets |\text{Raw}|$
+\State RawResults を $p_{\text{raw}}$ 昇順にソート
+\State $M \gets |\text{RawResults}|$
 \For{$i = M$ downto $1$}
-    $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)}, p_{(i)} M/i)$
+    \State $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)},\; \min(1,\; p_{(i)} \cdot M / i))$ \Comment{式~(\ref{eq:bh})}
 \EndFor
-\State $\mathcal{R} \gets \{(P,e) \mid \tilde{p}_{(i)} < \alpha\}$
-\Statex \textbf{// Step 5: 重複排除}（\ref{sec:dedup}節参照）
-\State $\mathcal{R} \gets \Call{Dedup}{\mathcal{R}}$
+\State $\mathcal{R} \gets \{(P, e) \mid \tilde{p}_{(i)} < \alpha\}$
 \State \Return $\mathcal{R}$
 \end{algorithmic}
 \end{algorithm}

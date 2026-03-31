@@ -1,0 +1,30 @@
+\begin{algorithm}[!ht]
+\caption{アイテム重複排除（Step 5）}
+\label{alg:dedup}
+\begin{algorithmic}[1]
+\Require 有意帰属集合 $\mathcal{R}$（アルゴリズム~\ref{alg:scoring}の出力）
+\Ensure 重複排除後の帰属集合 $\mathcal{R}'$
+\Statex \textbf{// Step 5a: 同一長パターンの重複排除（過半数共有）}
+\For{各イベント $e$}
+    \State $\mathcal{R}_e \gets$ イベント $e$ に帰属されたパターンを長さ $l$ ごとにグループ化
+    \For{各長さ $l$ のグループ}
+        \For{各パターンペア $(P_i, P_j)$}
+            \If{$|P_i \cap P_j| \geq \lceil l/2 \rceil$}
+                \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
+            \EndIf
+        \EndFor
+        \State 各連結成分内で $A_{\text{obs}}$ 最大のパターンのみ残す
+    \EndFor
+\EndFor
+\Statex \textbf{// Step 5b: 異長パターン間の部分集合排除}
+\For{各イベント $e$}
+    \For{各パターンペア $(P_i, P_j)$ where $|P_i| \neq |P_j|$}
+        \If{$P_i \subseteq P_j$ or $P_j \subseteq P_i$}
+            \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
+        \EndIf
+    \EndFor
+    \State 各連結成分内で $A_{\text{obs}}$ 最大のパターンのみ残す
+\EndFor
+\State \Return $\mathcal{R}' \gets$ 残存パターンの集合
+\end{algorithmic}
+\end{algorithm}

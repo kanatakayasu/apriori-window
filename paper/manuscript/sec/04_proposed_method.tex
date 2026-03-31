@@ -16,8 +16,9 @@ Phase 1（Apriori-window）で得られたパターン集合 $\mathcal{F}$ と
 Step~1--4 はパターン長に依存しない一般的な構造を持ち，
 Step~5（重複排除）では，パターン長 $l$ に応じた同一長過半数共有と
 異長間の部分集合排除の2段階で冗長パターンを除去する（\ref{sec:dedup}節で詳述）．
-図~\ref{fig:pipeline}にパイプラインの概要と帰属の具体例を，
-アルゴリズム~\ref{alg:pipeline}に全体手順を示す．
+図~\ref{fig:pipeline}にパイプラインの概要と帰属の具体例を示す．
+帰属スコアリングと統計検定の手順をアルゴリズム~\ref{alg:scoring}に，
+重複排除の手順をアルゴリズム~\ref{alg:dedup}に示す．
 
 \begin{figure}[t]
 \centering
@@ -181,6 +182,8 @@ BH手続き適用の実務的妥当性は，以下の正の依存構造に関す
 \end{remark}
 
 \subsection{Step 5: アイテム重複排除}\label{sec:dedup}
+
+\input{alg/dedup_pipeline}
 
 \subsubsection{副次パターン問題}
 
