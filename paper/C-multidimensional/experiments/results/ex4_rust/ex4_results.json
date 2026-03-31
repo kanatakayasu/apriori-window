@@ -1,0 +1,146 @@
+{
+  "description": "Scalability analysis",
+  "experiment": "EX4",
+  "results": [
+    {
+      "bl_time_ms": 2.7047920000000003,
+      "n_events": 1,
+      "n_patterns": 14,
+      "n_transactions": 1000,
+      "st_time_ms": 2.912958
+    },
+    {
+      "bl_time_ms": 4.213375,
+      "n_events": 3,
+      "n_patterns": 5,
+      "n_transactions": 1000,
+      "st_time_ms": 5.403917
+    },
+    {
+      "bl_time_ms": 3.218417,
+      "n_events": 5,
+      "n_patterns": 8,
+      "n_transactions": 1000,
+      "st_time_ms": 6.385708
+    },
+    {
+      "bl_time_ms": 29.332084000000002,
+      "n_events": 10,
+      "n_patterns": 11,
+      "n_transactions": 1000,
+      "st_time_ms": 3.3363329999999998
+    },
+    {
+      "bl_time_ms": 77.35041600000001,
+      "n_events": 1,
+      "n_patterns": 658,
+      "n_transactions": 5000,
+      "st_time_ms": 36.262791
+    },
+    {
+      "bl_time_ms": 28.1265,
+      "n_events": 3,
+      "n_patterns": 843,
+      "n_transactions": 5000,
+      "st_time_ms": 17.849375000000002
+    },
+    {
+      "bl_time_ms": 38.917583,
+      "n_events": 5,
+      "n_patterns": 901,
+      "n_transactions": 5000,
+      "st_time_ms": 33.679958000000006
+    },
+    {
+      "bl_time_ms": 45.668042,
+      "n_events": 10,
+      "n_patterns": 743,
+      "n_transactions": 5000,
+      "st_time_ms": 46.050334
+    },
+    {
+      "bl_time_ms": 183.633542,
+      "n_events": 1,
+      "n_patterns": 4558,
+      "n_transactions": 10000,
+      "st_time_ms": 275.182958
+    },
+    {
+      "bl_time_ms": 321.03425000000004,
+      "n_events": 3,
+      "n_patterns": 5236,
+      "n_transactions": 10000,
+      "st_time_ms": 384.36479099999997
+    },
+    {
+      "bl_time_ms": 291.770292,
+      "n_events": 5,
+      "n_patterns": 5539,
+      "n_transactions": 10000,
+      "st_time_ms": 677.7977080000001
+    },
+    {
+      "bl_time_ms": 431.056542,
+      "n_events": 10,
+      "n_patterns": 6035,
+      "n_transactions": 10000,
+      "st_time_ms": 836.18975
+    },
+    {
+      "bl_time_ms": 1949.994459,
+      "n_events": 1,
+      "n_patterns": 19900,
+      "n_transactions": 50000,
+      "st_time_ms": 9755.628834
+    },
+    {
+      "bl_time_ms": 1870.052083,
+      "n_events": 3,
+      "n_patterns": 19899,
+      "n_transactions": 50000,
+      "st_time_ms": 6070.573582999999
+    },
+    {
+      "bl_time_ms": 1960.513084,
+      "n_events": 5,
+      "n_patterns": 19900,
+      "n_transactions": 50000,
+      "st_time_ms": 6474.326542
+    },
+    {
+      "bl_time_ms": 1890.8015,
+      "n_events": 10,
+      "n_patterns": 19900,
+      "n_transactions": 50000,
+      "st_time_ms": 6462.2657500000005
+    },
+    {
+      "bl_time_ms": 3639.50975,
+      "n_events": 1,
+      "n_patterns": 19900,
+      "n_transactions": 100000,
+      "st_time_ms": 14350.26875
+    },
+    {
+      "bl_time_ms": 3613.779458,
+      "n_events": 3,
+      "n_patterns": 19900,
+      "n_transactions": 100000,
+      "st_time_ms": 14739.369708
+    },
+    {
+      "bl_time_ms": 4085.5203749999996,
+      "n_events": 5,
+      "n_patterns": 19900,
+      "n_transactions": 100000,
+      "st_time_ms": 15271.376792
+    },
+    {
+      "bl_time_ms": 3714.7652080000003,
+      "n_events": 10,
+      "n_patterns": 19900,
+      "n_transactions": 100000,
+      "st_time_ms": 14462.434916999999
+    }
+  ]
+}
