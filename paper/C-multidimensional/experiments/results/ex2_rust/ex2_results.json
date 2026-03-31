@@ -1,0 +1,273 @@
+{
+  "description": "Score component ablation",
+  "experiment": "EX2",
+  "results": [
+    {
+      "runs": [
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "full",
+          "time_ms": 562.342
+        },
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "no_dir",
+          "time_ms": 613.557458
+        },
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "no_prox",
+          "time_ms": 668.797208
+        },
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "no_mag",
+          "time_ms": 603.293125
+        },
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "mag_only",
+          "time_ms": 413.5905
+        },
+        {
+          "eval": {
+            "f1": 1.0,
+            "far": 0.0,
+            "fn": 0,
+            "fp": 0,
+            "n_predicted": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "tp": 1
+          },
+          "mode": "prox_only",
+          "time_ms": 732.108958
+        }
+      ],
+      "scenario": "A_prox"
+    },
+    {
+      "runs": [
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "full",
+          "time_ms": 669.092792
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_dir",
+          "time_ms": 637.263959
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_prox",
+          "time_ms": 639.849542
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_mag",
+          "time_ms": 653.598958
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "mag_only",
+          "time_ms": 665.000375
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 1,
+            "fp": 1,
+            "n_predicted": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "prox_only",
+          "time_ms": 464.65283400000004
+        }
+      ],
+      "scenario": "B_dir"
+    },
+    {
+      "runs": [
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "full",
+          "time_ms": 456.45495800000003
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_dir",
+          "time_ms": 536.460041
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_prox",
+          "time_ms": 496.65524999999997
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "no_mag",
+          "time_ms": 558.21025
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "mag_only",
+          "time_ms": 524.9668750000001
+        },
+        {
+          "eval": {
+            "f1": 0.0,
+            "far": 0.0,
+            "fn": 2,
+            "fp": 0,
+            "n_predicted": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          },
+          "mode": "prox_only",
+          "time_ms": 424.818708
+        }
+      ],
+      "scenario": "C_mag"
+    }
+  ]
+}

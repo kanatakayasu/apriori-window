@@ -1,0 +1,207 @@
+{
+  "description": "Parameter sensitivity",
+  "experiment": "EX3",
+  "sweep_results": {
+    "alpha": [
+      {
+        "alpha": 0.01,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 0,
+          "n_predicted": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "alpha": 0.05,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 0,
+          "n_predicted": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "alpha": 0.1,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "alpha": 0.2,
+        "eval": {
+          "f1": 0.8,
+          "far": 1.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "alpha": 0.3,
+        "eval": {
+          "f1": 0.8,
+          "far": 1.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      }
+    ],
+    "permutations": [
+      {
+        "B": 50,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 2,
+          "n_predicted": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "B": 100,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "B": 500,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "B": 1000,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "B": 5000,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      }
+    ],
+    "window": [
+      {
+        "W": 10,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 0,
+          "n_predicted": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "W": 20,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 0,
+          "n_predicted": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "W": 50,
+        "eval": {
+          "f1": 0.0,
+          "far": 0.0,
+          "fn": 2,
+          "fp": 0,
+          "n_predicted": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0
+        }
+      },
+      {
+        "W": 100,
+        "eval": {
+          "f1": 1.0,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 0,
+          "n_predicted": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tp": 2
+        }
+      },
+      {
+        "W": 200,
+        "eval": {
+          "f1": 0.8,
+          "far": 0.0,
+          "fn": 0,
+          "fp": 1,
+          "n_predicted": 3,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "tp": 2
+        }
+      }
+    ]
+  }
+}

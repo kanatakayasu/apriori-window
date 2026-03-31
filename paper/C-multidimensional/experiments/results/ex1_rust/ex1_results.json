@@ -1,0 +1,641 @@
+{
+  "description": "Core attribution accuracy with in-vocabulary signals",
+  "experiment": "EX1",
+  "parameters": {
+    "n_locations": 10,
+    "n_permutations": 500,
+    "n_transactions": 10000,
+    "threshold": 3,
+    "window_t": 200
+  },
+  "results": [
+    {
+      "avg_bl_f1": 0.0470016939582157,
+      "avg_st_f1": 0.08,
+      "beta": 0.1,
+      "runs": [
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 78.621917
+          },
+          "seed": 42,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 4744,
+            "time_ms": 220.969208
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.09090909090909091,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 19,
+              "n_predicted": 20,
+              "precision": 0.05,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 78.01020799999999
+          },
+          "seed": 123,
+          "st": {
+            "eval": {
+              "f1": 0.4,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 2,
+              "n_predicted": 3,
+              "precision": 0.3333333333333333,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "n_patterns": 4719,
+            "time_ms": 231.247458
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.05714285714285715,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 32,
+              "n_predicted": 33,
+              "precision": 0.030303030303030304,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 78.595584
+          },
+          "seed": 456,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 4557,
+            "time_ms": 206.479625
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.08695652173913042,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 20,
+              "n_predicted": 21,
+              "precision": 0.047619047619047616,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 79.058792
+          },
+          "seed": 789,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 1.0,
+              "fn": 2,
+              "fp": 1,
+              "n_predicted": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 4595,
+            "time_ms": 234.323917
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 10,
+              "n_predicted": 10,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 98.08945800000001
+          },
+          "seed": 1024,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 1,
+              "n_predicted": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 4498,
+            "time_ms": 254.078209
+          }
+        }
+      ]
+    },
+    {
+      "avg_bl_f1": 0.09182186234817813,
+      "avg_st_f1": 0.47333333333333333,
+      "beta": 0.2,
+      "runs": [
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 2,
+              "n_predicted": 2,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 91.404083
+          },
+          "seed": 42,
+          "st": {
+            "eval": {
+              "f1": 0.8,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 1,
+              "n_predicted": 3,
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5038,
+            "time_ms": 253.46991699999998
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.19999999999999998,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 16,
+              "n_predicted": 18,
+              "precision": 0.1111111111111111,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "time_ms": 94.936833
+          },
+          "seed": 123,
+          "st": {
+            "eval": {
+              "f1": 0.4,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 2,
+              "n_predicted": 3,
+              "precision": 0.3333333333333333,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "n_patterns": 5016,
+            "time_ms": 249.378083
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 89.325708
+          },
+          "seed": 456,
+          "st": {
+            "eval": {
+              "f1": 0.6666666666666666,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 0,
+              "n_predicted": 1,
+              "precision": 1.0,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "n_patterns": 4886,
+            "time_ms": 234.993958
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.10526315789473684,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 16,
+              "n_predicted": 17,
+              "precision": 0.058823529411764705,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 85.04083299999999
+          },
+          "seed": 789,
+          "st": {
+            "eval": {
+              "f1": 0.5,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 1,
+              "n_predicted": 2,
+              "precision": 0.5,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "n_patterns": 4901,
+            "time_ms": 248.378958
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.15384615384615385,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 10,
+              "n_predicted": 11,
+              "precision": 0.09090909090909091,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 83.186916
+          },
+          "seed": 1024,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 1,
+              "n_predicted": 1,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 4821,
+            "time_ms": 229.275666
+          }
+        }
+      ]
+    },
+    {
+      "avg_bl_f1": 0.11372549019607843,
+      "avg_st_f1": 0.5533333333333333,
+      "beta": 0.3,
+      "runs": [
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 94.213625
+          },
+          "seed": 42,
+          "st": {
+            "eval": {
+              "f1": 0.8,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 1,
+              "n_predicted": 3,
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5190,
+            "time_ms": 240.225042
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.11764705882352941,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 14,
+              "n_predicted": 15,
+              "precision": 0.06666666666666667,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 91.809291
+          },
+          "seed": 123,
+          "st": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 4,
+              "n_predicted": 4,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "n_patterns": 5156,
+            "time_ms": 236.273208
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 5,
+              "n_predicted": 5,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 90.291667
+          },
+          "seed": 456,
+          "st": {
+            "eval": {
+              "f1": 0.8,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 1,
+              "n_predicted": 3,
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5030,
+            "time_ms": 237.776292
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.11764705882352941,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 14,
+              "n_predicted": 15,
+              "precision": 0.06666666666666667,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "time_ms": 87.853791
+          },
+          "seed": 789,
+          "st": {
+            "eval": {
+              "f1": 0.5,
+              "far": 0.0,
+              "fn": 1,
+              "fp": 1,
+              "n_predicted": 2,
+              "precision": 0.5,
+              "recall": 0.5,
+              "tp": 1
+            },
+            "n_patterns": 5045,
+            "time_ms": 270.628083
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.33333333333333337,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 8,
+              "n_predicted": 10,
+              "precision": 0.2,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "time_ms": 88.816084
+          },
+          "seed": 1024,
+          "st": {
+            "eval": {
+              "f1": 0.6666666666666666,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 2,
+              "n_predicted": 4,
+              "precision": 0.5,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 4976,
+            "time_ms": 235.09570799999997
+          }
+        }
+      ]
+    },
+    {
+      "avg_bl_f1": 0.08888888888888889,
+      "avg_st_f1": 0.8933333333333333,
+      "beta": 0.5,
+      "runs": [
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 104.075833
+          },
+          "seed": 42,
+          "st": {
+            "eval": {
+              "f1": 1.0,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 0,
+              "n_predicted": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5282,
+            "time_ms": 251.22158300000004
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 10,
+              "n_predicted": 10,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 100.05925
+          },
+          "seed": 123,
+          "st": {
+            "eval": {
+              "f1": 1.0,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 0,
+              "n_predicted": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5251,
+            "time_ms": 263.852792
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 100.062334
+          },
+          "seed": 456,
+          "st": {
+            "eval": {
+              "f1": 0.6666666666666666,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 2,
+              "n_predicted": 4,
+              "precision": 0.5,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5102,
+            "time_ms": 249.494459
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.0,
+              "far": 0.0,
+              "fn": 2,
+              "fp": 0,
+              "n_predicted": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "tp": 0
+            },
+            "time_ms": 94.261917
+          },
+          "seed": 789,
+          "st": {
+            "eval": {
+              "f1": 1.0,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 0,
+              "n_predicted": 2,
+              "precision": 1.0,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5149,
+            "time_ms": 245.608416
+          }
+        },
+        {
+          "baseline_1d": {
+            "eval": {
+              "f1": 0.4444444444444445,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 5,
+              "n_predicted": 7,
+              "precision": 0.2857142857142857,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "time_ms": 95.71033399999999
+          },
+          "seed": 1024,
+          "st": {
+            "eval": {
+              "f1": 0.8,
+              "far": 0.0,
+              "fn": 0,
+              "fp": 1,
+              "n_predicted": 3,
+              "precision": 0.6666666666666666,
+              "recall": 1.0,
+              "tp": 2
+            },
+            "n_patterns": 5078,
+            "time_ms": 241.05775
+          }
+        }
+      ]
+    }
+  ]
+}
