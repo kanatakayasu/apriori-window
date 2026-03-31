@@ -68,11 +68,13 @@ Benjamini--Hochberg FDR 補正，Union-Find クラスタリングによる
 最終判定を置換検定に委ねる二層構造により，
 ヒューリスティックな閾値選択への依存を軽減する．
 
-合成データ実験では，8条件（4ブースト係数$\times$4構造条件）にわたり F1 = 0.67--0.92 を達成し，
+合成データ実験では，8条件（4ブースト係数$\times$4構造条件）にわたり F1 = 0.75--0.94 を達成し，
 パラメータ選択（ウィンドウサイズ 10--50，$\sigma$ 5--200，置換回数 50--1000）に対して頑健であることを示す．
+ナイーブベースライン（スコア閾値のみ）との比較では，
+グローバルBH補正が出力を98\%削減しつつRecall = 1.00を維持することを実証した．
 実キャンペーンデータ（Dunnhumby，276Kバスケット，30キャンペーン）に対する
 探索的検証では，全30キャンペーンに帰属を生成し，
-重複排除が76\%の冗長性を除去した．
+重複排除が88\%の冗長性を除去した．
 パイプラインはデータサイズ・イベント数・置換回数に対して線形にスケールし，
 100万トランザクションまでの動作を確認した．
 \end{abstract}
@@ -88,6 +90,15 @@ permutation test, multiple testing correction, support time series
 \input{sec/04_proposed_method}
 \input{sec/05_experiments}
 \input{sec/06_conclusion}
+
+% --- 謝辞 ---
+\section*{Acknowledgment}
+During the preparation of this work,
+the authors used Claude (Anthropic)~\cite{claude2025}
+to assist with manuscript drafting, code implementation, and experimental analysis
+across all sections of this paper.
+After using this tool, the authors reviewed and edited the content as needed
+and take full responsibility for the content of the publication.
 
 % --- 参考文献 ---
 \bibliographystyle{IEEEtran}
