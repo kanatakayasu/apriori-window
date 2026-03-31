@@ -11,6 +11,10 @@ path = "src/lib.rs"
 name = "apriori_window_suite"
 path = "src/main.rs"
 
+[[bin]]
+name = "st_pipeline"
+path = "src/bin/st_pipeline.rs"
+
 [dependencies]
 itertools = "0.14"
 rand = "0.8"
