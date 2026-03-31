@@ -1,0 +1,140 @@
+% ==============================================================
+\section{提案手法}\label{sec:method}
+% ==============================================================
+
+問題~\ref{prob:st_attribution}を解くための
+\textbf{時空間イベント帰属パイプライン}を提案する。
+パイプラインは以下の6ステップから成る（図~\ref{fig:pipeline}）。
+
+\input{fig/pipeline}
+
+\subsection{Step 1: サポート曲面の計算}
+
+各パターン $P$（$|P| \geq 2$）に対し、接頭辞和に基づく
+$O(G \cdot 2^{k+1} + N)$ のアルゴリズムでサポート曲面 $S_P$ を計算する。
+
+$(k{+}1)$ 次元の指示配列 $I[t, \mathbf{x}(t)]$（パターンを含むトランザクション数）を構築し、
+各次元に沿って接頭辞和を取った後、$2^{k+1}$ 個の角に対する包除原理により
+任意のグリッド点でのウィンドウ合計を求める。
+
+\paragraph{候補パターンの枝刈り.}
+以下の密集領域包含定理を用いて候補を削減する：
+パターン $P$ の任意の $(|P|-1)$-部分集合 $Q$ に対して
+$\mathcal{L}_\theta(S_P) \subseteq \mathcal{L}_\theta(S_Q)$ が成立するため、
+$Q$ に密集領域がなければ $P$ も密集領域を持たない（Apriori枝刈り）。
+
+\subsection{Step 2: 位置別変化点の検出}
+
+サポート曲面の各空間スライス $s_P^{\mathbf{v}}(t) = S_P(t, \mathbf{v})$ に対して、
+1次元パイプラインと同じ閾値交差法で変化点を検出する。
+各変化点 $(\tau, \mathbf{v})$ に対し、局所平均 $\bar{s}^{\pm}(\tau, \mathbf{v})$ から
+変化量 $\mathrm{mag}(\tau, \mathbf{v})$ を計算する。
+
+\paragraph{フィルタリング.}
+仮説空間削減のため以下のフィルタを適用する：
+\begin{itemize}
+\item \emph{サポート振幅フィルタ}: $\max_t s_P^{\mathbf{v}}(t) - \min_t s_P^{\mathbf{v}}(t) < \delta$ の位置を除外。
+\item \emph{変化量フィルタ}: $\mathrm{mag}(\tau, \mathbf{v}) < \mu_{\min}$ の変化点を除外。
+\end{itemize}
+
+\subsection{Step 3: 時空間帰属スコアリング}
+
+各パターン $P$、変化点 $(\tau, \mathbf{v})$、イベント $e$ に対し、
+式~\eqref{eq:st_score}の時空間帰属スコアを計算する：
+\[
+A(P, \tau, \mathbf{v}, e) = \mathrm{prox}_t(\tau, e) \cdot \mathrm{prox}_s(\mathbf{v}, e) \cdot \mathrm{mag}(\tau, \mathbf{v}).
+\]
+
+パターン $P$ とイベント $e$ の観測スコア $A_{\mathrm{obs}}(P, e)$ は
+全変化点にわたる総和である（式~\eqref{eq:obs_score}）。
+この集約は、イベントの空間スコープ内にある変化点ほど高い
+$\mathrm{prox}_s$ を持つため、
+空間的に局在するイベント効果を自動的に強調する。
+
+\subsection{Step 4: 時空間置換検定}\label{sec:st_permtest}
+
+\subsubsection{設計原理}
+
+帰無仮説 $H_0$:「変化点の時空間位置はイベントと無関係である」を検定するために、
+イベントの時刻をランダムにシフトする置換を行う。
+1次元パイプラインの円形シフト（時刻のみランダム化）を時空間に拡張する際、
+以下の設計判断を行う：
+
+\begin{itemize}
+\item \textbf{時間軸}：円形シフト（オフセット $\delta \sim \mathrm{Uniform}\{1, \ldots, T-1\}$）。
+これにより時間的自己相関構造が保存される。
+\item \textbf{空間軸}：イベントの空間スコープ $\mathcal{V}_e$ を\textbf{固定}する。
+空間スコープは外生的に与えられた既知情報であり、ランダム化の対象ではない。
+\end{itemize}
+
+この「時間シフト・空間固定」方式は、帰無仮説を
+「イベントの\emph{時刻}が変化点と無関係」と定式化することに対応する。
+空間スコープの一致は帰無仮説下でも保持されるため、
+空間的近接度 $\mathrm{prox}_s$ は置換を通じて同一の値をとり、
+検定は時間的近接度 $\mathrm{prox}_t$ と変化量 $\mathrm{mag}$ の偶然の一致を評価する。
+
+\subsubsection{置換アルゴリズム}
+
+$B$ 回の置換を実行する。各置換 $b$ では：
+\begin{enumerate}
+\item ランダムオフセット $\delta_b \sim \mathrm{Uniform}\{1, \ldots, T-1\}$ を生成。
+\item 全イベントの時刻を一斉にシフト：$t_s^{(b)} = (t_s + \delta_b) \bmod T$,
+$t_e^{(b)} = (t_s^{(b)} + \Delta) \bmod T$。空間スコープ $\mathcal{V}_e$ は不変。
+\item シフト後のイベントで帰属スコア $A_{\mathrm{perm}}^{(b)}(P, e)$ を再計算。
+\end{enumerate}
+
+未補正 $p$ 値：
+\begin{equation}\label{eq:pvalue}
+p_{\mathrm{raw}}(P, e) = \frac{1 + |\{b : A_{\mathrm{perm}}^{(b)}(P, e) \geq A_{\mathrm{obs}}(P, e)\}|}{B + 1}.
+\end{equation}
+
+\begin{remark}[空間自己相関の処理]\label{rem:spatial_autocorr}
+空間スコープを固定する方式により、
+空間自己相関は帰無分布の生成にそのまま反映される。
+すなわち、置換スコア $A_{\mathrm{perm}}^{(b)}$ も観測スコアと同じ空間的相関構造を持つ。
+これは1次元パイプラインで時間的自己相関を円形シフトにより保存するのと
+同じ原理（サロゲートデータ法~\cite{lancaster2018surrogate}）に基づく。
+\end{remark}
+
+\subsection{Step 5: グローバルBH補正}
+
+$M = |\mathcal{F}'| \times |\mathcal{E}|$ 個の仮説を同時に検定する。
+未補正 $p$ 値を昇順にソートし $p_{(1)} \leq \cdots \leq p_{(M)}$ とする。
+Benjamini--Hochberg~\cite{benjamini1995controlling}の step-down 手続きにより
+調整済み $p$ 値を計算する：
+\begin{equation}\label{eq:bh}
+\tilde{p}_{(i)} = \min\!\left(\tilde{p}_{(i+1)},\; \min\!\left(1,\; p_{(i)} \cdot \frac{M}{i}\right)\right),
+\quad \tilde{p}_{(M)} = \min(1, p_{(M)}).
+\end{equation}
+$\tilde{p}_{(i)} < \alpha$ の仮説を棄却（帰属が有意）と判定する。
+
+\begin{remark}[PRDS条件]
+アイテムを共有するパターンのサポートは正に相関するため、
+$p$ 値は部分集合上の正回帰依存性（PRDS）条件を満たし、
+BH手続きによるFDR制御は非独立な場合にも有効である~\cite{benjamini2001control}。
+\end{remark}
+
+\subsection{Step 6: アイテム重複排除}
+
+1次元パイプラインと同様に、副次パターン問題を
+Union-Findクラスタリングにより解決する。
+各イベント $e$ について有意帰属されたパターンを収集し、
+アイテムを共有するパターン間にエッジを張った
+共有グラフの連結成分を求め、
+各成分内で帰属スコア最大のパターンのみを残す。
+
+\subsection{計算量分析}
+
+パイプライン全体の時間計算量は以下の通りである：
+\begin{itemize}
+\item \textbf{Step 1}（サポート曲面）: $O(|\mathcal{F}| \cdot (G \cdot 2^{k+1} + N))$
+\item \textbf{Step 2}（変化点検出）: $O(|\mathcal{F}| \cdot G)$（各グリッド点を1回走査）
+\item \textbf{Step 3--4}（帰属＋置換検定）: $O(|\mathcal{F}'| \cdot |\mathcal{E}| \cdot B \cdot |\mathcal{C}_P|)$
+\item \textbf{Step 5--6}（BH＋重複排除）: $O(M \log M + R \cdot k_{\max})$
+\end{itemize}
+ここで $G = \prod_j T_j$ はグリッドサイズ、$B$ は置換回数、
+$|\mathcal{C}_P|$ は平均変化点数、$R$ は有意結果数、$k_{\max}$ はパターン最大長である。
+
+Step 1 が支配的であり、パターン数とグリッドサイズに線形にスケールする。
+サポート振幅フィルタにより $|\mathcal{F}'| \ll |\mathcal{F}|$ となるため、
+Step 3--4 の計算量は実用上小さい。
