@@ -7,6 +7,7 @@ pub mod apriori;
 pub mod basket;
 pub mod interval;
 pub mod io;
+pub mod st_correlator;
 pub mod util;
 
 pub use apriori::{find_dense_itemsets, generate_candidates, prune_candidates};
