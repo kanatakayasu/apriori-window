@@ -1,0 +1,16 @@
+[
+  {
+    "pattern": [
+      371,
+      1665
+    ],
+    "event_id": "INJ_LOCAL"
+  },
+  {
+    "pattern": [
+      428,
+      2286
+    ],
+    "event_id": "INJ_REGIONAL"
+  }
+]

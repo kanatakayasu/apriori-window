@@ -1,0 +1,14 @@
+{
+  "best_config": {
+    "window_t": 500,
+    "threshold": 2,
+    "label": "W=500,\u03c4=2"
+  },
+  "n_candidates": 33,
+  "st_n": 8,
+  "st_match": 1,
+  "st_time_ms": 3369.771290977951,
+  "bl_n": 9,
+  "bl_match": 0,
+  "bl_time_ms": 305.60974997933954
+}

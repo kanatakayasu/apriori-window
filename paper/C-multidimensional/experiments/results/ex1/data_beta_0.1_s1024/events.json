@@ -1,0 +1,61 @@
+[
+  {
+    "event_id": "E1",
+    "name": "local_campaign",
+    "start": 4000,
+    "end": 8000,
+    "spatial_scope": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  {
+    "event_id": "E2",
+    "name": "global_campaign",
+    "start": 12000,
+    "end": 16000,
+    "spatial_scope": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  {
+    "event_id": "D1",
+    "name": "decoy_event",
+    "start": 9000,
+    "end": 11000,
+    "spatial_scope": [
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  }
+]

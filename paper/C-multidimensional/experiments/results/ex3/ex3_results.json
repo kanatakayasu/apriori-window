@@ -1,0 +1,59 @@
+{
+  "st": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "far": 0.0,
+    "n_predicted": 3
+  },
+  "st_time_ms": 9986.542625003494,
+  "baseline_1d": {
+    "tp": 1,
+    "fp": 3,
+    "fn": 2,
+    "precision": 0.25,
+    "recall": 0.3333333333333333,
+    "f1": 0.28571428571428575,
+    "far": 0.0,
+    "n_predicted": 4
+  },
+  "bl_time_ms": 2097.4639159976505,
+  "st_attributions": [
+    {
+      "pattern": [
+        8,
+        18
+      ],
+      "event": "all_store_promo",
+      "location": 6,
+      "time": 7966,
+      "score": 13.64217341448972,
+      "adj_p": 0.027972027972027972
+    },
+    {
+      "pattern": [
+        25,
+        35
+      ],
+      "event": "winter_campaign",
+      "location": 15,
+      "time": 35919,
+      "score": 5.8101364902274195,
+      "adj_p": 0.027972027972027972
+    },
+    {
+      "pattern": [
+        5,
+        15
+      ],
+      "event": "summer_campaign",
+      "location": 5,
+      "time": 19942,
+      "score": 2.755655594246124,
+      "adj_p": 0.027972027972027972
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "pattern": [
+      5,
+      15
+    ],
+    "event_id": "summer"
+  },
+  {
+    "pattern": [
+      25,
+      35
+    ],
+    "event_id": "winter"
+  },
+  {
+    "pattern": [
+      8,
+      18
+    ],
+    "event_id": "promo"
+  }
+]

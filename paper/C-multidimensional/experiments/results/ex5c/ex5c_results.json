@@ -1,0 +1,231 @@
+{
+  "dataset": "uci_online_retail",
+  "n_transactions": 29788,
+  "n_locations": 10,
+  "n_candidates": 824,
+  "injected_patterns": [
+    [
+      371,
+      1665
+    ],
+    [
+      428,
+      2286
+    ]
+  ],
+  "st": {
+    "tp": 2,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6666666666666666,
+    "far": 0.0,
+    "n_predicted": 4,
+    "time_ms": 46163.51004096214
+  },
+  "baseline_1d": {
+    "tp": 2,
+    "fp": 15,
+    "fn": 0,
+    "precision": 0.11764705882352941,
+    "recall": 1.0,
+    "f1": 0.21052631578947367,
+    "far": 0.0,
+    "n_predicted": 17,
+    "time_ms": 13600.863084022421
+  },
+  "st_attributions": [
+    {
+      "pattern": [
+        1816,
+        1834
+      ],
+      "event": "local_promotion",
+      "score": 1.4857696990544909,
+      "adj_p": 0.07992007992007992
+    },
+    {
+      "pattern": [
+        1097,
+        1534
+      ],
+      "event": "local_promotion",
+      "score": 0.34862949140044797,
+      "adj_p": 0.07992007992007992
+    },
+    {
+      "pattern": [
+        371,
+        1665
+      ],
+      "event": "local_promotion",
+      "score": 3.9211327539222935,
+      "adj_p": 0.07992007992007992
+    },
+    {
+      "pattern": [
+        428,
+        2286
+      ],
+      "event": "regional_campaign",
+      "score": 2.0410232567937836,
+      "adj_p": 0.07992007992007992
+    }
+  ],
+  "bl_attributions": [
+    {
+      "pattern": [
+        1097,
+        2375
+      ],
+      "event": "decoy_event",
+      "score": 0.011743110450792932,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        1156,
+        1317
+      ],
+      "event": "decoy_event",
+      "score": 0.004639946715619177,
+      "adj_p": 0.05019595788826558
+    },
+    {
+      "pattern": [
+        181,
+        2202
+      ],
+      "event": "decoy_event",
+      "score": 0.004342848924171777,
+      "adj_p": 0.05013951565675703
+    },
+    {
+      "pattern": [
+        225,
+        1594
+      ],
+      "event": "decoy_event",
+      "score": 0.19155169726943663,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        324,
+        951
+      ],
+      "event": "decoy_event",
+      "score": 3.2820059740222898,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        547,
+        1916
+      ],
+      "event": "decoy_event",
+      "score": 0.0068397853236762465,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        76,
+        1480
+      ],
+      "event": "regional_campaign",
+      "score": 0.019875963134514008,
+      "adj_p": 0.05013951565675703
+    },
+    {
+      "pattern": [
+        1084,
+        1816
+      ],
+      "event": "regional_campaign",
+      "score": 0.6718780398784824,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        1097,
+        1834
+      ],
+      "event": "regional_campaign",
+      "score": 0.3782610824672392,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        2202,
+        2230
+      ],
+      "event": "regional_campaign",
+      "score": 0.0013161395686297633,
+      "adj_p": 0.052947052947052944
+    },
+    {
+      "pattern": [
+        720,
+        2060
+      ],
+      "event": "regional_campaign",
+      "score": 0.055926929640414,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        428,
+        2286
+      ],
+      "event": "regional_campaign",
+      "score": 3.023134965822902,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        371,
+        1665
+      ],
+      "event": "local_promotion",
+      "score": 2.811492774912308,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        1029,
+        1569
+      ],
+      "event": "local_promotion",
+      "score": 2.9291936125630467,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        489,
+        781
+      ],
+      "event": "local_promotion",
+      "score": 2.3360344514386586,
+      "adj_p": 0.03700647178908049
+    },
+    {
+      "pattern": [
+        1097,
+        1324
+      ],
+      "event": "local_promotion",
+      "score": 0.2550738744021953,
+      "adj_p": 0.04364865903327442
+    },
+    {
+      "pattern": [
+        9,
+        922
+      ],
+      "event": "local_promotion",
+      "score": 1.2990127344656626,
+      "adj_p": 0.03700647178908049
+    }
+  ]
+}

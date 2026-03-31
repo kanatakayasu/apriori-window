@@ -1,0 +1,67 @@
+% fig/pipeline.tex — 時空間イベント帰属パイプライン図
+% \input{fig/pipeline} で読み込む
+% 前提: プリアンブルで \usepackage{tikz} および
+%       \usetikzlibrary{arrows.meta, positioning} を宣言済み
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.4cm,
+  box/.style={
+    draw, rounded corners=2pt, thick,
+    minimum width=5.6cm, minimum height=0.85cm,
+    text width=5.4cm, align=center,
+    font=\small
+  },
+  arr/.style={-{Stealth[length=2.5mm]}, thick},
+]
+
+% Step 1
+\node[box] (s1) {%
+  \textbf{Step 1:} サポート曲面の計算\\[-1pt]
+  {\scriptsize トランザクション＋位置 $\to$ $S_P(t,v)$}%
+};
+
+% Step 2
+\node[box, below=of s1] (s2) {%
+  \textbf{Step 2:} 位置別変化点検出\\[-1pt]
+  {\scriptsize 各位置で閾値交差を検出}%
+};
+
+% Step 3
+\node[box, below=of s2] (s3) {%
+  \textbf{Step 3:} 時空間帰属スコアリング\\[-1pt]
+  {\scriptsize $\mathrm{prox}_t \times \mathrm{prox}_s \times \mathrm{mag}$}%
+};
+
+% Step 4
+\node[box, below=of s3] (s4) {%
+  \textbf{Step 4:} 時空間置換検定\\[-1pt]
+  {\scriptsize 循環時間シフト＋空間範囲保持}%
+};
+
+% Step 5
+\node[box, below=of s4] (s5) {%
+  \textbf{Step 5:} グローバルBH補正\\[-1pt]
+  {\scriptsize FDR制御}%
+};
+
+% Step 6
+\node[box, below=of s5] (s6) {%
+  \textbf{Step 6:} アイテム重複排除\\[-1pt]
+  {\scriptsize Union-Find}%
+};
+
+% Arrows
+\draw[arr] (s1) -- (s2);
+\draw[arr] (s2) -- (s3);
+\draw[arr] (s3) -- (s4);
+\draw[arr] (s4) -- (s5);
+\draw[arr] (s5) -- (s6);
+
+\end{tikzpicture}
+\caption{提案する時空間イベント帰属パイプラインの全体構成。
+6段のステップにより、サポート曲面の計算から
+有意な帰属結果の出力までを一貫して処理する。}
+\label{fig:pipeline}
+\end{figure}

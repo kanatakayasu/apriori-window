@@ -1,0 +1,79 @@
+[
+  {
+    "event_id": "summer",
+    "name": "summer_campaign",
+    "start": 12000,
+    "end": 20000,
+    "spatial_scope": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  {
+    "event_id": "winter",
+    "name": "winter_campaign",
+    "start": 28000,
+    "end": 36000,
+    "spatial_scope": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  {
+    "event_id": "promo",
+    "name": "all_store_promo",
+    "start": 4000,
+    "end": 8000,
+    "spatial_scope": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  {
+    "event_id": "decoy",
+    "name": "fake_campaign",
+    "start": 9000,
+    "end": 11000,
+    "spatial_scope": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+]

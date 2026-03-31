@@ -1,0 +1,113 @@
+{
+  "n_transactions": 20000,
+  "n_locations": 20,
+  "n_candidates": 309,
+  "injected_patterns": [
+    [
+      17156,
+      30035
+    ],
+    [
+      10680,
+      65795
+    ]
+  ],
+  "st": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6666666666666666,
+    "far": 0.0,
+    "n_predicted": 1,
+    "time_ms": 18367.763541988097
+  },
+  "baseline_1d": {
+    "tp": 2,
+    "fp": 5,
+    "fn": 0,
+    "precision": 0.2857142857142857,
+    "recall": 1.0,
+    "f1": 0.4444444444444445,
+    "far": 0.0,
+    "n_predicted": 7,
+    "time_ms": 2780.7063340442255
+  },
+  "st_attributions": [
+    {
+      "pattern": [
+        17156,
+        30035
+      ],
+      "event": "injected_local_campaign",
+      "score": 3.9076061365165495,
+      "adj_p": 0.03396603396603397
+    }
+  ],
+  "bl_attributions": [
+    {
+      "pattern": [
+        10680,
+        65795
+      ],
+      "event": "injected_global_campaign",
+      "score": 4.8002050012105055,
+      "adj_p": 0.009324009324009324
+    },
+    {
+      "pattern": [
+        12681,
+        29651
+      ],
+      "event": "decoy_campaign",
+      "score": 0.07636959544302478,
+      "adj_p": 0.060880296174413824
+    },
+    {
+      "pattern": [
+        34253,
+        35570
+      ],
+      "event": "decoy_campaign",
+      "score": 0.5916651903601623,
+      "adj_p": 0.055944055944055944
+    },
+    {
+      "pattern": [
+        17774,
+        38256
+      ],
+      "event": "injected_local_campaign",
+      "score": 1.862377479282835,
+      "adj_p": 0.009324009324009324
+    },
+    {
+      "pattern": [
+        9701,
+        35570
+      ],
+      "event": "injected_local_campaign",
+      "score": 0.1600589114268954,
+      "adj_p": 0.060880296174413824
+    },
+    {
+      "pattern": [
+        16175,
+        37353
+      ],
+      "event": "injected_local_campaign",
+      "score": 0.0022226173661952665,
+      "adj_p": 0.07792207792207792
+    },
+    {
+      "pattern": [
+        17156,
+        30035
+      ],
+      "event": "injected_local_campaign",
+      "score": 5.027648354900647,
+      "adj_p": 0.009324009324009324
+    }
+  ]
+}

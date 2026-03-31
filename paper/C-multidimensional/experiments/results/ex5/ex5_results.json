@@ -1,0 +1,91 @@
+{
+  "dataset": "dunnhumby_complete_journey",
+  "description": "Real store-level data with real in-store display events",
+  "n_transactions": 84312,
+  "n_locations": 20,
+  "n_events": 30,
+  "n_candidates_single": 24,
+  "n_candidates_pair": 3,
+  "n_candidates_total": 27,
+  "window_t": 800,
+  "min_support": 2,
+  "st": {
+    "n_attributions": 0,
+    "n_events_attributed": 0,
+    "n_single_item": 0,
+    "n_pair": 0,
+    "product_match_rate": 0,
+    "time_ms": 1559.1698749922216,
+    "attributions": []
+  },
+  "baseline_1d": {
+    "n_attributions": 6,
+    "n_events_attributed": 5,
+    "n_single_item": 0,
+    "n_pair": 6,
+    "product_match_rate": 0.0,
+    "time_ms": 186.30229198606685,
+    "attributions": [
+      {
+        "pattern": [
+          6380,
+          33396
+        ],
+        "event_id": "DISP_6889",
+        "event_name": "display_product_29762_w97-98",
+        "score": 0.007346525758853938,
+        "adj_p": 0.03792415169660679
+      },
+      {
+        "pattern": [
+          24578,
+          24609
+        ],
+        "event_id": "DISP_6889",
+        "event_name": "display_product_29762_w97-98",
+        "score": 0.6989709382257404,
+        "adj_p": 0.027944111776447105
+      },
+      {
+        "pattern": [
+          24578,
+          24609
+        ],
+        "event_id": "DISP_4997",
+        "event_name": "display_product_9486_w100-101",
+        "score": 0.011297812977296979,
+        "adj_p": 0.03792415169660679
+      },
+      {
+        "pattern": [
+          24578,
+          24609
+        ],
+        "event_id": "DISP_5874",
+        "event_name": "display_product_13503_w99-100",
+        "score": 0.6954848061276292,
+        "adj_p": 0.027944111776447105
+      },
+      {
+        "pattern": [
+          24578,
+          24609
+        ],
+        "event_id": "DISP_8957",
+        "event_name": "display_product_22465_w100-101",
+        "score": 0.011297812977296979,
+        "adj_p": 0.03792415169660679
+      },
+      {
+        "pattern": [
+          24578,
+          24609
+        ],
+        "event_id": "DISP_8075",
+        "event_name": "display_product_14699_w99-101",
+        "score": 0.6954848061276292,
+        "adj_p": 0.027944111776447105
+      }
+    ]
+  }
+}

@@ -7,168 +7,129 @@
 $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ を有限のアイテム集合とする。
 $D = [d_1, d_2, \ldots, d_N]$ を時間インデックス $t \in \{1, \ldots, N\}$ で順序付けられたトランザクション列とする。
 各トランザクション $d_t \subseteq \mathcal{I}$ はアイテムの集合である。
-アイテムセット（パターン）$P \subseteq \mathcal{I}$ がトランザクション $d_t$ に\emph{出現する}とは、$P \subseteq d_t$ が成り立つことをいう。
-
-$k$ 個の補助次元 $x_1, x_2, \ldots, x_k$（例：空間座標、店舗識別子、属性インデックス）を考え、各次元は有限順序付き定義域 $\mathcal{X}_j$（$j = 1, \ldots, k$）の値をとる。
-\emph{次元空間} $\mathcal{X} = \mathcal{X}_1 \times \mathcal{X}_2 \times \cdots \times \mathcal{X}_k$ を定義する。
-各トランザクション $d_t$ は位置 $\mathbf{x}(t) = (x_1(t), \ldots, x_k(t)) \in \mathcal{X}$ に関連付けられる。
+$k$ 個の補助次元（空間座標、店舗ID等）を考え、各次元は有限定義域 $\mathcal{X}_j$ の値をとる。
+各トランザクション $d_t$ は位置 $\mathbf{x}(t) = (x_1(t), \ldots, x_k(t)) \in \mathcal{X} = \prod_j \mathcal{X}_j$ に関連付けられる。
 
 \subsection{サポート曲面}
 
 \begin{definition}[多次元サポート曲面]\label{def:support_surface}
-パターン $P$、時間窓サイズ $W_0 \in \mathbb{Z}_{>0}$、および空間窓サイズ $W_j \in \mathbb{Z}_{>0}$（$j = 1, \ldots, k$）が与えられたとき、$P$ の\emph{サポート曲面}は関数 $S_P : \mathbb{Z}^{k+1} \to \mathbb{Z}_{\geq 0}$ であり、以下で定義される：
+パターン $P$、時間窓 $W_0$、空間窓 $W_j$（$j = 1, \ldots, k$）に対し、$P$ の\emph{サポート曲面} $S_P : \mathbb{Z}^{k+1} \to \mathbb{Z}_{\geq 0}$ を
 \begin{equation}\label{eq:support_surface}
-S_P(t, \mathbf{v}) = \bigl|\{d_r \in D \mid t \leq r < t + W_0,\; P \subseteq d_r,\; \mathbf{x}(r) \in \mathrm{Box}(\mathbf{v}, \mathbf{W})\}\bigr|,
+S_P(t, \mathbf{v}) = \bigl|\{d_r \in D \mid t \leq r < t + W_0,\; P \subseteq d_r,\; \mathbf{x}(r) \in \mathrm{Box}(\mathbf{v}, \mathbf{W})\}\bigr|
 \end{equation}
-ここで $\mathbf{v} = (v_1, \ldots, v_k) \in \mathcal{X}$、$\mathbf{W} = (W_1, \ldots, W_k)$、かつ
-\begin{equation}
-\mathrm{Box}(\mathbf{v}, \mathbf{W}) = \{\mathbf{u} \in \mathcal{X} \mid v_j \leq u_j < v_j + W_j,\; j = 1, \ldots, k\}
-\end{equation}
-である。
-$S_P$ の定義域は、窓がデータ境界内に収まるすべての $(t, \mathbf{v})$ の集合である。
-$k = 0$（補助次元なし）のとき、$S_P(t)$ は Apriori-Window の標準的な1次元サポート系列に帰着する。
+と定義する。$k = 0$ のとき標準的な1次元サポート時系列に帰着する。
 \end{definition}
 
-\begin{remark}
-サポート曲面は $(k{+}1)$ 次元テンソル $\mathcal{S}_P \in \mathbb{Z}_{\geq 0}^{T_0 \times T_1 \times \cdots \times T_k}$ として見ることができる。ここで $T_j = |\mathcal{X}_j| - W_j + 1$ は次元 $j$ に沿った有効な窓位置の数（$T_0 = N - W_0 + 1$）である。
+\subsection{外部イベントの時空間拡張}
+
+1次元設定のイベント $e = (\textit{id}, \textit{name}, t_s, t_e)$ を時空間に拡張する。
+
+\begin{definition}[時空間外部イベント]\label{def:st_event}
+\emph{時空間外部イベント} $e = (\textit{id}, \textit{name}, t_s, t_e, \mathcal{V}_e)$ は、
+識別子、名称、時間区間 $[t_s, t_e]$、および\emph{空間スコープ}
+$\mathcal{V}_e \subseteq \mathcal{X}$（イベントが影響を及ぼす空間領域）から成る。
+$\mathcal{V}_e = \mathcal{X}$（全域）のとき、1次元設定のイベント定義に帰着する。
+イベント集合を $\mathcal{E} = \{e_1, \ldots, e_K\}$ とする。
+\end{definition}
+
+\begin{example}
+スーパーマーケットチェーンにおいて、「渋谷・新宿エリア限定 夏季キャンペーン」は
+$e = (\text{C01}, \text{夏季}, 150, 250, \{\text{渋谷}, \text{新宿}\})$ と表現される。
+このイベントは店舗次元で$\{$渋谷, 新宿$\}$、時間区間$[150, 250]$にのみ影響する。
+\end{example}
+
+\subsection{時空間変化点}
+
+1次元設定では変化点は閾値交差の時刻 $\tau$ として定義される。
+多次元設定では、変化点に空間的位置が付随する。
+
+\begin{definition}[位置条件付きサポート時系列]\label{def:local_series}
+空間位置 $\mathbf{v} \in \mathcal{X}$ における\emph{位置条件付きサポート時系列}は
+$s_P^{\mathbf{v}}(t) = S_P(t, \mathbf{v})$
+であり、サポート曲面を空間位置 $\mathbf{v}$ で切り出した1次元時系列である。
+\end{definition}
+
+\begin{definition}[時空間変化点]\label{def:st_changepoint}
+位置 $\mathbf{v}$ において、$s_P^{\mathbf{v}}$ の閾値 $\theta$ に関する上昇交差時刻 $\tau$ を
+\emph{時空間変化点} $(\tau, \mathbf{v})$ と呼ぶ。
+すなわち、$s_P^{\mathbf{v}}(\tau) \geq \theta$ かつ $(\tau = 0$ または $s_P^{\mathbf{v}}(\tau-1) < \theta)$ が成立する。
+下降交差も同様に定義する。
+パターン $P$ の時空間変化点の集合を $\mathcal{C}_P = \{(\tau_i, \mathbf{v}_i, \textit{dir}_i)\}$ と表す。
+\end{definition}
+
+\begin{remark}[変化領域]
+同一パターンが近い時刻に複数の空間位置で変化点を持つとき、
+これらは空間的に一貫した変化を表す。
+変化点集合 $\{(\tau_i, \mathbf{v}_i)\}$ のうち時間的に近い（$|\tau_i - \tau_j| \leq \delta_t$）かつ
+空間的に隣接する点の連結成分を\emph{変化領域}と呼ぶ。
+変化領域は「いつ・どこで変化が起きたか」を空間解像度で記述する。
 \end{remark}
 
-\subsection{密集領域}
+\subsection{時空間帰属スコア}
 
-\begin{definition}[密集領域]\label{def:dense_region}
-サポート曲面 $S_P$ と密度閾値 $\theta \in \mathbb{Z}_{>0}$ が与えられたとき、閾値 $\theta$ における\emph{上位レベル集合}は
-\begin{equation}\label{eq:superlevel}
-\mathcal{L}_\theta(S_P) = \{(t, \mathbf{v}) \mid S_P(t, \mathbf{v}) \geq \theta\}
+\begin{definition}[時空間帰属スコア]\label{def:st_score}
+パターン $P$ の時空間変化点 $(\tau, \mathbf{v})$ とイベント $e$ に対し、
+\emph{時空間帰属スコア}を
+\begin{equation}\label{eq:st_score}
+A(P, \tau, \mathbf{v}, e) = \mathrm{prox}_t(\tau, e) \cdot \mathrm{prox}_s(\mathbf{v}, e) \cdot \mathrm{mag}(\tau, \mathbf{v})
 \end{equation}
-である。
-閾値 $\theta$ における $P$ の\emph{密集領域}は、グリッド隣接性（2つのグリッド点がちょうど1つの座標で1だけ異なる場合に隣接する）のもとでの $\mathcal{L}_\theta(S_P)$ の極大連結成分である。
+と定義する。3つの構成要素は以下の通りである。
+
+\textbf{時間的近接度}:
+\begin{equation}\label{eq:prox_t}
+\mathrm{prox}_t(\tau, e) = \exp\!\left(-\frac{\min(|\tau - t_s|, |\tau - t_e|)}{\sigma_t}\right)
+\end{equation}
+
+\textbf{空間的近接度}:
+\begin{equation}\label{eq:prox_s}
+\mathrm{prox}_s(\mathbf{v}, e) = \begin{cases}
+1 & \text{if } \mathbf{v} \in \mathcal{V}_e \\
+\exp\!\left(-\frac{d_s(\mathbf{v}, \mathcal{V}_e)}{\sigma_s}\right) & \text{otherwise}
+\end{cases}
+\end{equation}
+ここで $d_s(\mathbf{v}, \mathcal{V}_e) = \min_{\mathbf{u} \in \mathcal{V}_e} \|\mathbf{v} - \mathbf{u}\|_1$ はイベント空間スコープまでの$L_1$距離である。
+
+\textbf{変化量}:
+\begin{equation}\label{eq:st_mag}
+\mathrm{mag}(\tau, \mathbf{v}) = |\bar{s}^{+}(\tau, \mathbf{v}) - \bar{s}^{-}(\tau, \mathbf{v})|
+\end{equation}
+$\bar{s}^{\pm}$ は変化点前後の局所平均サポートである（1次元設定と同じ定義を各位置で適用）。
 \end{definition}
 
-\begin{definition}[密集領域集合]\label{def:dense_region_set}
-$\mathcal{R}_\theta(P) = \{R_1, R_2, \ldots, R_q\}$ を閾値 $\theta$ におけるパターン $P$ のすべての密集領域の集合とする。
-各 $R_i \subseteq \mathbb{Z}^{k+1}$ はグリッド点の連結集合である。
-\end{definition}
-
-\begin{remark}[1次元密集区間との関係]
-$k = 0$ のとき、密集領域 $R_i$ は連続する時間インデックスの集合 $\{s, s{+}1, \ldots, e\}$ であり、元の Apriori-Window の定式化における密集区間 $[s, e]$ に対応する。
-したがって、密集領域は密集区間を厳密に多次元に一般化するものである。
+\begin{remark}[1次元設定への帰着]
+$k = 0$（空間次元なし）かつ $\mathcal{V}_e = \mathcal{X}$ のとき、
+$\mathrm{prox}_s \equiv 1$ となり、式~\eqref{eq:st_score}は
+1次元パイプラインのスコア $A = \mathrm{prox}_t \cdot \mathrm{mag}$ に帰着する。
 \end{remark}
 
-\subsection{密集領域包含定理}
-
-\begin{theorem}[密集領域包含]\label{thm:containment}
-$P \subseteq \mathcal{I}$ を $|P| \geq 2$ のパターンとし、任意の $i \in P$ に対して $Q = P \setminus \{i\}$ とする。
-このとき、すべての $(t, \mathbf{v})$ に対して：
-\begin{equation}
-S_P(t, \mathbf{v}) \leq S_Q(t, \mathbf{v}).
+パターン $P$ のイベント $e$ に対する観測帰属スコアは、
+全変化点にわたる総和とする：
+\begin{equation}\label{eq:obs_score}
+A_{\mathrm{obs}}(P, e) = \sum_{(\tau, \mathbf{v}) \in \mathcal{C}_P} A(P, \tau, \mathbf{v}, e).
 \end{equation}
-したがって、
-\begin{equation}\label{eq:containment}
-\mathcal{L}_\theta(S_P) \subseteq \mathcal{L}_\theta(S_Q),
-\end{equation}
-かつ $P$ のすべての密集領域は $Q$ のいずれかの密集領域に含まれる：
-\begin{equation}
-\forall R \in \mathcal{R}_\theta(P),\;\exists R' \in \mathcal{R}_\theta(Q) \text{ such that } R \subseteq R'.
-\end{equation}
-\end{theorem}
 
-\begin{proof}
-$Q \subset P$ であるから、$P \subseteq d_r$ を満たす任意のトランザクション $d_r$ は $Q \subseteq d_r$ も満たす。
-したがって、$S_P(t, \mathbf{v})$ で計数されるすべてのトランザクションは $S_Q(t, \mathbf{v})$ でも計数され、$S_P(t, \mathbf{v}) \leq S_Q(t, \mathbf{v})$ が得られる。
+\subsection{時空間イベント帰属問題}
 
-上位レベル集合の包含は直接的に従う：$S_P(t, \mathbf{v}) \geq \theta$ ならば $S_Q(t, \mathbf{v}) \geq \theta$ である。
+\begin{problem}[時空間イベント帰属]\label{prob:st_attribution}
+\textbf{入力}：位置付きトランザクション列 $D$、
+窓サイズ $(W_0, \mathbf{W})$、閾値 $\theta$、最大パターン長 $L_{\max}$、
+時空間イベント集合 $\mathcal{E}$、有意水準 $\alpha$。
 
-密集領域の包含について、$R \in \mathcal{R}_\theta(P)$ とする。
-$R$ のすべての点は式~\eqref{eq:containment}により $\mathcal{L}_\theta(S_Q)$ に属する。
-$R$ はグリッド隣接性のもとで連結であるから、$R$ のすべての点は $\mathcal{L}_\theta(S_Q)$ の単一の連結成分に含まれる。すなわち、ある $R' \in \mathcal{R}_\theta(Q)$ の中に含まれる。
-\end{proof}
-
-\begin{corollary}[多次元Apriori枝刈り]\label{cor:pruning}
-$P$ の任意の $(|P|{-}1)$-部分集合 $Q \subset P$ に対して $\mathcal{R}_\theta(Q) = \emptyset$ であれば、$\mathcal{R}_\theta(P) = \emptyset$ である。
-\end{corollary}
-
-\begin{corollary}[候補領域の制限]\label{cor:candidate_restriction}
-$k$-アイテムセット $P$ を評価する際、サポート曲面 $S_P$ はすべての $(|P|{-}1)$-部分集合の上位レベル集合の共通部分内でのみ計算すればよい：
-\begin{equation}
-\mathcal{L}_\theta(S_P) \subseteq \bigcap_{Q \subset P,\, |Q| = |P|-1} \mathcal{L}_\theta(S_Q).
-\end{equation}
-\end{corollary}
-
-\subsection{次元分解可能性}
-
-\begin{definition}[周辺サポート]\label{def:marginal}
-次元 $j$ に沿った位置 $v_j$ における $P$ の\emph{周辺サポート}は
-\begin{equation}
-S_P^{(j)}(v_j) = \sum_{\substack{(t, \mathbf{v}) \\ \text{proj}_j(\mathbf{v}) = v_j}} S_P(t, \mathbf{v})
-\end{equation}
-であり、ここで $\text{proj}_j$ は第 $j$ 座標を抽出する。
-\end{definition}
-
-\begin{definition}[次元分解可能性]\label{def:decomposable}
-サポート曲面 $S_P$ が\emph{次元分解可能}であるとは、関数 $f_0 : \mathbb{Z} \to \mathbb{R}_{\geq 0}$ および $f_j : \mathcal{X}_j \to \mathbb{R}_{\geq 0}$（$j = 1, \ldots, k$）が存在して
-\begin{equation}\label{eq:decomposable}
-S_P(t, \mathbf{v}) = f_0(t) \cdot \prod_{j=1}^{k} f_j(v_j)
-\end{equation}
-が成り立つことをいう。
-\end{definition}
-
-\begin{theorem}[分解定理]\label{thm:decomposition}
-$S_P$ が $S_P(t, \mathbf{v}) = f_0(t) \prod_{j=1}^{k} f_j(v_j)$ と次元分解可能であり、閾値が $\theta = \theta_0 \cdot \prod_{j=1}^{k} \theta_j$（ただし各 $\theta_j > 0$）と分解可能であるとする。
-さらに、各因子関数が対応する閾値以上の領域でのみ正値をとる、すなわち任意の $j$ に対して $f_j(v_j) \geq \theta_j$ ならば $f_j(v_j) > 0$ が成り立つとする。
-このとき
-\begin{equation}
-\mathcal{L}_\theta(S_P) = \{t : f_0(t) \geq \theta_0\} \times \prod_{j=1}^{k} \{v_j : f_j(v_j) \geq \theta_j\}.
-\end{equation}
-この場合、密集領域検出は $k{+}1$ 個の独立な1次元問題に分解され、それぞれ $O(T_j)$ の時間で解ける。
-\end{theorem}
-
-\begin{proof}
-($\supseteq$) $f_0(t) \geq \theta_0$ かつすべての $j$ に対して $f_j(v_j) \geq \theta_j$ であるとする。
-すべての因子が非負であるから、$S_P(t, \mathbf{v}) = f_0(t) \prod_j f_j(v_j) \geq \theta_0 \prod_j \theta_j = \theta$ が成り立つ。
-
-($\subseteq$) $S_P(t, \mathbf{v}) \geq \theta > 0$ であるとする。
-$S_P(t, \mathbf{v}) > 0$ より、すべての因子は正である：$f_0(t) > 0$ かつ $f_j(v_j) > 0$（$j = 1, \ldots, k$）。
-背理法により、ある $j$ に対して $f_j(v_j) < \theta_j$ であると仮定する。
-このとき $S_P(t, \mathbf{v}) = f_0(t) \prod_j f_j(v_j) < f_0(t) \cdot \theta_j \cdot \prod_{i \neq j} f_i(v_i)$ となる。
-しかし、この不等式のみでは $S_P < \theta$ を直接導けないため、より強い条件が必要となる。
-
-サポート曲面が非負整数値であるという構造的制約（定義~\ref{def:support_surface}）のもとでは、因子関数 $f_j$ の値域を $\{0\} \cup [\theta_j, \infty)$ に制限することで（例えば、各次元の周辺サポートが閾値未満のとき 0 にクリッピングする前処理を行う）、分解が厳密に成立する。
-
-実用上は、\ref{sec:method}節で述べるように、近似的分解可能性の場合にランク1近似の残差 $\epsilon$ を用いて分解の妥当性を判定し、$\epsilon$ が大きい場合はSweep Surfaceにフォールバックする。
-\end{proof}
-
-\begin{remark}[実用上の意義]
-厳密な分解可能性が実際に成り立つことは稀である。しかし、近似的な分解可能性（ランク1テンソル近似の残差で測定）は依然として有用な高速化をもたらしうる。
-\ref{sec:method}節では、まず近似的な分解可能性を確認し、近似誤差がユーザー指定の許容値 $\epsilon$ を超える場合に完全な Sweep Surface 手法にフォールバックするハイブリッドアルゴリズムを提案する。
-\end{remark}
-
-\subsection{計算量解析}
-
-\begin{theorem}[密集領域検出の計算量]\label{thm:complexity}
-$G = \prod_{j=0}^{k} T_j$ をグリッド点の総数とする。
-
-\begin{enumerate}
-\item \textbf{素朴なアルゴリズム}：各グリッド点に対してすべてのトランザクションを走査してサポート曲面を計算するには $O(G \cdot N)$ の時間を要する。
-
-\item \textbf{接頭辞和による構築}：サポート曲面は $(k{+}1)$ 次元の接頭辞和に対する包除原理により $O(G \cdot 2^{k+1} + N)$ の時間と $O(G)$ の空間で計算できる。
-
-\item \textbf{密集領域の抽出}：サポート曲面が与えられた場合、Union-Findによる連結成分ラベリングは $O(G \cdot \alpha(G))$ の時間を要する。ここで $\alpha$ は逆Ackermann関数である。
-
-\item \textbf{分解可能な場合}：次元分解可能な場合、全体の計算量は $O(\sum_{j=0}^{k} T_j + N)$ である。
-\end{enumerate}
-\end{theorem}
-
-\subsection{問題の定式化}
-
-\begin{problem}[多次元密集アイテムセットマイニング]\label{prob:main}
-\textbf{入力}：関連する位置 $\mathbf{x}(t)$ を持つトランザクション列 $D$、窓サイズ $(W_0, W_1, \ldots, W_k)$、密度閾値 $\theta$、最大パターン長 $L_{\max}$。
-
-\textbf{出力}：$|P| \leq L_{\max}$ かつ $\mathcal{R}_\theta(P) \neq \emptyset$ であるすべてのパターン $P$ とその密集領域集合 $\mathcal{R}_\theta(P)$。
+\textbf{出力}：$s_P^{\mathbf{v}}$ の閾値交差変化点がイベント $e$ の時間窓および空間スコープと
+統計的に有意に関連する全ての組 $(P, e)$ を、
+偽発見率（FDR）を水準 $\alpha$ 以下に制御しながら同定する。
 \end{problem}
 
-\begin{remark}[$L_{\max} = 2$ の設計前提]\label{rem:lmax2}
-多次元設定では、2アイテムの組み合わせ（$|P| = 2$）が分析の基本単位となる場面が多い。
-例えば、小売分析では「商品カテゴリ$\times$地域」の2次元組み合わせが購買パターンの基本構造を成し、疫学では「疾病$\times$リスク要因」の対が介入設計の基礎となる。
-定理~\ref{thm:containment}の枝刈り効果は $|P| \geq 2$ で作用するため、$L_{\max} = 2$ は密集領域包含定理の最小適用単位でもある。
-本論文の実験（E1--E5）は $L_{\max} \leq 3$ の設定で実施しており、$L_{\max}$ の拡大に伴う候補爆発（$\binom{m}{L_{\max}}$ の増大）は今後の課題として\ref{sec:conclusion}節で議論する。
-\end{remark}
+本問題の主要な課題は以下の4点である：
+\begin{enumerate}
+\item \textbf{仮説空間の爆発}：$|\mathcal{F}| \times |\mathcal{E}|$ 個のパターン--イベント対に加え、
+各対が複数の空間位置で独立に帰属しうるため、多重検定の負荷が1次元設定より大きい。
+
+\item \textbf{空間自己相関}：近接する空間位置のサポート時系列は正に相関するため、
+変化点が空間的にクラスター化し、独立性仮定に基づく検定は過度に楽観的になる。
+
+\item \textbf{副次パターン問題}：1次元設定と同様、アイテムを共有するパターン間でサポートが連動変動する。
+
+\item \textbf{イベントの空間的部分影響}：イベントが一部の空間領域にのみ影響する場合、
+全域で集約したサポートでは信号が希釈される（空間的混同）。
+\end{enumerate}

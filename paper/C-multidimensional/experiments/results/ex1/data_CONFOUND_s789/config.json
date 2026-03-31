@@ -1,0 +1,10 @@
+{
+  "n_transactions": 20000,
+  "n_items": 50,
+  "n_locations": 20,
+  "p_base": 0.03,
+  "seed": 789,
+  "n_planted": 1,
+  "n_unrelated": 1,
+  "n_decoy": 0
+}
