@@ -1,0 +1,16 @@
+# Generated experiment data (reproducible via st_pipeline binary)
+experiments/results/*/data/
+experiments/results/diag/
+experiments/results/diag6/
+experiments/results/quicktest/
+experiments/data/
+
+# LaTeX build artifacts
+manuscript/*.aux
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.fdb_latexmk
+manuscript/*.fls
+manuscript/*.log
+manuscript/*.out
+manuscript/*.synctex.gz
