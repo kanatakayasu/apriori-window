@@ -82,6 +82,7 @@ class AttributionConfig:
     # max_distance は廃止: prox の指数減衰が距離フィルタを兼ねるため不要
     attribution_threshold: float = 0.1
     use_effect_size: bool = False  # スコアに相対変化量を組み込む
+    magnitude_normalization: str = "none"  # "none", "sqrt", "full" — mag正規化方式
     # Significance testing
     n_permutations: int = 1000
     alpha: float = 0.05
@@ -429,6 +430,7 @@ def score_attributions(
     attribution_threshold: float = 0.1,
     use_effect_size: bool = False,
     ablation_mode: Optional[str] = None,
+    magnitude_normalization: str = "none",
 ) -> List[AttributionCandidate]:
     """
     変化点-イベント間の帰属スコアを計算し、閾値を超えた候補を返す。
@@ -452,7 +454,9 @@ def score_attributions(
     for cp in change_points:
         for event in events:
             prox = compute_proximity(cp.time, event, sigma)
-            if use_effect_size:
+            if magnitude_normalization == "sqrt":
+                mag = abs(cp.magnitude) / math.sqrt(max(1.0, cp.support_before))
+            elif magnitude_normalization == "full" or use_effect_size:
                 mag = abs(cp.magnitude) / max(1.0, cp.support_before)
             else:
                 mag = abs(cp.magnitude)
@@ -525,6 +529,7 @@ def permutation_test_raw(
     seed: Optional[int] = None,
     use_effect_size: bool = False,
     ablation_mode: Optional[str] = None,
+    magnitude_normalization: str = "none",
 ) -> List[_RawTestResult]:
     """
     置換検定を実行し、未補正 p 値を返す（alpha 判定はしない）。
@@ -537,6 +542,7 @@ def permutation_test_raw(
     obs_candidates = score_attributions(
         pattern, change_points, events, sigma, attribution_threshold,
         use_effect_size=use_effect_size, ablation_mode=ablation_mode,
+        magnitude_normalization=magnitude_normalization,
     )
     if not obs_candidates:
         return []
@@ -557,6 +563,7 @@ def permutation_test_raw(
             pattern, change_points, shifted_events, sigma,
             attribution_threshold, use_effect_size=use_effect_size,
             ablation_mode=ablation_mode,
+            magnitude_normalization=magnitude_normalization,
         )
 
         perm_scores: Dict[str, float] = {}
@@ -601,6 +608,7 @@ def permutation_test(
     seed: Optional[int] = None,
     use_effect_size: bool = False,
     ablation_mode: Optional[str] = None,
+    magnitude_normalization: str = "none",
 ) -> List[SignificantAttribution]:
     """
     置換検定により有意な帰属を特定する（後方互換ラッパー）。
@@ -611,6 +619,7 @@ def permutation_test(
         pattern, change_points, events, sigma,
         max_time, n_permutations, attribution_threshold, seed,
         use_effect_size=use_effect_size, ablation_mode=ablation_mode,
+        magnitude_normalization=magnitude_normalization,
     )
     if not raw_results:
         return []
@@ -801,6 +810,7 @@ def _run_pipeline_global(
             seed=config.seed,
             use_effect_size=config.use_effect_size,
             ablation_mode=config.ablation_mode,
+            magnitude_normalization=config.magnitude_normalization,
         )
         all_raw.extend(raw_results)
 
@@ -983,6 +993,7 @@ def _run_pipeline_global_v2(
             seed=config.seed,
             use_effect_size=config.use_effect_size,
             ablation_mode=config.ablation_mode,
+            magnitude_normalization=config.magnitude_normalization,
         )
         all_raw.extend(raw_results)
 
