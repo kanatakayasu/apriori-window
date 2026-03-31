@@ -5,10 +5,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -16,29 +15,76 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 233,
+      "n_patterns": 333,
       "n_change_points_total": 0,
-      "n_significant": 0,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "tp": 0,
+      "n_significant": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 3,
       "fp": 0,
-      "fn": 3,
-      "time_phase1_ms": 203.5510419809725,
+      "fn": 0,
+      "time_phase1_ms": 209.10129201365635,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 10.031458019511774,
-      "time_total_ms": 213.5825000004843,
-      "significant_attributions": [],
-      "true_positive_pairs": [],
-      "false_positive_pairs": [],
-      "false_negative_pairs": [
+      "time_attribution_ms": 13.580332975834608,
+      "time_total_ms": 222.68162498949096,
+      "significant_attributions": [
+        {
+          "pattern": [
+            5,
+            15
+          ],
+          "change_time": 343,
+          "change_direction": "down",
+          "change_magnitude": 5.5,
+          "event_name": "Sale",
+          "event_start": 150,
+          "event_end": 350,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 7.47055225000041,
+          "p_value": 0.04975124378109453,
+          "adjusted_p_value": 0.18242122719734657
+        },
+        {
+          "pattern": [
+            25,
+            35
+          ],
+          "change_time": 591,
+          "change_direction": "down",
+          "change_magnitude": 5.15,
+          "event_name": "Holiday",
+          "event_start": 400,
+          "event_end": 600,
+          "proximity": 0.835270211411272,
+          "attribution_score": 6.201167891856002,
+          "p_value": 0.04975124378109453,
+          "adjusted_p_value": 0.18242122719734657
+        },
         {
           "pattern": [
             45,
             55
           ],
-          "event_id": "E3"
+          "change_time": 840,
+          "change_direction": "down",
+          "change_magnitude": 5.8500000000000005,
+          "event_name": "Campaign",
+          "event_start": 650,
+          "event_end": 850,
+          "proximity": 0.8187307530779818,
+          "attribution_score": 6.961503679416797,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.18242122719734657
+        }
+      ],
+      "true_positive_pairs": [
+        {
+          "pattern": [
+            25,
+            35
+          ],
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -49,12 +95,14 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
+      "false_positive_pairs": [],
+      "false_negative_pairs": [],
       "false_attribution_rate": 0.0,
       "n_falsely_attributed": 0
     },
@@ -63,10 +111,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -74,7 +121,7 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 917,
+      "n_patterns": 1320,
       "n_change_points_total": 0,
       "n_significant": 4,
       "precision": 0.75,
@@ -83,26 +130,26 @@
       "tp": 3,
       "fp": 1,
       "fn": 0,
-      "time_phase1_ms": 911.9692920066882,
+      "time_phase1_ms": 1296.9832079834305,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 114.48104100418277,
-      "time_total_ms": 1026.450333010871,
+      "time_attribution_ms": 211.8243330041878,
+      "time_total_ms": 1508.8075409876183,
       "significant_attributions": [
         {
           "pattern": [
-            45,
-            55
+            15,
+            63
           ],
-          "change_time": 4248,
+          "change_time": 1681,
           "change_direction": "down",
-          "change_magnitude": 5.0,
-          "event_name": "Campaign",
-          "event_start": 3250,
-          "event_end": 4250,
-          "proximity": 0.9607894391523232,
-          "attribution_score": 3.866827980475262,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.09867330016583747
+          "change_magnitude": 2.5,
+          "event_name": "Decoy_1",
+          "event_start": 1666,
+          "event_end": 2666,
+          "proximity": 0.7408182206817179,
+          "attribution_score": 3.0445885788062252,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.08955223880597014
         },
         {
           "pattern": [
@@ -116,9 +163,9 @@
           "event_start": 750,
           "event_end": 1750,
           "proximity": 0.9607894391523232,
-          "attribution_score": 4.070628180743249,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.09867330016583747
+          "attribution_score": 8.141256361486498,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.08955223880597014
         },
         {
           "pattern": [
@@ -132,34 +179,34 @@
           "event_start": 2000,
           "event_end": 3000,
           "proximity": 0.7710515858035663,
-          "attribution_score": 3.5447955553197383,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.09867330016583747
+          "attribution_score": 7.089591110639477,
+          "p_value": 0.024875621890547265,
+          "adjusted_p_value": 0.08955223880597014
         },
-        {
-          "pattern": [
-            15,
-            63
-          ],
-          "change_time": 1681,
-          "change_direction": "down",
-          "change_magnitude": 2.5,
-          "event_name": "Decoy_1",
-          "event_start": 1666,
-          "event_end": 2666,
-          "proximity": 0.7408182206817179,
-          "attribution_score": 1.5222942894031126,
-          "p_value": 0.04975124378109453,
-          "adjusted_p_value": 0.12082444918265814
-        }
-      ],
-      "true_positive_pairs": [
         {
           "pattern": [
             45,
             55
           ],
-          "event_id": "E3"
+          "change_time": 4248,
+          "change_direction": "down",
+          "change_magnitude": 5.0,
+          "event_name": "Campaign",
+          "event_start": 3250,
+          "event_end": 4250,
+          "proximity": 0.9607894391523232,
+          "attribution_score": 7.733655960950524,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08955223880597014
+        }
+      ],
+      "true_positive_pairs": [
+        {
+          "pattern": [
+            25,
+            35
+          ],
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -170,10 +217,10 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
@@ -194,10 +241,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -205,36 +251,20 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 1193,
+      "n_patterns": 1693,
       "n_change_points_total": 0,
       "n_significant": 4,
-      "precision": 0.5,
-      "recall": 0.6666666666666666,
-      "f1": 0.5714285714285715,
-      "tp": 2,
-      "fp": 2,
-      "fn": 1,
-      "time_phase1_ms": 1811.6219580115285,
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0,
+      "time_phase1_ms": 2951.595999998972,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 296.2291669973638,
-      "time_total_ms": 2107.8511250088923,
+      "time_attribution_ms": 656.3930410193279,
+      "time_total_ms": 3607.9890410182998,
       "significant_attributions": [
-        {
-          "pattern": [
-            5,
-            78
-          ],
-          "change_time": 3338,
-          "change_direction": "up",
-          "change_magnitude": 1.7,
-          "event_name": "Decoy_1",
-          "event_start": 3333,
-          "event_end": 5333,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 2.2017782957968826,
-          "p_value": 0.009950248756218905,
-          "adjusted_p_value": 0.07960199004975124
-        },
         {
           "pattern": [
             5,
@@ -247,9 +277,25 @@
           "event_start": 1500,
           "event_end": 3500,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.647211896716782,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.07960199004975124
+          "attribution_score": 9.294423793433564,
+          "p_value": 0.004975124378109453,
+          "adjusted_p_value": 0.04875621890547264
+        },
+        {
+          "pattern": [
+            5,
+            78
+          ],
+          "change_time": 3338,
+          "change_direction": "up",
+          "change_magnitude": 1.7,
+          "event_name": "Decoy_1",
+          "event_start": 3333,
+          "event_end": 5333,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 3.0586299131678842,
+          "p_value": 0.004975124378109453,
+          "adjusted_p_value": 0.04875621890547264
         },
         {
           "pattern": [
@@ -263,34 +309,34 @@
           "event_start": 6500,
           "event_end": 8500,
           "proximity": 0.9607894391523232,
-          "attribution_score": 3.736495961378366,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.07960199004975124
+          "attribution_score": 7.472991922756732,
+          "p_value": 0.004975124378109453,
+          "adjusted_p_value": 0.04875621890547264
         },
         {
           "pattern": [
-            35,
-            82
+            25,
+            35
           ],
-          "change_time": 4001,
-          "change_direction": "up",
-          "change_magnitude": 3.25,
+          "change_time": 5993,
+          "change_direction": "down",
+          "change_magnitude": 4.05,
           "event_name": "Holiday",
           "event_start": 4000,
           "event_end": 6000,
-          "proximity": 0.9801986733067553,
-          "attribution_score": 3.768845913478942,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.07960199004975124
+          "proximity": 0.8693582353988059,
+          "attribution_score": 6.216989779295442,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.0914179104477612
         }
       ],
       "true_positive_pairs": [
         {
           "pattern": [
-            45,
-            55
+            25,
+            35
           ],
-          "event_id": "E3"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -298,6 +344,13 @@
             15
           ],
           "event_id": "E1"
+        },
+        {
+          "pattern": [
+            45,
+            55
+          ],
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
@@ -307,24 +360,9 @@
             78
           ],
           "event_id": "D1"
-        },
-        {
-          "pattern": [
-            35,
-            82
-          ],
-          "event_id": "E2"
         }
       ],
-      "false_negative_pairs": [
-        {
-          "pattern": [
-            25,
-            35
-          ],
-          "event_id": "E2"
-        }
-      ],
+      "false_negative_pairs": [],
       "false_attribution_rate": 0.0,
       "n_falsely_attributed": 0
     },
@@ -333,10 +371,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -344,35 +381,69 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 1945,
+      "n_patterns": 2641,
       "n_change_points_total": 0,
-      "n_significant": 4,
-      "precision": 0.75,
+      "n_significant": 6,
+      "precision": 0.5,
       "recall": 1.0,
-      "f1": 0.8571428571428571,
+      "f1": 0.6666666666666666,
       "tp": 3,
-      "fp": 1,
+      "fp": 3,
       "fn": 0,
-      "time_phase1_ms": 9509.09370899899,
+      "time_phase1_ms": 20873.811792000197,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 2113.8499999942724,
-      "time_total_ms": 11622.943708993262,
+      "time_attribution_ms": 4687.522666994482,
+      "time_total_ms": 25561.33445899468,
       "significant_attributions": [
         {
           "pattern": [
+            15,
+            25
+          ],
+          "change_time": 16665,
+          "change_direction": "down",
+          "change_magnitude": 1.25,
+          "event_name": "Decoy_1",
+          "event_start": 16666,
+          "event_end": 26666,
+          "proximity": 0.9801986733067553,
+          "attribution_score": 6.037005480715615,
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.13475479744136462
+        },
+        {
+          "pattern": [
             5,
+            15,
             55
           ],
-          "change_time": 16669,
-          "change_direction": "up",
+          "change_time": 16668,
+          "change_direction": "down",
           "change_magnitude": 1.0,
           "event_name": "Decoy_1",
           "event_start": 16666,
           "event_end": 26666,
-          "proximity": 0.9417645335842487,
-          "attribution_score": 3.688158348142323,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.10975425900799035
+          "proximity": 0.9607894391523232,
+          "attribution_score": 5.35090758746673,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.11791044776119404
+        },
+        {
+          "pattern": [
+            18,
+            25,
+            35
+          ],
+          "change_time": 26658,
+          "change_direction": "up",
+          "change_magnitude": 1.5000000000000002,
+          "event_name": "Decoy_1",
+          "event_start": 16666,
+          "event_end": 26666,
+          "proximity": 0.8521437889662113,
+          "attribution_score": 2.3301474495197567,
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.13475479744136462
         },
         {
           "pattern": [
@@ -386,9 +457,9 @@
           "event_start": 7500,
           "event_end": 17500,
           "proximity": 0.8693582353988059,
-          "attribution_score": 4.456677968831328,
+          "attribution_score": 8.913355937662656,
           "p_value": 0.009950248756218905,
-          "adjusted_p_value": 0.10975425900799035
+          "adjusted_p_value": 0.11791044776119404
         },
         {
           "pattern": [
@@ -402,9 +473,9 @@
           "event_start": 20000,
           "event_end": 30000,
           "proximity": 0.8693582353988059,
-          "attribution_score": 3.878558108112825,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.10975425900799035
+          "attribution_score": 7.75711621622565,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.11791044776119404
         },
         {
           "pattern": [
@@ -418,18 +489,18 @@
           "event_start": 32500,
           "event_end": 42500,
           "proximity": 0.9048374180359595,
-          "attribution_score": 3.6881377470678154,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.10975425900799035
+          "attribution_score": 7.376275494135631,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.11791044776119404
         }
       ],
       "true_positive_pairs": [
         {
           "pattern": [
-            45,
-            55
+            25,
+            35
           ],
-          "event_id": "E3"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -440,17 +511,33 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
         {
           "pattern": [
             5,
+            15,
             55
+          ],
+          "event_id": "D1"
+        },
+        {
+          "pattern": [
+            18,
+            25,
+            35
+          ],
+          "event_id": "D1"
+        },
+        {
+          "pattern": [
+            15,
+            25
           ],
           "event_id": "D1"
         }
@@ -464,10 +551,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -475,36 +561,20 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 2695,
+      "n_patterns": 3553,
       "n_change_points_total": 0,
-      "n_significant": 4,
-      "precision": 0.75,
+      "n_significant": 5,
+      "precision": 0.6,
       "recall": 1.0,
-      "f1": 0.8571428571428571,
+      "f1": 0.7499999999999999,
       "tp": 3,
-      "fp": 1,
+      "fp": 2,
       "fn": 0,
-      "time_phase1_ms": 19221.72995901201,
+      "time_phase1_ms": 53657.32070902595,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 5142.337291006697,
-      "time_total_ms": 24364.067250018707,
+      "time_attribution_ms": 11550.89895799756,
+      "time_total_ms": 65208.21966702351,
       "significant_attributions": [
-        {
-          "pattern": [
-            5,
-            15
-          ],
-          "change_time": 34995,
-          "change_direction": "down",
-          "change_magnitude": 9.399999999999999,
-          "event_name": "Sale",
-          "event_start": 15000,
-          "event_end": 35000,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 5.619933288523833,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.09737029140014214
-        },
         {
           "pattern": [
             35,
@@ -517,9 +587,42 @@
           "event_start": 33333,
           "event_end": 53333,
           "proximity": 0.9607894391523232,
-          "attribution_score": 4.498173517266994,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.09737029140014214
+          "attribution_score": 5.0363997540016525,
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.14162520729684908
+        },
+        {
+          "pattern": [
+            25,
+            35,
+            42
+          ],
+          "change_time": 53326,
+          "change_direction": "down",
+          "change_magnitude": 2.5,
+          "event_name": "Decoy_1",
+          "event_start": 33333,
+          "event_end": 53333,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 4.1449304143695125,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.14162520729684908
+        },
+        {
+          "pattern": [
+            5,
+            15
+          ],
+          "change_time": 34995,
+          "change_direction": "down",
+          "change_magnitude": 9.399999999999999,
+          "event_name": "Sale",
+          "event_start": 15000,
+          "event_end": 35000,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 11.239866577047666,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.14162520729684908
         },
         {
           "pattern": [
@@ -533,9 +636,9 @@
           "event_start": 40000,
           "event_end": 60000,
           "proximity": 0.9607894391523232,
-          "attribution_score": 4.8488925366895135,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.09737029140014214
+          "attribution_score": 9.697785073379027,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.14162520729684908
         },
         {
           "pattern": [
@@ -549,18 +652,18 @@
           "event_start": 65000,
           "event_end": 85000,
           "proximity": 0.8521437889662113,
-          "attribution_score": 3.359972173734102,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.09737029140014214
+          "attribution_score": 6.719944347468204,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.14162520729684908
         }
       ],
       "true_positive_pairs": [
         {
           "pattern": [
-            45,
-            55
+            25,
+            35
           ],
-          "event_id": "E3"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -571,10 +674,10 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
@@ -582,6 +685,14 @@
           "pattern": [
             35,
             45
+          ],
+          "event_id": "D1"
+        },
+        {
+          "pattern": [
+            25,
+            35,
+            42
           ],
           "event_id": "D1"
         }
@@ -595,10 +706,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -606,7 +716,7 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 7530,
+      "n_patterns": 9380,
       "n_change_points_total": 0,
       "n_significant": 5,
       "precision": 0.6,
@@ -615,10 +725,10 @@
       "tp": 3,
       "fp": 2,
       "fn": 0,
-      "time_phase1_ms": 101953.5881250049,
+      "time_phase1_ms": 947419.6119999979,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 53165.08562499075,
-      "time_total_ms": 155118.67374999565,
+      "time_attribution_ms": 120893.32216698676,
+      "time_total_ms": 1068312.9341669846,
       "significant_attributions": [
         {
           "pattern": [
@@ -632,9 +742,9 @@
           "event_start": 75000,
           "event_end": 175000,
           "proximity": 0.9048374180359595,
-          "attribution_score": 2.848553362191752,
+          "attribution_score": 5.697106724383504,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.09414466130884042
+          "adjusted_p_value": 0.11320754716981132
         },
         {
           "pattern": [
@@ -648,9 +758,26 @@
           "event_start": 166666,
           "event_end": 266666,
           "proximity": 0.9048374180359595,
-          "attribution_score": 5.975079532893685,
+          "attribution_score": 7.77410910386152,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.09414466130884042
+          "adjusted_p_value": 0.11320754716981132
+        },
+        {
+          "pattern": [
+            5,
+            15,
+            77
+          ],
+          "change_time": 166641,
+          "change_direction": "up",
+          "change_magnitude": 2.45,
+          "event_name": "Decoy_1",
+          "event_start": 166666,
+          "event_end": 266666,
+          "proximity": 0.6065306597126334,
+          "attribution_score": 4.5664734627880845,
+          "p_value": 0.004975124378109453,
+          "adjusted_p_value": 0.11320754716981132
         },
         {
           "pattern": [
@@ -664,25 +791,9 @@
           "event_start": 200000,
           "event_end": 300000,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.674691128104808,
+          "attribution_score": 9.349382256209616,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.09414466130884042
-        },
-        {
-          "pattern": [
-            24,
-            45
-          ],
-          "change_time": 199993,
-          "change_direction": "down",
-          "change_magnitude": 1.3,
-          "event_name": "Holiday",
-          "event_start": 200000,
-          "event_end": 300000,
-          "proximity": 0.8693582353988059,
-          "attribution_score": 0.945045597283416,
-          "p_value": 0.04975124378109453,
-          "adjusted_p_value": 0.09414466130884042
+          "adjusted_p_value": 0.11320754716981132
         },
         {
           "pattern": [
@@ -696,18 +807,18 @@
           "event_start": 325000,
           "event_end": 425000,
           "proximity": 0.9231163463866358,
-          "attribution_score": 3.5877641098180946,
+          "attribution_score": 7.175528219636189,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.09414466130884042
+          "adjusted_p_value": 0.11320754716981132
         }
       ],
       "true_positive_pairs": [
         {
           "pattern": [
-            45,
-            55
+            25,
+            35
           ],
-          "event_id": "E3"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -718,26 +829,27 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
         {
           "pattern": [
             5,
-            25
+            15,
+            77
           ],
           "event_id": "D1"
         },
         {
           "pattern": [
-            24,
-            45
+            5,
+            25
           ],
-          "event_id": "E2"
+          "event_id": "D1"
         }
       ],
       "false_negative_pairs": [],
@@ -749,10 +861,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -760,19 +871,19 @@
         "alpha": 0.2,
         "seed": 42
       },
-      "n_patterns": 11726,
+      "n_patterns": 14975,
       "n_change_points_total": 0,
-      "n_significant": 5,
-      "precision": 0.6,
+      "n_significant": 8,
+      "precision": 0.375,
       "recall": 1.0,
-      "f1": 0.7499999999999999,
+      "f1": 0.5454545454545454,
       "tp": 3,
-      "fp": 2,
+      "fp": 5,
       "fn": 0,
-      "time_phase1_ms": 216714.07291700598,
+      "time_phase1_ms": 5076822.828417003,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 153633.5871659976,
-      "time_total_ms": 370347.6600830036,
+      "time_attribution_ms": 356198.87399999425,
+      "time_total_ms": 5433021.702416997,
       "significant_attributions": [
         {
           "pattern": [
@@ -786,9 +897,9 @@
           "event_start": 150000,
           "event_end": 350000,
           "proximity": 0.9231163463866358,
-          "attribution_score": 4.518058481152022,
+          "attribution_score": 9.036116962304044,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.07892866494594696
+          "adjusted_p_value": 0.09356578452276433
         },
         {
           "pattern": [
@@ -803,24 +914,24 @@
           "event_end": 350000,
           "proximity": 0.8187307530779818,
           "attribution_score": 2.2626870936566035,
-          "p_value": 0.009950248756218905,
-          "adjusted_p_value": 0.07892866494594696
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.09356578452276433
         },
         {
           "pattern": [
-            25,
-            118
+            5,
+            172
           ],
-          "change_time": 533343,
-          "change_direction": "down",
-          "change_magnitude": 1.0000000000000002,
+          "change_time": 333339,
+          "change_direction": "up",
+          "change_magnitude": 1.0,
           "event_name": "Decoy_1",
           "event_start": 333333,
           "event_end": 533333,
-          "proximity": 0.8187307530779818,
-          "attribution_score": 3.960219765367477,
+          "proximity": 0.8869204367171575,
+          "attribution_score": 5.1563517087001625,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.07892866494594696
+          "adjusted_p_value": 0.09356578452276433
         },
         {
           "pattern": [
@@ -834,9 +945,41 @@
           "event_start": 400000,
           "event_end": 600000,
           "proximity": 0.8521437889662113,
-          "attribution_score": 3.356947548703929,
+          "attribution_score": 6.713895097407858,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.07892866494594696
+          "adjusted_p_value": 0.09356578452276433
+        },
+        {
+          "pattern": [
+            5,
+            182
+          ],
+          "change_time": 599872,
+          "change_direction": "down",
+          "change_magnitude": 2.45,
+          "event_name": "Holiday",
+          "event_start": 400000,
+          "event_end": 600000,
+          "proximity": 0.07730474044329974,
+          "attribution_score": 0.18939661408608438,
+          "p_value": 0.06965174129353234,
+          "adjusted_p_value": 0.10563878897731456
+        },
+        {
+          "pattern": [
+            18,
+            55
+          ],
+          "change_time": 400119,
+          "change_direction": "up",
+          "change_magnitude": 1.6500000000000001,
+          "event_name": "Holiday",
+          "event_start": 400000,
+          "event_end": 600000,
+          "proximity": 0.09255057751034329,
+          "attribution_score": 0.15270845289206644,
+          "p_value": 0.17412935323383086,
+          "adjusted_p_value": 0.18142527585536009
         },
         {
           "pattern": [
@@ -850,18 +993,34 @@
           "event_start": 650000,
           "event_end": 850000,
           "proximity": 0.9801986733067553,
-          "attribution_score": 4.156128515296424,
+          "attribution_score": 8.312257030592848,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.07892866494594696
+          "adjusted_p_value": 0.09356578452276433
+        },
+        {
+          "pattern": [
+            15,
+            166
+          ],
+          "change_time": 649893,
+          "change_direction": "down",
+          "change_magnitude": 1.0,
+          "event_name": "Campaign",
+          "event_start": 650000,
+          "event_end": 850000,
+          "proximity": 0.11765484302177918,
+          "attribution_score": 0.11765484302177918,
+          "p_value": 0.07462686567164178,
+          "adjusted_p_value": 0.10563878897731456
         }
       ],
       "true_positive_pairs": [
         {
           "pattern": [
-            45,
-            55
+            25,
+            35
           ],
-          "event_id": "E3"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -872,10 +1031,10 @@
         },
         {
           "pattern": [
-            25,
-            35
+            45,
+            55
           ],
-          "event_id": "E2"
+          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
@@ -888,10 +1047,31 @@
         },
         {
           "pattern": [
-            25,
-            118
+            15,
+            166
+          ],
+          "event_id": "E3"
+        },
+        {
+          "pattern": [
+            5,
+            172
           ],
           "event_id": "D1"
+        },
+        {
+          "pattern": [
+            18,
+            55
+          ],
+          "event_id": "E2"
+        },
+        {
+          "pattern": [
+            5,
+            182
+          ],
+          "event_id": "E2"
         }
       ],
       "false_negative_pairs": [],
@@ -905,10 +1085,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -917,7 +1096,7 @@
         "seed": 42
       },
       "n_transactions": 5000,
-      "n_patterns": 133,
+      "n_patterns": 159,
       "n_change_points_total": 0,
       "n_significant": 1,
       "precision": 1.0,
@@ -926,10 +1105,10 @@
       "tp": 1,
       "fp": 0,
       "fn": 0,
-      "time_phase1_ms": 847.4197080067825,
+      "time_phase1_ms": 866.7196249589324,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 7.491500000469387,
-      "time_total_ms": 854.9112080072518,
+      "time_attribution_ms": 11.097665992565453,
+      "time_total_ms": 877.8172909514979,
       "significant_attributions": [
         {
           "pattern": [
@@ -943,9 +1122,9 @@
           "event_start": 2400,
           "event_end": 2600,
           "proximity": 0.8869204367171575,
-          "attribution_score": 3.8804409254675436,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.03482587064676617
+          "attribution_score": 7.760881850935087,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.01990049751243781
         }
       ],
       "true_positive_pairs": [
@@ -967,10 +1146,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -979,7 +1157,7 @@
         "seed": 42
       },
       "n_transactions": 5000,
-      "n_patterns": 362,
+      "n_patterns": 471,
       "n_change_points_total": 0,
       "n_significant": 3,
       "precision": 1.0,
@@ -988,27 +1166,11 @@
       "tp": 3,
       "fp": 0,
       "fn": 0,
-      "time_phase1_ms": 858.3131250052247,
+      "time_phase1_ms": 938.6611249647103,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 28.363833000184968,
-      "time_total_ms": 886.6769580054097,
+      "time_attribution_ms": 45.50162504892796,
+      "time_total_ms": 984.1627500136383,
       "significant_attributions": [
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "change_time": 3843,
-          "change_direction": "down",
-          "change_magnitude": 7.7,
-          "event_name": "Event_3",
-          "event_start": 3650,
-          "event_end": 3850,
-          "proximity": 0.8693582353988059,
-          "attribution_score": 4.157581964654334,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.041791044776119404
-        },
         {
           "pattern": [
             5,
@@ -1021,9 +1183,25 @@
           "event_start": 1150,
           "event_end": 1350,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.292809063799574,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.041791044776119404
+          "attribution_score": 8.585618127599147,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.04975124378109453
+        },
+        {
+          "pattern": [
+            25,
+            30
+          ],
+          "change_time": 3843,
+          "change_direction": "down",
+          "change_magnitude": 7.7,
+          "event_name": "Event_3",
+          "event_start": 3650,
+          "event_end": 3850,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 8.315163929308667,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.04975124378109453
         },
         {
           "pattern": [
@@ -1037,12 +1215,19 @@
           "event_start": 2400,
           "event_end": 2600,
           "proximity": 0.8521437889662113,
-          "attribution_score": 3.6581849345248605,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.041791044776119404
+          "attribution_score": 7.316369869049721,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.04975124378109453
         }
       ],
       "true_positive_pairs": [
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "event_id": "E2"
+        },
         {
           "pattern": [
             25,
@@ -1056,13 +1241,6 @@
             10
           ],
           "event_id": "E1"
-        },
-        {
-          "pattern": [
-            15,
-            20
-          ],
-          "event_id": "E2"
         }
       ],
       "false_positive_pairs": [],
@@ -1075,10 +1253,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -1087,7 +1264,7 @@
         "seed": 42
       },
       "n_transactions": 5000,
-      "n_patterns": 553,
+      "n_patterns": 761,
       "n_change_points_total": 0,
       "n_significant": 5,
       "precision": 0.8,
@@ -1096,43 +1273,11 @@
       "tp": 4,
       "fp": 1,
       "fn": 1,
-      "time_phase1_ms": 892.5114579906221,
+      "time_phase1_ms": 1054.5498749706894,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 57.27141702664085,
-      "time_total_ms": 949.782875017263,
+      "time_attribution_ms": 99.02487503131852,
+      "time_total_ms": 1153.574750002008,
       "significant_attributions": [
-        {
-          "pattern": [
-            25,
-            50
-          ],
-          "change_time": 4089,
-          "change_direction": "up",
-          "change_magnitude": 1.0,
-          "event_name": "Event_5",
-          "event_start": 4065,
-          "event_end": 4265,
-          "proximity": 0.6187833918061408,
-          "attribution_score": 3.5030329695598272,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.06766169154228856
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
-          "change_time": 928,
-          "change_direction": "down",
-          "change_magnitude": 7.0,
-          "event_name": "Event_1",
-          "event_start": 733,
-          "event_end": 933,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 4.427296908321716,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.06766169154228856
-        },
         {
           "pattern": [
             15,
@@ -1145,9 +1290,9 @@
           "event_start": 1566,
           "event_end": 1766,
           "proximity": 0.9607894391523232,
-          "attribution_score": 4.305684556947269,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.06766169154228856
+          "attribution_score": 8.611369113894538,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.036182722749886924
         },
         {
           "pattern": [
@@ -1161,9 +1306,41 @@
           "event_start": 2399,
           "event_end": 2599,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.992654113882262,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.06766169154228856
+          "attribution_score": 9.985308227764524,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.036182722749886924
+        },
+        {
+          "pattern": [
+            25,
+            50
+          ],
+          "change_time": 4042,
+          "change_direction": "up",
+          "change_magnitude": 1.9500000000000002,
+          "event_name": "Event_5",
+          "event_start": 4065,
+          "event_end": 4265,
+          "proximity": 0.631283645506926,
+          "attribution_score": 5.590327435753211,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.036182722749886924
+        },
+        {
+          "pattern": [
+            5,
+            10
+          ],
+          "change_time": 928,
+          "change_direction": "down",
+          "change_magnitude": 7.0,
+          "event_name": "Event_1",
+          "event_start": 733,
+          "event_end": 933,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 8.854593816643431,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.036182722749886924
         },
         {
           "pattern": [
@@ -1177,12 +1354,19 @@
           "event_start": 3232,
           "event_end": 3432,
           "proximity": 0.9231163463866358,
-          "attribution_score": 4.340269216543168,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.06766169154228856
+          "attribution_score": 8.680538433086337,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.036182722749886924
         }
       ],
       "true_positive_pairs": [
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "event_id": "E2"
+        },
         {
           "pattern": [
             35,
@@ -1203,13 +1387,6 @@
             10
           ],
           "event_id": "E1"
-        },
-        {
-          "pattern": [
-            15,
-            20
-          ],
-          "event_id": "E2"
         }
       ],
       "false_positive_pairs": [
@@ -1238,10 +1415,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -1250,84 +1426,20 @@
         "seed": 42
       },
       "n_transactions": 5000,
-      "n_patterns": 951,
+      "n_patterns": 1345,
       "n_change_points_total": 0,
-      "n_significant": 12,
-      "precision": 0.8333333333333334,
+      "n_significant": 15,
+      "precision": 0.6666666666666666,
       "recall": 1.0,
-      "f1": 0.9090909090909091,
+      "f1": 0.8,
       "tp": 10,
-      "fp": 2,
+      "fp": 5,
       "fn": 0,
-      "time_phase1_ms": 943.9325839921366,
+      "time_phase1_ms": 1264.9855830240995,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 128.43879099818878,
-      "time_total_ms": 1072.3713749903254,
+      "time_attribution_ms": 229.54954201122746,
+      "time_total_ms": 1494.535125035327,
       "significant_attributions": [
-        {
-          "pattern": [
-            75,
-            80
-          ],
-          "change_time": 3728,
-          "change_direction": "down",
-          "change_magnitude": 7.6,
-          "event_name": "Event_8",
-          "event_start": 3532,
-          "event_end": 3732,
-          "proximity": 0.9231163463866358,
-          "attribution_score": 4.713362215549871,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
-        },
-        {
-          "pattern": [
-            85,
-            90
-          ],
-          "change_time": 3669,
-          "change_direction": "up",
-          "change_magnitude": 1.4,
-          "event_name": "Event_8",
-          "event_start": 3532,
-          "event_end": 3732,
-          "proximity": 0.2836540264997704,
-          "attribution_score": 0.7164285866165281,
-          "p_value": 0.13432835820895522,
-          "adjusted_p_value": 0.14299470389985555
-        },
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "change_time": 1453,
-          "change_direction": "down",
-          "change_magnitude": 6.1,
-          "event_name": "Event_3",
-          "event_start": 1262,
-          "event_end": 1462,
-          "proximity": 0.835270211411272,
-          "attribution_score": 3.626009715176491,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
-        },
-        {
-          "pattern": [
-            40,
-            100
-          ],
-          "change_time": 1401,
-          "change_direction": "up",
-          "change_magnitude": 1.0,
-          "event_name": "Event_3",
-          "event_start": 1262,
-          "event_end": 1462,
-          "proximity": 0.2952301669240142,
-          "attribution_score": 0.4684580720890429,
-          "p_value": 0.11940298507462686,
-          "adjusted_p_value": 0.13134328358208955
-        },
         {
           "pattern": [
             35,
@@ -1340,41 +1452,57 @@
           "event_start": 1716,
           "event_end": 1916,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.80488247061916,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 9.60976494123832,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.08557213930348259
         },
         {
           "pattern": [
             45,
             50
           ],
-          "change_time": 2366,
-          "change_direction": "down",
-          "change_magnitude": 8.35,
-          "event_name": "Event_5",
-          "event_start": 2170,
-          "event_end": 2370,
-          "proximity": 0.9231163463866358,
-          "attribution_score": 5.533710438205844,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
+          "change_time": 2123,
+          "change_direction": "up",
+          "change_magnitude": 8.6,
+          "event_name": "Event_4",
+          "event_start": 1716,
+          "event_end": 1916,
+          "proximity": 0.015922851504511698,
+          "attribution_score": 0.1369365229388006,
+          "p_value": 0.19402985074626866,
+          "adjusted_p_value": 0.19402985074626866
         },
         {
           "pattern": [
-            55,
-            60
+            75,
+            80
           ],
-          "change_time": 2819,
+          "change_time": 3728,
           "change_direction": "down",
-          "change_magnitude": 5.25,
-          "event_name": "Event_6",
-          "event_start": 2624,
-          "event_end": 2824,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 3.3908305942765486,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
+          "change_magnitude": 7.6,
+          "event_name": "Event_8",
+          "event_start": 3532,
+          "event_end": 3732,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 9.426724431099743,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            85,
+            90
+          ],
+          "change_time": 3691,
+          "change_direction": "down",
+          "change_magnitude": 1.4500000000000002,
+          "event_name": "Event_8",
+          "event_start": 3532,
+          "event_end": 3732,
+          "proximity": 0.4404316545059993,
+          "attribution_score": 1.0357415361333775,
+          "p_value": 0.16417910447761194,
+          "adjusted_p_value": 0.17649253731343284
         },
         {
           "pattern": [
@@ -1388,9 +1516,9 @@
           "event_start": 4440,
           "event_end": 4640,
           "proximity": 0.9231163463866358,
-          "attribution_score": 3.855962846653573,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 7.711925693307146,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.08557213930348259
         },
         {
           "pattern": [
@@ -1404,9 +1532,25 @@
           "event_start": 354,
           "event_end": 554,
           "proximity": 0.697676326071031,
-          "attribution_score": 4.062751581353836,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 8.125503162707671,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "change_time": 762,
+          "change_direction": "up",
+          "change_magnitude": 6.7,
+          "event_name": "Event_1",
+          "event_start": 354,
+          "event_end": 554,
+          "proximity": 0.01560755791998283,
+          "attribution_score": 0.10457063806388497,
+          "p_value": 0.19402985074626866,
+          "adjusted_p_value": 0.19402985074626866
         },
         {
           "pattern": [
@@ -1420,9 +1564,89 @@
           "event_start": 808,
           "event_end": 1008,
           "proximity": 0.9048374180359595,
-          "attribution_score": 4.049551041741001,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 8.099102083482002,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            25,
+            30
+          ],
+          "change_time": 1453,
+          "change_direction": "down",
+          "change_magnitude": 6.1,
+          "event_name": "Event_3",
+          "event_start": 1262,
+          "event_end": 1462,
+          "proximity": 0.835270211411272,
+          "attribution_score": 7.252019430352982,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            40,
+            100
+          ],
+          "change_time": 1409,
+          "change_direction": "down",
+          "change_magnitude": 1.0,
+          "event_name": "Event_3",
+          "event_start": 1262,
+          "event_end": 1462,
+          "proximity": 0.3464558103300574,
+          "attribution_score": 0.6416859772540716,
+          "p_value": 0.12437810945273632,
+          "adjusted_p_value": 0.15280739161336176
+        },
+        {
+          "pattern": [
+            45,
+            50
+          ],
+          "change_time": 2366,
+          "change_direction": "down",
+          "change_magnitude": 8.35,
+          "event_name": "Event_5",
+          "event_start": 2170,
+          "event_end": 2370,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 11.067420876411688,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            55,
+            60
+          ],
+          "change_time": 2819,
+          "change_direction": "down",
+          "change_magnitude": 5.25,
+          "event_name": "Event_6",
+          "event_start": 2624,
+          "event_end": 2824,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 6.781661188553097,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
+        },
+        {
+          "pattern": [
+            65,
+            70
+          ],
+          "change_time": 3031,
+          "change_direction": "up",
+          "change_magnitude": 6.75,
+          "event_name": "Event_6",
+          "event_start": 2624,
+          "event_end": 2824,
+          "proximity": 0.015922851504511698,
+          "attribution_score": 0.10747924765545397,
+          "p_value": 0.1890547263681592,
+          "adjusted_p_value": 0.19402985074626866
         },
         {
           "pattern": [
@@ -1436,9 +1660,9 @@
           "event_start": 3078,
           "event_end": 3278,
           "proximity": 0.8521437889662113,
-          "attribution_score": 3.4700320114746925,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 6.940064022949385,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
         },
         {
           "pattern": [
@@ -1452,9 +1676,9 @@
           "event_start": 3986,
           "event_end": 4186,
           "proximity": 0.8025187979624785,
-          "attribution_score": 3.2981703254384493,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.0923507462686567
+          "attribution_score": 6.596340650876899,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.08557213930348259
         }
       ],
       "true_positive_pairs": [
@@ -1481,10 +1705,10 @@
         },
         {
           "pattern": [
-            15,
-            20
+            5,
+            10
           ],
-          "event_id": "E2"
+          "event_id": "E1"
         },
         {
           "pattern": [
@@ -1495,13 +1719,6 @@
         },
         {
           "pattern": [
-            55,
-            60
-          ],
-          "event_id": "E6"
-        },
-        {
-          "pattern": [
             65,
             70
           ],
@@ -1509,17 +1726,10 @@
         },
         {
           "pattern": [
-            5,
-            10
+            15,
+            20
           ],
-          "event_id": "E1"
-        },
-        {
-          "pattern": [
-            35,
-            40
-          ],
-          "event_id": "E4"
+          "event_id": "E2"
         },
         {
           "pattern": [
@@ -1527,15 +1737,43 @@
             30
           ],
           "event_id": "E3"
+        },
+        {
+          "pattern": [
+            55,
+            60
+          ],
+          "event_id": "E6"
+        },
+        {
+          "pattern": [
+            35,
+            40
+          ],
+          "event_id": "E4"
         }
       ],
       "false_positive_pairs": [
         {
           "pattern": [
-            40,
-            100
+            45,
+            50
           ],
-          "event_id": "E3"
+          "event_id": "E4"
+        },
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "event_id": "E1"
+        },
+        {
+          "pattern": [
+            65,
+            70
+          ],
+          "event_id": "E6"
         },
         {
           "pattern": [
@@ -1543,6 +1781,13 @@
             90
           ],
           "event_id": "E8"
+        },
+        {
+          "pattern": [
+            40,
+            100
+          ],
+          "event_id": "E3"
         }
       ],
       "false_negative_pairs": [],
@@ -1554,10 +1799,9 @@
       "config": {
         "window_size": 50,
         "min_support": 3,
-        "max_length": 2,
+        "max_length": 100,
         "change_method": "threshold_crossing",
         "sigma": null,
-        "max_distance": null,
         "min_magnitude": 0.0,
         "min_relative_change": 0.0,
         "global_correction": true,
@@ -1566,243 +1810,35 @@
         "seed": 42
       },
       "n_transactions": 5000,
-      "n_patterns": 2089,
+      "n_patterns": 3100,
       "n_change_points_total": 0,
-      "n_significant": 53,
-      "precision": 0.24528301886792453,
-      "recall": 0.65,
-      "f1": 0.35616438356164376,
-      "tp": 13,
-      "fp": 40,
-      "fn": 7,
-      "time_phase1_ms": 1074.5170830050483,
+      "n_significant": 66,
+      "precision": 0.30303030303030304,
+      "recall": 1.0,
+      "f1": 0.4651162790697675,
+      "tp": 20,
+      "fp": 46,
+      "fn": 0,
+      "time_phase1_ms": 2721.936791029293,
       "time_support_series_ms": 0.0,
-      "time_attribution_ms": 678.0284589913208,
-      "time_total_ms": 1752.5455419963691,
+      "time_attribution_ms": 1336.6737089818344,
+      "time_total_ms": 4058.6105000111274,
       "significant_attributions": [
         {
           "pattern": [
-            45,
-            50
+            25,
+            30
           ],
-          "change_time": 1288,
+          "change_time": 813,
           "change_direction": "down",
-          "change_magnitude": 6.0,
-          "event_name": "Event_5",
-          "event_start": 1090,
-          "event_end": 1290,
-          "proximity": 0.9607894391523232,
-          "attribution_score": 4.225684863700268,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            55,
-            60
-          ],
-          "change_time": 1281,
-          "change_direction": "up",
-          "change_magnitude": 6.75,
-          "event_name": "Event_5",
-          "event_start": 1090,
-          "event_end": 1290,
-          "proximity": 0.835270211411272,
-          "attribution_score": 5.6380739270260865,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
-          "change_time": 1109,
-          "change_direction": "up",
-          "change_magnitude": 1.0,
-          "event_name": "Event_5",
-          "event_start": 1090,
-          "event_end": 1290,
-          "proximity": 0.6838614092123558,
-          "attribution_score": 1.0190214322301756,
-          "p_value": 0.05970149253731343,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            95,
-            100
-          ],
-          "change_time": 1301,
-          "change_direction": "up",
-          "change_magnitude": 1.0,
-          "event_name": "Event_5",
-          "event_start": 1090,
-          "event_end": 1290,
-          "proximity": 0.8025187979624785,
-          "attribution_score": 1.3624171645278804,
-          "p_value": 0.0845771144278607,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            35,
-            40
-          ],
-          "change_time": 1049,
-          "change_direction": "down",
-          "change_magnitude": 5.7,
-          "event_name": "Event_5",
-          "event_start": 1090,
-          "event_end": 1290,
-          "proximity": 0.4404316545059993,
-          "attribution_score": 1.255230215342098,
-          "p_value": 0.10945273631840796,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            95,
-            100
-          ],
-          "change_time": 2236,
-          "change_direction": "up",
-          "change_magnitude": 6.7,
-          "event_name": "Event_9",
-          "event_start": 2042,
-          "event_end": 2242,
-          "proximity": 0.8869204367171575,
-          "attribution_score": 5.942366926004955,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            135,
-            140
-          ],
-          "change_time": 3432,
-          "change_direction": "down",
-          "change_magnitude": 6.25,
-          "event_name": "Event_14",
-          "event_start": 3232,
-          "event_end": 3432,
-          "proximity": 1.0,
-          "attribution_score": 6.99219288718119,
+          "change_magnitude": 5.55,
+          "event_name": "Event_3",
+          "event_start": 614,
+          "event_end": 814,
+          "proximity": 0.9801986733067553,
+          "attribution_score": 7.105686690844228,
           "p_value": 0.004975124378109453,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            125,
-            130
-          ],
-          "change_time": 3189,
-          "change_direction": "down",
-          "change_magnitude": 7.25,
-          "event_name": "Event_14",
-          "event_start": 3232,
-          "event_end": 3432,
-          "proximity": 0.4231620823177488,
-          "attribution_score": 1.5339625484018395,
-          "p_value": 0.08955223880597014,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            125,
-            130
-          ],
-          "change_time": 3189,
-          "change_direction": "down",
-          "change_magnitude": 7.25,
-          "event_name": "Event_13",
-          "event_start": 2994,
-          "event_end": 3194,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 4.5495218873336,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            115,
-            120
-          ],
-          "change_time": 2952,
-          "change_direction": "down",
-          "change_magnitude": 8.0,
-          "event_name": "Event_13",
-          "event_start": 2994,
-          "event_end": 3194,
-          "proximity": 0.43171052342907973,
-          "attribution_score": 1.726842093716319,
-          "p_value": 0.07960199004975124,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            105,
-            110
-          ],
-          "change_time": 2714,
-          "change_direction": "down",
-          "change_magnitude": 6.25,
-          "event_name": "Event_11",
-          "event_start": 2518,
-          "event_end": 2718,
-          "proximity": 0.9231163463866358,
-          "attribution_score": 3.7831826037828353,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            115,
-            120
-          ],
-          "change_time": 2712,
-          "change_direction": "up",
-          "change_magnitude": 5.699999999999999,
-          "event_name": "Event_11",
-          "event_start": 2518,
-          "event_end": 2718,
-          "proximity": 0.8869204367171575,
-          "attribution_score": 5.055446489287797,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            95,
-            100
-          ],
-          "change_time": 2472,
-          "change_direction": "down",
-          "change_magnitude": 5.8,
-          "event_name": "Event_11",
-          "event_start": 2518,
-          "event_end": 2718,
-          "proximity": 0.39851904108451414,
-          "attribution_score": 1.155705219145091,
-          "p_value": 0.10945273631840796,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            65,
-            195
-          ],
-          "change_time": 4826,
-          "change_direction": "down",
-          "change_magnitude": 3.5500000000000003,
-          "event_name": "Event_20",
-          "event_start": 4660,
-          "event_end": 4860,
-          "proximity": 0.5066169923655895,
-          "attribution_score": 4.164937435616509,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -1817,24 +1853,8 @@
           "event_end": 814,
           "proximity": 0.8693582353988059,
           "attribution_score": 6.694058412570805,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "change_time": 813,
-          "change_direction": "down",
-          "change_magnitude": 5.55,
-          "event_name": "Event_3",
-          "event_start": 614,
-          "event_end": 814,
-          "proximity": 0.9801986733067553,
-          "attribution_score": 3.552843345422114,
           "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -1848,9 +1868,9 @@
           "event_start": 614,
           "event_end": 814,
           "proximity": 0.4231620823177488,
-          "attribution_score": 1.3964348716485713,
-          "p_value": 0.09950248756218906,
-          "adjusted_p_value": 0.16496465043205027
+          "attribution_score": 2.7928697432971425,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -1864,41 +1884,58 @@
           "event_start": 614,
           "event_end": 814,
           "proximity": 0.39062783535852114,
-          "attribution_score": 0.621748539221407,
-          "p_value": 0.11442786069651742,
-          "adjusted_p_value": 0.1676501214855953
+          "attribution_score": 1.243497078442814,
+          "p_value": 0.1044776119402985,
+          "adjusted_p_value": 0.16922430103006098
         },
         {
           "pattern": [
-            65,
-            70
+            135,
+            140
           ],
-          "change_time": 1523,
-          "change_direction": "up",
-          "change_magnitude": 7.3500000000000005,
-          "event_name": "Event_6",
-          "event_start": 1328,
-          "event_end": 1528,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 6.650555022564303,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            55,
-            60
-          ],
-          "change_time": 1526,
+          "change_time": 3432,
           "change_direction": "down",
-          "change_magnitude": 7.800000000000001,
-          "event_name": "Event_6",
-          "event_start": 1328,
-          "event_end": 1528,
-          "proximity": 0.9607894391523232,
-          "attribution_score": 5.0654477570290695,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "change_magnitude": 6.25,
+          "event_name": "Event_14",
+          "event_start": 3232,
+          "event_end": 3432,
+          "proximity": 1.0,
+          "attribution_score": 7.73438577436238,
+          "p_value": 0.004975124378109453,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            125,
+            130
+          ],
+          "change_time": 3189,
+          "change_direction": "down",
+          "change_magnitude": 7.25,
+          "event_name": "Event_14",
+          "event_start": 3232,
+          "event_end": 3432,
+          "proximity": 0.4231620823177488,
+          "attribution_score": 3.067925096803679,
+          "p_value": 0.05970149253731343,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            95,
+            145,
+            150
+          ],
+          "change_time": 3481,
+          "change_direction": "up",
+          "change_magnitude": 1.5499999999999998,
+          "event_name": "Event_14",
+          "event_start": 3232,
+          "event_end": 3432,
+          "proximity": 0.37531109885139957,
+          "attribution_score": 0.7915018922364189,
+          "p_value": 0.07960199004975124,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -1908,125 +1945,127 @@
           "change_time": 1288,
           "change_direction": "down",
           "change_magnitude": 6.0,
-          "event_name": "Event_6",
-          "event_start": 1328,
-          "event_end": 1528,
-          "proximity": 0.44932896411722156,
-          "attribution_score": 1.3479868923516647,
-          "p_value": 0.1044776119402985,
-          "adjusted_p_value": 0.16496465043205027
+          "event_name": "Event_5",
+          "event_start": 1090,
+          "event_end": 1290,
+          "proximity": 0.9607894391523232,
+          "attribution_score": 8.451369727400536,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            10,
-            85
+            35,
+            40
           ],
-          "change_time": 1449,
+          "change_time": 1049,
+          "change_direction": "down",
+          "change_magnitude": 5.7,
+          "event_name": "Event_5",
+          "event_start": 1090,
+          "event_end": 1290,
+          "proximity": 0.4404316545059993,
+          "attribution_score": 2.510460430684196,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            55,
+            60
+          ],
+          "change_time": 1281,
+          "change_direction": "up",
+          "change_magnitude": 6.75,
+          "event_name": "Event_5",
+          "event_start": 1090,
+          "event_end": 1290,
+          "proximity": 0.835270211411272,
+          "attribution_score": 5.6380739270260865,
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            5,
+            10
+          ],
+          "change_time": 1109,
           "change_direction": "up",
           "change_magnitude": 1.0,
-          "event_name": "Event_6",
-          "event_start": 1328,
-          "event_end": 1528,
-          "proximity": 0.20597509820488344,
-          "attribution_score": 0.31754017827909836,
-          "p_value": 0.11940298507462686,
-          "adjusted_p_value": 0.17174401962788796
+          "event_name": "Event_5",
+          "event_start": 1090,
+          "event_end": 1290,
+          "proximity": 0.6838614092123558,
+          "attribution_score": 1.3541814552479952,
+          "p_value": 0.06965174129353234,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
             95,
             100
           ],
-          "change_time": 1319,
-          "change_direction": "down",
+          "change_time": 1301,
+          "change_direction": "up",
           "change_magnitude": 1.0,
-          "event_name": "Event_6",
-          "event_start": 1328,
-          "event_end": 1528,
-          "proximity": 0.835270211411272,
-          "attribution_score": 0.7090092318926309,
-          "p_value": 0.13930348258706468,
-          "adjusted_p_value": 0.1791044776119403
+          "event_name": "Event_5",
+          "event_start": 1090,
+          "event_end": 1290,
+          "proximity": 0.8025187979624785,
+          "attribution_score": 1.3624171645278804,
+          "p_value": 0.14925373134328357,
+          "adjusted_p_value": 0.19231573226305446
         },
         {
           "pattern": [
+            175,
+            180
+          ],
+          "change_time": 4381,
+          "change_direction": "down",
+          "change_magnitude": 6.9,
+          "event_name": "Event_18",
+          "event_start": 4184,
+          "event_end": 4384,
+          "proximity": 0.9417645335842487,
+          "attribution_score": 8.685691159739035,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            117,
             165,
             170
           ],
-          "change_time": 3903,
-          "change_direction": "up",
-          "change_magnitude": 8.2,
-          "event_name": "Event_16",
-          "event_start": 3708,
-          "event_end": 3908,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 7.419666827894868,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            155,
-            160
-          ],
-          "change_time": 3901,
+          "change_time": 4062,
           "change_direction": "down",
-          "change_magnitude": 7.0,
-          "event_name": "Event_16",
-          "event_start": 3708,
-          "event_end": 3908,
-          "proximity": 0.8693582353988059,
-          "attribution_score": 3.71677605537839,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "change_magnitude": 1.55,
+          "event_name": "Event_18",
+          "event_start": 4184,
+          "event_end": 4384,
+          "proximity": 0.0871608514619813,
+          "attribution_score": 0.135099319766071,
+          "p_value": 0.11940298507462686,
+          "adjusted_p_value": 0.17217985308566885
         },
         {
           "pattern": [
-            10,
-            65
+            168,
+            185,
+            190
           ],
-          "change_time": 3875,
+          "change_time": 4542,
           "change_direction": "up",
-          "change_magnitude": 1.5500000000000003,
-          "event_name": "Event_16",
-          "event_start": 3708,
-          "event_end": 3908,
-          "proximity": 0.5168513344916992,
-          "attribution_score": 1.3088335589747837,
-          "p_value": 0.0845771144278607,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            145,
-            150
-          ],
-          "change_time": 3664,
-          "change_direction": "down",
-          "change_magnitude": 7.0,
-          "event_name": "Event_16",
-          "event_start": 3708,
-          "event_end": 3908,
-          "proximity": 0.4147829116815814,
-          "attribution_score": 1.4517401908855347,
+          "change_magnitude": 2.8000000000000003,
+          "event_name": "Event_18",
+          "event_start": 4184,
+          "event_end": 4384,
+          "proximity": 0.042425741080511385,
+          "attribution_score": 0.11879207502543189,
           "p_value": 0.12437810945273632,
-          "adjusted_p_value": 0.1718381775333857
-        },
-        {
-          "pattern": [
-            195,
-            200
-          ],
-          "change_time": 4617,
-          "change_direction": "up",
-          "change_magnitude": 6.5,
-          "event_name": "Event_19",
-          "event_start": 4422,
-          "event_end": 4622,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 5.881443217233737,
-          "p_value": 0.014925373134328358,
-          "adjusted_p_value": 0.1462686567164179
+          "adjusted_p_value": 0.17658620477857626
         },
         {
           "pattern": [
@@ -2040,9 +2079,9 @@
           "event_start": 138,
           "event_end": 338,
           "proximity": 0.9417645335842487,
-          "attribution_score": 4.004023706124976,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "attribution_score": 8.008047412249953,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2057,104 +2096,24 @@
           "event_end": 338,
           "proximity": 0.8521437889662113,
           "attribution_score": 4.772005218210783,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            125,
-            130
+            95,
+            145
           ],
-          "change_time": 2951,
+          "change_time": 84,
           "change_direction": "up",
-          "change_magnitude": 6.0,
-          "event_name": "Event_12",
-          "event_start": 2756,
-          "event_end": 2956,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 5.4290245082157575,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            45,
-            50
-          ],
-          "change_time": 1049,
-          "change_direction": "up",
-          "change_magnitude": 6.1,
-          "event_name": "Event_4",
-          "event_start": 852,
-          "event_end": 1052,
-          "proximity": 0.9417645335842487,
-          "attribution_score": 5.744763654863917,
-          "p_value": 0.01990049751243781,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            35,
-            40
-          ],
-          "change_time": 1049,
-          "change_direction": "down",
-          "change_magnitude": 5.7,
-          "event_name": "Event_4",
-          "event_start": 852,
-          "event_end": 1052,
-          "proximity": 0.9417645335842487,
-          "attribution_score": 4.249322110716416,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "change_time": 813,
-          "change_direction": "down",
-          "change_magnitude": 5.55,
-          "event_name": "Event_4",
-          "event_start": 852,
-          "event_end": 1052,
-          "proximity": 0.4584060113052235,
-          "attribution_score": 1.2720766813719953,
-          "p_value": 0.07960199004975124,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
-          "change_time": 1109,
-          "change_direction": "up",
-          "change_magnitude": 1.0,
-          "event_name": "Event_4",
-          "event_start": 852,
-          "event_end": 1052,
-          "proximity": 0.31981902181630395,
-          "attribution_score": 0.6333052026989092,
-          "p_value": 0.12935323383084577,
-          "adjusted_p_value": 0.17487668951380436
-        },
-        {
-          "pattern": [
-            75,
-            80
-          ],
-          "change_time": 1757,
-          "change_direction": "up",
-          "change_magnitude": 6.4,
-          "event_name": "Event_7",
-          "event_start": 1566,
-          "event_end": 1766,
-          "proximity": 0.835270211411272,
-          "attribution_score": 5.345729353032141,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "change_magnitude": 1.2000000000000002,
+          "event_name": "Event_1",
+          "event_start": 138,
+          "event_end": 338,
+          "proximity": 0.3395955256449391,
+          "attribution_score": 0.7828257296253265,
+          "p_value": 0.14427860696517414,
+          "adjusted_p_value": 0.1901666452836106
         },
         {
           "pattern": [
@@ -2164,29 +2123,323 @@
           "change_time": 1526,
           "change_direction": "down",
           "change_magnitude": 7.800000000000001,
-          "event_name": "Event_7",
-          "event_start": 1566,
-          "event_end": 1766,
-          "proximity": 0.44932896411722156,
-          "attribution_score": 1.7523829600571643,
-          "p_value": 0.0945273631840796,
-          "adjusted_p_value": 0.16496465043205027
+          "event_name": "Event_6",
+          "event_start": 1328,
+          "event_end": 1528,
+          "proximity": 0.9607894391523232,
+          "attribution_score": 10.130895514058139,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            5,
+            65,
+            70
+          ],
+          "change_time": 1523,
+          "change_direction": "up",
+          "change_magnitude": 7.3500000000000005,
+          "event_name": "Event_6",
+          "event_start": 1328,
+          "event_end": 1528,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 6.650555022564303,
+          "p_value": 0.024875621890547265,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            45,
+            50
+          ],
+          "change_time": 1288,
+          "change_direction": "down",
+          "change_magnitude": 6.0,
+          "event_name": "Event_6",
+          "event_start": 1328,
+          "event_end": 1528,
+          "proximity": 0.44932896411722156,
+          "attribution_score": 2.6959737847033294,
+          "p_value": 0.05970149253731343,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            10,
             85
           ],
-          "change_time": 3670,
-          "change_direction": "up",
+          "change_time": 1453,
+          "change_direction": "down",
           "change_magnitude": 1.0,
-          "event_name": "Event_15",
-          "event_start": 3470,
-          "event_end": 3670,
-          "proximity": 1.0,
-          "attribution_score": 1.8521437889662113,
+          "event_name": "Event_6",
+          "event_start": 1328,
+          "event_end": 1528,
+          "proximity": 0.22313016014842982,
+          "attribution_score": 0.42910525835331326,
+          "p_value": 0.11940298507462686,
+          "adjusted_p_value": 0.17217985308566885
+        },
+        {
+          "pattern": [
+            95,
+            100
+          ],
+          "change_time": 1319,
+          "change_direction": "down",
+          "change_magnitude": 1.0,
+          "event_name": "Event_6",
+          "event_start": 1328,
+          "event_end": 1528,
+          "proximity": 0.835270211411272,
+          "attribution_score": 1.4180184637852618,
+          "p_value": 0.14427860696517414,
+          "adjusted_p_value": 0.1901666452836106
+        },
+        {
+          "pattern": [
+            115,
+            120
+          ],
+          "change_time": 2952,
+          "change_direction": "down",
+          "change_magnitude": 8.0,
+          "event_name": "Event_12",
+          "event_start": 2756,
+          "event_end": 2956,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 9.7491933676781,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            110,
+            125,
+            130
+          ],
+          "change_time": 2963,
+          "change_direction": "up",
+          "change_magnitude": 4.2,
+          "event_name": "Event_12",
+          "event_start": 2756,
+          "event_end": 2956,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 4.83432773228934,
+          "p_value": 0.04975124378109453,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            105,
+            110
+          ],
+          "change_time": 2714,
+          "change_direction": "down",
+          "change_magnitude": 6.25,
+          "event_name": "Event_11",
+          "event_start": 2518,
+          "event_end": 2718,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 7.566365207565671,
+          "p_value": 0.009950248756218905,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            115,
+            120
+          ],
+          "change_time": 2712,
+          "change_direction": "up",
+          "change_magnitude": 5.699999999999999,
+          "event_name": "Event_11",
+          "event_start": 2518,
+          "event_end": 2718,
+          "proximity": 0.8869204367171575,
+          "attribution_score": 5.055446489287797,
+          "p_value": 0.03980099502487562,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            95,
+            100
+          ],
+          "change_time": 2472,
+          "change_direction": "down",
+          "change_magnitude": 5.8,
+          "event_name": "Event_11",
+          "event_start": 2518,
+          "event_end": 2718,
+          "proximity": 0.39851904108451414,
+          "attribution_score": 2.311410438290182,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            85,
+            90
+          ],
+          "change_time": 2235,
+          "change_direction": "down",
+          "change_magnitude": 6.8500000000000005,
+          "event_name": "Event_9",
+          "event_start": 2042,
+          "event_end": 2242,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 8.565403631585388,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            90,
+            95,
+            100
+          ],
+          "change_time": 2253,
+          "change_direction": "up",
+          "change_magnitude": 3.0,
+          "event_name": "Event_9",
+          "event_start": 2042,
+          "event_end": 2242,
+          "proximity": 0.8025187979624785,
+          "attribution_score": 3.2962654879033813,
+          "p_value": 0.05970149253731343,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            75,
+            80,
+            145
+          ],
+          "change_time": 1951,
+          "change_direction": "down",
+          "change_magnitude": 2.05,
+          "event_name": "Event_9",
+          "event_start": 2042,
+          "event_end": 2242,
+          "proximity": 0.16202575093388075,
+          "attribution_score": 0.4490041213434572,
+          "p_value": 0.1044776119402985,
+          "adjusted_p_value": 0.16922430103006098
+        },
+        {
+          "pattern": [
+            195,
+            200
+          ],
+          "change_time": 4852,
+          "change_direction": "down",
+          "change_magnitude": 5.0,
+          "event_name": "Event_20",
+          "event_start": 4660,
+          "event_end": 4860,
+          "proximity": 0.8521437889662113,
+          "attribution_score": 7.011272479896424,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            168,
+            185,
+            190
+          ],
+          "change_time": 4597,
+          "change_direction": "down",
+          "change_magnitude": 3.1,
+          "event_name": "Event_20",
+          "event_start": 4660,
+          "event_end": 4860,
+          "proximity": 0.2836540264997704,
+          "attribution_score": 1.1437041070989349,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            125,
+            130
+          ],
+          "change_time": 3189,
+          "change_direction": "down",
+          "change_magnitude": 7.25,
+          "event_name": "Event_13",
+          "event_start": 2994,
+          "event_end": 3194,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 9.0990437746672,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            50,
+            135,
+            140
+          ],
+          "change_time": 3206,
+          "change_direction": "up",
+          "change_magnitude": 3.0,
+          "event_name": "Event_13",
+          "event_start": 2994,
+          "event_end": 3194,
+          "proximity": 0.7866278610665535,
+          "attribution_score": 2.9832644853130468,
+          "p_value": 0.04975124378109453,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            70,
+            115,
+            120
+          ],
+          "change_time": 2923,
+          "change_direction": "down",
+          "change_magnitude": 1.1,
+          "event_name": "Event_13",
+          "event_start": 2994,
+          "event_end": 3194,
+          "proximity": 0.24171401689703645,
+          "attribution_score": 0.6940715475513057,
+          "p_value": 0.11940298507462686,
+          "adjusted_p_value": 0.17217985308566885
+        },
+        {
+          "pattern": [
+            155,
+            160
+          ],
+          "change_time": 3901,
+          "change_direction": "down",
+          "change_magnitude": 7.0,
+          "event_name": "Event_16",
+          "event_start": 3708,
+          "event_end": 3908,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 7.43355211075678,
+          "p_value": 0.014925373134328358,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            165,
+            170
+          ],
+          "change_time": 3903,
+          "change_direction": "up",
+          "change_magnitude": 8.2,
+          "event_name": "Event_16",
+          "event_start": 3708,
+          "event_end": 3908,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 7.419666827894868,
           "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2196,61 +2449,62 @@
           "change_time": 3664,
           "change_direction": "down",
           "change_magnitude": 7.0,
-          "event_name": "Event_15",
-          "event_start": 3470,
-          "event_end": 3670,
-          "proximity": 0.8869204367171575,
-          "attribution_score": 4.32493351400543,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "event_name": "Event_16",
+          "event_start": 3708,
+          "event_end": 3908,
+          "proximity": 0.4147829116815814,
+          "attribution_score": 2.9034803817710695,
+          "p_value": 0.05970149253731343,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            155,
-            160
+            10,
+            65
           ],
-          "change_time": 3664,
-          "change_direction": "up",
-          "change_magnitude": 3.25,
-          "event_name": "Event_15",
-          "event_start": 3470,
-          "event_end": 3670,
-          "proximity": 0.8869204367171575,
-          "attribution_score": 2.882491419330762,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            135,
-            140
-          ],
-          "change_time": 3432,
+          "change_time": 3904,
           "change_direction": "down",
-          "change_magnitude": 6.25,
-          "event_name": "Event_15",
-          "event_start": 3470,
-          "event_end": 3670,
-          "proximity": 0.46766642700990924,
-          "attribution_score": 1.4614575844059663,
-          "p_value": 0.06467661691542288,
-          "adjusted_p_value": 0.16496465043205027
+          "change_magnitude": 1.1,
+          "event_name": "Event_16",
+          "event_start": 3708,
+          "event_end": 3908,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 1.8165475494874332,
+          "p_value": 0.08955223880597014,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            30,
-            145
+            65,
+            70
           ],
-          "change_time": 583,
+          "change_time": 1762,
+          "change_direction": "down",
+          "change_magnitude": 6.15,
+          "event_name": "Event_7",
+          "event_start": 1566,
+          "event_end": 1766,
+          "proximity": 0.9231163463866358,
+          "attribution_score": 8.787406835313265,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            75,
+            80,
+            115
+          ],
+          "change_time": 1804,
           "change_direction": "up",
-          "change_magnitude": 3.0999999999999996,
-          "event_name": "Event_2",
-          "event_start": 376,
-          "event_end": 576,
-          "proximity": 0.8693582353988059,
-          "attribution_score": 3.6668176904723744,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "change_magnitude": 1.9,
+          "event_name": "Event_7",
+          "event_start": 1566,
+          "event_end": 1766,
+          "proximity": 0.46766642700990924,
+          "attribution_score": 1.2246547711509064,
+          "p_value": 0.07960199004975124,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2264,9 +2518,25 @@
           "event_start": 376,
           "event_end": 576,
           "proximity": 0.9048374180359595,
-          "attribution_score": 4.101816794555306,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "attribution_score": 8.203633589110613,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            30,
+            145
+          ],
+          "change_time": 583,
+          "change_direction": "up",
+          "change_magnitude": 3.0999999999999996,
+          "event_name": "Event_2",
+          "event_start": 376,
+          "event_end": 576,
+          "proximity": 0.8693582353988059,
+          "attribution_score": 3.8163288546651866,
+          "p_value": 0.04975124378109453,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2281,40 +2551,106 @@
           "event_end": 576,
           "proximity": 0.835270211411272,
           "attribution_score": 2.296993081380998,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "p_value": 0.05970149253731343,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
             5,
-            10
+            10,
+            65
           ],
-          "change_time": 335,
+          "change_time": 320,
           "change_direction": "down",
-          "change_magnitude": 5.199999999999999,
+          "change_magnitude": 2.05,
           "event_name": "Event_2",
           "event_start": 376,
           "event_end": 576,
-          "proximity": 0.4404316545059993,
-          "attribution_score": 1.145122301715598,
-          "p_value": 0.06965174129353234,
-          "adjusted_p_value": 0.16496465043205027
+          "proximity": 0.32627979462303947,
+          "attribution_score": 0.861984882334499,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            85,
-            90
+            25,
+            30,
+            135
           ],
-          "change_time": 1996,
+          "change_time": 686,
           "change_direction": "up",
-          "change_magnitude": 6.550000000000001,
+          "change_magnitude": 2.45,
+          "event_name": "Event_2",
+          "event_start": 376,
+          "event_end": 576,
+          "proximity": 0.11080315836233387,
+          "attribution_score": 0.271467737987718,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            35,
+            40
+          ],
+          "change_time": 1049,
+          "change_direction": "down",
+          "change_magnitude": 5.7,
+          "event_name": "Event_4",
+          "event_start": 852,
+          "event_end": 1052,
+          "proximity": 0.9417645335842487,
+          "attribution_score": 8.498644221432832,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            45,
+            50
+          ],
+          "change_time": 1049,
+          "change_direction": "up",
+          "change_magnitude": 6.1,
+          "event_name": "Event_4",
+          "event_start": 852,
+          "event_end": 1052,
+          "proximity": 0.9417645335842487,
+          "attribution_score": 5.744763654863917,
+          "p_value": 0.024875621890547265,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            25,
+            30
+          ],
+          "change_time": 813,
+          "change_direction": "down",
+          "change_magnitude": 5.55,
+          "event_name": "Event_4",
+          "event_start": 852,
+          "event_end": 1052,
+          "proximity": 0.4584060113052235,
+          "attribution_score": 2.5441533627439905,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            75,
+            80
+          ],
+          "change_time": 1991,
+          "change_direction": "down",
+          "change_magnitude": 5.15,
           "event_name": "Event_8",
           "event_start": 1804,
           "event_end": 2004,
-          "proximity": 0.8521437889662113,
-          "attribution_score": 5.581541817728685,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "proximity": 0.7710515858035663,
+          "attribution_score": 6.470933813182902,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2328,73 +2664,42 @@
           "event_start": 1804,
           "event_end": 2004,
           "proximity": 0.43171052342907973,
-          "attribution_score": 1.3275098595444201,
-          "p_value": 0.10945273631840796,
-          "adjusted_p_value": 0.16496465043205027
+          "attribution_score": 2.6550197190888403,
+          "p_value": 0.06467661691542288,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            165,
-            170
+            85,
+            90,
+            175
           ],
-          "change_time": 4141,
-          "change_direction": "down",
-          "change_magnitude": 6.550000000000001,
-          "event_name": "Event_17",
-          "event_start": 3946,
-          "event_end": 4146,
-          "proximity": 0.9048374180359595,
-          "attribution_score": 4.698307081570538,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.1462686567164179
-        },
-        {
-          "pattern": [
-            155,
-            160
-          ],
-          "change_time": 3901,
-          "change_direction": "down",
-          "change_magnitude": 7.0,
-          "event_name": "Event_17",
-          "event_start": 3946,
-          "event_end": 4146,
-          "proximity": 0.4065696597405991,
-          "attribution_score": 1.4229938090920968,
-          "p_value": 0.05970149253731343,
-          "adjusted_p_value": 0.16496465043205027
-        },
-        {
-          "pattern": [
-            10,
-            65
-          ],
-          "change_time": 3904,
-          "change_direction": "down",
-          "change_magnitude": 1.1,
-          "event_name": "Event_17",
-          "event_start": 3946,
-          "event_end": 4146,
-          "proximity": 0.43171052342907973,
-          "attribution_score": 0.42476915098119716,
-          "p_value": 0.14925373134328357,
-          "adjusted_p_value": 0.18509813139029263
-        },
-        {
-          "pattern": [
-            185,
-            190
-          ],
-          "change_time": 4378,
+          "change_time": 2141,
           "change_direction": "up",
-          "change_magnitude": 6.800000000000001,
-          "event_name": "Event_18",
-          "event_start": 4184,
-          "event_end": 4384,
-          "proximity": 0.8869204367171575,
-          "attribution_score": 6.031058969676671,
-          "p_value": 0.024875621890547265,
-          "adjusted_p_value": 0.1462686567164179
+          "change_magnitude": 1.7000000000000002,
+          "event_name": "Event_8",
+          "event_start": 1804,
+          "event_end": 2004,
+          "proximity": 0.06457034689316847,
+          "attribution_score": 0.21872065404586305,
+          "p_value": 0.09950248756218906,
+          "adjusted_p_value": 0.16827626573017268
+        },
+        {
+          "pattern": [
+            95,
+            100
+          ],
+          "change_time": 2472,
+          "change_direction": "down",
+          "change_magnitude": 5.8,
+          "event_name": "Event_10",
+          "event_start": 2280,
+          "event_end": 2480,
+          "proximity": 0.8521437889662113,
+          "attribution_score": 7.7214794842706205,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
@@ -2409,27 +2714,239 @@
           "event_end": 2480,
           "proximity": 0.835270211411272,
           "attribution_score": 3.8422429724918516,
-          "p_value": 0.029850746268656716,
-          "adjusted_p_value": 0.1462686567164179
+          "p_value": 0.04477611940298507,
+          "adjusted_p_value": 0.16788643654315294
         },
         {
           "pattern": [
-            95,
-            100
+            85,
+            90,
+            175
           ],
-          "change_time": 2472,
+          "change_time": 2198,
           "change_direction": "down",
-          "change_magnitude": 5.8,
+          "change_magnitude": 2.9000000000000004,
           "event_name": "Event_10",
           "event_start": 2280,
           "event_end": 2480,
-          "proximity": 0.8521437889662113,
-          "attribution_score": 3.8607397421353102,
-          "p_value": 0.03482587064676617,
-          "adjusted_p_value": 0.1462686567164179
+          "proximity": 0.1939800422908919,
+          "attribution_score": 0.6680075851850957,
+          "p_value": 0.1044776119402985,
+          "adjusted_p_value": 0.16922430103006098
+        },
+        {
+          "pattern": [
+            145,
+            150
+          ],
+          "change_time": 3664,
+          "change_direction": "down",
+          "change_magnitude": 7.0,
+          "event_name": "Event_15",
+          "event_start": 3470,
+          "event_end": 3670,
+          "proximity": 0.8869204367171575,
+          "attribution_score": 8.64986702801086,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            135,
+            140
+          ],
+          "change_time": 3432,
+          "change_direction": "down",
+          "change_magnitude": 6.25,
+          "event_name": "Event_15",
+          "event_start": 3470,
+          "event_end": 3670,
+          "proximity": 0.46766642700990924,
+          "attribution_score": 2.9229151688119326,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            155,
+            160
+          ],
+          "change_time": 3664,
+          "change_direction": "up",
+          "change_magnitude": 3.25,
+          "event_name": "Event_15",
+          "event_start": 3470,
+          "event_end": 3670,
+          "proximity": 0.8869204367171575,
+          "attribution_score": 2.882491419330762,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            5,
+            85
+          ],
+          "change_time": 3670,
+          "change_direction": "up",
+          "change_magnitude": 1.0,
+          "event_name": "Event_15",
+          "event_start": 3470,
+          "event_end": 3670,
+          "proximity": 1.0,
+          "attribution_score": 1.8521437889662113,
+          "p_value": 0.06467661691542288,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            165,
+            170
+          ],
+          "change_time": 4141,
+          "change_direction": "down",
+          "change_magnitude": 6.550000000000001,
+          "event_name": "Event_17",
+          "event_start": 3946,
+          "event_end": 4146,
+          "proximity": 0.9048374180359595,
+          "attribution_score": 9.396614163141075,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            155,
+            160
+          ],
+          "change_time": 3901,
+          "change_direction": "down",
+          "change_magnitude": 7.0,
+          "event_name": "Event_17",
+          "event_start": 3946,
+          "event_end": 4146,
+          "proximity": 0.4065696597405991,
+          "attribution_score": 2.8459876181841937,
+          "p_value": 0.05472636815920398,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            10,
+            65
+          ],
+          "change_time": 3904,
+          "change_direction": "down",
+          "change_magnitude": 1.1,
+          "event_name": "Event_17",
+          "event_start": 3946,
+          "event_end": 4146,
+          "proximity": 0.43171052342907973,
+          "attribution_score": 0.8495383019623943,
+          "p_value": 0.13432835820895522,
+          "adjusted_p_value": 0.18500312807221378
+        },
+        {
+          "pattern": [
+            185,
+            190
+          ],
+          "change_time": 4611,
+          "change_direction": "down",
+          "change_magnitude": 5.85,
+          "event_name": "Event_19",
+          "event_start": 4422,
+          "event_end": 4622,
+          "proximity": 0.8025187979624785,
+          "attribution_score": 7.5152587675152525,
+          "p_value": 0.01990049751243781,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            65,
+            195,
+            200
+          ],
+          "change_time": 4633,
+          "change_direction": "up",
+          "change_magnitude": 1.35,
+          "event_name": "Event_19",
+          "event_start": 4422,
+          "event_end": 4622,
+          "proximity": 0.8025187979624785,
+          "attribution_score": 2.446142949851817,
+          "p_value": 0.07960199004975124,
+          "adjusted_p_value": 0.16788643654315294
+        },
+        {
+          "pattern": [
+            165,
+            175,
+            180
+          ],
+          "change_time": 4363,
+          "change_direction": "down",
+          "change_magnitude": 3.4,
+          "event_name": "Event_19",
+          "event_start": 4422,
+          "event_end": 4622,
+          "proximity": 0.30727873860113125,
+          "attribution_score": 1.3439162388221475,
+          "p_value": 0.0845771144278607,
+          "adjusted_p_value": 0.16788643654315294
         }
       ],
       "true_positive_pairs": [
+        {
+          "pattern": [
+            155,
+            160
+          ],
+          "event_id": "E16"
+        },
+        {
+          "pattern": [
+            105,
+            110
+          ],
+          "event_id": "E11"
+        },
+        {
+          "pattern": [
+            185,
+            190
+          ],
+          "event_id": "E19"
+        },
+        {
+          "pattern": [
+            175,
+            180
+          ],
+          "event_id": "E18"
+        },
+        {
+          "pattern": [
+            195,
+            200
+          ],
+          "event_id": "E20"
+        },
+        {
+          "pattern": [
+            25,
+            30
+          ],
+          "event_id": "E3"
+        },
+        {
+          "pattern": [
+            55,
+            60
+          ],
+          "event_id": "E6"
+        },
         {
           "pattern": [
             125,
@@ -2446,10 +2963,31 @@
         },
         {
           "pattern": [
-            155,
-            160
+            145,
+            150
           ],
-          "event_id": "E16"
+          "event_id": "E15"
+        },
+        {
+          "pattern": [
+            85,
+            90
+          ],
+          "event_id": "E9"
+        },
+        {
+          "pattern": [
+            5,
+            10
+          ],
+          "event_id": "E1"
+        },
+        {
+          "pattern": [
+            75,
+            80
+          ],
+          "event_id": "E8"
         },
         {
           "pattern": [
@@ -2457,6 +2995,13 @@
             170
           ],
           "event_id": "E17"
+        },
+        {
+          "pattern": [
+            135,
+            140
+          ],
+          "event_id": "E14"
         },
         {
           "pattern": [
@@ -2474,38 +3019,17 @@
         },
         {
           "pattern": [
-            55,
-            60
+            115,
+            120
           ],
-          "event_id": "E6"
+          "event_id": "E12"
         },
         {
           "pattern": [
-            145,
-            150
+            65,
+            70
           ],
-          "event_id": "E15"
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
-          "event_id": "E1"
-        },
-        {
-          "pattern": [
-            105,
-            110
-          ],
-          "event_id": "E11"
-        },
-        {
-          "pattern": [
-            135,
-            140
-          ],
-          "event_id": "E14"
+          "event_id": "E7"
         },
         {
           "pattern": [
@@ -2513,29 +3037,15 @@
             40
           ],
           "event_id": "E4"
-        },
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "event_id": "E3"
         }
       ],
       "false_positive_pairs": [
         {
           "pattern": [
-            55,
-            60
+            95,
+            100
           ],
           "event_id": "E5"
-        },
-        {
-          "pattern": [
-            65,
-            70
-          ],
-          "event_id": "E6"
         },
         {
           "pattern": [
@@ -2546,66 +3056,18 @@
         },
         {
           "pattern": [
-            95,
-            100
-          ],
-          "event_id": "E9"
-        },
-        {
-          "pattern": [
-            35,
-            40
-          ],
-          "event_id": "E3"
-        },
-        {
-          "pattern": [
-            15,
-            20
-          ],
-          "event_id": "E1"
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
-          "event_id": "E4"
-        },
-        {
-          "pattern": [
-            135,
-            140
-          ],
-          "event_id": "E15"
-        },
-        {
-          "pattern": [
-            185,
-            190
+            117,
+            165,
+            170
           ],
           "event_id": "E18"
         },
         {
           "pattern": [
-            115,
-            120
+            95,
+            145
           ],
-          "event_id": "E11"
-        },
-        {
-          "pattern": [
-            75,
-            80
-          ],
-          "event_id": "E7"
-        },
-        {
-          "pattern": [
-            45,
-            50
-          ],
-          "event_id": "E6"
+          "event_id": "E1"
         },
         {
           "pattern": [
@@ -2616,94 +3078,26 @@
         },
         {
           "pattern": [
-            125,
-            130
-          ],
-          "event_id": "E12"
-        },
-        {
-          "pattern": [
-            5,
-            85
-          ],
-          "event_id": "E15"
-        },
-        {
-          "pattern": [
-            25,
-            30
-          ],
-          "event_id": "E4"
-        },
-        {
-          "pattern": [
             5,
             10
-          ],
-          "event_id": "E2"
-        },
-        {
-          "pattern": [
-            195,
-            200
-          ],
-          "event_id": "E3"
-        },
-        {
-          "pattern": [
-            145,
-            150
-          ],
-          "event_id": "E16"
-        },
-        {
-          "pattern": [
-            10,
-            85
-          ],
-          "event_id": "E6"
-        },
-        {
-          "pattern": [
-            195,
-            200
-          ],
-          "event_id": "E2"
-        },
-        {
-          "pattern": [
-            35,
-            40
           ],
           "event_id": "E5"
         },
         {
           "pattern": [
-            65,
-            195
+            5,
+            10,
+            65
           ],
-          "event_id": "E20"
+          "event_id": "E2"
         },
         {
           "pattern": [
-            155,
-            160
+            85,
+            90,
+            175
           ],
-          "event_id": "E15"
-        },
-        {
-          "pattern": [
-            95,
-            100
-          ],
-          "event_id": "E6"
-        },
-        {
-          "pattern": [
-            165,
-            170
-          ],
-          "event_id": "E16"
+          "event_id": "E10"
         },
         {
           "pattern": [
@@ -2714,45 +3108,39 @@
         },
         {
           "pattern": [
-            85,
-            90
+            168,
+            185,
+            190
+          ],
+          "event_id": "E18"
+        },
+        {
+          "pattern": [
+            195,
+            200
+          ],
+          "event_id": "E3"
+        },
+        {
+          "pattern": [
+            65,
+            70
           ],
           "event_id": "E8"
         },
         {
           "pattern": [
-            45,
-            50
+            195,
+            200
           ],
-          "event_id": "E4"
-        },
-        {
-          "pattern": [
-            95,
-            100
-          ],
-          "event_id": "E5"
+          "event_id": "E2"
         },
         {
           "pattern": [
             55,
             60
           ],
-          "event_id": "E7"
-        },
-        {
-          "pattern": [
-            5,
-            10
-          ],
           "event_id": "E5"
-        },
-        {
-          "pattern": [
-            15,
-            20
-          ],
-          "event_id": "E3"
         },
         {
           "pattern": [
@@ -2763,17 +3151,159 @@
         },
         {
           "pattern": [
-            125,
-            130
+            25,
+            30,
+            135
           ],
-          "event_id": "E14"
+          "event_id": "E2"
+        },
+        {
+          "pattern": [
+            25,
+            30
+          ],
+          "event_id": "E4"
         },
         {
           "pattern": [
             65,
             70
           ],
+          "event_id": "E6"
+        },
+        {
+          "pattern": [
+            90,
+            95,
+            100
+          ],
+          "event_id": "E9"
+        },
+        {
+          "pattern": [
+            145,
+            150
+          ],
+          "event_id": "E16"
+        },
+        {
+          "pattern": [
+            165,
+            175,
+            180
+          ],
+          "event_id": "E19"
+        },
+        {
+          "pattern": [
+            75,
+            80,
+            115
+          ],
+          "event_id": "E7"
+        },
+        {
+          "pattern": [
+            95,
+            145,
+            150
+          ],
+          "event_id": "E14"
+        },
+        {
+          "pattern": [
+            85,
+            90,
+            175
+          ],
           "event_id": "E8"
+        },
+        {
+          "pattern": [
+            135,
+            140
+          ],
+          "event_id": "E15"
+        },
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "event_id": "E3"
+        },
+        {
+          "pattern": [
+            165,
+            170
+          ],
+          "event_id": "E16"
+        },
+        {
+          "pattern": [
+            70,
+            115,
+            120
+          ],
+          "event_id": "E13"
+        },
+        {
+          "pattern": [
+            45,
+            50
+          ],
+          "event_id": "E6"
+        },
+        {
+          "pattern": [
+            115,
+            120
+          ],
+          "event_id": "E11"
+        },
+        {
+          "pattern": [
+            5,
+            85
+          ],
+          "event_id": "E15"
+        },
+        {
+          "pattern": [
+            110,
+            125,
+            130
+          ],
+          "event_id": "E12"
+        },
+        {
+          "pattern": [
+            168,
+            185,
+            190
+          ],
+          "event_id": "E20"
+        },
+        {
+          "pattern": [
+            45,
+            50
+          ],
+          "event_id": "E4"
+        },
+        {
+          "pattern": [
+            15,
+            20
+          ],
+          "event_id": "E1"
+        },
+        {
+          "pattern": [
+            10,
+            85
+          ],
+          "event_id": "E6"
         },
         {
           "pattern": [
@@ -2784,6 +3314,43 @@
         },
         {
           "pattern": [
+            35,
+            40
+          ],
+          "event_id": "E3"
+        },
+        {
+          "pattern": [
+            35,
+            40
+          ],
+          "event_id": "E5"
+        },
+        {
+          "pattern": [
+            50,
+            135,
+            140
+          ],
+          "event_id": "E13"
+        },
+        {
+          "pattern": [
+            75,
+            80,
+            145
+          ],
+          "event_id": "E9"
+        },
+        {
+          "pattern": [
+            155,
+            160
+          ],
+          "event_id": "E15"
+        },
+        {
+          "pattern": [
             10,
             65
           ],
@@ -2791,70 +3358,28 @@
         },
         {
           "pattern": [
-            195,
-            200
-          ],
-          "event_id": "E19"
-        },
-        {
-          "pattern": [
-            115,
-            120
-          ],
-          "event_id": "E13"
-        }
-      ],
-      "false_negative_pairs": [
-        {
-          "pattern": [
-            175,
-            180
-          ],
-          "event_id": "E18"
-        },
-        {
-          "pattern": [
-            75,
-            80
-          ],
-          "event_id": "E8"
-        },
-        {
-          "pattern": [
-            85,
-            90
-          ],
-          "event_id": "E9"
-        },
-        {
-          "pattern": [
-            185,
-            190
-          ],
-          "event_id": "E19"
-        },
-        {
-          "pattern": [
-            195,
-            200
-          ],
-          "event_id": "E20"
-        },
-        {
-          "pattern": [
             65,
-            70
+            195,
+            200
           ],
-          "event_id": "E7"
+          "event_id": "E19"
         },
         {
           "pattern": [
-            115,
-            120
+            95,
+            100
           ],
-          "event_id": "E12"
+          "event_id": "E6"
+        },
+        {
+          "pattern": [
+            125,
+            130
+          ],
+          "event_id": "E14"
         }
       ],
+      "false_negative_pairs": [],
       "false_attribution_rate": 0.0,
       "n_falsely_attributed": 0
     }

@@ -69,7 +69,7 @@ def sweep_n_transactions():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2, config=attr_config,
+            window_size=50, min_support=3, max_length=100, config=attr_config,
         )
         print(f"  N={n:>8,d}: total={result.time_total_ms:>8.0f}ms "
               f"(phase1={result.time_phase1_ms:.0f} "
@@ -118,7 +118,7 @@ def sweep_n_events():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2, config=attr_config,
+            window_size=50, min_support=3, max_length=100, config=attr_config,
         )
         print(f"  |E|={n_events:>2d}: total={result.time_total_ms:>6.0f}ms "
               f"attr={result.time_attribution_ms:.0f}ms F1={result.f1:.2f}")

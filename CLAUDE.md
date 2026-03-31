@@ -91,7 +91,7 @@ apriori_window/
 
 ## 2. Working Principles
 
-- **Python → Rust の二段構成を守る**: 機能追加は必ず Python プロトタイプで検証してから Rust に移植する
+- **Rust ファースト**: 機能追加は最初から Rust で直接実装してよい（Python プロトタイプを経由する必要はない）
 - **テストを壊さない**: 変更前後で `cargo test` と `pytest` が全 passed であること
 - **最小差分の原則**: 要求された変更のみ行い、関係のないコードには触れない
 - **impl_log.md を更新する**: 実装完了後は `apriori_window_suite/doc/impl_log.md` に追記する

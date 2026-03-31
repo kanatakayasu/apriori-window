@@ -5,6 +5,7 @@
 
 pub mod apriori;
 pub mod basket;
+pub mod correlator;
 pub mod interval;
 pub mod io;
 pub mod util;
@@ -14,6 +15,9 @@ pub use basket::{basket_ids_to_transaction_ids, compute_item_basket_map};
 pub use interval::{
     compute_dense_intervals, compute_dense_intervals_with_candidates, find_covering_interval,
     insert_and_merge_interval, is_interval_covered,
+};
+pub use correlator::{
+    run_attribution_pipeline, AttributionConfig, ChangePoint, SignificantAttribution,
 };
 pub use io::{read_events, read_transactions_with_baskets, write_patterns_csv, Event};
 pub use util::{intersect_interval_lists, intersect_sorted_lists, lower_bound, upper_bound};

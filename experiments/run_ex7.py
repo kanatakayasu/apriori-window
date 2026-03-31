@@ -59,7 +59,7 @@ def _run_method(method_name, method_cfg, info, seed):
         )
         return run_naive_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2,
+            window_size=50, min_support=3, max_length=100,
             config=config,
             unrelated_path=info.get("unrelated_path"),
         )
@@ -75,7 +75,7 @@ def _run_method(method_name, method_cfg, info, seed):
         )
         return run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2,
+            window_size=50, min_support=3, max_length=100,
             config=config,
             unrelated_path=info.get("unrelated_path"),
         )

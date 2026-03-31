@@ -92,6 +92,8 @@ class AttributionConfig:
     deduplicate_overlap: bool = False  # アイテム重複パターンの重複排除
     # Ablation
     ablation_mode: Optional[str] = None  # スコア構成要素アブレーション
+    # Pattern length filter
+    min_pattern_length: int = 2  # パイプライン処理対象の最小パターン長 (1で単一アイテムも処理)
 
 
 # ---------------------------------------------------------------------------
@@ -684,7 +686,7 @@ def run_attribution_pipeline(
     all_results: List[SignificantAttribution] = []
 
     for pattern, series in support_series_map.items():
-        if len(pattern) <= 1:
+        if len(pattern) < config.min_pattern_length:
             continue
         if not series:
             continue
@@ -772,7 +774,7 @@ def _run_pipeline_global(
     all_raw: List[_RawTestResult] = []
 
     for pattern, series in support_series_map.items():
-        if len(pattern) <= 1:
+        if len(pattern) < config.min_pattern_length:
             continue
         if not series:
             continue
@@ -881,7 +883,7 @@ def run_attribution_pipeline_v2(
     all_results: List[SignificantAttribution] = []
 
     for pattern, intervals in frequents.items():
-        if len(pattern) <= 1:
+        if len(pattern) < config.min_pattern_length:
             continue
         if not intervals:
             continue
@@ -926,7 +928,7 @@ def _run_pipeline_global_v2(
     all_raw: List[_RawTestResult] = []
 
     for pattern, intervals in frequents.items():
-        if len(pattern) <= 1:
+        if len(pattern) < config.min_pattern_length:
             continue
         if not intervals:
             continue
@@ -1023,10 +1025,16 @@ def _deduplicate_by_item_overlap(
     同一イベントに帰属されたパターンのうち、アイテムが重複するものを
     Union-Find でクラスタリングし、各クラスタから最高スコアのパターンのみ残す。
 
-    目的: 植え込みアイテムを1つ含む副次パターン (e.g. [78, 1001]) を除去し、
-    本来のパターン (e.g. [1001, 1002]) のみを残す。
+    Phase 1: 長さ l のパターン同士は、共有アイテム数 >= ceil(l/2) のとき辺を張る。
+    |P| = 2: ceil(2/2) = 1（1アイテム共有で結合 = 従来と同一）
+    |P| = 3: ceil(3/2) = 2（2アイテム以上共有で結合 = 過剰統合を回避）
+
+    Phase 2: 異なる長さのパターン間で部分集合関係がある場合（A ⊂ B）、
+    同一イベントへの帰属であればクラスタリングし最高スコアを残す。
+    これにより、植え込みパターンの上位集合が偽陽性として残るのを防ぐ。
     """
     from collections import defaultdict
+    import math
 
     by_event: Dict[str, List[SignificantAttribution]] = defaultdict(list)
     for r in results:
@@ -1035,46 +1043,93 @@ def _deduplicate_by_item_overlap(
     deduplicated: List[SignificantAttribution] = []
 
     for event_name, event_results in by_event.items():
+        # Group by pattern length for length-stratified dedup
+        by_length: Dict[int, List[SignificantAttribution]] = defaultdict(list)
+        for r in event_results:
+            by_length[len(r.pattern)].append(r)
+
+        for l, length_results in by_length.items():
+            n = len(length_results)
+            if n <= 1:
+                deduplicated.extend(length_results)
+                continue
+
+            # Union-Find
+            parent = list(range(n))
+
+            def find(x: int) -> int:
+                while parent[x] != x:
+                    parent[x] = parent[parent[x]]
+                    x = parent[x]
+                return x
+
+            def union(a: int, b: int) -> None:
+                ra, rb = find(a), find(b)
+                if ra != rb:
+                    parent[ra] = rb
+
+            # Majority sharing threshold
+            threshold = math.ceil(l / 2)
+
+            # Pairwise comparison for shared items
+            for i in range(n):
+                set_i = set(length_results[i].pattern)
+                for j in range(i + 1, n):
+                    set_j = set(length_results[j].pattern)
+                    shared = len(set_i & set_j)
+                    if shared >= threshold:
+                        union(i, j)
+
+            # Select best per cluster
+            clusters: Dict[int, List[SignificantAttribution]] = defaultdict(list)
+            for i in range(n):
+                clusters[find(i)].append(length_results[i])
+
+            for cluster in clusters.values():
+                best = max(cluster, key=lambda r: r.attribution_score)
+                deduplicated.append(best)
+
+    # Phase 2: Cross-length subset dedup
+    # If pattern A ⊂ pattern B (same event), merge and keep highest score
+    final: List[SignificantAttribution] = []
+    by_event2: Dict[str, List[SignificantAttribution]] = defaultdict(list)
+    for r in deduplicated:
+        by_event2[r.event_name].append(r)
+
+    for event_name, event_results in by_event2.items():
         n = len(event_results)
         if n <= 1:
-            deduplicated.extend(event_results)
+            final.extend(event_results)
             continue
 
-        # Union-Find
         parent = list(range(n))
 
-        def find(x: int) -> int:
+        def find2(x: int) -> int:
             while parent[x] != x:
                 parent[x] = parent[parent[x]]
                 x = parent[x]
             return x
 
-        def union(a: int, b: int) -> None:
-            ra, rb = find(a), find(b)
+        def union2(a: int, b: int) -> None:
+            ra, rb = find2(a), find2(b)
             if ra != rb:
                 parent[ra] = rb
 
-        # アイテム → パターン index のマップ
-        item_to_indices: Dict[int, List[int]] = defaultdict(list)
-        for i, r in enumerate(event_results):
-            for item in r.pattern:
-                item_to_indices[item].append(i)
-
-        # 同一アイテムを共有するパターンを結合
-        for indices in item_to_indices.values():
-            for j in range(1, len(indices)):
-                union(indices[0], indices[j])
-
-        # クラスタごとに最高スコアを選択
-        clusters: Dict[int, List[SignificantAttribution]] = defaultdict(list)
+        sets = [set(r.pattern) for r in event_results]
         for i in range(n):
-            clusters[find(i)].append(event_results[i])
+            for j in range(i + 1, n):
+                if sets[i] <= sets[j] or sets[j] <= sets[i]:
+                    union2(i, j)
 
-        for cluster in clusters.values():
+        clusters2: Dict[int, List[SignificantAttribution]] = defaultdict(list)
+        for i in range(n):
+            clusters2[find2(i)].append(event_results[i])
+
+        for cluster in clusters2.values():
             best = max(cluster, key=lambda r: r.attribution_score)
-            deduplicated.append(best)
+            final.append(best)
 
-    return deduplicated
+    return final
 
 
 def _raw_to_significant(r: _RawTestResult, adj_p: float) -> SignificantAttribution:

@@ -205,7 +205,9 @@ def run_naive_experiment(
     seen_pairs = set()  # deduplicate (pattern, event_name) pairs
 
     for pattern, intervals in frequents.items():
-        if len(pattern) <= 1 or not intervals:
+        if len(pattern) < config.min_pattern_length:
+            continue
+        if not intervals:
             continue
 
         timestamps = _get_pattern_timestamps(pattern, item_transaction_map)

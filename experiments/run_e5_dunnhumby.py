@@ -55,7 +55,7 @@ class E5Result:
     campaign_summary: List[Dict]
 
 
-def run_e5(window_size: int = 300, min_support: int = 5, max_length: int = 2):
+def run_e5(window_size: int = 300, min_support: int = 5, max_length: int = 100):
     """Run Dunnhumby real campaign attribution."""
     txn_path = str(DATA_DIR / "transactions.txt")
     events_path = str(DATA_DIR / "events.json")

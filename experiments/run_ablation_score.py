@@ -89,7 +89,7 @@ def run_ablation():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=3, max_length=100,
                 config=attr_config,
             )
             print(f"  seed={seed}: P={result.precision:.2f} R={result.recall:.2f} "

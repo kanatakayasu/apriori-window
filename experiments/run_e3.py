@@ -58,7 +58,7 @@ def sweep_n_transactions():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2, config=attr_config,
+            window_size=50, min_support=3, max_length=100, config=attr_config,
         )
         print(f"  N={n}: total={result.time_total_ms:.0f}ms "
               f"(phase1={result.time_phase1_ms:.0f} "
@@ -102,7 +102,7 @@ def sweep_n_events():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2, config=attr_config,
+            window_size=50, min_support=3, max_length=100, config=attr_config,
         )
         print(f"  n_events={n_events}: total={result.time_total_ms:.0f}ms "
               f"attr={result.time_attribution_ms:.0f}ms "
@@ -135,7 +135,7 @@ def sweep_n_permutations():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2, config=attr_config,
+            window_size=50, min_support=3, max_length=100, config=attr_config,
         )
         print(f"  n_perm={n_perm}: attr={result.time_attribution_ms:.0f}ms "
               f"total={result.time_total_ms:.0f}ms")

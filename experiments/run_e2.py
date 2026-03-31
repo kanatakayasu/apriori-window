@@ -64,7 +64,7 @@ def sweep_window_size():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=ws, min_support=3, max_length=2, config=attr_config,
+                window_size=ws, min_support=3, max_length=100, config=attr_config,
             )
             seed_results.append(asdict(result))
 
@@ -94,7 +94,7 @@ def sweep_sigma():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2, config=attr_config,
+                window_size=50, min_support=3, max_length=100, config=attr_config,
             )
             seed_results.append(asdict(result))
 
@@ -121,7 +121,7 @@ def sweep_n_permutations():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2, config=attr_config,
+                window_size=50, min_support=3, max_length=100, config=attr_config,
             )
             seed_results.append(asdict(result))
 
@@ -150,7 +150,7 @@ def sweep_alpha():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2, config=attr_config,
+                window_size=50, min_support=3, max_length=100, config=attr_config,
             )
             seed_results.append(asdict(result))
 
@@ -180,7 +180,7 @@ def sweep_change_method():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2, config=attr_config,
+                window_size=50, min_support=3, max_length=100, config=attr_config,
             )
             seed_results.append(asdict(result))
 

@@ -71,7 +71,7 @@ def sweep_window_size():
             attr_config = _base_attr_config(seed)
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=ws, min_support=3, max_length=2,
+                window_size=ws, min_support=3, max_length=100,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )
@@ -96,7 +96,7 @@ def sweep_alpha():
             attr_config.alpha = alpha
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=3, max_length=100,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )
@@ -121,7 +121,7 @@ def sweep_n_permutations():
             attr_config.n_permutations = n_perm
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=3, max_length=100,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )
@@ -146,7 +146,7 @@ def sweep_change_method():
             attr_config.change_method = method
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=3, max_length=100,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )

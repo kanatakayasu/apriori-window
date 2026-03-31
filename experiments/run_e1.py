@@ -66,7 +66,7 @@ def run_e1a():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2,
+            window_size=50, min_support=3, max_length=100,
             config=attr_config,
         )
         print(f"  seed={seed}: P={result.precision:.2f} R={result.recall:.2f} "
@@ -117,7 +117,7 @@ def run_e1b():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=2,
+                window_size=50, min_support=3, max_length=100,
                 config=attr_config,
             )
             seed_results.append(asdict(result))
@@ -168,7 +168,7 @@ def run_e1c():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=2,
+            window_size=50, min_support=3, max_length=100,
             config=attr_config,
         )
         print(f"  seed={seed}: P={result.precision:.2f} R={result.recall:.2f} "
@@ -221,7 +221,7 @@ def run_e1d():
                 )
                 result = run_single_experiment(
                     info["txn_path"], info["events_path"], info["gt_path"],
-                    window_size=50, min_support=3, max_length=2, config=attr_config,
+                    window_size=50, min_support=3, max_length=100, config=attr_config,
                 )
                 seed_results.append(asdict(result))
 

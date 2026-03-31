@@ -445,14 +445,19 @@ class TestRunAttributionPipeline:
         results = run_attribution_pipeline({}, {}, events, 3, 2)
         assert results == []
 
-    def test_skips_single_item_patterns(self):
+    def test_processes_single_item_patterns(self):
+        """Single-item patterns (|P|=1) are processed when min_pattern_length=1."""
         frequents = {(1,): [(0, 5)]}
         support_map = {(1,): [3, 3, 3, 3, 3]}
         events = [Event("E1", "test", 0, 2)]
+        config = AttributionConfig(min_pattern_length=1)
         results = run_attribution_pipeline(
-            frequents, support_map, events, 3, 2
+            frequents, support_map, events, 3, 2, config=config
         )
-        assert results == []
+        # With constant support [3,3,3,3,3] and threshold=3,
+        # threshold crossing at t=0 (up) is detected, producing a result.
+        assert len(results) >= 1
+        assert results[0].pattern == (1,)
 
     def test_no_change_points_yields_empty(self):
         # Constant support → no threshold crossings

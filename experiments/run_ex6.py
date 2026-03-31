@@ -74,7 +74,7 @@ def run_ex6():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=5, max_length=2,
+                window_size=50, min_support=5, max_length=100,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )

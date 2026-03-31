@@ -285,7 +285,7 @@ def run_dataset(
         info["gt_path"],
         window_size=window_size,
         min_support=min_support,
-        max_length=2,
+        max_length=100,
         config=attr_config,
     )
     print(f"  P={result.precision:.2f} R={result.recall:.2f} F1={result.f1:.2f}")
@@ -324,7 +324,7 @@ def run_dataset_new_items(
     attr_config = _make_attr_config()
     result = run_single_experiment(
         info["txn_path"], info["events_path"], info["gt_path"],
-        window_size=window_size, min_support=min_support, max_length=2,
+        window_size=window_size, min_support=min_support, max_length=100,
         config=attr_config,
     )
     print(f"  P={result.precision:.2f} R={result.recall:.2f} F1={result.f1:.2f}")

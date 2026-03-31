@@ -1,7 +1,7 @@
 {
   "n_seeds": 20,
   "alpha": 0.1,
-  "avg_n_patterns": 86.55,
+  "avg_n_patterns": 86.65,
   "avg_n_significant": 0.0,
   "max_n_significant": 0,
   "n_seeds_zero_significant": 20,
@@ -44,7 +44,7 @@
     },
     {
       "seed": 6,
-      "n_patterns": 87,
+      "n_patterns": 88,
       "n_significant": 0,
       "fp": 0
     },
@@ -56,7 +56,7 @@
     },
     {
       "seed": 8,
-      "n_patterns": 83,
+      "n_patterns": 84,
       "n_significant": 0,
       "fp": 0
     },

@@ -7,7 +7,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -18,7 +18,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 356,
+          "n_patterns": 486,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -27,10 +27,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 863.1084589869715,
+          "time_phase1_ms": 923.8879589829594,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 86.69716602889821,
-          "time_total_ms": 949.8056250158697,
+          "time_attribution_ms": 128.94016603240743,
+          "time_total_ms": 1052.8281250153668,
           "significant_attributions": [
             {
               "pattern": [
@@ -46,7 +46,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 7.448295443593761,
               "p_value": 0.0065986802639472104,
-              "adjusted_p_value": 0.01979604079184163
+              "adjusted_p_value": 0.026394721055788842
             }
           ],
           "true_positive_pairs": [
@@ -67,7 +67,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -78,7 +78,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 338,
+          "n_patterns": 446,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -87,10 +87,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 839.3405419774354,
+          "time_phase1_ms": 898.3847909839824,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 100.72412498993799,
-          "time_total_ms": 940.0646669673733,
+          "time_attribution_ms": 149.5114589924924,
+          "time_total_ms": 1047.8962499764748,
           "significant_attributions": [
             {
               "pattern": [
@@ -106,7 +106,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 9.331629413129491,
               "p_value": 0.0061987602479504095,
-              "adjusted_p_value": 0.030993801239752046
+              "adjusted_p_value": 0.04339132173565287
             }
           ],
           "true_positive_pairs": [
@@ -127,7 +127,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -138,7 +138,7 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 355,
+          "n_patterns": 473,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -147,10 +147,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 842.6507499534637,
+          "time_phase1_ms": 906.3685419969261,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 45.83845799788833,
-          "time_total_ms": 888.489207951352,
+          "time_attribution_ms": 67.72395799634978,
+          "time_total_ms": 974.0924999932759,
           "significant_attributions": [
             {
               "pattern": [
@@ -187,7 +187,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -198,7 +198,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 330,
+          "n_patterns": 448,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -207,10 +207,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 834.6105410018936,
+          "time_phase1_ms": 897.9058340191841,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 127.09312496008351,
-          "time_total_ms": 961.7036659619771,
+          "time_attribution_ms": 188.8969579595141,
+          "time_total_ms": 1086.8027919786982,
           "significant_attributions": [
             {
               "pattern": [
@@ -226,7 +226,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 9.201477535255643,
               "p_value": 0.0001999600079984003,
-              "adjusted_p_value": 0.0011997600479904018
+              "adjusted_p_value": 0.0017996400719856027
             }
           ],
           "true_positive_pairs": [
@@ -247,7 +247,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -258,7 +258,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 359,
+          "n_patterns": 471,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -267,10 +267,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 846.4595419936813,
+          "time_phase1_ms": 943.0545829818584,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 93.67291699163616,
-          "time_total_ms": 940.1324589853175,
+          "time_attribution_ms": 126.64612499065697,
+          "time_total_ms": 1069.7007079725154,
           "significant_attributions": [
             {
               "pattern": [
@@ -286,7 +286,7 @@
               "proximity": 0.9417645335842487,
               "attribution_score": 8.556525567779204,
               "p_value": 0.009198160367926415,
-              "adjusted_p_value": 0.03679264147170566
+              "adjusted_p_value": 0.04599080183963208
             }
           ],
           "true_positive_pairs": [
@@ -316,7 +316,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -327,7 +327,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 356,
+          "n_patterns": 486,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -336,10 +336,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 845.2293330337852,
+          "time_phase1_ms": 913.7510419823229,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 170.3434999799356,
-          "time_total_ms": 1015.5728330137208,
+          "time_attribution_ms": 247.6179160294123,
+          "time_total_ms": 1161.3689580117352,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -359,7 +359,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -370,7 +370,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 338,
+          "n_patterns": 446,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -379,10 +379,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 842.5237500341609,
+          "time_phase1_ms": 895.9223750280216,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 223.66591601166874,
-          "time_total_ms": 1066.1896660458297,
+          "time_attribution_ms": 260.5215419898741,
+          "time_total_ms": 1156.4439170178957,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -402,7 +402,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -413,7 +413,7 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 355,
+          "n_patterns": 473,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -422,10 +422,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 851.4519589953125,
+          "time_phase1_ms": 929.6420000027865,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 134.2345830053091,
-          "time_total_ms": 985.6865420006216,
+          "time_attribution_ms": 196.68737496249378,
+          "time_total_ms": 1126.3293749652803,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -445,7 +445,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -456,7 +456,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 330,
+          "n_patterns": 448,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -465,10 +465,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 841.5292089921422,
+          "time_phase1_ms": 895.8885410102084,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 172.1728330012411,
-          "time_total_ms": 1013.7020419933833,
+          "time_attribution_ms": 255.73958398308605,
+          "time_total_ms": 1151.6281249932945,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -488,7 +488,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -499,7 +499,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 359,
+          "n_patterns": 471,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -508,10 +508,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 854.2499170289375,
+          "time_phase1_ms": 914.0516669722274,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 155.5284169735387,
-          "time_total_ms": 1009.7783340024762,
+          "time_attribution_ms": 197.09558301838115,
+          "time_total_ms": 1111.1472499906085,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -540,7 +540,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -551,7 +551,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 356,
+          "n_patterns": 486,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 0.0,
@@ -560,10 +560,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 854.2401249869727,
+          "time_phase1_ms": 912.0367089635693,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 83.0696250195615,
-          "time_total_ms": 937.3097500065342,
+          "time_attribution_ms": 122.99862504005432,
+          "time_total_ms": 1035.0353340036236,
           "significant_attributions": [
             {
               "pattern": [
@@ -579,7 +579,7 @@
               "proximity": 0.5827482523739896,
               "attribution_score": 2.6809826544232487,
               "p_value": 0.033193361327734455,
-              "adjusted_p_value": 0.04979004199160168
+              "adjusted_p_value": 0.04425781510364594
             }
           ],
           "true_positive_pairs": [],
@@ -608,7 +608,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -619,7 +619,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 338,
+          "n_patterns": 446,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -628,10 +628,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 870.2413749997504,
+          "time_phase1_ms": 893.3497089892626,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 63.046000024769455,
-          "time_total_ms": 933.2873750245199,
+          "time_attribution_ms": 90.27620800770819,
+          "time_total_ms": 983.6259169969708,
           "significant_attributions": [
             {
               "pattern": [
@@ -647,7 +647,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 1.4970500077984545,
               "p_value": 0.001799640071985603,
-              "adjusted_p_value": 0.005398920215956809
+              "adjusted_p_value": 0.007198560287942412
             }
           ],
           "true_positive_pairs": [
@@ -668,7 +668,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -679,7 +679,7 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 355,
+          "n_patterns": 473,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -688,10 +688,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 852.6460000430234,
+          "time_phase1_ms": 904.1607080143876,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 43.91329095233232,
-          "time_total_ms": 896.5592909953557,
+          "time_attribution_ms": 65.96679199719802,
+          "time_total_ms": 970.1275000115857,
           "significant_attributions": [
             {
               "pattern": [
@@ -728,7 +728,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -739,7 +739,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 330,
+          "n_patterns": 448,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -748,10 +748,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 837.9447080078535,
+          "time_phase1_ms": 894.9643339728937,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 118.55458404170349,
-          "time_total_ms": 956.499292049557,
+          "time_attribution_ms": 180.67229102598503,
+          "time_total_ms": 1075.6366249988787,
           "significant_attributions": [
             {
               "pattern": [
@@ -767,7 +767,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 1.411909196735835,
               "p_value": 0.0013997200559888023,
-              "adjusted_p_value": 0.008398320335932814
+              "adjusted_p_value": 0.01259748050389922
             }
           ],
           "true_positive_pairs": [
@@ -788,7 +788,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -799,7 +799,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 359,
+          "n_patterns": 471,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -808,10 +808,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 895.078333967831,
+          "time_phase1_ms": 922.1753750462085,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 89.85829103039578,
-          "time_total_ms": 984.9366249982268,
+          "time_attribution_ms": 121.54379195999354,
+          "time_total_ms": 1043.719167006202,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -842,7 +842,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -853,7 +853,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 328,
+          "n_patterns": 443,
           "n_change_points_total": 0,
           "n_significant": 2,
           "precision": 1.0,
@@ -862,10 +862,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 873.2252089539543,
+          "time_phase1_ms": 905.0163750071079,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 237.3024999978952,
-          "time_total_ms": 1110.5277089518495,
+          "time_attribution_ms": 288.2374170003459,
+          "time_total_ms": 1193.2537920074537,
           "significant_attributions": [
             {
               "pattern": [
@@ -881,7 +881,7 @@
               "proximity": 0.9607894391523232,
               "attribution_score": 8.525524380674108,
               "p_value": 0.00639872025594881,
-              "adjusted_p_value": 0.033593281343731254
+              "adjusted_p_value": 0.03266013463973872
             },
             {
               "pattern": [
@@ -897,7 +897,7 @@
               "proximity": 0.8693582353988059,
               "attribution_score": 6.019468355252775,
               "p_value": 0.027994401119776045,
-              "adjusted_p_value": 0.033593281343731254
+              "adjusted_p_value": 0.03266013463973872
             }
           ],
           "true_positive_pairs": [
@@ -925,7 +925,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -936,7 +936,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 319,
+          "n_patterns": 406,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -945,10 +945,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 841.503375035245,
+          "time_phase1_ms": 892.2684169956483,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 165.40183394681662,
-          "time_total_ms": 1006.9052089820616,
+          "time_attribution_ms": 211.0124999890104,
+          "time_total_ms": 1103.2809169846587,
           "significant_attributions": [
             {
               "pattern": [
@@ -964,7 +964,7 @@
               "proximity": 0.9607894391523232,
               "attribution_score": 9.086354930395212,
               "p_value": 0.004599080183963208,
-              "adjusted_p_value": 0.03679264147170566
+              "adjusted_p_value": 0.04599080183963208
             }
           ],
           "true_positive_pairs": [
@@ -993,7 +993,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1004,7 +1004,7 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 337,
+          "n_patterns": 443,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -1013,10 +1013,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 857.309749990236,
+          "time_phase1_ms": 900.7129999808967,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 246.0731250466779,
-          "time_total_ms": 1103.382875036914,
+          "time_attribution_ms": 348.49945799214765,
+          "time_total_ms": 1249.2124579730444,
           "significant_attributions": [
             {
               "pattern": [
@@ -1032,7 +1032,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 7.155954598186721,
               "p_value": 0.0057988402319536095,
-              "adjusted_p_value": 0.06958608278344332
+              "adjusted_p_value": 0.09858028394321136
             }
           ],
           "true_positive_pairs": [
@@ -1061,7 +1061,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1072,7 +1072,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 279,
+          "n_patterns": 363,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 1.0,
@@ -1081,10 +1081,10 @@
           "tp": 1,
           "fp": 0,
           "fn": 1,
-          "time_phase1_ms": 836.7909590015188,
+          "time_phase1_ms": 877.5745829916559,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 199.8565829708241,
-          "time_total_ms": 1036.6475419723429,
+          "time_attribution_ms": 279.48320802534,
+          "time_total_ms": 1157.057791016996,
           "significant_attributions": [
             {
               "pattern": [
@@ -1100,7 +1100,7 @@
               "proximity": 0.9231163463866358,
               "attribution_score": 11.642467590140683,
               "p_value": 0.0021995600879824036,
-              "adjusted_p_value": 0.01759648070385923
+              "adjusted_p_value": 0.02419516096780644
             }
           ],
           "true_positive_pairs": [
@@ -1129,7 +1129,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1140,7 +1140,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 351,
+          "n_patterns": 465,
           "n_change_points_total": 0,
           "n_significant": 2,
           "precision": 1.0,
@@ -1149,10 +1149,10 @@
           "tp": 2,
           "fp": 0,
           "fn": 0,
-          "time_phase1_ms": 848.786290967837,
+          "time_phase1_ms": 911.4687499823049,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 147.80754200182855,
-          "time_total_ms": 996.5938329696655,
+          "time_attribution_ms": 192.54925003042445,
+          "time_total_ms": 1104.0180000127293,
           "significant_attributions": [
             {
               "pattern": [
@@ -1168,7 +1168,7 @@
               "proximity": 0.8869204367171575,
               "attribution_score": 10.062380868672289,
               "p_value": 0.011197760447910418,
-              "adjusted_p_value": 0.04479104179164167
+              "adjusted_p_value": 0.05598880223955209
             },
             {
               "pattern": [
@@ -1221,7 +1221,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1232,7 +1232,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 328,
+          "n_patterns": 443,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1241,10 +1241,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 850.505415990483,
+          "time_phase1_ms": 906.1992079950869,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 456.20595902437344,
-          "time_total_ms": 1306.7113750148565,
+          "time_attribution_ms": 544.1589580150321,
+          "time_total_ms": 1450.358166010119,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1271,7 +1271,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1282,7 +1282,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 319,
+          "n_patterns": 406,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1291,10 +1291,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 896.1748330038972,
+          "time_phase1_ms": 889.0625830390491,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 315.70758298039436,
-          "time_total_ms": 1211.8824159842916,
+          "time_attribution_ms": 400.3901669639163,
+          "time_total_ms": 1289.4527500029653,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1321,7 +1321,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1332,7 +1332,7 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 337,
+          "n_patterns": 443,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1341,10 +1341,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 875.4206249723211,
+          "time_phase1_ms": 902.1232909872197,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 360.5481249978766,
-          "time_total_ms": 1235.9687499701977,
+          "time_attribution_ms": 490.57058396283537,
+          "time_total_ms": 1392.693874950055,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1371,7 +1371,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1382,7 +1382,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 279,
+          "n_patterns": 363,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1391,10 +1391,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 854.4745410326868,
+          "time_phase1_ms": 881.4868339686655,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 296.81395896477625,
-          "time_total_ms": 1151.288499997463,
+          "time_attribution_ms": 402.5782499811612,
+          "time_total_ms": 1284.0650839498267,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1421,7 +1421,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1432,7 +1432,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 351,
+          "n_patterns": 465,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1441,10 +1441,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 884.0793329873122,
+          "time_phase1_ms": 911.8326669558883,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 230.12279201066121,
-          "time_total_ms": 1114.2021249979734,
+          "time_attribution_ms": 278.16637500654906,
+          "time_total_ms": 1189.9990419624373,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1480,7 +1480,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1491,7 +1491,7 @@
             "seed": 0
           },
           "n_transactions": 5000,
-          "n_patterns": 328,
+          "n_patterns": 443,
           "n_change_points_total": 0,
           "n_significant": 2,
           "precision": 0.5,
@@ -1500,10 +1500,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 870.583624986466,
+          "time_phase1_ms": 906.7369159893133,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 220.13812500517815,
-          "time_total_ms": 1090.7217499916442,
+          "time_attribution_ms": 266.5007089963183,
+          "time_total_ms": 1173.2376249856316,
           "significant_attributions": [
             {
               "pattern": [
@@ -1519,7 +1519,7 @@
               "proximity": 0.8693582353988059,
               "attribution_score": 2.347203627137244,
               "p_value": 0.01859628074385123,
-              "adjusted_p_value": 0.0635872825434913
+              "adjusted_p_value": 0.07418516296740653
             },
             {
               "pattern": [
@@ -1535,7 +1535,7 @@
               "proximity": 0.6440364210831414,
               "attribution_score": 2.3109435763753083,
               "p_value": 0.021195760847830435,
-              "adjusted_p_value": 0.0635872825434913
+              "adjusted_p_value": 0.07418516296740653
             }
           ],
           "true_positive_pairs": [
@@ -1572,7 +1572,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1583,7 +1583,7 @@
             "seed": 1
           },
           "n_transactions": 5000,
-          "n_patterns": 319,
+          "n_patterns": 406,
           "n_change_points_total": 0,
           "n_significant": 2,
           "precision": 0.5,
@@ -1592,10 +1592,10 @@
           "tp": 1,
           "fp": 1,
           "fn": 1,
-          "time_phase1_ms": 868.5527499765158,
+          "time_phase1_ms": 893.9540419960395,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 108.06337499525398,
-          "time_total_ms": 976.6161249717698,
+          "time_attribution_ms": 124.51195798348635,
+          "time_total_ms": 1018.4659999795258,
           "significant_attributions": [
             {
               "pattern": [
@@ -1664,7 +1664,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1675,19 +1675,19 @@
             "seed": 2
           },
           "n_transactions": 5000,
-          "n_patterns": 337,
+          "n_patterns": 443,
           "n_change_points_total": 0,
-          "n_significant": 2,
-          "precision": 0.5,
+          "n_significant": 3,
+          "precision": 0.3333333333333333,
           "recall": 0.5,
-          "f1": 0.5,
+          "f1": 0.4,
           "tp": 1,
-          "fp": 1,
+          "fp": 2,
           "fn": 1,
-          "time_phase1_ms": 862.9392920411192,
+          "time_phase1_ms": 925.563582975883,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 185.7028749655001,
-          "time_total_ms": 1048.6421670066193,
+          "time_attribution_ms": 250.68095902679488,
+          "time_total_ms": 1176.244542002678,
           "significant_attributions": [
             {
               "pattern": [
@@ -1703,7 +1703,24 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 3.369415819918419,
               "p_value": 0.016996600679864027,
-              "adjusted_p_value": 0.06798640271945611
+              "adjusted_p_value": 0.09091515030327267
+            },
+            {
+              "pattern": [
+                5,
+                15,
+                164
+              ],
+              "change_time": 769,
+              "change_direction": "up",
+              "change_magnitude": 2.4000000000000004,
+              "event_name": "BigSale",
+              "event_start": 800,
+              "event_end": 1200,
+              "proximity": 0.5379444375946745,
+              "attribution_score": 0.8844002479247319,
+              "p_value": 0.033193361327734455,
+              "adjusted_p_value": 0.09091515030327267
             },
             {
               "pattern": [
@@ -1719,7 +1736,7 @@
               "proximity": 0.5827482523739896,
               "attribution_score": 0.7180835356106023,
               "p_value": 0.049590081983603276,
-              "adjusted_p_value": 0.09918016396720655
+              "adjusted_p_value": 0.09091515030327267
             }
           ],
           "true_positive_pairs": [
@@ -1732,6 +1749,14 @@
             }
           ],
           "false_positive_pairs": [
+            {
+              "pattern": [
+                5,
+                15,
+                164
+              ],
+              "event_id": "E1"
+            },
             {
               "pattern": [
                 5,
@@ -1756,7 +1781,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1767,7 +1792,7 @@
             "seed": 3
           },
           "n_transactions": 5000,
-          "n_patterns": 279,
+          "n_patterns": 363,
           "n_change_points_total": 0,
           "n_significant": 1,
           "precision": 0.0,
@@ -1776,10 +1801,10 @@
           "tp": 0,
           "fp": 1,
           "fn": 2,
-          "time_phase1_ms": 854.2998749762774,
+          "time_phase1_ms": 880.8165839873254,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 175.7742909830995,
-          "time_total_ms": 1030.0741659593768,
+          "time_attribution_ms": 236.28533305600286,
+          "time_total_ms": 1117.1019170433283,
           "significant_attributions": [
             {
               "pattern": [
@@ -1795,7 +1820,7 @@
               "proximity": 0.9801986733067553,
               "attribution_score": 1.562946925680745,
               "p_value": 0.0011997600479904018,
-              "adjusted_p_value": 0.004199160167966407
+              "adjusted_p_value": 0.003599280143971205
             }
           ],
           "true_positive_pairs": [],
@@ -1831,7 +1856,7 @@
           "config": {
             "window_size": 50,
             "min_support": 3,
-            "max_length": 2,
+            "max_length": 100,
             "change_method": "threshold_crossing",
             "sigma": null,
             "min_magnitude": 0.0,
@@ -1842,7 +1867,7 @@
             "seed": 4
           },
           "n_transactions": 5000,
-          "n_patterns": 351,
+          "n_patterns": 465,
           "n_change_points_total": 0,
           "n_significant": 0,
           "precision": 0.0,
@@ -1851,10 +1876,10 @@
           "tp": 0,
           "fp": 0,
           "fn": 2,
-          "time_phase1_ms": 935.7865829952061,
+          "time_phase1_ms": 912.3845840222202,
           "time_support_series_ms": 0.0,
-          "time_attribution_ms": 142.65845902264118,
-          "time_total_ms": 1078.4450420178473,
+          "time_attribution_ms": 182.4515829794109,
+          "time_total_ms": 1094.836167001631,
           "significant_attributions": [],
           "true_positive_pairs": [],
           "false_positive_pairs": [],
@@ -1878,9 +1903,9 @@
           "n_falsely_attributed": 0
         }
       ],
-      "avg_precision": 0.3,
+      "avg_precision": 0.26666666666666666,
       "avg_recall": 0.3,
-      "avg_f1": 0.3,
+      "avg_f1": 0.27999999999999997,
       "avg_false_attribution_rate": 0.0
     }
   }
