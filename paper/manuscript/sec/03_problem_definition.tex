@@ -68,12 +68,15 @@ s_P(\tau) < \theta \land \tau > 0 \land s_P(\tau-1) \geq \theta. \label{eq:down_
 \subsection{イベント帰属問題}
 
 \begin{definition}[イベント帰属問題]\label{def:attribution}
-頻出パターン集合 $\mathcal{F}$ とそのサポート時系列 $\{s_P\}_{P \in \mathcal{F}}$，
+共起パターン集合 $\mathcal{F} = \{P \subseteq \mathcal{I} : |P| \geq 2,\;
+\text{サポート} \geq \theta\}$ とそのサポート時系列 $\{s_P\}_{P \in \mathcal{F}}$，
 外部イベント集合 $\mathcal{E}$，有意水準 $\alpha$ が与えられたとき，
 \emph{イベント帰属問題}とは，
 $s_P$ の閾値交差変化点がイベント $e$ の時間窓と統計的に有意に関連する
 全ての組 $(P, e) \in \mathcal{F} \times \mathcal{E}$ を，
 偽発見率（FDR）を水準 $\alpha$ 以下に制御しながら同定することである．
+単一アイテム（$|P| = 1$）の頻度変動は通常の時系列分析で捕捉可能であり，
+共起構造の発見を目的とする本問題の対象外とする．
 \end{definition}
 
 この問題の主要な課題は以下の3点である:
@@ -84,7 +87,7 @@ $s_P$ の閾値交差変化点がイベント $e$ の時間窓と統計的に有
 厳格な多重検定補正が必要となる．
 
 \item \textbf{副次パターン}: イベントがアイテム $i$ の頻度を増加させると，
-$i$ を含む\emph{全て}のパターンのサポートが相関して変動し，偽陽性が大量に発生する．
+$i$ を含む\emph{全て}の共起パターンのサポートが相関して変動し，偽陽性が大量に発生する．
 
 \item \textbf{時間的混同}: 無関係なイベントの時間窓が重複する場合，帰属が曖昧になる．
 \end{enumerate}
