@@ -93,15 +93,15 @@ A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{mag}(\tau)
 ここで $d(\tau, e) = \min(|\tau - t_s|, |\tau - t_e|)$ は
 変化点からイベント境界までの最小距離，$\sigma > 0$ は減衰パラメータである．
 
-\textbf{変化量}: 式~(\ref{eq:magnitude})のレベルシフト量を
-平方根正規化により評価する:
+\textbf{変化量}: 式~(\ref{eq:magnitude})の生の変化量（絶対レベルシフト量）を
+平方根正規化してスコアリングに用いる:
 \begin{equation}
-\text{mag}(\tau) = \frac{|\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|}{\sqrt{\max(1,\; \bar{s}^{-}(\tau))}}
+\text{mag}(\tau) = \frac{\text{magnitude}(\tau)}{\sqrt{\max(1,\; \bar{s}^{-}(\tau))}}
 \label{eq:mag_sqrt}
 \end{equation}
-平方根正規化は，ベースラインサポートが高いパターンほど
-絶対変化量が大きくなるバイアスを緩和し，
-異なるベースライン水準間での公平な比較を可能にする．
+ベースラインサポートが高いパターンほど
+絶対変化量が大きくなるバイアスを，
+平方根で除すことにより緩和する．
 実世界のトランザクションデータではアイテム頻度が
 Zipf分布に従うケースが多く~\cite{fournier2017survey}，
 この正規化が特に有効である．
