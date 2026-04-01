@@ -47,7 +47,7 @@ N_SEEDS = 5
 def make_attr_config(seed, norm="none", **overrides):
     """Attribution config with specified normalization."""
     cfg = dict(
-        min_support_range=5,
+        min_support_range=10,
         n_permutations=5000,
         alpha=0.10,
         correction_method="bh",
@@ -293,7 +293,7 @@ def run_ex3b():
 
                 if method_cfg.get("naive"):
                     attr_config = AttributionConfig(
-                        min_support_range=5, seed=seed,
+                        min_support_range=10, seed=seed,
                         magnitude_normalization="none",
                     )
                     result = run_naive_experiment(
