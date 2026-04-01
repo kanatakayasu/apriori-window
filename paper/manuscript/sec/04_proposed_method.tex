@@ -93,19 +93,21 @@ A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{mag}(\tau)
 ここで $d(\tau, e) = \min(|\tau - t_s|, |\tau - t_e|)$ は
 変化点からイベント境界までの最小距離，$\sigma > 0$ は減衰パラメータである．
 
-\textbf{変化量}: 式~(\ref{eq:magnitude})のレベルシフト量を
-以下の平方根正規化により評価する:
-\begin{equation}
-\text{mag}(\tau) = \frac{|\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|}{\sqrt{\max(1,\; \bar{s}^{-}(\tau))}}
-\label{eq:mag_sqrt}
-\end{equation}
-絶対変化量 $|\bar{s}^{+} - \bar{s}^{-}|$ はベースラインサポートの水準に依存するため，
-ベースラインサポートが高いパターンほど大きな値を取るバイアスを持つ．
-平方根正規化は，異なるベースライン水準のパターン間でスコアの
-公平な比較を可能にする．
-完全正規化（$\div \bar{s}^{-}$）は低ベースラインパターンのスコアを過剰に増幅するが，
-平方根正規化はこの過増幅を避けつつ正規化の効果を保持する（EX2で検証）．
-データ特性に応じて正規化なし（絶対変化量）に切り替えることも可能である．
+\textbf{変化量}: 式~(\ref{eq:magnitude})のレベルシフト量を評価する．
+3種類の正規化方式を提供する:
+\begin{align}
+\text{mag}_{\text{none}}(\tau) &= |\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)| \label{eq:mag_none}\\
+\text{mag}_{\text{sqrt}}(\tau) &= \frac{|\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|}{\sqrt{\max(1,\; \bar{s}^{-}(\tau))}} \label{eq:mag_sqrt}\\
+\text{mag}_{\text{full}}(\tau) &= \frac{|\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|}{\max(1,\; \bar{s}^{-}(\tau))} \label{eq:mag_full}
+\end{align}
+絶対変化量（式~(\ref{eq:mag_none})）は全パターンが同程度のベースラインサポートを
+持つ場合に最適であるが，ベースラインが高いパターンほど大きな値を取るバイアスがある．
+平方根正規化（式~(\ref{eq:mag_sqrt})）は異なるベースライン水準間での
+公平な比較を可能にし，Zipf的な頻度分布を持つデータに適する．
+完全正規化（式~(\ref{eq:mag_full})）は低ベースラインパターンのスコアを
+過剰に増幅する傾向がある．
+データのアイテム頻度分布に応じた最適な方式の選択については
+EX1で検証する．
 
 パターン $P$ のイベント $e$ に対する観測スコアは，
 全変化点にわたる帰属スコアの総和
