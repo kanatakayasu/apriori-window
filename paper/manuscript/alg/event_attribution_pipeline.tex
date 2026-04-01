@@ -2,7 +2,7 @@
 \caption{帰属スコアリングと統計検定（Step 1--4）}
 \label{alg:scoring}
 \begin{algorithmic}[1]
-\Require 共起パターン $\mathcal{F}\;(|P| \geq 2)$, 密集区間 $\{\mathcal{I}_P\}$, イベント $\mathcal{E}$, 設定 $(\theta, \sigma, B, \alpha, \delta)$
+\Require 共起パターン $\mathcal{F}\;(|P| \geq 2)$, 密集区間 $\{\mathcal{I}_P\}$, イベント $\mathcal{E}$, 設定 $(\theta, \sigma, B, \alpha, \delta, \theta_{\text{mag}})$
 \Ensure 有意帰属集合 $\mathcal{R}$
 \Statex \textbf{// Step 1--2: 変化点抽出 + フィルタリング}
 \State $\text{RawResults} \gets []$
