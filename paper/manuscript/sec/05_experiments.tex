@@ -151,8 +151,9 @@ Zipf的分布データでは平方根正規化}を推奨する．
 \textbf{RQ}: パイプラインはイベント起因の変動を正しく帰属し，
 イベント無関係の密集パターンを棄却できるか？
 多様なデータ特性（信号強度，構造条件，アイテム頻度分布）に対する頑健性を評価する．
-EX1の結論に基づき，一様分布データでは正規化なし，
-Zipf分布データでは平方根正規化を使用する．
+実世界のトランザクションデータはアイテム頻度がZipf分布に
+従うケースが多いため，EX2以降ではZipf分布（$\alpha=1.0$）データに
+平方根正規化を適用して評価する．
 
 \paragraph{信号強度}
 Type A（語彙内ブースト3パターン），
@@ -160,58 +161,57 @@ Type B（イベント非対応2パターン），
 Type C（デコイ2件）を混在させ，
 $\beta \in \{0.2, 0.3, 0.5\}$ で5 seed実行した
 （表~\ref{tab:ex2a}）．
-一様分布データのため正規化なしを使用する．
 
 \begin{table}[t]
-\caption{EX2a 結果: 信号強度別の帰属精度（5 seeds平均，正規化なし）}
+\caption{EX2a 結果: 信号強度別の帰属精度（5 seeds平均，Zipf-1.0，$\sqrt{}$正規化）}
 \label{tab:ex2a}
 \centering
 \begin{tabular}{ccccc}
 \toprule
 $\beta$ & Precision & Recall & F1 & FAR \\
 \midrule
-0.2 & 0.76 & 0.73 & 0.72 & 0.20 \\
-0.3 & 0.78 & 0.93 & 0.85 & 0.10 \\
-0.5 & 0.79 & 1.00 & 0.86 & 0.20 \\
+0.2 & 0.78 & 0.73 & 0.74 & 0.10 \\
+0.3 & 0.67 & 0.93 & 0.77 & 0.10 \\
+0.5 & 0.57 & 0.87 & 0.69 & 0.20 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-全$\beta$条件でF1 $\geq$ 0.72を達成している．
-$\beta = 0.2$（弱信号）ではRecall = 0.73とやや低下するが，
-FAR = 0.20に留まり偽帰属は抑制されている．
-$\beta = 0.3$でF1 = 0.85と最も均衡の取れた精度を示し，
-$\beta = 0.5$ではRecall = 1.00, F1 = 0.86と高い検出力を達成する．
+全$\beta$条件でF1 $\geq$ 0.69を達成している．
+$\beta = 0.2$ではPrecision = 0.78と高いが，Recall = 0.73とやや低下する．
+$\beta = 0.3$でRecall = 0.93, F1 = 0.77と最も均衡の取れた精度を示す．
+$\beta = 0.5$ではRecall = 0.87だがPrecision = 0.57に低下する．
+強いブーストは上位集合パターンの過剰検出を招き，
+Zipf分布下ではその影響がより顕著になるためである．
 
 \paragraph{構造条件}
-デフォルト設定（$\beta = 0.3$, 正規化なし）で4つの構造条件を評価した結果を
-表~\ref{tab:ex2b}に示す．
+デフォルト設定（$\beta = 0.3$, Zipf-1.0, $\sqrt{}$正規化）で
+4つの構造条件を評価した結果を表~\ref{tab:ex2b}に示す．
 
 \begin{table}[t]
-\caption{EX2b 結果: 構造条件別精度（5 seeds平均，正規化なし）}
+\caption{EX2b 結果: 構造条件別精度（5 seeds平均，Zipf-1.0，$\sqrt{}$正規化）}
 \label{tab:ex2b}
 \centering
 \begin{tabular}{lcccc}
 \toprule
 条件 & Precision & Recall & F1 & FAR \\
 \midrule
-OVERLAP  & 0.92 & 0.93 & 0.91 & 0.00 \\
-CONFOUND & 0.59 & 0.93 & 0.72 & 0.70 \\
-DENSE    & 0.61 & 0.93 & 0.73 & 0.45 \\
-SHORT    & 0.80 & 0.87 & 0.81 & 0.40 \\
+OVERLAP  & 0.83 & 0.87 & 0.84 & 0.00 \\
+CONFOUND & 0.72 & 0.93 & 0.81 & 0.40 \\
+DENSE    & 0.56 & 0.93 & 0.70 & 0.45 \\
+SHORT    & 0.83 & 0.87 & 0.84 & 0.30 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-OVERLAPではF1 = 0.91, FAR = 0.00と最も高い精度を達成し，
+OVERLAPではF1 = 0.84, FAR = 0.00と高い精度を達成し，
 イベント区間が重複する条件でも誤帰属を完全に棄却できている．
 CONFOUNDではType Bパターンがイベント近傍に配置される交絡条件で
-FAR = 0.70と上昇するが，Recall = 0.93を維持しており，
+FAR = 0.40と上昇するが，Recall = 0.93を維持しており，
 真の信号の検出力は損なわれていない．
 DENSEではFAR = 0.45と上昇するが，Recall = 0.93と高い検出力を維持している．
-SHORTでは短期間イベント（持続期間80）でFAR = 0.40と高めであるが，
-これは短いイベント窓に偶然一致するType Bパターンが帰属される確率が
-上昇するためであり，Recall = 0.87は維持されている．
+SHORTでは短期間イベント（持続期間80）でFAR = 0.30であり，
+Recall = 0.87は維持されている．
 
 \paragraph{帰無条件検証}
 植え込み信号を一切含まない帰無データ（EX2と同一の生成条件，
@@ -226,7 +226,7 @@ BH手続きと円形シフト置換検定の組み合わせが
 \label{sec:exp_ex3}
 
 \textbf{RQ}: スコア構成要素およびパイプラインの各ステップは精度にどう寄与するか？
-一様分布データ（正規化なし）を使用する．
+EX2と同様にZipf分布データ（$\sqrt{}$正規化）を使用する．
 
 \paragraph{スコア構成要素}
 
@@ -245,16 +245,16 @@ magなしでは両者が同等に扱われる．
 結果を表~\ref{tab:ex3a}に示す．
 
 \begin{table}[t]
-\caption{EX3a 結果: シナリオ別アブレーション（5 seeds平均F1，正規化なし）}
+\caption{EX3a 結果: シナリオ別アブレーション（5 seeds平均F1，Zipf-1.0，$\sqrt{}$正規化）}
 \label{tab:ex3a}
 \centering
 \begin{tabular}{lcc}
 \toprule
 構成 & Scenario A & Scenario B \\
 \midrule
-Full: $\text{prox} \times \text{mag}$ & \textbf{1.00} & \textbf{0.87} \\
+Full: $\text{prox} \times \text{mag}$ & \textbf{1.00} & \textbf{0.80} \\
 mag のみ（prox除去） & 0.00 & 0.00 \\
-prox のみ（mag除去） & 0.80 & 0.60 \\
+prox のみ（mag除去） & 0.80 & 0.47 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -263,9 +263,9 @@ prox のみ（mag除去） & 0.80 & 0.60 \\
 mag のみ（prox除去）の構成は時間的対応付け情報を一切持たず，
 全変化点--イベントペアに等しいスコアが付与される結果，
 \textbf{両シナリオでF1 = 0.00}に崩壊する．
-prox のみ（mag除去）ではScenario Aで F1 = 0.80，Scenario Bで F1 = 0.60 と部分的に機能するが，
+prox のみ（mag除去）ではScenario Aで F1 = 0.80，Scenario Bで F1 = 0.47 と部分的に機能するが，
 変化量情報の欠如により精度は不十分である．
-Full構成はScenario AでF1 = 1.00，Scenario BでF1 = 0.87を達成し，
+Full構成はScenario AでF1 = 1.00，Scenario BでF1 = 0.80を達成し，
 両構成要素の相補性を実証している．
 乗算構成がいずれかの構成要素が0に近ければスコア全体を抑制する
 排他的フィルタとして機能し，偽陽性の抑制に寄与する．
@@ -282,11 +282,11 @@ Full構成はScenario AでF1 = 1.00，Scenario BでF1 = 0.87を達成し，
 \item \textbf{Full}: Union-Find重複排除を追加（= 完全パイプライン）
 \end{itemize}
 
-EX2のデータ（$\beta = 0.3$, CONFOUND, DENSE; 正規化なし）を使用し，
+EX2のデータ（$\beta = 0.3$, CONFOUND, DENSE; Zipf-1.0, $\sqrt{}$正規化）を使用し，
 各条件 $\times$ 5 seedsで評価した（表~\ref{tab:ex3b}）．
 
 \begin{table}[t]
-\caption{EX3b 結果: ナイーブベースラインとの段階的比較（5 seeds平均，正規化なし）}
+\caption{EX3b 結果: ナイーブベースラインとの段階的比較（5 seeds平均，Zipf-1.0，$\sqrt{}$正規化）}
 \label{tab:ex3b}
 \centering
 \begin{tabular}{llrrrrr}
@@ -294,28 +294,28 @@ EX2のデータ（$\beta = 0.3$, CONFOUND, DENSE; 正規化なし）を使用し
 条件 & 手法 & P & R & F1 & FAR & \#Pred \\
 \midrule
 \multirow{4}{*}{$\beta$=0.3}
-  & Naive     & 0.01 & 1.00 & 0.01 & 0.80 & 527 \\
-  & +PermTest & 0.01 & 1.00 & 0.01 & 0.30 & 465 \\
-  & +BH       & 0.69 & 0.93 & 0.77 & 0.20 & 5 \\
-  & Full      & \textbf{0.78} & 0.93 & \textbf{0.85} & \textbf{0.10} & 4 \\
+  & Naive     & 0.01 & 1.00 & 0.02 & 0.80 & 270 \\
+  & +PermTest & 0.01 & 1.00 & 0.03 & 0.40 & 224 \\
+  & +BH       & 0.61 & 0.93 & 0.71 & 0.20 & 5 \\
+  & Full      & \textbf{0.67} & 0.93 & \textbf{0.77} & \textbf{0.10} & 4 \\
 \midrule
 \multirow{4}{*}{CONFOUND}
-  & Naive     & 0.00 & 1.00 & 0.01 & 1.00 & 673 \\
-  & +PermTest & 0.00 & 1.00 & 0.01 & 1.00 & 609 \\
-  & +BH       & 0.43 & 1.00 & 0.59 & 1.00 & 8 \\
-  & Full      & \textbf{0.59} & 0.93 & \textbf{0.72} & \textbf{0.70} & 5 \\
+  & Naive     & 0.01 & 1.00 & 0.02 & 1.00 & 303 \\
+  & +PermTest & 0.01 & 1.00 & 0.02 & 1.00 & 265 \\
+  & +BH       & 0.41 & 1.00 & 0.56 & 1.00 & 9 \\
+  & Full      & \textbf{0.72} & 0.93 & \textbf{0.81} & \textbf{0.40} & 4 \\
 \midrule
 \multirow{4}{*}{DENSE}
-  & Naive     & 0.01 & 1.00 & 0.01 & 0.95 & 969 \\
-  & +PermTest & 0.01 & 1.00 & 0.01 & 0.65 & 925 \\
-  & +BH       & 0.61 & 0.93 & 0.73 & 0.45 & 9 \\
-  & Full      & \textbf{0.61} & 0.93 & \textbf{0.73} & \textbf{0.45} & 9 \\
+  & Naive     & 0.01 & 1.00 & 0.03 & 0.95 & 438 \\
+  & +PermTest & 0.01 & 1.00 & 0.03 & 0.60 & 413 \\
+  & +BH       & 0.52 & 0.93 & 0.66 & 0.45 & 11 \\
+  & Full      & \textbf{0.56} & 0.93 & \textbf{0.70} & \textbf{0.45} & 10 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Naiveは全条件でRecall = 1.00を達成するが，
-Precision が極めて低く偽陽性を大量に出力する（F1 $\leq$ 0.01）．
+Precision が極めて低く偽陽性を大量に出力する（F1 $\leq$ 0.03）．
 スコア閾値のみでは偽陽性の制御が不可能であることを示す．
 
 \textbf{+PermTest}（per-pattern置換検定）は出力数をわずかに削減するが，
@@ -325,12 +325,12 @@ FPの削減効果は限定的である．
 \textbf{+BH}（グローバルBH補正）が最大の偽陽性削減効果を持つ．
 BH手続きがグローバルなp値順位に基づきFDRを制御することで，
 個別パターンの検定では見逃される弱い偽陽性を効果的に棄却する．
-$\beta=0.3$条件ではNaiveの527件がBH補正後に5件まで削減される．
+$\beta=0.3$条件ではNaiveの270件がBH補正後に5件まで削減される．
 
 \textbf{Full}（+重複排除）は残存する冗長パターン
 （同一イベントに帰属されたアイテム重複・部分集合パターン）を除去する．
-$\beta=0.3$条件ではF1が0.77から0.85に改善し，
-CONFOUND条件でもFARを1.00から0.70に削減する．
+$\beta=0.3$条件ではF1が0.71から0.77に改善し，
+CONFOUND条件でもFARを1.00から0.40に削減する．
 全条件においてFullが最高のF1を達成しており，
 各ステップが段階的かつ相補的に偽陽性を削減していることが確認された．
 
