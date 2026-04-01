@@ -9,7 +9,8 @@
 \For{各パターン $P \in \mathcal{F}$ with $\mathcal{I}_P \neq \emptyset$}
     \If{$\max(s_P) - \min(s_P) < \delta$} \textbf{continue} \EndIf \Comment{振幅フィルタ}
     \State $\mathcal{C}_P \gets \{s_i \text{(上昇)},\; e_i{+}1 \text{(下降)} \mid [s_i, e_i] \in \mathcal{I}_P\}$
-    \State 各 $\tau \in \mathcal{C}_P$ の変化量を局所サポートから計算 \Comment{式~(\ref{eq:magnitude})}
+    \State 各 $\tau \in \mathcal{C}_P$ の変化量 $\text{magnitude}(\tau)$ を計算 \Comment{式~(\ref{eq:magnitude})}
+    \State $\mathcal{C}_P \gets \{\tau \in \mathcal{C}_P \mid \text{magnitude}(\tau) \geq \theta_{\text{mag}}\}$ \Comment{変化量フィルタ}
     \If{$\mathcal{C}_P = \emptyset$} \textbf{continue} \EndIf
     \Statex \textbf{// Step 3: 帰属スコアリング}
     \For{各イベント $e \in \mathcal{E}$}
