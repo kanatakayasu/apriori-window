@@ -1,0 +1,1169 @@
+{
+  "n_transactions": 276484,
+  "n_patterns": 1006,
+  "n_campaigns": 30,
+  "n_significant": 114,
+  "n_campaigns_with_attribution": 30,
+  "avg_per_campaign": 3.8,
+  "time_phase1_ms": 243158.7274170015,
+  "time_attribution_ms": 1048735.972540977,
+  "time_total_ms": 1291896.0737499874,
+  "attributions": [
+    {
+      "pattern": [
+        24245,
+        35570
+      ],
+      "event_name": "TypeB_9",
+      "event_id": "",
+      "attribution_score": 5.373664560353956,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        22492,
+        27108,
+        37353
+      ],
+      "event_name": "TypeB_9",
+      "event_id": "",
+      "attribution_score": 0.6651781778046992,
+      "adjusted_p_value": 0.03865970991848142
+    },
+    {
+      "pattern": [
+        12681,
+        25748,
+        35570
+      ],
+      "event_name": "TypeB_9",
+      "event_id": "",
+      "attribution_score": 2.334645027014983,
+      "adjusted_p_value": 0.03865970991848142
+    },
+    {
+      "pattern": [
+        6675,
+        35570,
+        37353
+      ],
+      "event_name": "TypeB_9",
+      "event_id": "",
+      "attribution_score": 0.27322120823666163,
+      "adjusted_p_value": 0.06946265067974058
+    },
+    {
+      "pattern": [
+        29651,
+        35570,
+        40593
+      ],
+      "event_name": "TypeB_9",
+      "event_id": "",
+      "attribution_score": 0.10282580292742709,
+      "adjusted_p_value": 0.07076545855877368
+    },
+    {
+      "pattern": [
+        9746,
+        13821
+      ],
+      "event_name": "TypeB_5",
+      "event_id": "",
+      "attribution_score": 1.263509077153833,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        9956,
+        35570
+      ],
+      "event_name": "TypeB_5",
+      "event_id": "",
+      "attribution_score": 4.249807919806981,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        9363,
+        37353
+      ],
+      "event_name": "TypeB_5",
+      "event_id": "",
+      "attribution_score": 0.1290669472268788,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        22055,
+        55049
+      ],
+      "event_name": "TypeB_23",
+      "event_id": "",
+      "attribution_score": 1.1276006421126339,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        23466,
+        29651
+      ],
+      "event_name": "TypeB_23",
+      "event_id": "",
+      "attribution_score": 2.0063485204969727,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        35570,
+        38256
+      ],
+      "event_name": "TypeB_23",
+      "event_id": "",
+      "attribution_score": 2.6430562385146725,
+      "adjusted_p_value": 0.1745238935045609
+    },
+    {
+      "pattern": [
+        13156,
+        25748
+      ],
+      "event_name": "TypeB_23",
+      "event_id": "",
+      "attribution_score": 0.8246498905876951,
+      "adjusted_p_value": 0.17750274307744685
+    },
+    {
+      "pattern": [
+        19500,
+        27800
+      ],
+      "event_name": "TypeB_23",
+      "event_id": "",
+      "attribution_score": 0.3039921652297097,
+      "adjusted_p_value": 0.1199917550736428
+    },
+    {
+      "pattern": [
+        11255,
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_28",
+      "event_id": "",
+      "attribution_score": 0.8313743453404234,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        28809,
+        31973,
+        35570
+      ],
+      "event_name": "TypeB_28",
+      "event_id": "",
+      "attribution_score": 0.23206870512687106,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        35570,
+        40500
+      ],
+      "event_name": "TypeB_28",
+      "event_id": "",
+      "attribution_score": 5.156470510408067,
+      "adjusted_p_value": 0.044478060909557214
+    },
+    {
+      "pattern": [
+        24245,
+        25748
+      ],
+      "event_name": "TypeB_2",
+      "event_id": "",
+      "attribution_score": 2.7766568432803864,
+      "adjusted_p_value": 0.07654663962799087
+    },
+    {
+      "pattern": [
+        12681,
+        35570
+      ],
+      "event_name": "TypeC_3",
+      "event_id": "",
+      "attribution_score": 4.051249161762742,
+      "adjusted_p_value": 0.05780082373618156
+    },
+    {
+      "pattern": [
+        20968,
+        38256
+      ],
+      "event_name": "TypeC_3",
+      "event_id": "",
+      "attribution_score": 0.7852541821206065,
+      "adjusted_p_value": 0.06691874060421077
+    },
+    {
+      "pattern": [
+        28906,
+        40249
+      ],
+      "event_name": "TypeC_3",
+      "event_id": "",
+      "attribution_score": 0.6966449050606578,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        9956,
+        35570,
+        40593
+      ],
+      "event_name": "TypeC_3",
+      "event_id": "",
+      "attribution_score": 0.8222848985692743,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        24245,
+        41445
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 1.3013212839500177,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        25748,
+        35570
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 5.082114498940486,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        32581,
+        35453
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 0.6072871430142535,
+      "adjusted_p_value": 0.0446200121677792
+    },
+    {
+      "pattern": [
+        22055,
+        22181
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 1.1322478062832708,
+      "adjusted_p_value": 0.05602117671703754
+    },
+    {
+      "pattern": [
+        17774,
+        41168
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 0.8956041244104628,
+      "adjusted_p_value": 0.06691874060421077
+    },
+    {
+      "pattern": [
+        53089,
+        53176
+      ],
+      "event_name": "TypeB_21",
+      "event_id": "",
+      "attribution_score": 0.8275198723559918,
+      "adjusted_p_value": 0.14533922100980118
+    },
+    {
+      "pattern": [
+        24245,
+        41445
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 1.3013212839500177,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        25748,
+        35570
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 5.082114498940486,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        32581,
+        35453
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 0.6072871430142535,
+      "adjusted_p_value": 0.0446200121677792
+    },
+    {
+      "pattern": [
+        22055,
+        22181
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 1.1322478062832708,
+      "adjusted_p_value": 0.05602117671703754
+    },
+    {
+      "pattern": [
+        17774,
+        41168
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 0.8956041244104628,
+      "adjusted_p_value": 0.06691874060421077
+    },
+    {
+      "pattern": [
+        53089,
+        53176
+      ],
+      "event_name": "TypeB_22",
+      "event_id": "",
+      "attribution_score": 0.8275198723559918,
+      "adjusted_p_value": 0.14533922100980118
+    },
+    {
+      "pattern": [
+        25807,
+        35570
+      ],
+      "event_name": "TypeB_29",
+      "event_id": "",
+      "attribution_score": 2.833787385224455,
+      "adjusted_p_value": 0.056744276144771046
+    },
+    {
+      "pattern": [
+        10421,
+        37103
+      ],
+      "event_name": "TypeB_29",
+      "event_id": "",
+      "attribution_score": 1.1470900276344722,
+      "adjusted_p_value": 0.044478060909557214
+    },
+    {
+      "pattern": [
+        31783,
+        41168
+      ],
+      "event_name": "TypeB_29",
+      "event_id": "",
+      "attribution_score": 0.48314953786349757,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        10170,
+        21044
+      ],
+      "event_name": "TypeB_29",
+      "event_id": "",
+      "attribution_score": 0.48314953786349757,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        26863,
+        38256
+      ],
+      "event_name": "TypeB_29",
+      "event_id": "",
+      "attribution_score": 0.4402057007081802,
+      "adjusted_p_value": 0.05474222881176272
+    },
+    {
+      "pattern": [
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_25",
+      "event_id": "",
+      "attribution_score": 5.9117110537021205,
+      "adjusted_p_value": 0.04697427861366502
+    },
+    {
+      "pattern": [
+        10421,
+        41530
+      ],
+      "event_name": "TypeB_25",
+      "event_id": "",
+      "attribution_score": 0.791704603856112,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        35570,
+        40593
+      ],
+      "event_name": "TypeC_6",
+      "event_id": "",
+      "attribution_score": 3.568759869675618,
+      "adjusted_p_value": 0.12638997905228241
+    },
+    {
+      "pattern": [
+        28720,
+        55046
+      ],
+      "event_name": "TypeC_6",
+      "event_id": "",
+      "attribution_score": 1.237676252740801,
+      "adjusted_p_value": 0.03653555003285057
+    },
+    {
+      "pattern": [
+        25748,
+        33678
+      ],
+      "event_name": "TypeC_6",
+      "event_id": "",
+      "attribution_score": 0.30864552652924904,
+      "adjusted_p_value": 0.07076545855877368
+    },
+    {
+      "pattern": [
+        15499,
+        35453
+      ],
+      "event_name": "TypeC_6",
+      "event_id": "",
+      "attribution_score": 0.3252032940344957,
+      "adjusted_p_value": 0.0872490747053148
+    },
+    {
+      "pattern": [
+        29651,
+        37353
+      ],
+      "event_name": "TypeC_6",
+      "event_id": "",
+      "attribution_score": 0.3067258647922717,
+      "adjusted_p_value": 0.12424526780787416
+    },
+    {
+      "pattern": [
+        12681,
+        40500
+      ],
+      "event_name": "TypeB_4",
+      "event_id": "",
+      "attribution_score": 0.7827432819492819,
+      "adjusted_p_value": 0.03487484321317554
+    },
+    {
+      "pattern": [
+        35570,
+        40593
+      ],
+      "event_name": "TypeB_4",
+      "event_id": "",
+      "attribution_score": 3.013557311166372,
+      "adjusted_p_value": 0.16666361938062313
+    },
+    {
+      "pattern": [
+        18551,
+        25807
+      ],
+      "event_name": "TypeB_4",
+      "event_id": "",
+      "attribution_score": 0.2688831868213887,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        7448,
+        31290
+      ],
+      "event_name": "TypeB_4",
+      "event_id": "",
+      "attribution_score": 0.22540676580714725,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        8278,
+        35570
+      ],
+      "event_name": "TypeB_19",
+      "event_id": "",
+      "attribution_score": 2.6615607084194064,
+      "adjusted_p_value": 0.06691874060421077
+    },
+    {
+      "pattern": [
+        19500,
+        27800
+      ],
+      "event_name": "TypeB_19",
+      "event_id": "",
+      "attribution_score": 2.0938575883428348,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        8713,
+        36648
+      ],
+      "event_name": "TypeB_19",
+      "event_id": "",
+      "attribution_score": 2.7059509033555935,
+      "adjusted_p_value": 0.0446200121677792
+    },
+    {
+      "pattern": [
+        6675,
+        25748
+      ],
+      "event_name": "TypeB_19",
+      "event_id": "",
+      "attribution_score": 0.15726514656986704,
+      "adjusted_p_value": 0.0872490747053148
+    },
+    {
+      "pattern": [
+        22055,
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_19",
+      "event_id": "",
+      "attribution_score": 0.11369803512667752,
+      "adjusted_p_value": 0.05416902730564998
+    },
+    {
+      "pattern": [
+        24245,
+        35570
+      ],
+      "event_name": "TypeB_12",
+      "event_id": "",
+      "attribution_score": 5.665260977626107,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        62433,
+        62437
+      ],
+      "event_name": "TypeB_12",
+      "event_id": "",
+      "attribution_score": 2.479460623824771,
+      "adjusted_p_value": 0.05260082735226004
+    },
+    {
+      "pattern": [
+        18145,
+        28215
+      ],
+      "event_name": "TypeB_12",
+      "event_id": "",
+      "attribution_score": 0.1560779117776312,
+      "adjusted_p_value": 0.06900154622540838
+    },
+    {
+      "pattern": [
+        9956,
+        35570
+      ],
+      "event_name": "TypeB_10",
+      "event_id": "",
+      "attribution_score": 3.047049174573063,
+      "adjusted_p_value": 0.06429045682576191
+    },
+    {
+      "pattern": [
+        20962,
+        25090
+      ],
+      "event_name": "TypeB_10",
+      "event_id": "",
+      "attribution_score": 0.21892226657637504,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        13920,
+        25748
+      ],
+      "event_name": "TypeB_10",
+      "event_id": "",
+      "attribution_score": 0.10196280586710671,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        15499,
+        24245
+      ],
+      "event_name": "TypeB_10",
+      "event_id": "",
+      "attribution_score": 0.47783961351549553,
+      "adjusted_p_value": 0.0637601011653625
+    },
+    {
+      "pattern": [
+        8719,
+        29651
+      ],
+      "event_name": "TypeB_10",
+      "event_id": "",
+      "attribution_score": 0.6535597276633309,
+      "adjusted_p_value": 0.1582661046266083
+    },
+    {
+      "pattern": [
+        31290,
+        35570
+      ],
+      "event_name": "TypeA_30",
+      "event_id": "",
+      "attribution_score": 4.64972643937777,
+      "adjusted_p_value": 0.03653555003285057
+    },
+    {
+      "pattern": [
+        8719,
+        41168
+      ],
+      "event_name": "TypeA_30",
+      "event_id": "",
+      "attribution_score": 0.1740712906715691,
+      "adjusted_p_value": 0.0596747317203226
+    },
+    {
+      "pattern": [
+        11255,
+        29651,
+        35570
+      ],
+      "event_name": "TypeA_30",
+      "event_id": "",
+      "attribution_score": 0.6683143390433927,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        25807,
+        28838
+      ],
+      "event_name": "TypeB_17",
+      "event_id": "",
+      "attribution_score": 1.0477365926127733,
+      "adjusted_p_value": 0.03653555003285057
+    },
+    {
+      "pattern": [
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_17",
+      "event_id": "",
+      "attribution_score": 5.246699130676103,
+      "adjusted_p_value": 0.08653571009935945
+    },
+    {
+      "pattern": [
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_11",
+      "event_id": "",
+      "attribution_score": 4.377594947949108,
+      "adjusted_p_value": 0.1582661046266083
+    },
+    {
+      "pattern": [
+        20953,
+        30025
+      ],
+      "event_name": "TypeB_11",
+      "event_id": "",
+      "attribution_score": 0.3784689713795898,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        10627,
+        25807
+      ],
+      "event_name": "TypeB_11",
+      "event_id": "",
+      "attribution_score": 0.5437792069041013,
+      "adjusted_p_value": 0.12291470879517181
+    },
+    {
+      "pattern": [
+        62433,
+        62437
+      ],
+      "event_name": "TypeB_11",
+      "event_id": "",
+      "attribution_score": 2.479460623824771,
+      "adjusted_p_value": 0.05581489565279127
+    },
+    {
+      "pattern": [
+        18145,
+        28215
+      ],
+      "event_name": "TypeB_11",
+      "event_id": "",
+      "attribution_score": 0.1560779117776312,
+      "adjusted_p_value": 0.06599970328514941
+    },
+    {
+      "pattern": [
+        9956,
+        35570,
+        40593
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 1.4941246182933807,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        6675,
+        35570,
+        37353
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 0.9566882237476879,
+      "adjusted_p_value": 0.051336448038859374
+    },
+    {
+      "pattern": [
+        62433,
+        62437
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 2.9669546881966755,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        12681,
+        25748,
+        35570
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 0.10128531464130358,
+      "adjusted_p_value": 0.05602117671703754
+    },
+    {
+      "pattern": [
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 6.965687589660644,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        28720,
+        55046
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 0.7783049625226766,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        10652,
+        25748
+      ],
+      "event_name": "TypeB_7",
+      "event_id": "",
+      "attribution_score": 0.11306257559361405,
+      "adjusted_p_value": 0.0841279112598533
+    },
+    {
+      "pattern": [
+        11255,
+        35570
+      ],
+      "event_name": "TypeB_1",
+      "event_id": "",
+      "attribution_score": 5.088219292156422,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        12681,
+        24245,
+        25748
+      ],
+      "event_name": "TypeB_1",
+      "event_id": "",
+      "attribution_score": 0.10615376206222848,
+      "adjusted_p_value": 0.05581489565279127
+    },
+    {
+      "pattern": [
+        35570,
+        38125
+      ],
+      "event_name": "TypeA_13",
+      "event_id": "",
+      "attribution_score": 2.0009916857065018,
+      "adjusted_p_value": 0.07778536458606895
+    },
+    {
+      "pattern": [
+        8278,
+        41168
+      ],
+      "event_name": "TypeA_13",
+      "event_id": "",
+      "attribution_score": 0.5081782638440214,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        12681,
+        24245
+      ],
+      "event_name": "TypeA_13",
+      "event_id": "",
+      "attribution_score": 0.4924966253565577,
+      "adjusted_p_value": 0.08777820707045031
+    },
+    {
+      "pattern": [
+        22055,
+        22181
+      ],
+      "event_name": "TypeA_13",
+      "event_id": "",
+      "attribution_score": 0.5972156222869687,
+      "adjusted_p_value": 0.08813332470926533
+    },
+    {
+      "pattern": [
+        31290,
+        35570
+      ],
+      "event_name": "TypeA_8",
+      "event_id": "",
+      "attribution_score": 3.3588249482385235,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        6675,
+        16010
+      ],
+      "event_name": "TypeA_8",
+      "event_id": "",
+      "attribution_score": 0.2877774328529125,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        25748,
+        30726
+      ],
+      "event_name": "TypeA_8",
+      "event_id": "",
+      "attribution_score": 0.5785511181851811,
+      "adjusted_p_value": 0.05384186320630611
+    },
+    {
+      "pattern": [
+        9363,
+        37353
+      ],
+      "event_name": "TypeA_8",
+      "event_id": "",
+      "attribution_score": 0.12863744031200552,
+      "adjusted_p_value": 0.0446200121677792
+    },
+    {
+      "pattern": [
+        9956,
+        35570,
+        40593
+      ],
+      "event_name": "TypeA_8",
+      "event_id": "",
+      "attribution_score": 0.32347045920881223,
+      "adjusted_p_value": 0.0499960158344271
+    },
+    {
+      "pattern": [
+        29651,
+        40593
+      ],
+      "event_name": "TypeC_14",
+      "event_id": "",
+      "attribution_score": 3.424853264637968,
+      "adjusted_p_value": 0.04697427861366502
+    },
+    {
+      "pattern": [
+        10936,
+        16336
+      ],
+      "event_name": "TypeC_14",
+      "event_id": "",
+      "attribution_score": 0.8888054569158684,
+      "adjusted_p_value": 0.03865970991848142
+    },
+    {
+      "pattern": [
+        24245,
+        34016
+      ],
+      "event_name": "TypeC_14",
+      "event_id": "",
+      "attribution_score": 0.2865945650938522,
+      "adjusted_p_value": 0.09596962842960349
+    },
+    {
+      "pattern": [
+        25748,
+        40593
+      ],
+      "event_name": "TypeA_26",
+      "event_id": "",
+      "attribution_score": 2.4513243939736644,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        10797,
+        24245
+      ],
+      "event_name": "TypeA_26",
+      "event_id": "",
+      "attribution_score": 0.8110034833182128,
+      "adjusted_p_value": 0.058053419990848454
+    },
+    {
+      "pattern": [
+        16158,
+        35570
+      ],
+      "event_name": "TypeA_26",
+      "event_id": "",
+      "attribution_score": 0.3962318552409538,
+      "adjusted_p_value": 0.057364228088961654
+    },
+    {
+      "pattern": [
+        6675,
+        13156
+      ],
+      "event_name": "TypeA_26",
+      "event_id": "",
+      "attribution_score": 0.1184973039616018,
+      "adjusted_p_value": 0.06764138356207851
+    },
+    {
+      "pattern": [
+        10421,
+        41530
+      ],
+      "event_name": "TypeB_24",
+      "event_id": "",
+      "attribution_score": 0.791704603856112,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        18560,
+        24245
+      ],
+      "event_name": "TypeB_24",
+      "event_id": "",
+      "attribution_score": 0.21819374057235483,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        32581,
+        35453
+      ],
+      "event_name": "TypeB_24",
+      "event_id": "",
+      "attribution_score": 0.3342769975183648,
+      "adjusted_p_value": 0.05331866488893034
+    },
+    {
+      "pattern": [
+        20968,
+        38256
+      ],
+      "event_name": "TypeB_24",
+      "event_id": "",
+      "attribution_score": 1.0858593265639402,
+      "adjusted_p_value": 0.05416902730564998
+    },
+    {
+      "pattern": [
+        29651,
+        35570
+      ],
+      "event_name": "TypeB_24",
+      "event_id": "",
+      "attribution_score": 4.776910264537856,
+      "adjusted_p_value": 0.13990726575578027
+    },
+    {
+      "pattern": [
+        14973,
+        29651
+      ],
+      "event_name": "TypeA_18",
+      "event_id": "",
+      "attribution_score": 1.557182919277259,
+      "adjusted_p_value": 0.038171470183575223
+    },
+    {
+      "pattern": [
+        10935,
+        35570
+      ],
+      "event_name": "TypeA_18",
+      "event_id": "",
+      "attribution_score": 1.1153330904647059,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        25748,
+        35570
+      ],
+      "event_name": "TypeC_20",
+      "event_id": "",
+      "attribution_score": 3.4980311759415597,
+      "adjusted_p_value": 0.14682617298693149
+    },
+    {
+      "pattern": [
+        29651,
+        35570,
+        55046
+      ],
+      "event_name": "TypeC_20",
+      "event_id": "",
+      "attribution_score": 0.4263830527921595,
+      "adjusted_p_value": 0.04458007481072593
+    },
+    {
+      "pattern": [
+        22055,
+        35570
+      ],
+      "event_name": "TypeC_27",
+      "event_id": "",
+      "attribution_score": 2.5145583609562743,
+      "adjusted_p_value": 0.10907618839208565
+    },
+    {
+      "pattern": [
+        20968,
+        53089
+      ],
+      "event_name": "TypeC_27",
+      "event_id": "",
+      "attribution_score": 0.46449438833095114,
+      "adjusted_p_value": 0.05581489565279127
+    },
+    {
+      "pattern": [
+        8713,
+        36648
+      ],
+      "event_name": "TypeC_27",
+      "event_id": "",
+      "attribution_score": 1.529712869137673,
+      "adjusted_p_value": 0.10344897312672297
+    },
+    {
+      "pattern": [
+        25748,
+        35570
+      ],
+      "event_name": "TypeC_15",
+      "event_id": "",
+      "attribution_score": 3.075291263626938,
+      "adjusted_p_value": 0.1783037758645454
+    },
+    {
+      "pattern": [
+        29651,
+        55046
+      ],
+      "event_name": "TypeB_16",
+      "event_id": "",
+      "attribution_score": 0.6585636287488649,
+      "adjusted_p_value": 0.06764138356207851
+    },
+    {
+      "pattern": [
+        35570,
+        38256
+      ],
+      "event_name": "TypeB_16",
+      "event_id": "",
+      "attribution_score": 3.864531903004397,
+      "adjusted_p_value": 0.05474222881176272
+    },
+    {
+      "pattern": [
+        10797,
+        24245
+      ],
+      "event_name": "TypeB_16",
+      "event_id": "",
+      "attribution_score": 0.8530929657160713,
+      "adjusted_p_value": 0.054489445753460986
+    },
+    {
+      "pattern": [
+        9363,
+        24245,
+        29651
+      ],
+      "event_name": "TypeB_16",
+      "event_id": "",
+      "attribution_score": 0.10691545370580667,
+      "adjusted_p_value": 0.04959388350466789
+    }
+  ]
+}
