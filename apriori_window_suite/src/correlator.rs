@@ -28,6 +28,10 @@ pub struct ChangePoint {
 #[derive(Debug, Clone)]
 pub struct SignificantAttribution {
     pub pattern: Vec<i64>,
+    /// Dense interval that triggered this attribution (left window index, inclusive).
+    pub interval_start: i64,
+    /// Dense interval right endpoint (left window index, inclusive).
+    pub interval_end: i64,
     pub change_time: i64,
     pub change_direction: String,
     pub change_magnitude: f64,
@@ -48,12 +52,15 @@ pub struct AttributionConfig {
     pub correction_method: String, // "bh" or "bonferroni"
     pub global_correction: bool,
     pub deduplicate_overlap: bool,
+    /// 振幅フィルタ: max_support - min_support がこの値以下のパターンを除外 (δ)
     pub min_support_range: i64,
     pub min_magnitude: f64,
     pub attribution_threshold: f64,
     pub seed: Option<u64>,
     pub ablation_mode: Option<String>, // "no_prox", "no_mag", "mag_only", "prox_only"
     pub min_pattern_length: usize,
+    /// 変化量の正規化方式: "none", "sqrt", "full"
+    pub magnitude_normalization: String,
 }
 
 impl Default for AttributionConfig {
@@ -71,6 +78,7 @@ impl Default for AttributionConfig {
             seed: None,
             ablation_mode: None,
             min_pattern_length: 2,
+            magnitude_normalization: "sqrt".to_string(),
         }
     }
 }
@@ -79,6 +87,7 @@ impl Default for AttributionConfig {
 #[derive(Debug, Clone)]
 struct RawTestResult {
     pattern: Vec<i64>,
+    interval: (i64, i64),
     change_point: ChangePoint,
     event: Event,
     proximity: f64,
@@ -213,6 +222,19 @@ pub fn compute_proximity(change_time: i64, event: &Event, sigma: f64) -> f64 {
     }
 }
 
+/// magnitude を正規化する。
+///
+/// - "sqrt": mag / sqrt(max(1, support_before))
+/// - "full": mag / max(1, support_before)
+/// - "none" (その他): 正規化なし
+pub fn normalize_magnitude(magnitude: f64, support_before: f64, normalization: &str) -> f64 {
+    match normalization {
+        "sqrt" => magnitude / support_before.max(1.0).sqrt(),
+        "full" => magnitude / support_before.max(1.0),
+        _ => magnitude,
+    }
+}
+
 /// 帰属スコアを計算し、イベントごとに集約して閾値を超えた (event_id, score) を返す。
 pub fn score_attributions(
     change_points: &[ChangePoint],
@@ -220,6 +242,7 @@ pub fn score_attributions(
     sigma: f64,
     threshold: f64,
     ablation_mode: Option<&str>,
+    normalization: &str,
 ) -> Vec<(String, f64)> {
     // event_id -> total score
     let mut scores: HashMap<String, f64> = HashMap::new();
@@ -227,7 +250,7 @@ pub fn score_attributions(
     for cp in change_points {
         for event in events {
             let prox = compute_proximity(cp.time, event, sigma);
-            let mag = cp.magnitude.abs();
+            let mag = normalize_magnitude(cp.magnitude.abs(), cp.support_before, normalization);
 
             let score = match ablation_mode {
                 Some("no_prox") | Some("mag_only") => mag,
@@ -258,13 +281,14 @@ fn score_attributions_detailed(
     sigma: f64,
     threshold: f64,
     ablation_mode: Option<&str>,
+    normalization: &str,
 ) -> Vec<ScoredCandidate> {
     let mut candidates = Vec::new();
 
     for cp in change_points {
         for event in events {
             let prox = compute_proximity(cp.time, event, sigma);
-            let mag = cp.magnitude.abs();
+            let mag = normalize_magnitude(cp.magnitude.abs(), cp.support_before, normalization);
 
             let score = match ablation_mode {
                 Some("no_prox") | Some("mag_only") => mag,
@@ -311,8 +335,11 @@ pub fn circular_shift_events(events: &[Event], offset: i64, max_time: i64) -> Ve
 }
 
 /// 置換検定を実行し、未補正 p 値を返す。
+///
+/// `interval` は呼び出し元の密集区間 (start, end) で、出力に付与される。
 fn permutation_test_raw(
     pattern: &[i64],
+    interval: (i64, i64),
     change_points: &[ChangePoint],
     events: &[Event],
     sigma: f64,
@@ -321,10 +348,11 @@ fn permutation_test_raw(
 ) -> Vec<RawTestResult> {
     let ablation = config.ablation_mode.as_deref();
     let threshold = config.attribution_threshold;
+    let normalization = config.magnitude_normalization.as_str();
 
     // 観測スコアの詳細
     let obs_candidates = score_attributions_detailed(
-        change_points, events, sigma, threshold, ablation,
+        change_points, events, sigma, threshold, ablation, normalization,
     );
     if obs_candidates.is_empty() {
         return Vec::new();
@@ -363,7 +391,7 @@ fn permutation_test_raw(
         for cp in change_points {
             for event in &shifted {
                 let prox = compute_proximity(cp.time, event, sigma);
-                let mag = cp.magnitude.abs();
+                let mag = normalize_magnitude(cp.magnitude.abs(), cp.support_before, normalization);
                 let score = match ablation {
                     Some("no_prox") | Some("mag_only") => mag,
                     Some("no_mag") | Some("prox_only") => prox,
@@ -392,6 +420,7 @@ fn permutation_test_raw(
             let best = best_candidates[eid];
             RawTestResult {
                 pattern: pattern.to_vec(),
+                interval,
                 change_point: find_best_change_point(change_points, &best.event, sigma),
                 event: best.event.clone(),
                 proximity: best.proximity,
@@ -465,11 +494,12 @@ pub fn deduplicate_by_item_overlap(
 ) -> Vec<SignificantAttribution> {
     use std::collections::HashSet;
 
-    // event_name でグループ化
+    // (event_name, interval) でグループ化 — 異なる密集区間は独立
     let mut by_event: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
     for r in results {
+        let key = r.event_name.clone();
         by_event
-            .entry(r.event_name.clone())
+            .entry(key)
             .or_default()
             .push(r);
     }
@@ -556,11 +586,12 @@ pub fn deduplicate_by_item_overlap(
     }
 
     // Phase 2: Cross-length subset dedup
-    // If pattern A ⊂ B (same event), merge and keep highest score
+    // If pattern A ⊂ B (same event + same interval), merge and keep highest score
     let mut by_event2: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
     for r in deduplicated {
+        let key = r.event_name.clone();
         by_event2
-            .entry(r.event_name.clone())
+            .entry(key)
             .or_default()
             .push(r);
     }
@@ -677,23 +708,21 @@ pub fn run_attribution_pipeline(
         return Vec::new();
     }
 
-    // 全パターンを並列処理して RawTestResult を収集
-    let patterns: Vec<(&Vec<i64>, &Vec<(i64, i64)>)> = frequents.iter().collect();
+    // パターン単位で全密集区間を統合して置換検定を実施する。
+    // 各パターンの全密集区間から変化点を生成し、全イベントに対して1回の置換検定を行う。
+    // これにより (pattern, event) 単位で FDR を正しく制御する。
+    // 有意な帰属については、事後的に最適密集区間を選択して interval フィールドに記録する。
+    let patterns: Vec<(&Vec<i64>, &Vec<(i64, i64)>)> = frequents
+        .iter()
+        .filter(|(pat, _)| pat.len() >= config.min_pattern_length)
+        .collect();
 
     let all_raw: Vec<RawTestResult> = patterns
         .par_iter()
         .flat_map(|(pattern, intervals)| {
-            if pattern.len() < config.min_pattern_length {
-                return Vec::new();
-            }
-
-            if intervals.is_empty() {
-                return Vec::new();
-            }
-
             let timestamps = get_pattern_timestamps(pattern, item_transaction_map);
 
-            // min_support_range フィルタ
+            // 振幅フィルタ (δ): max_support - min_support が閾値未満のパターンを除外
             if config.min_support_range > 0 {
                 let max_sup = intervals
                     .iter()
@@ -722,12 +751,13 @@ pub fn run_attribution_pipeline(
                 }
             }
 
+            // 全密集区間の変化点を統合
             let change_points = dense_intervals_to_change_points(
                 intervals,
                 &timestamps,
                 window_size,
                 n_transactions,
-                20, // level_window default
+                20,
             );
 
             // min_magnitude フィルタ
@@ -744,7 +774,50 @@ pub fn run_attribution_pipeline(
                 return Vec::new();
             }
 
-            permutation_test_raw(pattern, &change_points, events, sigma, max_pos, config)
+            // 全イベントに対して置換検定 — interval は事後選択用プレースホルダ (0,0)
+            let mut raw = permutation_test_raw(pattern, (0, 0), &change_points, events, sigma, max_pos, config);
+
+            // 有意候補の各 (pattern, event) について最適密集区間を事後選択
+            let ablation = config.ablation_mode.as_deref();
+            let threshold = config.attribution_threshold;
+            for r in &mut raw {
+                let best_iv = intervals.iter().max_by(|&&iv_a, &&iv_b| {
+                    let cps_a = dense_intervals_to_change_points(
+                        &[iv_a], &timestamps, window_size, n_transactions, 20,
+                    );
+                    let cps_b = dense_intervals_to_change_points(
+                        &[iv_b], &timestamps, window_size, n_transactions, 20,
+                    );
+                    let score_a: f64 = cps_a.iter().filter_map(|cp| {
+                        let prox = compute_proximity(cp.time, &r.event, sigma);
+                        let mag = cp.magnitude.abs();
+                        let s = match ablation {
+                            Some("no_prox") | Some("mag_only") => mag,
+                            Some("no_mag") | Some("prox_only") => prox,
+                            _ => prox * mag,
+                        };
+                        if s >= threshold { Some(s) } else { None }
+                    }).sum();
+                    let score_b: f64 = cps_b.iter().filter_map(|cp| {
+                        let prox = compute_proximity(cp.time, &r.event, sigma);
+                        let mag = cp.magnitude.abs();
+                        let s = match ablation {
+                            Some("no_prox") | Some("mag_only") => mag,
+                            Some("no_mag") | Some("prox_only") => prox,
+                            _ => prox * mag,
+                        };
+                        if s >= threshold { Some(s) } else { None }
+                    }).sum();
+                    score_a.partial_cmp(&score_b).unwrap_or(std::cmp::Ordering::Equal)
+                });
+                if let Some(&iv) = best_iv {
+                    r.interval = iv;
+                } else if !intervals.is_empty() {
+                    r.interval = intervals[0];
+                }
+            }
+
+            raw
         })
         .collect();
 
@@ -752,7 +825,7 @@ pub fn run_attribution_pipeline(
         return Vec::new();
     }
 
-    // グローバル多重検定補正
+    // (pattern, event) 単位での多重検定補正
     let n_total = all_raw.len();
     let mut results: Vec<SignificantAttribution> = Vec::new();
 
@@ -790,6 +863,8 @@ pub fn run_attribution_pipeline(
 fn raw_to_significant(r: &RawTestResult, adj_p: f64) -> SignificantAttribution {
     SignificantAttribution {
         pattern: r.pattern.clone(),
+        interval_start: r.interval.0,
+        interval_end: r.interval.1,
         change_time: r.change_point.time,
         change_direction: r.change_point.direction.clone(),
         change_magnitude: r.change_point.magnitude,
@@ -894,7 +969,7 @@ mod tests {
         }];
 
         let sigma = 10.0;
-        let results = score_attributions(&change_points, &events, sigma, 0.1, None);
+        let results = score_attributions(&change_points, &events, sigma, 0.1, None, "none");
 
         // E1 should have high score (proximity ~1.0, magnitude=5.0)
         // E2 should have low score (proximity ~exp(-90/10), likely below threshold)
@@ -959,6 +1034,8 @@ mod tests {
         let results = vec![
             SignificantAttribution {
                 pattern: vec![1, 2],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -972,6 +1049,8 @@ mod tests {
             },
             SignificantAttribution {
                 pattern: vec![1, 3],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -997,6 +1076,8 @@ mod tests {
         let results = vec![
             SignificantAttribution {
                 pattern: vec![1, 2, 3],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -1010,6 +1091,8 @@ mod tests {
             },
             SignificantAttribution {
                 pattern: vec![1, 4, 5],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -1023,6 +1106,8 @@ mod tests {
             },
             SignificantAttribution {
                 pattern: vec![1, 2, 5],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -1053,6 +1138,8 @@ mod tests {
         let results = vec![
             SignificantAttribution {
                 pattern: vec![1, 2],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,
@@ -1066,6 +1153,8 @@ mod tests {
             },
             SignificantAttribution {
                 pattern: vec![1, 2, 3],
+                interval_start: 0,
+                interval_end: 0,
                 change_time: 10,
                 change_direction: "up".to_string(),
                 change_magnitude: 5.0,

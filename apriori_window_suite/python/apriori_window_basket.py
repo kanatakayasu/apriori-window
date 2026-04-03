@@ -445,6 +445,11 @@ def find_dense_itemsets(
         ③ multi-item候補の共起タイムスタンプは basket_id の積集合 →
           basket_ids_to_transaction_ids で transaction_id（重複あり）に変換
     """
+    # Auto-detect flat transaction format (List[List[int]]) vs basket format
+    # (List[List[List[int]]]). If flat, wrap each transaction as a single basket.
+    if transactions and transactions[0] and not isinstance(transactions[0][0], list):
+        transactions = [[txn] for txn in transactions]
+
     item_basket_map, basket_to_transaction, item_transaction_map = compute_item_basket_map(
         transactions
     )
@@ -590,6 +595,38 @@ def main() -> None:
     elapsed_ms = (time.perf_counter() - start) * 1000.0
     print(f"結果を {output_path} に出力しました。")
     print(f"Elapsed time: {elapsed_ms:.3f} ms")
+
+
+# ---------------------------------------------------------------------------
+# apriori_window_original 互換関数
+# ---------------------------------------------------------------------------
+
+def compute_item_timestamps_map(
+    transactions: Sequence[List[int]],
+) -> Dict[int, List[int]]:
+    """各アイテムの出現位置列を作成する。"""
+    item_map: Dict[int, List[int]] = {}
+    for idx, transaction in enumerate(transactions):
+        seen = set()
+        for item in transaction:
+            if item in seen:
+                continue
+            seen.add(item)
+            item_map.setdefault(item, []).append(idx)
+    return item_map
+
+
+def read_text_file_as_2d_vec_of_integers(path: str) -> List[List[int]]:
+    """apriori_window と同じ形式の入力ファイルを読み込む。"""
+    transactions: List[List[int]] = []
+    with open(path, "r", encoding="utf-8") as input_file:
+        for line in input_file:
+            line = line.strip()
+            if not line:
+                transactions.append([])
+                continue
+            transactions.append([int(item) for item in line.split()])
+    return transactions
 
 
 if __name__ == "__main__":

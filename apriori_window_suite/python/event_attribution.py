@@ -17,10 +17,8 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 # Phase 1 モジュールを import
 _parent = str(Path(__file__).resolve().parent)
-_original_dir = str(Path(__file__).resolve().parent.parent.parent / "apriori_window_original" / "python")
-for _p in [_parent, _original_dir]:
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+if _parent not in sys.path:
+    sys.path.insert(0, _parent)
 
 
 # ---------------------------------------------------------------------------
@@ -146,7 +144,7 @@ def compute_support_series_all(
     .. deprecated::
         Phase 2 v2 パイプラインでは不要。run_attribution_pipeline_v2() を使用。
     """
-    from apriori_window import intersect_sorted_lists
+    from apriori_window_basket import intersect_sorted_lists
 
     n_transactions = len(transactions)
     result = {}
@@ -276,7 +274,7 @@ def _get_pattern_timestamps(
     item_transaction_map: Dict[int, List[int]],
 ) -> List[int]:
     """パターンの出現トランザクション ID リストを取得する。"""
-    from apriori_window import intersect_sorted_lists
+    from apriori_window_basket import intersect_sorted_lists
 
     items = list(pattern)
     if len(items) == 1:
@@ -1202,7 +1200,7 @@ def main():
     with open(settings_path, "r", encoding="utf-8") as f:
         settings = json.load(f)
 
-    from apriori_window import (
+    from apriori_window_basket import (
         read_text_file_as_2d_vec_of_integers,
         compute_item_timestamps_map,
         find_dense_itemsets,
