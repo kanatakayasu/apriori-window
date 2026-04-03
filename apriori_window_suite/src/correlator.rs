@@ -334,9 +334,10 @@ pub fn circular_shift_events(events: &[Event], offset: i64, max_time: i64) -> Ve
         .collect()
 }
 
-/// 置換検定を実行し、未補正 p 値を返す。
+/// 1つの密集区間 `interval` に対して置換検定を実行し、未補正 p 値を返す。
 ///
-/// `interval` は呼び出し元の密集区間 (start, end) で、出力に付与される。
+/// 新設計: (P, I, E) を仮説単位とし、区間ごとに独立した検定を行う。
+/// `pair_seed` は (pattern, interval) に固有の決定論的シードで並列実行時の再現性を保証する。
 fn permutation_test_raw(
     pattern: &[i64],
     interval: (i64, i64),
@@ -345,6 +346,7 @@ fn permutation_test_raw(
     sigma: f64,
     max_time: i64,
     config: &AttributionConfig,
+    pair_seed: u64,
 ) -> Vec<RawTestResult> {
     let ablation = config.ablation_mode.as_deref();
     let threshold = config.attribution_threshold;
@@ -358,35 +360,34 @@ fn permutation_test_raw(
         return Vec::new();
     }
 
-    // イベント ID ごとのスコア合計
+    // イベント ID ごとのスコア合計とベスト情報
     let mut obs_scores: HashMap<String, f64> = HashMap::new();
-    // イベント ID ごとのベスト候補（最高スコア + proximity）
-    let mut best_candidates: HashMap<String, &ScoredCandidate> = HashMap::new();
+    let mut best_prox: HashMap<String, f64> = HashMap::new();
+    let mut best_event_map: HashMap<String, Event> = HashMap::new();
 
     for c in &obs_candidates {
         *obs_scores.entry(c.event.event_id.clone()).or_insert(0.0) += c.score;
-        let is_better = best_candidates
+        let is_better = best_prox
             .get(&c.event.event_id)
-            .map_or(true, |prev| c.score > prev.score);
+            .map_or(true, |&p| c.proximity > p);
         if is_better {
-            best_candidates.insert(c.event.event_id.clone(), c);
+            best_prox.insert(c.event.event_id.clone(), c.proximity);
+            best_event_map.insert(c.event.event_id.clone(), c.event.clone());
         }
     }
 
-    // 置換分布の構築
+    // 置換分布の構築（pair_seed で各 (P, I) ペア固有の RNG を使用）
     let mut perm_counts: HashMap<String, usize> = obs_scores
         .keys()
         .map(|k| (k.clone(), 0))
         .collect();
 
-    let seed = config.seed.unwrap_or(0);
-    let mut rng = StdRng::seed_from_u64(seed);
+    let mut rng = StdRng::seed_from_u64(pair_seed);
 
     for _ in 0..config.n_permutations {
         let offset = rng.gen_range(1..max_time);
         let shifted = circular_shift_events(events, offset, max_time);
 
-        // shifted events に対するスコア合計
         let mut perm_scores: HashMap<String, f64> = HashMap::new();
         for cp in change_points {
             for event in &shifted {
@@ -410,42 +411,40 @@ fn permutation_test_raw(
         }
     }
 
-    // 未補正 p 値
+    // 未補正 p 値（interval は常に正しく設定済み — 事後選択不要）
     let n_perm = config.n_permutations;
     obs_scores
         .iter()
         .map(|(eid, &obs_s)| {
             let count = perm_counts[eid];
             let p_value = (count as f64 + 1.0) / (n_perm as f64 + 1.0);
-            let best = best_candidates[eid];
+            let ev = &best_event_map[eid];
+            let prox = best_prox[eid];
+
+            // UP 変化点（区間 onset）を代表として選択
+            let best_cp = change_points
+                .iter()
+                .filter(|cp| cp.direction == "up")
+                .max_by(|a, b| {
+                    compute_proximity(a.time, ev, sigma)
+                        .partial_cmp(&compute_proximity(b.time, ev, sigma))
+                        .unwrap_or(std::cmp::Ordering::Equal)
+                })
+                .or_else(|| change_points.first())
+                .unwrap()
+                .clone();
+
             RawTestResult {
                 pattern: pattern.to_vec(),
                 interval,
-                change_point: find_best_change_point(change_points, &best.event, sigma),
-                event: best.event.clone(),
-                proximity: best.proximity,
+                change_point: best_cp,
+                event: ev.clone(),
+                proximity: prox,
                 obs_score: obs_s,
                 p_value,
             }
         })
         .collect()
-}
-
-/// ベスト変化点を見つけるヘルパー（最高 proximity のもの）
-fn find_best_change_point(
-    change_points: &[ChangePoint],
-    event: &Event,
-    sigma: f64,
-) -> ChangePoint {
-    change_points
-        .iter()
-        .max_by(|a, b| {
-            let pa = compute_proximity(a.time, event, sigma);
-            let pb = compute_proximity(b.time, event, sigma);
-            pa.partial_cmp(&pb).unwrap_or(std::cmp::Ordering::Equal)
-        })
-        .unwrap()
-        .clone()
 }
 
 // ---------------------------------------------------------------------------
@@ -494,10 +493,11 @@ pub fn deduplicate_by_item_overlap(
 ) -> Vec<SignificantAttribution> {
     use std::collections::HashSet;
 
-    // (event_name, interval) でグループ化 — 異なる密集区間は独立
-    let mut by_event: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
+    // (event_name, interval_start, interval_end) でグループ化
+    // 同じ区間・同じイベントに帰属されたパターン同士のみ dedup — 異なる区間は独立した帰属として保持
+    let mut by_event: HashMap<(String, i64, i64), Vec<SignificantAttribution>> = HashMap::new();
     for r in results {
-        let key = r.event_name.clone();
+        let key = (r.event_name.clone(), r.interval_start, r.interval_end);
         by_event
             .entry(key)
             .or_default()
@@ -587,9 +587,9 @@ pub fn deduplicate_by_item_overlap(
 
     // Phase 2: Cross-length subset dedup
     // If pattern A ⊂ B (same event + same interval), merge and keep highest score
-    let mut by_event2: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
+    let mut by_event2: HashMap<(String, i64, i64), Vec<SignificantAttribution>> = HashMap::new();
     for r in deduplicated {
-        let key = r.event_name.clone();
+        let key = (r.event_name.clone(), r.interval_start, r.interval_end);
         by_event2
             .entry(key)
             .or_default()
@@ -690,8 +690,13 @@ fn get_pattern_timestamps(
 
 /// Event Attribution Pipeline を実行する。
 ///
-/// Phase 1 出力の密集区間を直接利用し、サポート時系列の再計算を省略する。
-/// rayon で全パターンを並列処理する。
+/// 新設計: 密集区間を直接イベントに帰属させる。
+/// 仮説単位を (pattern, event) から (pattern, interval, event) に変更。
+///
+/// 最適化:
+/// - タイムスタンプを全パターン分並列プリ計算（複数区間を持つパターンの重複計算を回避）
+/// - (pattern, interval) ペアに展開し rayon で並列置換検定
+/// - 事後的な区間選択を廃止し、設計上の正確性を向上
 pub fn run_attribution_pipeline(
     frequents: &HashMap<Vec<i64>, Vec<(i64, i64)>>,
     item_transaction_map: &HashMap<i64, Vec<i64>>,
@@ -708,57 +713,57 @@ pub fn run_attribution_pipeline(
         return Vec::new();
     }
 
-    // パターン単位で全密集区間を統合して置換検定を実施する。
-    // 各パターンの全密集区間から変化点を生成し、全イベントに対して1回の置換検定を行う。
-    // これにより (pattern, event) 単位で FDR を正しく制御する。
-    // 有意な帰属については、事後的に最適密集区間を選択して interval フィールドに記録する。
-    let patterns: Vec<(&Vec<i64>, &Vec<(i64, i64)>)> = frequents
-        .iter()
-        .filter(|(pat, _)| pat.len() >= config.min_pattern_length)
+    // Step 0: パターンのタイムスタンプを並列プリ計算
+    // 同一パターンが複数の密集区間を持つ場合に重複計算を避ける
+    let filtered_patterns: Vec<&Vec<i64>> = frequents
+        .keys()
+        .filter(|pat| pat.len() >= config.min_pattern_length)
         .collect();
 
-    let all_raw: Vec<RawTestResult> = patterns
+    let timestamps_map: HashMap<&Vec<i64>, Vec<i64>> = filtered_patterns
         .par_iter()
-        .flat_map(|(pattern, intervals)| {
-            let timestamps = get_pattern_timestamps(pattern, item_transaction_map);
+        .map(|pat| (*pat, get_pattern_timestamps(pat, item_transaction_map)))
+        .collect();
 
-            // 振幅フィルタ (δ): max_support - min_support が閾値未満のパターンを除外
-            if config.min_support_range > 0 {
-                let max_sup = intervals
-                    .iter()
-                    .map(|&(s, e)| {
-                        let mid = (s + e) / 2;
-                        local_support(&timestamps, mid, window_size)
-                    })
-                    .max()
-                    .unwrap_or(0);
+    // Step 1: (pattern, interval) ペアに展開
+    // 各密集区間を独立した仮説として扱う（今回の設計変更の核心）
+    let pairs: Vec<(&Vec<i64>, (i64, i64))> = frequents
+        .iter()
+        .filter(|(pat, _)| pat.len() >= config.min_pattern_length)
+        .flat_map(|(pat, intervals)| intervals.iter().map(move |&iv| (pat, iv)))
+        .collect();
 
-                let mut candidate_positions = vec![0, (max_pos - 1).max(0)];
-                let mut sorted_ivs: Vec<(i64, i64)> = intervals.to_vec();
-                sorted_ivs.sort();
-                for w in sorted_ivs.windows(2) {
-                    candidate_positions.push((w[0].1 + w[1].0) / 2);
-                }
-                let min_sup = candidate_positions
-                    .iter()
-                    .filter(|&&pos| pos >= 0 && pos < max_pos)
-                    .map(|&pos| local_support(&timestamps, pos, window_size))
-                    .min()
-                    .unwrap_or(max_sup);
+    // Step 2: 各 (pattern, interval) ペアに対して並列置換検定
+    let all_raw: Vec<RawTestResult> = pairs
+        .par_iter()
+        .flat_map(|(pattern, interval)| {
+            let interval = *interval;
+            let timestamps = &timestamps_map[pattern];
 
-                if max_sup - min_sup < config.min_support_range {
-                    return Vec::new();
-                }
-            }
-
-            // 全密集区間の変化点を統合
+            // 区間の変化点を生成（2点: onset@s, offset@e+1）
             let change_points = dense_intervals_to_change_points(
-                intervals,
-                &timestamps,
+                &[interval],
+                timestamps,
                 window_size,
                 n_transactions,
                 20,
             );
+            if change_points.is_empty() {
+                return Vec::new();
+            }
+
+            // 振幅フィルタ: UP CP の magnitude で per-interval 判定
+            // dense_intervals_to_change_points が計算した onset magnitude を再利用
+            if config.min_support_range > 0 {
+                let max_mag = change_points
+                    .iter()
+                    .filter(|cp| cp.direction == "up")
+                    .map(|cp| cp.magnitude)
+                    .fold(0.0_f64, f64::max);
+                if (max_mag as i64) < config.min_support_range {
+                    return Vec::new();
+                }
+            }
 
             // min_magnitude フィルタ
             let change_points: Vec<ChangePoint> = if config.min_magnitude > 0.0 {
@@ -769,55 +774,26 @@ pub fn run_attribution_pipeline(
             } else {
                 change_points
             };
-
             if change_points.is_empty() {
                 return Vec::new();
             }
 
-            // 全イベントに対して置換検定 — interval は事後選択用プレースホルダ (0,0)
-            let mut raw = permutation_test_raw(pattern, (0, 0), &change_points, events, sigma, max_pos, config);
-
-            // 有意候補の各 (pattern, event) について最適密集区間を事後選択
-            let ablation = config.ablation_mode.as_deref();
-            let threshold = config.attribution_threshold;
-            for r in &mut raw {
-                let best_iv = intervals.iter().max_by(|&&iv_a, &&iv_b| {
-                    let cps_a = dense_intervals_to_change_points(
-                        &[iv_a], &timestamps, window_size, n_transactions, 20,
-                    );
-                    let cps_b = dense_intervals_to_change_points(
-                        &[iv_b], &timestamps, window_size, n_transactions, 20,
-                    );
-                    let score_a: f64 = cps_a.iter().filter_map(|cp| {
-                        let prox = compute_proximity(cp.time, &r.event, sigma);
-                        let mag = cp.magnitude.abs();
-                        let s = match ablation {
-                            Some("no_prox") | Some("mag_only") => mag,
-                            Some("no_mag") | Some("prox_only") => prox,
-                            _ => prox * mag,
-                        };
-                        if s >= threshold { Some(s) } else { None }
-                    }).sum();
-                    let score_b: f64 = cps_b.iter().filter_map(|cp| {
-                        let prox = compute_proximity(cp.time, &r.event, sigma);
-                        let mag = cp.magnitude.abs();
-                        let s = match ablation {
-                            Some("no_prox") | Some("mag_only") => mag,
-                            Some("no_mag") | Some("prox_only") => prox,
-                            _ => prox * mag,
-                        };
-                        if s >= threshold { Some(s) } else { None }
-                    }).sum();
-                    score_a.partial_cmp(&score_b).unwrap_or(std::cmp::Ordering::Equal)
+            // (P, I) 固有のシードを生成（決定論的・並列実行での再現性を保証）
+            let pair_seed = {
+                let base = config.seed.unwrap_or(0);
+                let ph = pattern.iter().fold(base, |h, &item| {
+                    h.wrapping_mul(1_000_003).wrapping_add(item as u64)
                 });
-                if let Some(&iv) = best_iv {
-                    r.interval = iv;
-                } else if !intervals.is_empty() {
-                    r.interval = intervals[0];
-                }
-            }
+                ph.wrapping_mul(1_000_003)
+                    .wrapping_add(interval.0 as u64)
+                    .wrapping_mul(1_000_003)
+                    .wrapping_add(interval.1 as u64)
+            };
 
-            raw
+            permutation_test_raw(
+                pattern, interval, &change_points, events,
+                sigma, max_pos, config, pair_seed,
+            )
         })
         .collect();
 
@@ -825,7 +801,7 @@ pub fn run_attribution_pipeline(
         return Vec::new();
     }
 
-    // (pattern, event) 単位での多重検定補正
+    // Step 3: (P, I, E) 単位での多重検定補正
     let n_total = all_raw.len();
     let mut results: Vec<SignificantAttribution> = Vec::new();
 
@@ -836,7 +812,6 @@ pub fn run_attribution_pipeline(
             .map(|(i, r)| (i, r.p_value))
             .collect();
         let adjusted = bh_correction(&mut indexed, n_total);
-
         for (idx, adj_p) in adjusted {
             if adj_p < config.alpha {
                 results.push(raw_to_significant(&all_raw[idx], adj_p));
@@ -852,7 +827,7 @@ pub fn run_attribution_pipeline(
         }
     }
 
-    // 重複排除
+    // Step 4: 重複排除（同一区間・同一イベントに帰属されたパターン同士のみ）
     if config.deduplicate_overlap && !results.is_empty() {
         results = deduplicate_by_item_overlap(results);
     }
