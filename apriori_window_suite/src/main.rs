@@ -1,23 +1,126 @@
-//! apriori_window_suite バイナリエントリポイント
+//! apriori_window_suite CLI
 //!
-//! 使い方:
-//!   cargo run -- phase1 [settings.json]
-//!
-//! settings.json を省略した場合は data/settings.json を使用する。
-//! Phase 2 (Event Attribution) は Python プロトタイプを使用:
-//!   python3 apriori_window_suite/python/event_attribution.py [settings.json]
+//! Subcommands:
+//!   phase1          Run Phase 1 (Apriori-window) from settings.json
+//!   run-experiment  Run full attribution pipeline on given data
+//!   run-ex3         Run EX3: method comparison experiment
 
-use std::env;
+use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Instant;
 
-use apriori_window_suite::{
-    find_dense_itemsets, read_transactions_with_baskets, write_patterns_csv,
+use clap::{Parser, Subcommand};
+use serde::{Deserialize, Serialize};
+
+use apriori_window_suite::baselines::{BaselineParams, BaselineResult, PatternData};
+use apriori_window_suite::correlator::{
+    run_attribution_pipeline, AttributionConfig,
 };
-use serde::Deserialize;
+use apriori_window_suite::evaluate::{
+    evaluate_false_attribution_rate, evaluate_with_event_name_mapping, PredictedAttribution,
+};
+use apriori_window_suite::io::{read_events, read_transactions_with_baskets};
+use apriori_window_suite::synth::{
+    generate_synthetic, make_ex1_config, make_ex1_confound_config, make_ex1_dense_config,
+    make_ex1_overlap_config, make_ex1_short_config, make_ex6_zipf_config, scale_config_to_n,
+    SyntheticConfig,
+};
+use apriori_window_suite::{
+    compute_item_basket_map, find_dense_itemsets, write_patterns_csv,
+};
 
 // ---------------------------------------------------------------------------
-// 設定ファイル
+// CLI
+// ---------------------------------------------------------------------------
+
+#[derive(Parser)]
+#[command(name = "apriori_window_suite", about = "Apriori-window + Event Attribution Pipeline")]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    /// Run Phase 1 from settings.json
+    Phase1 {
+        /// Path to settings.json
+        #[arg(default_value = "data/settings.json")]
+        settings: String,
+    },
+    /// Run experiment: Phase 1 + attribution + evaluation
+    RunExperiment {
+        /// Transaction file path
+        #[arg(long)]
+        txn: String,
+        /// Events JSON path
+        #[arg(long)]
+        events: String,
+        /// Ground truth JSON path
+        #[arg(long)]
+        gt: String,
+        /// Method: proposed, wilcoxon, causalimpact, its, eventstudy, eca
+        #[arg(long, default_value = "proposed")]
+        method: String,
+        /// Unrelated patterns JSON path (for FAR)
+        #[arg(long)]
+        unrelated: Option<String>,
+        /// Window size
+        #[arg(long, default_value_t = 50)]
+        window_size: i64,
+        /// Min support
+        #[arg(long, default_value_t = 5)]
+        min_support: usize,
+        /// Max pattern length
+        #[arg(long, default_value_t = 100)]
+        max_length: usize,
+        /// Alpha
+        #[arg(long, default_value_t = 0.10)]
+        alpha: f64,
+        /// Number of permutations (proposed method)
+        #[arg(long, default_value_t = 5000)]
+        n_permutations: usize,
+        /// Random seed
+        #[arg(long, default_value_t = 0)]
+        seed: u64,
+        /// Output JSON path
+        #[arg(long)]
+        output: Option<String>,
+    },
+    /// Run EX1: core attribution accuracy
+    RunEx1 {
+        /// Number of seeds
+        #[arg(long, default_value_t = 5)]
+        n_seeds: usize,
+        /// Number of transactions
+        #[arg(long, default_value_t = 5000)]
+        n_transactions: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/ex1")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/ex1")]
+        data_dir: String,
+    },
+    /// Run EX3: method comparison experiment
+    RunEx3 {
+        /// Number of seeds
+        #[arg(long, default_value_t = 5)]
+        n_seeds: usize,
+        /// Number of transactions
+        #[arg(long, default_value_t = 5000)]
+        n_transactions: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/method_comparison")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/method_comparison")]
+        data_dir: String,
+    },
+}
+
+// ---------------------------------------------------------------------------
+// Phase 1 settings
 // ---------------------------------------------------------------------------
 
 #[derive(Deserialize)]
@@ -47,10 +150,9 @@ struct AprioriParameters {
 }
 
 // ---------------------------------------------------------------------------
-// Phase 1 実行
+// Phase 1
 // ---------------------------------------------------------------------------
 
-/// Phase 1 を実行してパターン CSV を書き出す。
 fn run_phase1(settings_path: &str) -> PathBuf {
     let text = std::fs::read_to_string(settings_path)
         .unwrap_or_else(|_| panic!("failed to read settings: {settings_path}"));
@@ -73,37 +175,464 @@ fn run_phase1(settings_path: &str) -> PathBuf {
 }
 
 // ---------------------------------------------------------------------------
+// Run single experiment
+// ---------------------------------------------------------------------------
+
+#[derive(Serialize)]
+struct ExperimentResult {
+    method: String,
+    precision: f64,
+    recall: f64,
+    f1: f64,
+    far: f64,
+    n_pred: usize,
+    elapsed_ms: f64,
+}
+
+fn run_experiment_method(
+    txn_path: &str,
+    events_path: &str,
+    gt_path: &str,
+    unrelated_path: Option<&str>,
+    method: &str,
+    window_size: i64,
+    min_support: usize,
+    max_length: usize,
+    alpha: f64,
+    n_permutations: usize,
+    seed: u64,
+) -> ExperimentResult {
+    let t0 = Instant::now();
+
+    // Phase 1: load + mine
+    let transactions = read_transactions_with_baskets(txn_path);
+    let n_transactions = transactions.len() as i64;
+    let (_, _, item_transaction_map) =
+        compute_item_basket_map(&transactions);
+    let frequents = find_dense_itemsets(&transactions, window_size, min_support, max_length);
+    let events = read_events(events_path);
+
+    let predicted: Vec<PredictedAttribution>;
+
+    if method == "proposed" {
+        // Run proposed method
+        let config = AttributionConfig {
+            sigma: Some(window_size as f64),
+            n_permutations,
+            alpha,
+            correction_method: "bh".to_string(),
+            global_correction: true,
+            deduplicate_overlap: true,
+            min_support_range: 10,
+            min_magnitude: 0.0,
+            attribution_threshold: 0.1,
+            seed: Some(seed),
+            ablation_mode: None,
+            min_pattern_length: 2,
+            magnitude_normalization: "sqrt".to_string(),
+        };
+
+        let results = run_attribution_pipeline(
+            &frequents,
+            &item_transaction_map,
+            &events,
+            window_size,
+            min_support as i64,
+            n_transactions,
+            &config,
+        );
+
+        // 区間ごとの帰属結果を (pattern, event_name) でユニーク化して評価に使用
+        let mut seen = std::collections::HashSet::new();
+        predicted = results
+            .iter()
+            .filter_map(|r| {
+                let key = (r.pattern.clone(), r.event_name.clone());
+                if seen.insert(key) {
+                    Some(PredictedAttribution {
+                        pattern: r.pattern.clone(),
+                        event_name: r.event_name.clone(),
+                    })
+                } else {
+                    None
+                }
+            })
+            .collect();
+    } else {
+        // Run baseline
+        let pattern_data = PatternData {
+            frequents: frequents.clone(),
+            item_transaction_map: item_transaction_map.clone(),
+            n_transactions,
+        };
+        let params = BaselineParams {
+            window_size,
+            alpha,
+            min_support_range: 0,
+            deduplicate: true,
+        };
+
+        let baseline_results: Vec<BaselineResult> = match method {
+            "wilcoxon" => apriori_window_suite::baselines::run_wilcoxon(&pattern_data, &events, &params),
+            "causalimpact" => apriori_window_suite::baselines::run_causalimpact(&pattern_data, &events, &params),
+            "its" => apriori_window_suite::baselines::run_its(&pattern_data, &events, &params),
+            "eventstudy" => apriori_window_suite::baselines::run_event_study(&pattern_data, &events, &params),
+            "eca" => apriori_window_suite::baselines::run_eca(&pattern_data, &events, &params),
+            _ => panic!("Unknown method: {method}"),
+        };
+
+        predicted = baseline_results
+            .iter()
+            .map(|r| PredictedAttribution {
+                pattern: r.pattern.clone(),
+                event_name: r.event_name.clone(),
+            })
+            .collect();
+    }
+
+    let elapsed_ms = t0.elapsed().as_secs_f64() * 1000.0;
+
+    // Evaluate
+    let eval = evaluate_with_event_name_mapping(&predicted, gt_path, events_path);
+    let far = if let Some(up) = unrelated_path {
+        if std::path::Path::new(up).exists() {
+            let fa = evaluate_false_attribution_rate(&predicted, up, events_path);
+            fa.false_attribution_rate
+        } else {
+            0.0
+        }
+    } else {
+        0.0
+    };
+
+    ExperimentResult {
+        method: method.to_string(),
+        precision: eval.precision,
+        recall: eval.recall,
+        f1: eval.f1,
+        far,
+        n_pred: predicted.len(),
+        elapsed_ms,
+    }
+}
+
+// ---------------------------------------------------------------------------
+// EX3: Method Comparison
+// ---------------------------------------------------------------------------
+
+const METHOD_ORDER: &[&str] = &[
+    "proposed", "wilcoxon", "causalimpact", "its", "eventstudy", "eca",
+];
+const METHOD_DISPLAY: &[&str] = &[
+    "Proposed", "Wilcoxon", "CausalImpact", "ITS", "EventStudy", "ECA",
+];
+
+fn run_ex3(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(90));
+    println!("EX3: Method Comparison — {} Methods", METHOD_ORDER.len());
+    println!("{}", "=".repeat(90));
+
+    let conditions: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>)> = vec![
+        ("β=0.3", Box::new(move |seed| {
+            let c = make_ex6_zipf_config(1.0, seed);
+            scale_config_to_n(&c, n_transactions)
+        })),
+        ("OVERLAP", Box::new(move |seed| {
+            let c = make_ex1_overlap_config(seed);
+            let mut c = scale_config_to_n(&c, n_transactions);
+            c.item_probs = zipf_item_probs(c.n_items, 1.0, 0.03, 0.10);
+            c
+        })),
+        ("CONFOUND", Box::new(move |seed| {
+            let c = make_ex1_confound_config(seed);
+            let mut c = scale_config_to_n(&c, n_transactions);
+            c.item_probs = zipf_item_probs(c.n_items, 1.0, 0.03, 0.10);
+            c
+        })),
+        ("DENSE", Box::new(move |seed| {
+            let c = make_ex1_dense_config(seed);
+            let mut c = scale_config_to_n(&c, n_transactions);
+            c.item_probs = zipf_item_probs(c.n_items, 1.0, 0.03, 0.10);
+            c
+        })),
+        ("SHORT", Box::new(move |seed| {
+            let c = make_ex1_short_config(seed);
+            let mut c = scale_config_to_n(&c, n_transactions);
+            c.item_probs = zipf_item_probs(c.n_items, 1.0, 0.03, 0.10);
+            c
+        })),
+    ];
+
+    let mut all_results: HashMap<String, HashMap<String, Vec<ExperimentResult>>> = HashMap::new();
+
+    for (cond_name, config_fn) in &conditions {
+        println!("\n--- {} ---", cond_name);
+        let mut method_seeds: HashMap<String, Vec<ExperimentResult>> = HashMap::new();
+        for m in METHOD_ORDER {
+            method_seeds.insert(m.to_string(), Vec::new());
+        }
+
+        for seed in 0..n_seeds {
+            let synth_config = config_fn(seed as u64);
+            let cond_dir = cond_name.to_lowercase().replace('=', "");
+            let seed_dir = format!("{}/{}_{}", data_dir, cond_dir, seed);
+            let info = generate_synthetic(&synth_config, &seed_dir);
+
+            for (i, &method) in METHOD_ORDER.iter().enumerate() {
+                let r = run_experiment_method(
+                    &info.txn_path,
+                    &info.events_path,
+                    &info.gt_path,
+                    info.unrelated_path.as_deref(),
+                    method,
+                    50, 5, 100, 0.10, 5000, seed as u64,
+                ); // min_support=5, window_size=50
+                println!(
+                    "  seed={} {:<14} P={:.2} R={:.2} F1={:.2} FAR={:.2} #={} {:.0}ms",
+                    seed, METHOD_DISPLAY[i], r.precision, r.recall, r.f1, r.far,
+                    r.n_pred, r.elapsed_ms
+                );
+                method_seeds.get_mut(method).unwrap().push(r);
+            }
+        }
+
+        // Print averages
+        println!("\n  {:<14} {:>6} {:>6} {:>6} {:>6}", "Method", "P", "R", "F1", "FAR");
+        println!("  {}", "-".repeat(40));
+        for (i, &method) in METHOD_ORDER.iter().enumerate() {
+            let seeds = &method_seeds[method];
+            let n = seeds.len() as f64;
+            let avg_p: f64 = seeds.iter().map(|s| s.precision).sum::<f64>() / n;
+            let avg_r: f64 = seeds.iter().map(|s| s.recall).sum::<f64>() / n;
+            let avg_f1: f64 = seeds.iter().map(|s| s.f1).sum::<f64>() / n;
+            let avg_far: f64 = seeds.iter().map(|s| s.far).sum::<f64>() / n;
+            println!(
+                "  {:<14} {:>6.2} {:>6.2} {:>6.2} {:>6.2}",
+                METHOD_DISPLAY[i], avg_p, avg_r, avg_f1, avg_far
+            );
+        }
+
+        all_results.insert(cond_name.to_string(), method_seeds);
+    }
+
+    // Save results
+    std::fs::create_dir_all(out_dir).ok();
+    let save_path = format!("{}/method_comparison_results.json", out_dir);
+
+    // Convert to serializable format
+    let mut serializable: HashMap<String, HashMap<String, Vec<SerializableResult>>> = HashMap::new();
+    for (cond, methods) in &all_results {
+        let mut m = HashMap::new();
+        for (method, results) in methods {
+            // Map method key to display name
+            let display_idx = METHOD_ORDER.iter().position(|&x| x == method).unwrap();
+            let display_name = METHOD_DISPLAY[display_idx];
+            m.insert(
+                display_name.to_string(),
+                results.iter().map(|r| SerializableResult {
+                    precision: r.precision,
+                    recall: r.recall,
+                    f1: r.f1,
+                    far: r.far,
+                    n_pred: r.n_pred,
+                }).collect(),
+            );
+        }
+        serializable.insert(cond.clone(), m);
+    }
+
+    let output = serde_json::json!({
+        "results": serializable,
+    });
+    std::fs::write(&save_path, serde_json::to_string_pretty(&output).unwrap()).unwrap();
+    println!("\nResults saved to: {}", save_path);
+}
+
+#[derive(Serialize)]
+struct SerializableResult {
+    precision: f64,
+    recall: f64,
+    f1: f64,
+    far: f64,
+    n_pred: usize,
+}
+
+// ---------------------------------------------------------------------------
+// EX1: Core Attribution Accuracy
+// ---------------------------------------------------------------------------
+
+fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(90));
+    println!("EX1: Core Attribution Accuracy — Proposed Method Only");
+    println!("  Beta sweep: β ∈ {{0.1, 0.2, 0.3, 0.5}}");
+    println!("  Structural: OVERLAP, CONFOUND, DENSE, SHORT");
+    println!("  Seeds: {} per condition, N={}", n_seeds, n_transactions);
+    println!("{}", "=".repeat(90));
+
+    let conditions: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>)> = vec![
+        ("beta_0.1", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_config(0.1, seed), n_transactions)
+        })),
+        ("beta_0.2", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_config(0.2, seed), n_transactions)
+        })),
+        ("beta_0.3", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_config(0.3, seed), n_transactions)
+        })),
+        ("beta_0.5", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_config(0.5, seed), n_transactions)
+        })),
+        ("OVERLAP", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_overlap_config(seed), n_transactions)
+        })),
+        ("CONFOUND", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_confound_config(seed), n_transactions)
+        })),
+        ("DENSE", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_dense_config(seed), n_transactions)
+        })),
+        ("SHORT", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_short_config(seed), n_transactions)
+        })),
+    ];
+
+    let mut all_results: HashMap<String, Vec<ExperimentResult>> = HashMap::new();
+
+    for (cond_name, config_fn) in &conditions {
+        println!("\n--- {} ---", cond_name);
+        let mut seed_results: Vec<ExperimentResult> = Vec::new();
+
+        for seed in 0..n_seeds {
+            let synth_config = config_fn(seed as u64);
+            let seed_dir = format!("{}/{}_seed{}", data_dir, cond_name, seed);
+            let info = generate_synthetic(&synth_config, &seed_dir);
+
+            let r = run_experiment_method(
+                &info.txn_path,
+                &info.events_path,
+                &info.gt_path,
+                info.unrelated_path.as_deref(),
+                "proposed",
+                50, 5, 100, 0.10, 5000, seed as u64,
+            );
+            println!(
+                "  seed={}: P={:.2} R={:.2} F1={:.2} FAR={:.2} #={} {:.0}ms",
+                seed, r.precision, r.recall, r.f1, r.far, r.n_pred, r.elapsed_ms
+            );
+            seed_results.push(r);
+        }
+
+        // Print averages
+        let n = seed_results.len() as f64;
+        let avg_p: f64 = seed_results.iter().map(|s| s.precision).sum::<f64>() / n;
+        let avg_r: f64 = seed_results.iter().map(|s| s.recall).sum::<f64>() / n;
+        let avg_f1: f64 = seed_results.iter().map(|s| s.f1).sum::<f64>() / n;
+        let avg_far: f64 = seed_results.iter().map(|s| s.far).sum::<f64>() / n;
+        println!("  Average: P={:.2} R={:.2} F1={:.2} FAR={:.2}", avg_p, avg_r, avg_f1, avg_far);
+
+        all_results.insert(cond_name.to_string(), seed_results);
+    }
+
+    // Save results
+    std::fs::create_dir_all(out_dir).ok();
+    let save_path = format!("{}/ex1_results.json", out_dir);
+
+    let mut serializable: HashMap<String, serde_json::Value> = HashMap::new();
+    for (cond, results) in &all_results {
+        let n = results.len() as f64;
+        let seeds: Vec<serde_json::Value> = results.iter().map(|r| {
+            serde_json::json!({
+                "precision": r.precision,
+                "recall": r.recall,
+                "f1": r.f1,
+                "far": r.far,
+                "n_pred": r.n_pred,
+                "elapsed_ms": r.elapsed_ms,
+            })
+        }).collect();
+        serializable.insert(cond.clone(), serde_json::json!({
+            "seeds": seeds,
+            "avg_precision": results.iter().map(|r| r.precision).sum::<f64>() / n,
+            "avg_recall": results.iter().map(|r| r.recall).sum::<f64>() / n,
+            "avg_f1": results.iter().map(|r| r.f1).sum::<f64>() / n,
+            "avg_false_attribution_rate": results.iter().map(|r| r.far).sum::<f64>() / n,
+        }));
+    }
+
+    std::fs::write(&save_path, serde_json::to_string_pretty(&serializable).unwrap()).unwrap();
+    println!("\nEX1 results saved to: {}", save_path);
+
+    // Summary table
+    println!("\n{}", "=".repeat(70));
+    println!("{:<12} {:>10} {:>8} {:>6} {:>6}", "Condition", "Precision", "Recall", "F1", "FAR");
+    println!("{}", "-".repeat(70));
+    let cond_order = ["beta_0.1", "beta_0.2", "beta_0.3", "beta_0.5",
+                      "OVERLAP", "CONFOUND", "DENSE", "SHORT"];
+    for cond in cond_order {
+        if let Some(results) = all_results.get(cond) {
+            let n = results.len() as f64;
+            let avg_p: f64 = results.iter().map(|r| r.precision).sum::<f64>() / n;
+            let avg_r: f64 = results.iter().map(|r| r.recall).sum::<f64>() / n;
+            let avg_f1: f64 = results.iter().map(|r| r.f1).sum::<f64>() / n;
+            let avg_far: f64 = results.iter().map(|r| r.far).sum::<f64>() / n;
+            println!("{:<12} {:>10.2} {:>8.2} {:>6.2} {:>6.2}", cond, avg_p, avg_r, avg_f1, avg_far);
+        }
+    }
+    println!("{}", "=".repeat(70));
+}
+
+fn zipf_item_probs(n_items: usize, alpha: f64, median_target: f64, max_prob: f64) -> Vec<f64> {
+    let median_rank = n_items as f64 / 2.0;
+    let c = median_target * median_rank.powf(alpha);
+    (0..n_items)
+        .map(|k| {
+            let rank = (k + 1) as f64;
+            (c / rank.powf(alpha)).min(max_prob)
+        })
+        .collect()
+}
+
+// ---------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------
 
 fn main() {
-    let mut args = env::args().skip(1);
-    let phase = args.next().unwrap_or_else(|| {
-        eprintln!("Usage: apriori_window_suite phase1 [settings.json]");
-        std::process::exit(1);
-    });
-
-    let default_settings = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("data")
-        .join("settings.json");
-    let settings_path = args.next().map(PathBuf::from).unwrap_or(default_settings);
-    let settings_str = settings_path.to_str().unwrap();
-
+    let cli = Cli::parse();
     let start = Instant::now();
-    match phase.as_str() {
-        "phase1" => {
-            let out = run_phase1(settings_str);
+
+    match cli.command {
+        Commands::Phase1 { settings } => {
+            let out = run_phase1(&settings);
             println!("パターン出力: {}", out.display());
         }
-        _ => {
-            eprintln!("Unknown phase: {phase}. Use 'phase1'.");
-            eprintln!("Phase 2 (Event Attribution) は Python で実行:");
-            eprintln!("  python3 apriori_window_suite/python/event_attribution.py [settings.json]");
-            std::process::exit(1);
+        Commands::RunExperiment {
+            txn, events, gt, method, unrelated,
+            window_size, min_support, max_length,
+            alpha, n_permutations, seed, output,
+        } => {
+            let r = run_experiment_method(
+                &txn, &events, &gt, unrelated.as_deref(),
+                &method, window_size, min_support, max_length,
+                alpha, n_permutations, seed,
+            );
+            let json = serde_json::to_string_pretty(&r).unwrap();
+            if let Some(out_path) = output {
+                std::fs::write(&out_path, &json).unwrap();
+                println!("Results saved to: {}", out_path);
+            } else {
+                println!("{}", json);
+            }
+        }
+        Commands::RunEx1 { n_seeds, n_transactions, out_dir, data_dir } => {
+            run_ex1(n_seeds, n_transactions, &out_dir, &data_dir);
+        }
+        Commands::RunEx3 { n_seeds, n_transactions, out_dir, data_dir } => {
+            run_ex3(n_seeds, n_transactions, &out_dir, &data_dir);
         }
     }
-    let elapsed_ms = start.elapsed().as_secs_f64() * 1000.0;
-    println!("Elapsed time: {:.3} ms", elapsed_ms);
+
+    let elapsed = start.elapsed().as_secs_f64();
+    println!("Total time: {:.1}s", elapsed);
 }
 
 // ---------------------------------------------------------------------------

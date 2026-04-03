@@ -1,13 +1,16 @@
-//! apriori_window_suite — Phase 1 ライブラリ
+//! apriori_window_suite — Apriori-window + Event Attribution Pipeline
 //!
 //! Phase 1: Apriori + スライディングウィンドウによる密集アイテムセット区間検出
-//! Phase 2 (Event Attribution): Python プロトタイプで実装中
+//! Phase 2: イベント帰属パイプライン（変化点検出 + 帰属スコアリング + 置換検定 + BH補正 + 重複排除）
 
 pub mod apriori;
+pub mod baselines;
 pub mod basket;
 pub mod correlator;
+pub mod evaluate;
 pub mod interval;
 pub mod io;
+pub mod synth;
 pub mod util;
 
 pub use apriori::{find_dense_itemsets, generate_candidates, prune_candidates};
