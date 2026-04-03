@@ -16,7 +16,6 @@ from pathlib import Path
 PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, str(Path(PROJECT_ROOT) / "apriori_window_suite" / "python"))
-sys.path.insert(0, str(Path(PROJECT_ROOT) / "apriori_window_original" / "python"))
 
 from experiments.src.gen_synthetic import (
     SyntheticConfig,
@@ -34,7 +33,7 @@ from event_attribution import (
     _detect_and_filter_from_intervals,
     permutation_test_raw,
 )
-from apriori_window import (
+from apriori_window_basket import (
     read_text_file_as_2d_vec_of_integers,
     compute_item_timestamps_map,
     find_dense_itemsets,

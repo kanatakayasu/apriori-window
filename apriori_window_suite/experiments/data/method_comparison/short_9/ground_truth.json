@@ -1,0 +1,23 @@
+[
+  {
+    "event_id": "E1",
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E2",
+    "pattern": [
+      25,
+      35
+    ]
+  },
+  {
+    "event_id": "E3",
+    "pattern": [
+      45,
+      55
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "end": 162800,
+    "event_id": "E1",
+    "name": "Event_1",
+    "start": 122800
+  },
+  {
+    "end": 305600,
+    "event_id": "E2",
+    "name": "Event_2",
+    "start": 265600
+  },
+  {
+    "end": 448400,
+    "event_id": "E3",
+    "name": "Event_3",
+    "start": 408400
+  },
+  {
+    "end": 591200,
+    "event_id": "E4",
+    "name": "Event_4",
+    "start": 551200
+  },
+  {
+    "end": 734000,
+    "event_id": "E5",
+    "name": "Event_5",
+    "start": 694000
+  },
+  {
+    "end": 876800,
+    "event_id": "E6",
+    "name": "Event_6",
+    "start": 836800
+  },
+  {
+    "end": 637600,
+    "event_id": "D1",
+    "name": "Decoy_1",
+    "start": 597600
+  },
+  {
+    "end": 978200,
+    "event_id": "D2",
+    "name": "Decoy_2",
+    "start": 938200
+  },
+  {
+    "end": 678600,
+    "event_id": "D3",
+    "name": "Decoy_3",
+    "start": 638600
+  },
+  {
+    "end": 407400,
+    "event_id": "D4",
+    "name": "Decoy_4",
+    "start": 367400
+  }
+]

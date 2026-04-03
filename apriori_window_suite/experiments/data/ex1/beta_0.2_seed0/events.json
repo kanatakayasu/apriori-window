@@ -1,0 +1,32 @@
+[
+  {
+    "end": 280000,
+    "event_id": "E1",
+    "name": "Event_1",
+    "start": 220000
+  },
+  {
+    "end": 530000,
+    "event_id": "E2",
+    "name": "Event_2",
+    "start": 470000
+  },
+  {
+    "end": 780000,
+    "event_id": "E3",
+    "name": "Event_3",
+    "start": 720000
+  },
+  {
+    "end": 84200,
+    "event_id": "D1",
+    "name": "Decoy_1",
+    "start": 24200
+  },
+  {
+    "end": 609000,
+    "event_id": "D2",
+    "name": "Decoy_2",
+    "start": 549000
+  }
+]

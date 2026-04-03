@@ -13,12 +13,11 @@ from typing import Any, Dict, List, Optional
 # Add project root to path
 _project_root = str(Path(__file__).resolve().parent.parent.parent)
 _python_dir = str(Path(_project_root) / "apriori_window_suite" / "python")
-_original_dir = str(Path(_project_root) / "apriori_window_original" / "python")
-for p in [_project_root, _python_dir, _original_dir]:
+for p in [_project_root, _python_dir]:
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from apriori_window import (
+from apriori_window_basket import (
     compute_item_timestamps_map,
     find_dense_itemsets,
     read_text_file_as_2d_vec_of_integers,

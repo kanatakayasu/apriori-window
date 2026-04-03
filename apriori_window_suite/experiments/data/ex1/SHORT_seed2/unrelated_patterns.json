@@ -1,0 +1,20 @@
+[
+  {
+    "active_end": 33200,
+    "active_start": 17200,
+    "boost_factor": 0.3,
+    "pattern": [
+      65,
+      75
+    ]
+  },
+  {
+    "active_end": 469200,
+    "active_start": 453200,
+    "boost_factor": 0.3,
+    "pattern": [
+      85,
+      95
+    ]
+  }
+]
