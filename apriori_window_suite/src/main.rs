@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 
 use apriori_window_suite::baselines::{BaselineParams, BaselineResult, PatternData};
 use apriori_window_suite::correlator::{
-    run_attribution_pipeline, AttributionConfig,
+    run_attribution_pipeline, AttributionConfig, SignificantAttribution,
 };
 use apriori_window_suite::evaluate::{
     evaluate_false_attribution_rate, evaluate_with_event_name_mapping, PredictedAttribution,
@@ -22,8 +22,8 @@ use apriori_window_suite::evaluate::{
 use apriori_window_suite::io::{read_events, read_transactions_with_baskets};
 use apriori_window_suite::synth::{
     generate_synthetic, make_ex1_config, make_ex1_confound_config, make_ex1_dense_config,
-    make_ex1_overlap_config, make_ex1_short_config, make_ex6_zipf_config, scale_config_to_n,
-    SyntheticConfig,
+    make_ex1_overlap_config, make_ex1_short_config, make_ex6_zipf_config, make_null_fdr_config,
+    scale_config_to_n, SyntheticConfig,
 };
 use apriori_window_suite::{
     compute_item_basket_map, find_dense_itemsets, write_patterns_csv,
@@ -115,6 +115,18 @@ enum Commands {
         out_dir: String,
         /// Data directory
         #[arg(long, default_value = "experiments/data/method_comparison")]
+        data_dir: String,
+    },
+    /// Run null FDR validation experiment
+    RunNullFdr {
+        /// Number of seeds
+        #[arg(long, default_value_t = 20)]
+        n_seeds: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/null_fdr")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/null_fdr")]
         data_dir: String,
     },
 }
@@ -223,8 +235,6 @@ fn run_experiment_method(
             correction_method: "bh".to_string(),
             global_correction: true,
             deduplicate_overlap: true,
-            min_support_range: 10,
-            min_magnitude: 0.0,
             attribution_threshold: 0.1,
             seed: Some(seed),
             ablation_mode: None,
@@ -242,22 +252,21 @@ fn run_experiment_method(
             &config,
         );
 
-        // 区間ごとの帰属結果を (pattern, event_name) でユニーク化して評価に使用
-        let mut seen = std::collections::HashSet::new();
-        predicted = results
-            .iter()
-            .filter_map(|r| {
-                let key = (r.pattern.clone(), r.event_name.clone());
-                if seen.insert(key) {
-                    Some(PredictedAttribution {
-                        pattern: r.pattern.clone(),
-                        event_name: r.event_name.clone(),
-                    })
-                } else {
-                    None
-                }
-            })
-            .collect();
+        // (P, E) 単位で重複排除し、最高帰属スコアの区間を保持
+        let mut by_key: HashMap<(Vec<i64>, String), &SignificantAttribution> = HashMap::new();
+        for r in &results {
+            let key = (r.pattern.clone(), r.event_name.clone());
+            let entry = by_key.entry(key).or_insert(r);
+            if r.attribution_score > entry.attribution_score {
+                *entry = r;
+            }
+        }
+        predicted = by_key.values().map(|r| PredictedAttribution {
+            pattern: r.pattern.clone(),
+            event_name: r.event_name.clone(),
+            interval_start: r.interval_start,
+            interval_end: r.interval_end,
+        }).collect();
     } else {
         // Run baseline
         let pattern_data = PatternData {
@@ -286,6 +295,8 @@ fn run_experiment_method(
             .map(|r| PredictedAttribution {
                 pattern: r.pattern.clone(),
                 event_name: r.event_name.clone(),
+                interval_start: 0,
+                interval_end: 0,
             })
             .collect();
     }
@@ -363,6 +374,11 @@ fn run_ex3(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
         })),
     ];
 
+    let window_size: i64 = 1000;
+    // min_support=100: at N=100K W=1000, secondary patterns have E[support]≈9.9 << 100,
+    // preventing secondary-pattern false attributions. Scales the N=5K setting (θ=5, W=50) by ×20.
+    let min_support: usize = 100;
+
     let mut all_results: HashMap<String, HashMap<String, Vec<ExperimentResult>>> = HashMap::new();
 
     for (cond_name, config_fn) in &conditions {
@@ -376,7 +392,7 @@ fn run_ex3(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
             let synth_config = config_fn(seed as u64);
             let cond_dir = cond_name.to_lowercase().replace('=', "");
             let seed_dir = format!("{}/{}_{}", data_dir, cond_dir, seed);
-            let info = generate_synthetic(&synth_config, &seed_dir);
+            let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
 
             for (i, &method) in METHOD_ORDER.iter().enumerate() {
                 let r = run_experiment_method(
@@ -385,8 +401,8 @@ fn run_ex3(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
                     &info.gt_path,
                     info.unrelated_path.as_deref(),
                     method,
-                    50, 5, 100, 0.10, 5000, seed as u64,
-                ); // min_support=5, window_size=50
+                    window_size, min_support, 2, 0.10, 5000, seed as u64,
+                ); // window_size=1000, min_support=100
                 println!(
                     "  seed={} {:<14} P={:.2} R={:.2} F1={:.2} FAR={:.2} #={} {:.0}ms",
                     seed, METHOD_DISPLAY[i], r.precision, r.recall, r.f1, r.far,
@@ -496,6 +512,12 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
         })),
     ];
 
+    let window_size: i64 = 1000;
+    // min_support=100: at N=100K W=1000, secondary patterns have E[support]≈9.9 << 100,
+    // so only planted patterns (E[support]≈300) create dense intervals, preventing
+    // secondary-pattern interference. Scales the N=5K setting (θ=5, W=50) by ×20.
+    let min_support: usize = 100;
+
     let mut all_results: HashMap<String, Vec<ExperimentResult>> = HashMap::new();
 
     for (cond_name, config_fn) in &conditions {
@@ -505,7 +527,7 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
         for seed in 0..n_seeds {
             let synth_config = config_fn(seed as u64);
             let seed_dir = format!("{}/{}_seed{}", data_dir, cond_name, seed);
-            let info = generate_synthetic(&synth_config, &seed_dir);
+            let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
 
             let r = run_experiment_method(
                 &info.txn_path,
@@ -513,7 +535,7 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
                 &info.gt_path,
                 info.unrelated_path.as_deref(),
                 "proposed",
-                50, 5, 100, 0.10, 5000, seed as u64,
+                window_size, min_support, 2, 0.10, 5000, seed as u64,
             );
             println!(
                 "  seed={}: P={:.2} R={:.2} F1={:.2} FAR={:.2} #={} {:.0}ms",
@@ -581,6 +603,119 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
     println!("{}", "=".repeat(70));
 }
 
+// ---------------------------------------------------------------------------
+// Null FDR validation
+// ---------------------------------------------------------------------------
+
+fn run_null_fdr(n_seeds: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(70));
+    println!("Null FDR Validation (α=0.10)");
+    println!("  Dense intervals exist but are NOT caused by events");
+    println!("  Expected: empirical FDR ≤ 0.10 across {} seeds", n_seeds);
+    println!("{}", "=".repeat(70));
+
+    let window_size: i64 = 1000;
+    let min_support: usize = 100;
+    let alpha = 0.10_f64;
+
+    let config = AttributionConfig {
+        n_permutations: 5000,
+        alpha,
+        correction_method: "bh".to_string(),
+        global_correction: true,
+        deduplicate_overlap: true,
+        ..Default::default()
+    };
+
+    let mut total_discoveries = 0usize;
+    let mut total_false = 0usize;
+    let mut per_seed_fdr_sum = 0.0_f64;
+    let mut seed_records: Vec<serde_json::Value> = Vec::new();
+
+    for seed in 0..n_seeds {
+        let synth_config = make_null_fdr_config(seed as u64);
+        let seed_dir = format!("{}/seed{}", data_dir, seed);
+        let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
+
+        let transactions = read_transactions_with_baskets(&info.txn_path);
+        let n_transactions = transactions.len() as i64;
+        let (_, _, item_transaction_map) = compute_item_basket_map(&transactions);
+        let frequents = find_dense_itemsets(&transactions, window_size, min_support, 2);
+        let events = read_events(&info.events_path);
+
+        let predictions = run_attribution_pipeline(
+            &frequents,
+            &item_transaction_map,
+            &events,
+            window_size,
+            min_support as i64,
+            n_transactions,
+            &config,
+        );
+
+        // Under null: all significant attributions are false positives
+        let n_sig = predictions.len();
+        total_discoveries += n_sig;
+        total_false += n_sig; // all are false under null
+        // Per-seed FDR: V_i / max(R_i, 1). Average over seeds = mFDR.
+        let seed_fdr = if n_sig == 0 { 0.0 } else { 1.0 }; // all discoveries are false
+        per_seed_fdr_sum += seed_fdr;
+
+        println!(
+            "  seed={}: n_patterns={} n_significant={} (all FP)",
+            seed, frequents.len(), n_sig,
+        );
+
+        seed_records.push(serde_json::json!({
+            "seed": seed,
+            "n_patterns": frequents.len(),
+            "n_significant": n_sig,
+            "fp": n_sig,
+            "seed_fdr": seed_fdr,
+        }));
+    }
+
+    // mean FDR per seed: average of (V_i / max(R_i, 1)) over seeds
+    let mean_fdr = per_seed_fdr_sum / n_seeds as f64;
+    // global FDR: total FP / total discoveries (another valid definition)
+    let global_fdr = if total_discoveries == 0 {
+        0.0
+    } else {
+        total_false as f64 / total_discoveries as f64
+    };
+    let avg_sig = total_discoveries as f64 / n_seeds as f64;
+    let n_seeds_with_fp = seed_records.iter().filter(|r| r["fp"].as_u64().unwrap_or(0) > 0).count();
+
+    println!("\n{}", "=".repeat(70));
+    println!("Null FDR Summary:");
+    println!("  Total seeds: {}", n_seeds);
+    println!("  Average significant per seed: {:.2}", avg_sig);
+    println!("  Seeds with ≥1 false positive: {}/{}", n_seeds_with_fp, n_seeds);
+    println!("  Total discoveries: {} (all false)", total_discoveries);
+    println!("  Mean per-seed FDR: {:.4} (threshold α={:.2})", mean_fdr, alpha);
+    println!("  Global FDR: {:.4}", global_fdr);
+    println!("  FDR controlled (mean): {}", if mean_fdr <= alpha { "YES" } else { "NO" });
+    println!("{}", "=".repeat(70));
+
+    let output = serde_json::json!({
+        "n_seeds": n_seeds,
+        "alpha": alpha,
+        "total_discoveries": total_discoveries,
+        "total_false": total_false,
+        "mean_per_seed_fdr": mean_fdr,
+        "global_fdr": global_fdr,
+        "avg_significant_per_seed": avg_sig,
+        "n_seeds_with_fp": n_seeds_with_fp,
+        "fdr_controlled": mean_fdr <= alpha,
+        "seeds": seed_records,
+    });
+
+    std::fs::create_dir_all(out_dir).unwrap();
+    let save_path = format!("{}/null_fdr_results.json", out_dir);
+    std::fs::write(&save_path, serde_json::to_string_pretty(&output).unwrap()).unwrap();
+    println!("Results saved to: {}", save_path);
+}
+
 fn zipf_item_probs(n_items: usize, alpha: f64, median_target: f64, max_prob: f64) -> Vec<f64> {
     let median_rank = n_items as f64 / 2.0;
     let c = median_target * median_rank.powf(alpha);
@@ -628,6 +763,9 @@ fn main() {
         }
         Commands::RunEx3 { n_seeds, n_transactions, out_dir, data_dir } => {
             run_ex3(n_seeds, n_transactions, &out_dir, &data_dir);
+        }
+        Commands::RunNullFdr { n_seeds, out_dir, data_dir } => {
+            run_null_fdr(n_seeds, &out_dir, &data_dir);
         }
     }
 

@@ -8,6 +8,7 @@
 //!   3. Ground truth JSON (pattern → event_id pairs)
 //!   4. Unrelated patterns JSON (for FAR evaluation)
 
+use crate::apriori::find_dense_itemsets;
 use rand::prelude::*;
 use rand::rngs::StdRng;
 use serde::{Deserialize, Serialize};
@@ -171,9 +172,16 @@ pub fn scale_config_to_n(config: &SyntheticConfig, new_n: usize) -> SyntheticCon
 /// Produces:
 ///   - `transactions.txt` — one transaction per line, space-separated item IDs
 ///   - `events.json` — array of `{event_id, name, start, end}`
-///   - `ground_truth.json` — array of `{pattern, event_id}`
+///   - `ground_truth.json` — array of `{pattern, interval_start, interval_end, event_id}` (P,I,E triples)
 ///   - `unrelated_patterns.json` — array of `{pattern, active_start, active_end, boost_factor}`
-pub fn generate_synthetic(config: &SyntheticConfig, out_dir: &str) -> SyntheticInfo {
+///
+/// `window_size` and `min_support` are used to run Phase 1 and compute ground truth intervals.
+pub fn generate_synthetic(
+    config: &SyntheticConfig,
+    out_dir: &str,
+    window_size: i64,
+    min_support: usize,
+) -> SyntheticInfo {
     let out = Path::new(out_dir);
     fs::create_dir_all(out).expect("failed to create output directory");
 
@@ -280,14 +288,45 @@ pub fn generate_synthetic(config: &SyntheticConfig, out_dir: &str) -> SyntheticI
     fs::write(&events_path, events_str).expect("failed to write events");
 
     // --- Write ground_truth.json ---
+    // Run Phase 1 to find actual dense intervals for ground truth (P,I,E) triples.
+    let transactions_wrapped: Vec<Vec<Vec<i64>>> = transactions
+        .iter()
+        .map(|txn| vec![txn.clone()])
+        .collect();
+    let max_gt_len = config
+        .planted_patterns
+        .iter()
+        .map(|p| p.items.len())
+        .max()
+        .unwrap_or(2);
+    let frequents = find_dense_itemsets(
+        &transactions_wrapped,
+        window_size,
+        min_support,
+        max_gt_len,
+    );
+
     let mut gt_json: Vec<serde_json::Value> = Vec::new();
     for planted in &config.planted_patterns {
         let mut sorted_items = planted.items.clone();
         sorted_items.sort();
-        gt_json.push(serde_json::json!({
-            "pattern": sorted_items,
-            "event_id": format!("E{}", planted.event_idx + 1),
-        }));
+        let pat_key: Vec<i64> = sorted_items.clone();
+        let event = &config.events[planted.event_idx];
+        let event_id = format!("E{}", planted.event_idx + 1);
+
+        if let Some(intervals) = frequents.get(&pat_key) {
+            for &(iv_start, iv_end) in intervals {
+                // Include only intervals overlapping with the event window
+                if iv_start <= event.end && iv_end >= event.start {
+                    gt_json.push(serde_json::json!({
+                        "pattern": sorted_items,
+                        "interval_start": iv_start,
+                        "interval_end": iv_end,
+                        "event_id": event_id,
+                    }));
+                }
+            }
+        }
     }
 
     let gt_path = out.join("ground_truth.json");
@@ -842,6 +881,47 @@ pub fn make_null_config(seed: u64) -> SyntheticConfig {
     }
 }
 
+/// Null FDR experiment config: dense intervals exist but are NOT caused by events.
+///
+/// Design:
+///   - N=100K transactions, W=1000, min_support=100
+///   - 4 Type-B dense intervals placed at fixed locations (far from events)
+///   - 5 decoy events placed at non-overlapping locations (far from dense intervals)
+///
+/// Under the null: all attributions are false positives.
+/// Expected: BH at α=0.10 controls empirical FDR ≤ 0.10.
+pub fn make_null_fdr_config(seed: u64) -> SyntheticConfig {
+    // Dense intervals at positions 10K-18K, 28K-36K, 52K-60K, 72K-80K
+    // Decoy events at 3K-6K, 21K-24K, 42K-45K, 64K-67K, 88K-91K
+    // Gap between dense interval and nearest event ≥ 4K >> σ=1000
+    let unrelated = vec![
+        UnrelatedPattern { items: vec![5, 15], active_start: 10_000, active_end: 18_000, boost_factor: 0.4 },
+        UnrelatedPattern { items: vec![25, 35], active_start: 28_000, active_end: 36_000, boost_factor: 0.4 },
+        UnrelatedPattern { items: vec![45, 55], active_start: 52_000, active_end: 60_000, boost_factor: 0.4 },
+        UnrelatedPattern { items: vec![65, 75], active_start: 72_000, active_end: 80_000, boost_factor: 0.4 },
+    ];
+    let decoys = vec![
+        SyntheticEvent { name: "NullEvent_1".to_string(), start: 3_000, end: 6_000 },
+        SyntheticEvent { name: "NullEvent_2".to_string(), start: 21_000, end: 24_000 },
+        SyntheticEvent { name: "NullEvent_3".to_string(), start: 42_000, end: 45_000 },
+        SyntheticEvent { name: "NullEvent_4".to_string(), start: 64_000, end: 67_000 },
+        SyntheticEvent { name: "NullEvent_5".to_string(), start: 88_000, end: 91_000 },
+    ];
+
+    SyntheticConfig {
+        n_items: 200,
+        n_transactions: 100_000,
+        item_probs: Vec::new(),
+        p_base: 0.03,
+        planted_patterns: Vec::new(),
+        unrelated_patterns: unrelated,
+        events: Vec::new(),
+        decoy_events: decoys,
+        correlated_pairs: Vec::new(),
+        seed,
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
@@ -955,7 +1035,7 @@ mod tests {
 
         let tmp = tempfile::tempdir().unwrap();
         let out_dir = tmp.path().to_str().unwrap();
-        let info = generate_synthetic(&cfg, out_dir);
+        let info = generate_synthetic(&cfg, out_dir, 5, 2);
 
         // Verify files exist
         assert!(Path::new(&info.txn_path).exists());
@@ -974,11 +1054,13 @@ mod tests {
         let events: Vec<serde_json::Value> = serde_json::from_str(&events_content).unwrap();
         assert_eq!(events.len(), 2); // 1 real + 1 decoy
 
-        // Verify ground truth JSON
+        // Verify ground truth JSON — now produces (P,I,E) triples, may have >= 1 entry
         let gt_content = fs::read_to_string(&info.gt_path).unwrap();
         let gt: Vec<serde_json::Value> = serde_json::from_str(&gt_content).unwrap();
-        assert_eq!(gt.len(), 1);
-        assert_eq!(gt[0]["event_id"], "E1");
+        // At least one (P,I,E) triple should be found for the planted pattern
+        assert!(!gt.is_empty(), "ground truth should contain at least one (P,I,E) triple");
+        // All entries must be attributed to E1 (the only real event)
+        assert!(gt.iter().all(|e| e["event_id"] == "E1"));
     }
 
     #[test]

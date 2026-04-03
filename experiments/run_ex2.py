@@ -53,17 +53,17 @@ def _make_scenario_a(seed=42):
     Only the causal attribution (pattern→E1) is ground truth.
     """
     return SyntheticConfig(
-        n_transactions=5000,
+        n_transactions=100_000,
         n_items=200,
         p_base=0.03,
         planted_signals=[
             # Causal: pattern boosted during event window
-            PlantedSignal([5, 15], "E1", "Sale", 750, 1250, boost_factor=0.4,
+            PlantedSignal([5, 15], "E1", "Sale", 15_000, 25_000, boost_factor=0.4,
                           baseline_prob=0.03),
         ],
         unrelated_dense_patterns=[
             # Coincidental: same pattern boosted far from any event
-            UnrelatedDensePattern([5, 15], 3000, 3400, boost_factor=0.4),
+            UnrelatedDensePattern([5, 15], 60_000, 68_000, boost_factor=0.4),
         ],
         decoy_events=[],
         seed=seed,
@@ -82,13 +82,13 @@ def _make_scenario_b(seed=42):
     distinguish the relative importance.
     """
     return SyntheticConfig(
-        n_transactions=5000,
+        n_transactions=100_000,
         n_items=200,
         p_base=0.03,
         planted_signals=[
-            PlantedSignal([5, 15], "E1", "BigSale", 800, 1200, boost_factor=0.5,
+            PlantedSignal([5, 15], "E1", "BigSale", 16_000, 24_000, boost_factor=0.5,
                           baseline_prob=0.03),
-            PlantedSignal([5, 15], "E2", "SmallPromo", 2500, 2900, boost_factor=0.1,
+            PlantedSignal([5, 15], "E2", "SmallPromo", 50_000, 58_000, boost_factor=0.1,
                           baseline_prob=0.03),
         ],
         unrelated_dense_patterns=[],
@@ -126,10 +126,9 @@ def run_ex2():
                 config = config_fn(seed)
                 mode_label = ablation_mode or "full"
                 out_dir = str(DATA_DIR / scenario_name / f"{mode_label}_seed{seed}")
-                info = generate_synthetic(config, out_dir)
+                info = generate_synthetic(config, out_dir, window_size=1000, min_support=100)
 
                 attr_config = AttributionConfig(
-                    min_support_range=5,
                     n_permutations=5000,
                     alpha=0.10,
                     correction_method="bh",
@@ -140,7 +139,7 @@ def run_ex2():
                 )
                 result = run_single_experiment(
                     info["txn_path"], info["events_path"], info["gt_path"],
-                    window_size=50, min_support=3, max_length=100,
+                    window_size=1000, min_support=100, max_length=2,
                     config=attr_config,
                     unrelated_path=info.get("unrelated_path"),
                 )

@@ -16,6 +16,25 @@
 
 ## ログ
 
+### 2026-04-04 — 全実験実行 (EX1/EX2/EX3/NullFDR)・min_support=100スケーリング・RunNullFdr追加
+- **対象**: `src/main.rs`, `src/synth.rs`, `experiments/run_ex2.py`
+- **内容**:
+  1. **min_support スケーリング**: N=100K, W=1000 環境で secondary pattern（非植付パターン）の期待サポート ≈9.9 << 100 となるよう、`run_ex3` の `min_support` を 5 → 100 に更新（EX1 は前セッションで完了済み）。`run_ex2.py` も同様に 5 → 100 に更新。
+  2. **RunNullFdr サブコマンド追加**: `src/main.rs` に `run-null-fdr` CLI サブコマンドを追加。`make_null_fdr_config` を `synth.rs` に追加（N=100K、4つの unrelated dense interval + 5つの decoy event が重ならない位置に配置）。
+  3. **全実験結果**:
+     - EX1 (8条件×5seeds): F1=0.65〜0.80 (beta_0.3=0.75, SHORT=0.79, OVERLAP=0.80, CONFOUND=0.69, DENSE=0.65)
+     - EX3 (6手法×5条件×5seeds, N=100K): Proposed F1=0.66〜0.71; Wilcoxon/CausalImpact/ITS/EventStudy/ECA F1=0.00 (全条件)
+     - EX2 ablation: Scenario A — Full/No_mag F1=1.00, No_prox F1=0.00; Scenario B — Full F1=0.54, No_mag F1=0.60, No_prox F1=0.00
+     - NullFDR (20seeds, N=100K): mean per-seed FDR=0.05 ≤ α=0.10 ✓ (1/20 seeds に1 FP)
+- **テスト**: 63 lib+main tests（全 pass）
+- **関連コミット**: (pending)
+
+### 2026-04-04 — 帰属単位を (P,I,E) に変更・N=100K スケール対応
+- **対象**: `src/evaluate.rs`, `src/synth.rs`, `src/main.rs`
+- **内容**: `PredictedAttribution` / `GtEntry` に `interval_start` / `interval_end` フィールド追加（`#[serde(default)]`）。`evaluate_with_event_name_mapping` の照合キーを `(pattern, event_id)` から `(pattern, interval_start, interval_end, event_id)` の4-tupleに変更（旧形式GT互換: interval=0,0の場合はlegacyモード）。`generate_synthetic` に `window_size` / `min_support` 引数を追加し、Phase 1 実行後に重複区間でフィルタした (P,I,E) トリプルをGTとして出力。`run_ex1` / `run_ex3` の `window_size=1000`, `min_support=5`, `max_length=2` に更新。
+- **テスト**: 全63テスト pass（lib: 62, main: 1）
+- **関連コミット**: (main branch)
+
 ### 2026-04-02 — Rust完全移行: ベースライン・合成データ生成・評価モジュール追加 + CLIサブコマンド
 - **対象**: `src/baselines.rs`（新規）, `src/synth.rs`（新規）, `src/evaluate.rs`（新規）, `src/main.rs`（clap CLI再設計）, `src/lib.rs`（モジュール登録）, `Cargo.toml`（clap依存追加）
 - **内容**: 5手法ベースライン（Wilcoxon/CausalImpact/ITS/EventStudy/ECA）をRustで実装（rayon並列化・O(N) two-pointer）。合成データ生成・評価指標もRust移植。CLIにphase1/run-experiment/run-ex1/run-ex3サブコマンド追加。N=1,000,000 × 10 seeds での実験が2255秒で完了確認。

@@ -1,0 +1,1124 @@
+{
+  "results": {
+    "CONFOUND": {
+      "CausalImpact": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ECA": [
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 3,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 2,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "EventStudy": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 4,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 7,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ITS": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "Proposed": [
+        {
+          "f1": 0.5,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 0.6666666666666666,
+          "recall": 0.4
+        },
+        {
+          "f1": 1.0,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.6666666666666666,
+          "far": 0.5,
+          "n_pred": 3,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666
+        },
+        {
+          "f1": 0.3333333333333333,
+          "far": 0.5,
+          "n_pred": 3,
+          "precision": 0.3333333333333333,
+          "recall": 0.3333333333333333
+        },
+        {
+          "f1": 1.0,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      ],
+      "Wilcoxon": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 13,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 14,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ]
+    },
+    "DENSE": {
+      "CausalImpact": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 41,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 41,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 41,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 32,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 31,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ECA": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 2,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 2,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "EventStudy": [
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 30,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 38,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 20,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.25,
+          "n_pred": 22,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 28,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ITS": [
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 25,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 18,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 17,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 13,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "Proposed": [
+        {
+          "f1": 0.6666666666666667,
+          "far": 0.5,
+          "n_pred": 9,
+          "precision": 0.5555555555555556,
+          "recall": 0.8333333333333334
+        },
+        {
+          "f1": 0.5555555555555556,
+          "far": 0.5,
+          "n_pred": 11,
+          "precision": 0.45454545454545453,
+          "recall": 0.7142857142857143
+        },
+        {
+          "f1": 0.8,
+          "far": 0.25,
+          "n_pred": 9,
+          "precision": 0.6666666666666666,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.6666666666666667,
+          "far": 0.5,
+          "n_pred": 9,
+          "precision": 0.5555555555555556,
+          "recall": 0.8333333333333334
+        },
+        {
+          "f1": 0.5882352941176471,
+          "far": 1.0,
+          "n_pred": 11,
+          "precision": 0.45454545454545453,
+          "recall": 0.8333333333333334
+        }
+      ],
+      "Wilcoxon": [
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 50,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 49,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 43,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.75,
+          "n_pred": 43,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 47,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ]
+    },
+    "OVERLAP": {
+      "CausalImpact": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 13,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ECA": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 2,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 2,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "EventStudy": [
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 7,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ITS": [
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "Proposed": [
+        {
+          "f1": 0.6666666666666665,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 0.75
+        },
+        {
+          "f1": 0.5,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.4,
+          "recall": 0.6666666666666666
+        },
+        {
+          "f1": 0.6666666666666665,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 0.75
+        },
+        {
+          "f1": 0.7499999999999999,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.7499999999999999,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 1.0
+        }
+      ],
+      "Wilcoxon": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ]
+    },
+    "SHORT": {
+      "CausalImpact": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 14,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ECA": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "EventStudy": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 4,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ITS": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 6,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 7,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 4,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "Proposed": [
+        {
+          "f1": 0.7499999999999999,
+          "far": 1.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.6666666666666666,
+          "far": 1.0,
+          "n_pred": 6,
+          "precision": 0.5,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.6666666666666666,
+          "far": 0.5,
+          "n_pred": 6,
+          "precision": 0.5,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.8571428571428571,
+          "far": 0.0,
+          "n_pred": 3,
+          "precision": 1.0,
+          "recall": 0.75
+        },
+        {
+          "f1": 0.75,
+          "far": 0.5,
+          "n_pred": 4,
+          "precision": 0.75,
+          "recall": 0.75
+        }
+      ],
+      "Wilcoxon": [
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 16,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ]
+    },
+    "β=0.3": {
+      "CausalImpact": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 15,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 13,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ECA": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 1,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "EventStudy": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 8,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 9,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "ITS": [
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 7,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 5,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 4,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 4,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ],
+      "Proposed": [
+        {
+          "f1": 0.6666666666666666,
+          "far": 0.5,
+          "n_pred": 3,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666
+        },
+        {
+          "f1": 0.6,
+          "far": 1.0,
+          "n_pred": 7,
+          "precision": 0.42857142857142855,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.8571428571428571,
+          "far": 0.0,
+          "n_pred": 4,
+          "precision": 0.75,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.7499999999999999,
+          "far": 0.0,
+          "n_pred": 5,
+          "precision": 0.6,
+          "recall": 1.0
+        },
+        {
+          "f1": 0.6666666666666666,
+          "far": 1.0,
+          "n_pred": 6,
+          "precision": 0.5,
+          "recall": 1.0
+        }
+      ],
+      "Wilcoxon": [
+        {
+          "f1": 0.0,
+          "far": 0.0,
+          "n_pred": 12,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 13,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 1.0,
+          "n_pred": 10,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        {
+          "f1": 0.0,
+          "far": 0.5,
+          "n_pred": 11,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      ]
+    }
+  }
+}
