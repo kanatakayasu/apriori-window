@@ -1,6 +1,6 @@
-"""EX3: Method comparison — grouped bar chart (F1 only).
+"""EX3: Method comparison — heatmap (F1 scores).
 
-Style: top-conference (NeurIPS / KDD / ICML) grouped bar chart.
+6 methods × 5 conditions. Compact, easy cross-method comparison.
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -18,90 +18,57 @@ plt.rcParams.update({
     "xtick.major.width": 0.5,
     "ytick.major.width": 0.5,
     "xtick.labelsize": 8,
-    "ytick.labelsize": 7,
-    "legend.fontsize": 7,
-    "lines.linewidth": 1.0,
+    "ytick.labelsize": 8,
 })
 
-# ---------- Data (EX3 full run, N=100K, W=1000, θ=100, 5 seeds avg) ----------
+# ---------- Data ----------
 conditions = [r"$\beta\!=\!0.3$", "Overlap", "Confound", "Dense", "Short"]
-methods = ["Proposed", "Wilcoxon", "CausalImpact", "ITS",
-           "EventStudy", "ECA"]
+methods    = ["Proposed", "Wilcoxon", "CausalImpact", "ITS", "EventStudy"]
 
-f1 = {
-    "Proposed":     [0.66, 0.67, 0.68, 0.66, 0.72],
-    "Wilcoxon":     [0.34, 0.27, 0.14, 0.18, 0.42],
-    "CausalImpact": [0.36, 0.17, 0.22, 0.24, 0.49],
-    "ITS":          [0.60, 0.40, 0.45, 0.42, 0.77],
-    "EventStudy":   [0.41, 0.18, 0.24, 0.29, 0.54],
-    "ECA":          [0.00, 0.16, 0.15, 0.00, 0.28],
-}
+f1 = np.array([
+    [0.66, 0.67, 0.68, 0.66, 0.72],  # Proposed
+    [0.34, 0.27, 0.14, 0.18, 0.42],  # Wilcoxon
+    [0.36, 0.17, 0.22, 0.24, 0.49],  # CausalImpact
+    [0.60, 0.40, 0.45, 0.42, 0.77],  # ITS
+    [0.41, 0.18, 0.24, 0.29, 0.54],  # EventStudy
+])
 
-# ---------- Colors (grayscale-friendly: distinct luminance levels) ----------
-# Each method gets a unique hatch pattern for grayscale printing (IEEE requirement)
-colors = [
-    "#1a1a1a",  # Proposed (near-black)
-    "#c0392b",  # Wilcoxon (dark red → ~30% gray)
-    "#e67e22",  # CausalImpact (orange → ~55% gray)
-    "#2471a3",  # ITS (blue → ~40% gray)
-    "#148f77",  # EventStudy (green → ~45% gray)
-    "#aab7b8",  # ECA (light gray → ~70% gray)
-]
-edgecols = [
-    "#000000",
-    "#922b21",
-    "#ca6f1e",
-    "#1a5276",
-    "#0e6655",
-    "#717d7e",
-]
-# Distinct hatch patterns ensure legibility in black-and-white printing
-hatches = ["", "///", "\\\\", "|||", "---", "xxx"]
+# ---------- Figure ----------
+fig, ax = plt.subplots(figsize=(3.8, 2.4))
 
-x = np.arange(len(conditions))
-n = len(methods)
-width = 0.13
-offsets = np.array([-(n - 1) / 2 + i for i in range(n)]) * width
+im = ax.imshow(f1, cmap="Blues", vmin=0.0, vmax=1.0, aspect="auto")
 
-# ---------- Figure (single panel) ----------
-fig, ax = plt.subplots(figsize=(3.8, 2.8))
+# Cell annotations
+for i in range(len(methods)):
+    for j in range(len(conditions)):
+        val = f1[i, j]
+        txt_color = "white" if val >= 0.55 else "#333333"
+        ax.text(j, i, f"{val:.2f}", ha="center", va="center",
+                fontsize=7, color=txt_color, fontweight="normal")
 
-for i, method in enumerate(methods):
-    ax.bar(
-        x + offsets[i],
-        f1[method],
-        width * 0.88,
-        color=colors[i],
-        edgecolor=edgecols[i],
-        linewidth=0.5,
-        hatch=hatches[i],
-        label=method,
-        zorder=3,
-    )
+# Highlight "Proposed" row with bold border
+ax.set_xticks(range(len(conditions)))
+ax.set_xticklabels(conditions, rotation=20, ha="right")
+ax.set_yticks(range(len(methods)))
+ax.set_yticklabels(methods)
+ax.tick_params(length=0)
 
-ax.set_ylabel("F1")
-ax.set_xticks(x)
-ax.set_xticklabels(conditions)
-ax.set_ylim(0, 1.15)
-ax.yaxis.grid(True, color="#E0E0E0", linewidth=0.5, zorder=0)
-ax.set_axisbelow(True)
-ax.spines["top"].set_visible(False)
-ax.spines["right"].set_visible(False)
+# Bold label for "Proposed"
+for label in ax.get_yticklabels():
+    if label.get_text() == "Proposed":
+        label.set_fontweight("bold")
 
-handles, labels = ax.get_legend_handles_labels()
-fig.legend(
-    handles, labels,
-    loc="lower center",
-    ncol=3,
-    frameon=True,
-    edgecolor="#cccccc",
-    fancybox=False,
-    bbox_to_anchor=(0.5, -0.01),
-    columnspacing=0.8,
-    handletextpad=0.3,
-)
+# Colorbar
+cb = fig.colorbar(im, ax=ax, pad=0.02, fraction=0.046)
+cb.set_label("F1", fontsize=8)
+cb.ax.tick_params(labelsize=7)
 
-fig.tight_layout(rect=[0, 0.18, 1, 1])
+# Full box border on axes
+for spine in ax.spines.values():
+    spine.set_visible(True)
+    spine.set_linewidth(0.6)
+
+fig.tight_layout()
 
 out = Path(__file__).resolve().parent
 fig.savefig(out / "ex3_method.pdf", bbox_inches="tight", dpi=300)

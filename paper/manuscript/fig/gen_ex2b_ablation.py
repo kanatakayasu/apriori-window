@@ -81,12 +81,13 @@ for panel_idx, (ax, data, ylabel, title, use_log) in enumerate(panels):
         ax.set_yscale("log")
         ax.set_ylim(1, 800)
     else:
-        ax.set_ylim(0, 1.15)
+        ax.set_ylim(0, 1.0)
 
     ax.yaxis.grid(True, color="#E0E0E0", linewidth=0.5, zorder=0)
     ax.set_axisbelow(True)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_linewidth(0.6)
 
 # Shared legend — bottom centre
 handles, labels = ax1.get_legend_handles_labels()

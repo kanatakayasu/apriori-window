@@ -4,113 +4,72 @@
 
 \subsection{頻出パターンマイニング}
 
-頻出パターンマイニングは，トランザクションデータの一定割合以上に出現するアイテムセットを発見する技術であり，
-包括的なサーベイ~\cite{fournier2017survey}が存在する．
-Apriori~\cite{agrawal1994fast}は反単調性に基づく候補生成・枝刈りフレームワークを確立した．
-FP-Growth~\cite{han2000mining}はFP-treeにより候補生成を回避し高速化を実現した．
-ECLAT~\cite{zaki2000scalable}は縦型（tidset）表現と集合積により効率的なサポート計算を行う．
+頻出パターンマイニングの包括的なサーベイ~\cite{fournier2017survey}が存在する．
+Apriori~\cite{agrawal1994fast}は反単調性に基づく候補生成・枝刈りフレームワークを確立し，
+FP-Growth~\cite{han2000mining}とECLAT~\cite{zaki2000scalable}がそれぞれFP-treeと縦型表現で高速化を実現した．
 これらの手法はグローバル頻度を対象とし，時間的な変動をモデル化しない．
 
-\subsection{時間的・局所的パターンマイニング}
+\subsection{時間的・周期的パターンマイニング}
 
-頻出パターンの時間的側面を扱う拡張研究は多岐にわたり，
-Segura-Delgado ら~\cite{segura2020temporal}が包括的なサーベイを提供している．
-LPFIM~\cite{mahanta2005finding}は時間区間内の局所頻出集合を対象とするが，
-gap ベースの閾値に依存する．
-PFPM~\cite{tanbeer2009discovering}およびPPFPM~\cite{kiran2017discovering}は
-周期性制約を導入した．
+Segura-Delgadoら~\cite{segura2020temporal}が時間的ARMの包括的サーベイを提供している．
+PFPM~\cite{tanbeer2009discovering}とPPFPM~\cite{kiran2017discovering}は
+一定周期で繰り返し出現するパターンを対象とする周期性マイニング手法であり，
+LPFIM~\cite{mahanta2005finding}はgapベースの閾値で時間区間内の頻出集合を検出する．
 LPPM~\cite{fournier2021mining}は局所性と周期性の基準を統合する．
-Apriori-window~\cite{dsaa2025}は固定幅スライディングウィンドウ上で
-局所サポートを直接評価し，gapパラメータに依存しない密集パターン抽出を実現した．
-これらの手法はいずれもパターンが\emph{いつ}頻出であるかを検出するが，
-頻度が変動する\emph{原因}はモデル化しない．
-本研究はこれらを補完し，検出されたサポート変動を外部イベントに帰属させる．
+これらの手法はパターンが\emph{いつ・どの周期で}頻出であるかを検出するが，変動の\emph{原因}はモデル化しない．
+
+\subsection{Apriori-window: 密集区間マイニング}
+
+Apriori-window~\cite{dsaa2025}は上記の手法とは設計思想が異なる．
+gapパラメータや周期性仮定を持たず，固定幅スライディングウィンドウ $W$ を
+トランザクション列上で走査し，各位置 $t$ でのローカルサポート $s_P(t)$（定義~\ref{def:support_series}）を
+直接評価する．
+出力は各パターン $P$ の\emph{密集区間} $\mathcal{I}_P$（定義~\ref{def:dense_interval}）---
+サポートが閾値 $\theta$ 以上を連続して満たすウィンドウ左端の極大区間---であり，
+パターンが「どの期間に集中して出現したか」を区間単位で表現する．
+Aprioriの反単調性を利用した枝刈りにより，候補パターン空間を効率的に削減する．
+本研究はApriori-windowをStep~0として採用し，その出力 $(\mathcal{F}, \{\mathcal{I}_P\})$ を
+イベント帰属パイプラインの入力として使用する．
 
 \subsection{パターン変化のモニタリングと診断}
 
-パターンの時間的変動を\emph{追跡}する研究群が存在する．
-Agrawal と Psaila~\cite{agrawal1995active}は，
-ルール統計量の履歴に対する形状クエリによりトレンドを検出する
-「アクティブデータマイニング」を提案した．
-Chakrabarti ら~\cite{chakrabarti1998mining}は
-記述長に基づくサプライズ指標を用いて，サポートが予想外に変動する
-アイテムセットを同定した．
-Liu ら~\cite{liu2001fundamental}は
-二時点間のルール変化から「基本的変化」（他の変化から導出できないもの）を
-抽出する手法を提案し，冗長な変化の除去を試みた．
-これらの手法は変化の\emph{検出}と\emph{特徴づけ}を行うが，
-検出された変化を\emph{外部イベント}に帰属させる統計フレームワークは持たない．
-本研究はこのギャップを埋め，変化点とイベントの統計的関連を検定する．
+Agrawalら~\cite{agrawal1995active}はルール統計量の形状クエリによるトレンド検出を，
+Chakrabartiら~\cite{chakrabarti1998mining}は記述長に基づくサプライズ指標を，
+Liuら~\cite{liu2001fundamental}は二時点間の「基本的変化」抽出をそれぞれ提案した．
+これらは変化の検出・特徴づけを行うが，外部イベントへの帰属フレームワークを持たない．
 
 \subsection{変化点検出}
 
-変化点検出は時系列データの構造変化を同定する技術である．
-CUSUMアルゴリズム~\cite{page1954continuous}は逐次過程の平均シフトを検出する．
-包括的なサーベイ~\cite{aminikhanghahi2017survey}が
-パラメトリック・ノンパラメトリック・オンライン手法を網羅している．
-これらの手法は個別時系列に適用されるが，
-数千のパターンサポート時系列を同時分析する多重検定の負荷には対応せず，
-検出された変化をイベントに結びつける機能も持たない．
+CUSUMアルゴリズム~\cite{page1954continuous}に代表される変化点検出手法~\cite{aminikhanghahi2017survey}は
+個別時系列の構造変化を同定するが，
+数千のパターンサポート時系列を同時に扱う多重検定の負荷や
+変化をイベントに紐づける機能は備えていない．
 
 \subsection{イベント帰属・介入分析と因果推論}
 
-既知の介入が時系列に与える影響を定量化する手法は複数の分野で研究されている．
-中断時系列回帰（ITS）~\cite{bernal2017interrupted}は
-公衆衛生分野で広く用いられる準実験デザインであり，
-介入前後の水準変化と傾斜変化をセグメント回帰で評価する．
-計量経済学のイベント・スタディ法~\cite{mackinlay1997event}は，
-企業イベントの株価への影響を異常リターン分析により定量化する．
-Brodersen ら~\cite{brodersen2015causalimpact}はベイズ構造時系列モデルにより
-介入の因果効果を推定するCausalImpactフレームワークを提案した．
-Donges ら~\cite{donges2016event}は
-イベント時系列間の共起の統計的有意性を検定するイベント一致分析を提案した．
-より素朴なアプローチとして，介入期間中と期間外のアウトカムの分布を
-ノンパラメトリック検定（Wilcoxon rank-sum検定~\cite{mann1947test}等）で
-直接比較する方法がある．
-これはモデル構築を必要とせず適用が容易であるが，
-時系列の構造（トレンド・季節性）を考慮しない点で
-上記の時系列モデルベースの手法と原理的に異なる．
-これらのアプローチは典型的には単一または少数のアウトカム変数を対象とし，
-数千のパターンサポート時系列を複数のイベントに対して
-同時に検定する設定には直接適用できない．
-本研究は，我々の知る限り，パターンマイニングの出力（サポート時系列）と
-外部イベントの帰属を統合する初の統計フレームワークを提供する．
+中断時系列回帰（ITS）~\cite{bernal2017interrupted}，
+イベント・スタディ法~\cite{mackinlay1997event}，
+CausalImpact~\cite{brodersen2015causalimpact}，
+Wilcoxon rank-sum検定~\cite{mann1947test}は
+既知の介入がアウトカムに与える影響を検定する．
+しかしこれらは典型的に単一または少数のアウトカム変数を対象としており，
+数千のパターンサポート時系列を複数のイベントに対して同時検定する設定には直接適用できない．
 
 \subsection{統計的パターンマイニングと多重検定補正}
 
-頻出パターンマイニングに統計的有意性検定を導入する研究が近年活発である．
-Webb~\cite{webb2007discovering}は自己充足アイテムセットの概念を導入し，
-サブセット・スーパーセットの頻度から説明できないパターンのみを有意とする
-枠組みを提案した．
-Webb~\cite{webb2011filtered}はさらに「生産的」ルールの概念により
-冗長な有意パターンのフィルタリングを提唱した．
-Terada ら~\cite{terada2013statistical}はLAMP（Limitless Arity Multiple-testing Procedure）を提案し，
-検定可能なパターン数に基づくBonferroni因子の最小化を実現した．
-Llinares-L{\'o}pez ら~\cite{llinares2015fast}はTaroneの検定可能性基準と置換検定を組み合わせ，
-FWER制御下での高速な有意パターンマイニングを実現した．
-これらの研究はパターンの有意性を二群間の頻度差として検定するが，
-本研究ではパターンサポートの\emph{時間的変動}と\emph{外部イベント}の
-関連を検定する点が異なる．
-本パイプラインは，サロゲートデータ法~\cite{theiler1992testing}の考え方に基づく
+Webb~\cite{webb2007discovering,webb2011filtered}は自己充足・生産的パターンの概念により冗長な有意パターンを排除した．
+Teradaら~\cite{terada2013statistical}はLAMPによりBonferroni因子を最小化し，
+Llinares-Lópezら~\cite{llinares2015fast}は置換検定とTaroneの検定可能性基準を組み合わせた高速有意パターンマイニングを実現した．
+これらは二群間の頻度差を検定するが，本研究はサポートの\emph{時間的変動}と\emph{外部イベント}の関連を検定する点が異なる．
+本パイプラインはサロゲートデータ法~\cite{theiler1992testing}に基づく
 円形シフト置換検定~\cite{davison1997bootstrap,yuan2024rigorous}と
-全パターン・全イベントにわたるグローバルBH補正~\cite{benjamini1995controlling}を組み合わせ，
-分布自由な検定と適切な多重検定制御を両立させる．
-BH手続きの依存仮説への拡張~\cite{benjamini2001control}は
-PRDS（Positive Regression Dependency on Subsets）条件下でのFDR制御を示しているが，
-実データにおけるPRDS条件の厳密な検証は一般に困難であり，
-本稿では実務的妥当性に基づいて適用する（\ref{sec:method}節参照）．
-Bonferroni補正~\cite{dunn1961multiple}は族単位誤り率（FWER）を制御するが保守的であるため，
-本研究ではFDRを制御するBH手続きを採用した．
+グローバルBH補正~\cite{benjamini1995controlling,benjamini2001control}を採用し，
+Bonferroni補正~\cite{dunn1961multiple}より検出力の高いFDR制御を実現する．
 
 \subsection{関連手法との差異のまとめ}
 
-表~\ref{tab:related_comparison}に，関連する各研究群が本研究の問題設定
-（数千のパターンサポート時系列 $\times$ 複数の外部イベントに対する統計的帰属）に
-対応できるかを整理する．
-いずれの既存手法も，サポート変動の検出・特徴づけ・因果効果推定のいずれかには対処するが，
-多数のパターン時系列を複数イベントに同時に帰属させ，
-多重検定を制御しつつ副次パターンの偽陽性を排除する統合フレームワークは存在しない．
-本研究はこのギャップを埋めるものである．
+表~\ref{tab:related_comparison}に，各手法群が本研究の問題設定に対応できるかを整理する．
+本研究は，多数のパターン時系列を複数イベントに同時帰属させ，多重検定を制御しつつ副次パターンを排除する初の統合フレームワークである．
 
 \begin{table}[t]
 \caption{関連手法との機能比較}
@@ -122,12 +81,12 @@ Bonferroni補正~\cite{dunn1961multiple}は族単位誤り率（FWER）を制御
 手法群 & \rotatebox{60}{時系列変化} & \rotatebox{60}{イベント帰属} & \rotatebox{60}{多数パターン} & \rotatebox{60}{多重検定} & \rotatebox{60}{重複排除} \\
 \midrule
 時間的FPM & -- & -- & \checkmark & -- & -- \\
+Apriori-window & \checkmark & -- & \checkmark & -- & -- \\
 変化点検出 & \checkmark & -- & -- & -- & -- \\
 ITS/介入分析 & \checkmark & \checkmark & -- & -- & -- \\
 イベントスタディ & \checkmark & \checkmark & -- & -- & -- \\
 CausalImpact & \checkmark & \checkmark & -- & -- & -- \\
 Wilcoxon検定 & -- & \checkmark & -- & -- & -- \\
-ECA & -- & \checkmark & -- & -- & -- \\
 統計的FPM & -- & -- & \checkmark & \checkmark & -- \\
 \textbf{本手法} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
 \bottomrule

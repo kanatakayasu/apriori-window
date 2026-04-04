@@ -28,7 +28,7 @@
 \State RawResults を $p_{\text{raw}}$ 昇順にソート
 \State $M \gets |\text{RawResults}|$
 \For{$i = M$ downto $1$}
-    \State $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)},\; \min(1,\; p_{(i)} \cdot M / i))$ \Comment{式~(\ref{eq:bh})}
+    \State $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)},\; \min(1,\; p_{(i)} \cdot M / i))$ \Comment{BH step-down}
 \EndFor
 \State $\mathcal{R} \gets \{(P, I, e) \mid \tilde{p}_{(i)} < \alpha\}$
 \State \Return $\mathcal{R}$

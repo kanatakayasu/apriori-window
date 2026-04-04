@@ -41,12 +41,22 @@
 
 \begin{document}
 
-\title{サポート時系列分析に基づく外部イベント帰属フレームワーク\\
---- 頻出パターンの変動を外部イベントに統計的に帰属させる ---}
+\title{Event Attribution of Frequent Pattern Dynamics: Permutation Testing with FDR Control}
 
 \author{
-  \IEEEauthorblockN{（執筆者未定）}\\
-  \IEEEauthorblockA{ドラフト}
+  \IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+  \IEEEauthorblockA{
+    \textit{Dept. Name of Organization}\\
+    \textit{Name of Organization}\\
+    City, Country\\
+    email@example.com}
+  \and
+  \IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+  \IEEEauthorblockA{
+    \textit{Dept. Name of Organization}\\
+    \textit{Name of Organization}\\
+    City, Country\\
+    email@example.com}
 }
 
 \maketitle
@@ -54,34 +64,16 @@
 \pagenumbering{arabic}
 
 \begin{abstract}
-頻出パターンマイニングはトランザクションデータ中の繰り返し出現するアイテムセットを発見するが，
-特定期間にパターンの出現頻度が変動する\emph{原因}を説明する機能を持たない．
-小売・Web分析・医療など多くの実応用では，販促キャンペーン・祝日・制度変更といった外部イベントがパターン頻度の時間的変動を駆動しており，
-どのイベントがいつ・どのパターンの密集を引き起こしたかを特定することが意思決定の鍵となる．
+頻出パターンマイニングはアイテムセットの出現頻度を発見するが，
+その変動の\emph{原因}となる外部イベント（販促キャンペーン・祝日・制度変更等）を説明する機能を持たない．
+本稿ではこの課題を\textbf{イベント帰属問題}として形式化し，
+FDR制御付き多重検定問題としての構造的課題（相関した偽陽性，時間的混同，仮説空間の規模）を同定する．
+解法として，変化点抽出・帰属スコアリング・円形シフト置換検定・Benjamini--Hochberg FDR補正・Union-Find重複排除からなる5ステップのパイプラインを構成する．
 
-本稿ではこの課題を\textbf{イベント帰属問題}として新たに形式的に定義し，
-FDR制御付き多重検定問題としての構造的課題
-（$\sum_P |\mathcal{I}_P| \times |\mathcal{E}|$ 個の $(P, I, e)$ 三つ組からなる仮説空間，相関した偽陽性，時間的混同）を同定する．
-本研究の主貢献は新しいマイニングアルゴリズムではなく，
-この未開拓な問題の定式化と初の統計的解法フレームワークの構築である．
-解法として，変化点抽出，帰属スコアリング，円形シフト置換検定による
-Benjamini--Hochberg FDR 補正，Union-Find クラスタリングによる
-アイテム重複排除からなる5ステップのパイプラインを構成する．
-帰属スコアはランキング用指標に留め，
-最終判定を置換検定に委ねる二層構造により，
-ヒューリスティックな閾値選択への依存を軽減する．
-
-帰属スコアの変化量成分には平方根正規化を採用し，
-実世界で一般的なZipf的頻度分布下での精度低下を抑制する．
-合成データ実験では，多様な条件で帰属精度を評価した．
-帰無条件下では100 seedで平均偽発見率0.070（$\leq \alpha = 0.10$）を確認した．
-アブレーション分析では，proximity と magnitude の相補性，
-およびパイプライン各ステップの段階的な偽陽性削減効果を実証した．
-関連手法5種（Wilcoxon, CausalImpact, ITS, EventStudy, ECA）との
-比較では，提案手法がF1で最良のバランスを達成した．
-実キャンペーンデータ（Dunnhumby，276Kバスケット）に対する
-探索的検証では，集団レベルの効果が期待される大規模販促キャンペーン5件を
-外部イベントとして使用し，47\%のクーポン整合率（ランダム比較34\%の1.4倍）を達成した．
+合成データ実験では帰無条件下でFDR 0.070（$\leq \alpha = 0.10$）を確認し，
+アブレーション分析でパイプライン各構成要素の必要性を実証した．
+関連手法4種（Wilcoxon, CausalImpact, ITS, EventStudy）との比較で全条件最良のF1を達成した．
+実データ（Dunnhumby, 276Kバスケット）でのクーポン整合率47\%（ランダム34\%の1.4倍）を達成した．
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -103,10 +95,12 @@ this paper were generated with Anthropic's large language
 model Claude~\cite{claude2025}.
 
 % --- 参考文献 ---
+\newpage
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
 % --- 付録 ---
+\clearpage
 \appendices
 \input{sec/07_appendix}
 
