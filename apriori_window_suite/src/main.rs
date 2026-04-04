@@ -555,6 +555,9 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
         ("beta_0.3", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.3, seed), n_transactions)
         }), 4),
+        ("beta_0.4", Box::new(move |seed| {
+            scale_config_to_n(&make_ex1_config(0.4, seed), n_transactions)
+        }), 4),
         ("beta_0.5", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.5, seed), n_transactions)
         }), 4),
@@ -648,7 +651,7 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
     println!("\n{}", "=".repeat(70));
     println!("{:<12} {:>10} {:>8} {:>6} {:>6}", "Condition", "Precision", "Recall", "F1", "FAR");
     println!("{}", "-".repeat(70));
-    let cond_order = ["beta_0.1", "beta_0.2", "beta_0.3", "beta_0.5",
+    let cond_order = ["beta_0.1", "beta_0.2", "beta_0.3", "beta_0.4", "beta_0.5",
                       "OVERLAP", "CONFOUND", "DENSE", "SHORT"];
     for cond in cond_order {
         if let Some(results) = all_results.get(cond) {

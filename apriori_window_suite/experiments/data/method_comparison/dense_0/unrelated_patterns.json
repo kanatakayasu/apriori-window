@@ -1,7 +1,7 @@
 [
   {
-    "active_end": 741800,
-    "active_start": 701800,
+    "active_end": 74180,
+    "active_start": 70180,
     "boost_factor": 0.3,
     "pattern": [
       65,
@@ -9,8 +9,8 @@
     ]
   },
   {
-    "active_end": 64800,
-    "active_start": 24800,
+    "active_end": 6480,
+    "active_start": 2480,
     "boost_factor": 0.3,
     "pattern": [
       85,
@@ -18,8 +18,8 @@
     ]
   },
   {
-    "active_end": 291600,
-    "active_start": 251600,
+    "active_end": 29160,
+    "active_start": 25160,
     "boost_factor": 0.3,
     "pattern": [
       165,
@@ -27,8 +27,8 @@
     ]
   },
   {
-    "active_end": 781000,
-    "active_start": 741000,
+    "active_end": 78100,
+    "active_start": 74100,
     "boost_factor": 0.3,
     "pattern": [
       185,

@@ -1,62 +1,62 @@
 [
   {
-    "end": 162800,
+    "end": 16280,
     "event_id": "E1",
     "name": "Event_1",
-    "start": 122800
+    "start": 12280
   },
   {
-    "end": 305600,
+    "end": 30560,
     "event_id": "E2",
     "name": "Event_2",
-    "start": 265600
+    "start": 26560
   },
   {
-    "end": 448400,
+    "end": 44840,
     "event_id": "E3",
     "name": "Event_3",
-    "start": 408400
+    "start": 40840
   },
   {
-    "end": 591200,
+    "end": 59120,
     "event_id": "E4",
     "name": "Event_4",
-    "start": 551200
+    "start": 55120
   },
   {
-    "end": 734000,
+    "end": 73400,
     "event_id": "E5",
     "name": "Event_5",
-    "start": 694000
+    "start": 69400
   },
   {
-    "end": 876800,
+    "end": 87680,
     "event_id": "E6",
     "name": "Event_6",
-    "start": 836800
+    "start": 83680
   },
   {
-    "end": 637600,
+    "end": 63760,
     "event_id": "D1",
     "name": "Decoy_1",
-    "start": 597600
+    "start": 59760
   },
   {
-    "end": 978200,
+    "end": 97820,
     "event_id": "D2",
     "name": "Decoy_2",
-    "start": 938200
+    "start": 93820
   },
   {
-    "end": 678600,
+    "end": 67860,
     "event_id": "D3",
     "name": "Decoy_3",
-    "start": 638600
+    "start": 63860
   },
   {
-    "end": 407400,
+    "end": 40740,
     "event_id": "D4",
     "name": "Decoy_4",
-    "start": 367400
+    "start": 36740
   }
 ]

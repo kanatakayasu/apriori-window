@@ -1,6 +1,17 @@
 [
   {
     "event_id": "E1",
+    "interval_end": 22335,
+    "interval_start": 21338,
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E1",
+    "interval_end": 28763,
+    "interval_start": 22336,
     "pattern": [
       5,
       15
@@ -8,6 +19,8 @@
   },
   {
     "event_id": "E2",
+    "interval_end": 56727,
+    "interval_start": 49392,
     "pattern": [
       25,
       35
@@ -15,6 +28,8 @@
   },
   {
     "event_id": "E3",
+    "interval_end": 82687,
+    "interval_start": 75504,
     "pattern": [
       45,
       55

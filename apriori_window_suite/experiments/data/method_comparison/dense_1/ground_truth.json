@@ -1,6 +1,8 @@
 [
   {
     "event_id": "E1",
+    "interval_end": 16935,
+    "interval_start": 11853,
     "pattern": [
       5,
       15
@@ -8,6 +10,8 @@
   },
   {
     "event_id": "E2",
+    "interval_end": 31257,
+    "interval_start": 25878,
     "pattern": [
       25,
       35
@@ -15,6 +19,17 @@
   },
   {
     "event_id": "E3",
+    "interval_end": 41886,
+    "interval_start": 40245,
+    "pattern": [
+      45,
+      55
+    ]
+  },
+  {
+    "event_id": "E3",
+    "interval_end": 45330,
+    "interval_start": 41887,
     "pattern": [
       45,
       55
@@ -22,6 +37,8 @@
   },
   {
     "event_id": "E4",
+    "interval_end": 59739,
+    "interval_start": 54577,
     "pattern": [
       105,
       115
@@ -29,6 +46,8 @@
   },
   {
     "event_id": "E5",
+    "interval_end": 73837,
+    "interval_start": 69362,
     "pattern": [
       125,
       135
@@ -36,6 +55,8 @@
   },
   {
     "event_id": "E6",
+    "interval_end": 88087,
+    "interval_start": 83682,
     "pattern": [
       145,
       155

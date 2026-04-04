@@ -1,32 +1,32 @@
 [
   {
-    "end": 280000,
+    "end": 28000,
     "event_id": "E1",
     "name": "Event_1",
-    "start": 160000
+    "start": 16000
   },
   {
-    "end": 360000,
+    "end": 36000,
     "event_id": "E2",
     "name": "Event_2",
-    "start": 240000
+    "start": 24000
   },
   {
-    "end": 760000,
+    "end": 76000,
     "event_id": "E3",
     "name": "Event_3",
-    "start": 640000
+    "start": 64000
   },
   {
-    "end": 620000,
+    "end": 62000,
     "event_id": "D1",
     "name": "Decoy_1",
-    "start": 560000
+    "start": 56000
   },
   {
-    "end": 980000,
+    "end": 98000,
     "event_id": "D2",
     "name": "Decoy_2",
-    "start": 920000
+    "start": 92000
   }
 ]

@@ -1,6 +1,8 @@
 [
   {
     "event_id": "E1",
+    "interval_end": 16964,
+    "interval_start": 11567,
     "pattern": [
       5,
       15
@@ -8,6 +10,8 @@
   },
   {
     "event_id": "E2",
+    "interval_end": 31162,
+    "interval_start": 25892,
     "pattern": [
       25,
       35
@@ -15,6 +19,8 @@
   },
   {
     "event_id": "E3",
+    "interval_end": 45344,
+    "interval_start": 40447,
     "pattern": [
       45,
       55
@@ -22,6 +28,8 @@
   },
   {
     "event_id": "E4",
+    "interval_end": 59714,
+    "interval_start": 54507,
     "pattern": [
       105,
       115
@@ -29,6 +37,8 @@
   },
   {
     "event_id": "E5",
+    "interval_end": 73960,
+    "interval_start": 69274,
     "pattern": [
       125,
       135
@@ -36,6 +46,8 @@
   },
   {
     "event_id": "E6",
+    "interval_end": 88094,
+    "interval_start": 83463,
     "pattern": [
       145,
       155
