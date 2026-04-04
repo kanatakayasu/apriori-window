@@ -1046,8 +1046,8 @@ def _deduplicate_by_item_overlap(
     同一イベントに帰属されたパターンのうち、アイテムが重複するものを
     Union-Find でクラスタリングし、各クラスタから最高スコアのパターンのみ残す。
 
-    前処理: 同一 (パターン, イベント) ペアが複数区間で有意な場合、
-    最高スコアの区間のみ代表として残す（区間ごとの重複を除去）。
+    グループ単位: event_name（同一イベントへの全帰属を比較対象とする）。
+    これにより交差シグナルパターンも強い planted パターンに統合される。
 
     Phase 1: 長さ l のパターン同士は、共有アイテム数 >= ceil(l/2) のとき辺を張る。
     |P| = 2: ceil(2/2) = 1（1アイテム共有で結合）
@@ -1055,23 +1055,14 @@ def _deduplicate_by_item_overlap(
 
     Phase 2: 異なる長さのパターン間で部分集合関係がある場合（A ⊂ B）、
     同一イベントへの帰属であればクラスタリングし最高スコアを残す。
-    これにより、交差シグナルパターン（異なる信号のアイテムを跨ぐパターン）も
-    同一イベント内の強いパターンに統合される。
+    スコア同点時は長いパターン（より特定的）を優先する。
     """
     from collections import defaultdict
     import math
 
-    # 前処理: 同一 (pattern, event) ペアは最高スコアの区間のみ残す
-    best_per_pair: Dict[Tuple, "SignificantAttribution"] = {}
-    for r in results:
-        key = (tuple(r.pattern), r.event_name)
-        if key not in best_per_pair or r.attribution_score > best_per_pair[key].attribution_score:
-            best_per_pair[key] = r
-    candidates = list(best_per_pair.values())
-
-    # Phase 1 & 2: イベント単位でパターン間のアイテム重複に基づく Union-Find
+    # イベント単位でパターン間のアイテム重複に基づく Union-Find
     by_event: Dict[str, List["SignificantAttribution"]] = defaultdict(list)
-    for r in candidates:
+    for r in results:
         by_event[r.event_name].append(r)
 
     deduplicated: List[SignificantAttribution] = []

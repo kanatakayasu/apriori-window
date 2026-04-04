@@ -121,20 +121,29 @@ def generate_synthetic(config: SyntheticConfig, out_dir: str, window_size: int =
     _max_gt_len = max((len(sig.pattern) for sig in config.planted_signals), default=2)
     frequents = find_dense_itemsets(transactions, window_size, min_support, _max_gt_len)
 
-    # Build ground truth: (P, I*, E) triples where I* overlaps with event window
-    ground_truth = []
+    # Build ground truth: (P, I*, E) triples where I* overlaps with event window.
+    # For each (pattern, event_id) pair, keep only the LONGEST overlapping interval
+    # (most representative; avoids micro-intervals from weak/noisy signals).
+    best_intervals: Dict[tuple, Dict] = {}  # key = (pat_tuple, event_id)
     for sig in config.planted_signals:
         pat_key = tuple(sorted(sig.pattern))
         if pat_key in frequents:
             for (iv_start, iv_end) in frequents[pat_key]:
-                # Dense interval overlaps with event window?
                 if iv_start <= sig.event_end and iv_end >= sig.event_start:
-                    ground_truth.append({
-                        "pattern": sorted(sig.pattern),
-                        "interval_start": iv_start,
-                        "interval_end": iv_end,
-                        "event_id": sig.event_id,
-                    })
+                    key = (pat_key, sig.event_id)
+                    length = iv_end - iv_start
+                    if key not in best_intervals or length > best_intervals[key]["_len"]:
+                        best_intervals[key] = {
+                            "pattern": sorted(sig.pattern),
+                            "interval_start": iv_start,
+                            "interval_end": iv_end,
+                            "event_id": sig.event_id,
+                            "_len": length,
+                        }
+    ground_truth = [
+        {k: v for k, v in entry.items() if k != "_len"}
+        for entry in best_intervals.values()
+    ]
 
     # Write transactions
     txn_path = out_path / "transactions.txt"
