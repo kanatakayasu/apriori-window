@@ -6,14 +6,14 @@
 \Ensure 重複排除後の帰属集合 $\mathcal{R}'$
 \Statex \textbf{// Step 5a: 同一長パターンの重複排除（過半数共有）}
 \For{各イベント $e$}
-    \State $\mathcal{R}_e \gets$ イベント $e$ に帰属されたパターンを長さ $l$ ごとにグループ化
+    \State $\mathcal{R}_{e} \gets$ イベント $e$ に帰属された全パターン（区間問わず）を長さ $l$ ごとにグループ化
     \For{各長さ $l$ のグループ}
         \For{各パターンペア $(P_i, P_j)$}
             \If{$|P_i \cap P_j| \geq \lceil l/2 \rceil$}
                 \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
             \EndIf
         \EndFor
-        \State 各連結成分内で $A_{\text{obs}}$ 最大のパターンのみ残す
+        \State 各連結成分内で $A_{\text{obs}}(P, I, e)$ 最大のパターンのみ残す
     \EndFor
 \EndFor
 \Statex \textbf{// Step 5b: 異長パターン間の部分集合排除}
@@ -23,7 +23,7 @@
             \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
         \EndIf
     \EndFor
-    \State 各連結成分内で $A_{\text{obs}}$ 最大のパターンのみ残す
+    \State 各連結成分内で $A_{\text{obs}}(P, I, e)$ 最大のパターンのみ残す
 \EndFor
 \State \Return $\mathcal{R}' \gets$ 残存パターンの集合
 \end{algorithmic}

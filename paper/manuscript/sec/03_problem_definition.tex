@@ -65,15 +65,26 @@ s_P(\tau) < \theta \land \tau > 0 \land s_P(\tau-1) \geq \theta. \label{eq:down_
 対応する変化点は開始時刻 $s$ と，存在すれば終了直後の $e+1$ である．
 \end{definition}
 
+\begin{definition}[密集区間]\label{def:dense_interval}
+パターン $P$ とサポート閾値 $\theta$ に対して，
+\emph{密集区間} $[s, e] \subseteq \{0, \ldots, T-1\}$ とは，
+$s_P(t) \geq \theta$ が $t \in [s, e]$ の全ての $t$ で成立し，
+かつ $s < 0$ または $s_P(s-1) < \theta$，
+$e = T-1$ または $s_P(e+1) < \theta$ を満たす極大連続区間である．
+$P$ の密集区間全体からなる集合を $\mathcal{I}_P$ とする．
+$\mathcal{I}_P$ は Phase~1（Apriori-window~\cite{dsaa2025}）の出力として与えられる．
+\end{definition}
+
 \subsection{イベント帰属問題}
 
 \begin{definition}[イベント帰属問題]\label{def:attribution}
 共起パターン集合 $\mathcal{F} = \{P \subseteq \mathcal{I} : |P| \geq 2,\;
-\text{サポート} \geq \theta\}$ とそのサポート時系列 $\{s_P\}_{P \in \mathcal{F}}$，
+\text{サポート} \geq \theta\}$，各パターン $P$ の密集区間集合 $\{\mathcal{I}_P\}_{P \in \mathcal{F}}$，
 外部イベント集合 $\mathcal{E}$，有意水準 $\alpha$ が与えられたとき，
 \emph{イベント帰属問題}とは，
-$s_P$ の閾値交差変化点がイベント $e$ の時間窓と統計的に有意に関連する
-全ての組 $(P, e) \in \mathcal{F} \times \mathcal{E}$ を，
+パターン $P$ の密集区間 $I \in \mathcal{I}_P$ の変化点が
+イベント $e$ の時間窓と統計的に有意に関連する
+全ての三つ組 $(P, I, e) \in \{(P, I, e) : P \in \mathcal{F},\; I \in \mathcal{I}_P,\; e \in \mathcal{E}\}$ を，
 偽発見率（FDR）を水準 $\alpha$ 以下に制御しながら同定することである．
 単一アイテム（$|P| = 1$）の頻度変動は通常の時系列分析で捕捉可能であり，
 共起構造の発見を目的とする本問題の対象外とする．
@@ -82,9 +93,10 @@ $s_P$ の閾値交差変化点がイベント $e$ の時間窓と統計的に有
 この問題の主要な課題は以下の3点である:
 
 \begin{enumerate}
-\item \textbf{規模}: $|\mathcal{F}|$ 個のパターンと $|\mathcal{E}|$ 個のイベントに対して
-仮説数が $O(|\mathcal{F}| \times |\mathcal{E}|)$ となり，
-厳格な多重検定補正が必要となる．
+\item \textbf{規模}: $\sum_{P \in \mathcal{F}} |\mathcal{I}_P| \times |\mathcal{E}|$ 個の
+$(P, I, e)$ 仮説を同時に検定する必要があり，厳格な多重検定補正が必要となる．
+パターン数 $|\mathcal{F}|$ が数千，各パターンが複数の密集区間を持ちうる設定では，
+この仮説空間は非常に大きくなる．
 
 \item \textbf{副次パターン}: イベントがアイテム $i$ の頻度を増加させると，
 $i$ を含む\emph{全て}の共起パターンのサポートが相関して変動し，偽陽性が大量に発生する．
