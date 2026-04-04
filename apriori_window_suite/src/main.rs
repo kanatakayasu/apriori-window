@@ -5,7 +5,7 @@
 //!   run-experiment  Run full attribution pipeline on given data
 //!   run-ex3         Run EX3: method comparison experiment
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 use std::time::Instant;
 
@@ -166,6 +166,18 @@ enum Commands {
         /// Data directory
         #[arg(long, default_value = "experiments/data/ex_robustness")]
         data_dir: String,
+    },
+    /// Run EX4: Dunnhumby real campaign attribution
+    RunEx4 {
+        /// Path to Dunnhumby dataset directory
+        #[arg(long, default_value = "dataset/dunnhumby")]
+        data_dir: String,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/ex4_dunnhumby")]
+        out_dir: String,
+        /// Run sensitivity analysis (multiple W/θ settings)
+        #[arg(long, default_value_t = true)]
+        sensitivity: bool,
     },
 }
 
@@ -1165,6 +1177,322 @@ fn zipf_item_probs(n_items: usize, alpha: f64, median_target: f64, max_prob: f64
 }
 
 // ---------------------------------------------------------------------------
+// EX4: Dunnhumby real campaign attribution
+// ---------------------------------------------------------------------------
+
+/// アイテムパターンとクーポン対象商品の整合性を確認する。
+fn is_coupon_consistent(
+    pattern: &[i64],
+    campaign_id: i64,
+    coupon_map: &HashMap<i64, HashSet<i64>>,
+) -> bool {
+    if let Some(coupons) = coupon_map.get(&campaign_id) {
+        pattern.iter().any(|item| coupons.contains(item))
+    } else {
+        false
+    }
+}
+
+fn run_ex4(data_dir: &str, out_dir: &str, sensitivity: bool) {
+    use csv::ReaderBuilder;
+
+    let txn_path = format!("{}/transactions.txt", data_dir);
+    let events_path = format!("{}/events.json", data_dir);
+    let product_id_map_path = format!("{}/product_id_map.json", data_dir);
+    let product_csv_path = format!("{}/raw/product.csv", data_dir);
+    let coupon_csv_path = format!("{}/raw/coupon.csv", data_dir);
+
+    // product_id_map: internal_id(str) -> original_pid(i64)
+    let id_map_text =
+        std::fs::read_to_string(&product_id_map_path).expect("failed to read product_id_map.json");
+    let id_map_raw: HashMap<String, i64> =
+        serde_json::from_str(&id_map_text).expect("failed to parse product_id_map.json");
+
+    // 逆引き: original_pid -> internal_id
+    let inv_id_map: HashMap<i64, i64> = id_map_raw
+        .iter()
+        .map(|(k, &v)| (v, k.parse::<i64>().expect("invalid internal id key")))
+        .collect();
+
+    // commodity map: internal_id -> commodity_desc
+    let mut commodity_map: HashMap<i64, String> = HashMap::new();
+    {
+        let mut rdr = ReaderBuilder::new()
+            .has_headers(true)
+            .from_path(&product_csv_path)
+            .expect("failed to open product.csv");
+        for result in rdr.records() {
+            let record = result.expect("failed to read product.csv record");
+            // PRODUCT_ID,MANUFACTURER,DEPARTMENT,BRAND,COMMODITY_DESC,SUB_COMMODITY_DESC,...
+            let pid: i64 = record[0].trim().parse().unwrap_or(-1);
+            let commodity = record[4].trim().to_string();
+            if let Some(&internal_id) = inv_id_map.get(&pid) {
+                commodity_map.insert(internal_id, commodity);
+            }
+        }
+    }
+
+    // coupon map: campaign_id -> Set<internal_id>
+    let mut coupon_map: HashMap<i64, HashSet<i64>> = HashMap::new();
+    {
+        let mut rdr = ReaderBuilder::new()
+            .has_headers(true)
+            .from_path(&coupon_csv_path)
+            .expect("failed to open coupon.csv");
+        for result in rdr.records() {
+            let record = result.expect("failed to read coupon.csv record");
+            // COUPON_UPC,PRODUCT_ID,CAMPAIGN
+            let pid: i64 = record[1].trim().parse().unwrap_or(-1);
+            let campaign_id: i64 = record[2].trim().parse().unwrap_or(-1);
+            if let Some(&internal_id) = inv_id_map.get(&pid) {
+                coupon_map.entry(campaign_id).or_default().insert(internal_id);
+            }
+        }
+    }
+
+    // 設定一覧
+    let settings_list: Vec<(i64, usize, &str)> = if sensitivity {
+        vec![
+            (300, 5, "default"),
+            (100, 3, "W100_t3"),
+            (100, 5, "W100_t5"),
+            (300, 3, "W300_t3"),
+            (500, 5, "W500_t5"),
+            (500, 10, "W500_t10"),
+        ]
+    } else {
+        vec![(300, 5, "default")]
+    };
+
+    std::fs::create_dir_all(out_dir).expect("failed to create output directory");
+
+    let mut all_results: Vec<serde_json::Value> = Vec::new();
+
+    for (window_size, min_support, label) in &settings_list {
+        let window_size = *window_size;
+        let min_support = *min_support;
+
+        println!("\n=== EX4: W={}, θ={} [{}] ===", window_size, min_support, label);
+
+        // Phase 1
+        let t_phase1_start = Instant::now();
+        let transactions = read_transactions_with_baskets(&txn_path);
+        let n_transactions = transactions.len() as i64;
+        let (_, _, item_transaction_map) = compute_item_basket_map(&transactions);
+        let frequents =
+            find_dense_itemsets(&transactions, window_size, min_support, 100);
+        let t_phase1 = t_phase1_start.elapsed().as_secs_f64();
+
+        let n_patterns = frequents.keys().filter(|k| k.len() > 1).count();
+        println!("  Transactions: {:}", n_transactions);
+        println!("  Patterns: {}", n_patterns);
+        println!("  Phase 1: {:.1}s", t_phase1);
+
+        // TypeA イベントのみフィルタ
+        let all_events = read_events(&events_path);
+        let typea_events: Vec<_> =
+            all_events.into_iter().filter(|e| e.name.contains("TypeA")).collect();
+        let typea_names: Vec<String> = typea_events.iter().map(|e| e.name.clone()).collect();
+        println!("  TypeA campaigns: {:?}", typea_names);
+
+        // Attribution
+        let config = AttributionConfig {
+            sigma: Some(window_size as f64),
+            n_permutations: 5000,
+            alpha: 0.10,
+            correction_method: "bh".to_string(),
+            global_correction: true,
+            deduplicate_overlap: true,
+            attribution_threshold: 0.1,
+            seed: Some(42),
+            ablation_mode: None,
+            min_pattern_length: 2,
+            magnitude_normalization: "sqrt".to_string(),
+        };
+
+        let t_attr_start = Instant::now();
+        let results = run_attribution_pipeline(
+            &frequents,
+            &item_transaction_map,
+            &typea_events,
+            window_size,
+            min_support as i64,
+            n_transactions,
+            &config,
+        );
+        let t_attr = t_attr_start.elapsed().as_secs_f64();
+
+        println!("  Attributions: {}", results.len());
+
+        // クーポン整合性チェック
+        let mut n_consistent = 0usize;
+        let mut sig_list: Vec<serde_json::Value> = Vec::new();
+        for r in &results {
+            // event_id "C8" -> campaign_id 8
+            // event.event_id を TypeA イベントから取得
+            let campaign_id = typea_events
+                .iter()
+                .find(|e| e.name == r.event_name)
+                .map(|e| e.event_id.trim_start_matches('C').parse::<i64>().unwrap_or(-1))
+                .unwrap_or(-1);
+
+            let cc = is_coupon_consistent(&r.pattern, campaign_id, &coupon_map);
+            if cc {
+                n_consistent += 1;
+            }
+            let cats: Vec<String> = r
+                .pattern
+                .iter()
+                .map(|&id| {
+                    commodity_map
+                        .get(&id)
+                        .cloned()
+                        .unwrap_or_else(|| format!("ID:{}", id))
+                })
+                .collect();
+
+            sig_list.push(serde_json::json!({
+                "pattern_ids": r.pattern,
+                "pattern_categories": cats,
+                "event_name": r.event_name,
+                "score": (r.attribution_score * 10000.0).round() / 10000.0,
+                "p_adj": (r.adjusted_p_value * 10000.0).round() / 10000.0,
+                "direction": r.change_direction,
+                "coupon_consistent": cc,
+            }));
+        }
+
+        let coupon_rate = if results.is_empty() {
+            0.0f64
+        } else {
+            n_consistent as f64 / results.len() as f64
+        };
+        println!(
+            "  Coupon match: {}/{} ({:.0}%)",
+            n_consistent,
+            results.len(),
+            coupon_rate * 100.0
+        );
+        println!("  Attribution: {:.1}s", t_attr);
+
+        // Campaign-level top patterns
+        println!("\n  === Campaign Top Patterns ===");
+        let mut by_campaign: HashMap<String, Vec<&serde_json::Value>> = HashMap::new();
+        for r in &sig_list {
+            let ev = r["event_name"].as_str().unwrap_or("").to_string();
+            by_campaign.entry(ev).or_default().push(r);
+        }
+
+        let mut campaign_summary: Vec<serde_json::Value> = Vec::new();
+        for ev in &typea_events {
+            let campaign_id = ev.event_id.trim_start_matches('C').parse::<i64>().unwrap_or(-1);
+            let mut attrs: Vec<&serde_json::Value> =
+                by_campaign.get(&ev.name).cloned().unwrap_or_default();
+            attrs.sort_by(|a, b| {
+                b["score"]
+                    .as_f64()
+                    .unwrap_or(0.0)
+                    .partial_cmp(&a["score"].as_f64().unwrap_or(0.0))
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            });
+            let top3: Vec<serde_json::Value> =
+                attrs.iter().take(3).map(|v| (*v).clone()).collect();
+
+            println!(
+                "\n  {} (C{}): {} attributions",
+                ev.name,
+                campaign_id,
+                attrs.len()
+            );
+            for r in &top3 {
+                let cc_mark = if r["coupon_consistent"].as_bool().unwrap_or(false) {
+                    "✓"
+                } else {
+                    "✗"
+                };
+                println!(
+                    "    [{}] {:?}  score={:.3} p={:.4}",
+                    cc_mark,
+                    r["pattern_categories"],
+                    r["score"].as_f64().unwrap_or(0.0),
+                    r["p_adj"].as_f64().unwrap_or(0.0),
+                );
+            }
+
+            campaign_summary.push(serde_json::json!({
+                "campaign": ev.name,
+                "campaign_id": campaign_id,
+                "n_attributions": attrs.len(),
+                "top_patterns": top3,
+            }));
+        }
+
+        let output = serde_json::json!({
+            "config": {
+                "window_size": window_size,
+                "min_support": min_support,
+                "label": label,
+            },
+            "n_transactions": n_transactions,
+            "n_patterns": n_patterns,
+            "n_attributions": results.len(),
+            "n_coupon_consistent": n_consistent,
+            "coupon_consistency_rate": coupon_rate,
+            "time_phase1_s": (t_phase1 * 10.0).round() / 10.0,
+            "time_attribution_s": (t_attr * 10.0).round() / 10.0,
+            "campaign_summary": campaign_summary,
+            "all_attributions": sig_list,
+        });
+
+        let out_path = format!("{}/ex4_{}.json", out_dir, label);
+        std::fs::write(&out_path, serde_json::to_string_pretty(&output).unwrap())
+            .expect("failed to write output");
+        println!("\n  Saved -> {}", out_path);
+
+        all_results.push(output);
+    }
+
+    // 感度分析サマリ
+    if sensitivity && all_results.len() > 1 {
+        println!("\n{}", "=".repeat(70));
+        println!(
+            "{:<14} {:>5} {:>4} {:>6} {:>6} {:>12}",
+            "Setting", "W", "θ", "#Pat", "#Attr", "CouponMatch"
+        );
+        println!("{}", "-".repeat(70));
+        for res in &all_results {
+            let cfg = &res["config"];
+            let cc = res["n_coupon_consistent"].as_u64().unwrap_or(0);
+            let tot = res["n_attributions"].as_u64().unwrap_or(0);
+            let rate = res["coupon_consistency_rate"].as_f64().unwrap_or(0.0);
+            println!(
+                "{:<14} {:>5} {:>4} {:>6} {:>6}  {}/{} ({:.0}%)",
+                cfg["label"].as_str().unwrap_or(""),
+                cfg["window_size"].as_i64().unwrap_or(0),
+                cfg["min_support"].as_i64().unwrap_or(0),
+                res["n_patterns"].as_i64().unwrap_or(0),
+                tot,
+                cc,
+                tot,
+                rate * 100.0,
+            );
+        }
+        println!("{}", "=".repeat(70));
+
+        let sensitivity_path = format!("{}/ex4_sensitivity.json", out_dir);
+        std::fs::write(
+            &sensitivity_path,
+            serde_json::to_string_pretty(&all_results).unwrap(),
+        )
+        .expect("failed to write sensitivity summary");
+        println!(
+            "Sensitivity saved -> {}",
+            sensitivity_path
+        );
+    }
+}
+
+// ---------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------
 
@@ -1212,6 +1540,9 @@ fn main() {
         }
         Commands::RunExRobustness { n_seeds, out_dir, data_dir } => {
             run_ex_robustness(n_seeds, &out_dir, &data_dir);
+        }
+        Commands::RunEx4 { data_dir, out_dir, sensitivity } => {
+            run_ex4(&data_dir, &out_dir, sensitivity);
         }
     }
 

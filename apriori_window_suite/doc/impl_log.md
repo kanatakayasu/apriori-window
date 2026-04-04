@@ -16,6 +16,17 @@
 
 ## ログ
 
+### 2026-04-04 — RunEx4 サブコマンド追加 (Dunnhumby 実データ帰属)
+- **対象**: `src/main.rs`, `Cargo.toml`
+- **内容**:
+  1. `Cargo.toml` に `csv = "1"` 依存を追加。
+  2. `src/main.rs` に `RunEx4` CLIサブコマンドを追加（`--data-dir`, `--out-dir`, `--sensitivity` オプション）。
+  3. `run_ex4()` 関数を実装: `product_id_map.json` / `product.csv` から commodity マップ構築、`coupon.csv` からキャンペーン別クーポン対象品目マップ構築、TypeA イベントのみフィルタして `run_attribution_pipeline` を呼び出し、クーポン整合性チェック、各設定の結果を `ex4_{label}.json` に保存、感度分析サマリを `ex4_sensitivity.json` に保存。
+  4. `is_coupon_consistent()` ヘルパー関数を追加。
+  5. `use std::collections::HashSet;` を imports に追加。
+- **テスト**: lib 62 tests + main 1 test（全 pass）
+- **関連コミット**: (pending)
+
 ### 2026-04-04 — 全実験実行 (EX1/EX2/EX3/NullFDR)・min_support=100スケーリング・RunNullFdr追加
 - **対象**: `src/main.rs`, `src/synth.rs`, `experiments/run_ex2.py`
 - **内容**:
