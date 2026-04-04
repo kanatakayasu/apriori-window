@@ -3,7 +3,7 @@ Null Experiment: FDR Validation — Does the BH procedure control false discover
 when no event causes any pattern change?
 
 Design:
-  - 5000 transactions, 200 items, p_base=0.03 (same as EX1)
+  - N=100K transactions, 200 items, p_base=0.03 (same as EX1)
   - 5 random events (decoy only, no planted signals)
   - Pipeline runs with α=0.10, BH correction, B=5000 permutations
   - Under null: all significant attributions are false positives
@@ -41,10 +41,9 @@ def run_null_fdr():
     for seed in range(N_SEEDS):
         config = make_null_config(n_events=5, seed=seed)
         out_dir = str(DATA_DIR / f"seed{seed}")
-        info = generate_synthetic(config, out_dir)
+        info = generate_synthetic(config, out_dir, window_size=1000, min_support=5)
 
         attr_config = AttributionConfig(
-            min_support_range=5,
             n_permutations=5000,
             alpha=0.10,
             correction_method="bh",
@@ -54,7 +53,7 @@ def run_null_fdr():
         )
         result = run_single_experiment(
             info["txn_path"], info["events_path"], info["gt_path"],
-            window_size=50, min_support=3, max_length=100,
+            window_size=1000, min_support=5, max_length=2,
             config=attr_config,
         )
 

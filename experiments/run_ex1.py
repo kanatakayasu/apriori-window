@@ -2,9 +2,9 @@
 EX1: Core Attribution Accuracy — Can the pipeline correctly attribute event-driven
 changes and reject unrelated dense patterns?
 
-8 conditions testing signal strength and structural diversity:
+7 conditions testing signal strength and structural diversity:
   Beta sweep (signal strength):
-    β=0.1, 0.2, 0.3, 0.5
+    β=0.2, 0.3, 0.5
   Structural conditions (β=0.3 fixed):
     OVERLAP  — temporally overlapping events
     CONFOUND — Type B patterns deliberately near events
@@ -38,10 +38,9 @@ from experiments.src.run_experiment import (
 RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex1"
 DATA_DIR = Path(__file__).resolve().parent / "data" / "ex1"
 
-# --- 8 conditions ---
+# --- 7 conditions ---
 CONDITIONS = {
     # Beta sweep (signal strength)
-    "beta_0.1": lambda seed: make_ex1_config(boost=0.1, seed=seed),
     "beta_0.2": lambda seed: make_ex1_config(boost=0.2, seed=seed),
     "beta_0.3": lambda seed: make_ex1_config(boost=0.3, seed=seed),
     "beta_0.5": lambda seed: make_ex1_config(boost=0.5, seed=seed),
@@ -59,7 +58,7 @@ def run_ex1():
     """Run all EX1 conditions."""
     print("=" * 70)
     print("EX1: Core Attribution Accuracy")
-    print("  Beta sweep: β ∈ {0.1, 0.2, 0.3, 0.5}")
+    print("  Beta sweep: β ∈ {0.2, 0.3, 0.5}")
     print("  Structural: OVERLAP, CONFOUND, DENSE, SHORT")
     print(f"  Seeds: {N_SEEDS} per condition")
     print("=" * 70)
@@ -73,10 +72,9 @@ def run_ex1():
         for seed in range(N_SEEDS):
             config = config_fn(seed)
             out_dir = str(DATA_DIR / f"{cond_name}_seed{seed}")
-            info = generate_synthetic(config, out_dir)
+            info = generate_synthetic(config, out_dir, window_size=1000, min_support=100)
 
             attr_config = AttributionConfig(
-                min_support_range=5,
                 n_permutations=5000,
                 alpha=0.10,
                 correction_method="bh",
@@ -86,7 +84,7 @@ def run_ex1():
             )
             result = run_single_experiment(
                 info["txn_path"], info["events_path"], info["gt_path"],
-                window_size=50, min_support=3, max_length=100,
+                window_size=1000, min_support=100, max_length=2,
                 config=attr_config,
                 unrelated_path=info.get("unrelated_path"),
             )

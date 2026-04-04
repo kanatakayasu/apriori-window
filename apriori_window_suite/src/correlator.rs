@@ -52,9 +52,6 @@ pub struct AttributionConfig {
     pub correction_method: String, // "bh" or "bonferroni"
     pub global_correction: bool,
     pub deduplicate_overlap: bool,
-    /// 振幅フィルタ: max_support - min_support がこの値以下のパターンを除外 (δ)
-    pub min_support_range: i64,
-    pub min_magnitude: f64,
     pub attribution_threshold: f64,
     pub seed: Option<u64>,
     pub ablation_mode: Option<String>, // "no_prox", "no_mag", "mag_only", "prox_only"
@@ -72,8 +69,6 @@ impl Default for AttributionConfig {
             correction_method: "bh".to_string(),
             global_correction: true,
             deduplicate_overlap: false,
-            min_support_range: 0,
-            min_magnitude: 0.0,
             attribution_threshold: 0.1,
             seed: None,
             ablation_mode: None,
@@ -334,13 +329,14 @@ pub fn circular_shift_events(events: &[Event], offset: i64, max_time: i64) -> Ve
         .collect()
 }
 
-/// 1つの密集区間 `interval` に対して置換検定を実行し、未補正 p 値を返す。
+/// パターン P の全区間に対して (P, E) 単位で置換検定を実行し、未補正 p 値を返す。
 ///
-/// 新設計: (P, I, E) を仮説単位とし、区間ごとに独立した検定を行う。
-/// `pair_seed` は (pattern, interval) に固有の決定論的シードで並列実行時の再現性を保証する。
+/// 設計: (P, E) を仮説単位とし、全区間の変化点を集計してスコアを計算する。
+/// "best interval" は最高近接スコアを持つ変化点を含む区間として事後選択する。
+/// `pair_seed` はパターン固有の決定論的シードで並列実行時の再現性を保証する。
 fn permutation_test_raw(
     pattern: &[i64],
-    interval: (i64, i64),
+    intervals: &[(i64, i64)],
     change_points: &[ChangePoint],
     events: &[Event],
     sigma: f64,
@@ -411,7 +407,7 @@ fn permutation_test_raw(
         }
     }
 
-    // 未補正 p 値（interval は常に正しく設定済み — 事後選択不要）
+    // 未補正 p 値を計算し、best interval を事後選択する
     let n_perm = config.n_permutations;
     obs_scores
         .iter()
@@ -434,9 +430,16 @@ fn permutation_test_raw(
                 .unwrap()
                 .clone();
 
+            // best_cp が属する区間を事後選択（"best interval" メタデータ）
+            let best_iv = intervals
+                .iter()
+                .find(|&&(s, e)| best_cp.time >= s && best_cp.time <= e + 1)
+                .copied()
+                .unwrap_or_else(|| intervals.first().copied().unwrap_or((0, 0)));
+
             RawTestResult {
                 pattern: pattern.to_vec(),
-                interval,
+                interval: best_iv,
                 change_point: best_cp,
                 event: ev.clone(),
                 proximity: prox,
@@ -493,11 +496,11 @@ pub fn deduplicate_by_item_overlap(
 ) -> Vec<SignificantAttribution> {
     use std::collections::HashSet;
 
-    // (event_name, interval_start, interval_end) でグループ化
-    // 同じ区間・同じイベントに帰属されたパターン同士のみ dedup — 異なる区間は独立した帰属として保持
-    let mut by_event: HashMap<(String, i64, i64), Vec<SignificantAttribution>> = HashMap::new();
+    // event_name でグループ化
+    // (P, E) 単位のテストでは区間はメタデータであり、同一イベントに帰属された全パターンを dedup の対象とする
+    let mut by_event: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
     for r in results {
-        let key = (r.event_name.clone(), r.interval_start, r.interval_end);
+        let key = r.event_name.clone();
         by_event
             .entry(key)
             .or_default()
@@ -586,10 +589,10 @@ pub fn deduplicate_by_item_overlap(
     }
 
     // Phase 2: Cross-length subset dedup
-    // If pattern A ⊂ B (same event + same interval), merge and keep highest score
-    let mut by_event2: HashMap<(String, i64, i64), Vec<SignificantAttribution>> = HashMap::new();
+    // If pattern A ⊂ B (same event), merge and keep highest score
+    let mut by_event2: HashMap<String, Vec<SignificantAttribution>> = HashMap::new();
     for r in deduplicated {
-        let key = (r.event_name.clone(), r.interval_start, r.interval_end);
+        let key = r.event_name.clone();
         by_event2
             .entry(key)
             .or_default()
@@ -690,13 +693,12 @@ fn get_pattern_timestamps(
 
 /// Event Attribution Pipeline を実行する。
 ///
-/// 新設計: 密集区間を直接イベントに帰属させる。
-/// 仮説単位を (pattern, event) から (pattern, interval, event) に変更。
+/// 設計: (P, E) を仮説単位とし、パターン P の全区間の変化点を集計して検定を行う。
+/// "best interval" は最高近接スコアを持つ変化点を含む区間として事後選択し、出力に記録する。
 ///
 /// 最適化:
 /// - タイムスタンプを全パターン分並列プリ計算（複数区間を持つパターンの重複計算を回避）
-/// - (pattern, interval) ペアに展開し rayon で並列置換検定
-/// - 事後的な区間選択を廃止し、設計上の正確性を向上
+/// - パターン単位で rayon 並列置換検定
 pub fn run_attribution_pipeline(
     frequents: &HashMap<Vec<i64>, Vec<(i64, i64)>>,
     item_transaction_map: &HashMap<i64, Vec<i64>>,
@@ -725,24 +727,16 @@ pub fn run_attribution_pipeline(
         .map(|pat| (*pat, get_pattern_timestamps(pat, item_transaction_map)))
         .collect();
 
-    // Step 1: (pattern, interval) ペアに展開
-    // 各密集区間を独立した仮説として扱う（今回の設計変更の核心）
-    let pairs: Vec<(&Vec<i64>, (i64, i64))> = frequents
-        .iter()
-        .filter(|(pat, _)| pat.len() >= config.min_pattern_length)
-        .flat_map(|(pat, intervals)| intervals.iter().map(move |&iv| (pat, iv)))
-        .collect();
-
-    // Step 2: 各 (pattern, interval) ペアに対して並列置換検定
-    let all_raw: Vec<RawTestResult> = pairs
+    // Step 1 & 2: パターン単位で全区間の変化点を集計し、(P, E) 単位で並列置換検定
+    let all_raw: Vec<RawTestResult> = filtered_patterns
         .par_iter()
-        .flat_map(|(pattern, interval)| {
-            let interval = *interval;
-            let timestamps = &timestamps_map[pattern];
+        .flat_map(|pattern| {
+            let intervals = &frequents[*pattern];
+            let timestamps = &timestamps_map[*pattern];
 
-            // 区間の変化点を生成（2点: onset@s, offset@e+1）
+            // 全区間の変化点を集計（(P, E) 単位でテスト）
             let change_points = dense_intervals_to_change_points(
-                &[interval],
+                intervals,
                 timestamps,
                 window_size,
                 n_transactions,
@@ -752,46 +746,14 @@ pub fn run_attribution_pipeline(
                 return Vec::new();
             }
 
-            // 振幅フィルタ: UP CP の magnitude で per-interval 判定
-            // dense_intervals_to_change_points が計算した onset magnitude を再利用
-            if config.min_support_range > 0 {
-                let max_mag = change_points
-                    .iter()
-                    .filter(|cp| cp.direction == "up")
-                    .map(|cp| cp.magnitude)
-                    .fold(0.0_f64, f64::max);
-                if (max_mag as i64) < config.min_support_range {
-                    return Vec::new();
-                }
-            }
-
-            // min_magnitude フィルタ
-            let change_points: Vec<ChangePoint> = if config.min_magnitude > 0.0 {
-                change_points
-                    .into_iter()
-                    .filter(|cp| cp.magnitude >= config.min_magnitude)
-                    .collect()
-            } else {
-                change_points
-            };
-            if change_points.is_empty() {
-                return Vec::new();
-            }
-
-            // (P, I) 固有のシードを生成（決定論的・並列実行での再現性を保証）
-            let pair_seed = {
-                let base = config.seed.unwrap_or(0);
-                let ph = pattern.iter().fold(base, |h, &item| {
-                    h.wrapping_mul(1_000_003).wrapping_add(item as u64)
-                });
-                ph.wrapping_mul(1_000_003)
-                    .wrapping_add(interval.0 as u64)
-                    .wrapping_mul(1_000_003)
-                    .wrapping_add(interval.1 as u64)
-            };
+            // パターン固有のシードを生成（決定論的・並列実行での再現性を保証）
+            let pair_seed = pattern.iter().fold(
+                config.seed.unwrap_or(0),
+                |h, &item| h.wrapping_mul(1_000_003).wrapping_add(item as u64),
+            );
 
             permutation_test_raw(
-                pattern, interval, &change_points, events,
+                pattern, intervals, &change_points, events,
                 sigma, max_pos, config, pair_seed,
             )
         })
@@ -801,7 +763,7 @@ pub fn run_attribution_pipeline(
         return Vec::new();
     }
 
-    // Step 3: (P, I, E) 単位での多重検定補正
+    // Step 3: (P, E) 単位での多重検定補正
     let n_total = all_raw.len();
     let mut results: Vec<SignificantAttribution> = Vec::new();
 

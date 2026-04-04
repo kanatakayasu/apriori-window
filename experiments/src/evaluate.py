@@ -46,23 +46,28 @@ def evaluate(
     with open(ground_truth_path, "r") as f:
         gt_raw = json.load(f)
 
-    # Build ground truth set: (pattern_tuple, event_id)
-    gt_set: Set[Tuple[Tuple[int, ...], str]] = set()
+    # Build ground truth set: (pattern_tuple, interval_start, interval_end, event_id)
+    gt_set: Set[Tuple[Tuple[int, ...], int, int, str]] = set()
     for entry in gt_raw:
         pat = _pattern_key(entry["pattern"])
-        gt_set.add((pat, entry["event_id"]))
+        iv_s = entry.get("interval_start", 0)
+        iv_e = entry.get("interval_end", 0)
+        gt_set.add((pat, iv_s, iv_e, entry["event_id"]))
 
     # Build predicted set
-    pred_pairs: List[Tuple[Tuple[int, ...], str]] = []
+    pred_pairs: List[Tuple[Tuple[int, ...], int, int, str]] = []
     for p in predicted:
         if hasattr(p, "pattern"):
             pat = _pattern_key(p.pattern)
-            # event_id might be stored via event_name matching
             eid = getattr(p, "event_id", None) or getattr(p, "event_name", "")
+            iv_s = getattr(p, "interval_start", 0)
+            iv_e = getattr(p, "interval_end", 0)
         else:
             pat = _pattern_key(p["pattern"])
             eid = p.get("event_id", p.get("event_name", ""))
-        pred_pairs.append((pat, eid))
+            iv_s = p.get("interval_start", 0)
+            iv_e = p.get("interval_end", 0)
+        pred_pairs.append((pat, iv_s, iv_e, eid))
 
     pred_set = set(pred_pairs)
 
@@ -81,9 +86,9 @@ def evaluate(
     return EvalResult(
         tp=tp, fp=fp, fn=fn,
         precision=precision, recall=recall, f1=f1,
-        true_positive_pairs=[{"pattern": list(p), "event_id": e} for p, e in tp_set],
-        false_positive_pairs=[{"pattern": list(p), "event_id": e} for p, e in fp_set],
-        false_negative_pairs=[{"pattern": list(p), "event_id": e} for p, e in fn_set],
+        true_positive_pairs=[{"pattern": list(p), "interval_start": iv_s, "interval_end": iv_e, "event_id": e} for p, iv_s, iv_e, e in tp_set],
+        false_positive_pairs=[{"pattern": list(p), "interval_start": iv_s, "interval_end": iv_e, "event_id": e} for p, iv_s, iv_e, e in fp_set],
+        false_negative_pairs=[{"pattern": list(p), "interval_start": iv_s, "interval_end": iv_e, "event_id": e} for p, iv_s, iv_e, e in fn_set],
     )
 
 
@@ -113,7 +118,9 @@ def evaluate_with_event_name_mapping(
             name = p.get("event_name", "")
 
         eid = name_to_id.get(name, name)
-        converted.append({"pattern": pat, "event_id": eid})
+        iv_s = getattr(p, "interval_start", 0) if hasattr(p, "interval_start") else p.get("interval_start", 0)
+        iv_e = getattr(p, "interval_end", 0) if hasattr(p, "interval_end") else p.get("interval_end", 0)
+        converted.append({"pattern": pat, "event_id": eid, "interval_start": iv_s, "interval_end": iv_e})
 
     return evaluate(converted, ground_truth_path)
 

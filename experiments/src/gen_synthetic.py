@@ -58,7 +58,7 @@ class SyntheticConfig:
     correlated_pairs: Optional[List[Tuple[int, int, float]]] = None
 
 
-def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
+def generate_synthetic(config: SyntheticConfig, out_dir: str, window_size: int = 1000, min_support: int = 5) -> Dict:
     """Generate synthetic dataset with planted signals."""
     out_path = Path(out_dir)
     out_path.mkdir(parents=True, exist_ok=True)
@@ -109,6 +109,33 @@ def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
 
         transactions.append(sorted(items))
 
+    # Run Phase 1 to determine exact ground truth intervals (P, I*, E)
+    import sys as _sys
+    from pathlib import Path as _Path
+    _python_dir = str(_Path(__file__).resolve().parent.parent.parent / "apriori_window_suite" / "python")
+    if _python_dir not in _sys.path:
+        _sys.path.insert(0, _python_dir)
+    from apriori_window_basket import find_dense_itemsets
+
+    # max_length = longest planted pattern (all experiments use 2-item patterns)
+    _max_gt_len = max((len(sig.pattern) for sig in config.planted_signals), default=2)
+    frequents = find_dense_itemsets(transactions, window_size, min_support, _max_gt_len)
+
+    # Build ground truth: (P, I*, E) triples where I* overlaps with event window
+    ground_truth = []
+    for sig in config.planted_signals:
+        pat_key = tuple(sorted(sig.pattern))
+        if pat_key in frequents:
+            for (iv_start, iv_end) in frequents[pat_key]:
+                # Dense interval overlaps with event window?
+                if iv_start <= sig.event_end and iv_end >= sig.event_start:
+                    ground_truth.append({
+                        "pattern": sorted(sig.pattern),
+                        "interval_start": iv_start,
+                        "interval_end": iv_end,
+                        "event_id": sig.event_id,
+                    })
+
     # Write transactions
     txn_path = out_path / "transactions.txt"
     with open(txn_path, "w") as f:
@@ -135,14 +162,6 @@ def generate_synthetic(config: SyntheticConfig, out_dir: str) -> Dict:
     events_path = out_path / "events.json"
     with open(events_path, "w") as f:
         json.dump(events, f, indent=2)
-
-    # Write ground truth
-    ground_truth = []
-    for sig in config.planted_signals:
-        ground_truth.append({
-            "pattern": sorted(sig.pattern),
-            "event_id": sig.event_id,
-        })
 
     gt_path = out_path / "ground_truth.json"
     with open(gt_path, "w") as f:
@@ -224,7 +243,7 @@ def make_default_config(
 
 
 def make_ex1_config(
-    n_transactions: int = 5000,
+    n_transactions: int = 100_000,
     boost: float = 0.3,
     n_unrelated: int = 2,
     n_decoy: int = 2,
@@ -240,7 +259,7 @@ def make_ex1_config(
     Type C (decoy events): Events that exist but cause no pattern changes.
     """
     p_base = 0.03
-    event_duration = 300
+    event_duration = 6_000
 
     # --- Type A: 3 vocabulary-internal planted signals ---
     type_a_items = [[5, 15], [25, 35], [45, 55]]
@@ -303,29 +322,29 @@ def make_ex1_config(
 def make_ex1_overlap_config(seed: int = 42) -> SyntheticConfig:
     """EX1-OVERLAP: Two planted events with overlapping time windows.
 
-    E1=[800,1400] and E2=[1200,1800] overlap in [1200,1400].
+    E1=[16000,28000] and E2=[24000,36000] overlap in [24000,28000].
     Tests temporal disambiguation by proximity component.
     """
     p_base = 0.03
     return SyntheticConfig(
-        n_transactions=5000,
+        n_transactions=100_000,
         n_items=200,
         p_base=p_base,
         planted_signals=[
-            PlantedSignal([5, 15], "E1", "Event_1", 800, 1400,
+            PlantedSignal([5, 15], "E1", "Event_1", 16_000, 28_000,
                           boost_factor=0.3, baseline_prob=p_base),
-            PlantedSignal([25, 35], "E2", "Event_2", 1200, 1800,
+            PlantedSignal([25, 35], "E2", "Event_2", 24_000, 36_000,
                           boost_factor=0.3, baseline_prob=p_base),
-            PlantedSignal([45, 55], "E3", "Event_3", 3200, 3800,
+            PlantedSignal([45, 55], "E3", "Event_3", 64_000, 76_000,
                           boost_factor=0.3, baseline_prob=p_base),
         ],
         unrelated_dense_patterns=[
-            UnrelatedDensePattern([65, 75], 2400, 2700, boost_factor=0.3),
-            UnrelatedDensePattern([85, 95], 4200, 4500, boost_factor=0.3),
+            UnrelatedDensePattern([65, 75], 48_000, 54_000, boost_factor=0.3),
+            UnrelatedDensePattern([85, 95], 84_000, 90_000, boost_factor=0.3),
         ],
         decoy_events=[
-            DecoyEvent("D1", "Decoy_1", 2800, 3100),
-            DecoyEvent("D2", "Decoy_2", 4600, 4900),
+            DecoyEvent("D1", "Decoy_1", 56_000, 62_000),
+            DecoyEvent("D2", "Decoy_2", 92_000, 98_000),
         ],
         seed=seed,
     )
@@ -340,25 +359,25 @@ def make_ex1_confound_config(seed: int = 42) -> SyntheticConfig:
     """
     p_base = 0.03
     return SyntheticConfig(
-        n_transactions=5000,
+        n_transactions=100_000,
         n_items=200,
         p_base=p_base,
         planted_signals=[
-            PlantedSignal([5, 15], "E1", "Event_1", 1100, 1400,
+            PlantedSignal([5, 15], "E1", "Event_1", 22_000, 28_000,
                           boost_factor=0.3, baseline_prob=p_base),
-            PlantedSignal([25, 35], "E2", "Event_2", 2500, 2800,
+            PlantedSignal([25, 35], "E2", "Event_2", 50_000, 56_000,
                           boost_factor=0.3, baseline_prob=p_base),
-            PlantedSignal([45, 55], "E3", "Event_3", 3800, 4100,
+            PlantedSignal([45, 55], "E3", "Event_3", 76_000, 82_000,
                           boost_factor=0.3, baseline_prob=p_base),
         ],
         unrelated_dense_patterns=[
             # Deliberately overlap with E1 and E2
-            UnrelatedDensePattern([65, 75], 1050, 1450, boost_factor=0.3),
-            UnrelatedDensePattern([85, 95], 2450, 2850, boost_factor=0.3),
+            UnrelatedDensePattern([65, 75], 21_000, 29_000, boost_factor=0.3),
+            UnrelatedDensePattern([85, 95], 49_000, 57_000, boost_factor=0.3),
         ],
         decoy_events=[
-            DecoyEvent("D1", "Decoy_1", 600, 900),
-            DecoyEvent("D2", "Decoy_2", 4400, 4700),
+            DecoyEvent("D1", "Decoy_1", 12_000, 18_000),
+            DecoyEvent("D2", "Decoy_2", 88_000, 94_000),
         ],
         seed=seed,
     )
@@ -371,8 +390,8 @@ def make_ex1_dense_config(seed: int = 42) -> SyntheticConfig:
     Shorter events (200) to fit more without forced overlap.
     """
     p_base = 0.03
-    n = 5000
-    dur = 200
+    n = 100_000
+    dur = 4_000
     items_a = [[5, 15], [25, 35], [45, 55], [105, 115], [125, 135], [145, 155]]
     spacing = n // (len(items_a) + 1)
     planted = []
@@ -411,8 +430,8 @@ def make_ex1_short_config(seed: int = 42) -> SyntheticConfig:
     Different from low β: short events boost strongly but briefly.
     """
     p_base = 0.03
-    n = 5000
-    dur = 80
+    n = 100_000
+    dur = 1_600
     items_a = [[5, 15], [25, 35], [45, 55]]
     spacing = n // (len(items_a) + 1)
     planted = []
@@ -478,9 +497,9 @@ def make_ex6_zipf_config(
     Planted signal items are chosen from mid-rank items so they are not
     dominated by head items.
     """
-    n_transactions = 5000
+    n_transactions = 100_000
     n_items = 200
-    event_duration = 300
+    event_duration = 6_000
     boost = 0.3
     median_target = 0.03
 
@@ -574,9 +593,9 @@ def make_ex6_correlated_config(
 
 
 def make_null_config(
-    n_transactions: int = 5000,
+    n_transactions: int = 100_000,
     n_events: int = 5,
-    event_duration: int = 300,
+    event_duration: int = 6_000,
     seed: int = 42,
 ) -> SyntheticConfig:
     """Null experiment: NO planted signals, only random decoy events.

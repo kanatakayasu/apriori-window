@@ -64,6 +64,8 @@ class SignificantAttribution:
     attribution_score: float
     p_value: float
     adjusted_p_value: float
+    interval_start: int = 0
+    interval_end: int = 0
 
 
 @dataclass
@@ -514,6 +516,8 @@ class _RawTestResult:
     proximity: float
     obs_score: float
     p_value: float
+    interval_start: int = 0
+    interval_end: int = 0
 
 
 def permutation_test_raw(
@@ -528,6 +532,8 @@ def permutation_test_raw(
     use_effect_size: bool = False,
     ablation_mode: Optional[str] = None,
     magnitude_normalization: str = "none",
+    interval_start: int = 0,
+    interval_end: int = 0,
 ) -> List[_RawTestResult]:
     """
     置換検定を実行し、未補正 p 値を返す（alpha 判定はしない）。
@@ -588,6 +594,8 @@ def permutation_test_raw(
             proximity=best.proximity,
             obs_score=obs_s,
             p_value=p_value,
+            interval_start=interval_start,
+            interval_end=interval_end,
         ))
 
     return results
@@ -974,26 +982,30 @@ def _run_pipeline_global_v2(
         else:
             timestamps = _get_pattern_timestamps(pattern, item_transaction_map)
 
-        change_points = _detect_and_filter_from_intervals(
-            intervals, timestamps, window_size, n_transactions, config,
-        )
-        if not change_points:
-            continue
+        # (P, I, E) 設計: 密集区間ごとに独立して置換検定を実施
+        for iv_start, iv_end in intervals:
+            change_points = _detect_and_filter_from_intervals(
+                [(iv_start, iv_end)], timestamps, window_size, n_transactions, config,
+            )
+            if not change_points:
+                continue
 
-        raw_results = permutation_test_raw(
-            pattern=pattern,
-            change_points=change_points,
-            events=events,
-            sigma=sigma,
-            max_time=max_pos,
-            n_permutations=config.n_permutations,
-            attribution_threshold=config.attribution_threshold,
-            seed=config.seed,
-            use_effect_size=config.use_effect_size,
-            ablation_mode=config.ablation_mode,
-            magnitude_normalization=config.magnitude_normalization,
-        )
-        all_raw.extend(raw_results)
+            raw_results = permutation_test_raw(
+                pattern=pattern,
+                change_points=change_points,
+                events=events,
+                sigma=sigma,
+                max_time=max_pos,
+                n_permutations=config.n_permutations,
+                attribution_threshold=config.attribution_threshold,
+                seed=config.seed,
+                use_effect_size=config.use_effect_size,
+                ablation_mode=config.ablation_mode,
+                magnitude_normalization=config.magnitude_normalization,
+                interval_start=iv_start,
+                interval_end=iv_end,
+            )
+            all_raw.extend(raw_results)
 
     if not all_raw:
         return []
@@ -1045,13 +1057,13 @@ def _deduplicate_by_item_overlap(
     from collections import defaultdict
     import math
 
-    by_event: Dict[str, List[SignificantAttribution]] = defaultdict(list)
+    by_event: Dict[Tuple, List[SignificantAttribution]] = defaultdict(list)
     for r in results:
-        by_event[r.event_name].append(r)
+        by_event[(r.event_name, r.interval_start, r.interval_end)].append(r)
 
     deduplicated: List[SignificantAttribution] = []
 
-    for event_name, event_results in by_event.items():
+    for (_event_name, _iv_s, _iv_e), event_results in by_event.items():
         # Group by pattern length for length-stratified dedup
         by_length: Dict[int, List[SignificantAttribution]] = defaultdict(list)
         for r in event_results:
@@ -1101,11 +1113,11 @@ def _deduplicate_by_item_overlap(
     # Phase 2: Cross-length subset dedup
     # If pattern A ⊂ pattern B (same event), merge and keep highest score
     final: List[SignificantAttribution] = []
-    by_event2: Dict[str, List[SignificantAttribution]] = defaultdict(list)
+    by_event2: Dict[Tuple, List[SignificantAttribution]] = defaultdict(list)
     for r in deduplicated:
-        by_event2[r.event_name].append(r)
+        by_event2[(r.event_name, r.interval_start, r.interval_end)].append(r)
 
-    for event_name, event_results in by_event2.items():
+    for (_event_name2, _iv_s2, _iv_e2), event_results in by_event2.items():
         n = len(event_results)
         if n <= 1:
             final.extend(event_results)
@@ -1154,6 +1166,8 @@ def _raw_to_significant(r: _RawTestResult, adj_p: float) -> SignificantAttributi
         attribution_score=r.obs_score,
         p_value=r.p_value,
         adjusted_p_value=adj_p,
+        interval_start=r.interval_start,
+        interval_end=r.interval_end,
     )
 
 

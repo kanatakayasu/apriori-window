@@ -53,8 +53,8 @@ DATA_DIR = Path(__file__).resolve().parent / "data" / "method_comparison"
 N_SEEDS = 10
 
 COMMON_PARAMS = dict(
-    window_size=50, min_support=5, max_length=100,
-    alpha=0.10, min_support_range=0, deduplicate=True,
+    window_size=1000, min_support=5, max_length=2,
+    alpha=0.10, deduplicate=True,
 )
 
 
@@ -79,14 +79,14 @@ def _run_all_methods(info, seed):
 
     # 1. Proposed
     attr_config = AttributionConfig(
-        min_support_range=0, n_permutations=5000, alpha=0.10,
+        n_permutations=5000, alpha=0.10,
         correction_method="bh", global_correction=True,
         deduplicate_overlap=True, seed=seed,
         magnitude_normalization="sqrt",
     )
     r = run_single_experiment(
         info["txn_path"], info["events_path"], info["gt_path"],
-        window_size=50, min_support=5, max_length=100,
+        window_size=1000, min_support=5, max_length=2,
         config=attr_config, unrelated_path=info.get("unrelated_path"),
     )
     results["Proposed"] = {
@@ -156,7 +156,7 @@ def run_comparison():
                 )
 
             out_dir = str(DATA_DIR / f"{cond_name.lower().replace('=','')}_seed{seed}")
-            info = generate_synthetic(synth_config, out_dir)
+            info = generate_synthetic(synth_config, out_dir, window_size=1000, min_support=5)
 
             seed_results = _run_all_methods(info, seed)
 

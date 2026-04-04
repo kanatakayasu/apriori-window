@@ -78,7 +78,6 @@ def run_single_experiment(
         "max_length": max_length,
         "change_method": config.change_method,
         "sigma": config.sigma,
-        "min_magnitude": config.min_magnitude,
         "min_relative_change": config.min_relative_change,
         "global_correction": config.global_correction,
         "n_permutations": config.n_permutations,
@@ -114,6 +113,8 @@ def run_single_experiment(
     for r in results:
         sig_dicts.append({
             "pattern": list(r.pattern),
+            "interval_start": r.interval_start,
+            "interval_end": r.interval_end,
             "change_time": r.change_time,
             "change_direction": r.change_direction,
             "change_magnitude": r.change_magnitude,
