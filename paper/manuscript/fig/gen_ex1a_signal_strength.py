@@ -29,14 +29,11 @@ beta = [0.2, 0.3, 0.5]
 precision = [0.59, 0.64, 0.58]
 recall = [0.90, 0.95, 0.93]
 f1 = [0.71, 0.75, 0.71]
-far = [0.50, 0.50, 0.60]
-
 fig, ax = plt.subplots(figsize=(3.5, 2.4))
 
 ax.plot(beta, f1, "o-", color="#2d3436", label="F1")
 ax.plot(beta, precision, "s--", color="#0984e3", label="Precision")
 ax.plot(beta, recall, "^--", color="#e17055", label="Recall")
-ax.plot(beta, far, "x:", color="#d63031", label="FAR")
 
 ax.set_xlabel(r"Boost probability $\beta$")
 ax.set_ylabel("Score")
@@ -56,7 +53,7 @@ fig.legend(
     *ax.get_legend_handles_labels(),
     loc="lower center",
     bbox_to_anchor=(0.5, -0.01),
-    ncol=4,
+    ncol=3,
     frameon=True,
     edgecolor="#cccccc",
     fancybox=False,
