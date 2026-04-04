@@ -23,8 +23,9 @@ use apriori_window_suite::evaluate::{
 use apriori_window_suite::io::{read_events, read_transactions_with_baskets};
 use apriori_window_suite::synth::{
     generate_synthetic, make_ex1_config, make_ex1_confound_config, make_ex1_dense_config,
-    make_ex1_overlap_config, make_ex1_short_config, make_ex6_zipf_config, make_null_fdr_config,
-    scale_config_to_n, SyntheticConfig,
+    make_ex1_overlap_config, make_ex1_short_config, make_ex2_scenario_a_config,
+    make_ex2_scenario_b_config, make_ex6_correlated_config, make_ex6_zipf_config,
+    make_ex_pattern_length_config, make_null_fdr_config, scale_config_to_n, SyntheticConfig,
 };
 use apriori_window_suite::{
     compute_item_basket_map, find_dense_itemsets, write_patterns_csv,
@@ -128,6 +129,42 @@ enum Commands {
         out_dir: String,
         /// Data directory
         #[arg(long, default_value = "experiments/data/null_fdr")]
+        data_dir: String,
+    },
+    /// Run EX2: score component ablation (Scenario A + B × 3 ablation modes)
+    RunEx2 {
+        /// Number of seeds
+        #[arg(long, default_value_t = 5)]
+        n_seeds: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/ex2")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/ex2")]
+        data_dir: String,
+    },
+    /// Run pattern length robustness experiment (l=2,3,4)
+    RunExPatternLength {
+        /// Number of seeds
+        #[arg(long, default_value_t = 20)]
+        n_seeds: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/ex_pattern_length")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/ex_pattern_length")]
+        data_dir: String,
+    },
+    /// Run item correlation robustness experiment (zipf_only vs zipf_corr)
+    RunExRobustness {
+        /// Number of seeds
+        #[arg(long, default_value_t = 20)]
+        n_seeds: usize,
+        /// Output directory
+        #[arg(long, default_value = "experiments/results/ex_robustness")]
+        out_dir: String,
+        /// Data directory
+        #[arg(long, default_value = "experiments/data/ex_robustness")]
         data_dir: String,
     },
 }
@@ -722,6 +759,400 @@ fn run_null_fdr(n_seeds: usize, out_dir: &str, data_dir: &str) {
     println!("Results saved to: {}", save_path);
 }
 
+// ---------------------------------------------------------------------------
+// EX2: Score Component Ablation
+// ---------------------------------------------------------------------------
+
+fn run_ex2(n_seeds: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(60));
+    println!("EX2: Score Component Ablation");
+    println!("{}", "=".repeat(60));
+
+    let window_size: i64 = 1000;
+    let min_support: usize = 100;
+
+    let scenarios: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>)> = vec![
+        ("A_prox_required", Box::new(|seed| make_ex2_scenario_a_config(seed))),
+        ("B_mag_required", Box::new(|seed| make_ex2_scenario_b_config(seed))),
+    ];
+    let ablation_modes: &[(&str, Option<&str>)] = &[
+        ("Full (prox*mag)", None),
+        ("No proximity (mag only)", Some("no_prox")),
+        ("No magnitude (prox only)", Some("no_mag")),
+    ];
+
+    let mut all_results: HashMap<String, serde_json::Value> = HashMap::new();
+
+    for (scenario_name, config_fn) in &scenarios {
+        println!("\n{}", "=".repeat(60));
+        println!("Scenario {}", scenario_name);
+        println!("{}", "=".repeat(60));
+
+        let mut scenario_results: HashMap<String, serde_json::Value> = HashMap::new();
+
+        for &(variant_name, ablation_mode) in ablation_modes {
+            println!("\n  --- {} (mode={:?}) ---", variant_name, ablation_mode);
+            let mut seed_results: Vec<ExperimentResult> = Vec::new();
+
+            for seed in 0..n_seeds {
+                let synth_config = config_fn(seed as u64);
+                let mode_label = ablation_mode.unwrap_or("full");
+                let seed_dir = format!("{}/{}/{}_seed{}", data_dir, scenario_name, mode_label, seed);
+                let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
+
+                // Load data and run with ablation
+                let transactions = apriori_window_suite::io::read_transactions_with_baskets(&info.txn_path);
+                let n_transactions = transactions.len() as i64;
+                let (_, _, item_transaction_map) = apriori_window_suite::compute_item_basket_map(&transactions);
+                let frequents = apriori_window_suite::find_dense_itemsets(&transactions, window_size, min_support, 2);
+                let events = apriori_window_suite::io::read_events(&info.events_path);
+
+                let t0 = std::time::Instant::now();
+                let config = apriori_window_suite::correlator::AttributionConfig {
+                    sigma: Some(window_size as f64),
+                    n_permutations: 5000,
+                    alpha: 0.10,
+                    correction_method: "bh".to_string(),
+                    global_correction: true,
+                    deduplicate_overlap: true,
+                    attribution_threshold: 0.1,
+                    seed: Some(seed as u64),
+                    ablation_mode: ablation_mode.map(|s| s.to_string()),
+                    min_pattern_length: 2,
+                    magnitude_normalization: "sqrt".to_string(),
+                };
+
+                let results = apriori_window_suite::correlator::run_attribution_pipeline(
+                    &frequents,
+                    &item_transaction_map,
+                    &events,
+                    window_size,
+                    min_support as i64,
+                    n_transactions,
+                    &config,
+                );
+
+                let mut by_key: HashMap<(Vec<i64>, String), &apriori_window_suite::correlator::SignificantAttribution> = HashMap::new();
+                for r in &results {
+                    let key = (r.pattern.clone(), r.event_name.clone());
+                    let entry = by_key.entry(key).or_insert(r);
+                    if r.attribution_score > entry.attribution_score {
+                        *entry = r;
+                    }
+                }
+                let predicted: Vec<apriori_window_suite::evaluate::PredictedAttribution> = by_key.values().map(|r| {
+                    apriori_window_suite::evaluate::PredictedAttribution {
+                        pattern: r.pattern.clone(),
+                        event_name: r.event_name.clone(),
+                        interval_start: r.interval_start,
+                        interval_end: r.interval_end,
+                    }
+                }).collect();
+
+                let elapsed_ms = t0.elapsed().as_secs_f64() * 1000.0;
+                let eval = apriori_window_suite::evaluate::evaluate_with_event_name_mapping(
+                    &predicted, &info.gt_path, &info.events_path,
+                );
+                let far = if let Some(ref up) = info.unrelated_path {
+                    if std::path::Path::new(up).exists() {
+                        let fa = apriori_window_suite::evaluate::evaluate_false_attribution_rate(
+                            &predicted, up, &info.events_path,
+                        );
+                        fa.false_attribution_rate
+                    } else {
+                        0.0
+                    }
+                } else {
+                    0.0
+                };
+
+                println!(
+                    "    seed={}: P={:.2} R={:.2} F1={:.2} FAR={:.2} {:.0}ms",
+                    seed, eval.precision, eval.recall, eval.f1, far, elapsed_ms
+                );
+                seed_results.push(ExperimentResult {
+                    method: variant_name.to_string(),
+                    precision: eval.precision,
+                    recall: eval.recall,
+                    f1: eval.f1,
+                    far,
+                    n_pred: predicted.len(),
+                    elapsed_ms,
+                });
+            }
+
+            let n = seed_results.len() as f64;
+            let avg_p: f64 = seed_results.iter().map(|r| r.precision).sum::<f64>() / n;
+            let avg_r: f64 = seed_results.iter().map(|r| r.recall).sum::<f64>() / n;
+            let avg_f1: f64 = seed_results.iter().map(|r| r.f1).sum::<f64>() / n;
+            let avg_far: f64 = seed_results.iter().map(|r| r.far).sum::<f64>() / n;
+            println!("    Average: P={:.2} R={:.2} F1={:.2} FAR={:.2}", avg_p, avg_r, avg_f1, avg_far);
+
+            let seeds_json: Vec<serde_json::Value> = seed_results.iter().map(|r| serde_json::json!({
+                "precision": r.precision,
+                "recall": r.recall,
+                "f1": r.f1,
+                "false_attribution_rate": r.far,
+                "n_pred": r.n_pred,
+            })).collect();
+
+            scenario_results.insert(variant_name.to_string(), serde_json::json!({
+                "ablation_mode": ablation_mode,
+                "seeds": seeds_json,
+                "avg_precision": avg_p,
+                "avg_recall": avg_r,
+                "avg_f1": avg_f1,
+                "avg_false_attribution_rate": avg_far,
+            }));
+        }
+
+        all_results.insert(scenario_name.to_string(), serde_json::json!(scenario_results));
+    }
+
+    std::fs::create_dir_all(out_dir).ok();
+    let save_path = format!("{}/ex2_results.json", out_dir);
+    std::fs::write(&save_path, serde_json::to_string_pretty(&all_results).unwrap()).unwrap();
+    println!("\nEX2 results saved to: {}", save_path);
+
+    // Summary tables
+    for (scenario_name, scenario_data) in &all_results {
+        println!("\n{}", "=".repeat(70));
+        println!("Scenario {}", scenario_name);
+        println!("{:<30} {:>10} {:>8} {:>6} {:>6}", "Variant", "Precision", "Recall", "F1", "FAR");
+        println!("{}", "-".repeat(70));
+        if let Some(variants) = scenario_data.as_object() {
+            for (variant, data) in variants {
+                let p = data["avg_precision"].as_f64().unwrap_or(0.0);
+                let r = data["avg_recall"].as_f64().unwrap_or(0.0);
+                let f1 = data["avg_f1"].as_f64().unwrap_or(0.0);
+                let far = data["avg_false_attribution_rate"].as_f64().unwrap_or(0.0);
+                println!("{:<30} {:>10.2} {:>8.2} {:>6.2} {:>6.2}", variant, p, r, f1, far);
+            }
+        }
+        println!("{}", "=".repeat(70));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Helpers for stats (CI computation)
+// ---------------------------------------------------------------------------
+
+fn compute_stats(values: &[f64]) -> (f64, f64, f64, f64, f64) {
+    let n = values.len() as f64;
+    let mean = values.iter().sum::<f64>() / n;
+    if values.len() < 2 {
+        return (mean, 0.0, 0.0, mean, mean);
+    }
+    let variance = values.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1.0);
+    let std = variance.sqrt();
+    let se = std / n.sqrt();
+    let t_crit = 2.093_f64; // t_{0.025, df=19}
+    let ci_lo = (mean - t_crit * se).max(0.0);
+    let ci_hi = (mean + t_crit * se).min(1.0);
+    (mean, std, se, ci_lo, ci_hi)
+}
+
+// ---------------------------------------------------------------------------
+// EX-PATTERN-LENGTH: Pattern length robustness
+// ---------------------------------------------------------------------------
+
+fn run_ex_pattern_length(n_seeds: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(70));
+    println!("Appendix: Pattern Length Robustness (l = 2, 3, 4)");
+    println!("  Seeds: {} per length", n_seeds);
+    println!("{}", "=".repeat(70));
+
+    let window_size: i64 = 1000;
+    let min_support: usize = 100;
+
+    let mut all_results: HashMap<String, serde_json::Value> = HashMap::new();
+
+    for length in [2usize, 3, 4] {
+        let cond = format!("l={}", length);
+        println!("\n--- {} ---", cond);
+        let mut seed_results: Vec<ExperimentResult> = Vec::new();
+
+        for seed in 0..n_seeds {
+            let synth_config = make_ex_pattern_length_config(length, seed as u64);
+            let seed_dir = format!("{}/l{}_seed{}", data_dir, length, seed);
+            let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
+
+            let r = run_experiment_method(
+                &info.txn_path,
+                &info.events_path,
+                &info.gt_path,
+                info.unrelated_path.as_deref(),
+                "proposed",
+                window_size, min_support, length, 0.10, 5000, seed as u64,
+            );
+            println!(
+                "  seed={:2}: P={:.2} R={:.2} F1={:.2}",
+                seed, r.precision, r.recall, r.f1
+            );
+            seed_results.push(r);
+        }
+
+        let f1_vals: Vec<f64> = seed_results.iter().map(|r| r.f1).collect();
+        let p_vals: Vec<f64> = seed_results.iter().map(|r| r.precision).collect();
+        let r_vals: Vec<f64> = seed_results.iter().map(|r| r.recall).collect();
+
+        let (avg_f1, std_f1, se_f1, ci_lo, ci_hi) = compute_stats(&f1_vals);
+        let avg_p: f64 = p_vals.iter().sum::<f64>() / n_seeds as f64;
+        let avg_r: f64 = r_vals.iter().sum::<f64>() / n_seeds as f64;
+
+        println!(
+            "  Mean: P={:.2} R={:.2} F1={:.2} [95%CI: {:.2}–{:.2}] (std={:.3})",
+            avg_p, avg_r, avg_f1, ci_lo, ci_hi, std_f1
+        );
+
+        let seeds_json: Vec<serde_json::Value> = seed_results.iter().map(|r| serde_json::json!({
+            "precision": r.precision,
+            "recall": r.recall,
+            "f1": r.f1,
+            "false_attribution_rate": r.far,
+            "n_pred": r.n_pred,
+        })).collect();
+
+        all_results.insert(cond.clone(), serde_json::json!({
+            "pattern_length": length,
+            "seeds": seeds_json,
+            "avg_precision": avg_p,
+            "avg_recall": avg_r,
+            "avg_f1": avg_f1,
+            "std_f1": std_f1,
+            "se_f1": se_f1,
+            "ci95_lower": ci_lo,
+            "ci95_upper": ci_hi,
+        }));
+    }
+
+    std::fs::create_dir_all(out_dir).ok();
+    let save_path = format!("{}/pattern_length_results.json", out_dir);
+    std::fs::write(&save_path, serde_json::to_string_pretty(&all_results).unwrap()).unwrap();
+    println!("\nResults saved to {}", save_path);
+
+    println!("\n{}", "=".repeat(70));
+    println!("{:<8} {:>6} {:>6} {:>6} {:>16} {:>6}", "Length", "Prec", "Rec", "F1", "95%CI", "std");
+    println!("{}", "-".repeat(70));
+    for length in [2usize, 3, 4] {
+        let cond = format!("l={}", length);
+        if let Some(data) = all_results.get(&cond) {
+            let p = data["avg_precision"].as_f64().unwrap_or(0.0);
+            let r = data["avg_recall"].as_f64().unwrap_or(0.0);
+            let f1 = data["avg_f1"].as_f64().unwrap_or(0.0);
+            let ci_lo = data["ci95_lower"].as_f64().unwrap_or(0.0);
+            let ci_hi = data["ci95_upper"].as_f64().unwrap_or(0.0);
+            let std = data["std_f1"].as_f64().unwrap_or(0.0);
+            let ci_str = format!("[{:.2}, {:.2}]", ci_lo, ci_hi);
+            println!("{:<8} {:>6.2} {:>6.2} {:>6.2} {:>16} {:>6.3}", cond, p, r, f1, ci_str, std);
+        }
+    }
+    println!("{}", "=".repeat(70));
+}
+
+// ---------------------------------------------------------------------------
+// EX-ROBUSTNESS: Item correlation robustness
+// ---------------------------------------------------------------------------
+
+fn run_ex_robustness(n_seeds: usize, out_dir: &str, data_dir: &str) {
+    println!("{}", "=".repeat(70));
+    println!("Appendix: Robustness under Item-Item Correlation");
+    println!("  Seeds: {} per condition", n_seeds);
+    println!("{}", "=".repeat(70));
+
+    let window_size: i64 = 1000;
+    let min_support: usize = 100;
+
+    let conditions: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>)> = vec![
+        ("zipf_only", Box::new(|seed| make_ex6_zipf_config(1.0, seed))),
+        ("zipf_corr", Box::new(|seed| make_ex6_correlated_config(seed))),
+    ];
+
+    let mut all_results: HashMap<String, serde_json::Value> = HashMap::new();
+
+    for (cond_name, config_fn) in &conditions {
+        println!("\n--- {} ---", cond_name);
+        let mut seed_results: Vec<ExperimentResult> = Vec::new();
+
+        for seed in 0..n_seeds {
+            let synth_config = config_fn(seed as u64);
+            let seed_dir = format!("{}/{}_seed{}", data_dir, cond_name, seed);
+            let info = generate_synthetic(&synth_config, &seed_dir, window_size, min_support);
+
+            let r = run_experiment_method(
+                &info.txn_path,
+                &info.events_path,
+                &info.gt_path,
+                info.unrelated_path.as_deref(),
+                "proposed",
+                window_size, min_support, 2, 0.10, 5000, seed as u64,
+            );
+            println!(
+                "  seed={:2}: P={:.2} R={:.2} F1={:.2} FAR={:.2}",
+                seed, r.precision, r.recall, r.f1, r.far
+            );
+            seed_results.push(r);
+        }
+
+        let f1_vals: Vec<f64> = seed_results.iter().map(|r| r.f1).collect();
+        let p_vals: Vec<f64> = seed_results.iter().map(|r| r.precision).collect();
+        let r_vals: Vec<f64> = seed_results.iter().map(|r| r.recall).collect();
+        let far_vals: Vec<f64> = seed_results.iter().map(|r| r.far).collect();
+
+        let (avg_f1, std_f1, se_f1, ci_lo, ci_hi) = compute_stats(&f1_vals);
+        let avg_p: f64 = p_vals.iter().sum::<f64>() / n_seeds as f64;
+        let avg_r: f64 = r_vals.iter().sum::<f64>() / n_seeds as f64;
+        let avg_far: f64 = far_vals.iter().sum::<f64>() / n_seeds as f64;
+
+        println!(
+            "  Mean: P={:.2} R={:.2} F1={:.2} [95%CI: {:.2}–{:.2}] FAR={:.2}",
+            avg_p, avg_r, avg_f1, ci_lo, ci_hi, avg_far
+        );
+
+        let seeds_json: Vec<serde_json::Value> = seed_results.iter().map(|r| serde_json::json!({
+            "precision": r.precision,
+            "recall": r.recall,
+            "f1": r.f1,
+            "false_attribution_rate": r.far,
+            "n_pred": r.n_pred,
+        })).collect();
+
+        all_results.insert(cond_name.to_string(), serde_json::json!({
+            "seeds": seeds_json,
+            "avg_precision": avg_p,
+            "avg_recall": avg_r,
+            "avg_f1": avg_f1,
+            "std_f1": std_f1,
+            "se_f1": se_f1,
+            "ci95_lower": ci_lo,
+            "ci95_upper": ci_hi,
+            "avg_false_attribution_rate": avg_far,
+        }));
+    }
+
+    std::fs::create_dir_all(out_dir).ok();
+    let save_path = format!("{}/robustness_results.json", out_dir);
+    std::fs::write(&save_path, serde_json::to_string_pretty(&all_results).unwrap()).unwrap();
+    println!("\nResults saved to {}", save_path);
+
+    println!("\n{}", "=".repeat(75));
+    println!("{:<14} {:>6} {:>6} {:>6} {:>16} {:>6}", "Condition", "Prec", "Rec", "F1", "95%CI", "FAR");
+    println!("{}", "-".repeat(75));
+    for cond_name in ["zipf_only", "zipf_corr"] {
+        if let Some(data) = all_results.get(cond_name) {
+            let p = data["avg_precision"].as_f64().unwrap_or(0.0);
+            let r = data["avg_recall"].as_f64().unwrap_or(0.0);
+            let f1 = data["avg_f1"].as_f64().unwrap_or(0.0);
+            let ci_lo = data["ci95_lower"].as_f64().unwrap_or(0.0);
+            let ci_hi = data["ci95_upper"].as_f64().unwrap_or(0.0);
+            let far = data["avg_false_attribution_rate"].as_f64().unwrap_or(0.0);
+            let ci_str = format!("[{:.2}, {:.2}]", ci_lo, ci_hi);
+            println!("{:<14} {:>6.2} {:>6.2} {:>6.2} {:>16} {:>6.2}", cond_name, p, r, f1, ci_str, far);
+        }
+    }
+    println!("{}", "=".repeat(75));
+}
+
 fn zipf_item_probs(n_items: usize, alpha: f64, median_target: f64, max_prob: f64) -> Vec<f64> {
     let median_rank = n_items as f64 / 2.0;
     let c = median_target * median_rank.powf(alpha);
@@ -772,6 +1203,15 @@ fn main() {
         }
         Commands::RunNullFdr { n_seeds, out_dir, data_dir } => {
             run_null_fdr(n_seeds, &out_dir, &data_dir);
+        }
+        Commands::RunEx2 { n_seeds, out_dir, data_dir } => {
+            run_ex2(n_seeds, &out_dir, &data_dir);
+        }
+        Commands::RunExPatternLength { n_seeds, out_dir, data_dir } => {
+            run_ex_pattern_length(n_seeds, &out_dir, &data_dir);
+        }
+        Commands::RunExRobustness { n_seeds, out_dir, data_dir } => {
+            run_ex_robustness(n_seeds, &out_dir, &data_dir);
         }
     }
 

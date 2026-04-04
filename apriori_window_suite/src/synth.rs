@@ -922,6 +922,174 @@ pub fn make_null_fdr_config(seed: u64) -> SyntheticConfig {
     }
 }
 
+/// EX2 Scenario A: proximity score is required.
+/// Pattern [5,15] has:
+///   - causal interval near Event E1 (t=15000-25000, event at same range)
+///   - coincidental interval far from any event (t=60000-68000) as unrelated pattern
+pub fn make_ex2_scenario_a_config(seed: u64) -> SyntheticConfig {
+    SyntheticConfig {
+        n_items: 200,
+        n_transactions: 100_000,
+        item_probs: Vec::new(),
+        p_base: 0.03,
+        planted_patterns: vec![PlantedPattern {
+            items: vec![5, 15],
+            event_idx: 0,
+            boost_factor: 0.4,
+            baseline_prob: 0.03,
+        }],
+        unrelated_patterns: vec![UnrelatedPattern {
+            items: vec![5, 15],
+            active_start: 60_000,
+            active_end: 68_000,
+            boost_factor: 0.4,
+        }],
+        events: vec![SyntheticEvent {
+            name: "E1".to_string(),
+            start: 15_000,
+            end: 25_000,
+        }],
+        decoy_events: Vec::new(),
+        correlated_pairs: Vec::new(),
+        seed,
+    }
+}
+
+/// EX2 Scenario B: magnitude score is required.
+/// Pattern [5,15] affected by two events:
+///   - E1: large boost (0.5) at t=16000-24000
+///   - E2: small boost (0.1) at t=50000-58000
+/// Both are ground truth, but mag helps rank E1 higher.
+pub fn make_ex2_scenario_b_config(seed: u64) -> SyntheticConfig {
+    SyntheticConfig {
+        n_items: 200,
+        n_transactions: 100_000,
+        item_probs: Vec::new(),
+        p_base: 0.03,
+        planted_patterns: vec![
+            PlantedPattern {
+                items: vec![5, 15],
+                event_idx: 0,
+                boost_factor: 0.5,
+                baseline_prob: 0.03,
+            },
+            PlantedPattern {
+                items: vec![5, 15],
+                event_idx: 1,
+                boost_factor: 0.1,
+                baseline_prob: 0.03,
+            },
+        ],
+        unrelated_patterns: Vec::new(),
+        events: vec![
+            SyntheticEvent {
+                name: "E1".to_string(),
+                start: 16_000,
+                end: 24_000,
+            },
+            SyntheticEvent {
+                name: "E2".to_string(),
+                start: 50_000,
+                end: 58_000,
+            },
+        ],
+        decoy_events: Vec::new(),
+        correlated_pairs: Vec::new(),
+        seed,
+    }
+}
+
+/// Pattern length robustness config: planted patterns of length `pattern_length`.
+///
+/// Design matches Python `make_ex_pattern_length_config`:
+///   - 3 planted signals, item IDs start at 201+ (above base vocab → zero base prob)
+///   - Event positions: E1=[22000,28000], E2=[47000,53000], E3=[72000,78000]
+///   - 2 Type B unrelated patterns (placed in gaps between events)
+///   - 2 decoy events
+///   - n_items=300 to accommodate planted item IDs up to ~260
+pub fn make_ex_pattern_length_config(pattern_length: usize, seed: u64) -> SyntheticConfig {
+    let n_base_items: i64 = 200;
+    let boost = 0.3_f64;
+
+    let event_positions: Vec<(i64, i64)> = vec![
+        (22_000, 28_000),
+        (47_000, 53_000),
+        (72_000, 78_000),
+    ];
+
+    let mut planted = Vec::new();
+    for i in 0..3usize {
+        let base_id = n_base_items + 1 + (i * (pattern_length + 2)) as i64;
+        let items: Vec<i64> = (0..pattern_length as i64).map(|j| base_id + j).collect();
+        let (ev_start, ev_end) = event_positions[i];
+        planted.push(PlantedPattern {
+            items,
+            event_idx: i,
+            boost_factor: boost,
+            baseline_prob: 0.0,
+        });
+        // events are listed separately; use event_positions for SyntheticEvent
+        let _ = (ev_start, ev_end); // used below
+    }
+
+    let events = vec![
+        SyntheticEvent { name: "Event_1".to_string(), start: 22_000, end: 28_000 },
+        SyntheticEvent { name: "Event_2".to_string(), start: 47_000, end: 53_000 },
+        SyntheticEvent { name: "Event_3".to_string(), start: 72_000, end: 78_000 },
+    ];
+
+    // Type B: l=2, items above n_base_items, placed in gaps between events
+    let unrelated_patterns = vec![
+        UnrelatedPattern {
+            items: vec![251, 261],
+            active_start: 7_000,
+            active_end: 13_000,
+            boost_factor: boost,
+        },
+        UnrelatedPattern {
+            items: vec![261, 271],
+            active_start: 35_000,
+            active_end: 41_000,
+            boost_factor: boost,
+        },
+    ];
+
+    // Type C: 2 decoy events
+    let decoy_events = vec![
+        SyntheticEvent { name: "Decoy_1".to_string(), start: 58_000, end: 64_000 },
+        SyntheticEvent { name: "Decoy_2".to_string(), start: 86_000, end: 92_000 },
+    ];
+
+    SyntheticConfig {
+        n_items: 300, // extended to include planted item IDs up to ~260
+        n_transactions: 100_000,
+        item_probs: Vec::new(),
+        p_base: 0.03,
+        planted_patterns: planted,
+        unrelated_patterns,
+        events,
+        decoy_events,
+        correlated_pairs: Vec::new(),
+        seed,
+    }
+}
+
+/// EX6 robustness: Zipf distribution + 5 correlated item pairs.
+///
+/// Same base as make_ex6_zipf_config but adds correlated item pairs
+/// among head items to simulate realistic grocery data.
+pub fn make_ex6_correlated_config(seed: u64) -> SyntheticConfig {
+    let mut config = make_ex6_zipf_config(1.0, seed);
+    config.correlated_pairs = vec![
+        CorrelatedPair { item_a: 1,  item_b: 2,  corr_prob: 0.7 },
+        CorrelatedPair { item_a: 3,  item_b: 4,  corr_prob: 0.7 },
+        CorrelatedPair { item_a: 5,  item_b: 10, corr_prob: 0.6 },
+        CorrelatedPair { item_a: 8,  item_b: 15, corr_prob: 0.6 },
+        CorrelatedPair { item_a: 12, item_b: 20, corr_prob: 0.5 },
+    ];
+    config
+}
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
