@@ -647,13 +647,19 @@ pub fn deduplicate_by_item_overlap(
         }
 
         for (_root, members) in &clusters {
+            // Prefer highest attribution score; break ties by longer (more specific) pattern.
             let best_idx = *members
                 .iter()
                 .max_by(|&&a, &&b| {
-                    event_results[a]
+                    let score_cmp = event_results[a]
                         .attribution_score
                         .partial_cmp(&event_results[b].attribution_score)
-                        .unwrap_or(std::cmp::Ordering::Equal)
+                        .unwrap_or(std::cmp::Ordering::Equal);
+                    if score_cmp != std::cmp::Ordering::Equal {
+                        score_cmp
+                    } else {
+                        event_results[a].pattern.len().cmp(&event_results[b].pattern.len())
+                    }
                 })
                 .unwrap();
             final_results.push(event_results[best_idx].clone());

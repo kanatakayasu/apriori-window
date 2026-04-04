@@ -7,13 +7,14 @@ changes and reject unrelated dense patterns?
     β=0.2, 0.3, 0.5
   Structural conditions (β=0.3 fixed):
     OVERLAP  — temporally overlapping events
-    CONFOUND — Type B patterns deliberately near events
+    CONFOUND — Type B patterns' active period overlaps with event window
     DENSE    — 6 planted + 4 Type B + 4 decoy (2x scale)
-    SHORT    — event duration 80 (vs 300 baseline)
+    SHORT    — event duration 1600 (vs 6000 baseline)
 
-Each condition × 5 seeds. Evaluation: P/R/F1 + FAR.
+Each condition × 20 seeds. Evaluation: P/R/F1 + 95% CI.
 """
 import json
+import math
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -35,8 +36,8 @@ from experiments.src.run_experiment import (
     run_single_experiment,
 )
 
-RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex1"
-DATA_DIR = Path(__file__).resolve().parent / "data" / "ex1"
+RESULTS_DIR = Path(__file__).resolve().parent / "results" / "ex1_20seeds"
+DATA_DIR = Path(__file__).resolve().parent / "data" / "ex1_20seeds"
 
 # --- 7 conditions ---
 CONDITIONS = {
@@ -51,13 +52,30 @@ CONDITIONS = {
     "SHORT":    lambda seed: make_ex1_short_config(seed=seed),
 }
 
-N_SEEDS = 5
+N_SEEDS = 20
+
+
+def _compute_stats(values):
+    """Compute mean, std, SE, and 95% CI (t-distribution) for a list of values."""
+    n = len(values)
+    mean = sum(values) / n
+    if n < 2:
+        return mean, 0.0, 0.0, mean, mean
+    variance = sum((x - mean) ** 2 for x in values) / (n - 1)
+    std = math.sqrt(variance)
+    se = std / math.sqrt(n)
+    # t-critical value for 95% CI, df=n-1 (approximation: use 2.093 for df=19)
+    # For n=20, df=19: t_{0.025,19} ≈ 2.093
+    t_crit = 2.093
+    ci_lower = max(0.0, mean - t_crit * se)
+    ci_upper = min(1.0, mean + t_crit * se)
+    return mean, std, se, ci_lower, ci_upper
 
 
 def run_ex1():
-    """Run all EX1 conditions."""
+    """Run all EX1 conditions with 20 seeds and 95% CI reporting."""
     print("=" * 70)
-    print("EX1: Core Attribution Accuracy")
+    print("EX1: Core Attribution Accuracy (20 seeds, 95% CI)")
     print("  Beta sweep: β ∈ {0.2, 0.3, 0.5}")
     print("  Structural: OVERLAP, CONFOUND, DENSE, SHORT")
     print(f"  Seeds: {N_SEEDS} per condition")
@@ -89,22 +107,32 @@ def run_ex1():
                 unrelated_path=info.get("unrelated_path"),
             )
 
-            print(f"  seed={seed}: P={result.precision:.2f} R={result.recall:.2f} "
-                  f"F1={result.f1:.2f} FAR={result.false_attribution_rate:.2f} "
-                  f"(TP={result.tp} FP={result.fp} FN={result.fn})")
+            print(f"  seed={seed:2d}: P={result.precision:.2f} R={result.recall:.2f} "
+                  f"F1={result.f1:.2f} (TP={result.tp} FP={result.fp} FN={result.fn})")
             seed_results.append(asdict(result))
 
-        avg_p = sum(r["precision"] for r in seed_results) / len(seed_results)
-        avg_r = sum(r["recall"] for r in seed_results) / len(seed_results)
-        avg_f1 = sum(r["f1"] for r in seed_results) / len(seed_results)
-        avg_far = sum(r["false_attribution_rate"] for r in seed_results) / len(seed_results)
-        print(f"  Average: P={avg_p:.2f} R={avg_r:.2f} F1={avg_f1:.2f} FAR={avg_far:.2f}")
+        f1_vals = [r["f1"] for r in seed_results]
+        p_vals  = [r["precision"] for r in seed_results]
+        r_vals  = [r["recall"] for r in seed_results]
+        far_vals = [r["false_attribution_rate"] for r in seed_results]
+
+        avg_f1, std_f1, se_f1, ci95_lo, ci95_hi = _compute_stats(f1_vals)
+        avg_p  = sum(p_vals) / N_SEEDS
+        avg_r  = sum(r_vals) / N_SEEDS
+        avg_far = sum(far_vals) / N_SEEDS
+
+        print(f"  Mean: P={avg_p:.2f} R={avg_r:.2f} F1={avg_f1:.2f} "
+              f"[95%CI: {ci95_lo:.2f}–{ci95_hi:.2f}] (std={std_f1:.3f})")
 
         all_results[cond_name] = {
             "seeds": seed_results,
             "avg_precision": avg_p,
             "avg_recall": avg_r,
             "avg_f1": avg_f1,
+            "std_f1": std_f1,
+            "se_f1": se_f1,
+            "ci95_lower": ci95_lo,
+            "ci95_upper": ci95_hi,
             "avg_false_attribution_rate": avg_far,
         }
 
@@ -116,14 +144,14 @@ def run_ex1():
     print(f"\nEX1 results saved to {save_path}")
 
     # Summary table
-    print("\n" + "=" * 70)
-    print(f"{'Condition':<12s} {'Precision':>10s} {'Recall':>8s} {'F1':>6s} {'FAR':>6s}")
-    print("-" * 70)
+    print("\n" + "=" * 80)
+    print(f"{'Condition':<12s} {'Prec':>6s} {'Rec':>6s} {'F1':>6s} {'95%CI':>16s} {'std':>6s}")
+    print("-" * 80)
     for name, data in all_results.items():
-        print(f"{name:<12s} {data['avg_precision']:>10.2f} "
-              f"{data['avg_recall']:>8.2f} {data['avg_f1']:>6.2f} "
-              f"{data['avg_false_attribution_rate']:>6.2f}")
-    print("=" * 70)
+        ci = f"[{data['ci95_lower']:.2f}, {data['ci95_upper']:.2f}]"
+        print(f"{name:<12s} {data['avg_precision']:>6.2f} {data['avg_recall']:>6.2f} "
+              f"{data['avg_f1']:>6.2f} {ci:>16s} {data['std_f1']:>6.3f}")
+    print("=" * 80)
 
     return all_results
 

@@ -627,6 +627,88 @@ def make_null_config(
     )
 
 
+def make_ex_pattern_length_config(
+    pattern_length: int = 2,
+    n_transactions: int = 100_000,
+    boost: float = 0.3,
+    seed: int = 42,
+) -> SyntheticConfig:
+    """Appendix experiment: vary planted pattern length l ∈ {2, 3, 4}.
+
+    Tests whether the deduplication criterion (⌈l/2⌉ majority overlap) and
+    attribution pipeline function correctly beyond 2-itemset patterns.
+
+    Design:
+    - 3 planted signals of length `pattern_length`, boost-only (baseline_prob=0).
+      Items use IDs above n_items (201+) so they have ZERO base probability.
+      This ensures 2-item subsets of l>=3 planted patterns do NOT have higher
+      baseline support than the full planted pattern (no spurious dedup preference).
+      boost_factor=0.3 → in-event support per window ≈ W*0.3=300 >> θ=100.
+    - 2 Type B unrelated dense patterns (l=2), also using IDs above n_items.
+      Active windows placed in gaps (≥ 8K from any event window).
+    - 2 decoy events in non-overlapping gaps.
+    - event_duration=6000, N=100K, W=1000, θ=100 (same as EX1 baseline).
+    """
+    p_base = 0.03
+    event_duration = 6_000
+    n_base_items = 200  # items 1..200 have p_base; planted items use IDs > 200
+
+    # Planted signal items: IDs 201+ (above base range → zero base probability)
+    # Each signal uses `pattern_length` consecutive IDs with a gap to the next.
+    n_planted = 3
+    planted = []
+    # Event positions: 22000-28000, 47000-53000, 72000-78000 (well-separated)
+    event_positions = [
+        (22_000, 28_000),
+        (47_000, 53_000),
+        (72_000, 78_000),
+    ]
+    for i in range(n_planted):
+        base_id = 201 + i * (pattern_length + 2)  # gap of 2 between signal item ranges
+        pattern = list(range(base_id, base_id + pattern_length))
+        ev_start, ev_end = event_positions[i]
+        planted.append(PlantedSignal(
+            pattern=pattern,
+            event_id=f"E{i+1}",
+            event_name=f"Event_{i+1}",
+            event_start=ev_start,
+            event_end=ev_end,
+            boost_factor=boost,
+            baseline_prob=0,  # IDs above n_base_items → no base occurrence
+        ))
+
+    # Type B: l=2, using IDs above n_base_items, placed in gaps BETWEEN events.
+    type_b_slots = [
+        (7_000,  13_000),   # gap before E1 (E1 starts at 22K)
+        (35_000, 41_000),   # gap between E1-end(28K) and E2-start(47K)
+    ]
+    unrelated = []
+    for i, (ts, te) in enumerate(type_b_slots):
+        pat = [251 + i * 10, 261 + i * 10]
+        unrelated.append(UnrelatedDensePattern(
+            pattern=pat,
+            active_start=ts,
+            active_end=te,
+            boost_factor=boost,
+        ))
+
+    # Type C: 2 decoy events, also in safe gap positions
+    decoy_slots = [(58_000, 64_000), (86_000, 92_000)]
+    decoys = []
+    for i, (ds, de) in enumerate(decoy_slots):
+        decoys.append(DecoyEvent(f"D{i+1}", f"Decoy_{i+1}", ds, de))
+
+    return SyntheticConfig(
+        n_transactions=n_transactions,
+        n_items=n_base_items,
+        p_base=p_base,
+        planted_signals=planted,
+        decoy_events=decoys,
+        unrelated_dense_patterns=unrelated,
+        seed=seed,
+    )
+
+
 def inject_events_into_real_data(
     input_path: str,
     out_dir: str,
