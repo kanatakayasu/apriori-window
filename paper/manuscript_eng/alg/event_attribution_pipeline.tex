@@ -1,0 +1,36 @@
+\begin{algorithm}[!ht]
+\caption{Attribution Scoring and Statistical Testing (Steps 1--4)}
+\label{alg:scoring}
+\begin{algorithmic}[1]
+\Require Co-occurrence patterns $\mathcal{F}\;(|P| \geq 2)$, dense intervals $\{{\mathcal{I}_P}\}$, events $\mathcal{E}$, settings $(\theta, \sigma, B, \alpha)$
+\Ensure Significant attribution set $\mathcal{R}$
+\Statex \textbf{// Steps 1--2: Change point extraction and magnitude computation}
+\State $\text{RawResults} \gets []$
+\For{each pattern $P \in \mathcal{F}$, each interval $[s_i, e_i] \in \mathcal{I}_P$}
+    \State $\mathcal{C}_I \gets \{s_i \text{ (upward)},\; e_i{+}1 \text{ (downward)}\}$
+    \State Compute $\text{magnitude}(\tau)$ for each $\tau \in \mathcal{C}_I$ \Comment{Eq.~(\ref{eq:magnitude})}
+    \Statex \textbf{// Step 3: Attribution scoring}
+    \For{each event $e \in \mathcal{E}$}
+        \State $A_{\text{obs}} \gets \sum_{\tau \in \mathcal{C}_I} A(P, \tau, e)$ \Comment{Eq.~(\ref{eq:attribution_score})}
+        \Statex \textbf{// Step 4: Circular shift permutation test}
+        \State $\text{count} \gets 0$
+        \For{$b = 1$ to $B$}
+            \State $\mathcal{E}_b \gets \Call{CircularShift}{\mathcal{E}, \delta_b}$
+            \State $e_b \gets$ shifted version of event $e$ in $\mathcal{E}_b$ \Comment{same identifier as $e$}
+            \State $A_b \gets \sum_{\tau \in \mathcal{C}_I} A(P, \tau, e_b)$
+            \If{$A_b \geq A_{\text{obs}}$} $\text{count} \gets \text{count} + 1$ \EndIf
+        \EndFor
+        \State $p_{\text{raw}} \gets (1 + \text{count}) / (B + 1)$ \Comment{Eq.~(\ref{eq:pvalue})}
+        \State $\text{RawResults}.\text{append}((P, [s_i,e_i], e),\; A_{\text{obs}},\; p_{\text{raw}})$
+    \EndFor
+\EndFor
+\Statex \textbf{// Step 4 (cont.): Global BH correction}
+\State Sort RawResults by $p_{\text{raw}}$ in ascending order
+\State $M \gets |\text{RawResults}|$
+\For{$i = M$ downto $1$}
+    \State $\tilde{p}_{(i)} \gets \min(\tilde{p}_{(i+1)},\; \min(1,\; p_{(i)} \cdot M / i))$ \Comment{BH step-down}
+\EndFor
+\State $\mathcal{R} \gets \{(P, I, e) \mid \tilde{p}_{(i)} < \alpha\}$
+\State \Return $\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}

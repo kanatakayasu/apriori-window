@@ -1,0 +1,94 @@
+% ==============================================================
+\section{Problem Definition}\label{sec:problem}
+% ==============================================================
+
+\subsection{Notation}
+
+Let $\mathcal{I} = \{i_1, i_2, \ldots, i_m\}$ be a finite universe of items
+and $D = [d_1, d_2, \ldots, d_N]$ a time-ordered transaction sequence.
+Each transaction $d_t$ ($t = 1, \ldots, N$) is a subset of $\mathcal{I}$.
+An itemset (pattern) $P \subseteq \mathcal{I}$ \emph{occurs} in transaction $d_t$
+if $P \subseteq d_t$.
+
+\begin{definition}[Support Time Series]\label{def:support_series}
+Given pattern $P$, window size $W \in \mathbb{Z}_{>0}$,
+and transaction sequence $D$ of length $N$,
+the \emph{support time series} of $P$ is
+$s_P = [s_P(0), s_P(1), \ldots, s_P(N-W)]$ where
+\begin{equation}
+s_P(t) = \bigl|\{d_j \in D \mid t \leq j < t + W,\; P \subseteq d_j\}\bigr|.
+\label{eq:support_series}
+\end{equation}
+\end{definition}
+
+\begin{definition}[External Event]\label{def:event}
+An \emph{external event} $e = (\textit{id}, \textit{name}, t_s, t_e)$ consists of
+a unique identifier, a name, and a timestamp interval $[t_s, t_e]$
+representing the active period of the event.
+Let $\mathcal{E} = \{e_1, e_2, \ldots, e_K\}$ denote the known set of external events.
+\end{definition}
+
+\begin{definition}[Change Point (Threshold Crossing)]\label{def:change_point}
+A position $\tau \in \{0, 1, \ldots, N-W\}$ is a \emph{change point} if either:
+\begin{align}
+s_P(\tau) \geq \theta \land (\tau = 0 \lor s_P(\tau-1) < \theta), \label{eq:up_crossing}\\
+s_P(\tau) < \theta \land \tau > 0 \land s_P(\tau-1) \geq \theta. \label{eq:down_crossing}
+\end{align}
+Equation~(\ref{eq:up_crossing}) is an \emph{upward crossing} and
+(\ref{eq:down_crossing}) a \emph{downward crossing}.
+For a dense interval $[s, e]$, the change points are $s$ (upward) and $e+1$ (downward, if it exists).
+\end{definition}
+
+\begin{definition}[Dense Interval]\label{def:dense_interval}
+For pattern $P$ and support threshold $\theta$,
+a \emph{dense interval} $[s, e] \subseteq \{0, \ldots, T-1\}$ is a
+maximal contiguous interval where $s_P(t) \geq \theta$ for all $t \in [s, e]$,
+and either $s = 0$ or $s_P(s-1) < \theta$,
+and either $e = T-1$ or $s_P(e+1) < \theta$.
+Let $\mathcal{I}_P$ denote the set of all dense intervals of $P$.
+$\mathcal{I}_P$ is provided as the output of Step~0
+(Apriori-window~\cite{dsaa2025}; see \S\ref{sec:step0}).
+\end{definition}
+
+\subsection{Event Attribution Problem}
+
+\begin{definition}[Event Attribution Problem]\label{def:attribution}
+Given the set of co-occurrence patterns
+$\mathcal{F} = \{P \subseteq \mathcal{I} : |P| \geq 2,\; \text{support} \geq \theta\}$,
+the dense interval sets $\{\mathcal{I}_P\}_{P \in \mathcal{F}}$,
+external event set $\mathcal{E}$, and significance level $\alpha$,
+the \emph{event attribution problem} is to identify all triplets
+$(P, I, e) \in \{(P, I, e) : P \in \mathcal{F},\; I \in \mathcal{I}_P,\; e \in \mathcal{E}\}$
+where the change points of dense interval $I \in \mathcal{I}_P$
+are statistically significantly associated with the time window of event $e$,
+while controlling the false discovery rate (FDR) at level $\alpha$.
+Singleton patterns ($|P| = 1$) are excluded, as their frequency variation
+is captured by standard time series analysis and lies outside the scope
+of co-occurrence discovery.
+\end{definition}
+
+\begin{remark}[Scope and Limitations of Attribution]\label{rem:attribution_scope}
+``Attribution'' in this paper refers to the significance of
+\textbf{statistical temporal association},
+not causal inference (do-calculus~\cite{pearl2009causality}).
+When confounders exist or multiple event time windows overlap,
+the output of this method is positioned as a \textbf{screening tool}
+for attribution candidates
+(experimentally confirmed as accuracy degradation under CONFOUND and OVERLAP conditions;
+see \S\ref{sec:exp_ex1}).
+\end{remark}
+
+The three main challenges of this problem are:
+
+\begin{enumerate}
+\item \textbf{Scale}: $\sum_{P \in \mathcal{F}} |\mathcal{I}_P| \times |\mathcal{E}|$
+$(P, I, e)$ hypotheses must be tested simultaneously,
+requiring rigorous multiple testing correction.
+
+\item \textbf{Secondary patterns}: When the frequency of item $i$ increases,
+the support of all co-occurrence patterns containing $i$ fluctuates jointly,
+generating a large number of false positives.
+
+\item \textbf{Temporal confounding}: When the time windows of multiple events overlap,
+attribution becomes ambiguous.
+\end{enumerate}

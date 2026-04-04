@@ -1,0 +1,269 @@
+% ==============================================================
+\section{Proof of Deduplication Validity}\label{app:dedup_proof}
+% ==============================================================
+
+\begin{proof}[Proof of Claim~\ref{prop:dedup}]
+Under the independent occurrence assumption,
+the expected support of $P^*$ under the influence of event $e$ is $(p_{\text{base}} + \beta)^l$,
+and $p_{\text{base}}^l$ outside the event period.
+Setting $r = (p_{\text{base}} + \beta) / p_{\text{base}} > 1$,
+we have $\text{magnitude}(P^*) \propto p_{\text{base}}^l (r^l - 1)$.
+Secondary pattern $P'$ has $s$ boosted items and $l - s$ unboosted items, so
+$\text{magnitude}(P') \propto p_{\text{base}}^l (r^s - 1)$.
+Since $r > 1$ and $l > s$, we have $r^l > r^s$,
+thus $\text{magnitude}(P^*) > \text{magnitude}(P')$ holds for any pattern length $l$.
+Note that this result depends on the independent occurrence assumption;
+when items have strong correlations, the ordering may reverse.
+\end{proof}
+
+% ==============================================================
+\section{Synthetic Data Generation Details}\label{app:synthetic}
+% ==============================================================
+
+\subsection{Default Conditions}
+
+The base vocabulary contains 200 items ($|\mathcal{I}| = 200$),
+each with occurrence probability $p_{\text{base}} = 0.03$,
+and $N = 100{,}000$ transactions.
+The expected number of items per transaction is $200 \times 0.03 = 6.0$.
+
+\begin{itemize}
+\item \textbf{Type A} (boost, 5 patterns, mixed lengths):
+    $L=2$ vocab-in patterns ($(5,15)$, $(25,35)$, $(45,55)$)
+    have baseline support at $p_{\text{base}}$ (in-vocabulary).
+    The $L=3$ pattern ($(201,202,203)$) and $L=4$ pattern ($(205,206,207,208)$)
+    use out-of-vocabulary item IDs ($>200$) with zero background probability.
+    Each pattern's event duration is 6{,}000 transactions (6\% of total),
+    equally spaced on the time axis. During the event period,
+    each item is additionally inserted with probability $\beta$.
+\item \textbf{Type B} (event-unrelated, 2 patterns):
+    Patterns $(65,75)$ and $(85,95)$ receive a boost of $\beta$
+    in a random 6{,}000-transaction interval, but do not correspond to any event.
+\item \textbf{Type C} (decoy events, 2):
+    Events unrelated to any pattern variation (duration 6{,}000), randomly placed.
+\end{itemize}
+
+\subsection{Structural Conditions}
+
+\begin{itemize}
+\item \textbf{OVERLAP}: Events E1$=[16{,}000,28{,}000]$ and E2$=[24{,}000,36{,}000]$
+    overlap in $[24{,}000,28{,}000]$. Tests temporal discrimination ability.
+\item \textbf{CONFOUND}: The active interval of Type~B patterns is
+    intentionally placed at event time windows (confounding condition).
+\item \textbf{DENSE}: Doubled to Type~A 6 patterns + Type~B 4 patterns +
+    4 decoys (high-density condition).
+\item \textbf{SHORT}: Event duration shortened to 1{,}600
+    (approximately 27\% of the default 6{,}000; short event condition).
+\end{itemize}
+
+\subsection{EX2 Ablation Scenarios}
+
+\begin{itemize}
+\item \textbf{Scenario A} (prox required):
+    Pattern $(5,15)$ has two dense intervals---
+    one near the event at $[15{,}000,25{,}000]$ (causal),
+    and one at $[60{,}000,68{,}000]$ (accidental).
+    Event interval: $[15{,}000,25{,}000]$.
+\item \textbf{Scenario B} (mag required):
+    Pattern $(5,15)$ is affected by two events---
+    E1 with boost $\beta = 0.5$ (strong) and E2 with $\beta = 0.1$ (weak).
+\end{itemize}
+
+\subsection{Zipf Distribution Parameters}
+
+Occurrence probability of item $k$ ($k = 1, \ldots, 200$):
+$p(k) = \min(C / k^{\alpha_z},\; 0.10)$.
+$C$ is set so that the median item ($k=100$) has probability 0.03,
+with the maximum probability capped at 0.10.
+
+% ==============================================================
+\section{Dunnhumby Dataset Details}\label{app:dunnhumby}
+% ==============================================================
+
+An overview of the Dunnhumby ``The Complete Journey'' dataset~\cite{dunnhumby2014complete}
+is given in Table~\ref{tab:dunnhumby_stats}.
+
+\begin{table}[t]
+\caption{Dunnhumby Dataset Statistics}
+\label{tab:dunnhumby_stats}
+\centering
+\begin{tabular}{lr}
+\toprule
+Metric & Value \\
+\midrule
+Households & 2{,}500 \\
+Transactions & 276{,}484 \\
+Unique products & 92{,}339 \\
+Mean items per transaction & 9.39 \\
+Observation period & 711 days \\
+Campaigns & 30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 30 campaigns are classified into three types.
+Based on the problem definition (Definition~\ref{def:attribution})
+targeting population-level support variation,
+this experiment uses only the 5 TypeA campaigns as external events
+(see \S\ref{sec:exp_ex4}):
+\begin{itemize}
+\item \textbf{TypeA} (5 campaigns: C8, C13, C18, C26, C30): Large-scale promotions.
+    3{,}700--38{,}200 coupon items, 40--56 day duration.
+\item \textbf{TypeB} (18 campaigns): Targeted campaigns.
+    200--2{,}000 coupon items, 32--61 day duration.
+\item \textbf{TypeC} (7 campaigns): Niche campaigns.
+    200--1{,}500 coupon items, 32--162 day duration.
+\end{itemize}
+
+Pipeline settings differ from Table~\ref{tab:default_params}:
+$W = 300$ and $\theta = 5$.
+$W$ was chosen as an appropriate temporal resolution
+for 276K transactions.
+
+% ==============================================================
+\section{Null FDR Verification Details (100 Seeds)}\label{app:null_fdr}
+% ==============================================================
+
+We verified FDR control by the BH procedure under null conditions over 100 seeds.
+
+\paragraph{Settings}
+No planted signals (0 Type~A patterns),
+5 randomly placed decoy events (each lasting 6,000 transactions),
+4 Type~B dense patterns (temporally unrelated to any event),
+$N = 100{,}000$, $W = 1{,}000$, $\theta = 100$, $B = 5{,}000$, $\alpha = 0.10$.
+
+\paragraph{Results}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Metric & Value \\
+\midrule
+Total seeds & 100 \\
+Seeds with 0 false positives & 93/100 \\
+Seeds with 1 false positive & 7/100 \\
+Seeds with $\geq 2$ false positives & 0/100 \\
+Mean false positive attributions & 0.07 \\
+Mean per-seed FDR & 0.070 \\
+FDR $\leq \alpha = 0.10$ & \textbf{YES} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Mean per-seed FDR = 0.070 $\leq$ $\alpha = 0.10$,
+confirming that the BH procedure controls FDR under null conditions over 100 seeds.
+The 7 false positives (7\%) fall within the expected false discovery rate
+$\alpha = 0.10$ of the BH procedure and are explained by stochastic variation.
+
+% ==============================================================
+\section{Robustness to Inter-Item Correlation}\label{app:item_correlation}
+% ==============================================================
+
+In real data, strong co-occurrence correlations (e.g., beer and snacks) exist,
+which may violate the independent occurrence assumption of
+Proposition~2 (validity of deduplication).
+We performed 20-seed evaluation under both Zipf distribution and inter-item correlation conditions.
+
+\paragraph{Settings}
+\textbf{zipf\_only}: Zipf-1.0 distribution (independent occurrence).
+\textbf{zipf\_corr}: Zipf-1.0 + correlation probability 0.5--0.7 assigned to 5 item pairs.
+$N=100{,}000$, $W=1{,}000$, $\theta=100$, 20 seeds.
+
+\paragraph{Results}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Condition & Prec & Rec & F1 & 95\% CI & FAR \\
+\midrule
+zipf\_only & 0.74 & 0.92 & 0.81 & [0.70, 0.92] & 0.25 \\
+zipf\_corr & 0.41 & 0.85 & 0.55 & [0.45, 0.65] & 0.20 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+F1 = 0.81 for zipf\_only, dropping to F1 = 0.55 for zipf\_corr.
+The primary cause of accuracy degradation is that additional dense patterns
+generated by correlated item pairs increase false positive attributions.
+This supports the possibility that the independent occurrence assumption
+of Proposition~2 is relaxed in real data;
+FAR = 0.20 under strong inter-item correlation remains acceptable.
+
+% ==============================================================
+\section{Cross-Signal Effects in OVERLAP Condition}\label{app:overlap_analysis}
+% ==============================================================
+
+We explain why F1 variance is high (CI width = 0.44) in the OVERLAP condition
+(\S\ref{sec:exp_ex1}).
+In the overlap interval $[24{,}000, 28{,}000]$ where
+E1 $= [16{,}000, 28{,}000]$ and E2 $= [24{,}000, 36{,}000]$ overlap,
+the item sets of E1 and E2 are \emph{simultaneously boosted within the same window}.
+With $\beta = 0.3$, the expected support of cross-patterns
+(combinations of E1 and E2 items) is
+$0.3 \times 0.3 \times W = 90 \approx \theta$,
+and statistical variation causes short dense intervals that exceed $\theta$.
+Deduplication (Step~5) eliminates most of these by merging them
+with strong planted patterns, but in some seeds cross-patterns remain as false positives,
+causing variance in accuracy.
+
+% ==============================================================
+\section{Parameter Selection Rationale}\label{app:params}
+% ==============================================================
+
+\begin{table}[h]
+\caption{Default Parameters}
+\label{tab:default_params}
+\centering
+\begin{tabular}{ll}
+\toprule
+Parameter & Value \\
+\midrule
+Window size $W$ & 1{,}000 \\
+Min. support $\theta$ & 100 \\
+Attribution target patterns & $|P| \geq 2$ \\
+Max. pattern length $L$ & unconstrained\footnotemark[1] \\
+Change point detection & threshold crossing \\
+$\sigma$ & $W$ (= 1{,}000) \\
+Permutations $B$ & 5{,}000 \\
+Significance level $\alpha$ & 0.10 \\
+Correction method & BH \\
+Magnitude normalization & square root (Eq.~(\ref{eq:mag_sqrt})) \\
+Deduplication & enabled \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\footnotetext[1]{Due to Apriori's anti-monotonicity, the search naturally terminates
+when no patterns satisfying the support threshold exist.}
+
+Rationale for key parameter choices:
+
+\begin{itemize}
+\item \textbf{Window size $W = 1{,}000$}:
+    Corresponds to 1\% temporal resolution for $N = 100{,}000$ transactions.
+    Too small a $W$ makes support estimation unstable;
+    too large reduces temporal precision of change point detection.
+\item \textbf{Min. support $\theta = 100$}:
+    Sufficiently large relative to the expected baseline support
+    $W \cdot p_{\text{base}}^2 = 1{,}000 \times 0.03^2 = 0.9$,
+    excluding chance co-occurrence while capturing the support increase during boost.
+    $\theta = W / 10 = 100$ suppresses the number of false positive patterns
+    under Zipf distribution.
+\item \textbf{Decay parameter $\sigma = W$}:
+    Proximity decays to $e^{-1} \approx 0.37$ at a distance of one window width.
+    Attribution score decreases rapidly when the change point-to-event boundary
+    distance exceeds $W$.
+\item \textbf{Permutations $B = 5{,}000$}:
+    $p$-value resolution $1/(B+1) \approx 0.0002$.
+    Guarantees sufficient $p$-value precision even when testing hundreds of hypotheses
+    simultaneously at $\alpha = 0.10$ with BH correction.
+\item \textbf{Significance level $\alpha = 0.10$}:
+    Standard FDR control level.
+    Compared to $\alpha = 0.05$, this setting prioritizes detection power,
+    tolerating a false discovery rate below 10\%.
+\item \textbf{Magnitude normalization}:
+    Square root normalization (Eq.~(\ref{eq:mag_sqrt})) is adopted.
+    Absolute magnitude has a bias where patterns with higher baseline inflate scores;
+    full normalization ($\div s^{-}$) over-amplifies scores of low-baseline patterns.
+    Square root normalization lies between these extremes and achieves
+    stable accuracy for real-world data with Zipf-like frequency distributions.
+\end{itemize}

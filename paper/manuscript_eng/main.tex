@@ -1,0 +1,109 @@
+% ==============================================================
+% Event Attribution of Frequent Pattern Dynamics
+% ==============================================================
+% Compilation:
+%   pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+% ==============================================================
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% --- Standard packages ---
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{threeparttable}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{multirow}
+
+% --- Figure path ---
+\graphicspath{{../manuscript/fig/}}
+
+% --- Theorem environments ---
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{claim}{Claim}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Event Attribution of Frequent Pattern Dynamics:\\Permutation Testing with FDR Control}
+
+\author{
+  \IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+  \IEEEauthorblockA{
+    \textit{Dept. Name of Organization}\\
+    \textit{Name of Organization}\\
+    City, Country\\
+    email@example.com}
+  \and
+  \IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+  \IEEEauthorblockA{
+    \textit{Dept. Name of Organization}\\
+    \textit{Name of Organization}\\
+    City, Country\\
+    email@example.com}
+}
+
+\maketitle
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+\begin{abstract}
+Frequent pattern mining discovers co-occurrence frequency of itemsets but lacks
+the ability to explain which external events (promotions, holidays, policy changes, etc.)
+drive temporal changes in pattern support.
+This paper formalizes this task as the \textbf{event attribution problem}
+and identifies its structural challenges as a multiple testing problem with FDR control:
+correlated false positives, temporal confounding, and hypothesis space scale.
+We propose a five-step pipeline comprising change point extraction, attribution scoring,
+circular-shift permutation testing, Benjamini--Hochberg FDR correction,
+and Union-Find deduplication.
+On synthetic data, we confirm FDR~0.070 ($\leq \alpha = 0.10$) under null conditions
+and demonstrate the necessity of each pipeline component through ablation analysis.
+Comparison against four related methods (Wilcoxon, CausalImpact, ITS, EventStudy)
+achieves best-or-equal F1 across all experimental conditions.
+Exploratory application to real-world retail data (Dunnhumby, 276K baskets)
+confirms 100\% campaign coverage with an average of 3.0 attributions per campaign.
+\end{abstract}
+
+\begin{IEEEkeywords}
+frequent pattern mining, event attribution, change point detection,
+permutation test, multiple testing correction, support time series
+\end{IEEEkeywords}
+
+\input{sec/01_intro}
+\input{sec/02_related_work}
+\input{sec/03_problem_definition}
+\input{sec/04_proposed_method}
+\input{sec/05_experiments}
+\input{sec/06_conclusion}
+
+% --- Acknowledgment ---
+\section*{Acknowledgment}
+The authors acknowledge that portions of the text in
+this paper were generated with Anthropic's large language
+model Claude~\cite{claude2025}.
+
+% --- References ---
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+% --- Appendices ---
+\clearpage
+\appendices
+\input{sec/07_appendix}
+
+\end{document}

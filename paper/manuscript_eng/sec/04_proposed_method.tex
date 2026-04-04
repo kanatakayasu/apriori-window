@@ -1,0 +1,196 @@
+% ==============================================================
+\section{Proposed Method}\label{sec:method}
+% ==============================================================
+
+This section describes the \textbf{event attribution pipeline} in detail.\label{sec:step0}%
+As Step~0, Apriori-window~\cite{dsaa2025} takes a transaction sequence $D$,
+window size $W$, and minimum support threshold $\theta$ as input
+and outputs a pattern set $\mathcal{F}$ and the dense interval sets
+$\{\mathcal{I}_P\}_{P \in \mathcal{F}}$.
+Steps~1--5 then statistically identify significant pattern--interval--event attributions.
+Figure~\ref{fig:pipeline} shows the pipeline overview;
+Algorithm~\ref{alg:scoring} shows the attribution scoring and statistical testing procedure;
+Algorithm~\ref{alg:dedup} shows the deduplication procedure.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{pipeline_overview.pdf}
+\caption{(a) Overall pipeline structure. Step~0 (Apriori-window) outputs dense intervals;
+Steps~1--5 yield significant attributions.
+(b) Attribution scoring example. Proximity (prox) and magnitude (mag) are
+computed from the relationship between change points $\tau_{\uparrow}, \tau_{\downarrow}$
+on the support time series and the event interval.}
+\label{fig:pipeline}
+\end{figure}
+
+\input{alg/event_attribution_pipeline}
+
+\subsection{Step 1: Change Point Extraction from Dense Intervals}
+
+Each dense interval is treated as an independent attribution unit;
+if a pattern has multiple dense intervals, each can be attributed to a different event.
+From each dense interval $[s_i, e_i]$, we extract the upward change point $s_i$
+and downward change point $e_i + 1$ (if it exists),
+and compute the local support needed for the magnitude (Eq.~(\ref{eq:magnitude}))
+via binary search on the pattern occurrence list $T_P$ in $O(\log |T_P|)$.
+
+\subsection{Step 2: Magnitude Evaluation}
+
+Let $T = N-W+1$ and define the reference windows of $h$ points before and after change point $\tau$:
+\begin{align*}
+\mathcal{L}^{-}_{\tau} &= \{\max(0, \tau-h), \ldots, \tau-1\},\\
+\mathcal{L}^{+}_{\tau} &= \{\tau, \ldots, \min(T-1, \tau+h-1)\}
+\end{align*}
+(default $h = 20$). The magnitude is defined as the local mean difference:
+\begin{align}
+\bar{s}^{\pm}(\tau) &= \frac{1}{\max(1,|\mathcal{L}^{\pm}_{\tau}|)}\sum_{j \in \mathcal{L}^{\pm}_{\tau}} s_P(j), \nonumber\\
+\text{magnitude}(\tau) &= |\bar{s}^{+}(\tau) - \bar{s}^{-}(\tau)|.
+\label{eq:magnitude}
+\end{align}
+The \textbf{detection position} is determined by threshold crossing (endpoints of the dense interval),
+and the \textbf{change strength} is evaluated by the level difference before and after the crossing.
+
+\subsection{Step 3: Attribution Scoring}
+
+For each change point $\tau$ of dense interval $I = [s_i, e_i]$
+and each event $e \in \mathcal{E}$,
+we compute an \emph{attribution score} that quantifies temporal association.
+We adopt:
+\begin{equation}
+A(P, \tau, e) = \text{prox}(\tau, e) \cdot \text{mag}(\tau)
+\label{eq:attribution_score}
+\end{equation}
+
+The two components are as follows.
+
+\textbf{Proximity}: A measure of temporal closeness via exponential kernel:
+\begin{equation}
+\text{prox}(\tau, e) = \exp\left(-\frac{d(\tau, e)}{\sigma}\right)
+\label{eq:proximity}
+\end{equation}
+where $d(\tau, e) = \min(|\tau - t_s|, |\tau - t_e|)$ is the minimum distance
+from the change point to the event boundary, and $\sigma > 0$ is a decay parameter.
+
+\textbf{Magnitude}: The raw magnitude from Eq.~(\ref{eq:magnitude}) (absolute level shift)
+normalized by square root for scoring:
+\begin{equation}
+\text{mag}(\tau) = \frac{\text{magnitude}(\tau)}{\sqrt{\max(1,\; \bar{s}^{-}(\tau))}}
+\label{eq:mag_sqrt}
+\end{equation}
+Dividing by the square root mitigates the bias where patterns with higher baseline support
+tend to have larger absolute changes.
+Item frequencies in real-world transaction data often follow a Zipf distribution~\cite{fournier2017survey},
+making this normalization particularly effective.
+
+The observed score for event $e$ at dense interval $I$ is the sum of attribution scores
+over the change points of that interval (at most two: upward and downward):
+$A_{\text{obs}}(P, I, e) = \sum_{\tau \in \mathcal{C}_I} A(P, \tau, e)$.
+
+\paragraph{Design Rationale}
+The attribution score $A$ is an index for ranking candidates;
+the final attribution decision is made by the permutation test in Step~4.
+The multiplicative structure $\text{prox} \times \text{mag}$ functions as an
+exclusive filter: if either component is near zero, the overall score approaches zero.
+EX2 (\S\ref{sec:exp_ex2}) empirically demonstrates the complementarity of both components.
+
+\subsection{Step 4: Permutation Testing and Global FDR Correction}
+
+\subsubsection{Circular Shift Null Distribution}
+
+To test whether the temporal association between change points of dense interval $I$
+and event $e$ is statistically significant, we use a circular shift permutation test.
+Under the null hypothesis $H_0$: ``the positions of the change points in dense interval $I$
+are unrelated to the event time'',
+$B$ permutations are performed.
+In each permutation $b$, all event times are shifted simultaneously
+by a random offset $\delta_b \sim \text{Uniform}\{1, \ldots, T-1\}$ (circular shift):
+\begin{equation}
+e_b = (\textit{id}, \textit{name}, (t_s + \delta_b) \bmod T, (t_s + \delta_b + \Delta) \bmod T)
+\end{equation}
+where $\Delta = t_e - t_s$ is the event duration and $T$ is the time series length.
+
+The score $A_{\text{perm}}^{(b)}(P, I, e)$ is recomputed for each permutation,
+and the uncorrected $p$-value is:
+\begin{equation}
+p_{\text{raw}}(P, I, e) = \frac{1 + |\{b : A_{\text{perm}}^{(b)}(P, I, e) \geq A_{\text{obs}}(P, I, e)\}|}{B + 1}
+\label{eq:pvalue}
+\end{equation}
+
+\begin{proposition}[Validity of Permutation Test]\label{prop:perm_exact}
+Under null hypothesis $H_0$, the observed score $A_{\text{obs}}$ and
+$B$ permuted scores $A_{\text{perm}}^{(1)}, \ldots, A_{\text{perm}}^{(B)}$ are exchangeable.
+Therefore, the $p$-value in Eq.~(\ref{eq:pvalue}) follows a discrete uniform distribution
+on $\{1/(B+1), 2/(B+1), \ldots, 1\}$,
+and the Type~I error rate is controlled at $\alpha$ for any level $\alpha$~\cite{davison1997bootstrap}.
+\end{proposition}
+
+\subsubsection{Global Benjamini--Hochberg Correction}
+
+The Benjamini--Hochberg (BH) procedure~\cite{benjamini1995controlling}
+is applied globally to all
+$M = \sum_{P \in \mathcal{F}'} |\mathcal{I}_P| \cdot |\mathcal{E}|$
+hypotheses ($(P, I, e)$ triplets),
+maintaining FDR at level $\alpha$ while achieving higher power than Bonferroni correction.
+
+\begin{remark}[PRDS Condition]\label{rem:prds}
+For the BH procedure to control FDR for non-independent test statistics,
+the $p$-values must satisfy the positive regression dependency on a subset (PRDS) condition~\cite{benjamini2001control}.
+We do not provide a formal proof here, but the positive correlation between support
+time series of patterns sharing items induces positive dependence among corresponding
+$p$-values, serving as the practical rationale for applying PRDS.
+\end{remark}
+
+\subsection{Step 5: Item Deduplication}\label{sec:dedup}
+
+\input{alg/dedup_pipeline}
+
+\subsubsection{The Secondary Pattern Problem}
+
+When an external event increases the frequency of item $i$,
+the support of all co-occurrence patterns containing $i$ fluctuates jointly,
+causing secondary patterns such as $(5, 42)$, $(15, 78)$
+to also pass the permutation test.
+Since secondary patterns genuinely exhibit support variation,
+statistical testing alone cannot eliminate them.
+
+\subsubsection{Deduplication via Union-Find Clustering}
+
+We resolve this issue with the following post-processing steps:
+
+\begin{enumerate}
+\item For each event $e$, collect all patterns significantly attributed to $e$
+(consolidated across intervals) and group by pattern length $l$.
+\item Within each length-$l$ group, construct a \emph{majority-share graph}:
+nodes are patterns, with an edge between patterns if
+$|P_i \cap P_j| \geq \lceil l/2 \rceil$.
+\item Find connected components using a Union-Find (disjoint set) data structure.
+\item Within each connected component, retain only the pattern with the highest
+attribution score $A_{\text{obs}}(P, I, e)$.
+\item \textbf{Cross-length subset elimination}: After the same-length deduplication above,
+apply Union-Find over all attributed patterns for event $e$,
+merging pairs where $P_i \subseteq P_j$,
+and retain only the highest-scoring pattern per component.
+\end{enumerate}
+
+\begin{claim}[Validity of Deduplication (Generalized)]\label{prop:dedup}
+Assume the simplified model of independent occurrence and additive boost.
+For true pattern $P^*$ (length $l$, all items boosted with probability $\beta > 0$)
+and secondary pattern $P'$ sharing $s$ items with $P^*$ (remaining $l-s$ items unboosted),
+$\text{magnitude}(\tau, P^*) > \text{magnitude}(\tau, P')$ holds.
+Furthermore, when $s \geq \lceil l/2 \rceil$, both belong to the same connected component
+in the majority-share graph, and $P^*$ with the highest score is retained
+while $P'$ is eliminated.
+\end{claim}
+
+The proof is given in Appendix~\ref{app:dedup_proof}.
+
+The computational complexity of the deduplication step is $O(n \cdot k)$ per event,
+where $n$ is the number of significant attributions and $k$ is the maximum pattern length.
+This is negligible compared to the permutation testing step.
+
+\subsection{Computational Complexity}
+
+The dominant bottleneck is the permutation testing in Steps~3--4,
+with overall complexity $O\!\left(\sum_{P} |\mathcal{I}_P| \cdot |\mathcal{E}| \cdot B\right)$.
+Rayon parallelization at the pattern--interval level substantially reduces
+practical processing time.

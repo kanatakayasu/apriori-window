@@ -1,0 +1,11 @@
+[
+  {
+    "event_id": "E1",
+    "interval_end": 25387,
+    "interval_start": 14715,
+    "pattern": [
+      5,
+      15
+    ]
+  }
+]

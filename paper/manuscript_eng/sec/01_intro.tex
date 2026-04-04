@@ -1,0 +1,59 @@
+% ==============================================================
+\section{Introduction}\label{sec:intro}
+% ==============================================================
+
+Frequent pattern mining~\cite{agrawal1994fast,han2000mining,fournier2017survey}
+is a foundational technique for discovering repeatedly co-occurring itemsets
+in transaction data, with broad applications in retail analytics, web mining, and bioinformatics.
+Classical methods such as Apriori~\cite{agrawal1994fast},
+FP-Growth~\cite{han2000mining}, and ECLAT~\cite{zaki2000scalable}
+efficiently enumerate globally frequent patterns,
+while sliding-window methods~\cite{dsaa2025} detect locally dense patterns
+within specific time intervals.
+
+However, these methods only identify \emph{which} patterns are \emph{when} frequent;
+they cannot explain \emph{why} pattern occurrence frequency fluctuates.
+In practice, external events such as promotional campaigns, holidays,
+regulatory changes, and system updates often drive the temporal variation
+of pattern support.
+Identifying ``which event caused which pattern to densify, and when''
+would enable quantifying campaign effects, detecting side effects,
+and diagnosing system anomalies---insights directly relevant to decision-making.
+
+In this work, we formalize this challenge as \textbf{statistical attribution}.
+``Attribution'' here refers to identifying the statistical significance
+of \textbf{temporal associations} between support change points and external events,
+not causal inference.
+The output is positioned as a \textbf{screening tool} for further analysis
+(see Definition~\ref{def:attribution} and Remark~\ref{rem:attribution_scope}).
+
+Despite its practical importance, no statistical framework exists,
+to our knowledge, that links support fluctuations of frequent patterns
+to external events.
+Temporal pattern mining~\cite{mahanta2005finding,tanbeer2009discovering,kiran2017discovering,fournier2021mining}
+discovers patterns with periodic or local frequency but does not model
+the association between pattern variation and exogenous events.
+Change point detection methods~\cite{page1954continuous,aminikhanghahi2017survey}
+identify structural changes in individual time series but lack the capacity
+to handle the multiple testing burden of thousands of pattern support series simultaneously
+or to link detected changes to events.
+The econometric event study method~\cite{mackinlay1997event}
+evaluates the impact of corporate events on stock prices but targets a single outcome variable
+and cannot be directly applied to thousands of pattern time series simultaneously.
+
+\subsection{Contributions}
+
+The main contributions of this work are a formal definition of the
+\textbf{event attribution problem} and the first statistical solution framework.
+(1)~We formulate the event attribution problem as a multiple testing problem
+with FDR control and identify three challenges: scale, secondary patterns,
+and temporal confounding (\S\ref{sec:problem}).
+(2)~We construct a five-step pipeline comprising change point extraction,
+attribution scoring, circular-shift permutation testing, global BH correction,
+and Union-Find deduplication (\S\ref{sec:method}).
+(3)~We identify the \emph{secondary pattern problem}---where all patterns containing item $i$
+fluctuate jointly when $i$'s frequency changes---and resolve it
+via deduplication based on a $\lceil l/2 \rceil$ majority-share criterion (\S\ref{sec:dedup}).
+(4)~We provide evaluation across 8 synthetic conditions, ablation analysis,
+comparison against 4 related methods, and exploratory application
+to real-world data (Dunnhumby) (\S\ref{sec:experiments}).

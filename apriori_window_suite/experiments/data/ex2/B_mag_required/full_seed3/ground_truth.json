@@ -1,0 +1,47 @@
+[
+  {
+    "event_id": "E1",
+    "interval_end": 24585,
+    "interval_start": 15313,
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E2",
+    "interval_end": 51074,
+    "interval_start": 50004,
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E2",
+    "interval_end": 53258,
+    "interval_start": 52252,
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E2",
+    "interval_end": 56187,
+    "interval_start": 53259,
+    "pattern": [
+      5,
+      15
+    ]
+  },
+  {
+    "event_id": "E2",
+    "interval_end": 57241,
+    "interval_start": 56188,
+    "pattern": [
+      5,
+      15
+    ]
+  }
+]

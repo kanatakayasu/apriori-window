@@ -1,0 +1,106 @@
+% ==============================================================
+\section{Related Work}\label{sec:related}
+% ==============================================================
+
+\subsection{Frequent Pattern Mining}
+
+A comprehensive survey of frequent pattern mining is provided in~\cite{fournier2017survey}.
+Apriori~\cite{agrawal1994fast} established the anti-monotone candidate generation and pruning framework,
+while FP-Growth~\cite{han2000mining} and ECLAT~\cite{zaki2000scalable}
+achieved speedups via FP-tree and vertical representations, respectively.
+These methods target global frequency and do not model temporal variation.
+
+\subsection{Temporal and Periodic Pattern Mining}
+
+Segura-Delgado et al.~\cite{segura2020temporal} provide a comprehensive survey of temporal ARM.
+PFPM~\cite{tanbeer2009discovering} and PPFPM~\cite{kiran2017discovering}
+are periodicity mining methods targeting patterns that recur at fixed intervals,
+while LPFIM~\cite{mahanta2005finding} detects frequent itemsets within time intervals
+using gap-based thresholds.
+LPPM~\cite{fournier2021mining} integrates locality and periodicity criteria.
+These methods detect \emph{when and at what cycle} a pattern is frequent,
+but do not model the \emph{cause} of variation.
+
+\subsection{Apriori-window: Dense Interval Mining}
+
+Apriori-window~\cite{dsaa2025} differs in design philosophy from the above methods.
+It has no gap parameter or periodicity assumption, instead scanning a fixed-width
+sliding window $W$ over a transaction sequence and directly evaluating
+the local support $s_P(t)$ (Definition~\ref{def:support_series}) at each position $t$.
+The output is the \emph{dense interval} $\mathcal{I}_P$ for each pattern $P$
+(Definition~\ref{def:dense_interval})---the maximal contiguous range of window positions
+where support continuously meets threshold $\theta$---representing
+``during which period the pattern densely occurred.''
+Candidate pattern space is efficiently pruned using Apriori's anti-monotonicity.
+This work adopts Apriori-window as Step~0, using its output
+$(\mathcal{F}, \{\mathcal{I}_P\})$ as input to the event attribution pipeline.
+
+\subsection{Pattern Change Monitoring and Diagnostics}
+
+Agrawal et al.~\cite{agrawal1995active} proposed trend detection via shape queries on rule statistics,
+Chakrabarti et al.~\cite{chakrabarti1998mining} proposed a surprise metric based on description length,
+and Liu et al.~\cite{liu2001fundamental} proposed extraction of ``fundamental changes'' between two time points.
+These methods detect and characterize changes but lack a framework for attribution to external events.
+
+\subsection{Change Point Detection}
+
+Change point detection methods~\cite{aminikhanghahi2017survey}
+represented by the CUSUM algorithm~\cite{page1954continuous}
+identify structural changes in individual time series,
+but are not equipped for the multiple testing burden of thousands of
+pattern support series simultaneously or for linking changes to events.
+
+\subsection{Event Attribution, Intervention Analysis, and Causal Inference}
+
+Interrupted time series regression (ITS)~\cite{bernal2017interrupted},
+the event study method~\cite{mackinlay1997event},
+CausalImpact~\cite{brodersen2015causalimpact},
+and the Wilcoxon rank-sum test~\cite{mann1947test}
+test the effect of a known intervention on an outcome.
+However, these methods typically target a single or small number of outcome variables
+and cannot be directly applied to settings where thousands of pattern support series
+are simultaneously tested against multiple events.
+
+\subsection{Statistical Pattern Mining and Multiple Testing Correction}
+
+Webb~\cite{webb2007discovering,webb2011filtered} eliminated redundant significant patterns
+through self-sufficient and productive pattern concepts.
+Terada et al.~\cite{terada2013statistical} minimized the Bonferroni factor via LAMP,
+and Llinares-L\'{o}pez et al.~\cite{llinares2015fast} achieved fast significant pattern mining
+combining permutation testing with Tarone's testability criterion.
+These methods test frequency differences between two groups, whereas this work tests
+the association between \emph{temporal variation} of support and \emph{external events}.
+Our pipeline adopts circular-shift permutation testing~\cite{davison1997bootstrap,yuan2024rigorous}
+based on the surrogate data method~\cite{theiler1992testing}
+and global BH correction~\cite{benjamini1995controlling,benjamini2001control}
+to achieve FDR-controlled detection with higher power than Bonferroni correction~\cite{dunn1961multiple}.
+
+\subsection{Summary of Differences}
+
+Table~\ref{tab:related_comparison} summarizes whether each method family
+can address the problem setting of this work.
+This work is the first integrated framework that simultaneously attributes
+many pattern time series to multiple events, controls multiple testing,
+and eliminates secondary patterns.
+
+\begin{table}[t]
+\caption{Functional Comparison with Related Methods}
+\label{tab:related_comparison}
+\centering
+\footnotesize
+\begin{tabular}{lccccc}
+\toprule
+Method & \rotatebox{60}{TS Change} & \rotatebox{60}{Event Attr.} & \rotatebox{60}{Many Patterns} & \rotatebox{60}{Multi-test} & \rotatebox{60}{Dedup} \\
+\midrule
+Temporal FPM    & -- & -- & \checkmark & -- & -- \\
+Apriori-window  & \checkmark & -- & \checkmark & -- & -- \\
+Change Point    & \checkmark & -- & -- & -- & -- \\
+ITS/Intervention & \checkmark & \checkmark & -- & -- & -- \\
+Event Study     & \checkmark & \checkmark & -- & -- & -- \\
+CausalImpact    & \checkmark & \checkmark & -- & -- & -- \\
+Wilcoxon        & -- & \checkmark & -- & -- & -- \\
+Statistical FPM & -- & -- & \checkmark & \checkmark & -- \\
+\textbf{Proposed} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}

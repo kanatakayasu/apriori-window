@@ -1,0 +1,713 @@
+{
+  "alpha": 0.1,
+  "avg_significant_per_seed": 0.07,
+  "fdr_controlled": true,
+  "global_fdr": 1.0,
+  "mean_per_seed_fdr": 0.07,
+  "n_seeds": 100,
+  "n_seeds_with_fp": 7,
+  "seeds": [
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 0,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 1,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 2,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 3,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 4,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 5,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 6,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 7,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 8,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 9,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 10,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 11,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 12,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 13,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 14,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 15,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 16,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 17,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 18,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 19,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 20,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 21,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 22,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 23,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 24,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 25,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 26,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 27,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 28,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 29,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 30,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 31,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 32,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 33,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 34,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 35,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 36,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 37,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 38,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 39,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 40,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 41,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 42,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 43,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 44,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 45,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 46,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 47,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 48,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 49,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 50,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 51,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 52,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 53,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 54,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 55,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 56,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 57,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 58,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 59,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 60,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 61,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 62,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 63,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 64,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 65,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 66,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 67,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 68,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 69,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 70,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 71,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 72,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 73,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 74,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 75,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 76,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 77,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 78,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 79,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 80,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 81,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 82,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 83,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 84,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 85,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 86,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 87,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 88,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 89,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 90,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 91,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 92,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 93,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 94,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 95,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 96,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 97,
+      "seed_fdr": 0.0
+    },
+    {
+      "fp": 1,
+      "n_patterns": 12,
+      "n_significant": 1,
+      "seed": 98,
+      "seed_fdr": 1.0
+    },
+    {
+      "fp": 0,
+      "n_patterns": 12,
+      "n_significant": 0,
+      "seed": 99,
+      "seed_fdr": 0.0
+    }
+  ],
+  "total_discoveries": 7,
+  "total_false": 7
+}

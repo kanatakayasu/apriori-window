@@ -1,0 +1,30 @@
+\begin{algorithm}[!ht]
+\caption{Item Deduplication (Step 5)}
+\label{alg:dedup}
+\begin{algorithmic}[1]
+\Require Significant attribution set $\mathcal{R}$ (output of Algorithm~\ref{alg:scoring})
+\Ensure Deduplicated attribution set $\mathcal{R}'$
+\Statex \textbf{// Step 5a: Same-length pattern deduplication (majority-share)}
+\For{each event $e$}
+    \State $\mathcal{R}_{e} \gets$ all patterns attributed to event $e$ (across intervals), grouped by length $l$
+    \For{each length-$l$ group}
+        \For{each pattern pair $(P_i, P_j)$}
+            \If{$|P_i \cap P_j| \geq \lceil l/2 \rceil$}
+                \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
+            \EndIf
+        \EndFor
+        \State Within each connected component, retain only the pattern with maximum $A_{\text{obs}}(P, I, e)$
+    \EndFor
+\EndFor
+\Statex \textbf{// Step 5b: Cross-length subset elimination}
+\For{each event $e$}
+    \For{each pattern pair $(P_i, P_j)$ where $|P_i| \neq |P_j|$}
+        \If{$P_i \subseteq P_j$ or $P_j \subseteq P_i$}
+            \State $\Call{Union}{P_i, P_j}$ \Comment{Union-Find}
+        \EndIf
+    \EndFor
+    \State Within each connected component, retain only the pattern with maximum $A_{\text{obs}}(P, I, e)$
+\EndFor
+\State \Return $\mathcal{R}' \gets$ set of retained patterns
+\end{algorithmic}
+\end{algorithm}

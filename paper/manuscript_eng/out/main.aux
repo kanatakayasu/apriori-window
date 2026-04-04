@@ -1,0 +1,208 @@
+\relax 
+\citation{agrawal1994fast,han2000mining,fournier2017survey}
+\citation{agrawal1994fast}
+\citation{han2000mining}
+\citation{zaki2000scalable}
+\citation{dsaa2025}
+\citation{mahanta2005finding,tanbeer2009discovering,kiran2017discovering,fournier2021mining}
+\citation{page1954continuous,aminikhanghahi2017survey}
+\citation{mackinlay1997event}
+\citation{fournier2017survey}
+\citation{agrawal1994fast}
+\citation{han2000mining}
+\citation{zaki2000scalable}
+\citation{segura2020temporal}
+\citation{tanbeer2009discovering}
+\citation{kiran2017discovering}
+\citation{mahanta2005finding}
+\citation{fournier2021mining}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Contributions}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{}\protected@file@percent }
+\newlabel{sec:related}{{II}{1}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Frequent Pattern Mining}{1}{}\protected@file@percent }
+\citation{dsaa2025}
+\citation{agrawal1995active}
+\citation{chakrabarti1998mining}
+\citation{liu2001fundamental}
+\citation{aminikhanghahi2017survey}
+\citation{page1954continuous}
+\citation{bernal2017interrupted}
+\citation{mackinlay1997event}
+\citation{brodersen2015causalimpact}
+\citation{mann1947test}
+\citation{webb2007discovering,webb2011filtered}
+\citation{terada2013statistical}
+\citation{llinares2015fast}
+\citation{davison1997bootstrap,yuan2024rigorous}
+\citation{theiler1992testing}
+\citation{benjamini1995controlling,benjamini2001control}
+\citation{dunn1961multiple}
+\citation{dsaa2025}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Temporal and Periodic Pattern Mining}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Apriori-window: Dense Interval Mining}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Pattern Change Monitoring and Diagnostics}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}Change Point Detection}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-F}}Event Attribution, Intervention Analysis, and Causal Inference}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-G}}Statistical Pattern Mining and Multiple Testing Correction}{2}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Functional Comparison with Related Methods}}{2}{}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:related_comparison}{{I}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-H}}Summary of Differences}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Problem Definition}{2}{}\protected@file@percent }
+\newlabel{sec:problem}{{III}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Notation}{2}{}\protected@file@percent }
+\newlabel{def:support_series}{{1}{2}{}{}{}}
+\newlabel{eq:support_series}{{1}{2}{}{}{}}
+\newlabel{def:event}{{2}{2}{}{}{}}
+\newlabel{def:change_point}{{3}{2}{}{}{}}
+\newlabel{eq:up_crossing}{{2}{2}{}{}{}}
+\newlabel{eq:down_crossing}{{3}{2}{}{}{}}
+\newlabel{def:dense_interval}{{4}{2}{}{}{}}
+\citation{pearl2009causality}
+\citation{dsaa2025}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Event Attribution Problem}{3}{}\protected@file@percent }
+\newlabel{def:attribution}{{5}{3}{}{}{}}
+\newlabel{rem:attribution_scope}{{1}{3}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Proposed Method}{3}{}\protected@file@percent }
+\newlabel{sec:method}{{IV}{3}{}{}{}}
+\newlabel{sec:step0}{{IV}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Step 1: Change Point Extraction from Dense Intervals}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a) Overall pipeline structure. Step~0 (Apriori-window) outputs dense intervals; Steps~1--5 yield significant attributions. (b) Attribution scoring example. Proximity (prox) and magnitude (mag) are computed from the relationship between change points $\tau _{\uparrow }, \tau _{\downarrow }$ on the support time series and the event interval.}}{3}{}\protected@file@percent }
+\newlabel{fig:pipeline}{{1}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Step 2: Magnitude Evaluation}{3}{}\protected@file@percent }
+\newlabel{eq:magnitude}{{4}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Step 3: Attribution Scoring}{3}{}\protected@file@percent }
+\newlabel{eq:attribution_score}{{5}{3}{}{}{}}
+\citation{fournier2017survey}
+\citation{davison1997bootstrap}
+\citation{benjamini1995controlling}
+\citation{benjamini2001control}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Attribution Scoring and Statistical Testing (Steps 1--4)}}{4}{}\protected@file@percent }
+\newlabel{alg:scoring}{{1}{4}{}{}{}}
+\newlabel{eq:proximity}{{6}{4}{}{}{}}
+\newlabel{eq:mag_sqrt}{{7}{4}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-C}0a}Design Rationale}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Step 4: Permutation Testing and Global FDR Correction}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}1}Circular Shift Null Distribution}{4}{}\protected@file@percent }
+\newlabel{eq:pvalue}{{9}{4}{}{}{}}
+\newlabel{prop:perm_exact}{{1}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}2}Global Benjamini--Hochberg Correction}{4}{}\protected@file@percent }
+\newlabel{rem:prds}{{2}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Step 5: Item Deduplication}{4}{}\protected@file@percent }
+\newlabel{sec:dedup}{{\mbox  {IV-E}}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}1}The Secondary Pattern Problem}{4}{}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Item Deduplication (Step 5)}}{5}{}\protected@file@percent }
+\newlabel{alg:dedup}{{2}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}2}Deduplication via Union-Find Clustering}{5}{}\protected@file@percent }
+\newlabel{prop:dedup}{{1}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Computational Complexity}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Experiments}{5}{}\protected@file@percent }
+\newlabel{sec:experiments}{{V}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Experimental Design}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}Synthetic Data Generation}{5}{}\protected@file@percent }
+\newlabel{sec:eval_metrics}{{\mbox  {V-A}2}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Evaluation Metrics}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}2a}Ground Truth Construction}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}2b}Matching Criterion}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-A}2c}Precision Metrics}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}3}Default Settings}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}4}Evaluation Policy}{5}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces EX1 results (20-seed mean with 95\% CI). (a) Signal strength: $\beta \geq 0.2$ achieves F1 $\geq $ 0.78 and Recall $\geq $ 0.92. $\beta = 0.1$ reaches the detection limit for $L=2$ vocab-in patterns (F1 = 0.34), while $L=3,4$ vocab-out patterns are stably detected. (b) Structural conditions: F1 $\geq $ 0.67 across all conditions (SHORT: 0.85, OVERLAP: 0.74, CONFOUND: 0.70, DENSE: 0.67).}}{6}{}\protected@file@percent }
+\newlabel{fig:ex1_combined}{{2}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}EX1: Core Attribution Accuracy}{6}{}\protected@file@percent }
+\newlabel{sec:exp_ex1}{{\mbox  {V-B}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0a}Signal Strength and Structural Conditions}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-B}0b}Null Condition Validation}{6}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces False Positive Control under Null Conditions (100 seeds, $\alpha =0.10$).}}{6}{}\protected@file@percent }
+\newlabel{tab:null_fdr}{{II}{6}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces EX2a Results: Per-Scenario Ablation (5-seed mean F1, Zipf-1.0, $\sqrt  {}$ normalization)}}{6}{}\protected@file@percent }
+\newlabel{tab:ex2a}{{III}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}EX2: Ablation Analysis}{6}{}\protected@file@percent }
+\newlabel{sec:exp_ex2}{{\mbox  {V-C}}{6}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0a}Score Components}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-C}0b}Pipeline Step Contributions}{6}{}\protected@file@percent }
+\citation{mann1947test}
+\citation{brodersen2015causalimpact}
+\citation{bernal2017interrupted}
+\citation{mackinlay1997event}
+\citation{dunnhumby2014complete}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces EX2b: Accuracy change from incremental step additions (5-seed mean, Zipf-1.0, $\sqrt  {}$ normalization). (a) F1: substantial improvement from BH correction and deduplication. (b) \#Predictions: each step progressively reduces output volume, suppressing false positives.}}{7}{}\protected@file@percent }
+\newlabel{fig:ex2b_ablation}{{3}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}EX3: Comparison with Related Methods}{7}{}\protected@file@percent }
+\newlabel{sec:exp_ex3}{{\mbox  {V-D}}{7}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces EX3 results: comparison with related methods (5-seed mean F1). All methods share Step~0 (Apriori-window), BH correction, and deduplication. The proposed method achieves the highest or equal F1 across all 5 conditions, with the most prominent advantage on CONFOUND (0.68 vs.\ runner-up ITS 0.45).}}{7}{}\protected@file@percent }
+\newlabel{fig:ex3_method}{{4}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}EX4: Real-World Data Validation}{7}{}\protected@file@percent }
+\newlabel{sec:exp_ex4}{{\mbox  {V-E}}{7}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {V-E}0a}External Event Selection}{7}{}\protected@file@percent }
+\citation{claude2025}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces EX4 Results: Dunnhumby Large-Scale Promotional Campaigns}}{8}{}\protected@file@percent }
+\newlabel{tab:ex4_dunnhumby}{{IV}{8}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{8}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{VI}{8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Limitations and Future Work}{8}{}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{refs}
+\bibcite{agrawal1994fast}{1}
+\bibcite{han2000mining}{2}
+\bibcite{fournier2017survey}{3}
+\bibcite{zaki2000scalable}{4}
+\bibcite{dsaa2025}{5}
+\bibcite{mahanta2005finding}{6}
+\bibcite{tanbeer2009discovering}{7}
+\bibcite{kiran2017discovering}{8}
+\bibcite{fournier2021mining}{9}
+\bibcite{page1954continuous}{10}
+\bibcite{aminikhanghahi2017survey}{11}
+\bibcite{mackinlay1997event}{12}
+\bibcite{segura2020temporal}{13}
+\bibcite{agrawal1995active}{14}
+\bibcite{chakrabarti1998mining}{15}
+\bibcite{liu2001fundamental}{16}
+\bibcite{bernal2017interrupted}{17}
+\bibcite{brodersen2015causalimpact}{18}
+\bibcite{mann1947test}{19}
+\bibcite{webb2007discovering}{20}
+\bibcite{webb2011filtered}{21}
+\bibcite{terada2013statistical}{22}
+\bibcite{llinares2015fast}{23}
+\bibcite{davison1997bootstrap}{24}
+\bibcite{yuan2024rigorous}{25}
+\bibcite{theiler1992testing}{26}
+\bibcite{benjamini1995controlling}{27}
+\bibcite{benjamini2001control}{28}
+\bibcite{dunn1961multiple}{29}
+\bibcite{pearl2009causality}{30}
+\bibcite{dunnhumby2014complete}{31}
+\bibcite{claude2025}{32}
+\@writefile{toc}{\contentsline {section}{References}{9}{}\protected@file@percent }
+\citation{dunnhumby2014complete}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: Proof of Deduplication Validity}{10}{}\protected@file@percent }
+\newlabel{app:dedup_proof}{{A}{10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  B: Synthetic Data Generation Details}{10}{}\protected@file@percent }
+\newlabel{app:synthetic}{{B}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {B-A}}Default Conditions}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {B-B}}Structural Conditions}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {B-C}}EX2 Ablation Scenarios}{10}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Dunnhumby Dataset Statistics}}{10}{}\protected@file@percent }
+\newlabel{tab:dunnhumby_stats}{{V}{10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {B-D}}Zipf Distribution Parameters}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  C: Dunnhumby Dataset Details}{10}{}\protected@file@percent }
+\newlabel{app:dunnhumby}{{C}{10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  D: Null FDR Verification Details (100 Seeds)}{10}{}\protected@file@percent }
+\newlabel{app:null_fdr}{{D}{10}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {D-}0a}Settings}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {D-}0b}Results}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  E: Robustness to Inter-Item Correlation}{11}{}\protected@file@percent }
+\newlabel{app:item_correlation}{{E}{11}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {E-}0a}Settings}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {E-}0b}Results}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  F: Cross-Signal Effects in OVERLAP Condition}{11}{}\protected@file@percent }
+\newlabel{app:overlap_analysis}{{F}{11}{}{}{}}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  G: Parameter Selection Rationale}{11}{}\protected@file@percent }
+\newlabel{app:params}{{G}{11}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Default Parameters}}{11}{}\protected@file@percent }
+\newlabel{tab:default_params}{{VI}{11}{}{}{}}
+\gdef \@abspage@last{11}

@@ -1,0 +1,32 @@
+% ==============================================================
+\section{Conclusion}\label{sec:conclusion}
+% ==============================================================
+
+This paper formally defined the \textbf{event attribution problem}
+and constructed a five-step attribution pipeline as the first statistical solution.
+
+Experiments yielded the following findings:
+\begin{itemize}
+\item High attribution accuracy was achieved across diverse data conditions including
+Zipf distributions; under null conditions over 100 seeds,
+a mean FDR of 0.070 ($\leq \alpha = 0.10$) was confirmed, demonstrating FDR control (EX1).
+\item Ablation analysis demonstrated the complementarity of proximity and magnitude,
+and the progressive false positive reduction effect of global BH correction
+and deduplication (EX2).
+\item Comparison against 4 related methods confirmed that the proposed method
+achieves the best or equal F1 across all 5 conditions (mean F1 = 0.68),
+with particularly prominent advantage under confounding and overlap conditions (EX3).
+\item Exploratory application to real-world data (Dunnhumby, 276K baskets)
+confirmed attribution generation for all campaigns (100\% coverage),
+demonstrating applicability (EX4).
+\end{itemize}
+
+\subsection{Limitations and Future Work}
+
+This pipeline has the following limitations.
+First, accuracy degrades under conditions of overlapping or high-density event windows.
+Second, the circular shift permutation test assumes weak stationarity;
+data with strong trends or seasonality may require extensions such as block permutation.
+Third, there is a tradeoff between detection power and weak signal recovery.
+Future work includes handling non-stationary time series
+and evaluating external validity on large-scale real-world data.
