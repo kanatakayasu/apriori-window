@@ -186,13 +186,20 @@ OVERLAPはF1 = 0.69~[0.47, 0.91]，CONFOUNDはF1 = 0.58~[0.35, 0.81]と
 \paragraph{帰無条件検証}
 植え込み信号を一切含まない帰無データ（N = 100{,}000，
 4件のType B密集パターン + 5件のランダムデコイイベントが非重複配置，
-$W = 1{,}000$, $\theta = 100$）で20 seed実行した結果，
-20 seed中1 seedのみで有意帰属が1件発生し，
-平均偽発見率は0.05（$\leq \alpha = 0.10$）であった．
+$W = 1{,}000$, $\theta = 100$）で\textbf{100 seed}実行した結果
+（図~\ref{fig:null_fdr_dist}，付録~\ref{app:null_fdr}参照），
+100 seed中7 seedのみで偽陽性帰属が発生し（各seed 1件），
+平均偽発見率（mean per-seed FDR）は\textbf{0.070}（$\leq \alpha = 0.10$）であった．
 BH手続きと円形シフト置換検定の組み合わせが
 帰無仮説下でFDRを統計的に制御することが経験的に確認された．
-偽発見1件はBHの期待誤発見数（$\alpha \times$ 仮説数）と整合する
-確率的変動の範囲内である．
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/null_fdr_dist.pdf}
+\caption{帰無条件での偽陽性帰属数の分布（100 seeds，$\alpha=0.10$）．
+93 seedで偽陽性ゼロ，最大1件．Mean FDR = 0.070 $\leq$ $\alpha = 0.10$．}
+\label{fig:null_fdr_dist}
+\end{figure}
 
 % ------------------------------------------------------------------
 \subsection{EX2: アブレーション分析}
