@@ -1,4 +1,4 @@
-"""EX2b: Ablation analysis — stepwise pipeline addition (3 panels).
+"""EX2b: Ablation analysis — stepwise pipeline addition (2 panels: F1 + #Pred).
 
 Style: top-conference (NeurIPS / KDD / ICML) grouped bar chart.
 """
@@ -33,12 +33,6 @@ f1 = {
     "+BH":       [0.71, 0.56, 0.66],
     "Full":      [0.77, 0.81, 0.70],
 }
-far = {
-    "Naive":     [0.80, 1.00, 0.95],
-    "+PermTest": [0.40, 1.00, 0.60],
-    "+BH":       [0.20, 1.00, 0.45],
-    "Full":      [0.10, 0.40, 0.45],
-}
 pred = {
     "Naive":     [270, 303, 438],
     "+PermTest": [224, 265, 413],
@@ -56,18 +50,17 @@ n = len(methods)
 width = 0.18
 offsets = np.array([-(n-1)/2 + i for i in range(n)]) * width
 
-# ---------- Figure (3 panels) ----------
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(7.16, 2.6))
+# ---------- Figure (2 panels) ----------
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.6))
 
 panels = [
-    (ax1, f1,   "F1",    "(a) F1",    False),
-    (ax2, far,  "FAR",   "(b) FAR",   False),
-    (ax3, pred, r"\#Pred", "(c) \#Predictions", True),
+    (ax1, f1,   "F1",          "(a) F1",             False),
+    (ax2, pred, r"\#Pred",     "(b) \#Predictions",  True),
 ]
 
 for panel_idx, (ax, data, ylabel, title, use_log) in enumerate(panels):
     for i, method in enumerate(methods):
-        bars = ax.bar(
+        ax.bar(
             x + offsets[i],
             data[method],
             width * 0.88,
@@ -109,7 +102,7 @@ fig.legend(
     handletextpad=0.4,
 )
 
-fig.tight_layout(rect=[0, 0.08, 1, 1], w_pad=1.5)
+fig.tight_layout(rect=[0, 0.10, 1, 1], w_pad=1.5)
 
 out = Path(__file__).resolve().parent
 fig.savefig(out / "ex2b_ablation.pdf", bbox_inches="tight", dpi=300)
