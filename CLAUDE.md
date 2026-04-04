@@ -37,11 +37,7 @@ apriori_window/
       OVERVIEW.md                  ← 実装詳細・API
       impl_log.md                  ← 実装変更履歴
   experiments/                     ← 実験実行入口
-    run_ex1.py                     ← EX1: コア帰属精度
-    run_ex2.py                     ← EX2: アブレーション分析
-    run_method_comparison.py       ← EX3: 関連手法比較（7手法）
     run_ex4_dunnhumby.py           ← EX4: Dunnhumby 実データ検証
-    run_null_fdr.py                ← 帰無条件 FDR 検証
     run_baseline_comparison.py     ← ベースライン比較（査読対応）
     run_hypothesis_analysis.py     ← 仮説数分析
     run_appendix_semi_synthetic.py ← 付録: 半合成データ検証
@@ -67,7 +63,7 @@ apriori_window/
     temporal_relation_pipeline.md  ← Phase 2 パイプライン設計
     related_work_survey.md         ← 関連研究サーベイ
   research/future_directions/      ← 論文展開戦略
-  tools/scripts/                   ← format.sh, lint.sh, gen_figs.py
+  tools/scripts/                   ← format.sh, lint.sh
   runs/                            ← 実行結果生データ（.gitignore 対象）
 ```
 
@@ -126,7 +122,6 @@ cd apriori_window_suite && cargo build --release
 ```sh
 bash tools/scripts/format.sh   # Rust + Python フォーマット
 bash tools/scripts/lint.sh     # Rust clippy + Python ruff
-python3 tools/scripts/gen_figs.py  # 論文図表生成（実験結果→paper/）
 ```
 
 ---
@@ -218,10 +213,13 @@ cd paper/manuscript && latexmk -xelatex -interaction=nonstopmode main.tex
 
 **Q: 実験を実行したい**
 ```sh
-python3 experiments/run_ex1.py            # EX1: コア帰属精度
-python3 experiments/run_ex2.py            # EX2: アブレーション
-python3 experiments/run_method_comparison.py  # EX3: 手法比較
-python3 experiments/run_ex4_dunnhumby.py   # EX4: Dunnhumby 実データ
+# EX1〜EX3 は Rust CLI で実行（高速・並列対応）
+cd apriori_window_suite && cargo run --release -- run-ex1 --n-seeds 20
+cd apriori_window_suite && cargo run --release -- run-ex2 --n-seeds 20
+cd apriori_window_suite && cargo run --release -- run-ex3 --n-seeds 5
+
+# EX4 は Python（Dunnhumby 実データ）
+python3 experiments/run_ex4_dunnhumby.py
 ```
 
 **Q: 実験結果はどこにあるか？**
