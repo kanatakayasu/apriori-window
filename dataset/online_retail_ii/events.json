@@ -1,0 +1,114 @@
+[
+  {
+    "event_id": "E01",
+    "name": "Christmas_2009",
+    "date_start": "2009-12-01",
+    "date_end": "2009-12-25",
+    "start": 0,
+    "end": 1587
+  },
+  {
+    "event_id": "E02",
+    "name": "Christmas_2010",
+    "date_start": "2010-12-01",
+    "date_end": "2010-12-25",
+    "start": 18308,
+    "end": 19747
+  },
+  {
+    "event_id": "E03",
+    "name": "Christmas_2011",
+    "date_start": "2011-12-01",
+    "date_end": "2011-12-25",
+    "start": 35465,
+    "end": 36208
+  },
+  {
+    "event_id": "E04",
+    "name": "Valentines_2010",
+    "date_start": "2010-02-01",
+    "date_end": "2010-02-14",
+    "start": 2584,
+    "end": 3093
+  },
+  {
+    "event_id": "E05",
+    "name": "Valentines_2011",
+    "date_start": "2011-02-01",
+    "date_end": "2011-02-14",
+    "start": 20715,
+    "end": 21162
+  },
+  {
+    "event_id": "E06",
+    "name": "MothersDay_UK_2010",
+    "date_start": "2010-03-01",
+    "date_end": "2010-03-14",
+    "start": 3674,
+    "end": 4299
+  },
+  {
+    "event_id": "E07",
+    "name": "MothersDay_UK_2011",
+    "date_start": "2011-03-01",
+    "date_end": "2011-03-27",
+    "start": 21705,
+    "end": 22767
+  },
+  {
+    "event_id": "E08",
+    "name": "Easter_2010",
+    "date_start": "2010-03-22",
+    "date_end": "2010-04-05",
+    "start": 4617,
+    "end": 5266
+  },
+  {
+    "event_id": "E09",
+    "name": "Easter_2011",
+    "date_start": "2011-04-11",
+    "date_end": "2011-04-25",
+    "start": 23384,
+    "end": 23972
+  },
+  {
+    "event_id": "E10",
+    "name": "BackToSchool_2010",
+    "date_start": "2010-08-15",
+    "date_end": "2010-09-15",
+    "start": 11394,
+    "end": 12775
+  },
+  {
+    "event_id": "E11",
+    "name": "BlackFriday_2010",
+    "date_start": "2010-11-22",
+    "date_end": "2010-11-29",
+    "start": 17463,
+    "end": 18196
+  },
+  {
+    "event_id": "E12",
+    "name": "BlackFriday_2011",
+    "date_start": "2011-11-21",
+    "date_end": "2011-11-28",
+    "start": 34581,
+    "end": 35247
+  },
+  {
+    "event_id": "E13",
+    "name": "SummerSale_2010",
+    "date_start": "2010-06-15",
+    "date_end": "2010-07-15",
+    "start": 8652,
+    "end": 10090
+  },
+  {
+    "event_id": "E14",
+    "name": "SummerSale_2011",
+    "date_start": "2011-06-15",
+    "date_end": "2011-07-15",
+    "start": 26336,
+    "end": 27688
+  }
+]

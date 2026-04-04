@@ -1,0 +1,17 @@
+{
+  "dataset": "Online Retail II (UCI)",
+  "source_url": "https://archive.ics.uci.edu/dataset/502/online+retail+ii",
+  "filter": "UK only, no cancellations, no non-product items, qty>0, price>0",
+  "date_range": {
+    "start": "2009-12-01",
+    "end": "2011-12-09"
+  },
+  "num_transactions": 36209,
+  "num_unique_products": 4894,
+  "num_unique_dates": 604,
+  "avg_basket_size": 25.2,
+  "max_basket_size": 1109,
+  "min_basket_size": 1,
+  "num_events": 14,
+  "created_at": "2026-04-01T18:22:41.452948"
+}
