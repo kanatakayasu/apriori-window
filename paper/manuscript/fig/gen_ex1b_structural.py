@@ -22,12 +22,12 @@ plt.rcParams.update({
     "legend.fontsize": 7.5,
 })
 
-# Data from Table EX1b (proposed method only)
+# Data from EX1 full run (N=100K, W=1000, θ=100, 5 seeds avg)
 conditions = ["OVERLAP", "CONFOUND", "DENSE", "SHORT"]
-f1        = [0.84, 0.81, 0.70, 0.84]
-far       = [0.00, 0.40, 0.45, 0.30]
-precision = [0.83, 0.72, 0.56, 0.83]
-recall    = [0.87, 0.93, 0.93, 0.87]
+f1        = [0.80, 0.69, 0.65, 0.79]
+far       = [0.80, 0.40, 0.65, 0.60]
+precision = [0.68, 0.70, 0.53, 0.67]
+recall    = [1.00, 0.68, 0.87, 1.00]
 
 x = np.arange(len(conditions))
 width = 0.20

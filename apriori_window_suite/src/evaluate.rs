@@ -20,6 +20,12 @@ pub struct PredictedAttribution {
     pub pattern: Vec<i64>,
     /// Event name (will be mapped to event_id via events.json).
     pub event_name: String,
+    /// Interval start (window left endpoint).
+    #[serde(default)]
+    pub interval_start: i64,
+    /// Interval end (window left endpoint).
+    #[serde(default)]
+    pub interval_end: i64,
 }
 
 /// Precision / Recall / F1 evaluation result.
@@ -57,6 +63,10 @@ fn pattern_key(pattern: &[i64]) -> Vec<i64> {
 struct GtEntry {
     pattern: Vec<i64>,
     event_id: String,
+    #[serde(default)]
+    interval_start: i64,
+    #[serde(default)]
+    interval_end: i64,
 }
 
 /// Event entry loaded from events.json.
@@ -111,14 +121,17 @@ pub fn evaluate_with_event_name_mapping(
         name_to_id.insert(name, eid);
     }
 
-    // Build ground truth set: (pattern_key, event_id)
-    let gt_set: HashSet<(Vec<i64>, String)> = gt_raw
+    // Build ground truth set: (pattern_key, interval_start, interval_end, event_id)
+    // If interval fields are zero (legacy format), fall back to pattern+event matching only.
+    let use_interval_matching = gt_raw.iter().any(|e| e.interval_start != 0 || e.interval_end != 0);
+
+    let gt_set: HashSet<(Vec<i64>, i64, i64, String)> = gt_raw
         .iter()
-        .map(|entry| (pattern_key(&entry.pattern), entry.event_id.clone()))
+        .map(|entry| (pattern_key(&entry.pattern), entry.interval_start, entry.interval_end, entry.event_id.clone()))
         .collect();
 
-    // Build predicted set: map event_name → event_id, then (pattern_key, event_id)
-    let pred_set: HashSet<(Vec<i64>, String)> = predicted
+    // Build predicted set: map event_name → event_id, then (pattern_key, interval_start, interval_end, event_id)
+    let pred_set: HashSet<(Vec<i64>, i64, i64, String)> = predicted
         .iter()
         .map(|p| {
             let pk = pattern_key(&p.pattern);
@@ -126,7 +139,11 @@ pub fn evaluate_with_event_name_mapping(
                 .get(&p.event_name)
                 .cloned()
                 .unwrap_or_else(|| p.event_name.clone());
-            (pk, eid)
+            if use_interval_matching {
+                (pk, p.interval_start, p.interval_end, eid)
+            } else {
+                (pk, 0i64, 0i64, eid)
+            }
         })
         .collect();
 
@@ -162,6 +179,63 @@ pub fn evaluate_with_event_name_mapping(
         fp,
         fn_count,
     }
+}
+
+/// Evaluate attribution results using only (pattern, event) matching — ignoring intervals.
+///
+/// Used for baseline methods that do not output interval information.
+/// TP = predicted (pattern, event) pair exists in GT (any interval).
+pub fn evaluate_pattern_event_only(
+    predicted: &[PredictedAttribution],
+    gt_path: &str,
+    events_path: &str,
+) -> EvalResult {
+    let gt_text = fs::read_to_string(gt_path)
+        .unwrap_or_else(|_| panic!("failed to read GT file: {gt_path}"));
+    let gt_raw: Vec<GtEntry> =
+        serde_json::from_str(&gt_text).expect("failed to parse GT JSON");
+
+    let events_text = fs::read_to_string(events_path)
+        .unwrap_or_else(|_| panic!("failed to read events file: {events_path}"));
+    let events_raw: Vec<serde_json::Value> =
+        serde_json::from_str(&events_text).expect("failed to parse events JSON");
+
+    let mut name_to_id = std::collections::HashMap::new();
+    for entry in &events_raw {
+        let name = entry["name"].as_str().unwrap_or("").to_string();
+        let eid = entry["event_id"].as_str().unwrap_or("").to_string();
+        name_to_id.insert(name, eid);
+    }
+
+    // GT: deduplicate by (pattern, event_id) — one GT entry per (P,E) pair regardless of interval
+    let gt_set: HashSet<(Vec<i64>, String)> = gt_raw
+        .iter()
+        .map(|e| (pattern_key(&e.pattern), e.event_id.clone()))
+        .collect();
+
+    // Predicted: deduplicate by (pattern, event_id)
+    let pred_set: HashSet<(Vec<i64>, String)> = predicted
+        .iter()
+        .map(|p| {
+            let pk = pattern_key(&p.pattern);
+            let eid = name_to_id.get(&p.event_name).cloned().unwrap_or_else(|| p.event_name.clone());
+            (pk, eid)
+        })
+        .collect();
+
+    let tp = gt_set.intersection(&pred_set).count();
+    let fp = pred_set.difference(&gt_set).count();
+    let fn_count = gt_set.difference(&pred_set).count();
+
+    let precision = if tp + fp > 0 { tp as f64 / (tp + fp) as f64 } else { 0.0 };
+    let recall = if tp + fn_count > 0 { tp as f64 / (tp + fn_count) as f64 } else { 0.0 };
+    let f1 = if precision + recall > 0.0 {
+        2.0 * precision * recall / (precision + recall)
+    } else {
+        0.0
+    };
+
+    EvalResult { precision, recall, f1, tp, fp, fn_count }
 }
 
 /// Evaluate False Attribution Rate for Type B (unrelated) patterns.
@@ -270,10 +344,14 @@ mod tests {
             PredictedAttribution {
                 pattern: vec![5, 15],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
             PredictedAttribution {
                 pattern: vec![25, 35],
                 event_name: "Event_2".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
         ];
 
@@ -306,6 +384,8 @@ mod tests {
         let predicted = vec![PredictedAttribution {
             pattern: vec![5, 15],
             event_name: "Event_1".into(),
+            interval_start: 0,
+            interval_end: 0,
         }];
 
         let result = evaluate_with_event_name_mapping(&predicted, &gt_path, &events_path);
@@ -333,10 +413,14 @@ mod tests {
             PredictedAttribution {
                 pattern: vec![5, 15],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
             PredictedAttribution {
                 pattern: vec![99, 100],
                 event_name: "Decoy_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
         ];
 
@@ -383,6 +467,8 @@ mod tests {
         let predicted = vec![PredictedAttribution {
             pattern: vec![5, 15],
             event_name: "Event_1".into(),
+            interval_start: 0,
+            interval_end: 0,
         }];
 
         let result =
@@ -409,10 +495,14 @@ mod tests {
             PredictedAttribution {
                 pattern: vec![5, 15],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
             PredictedAttribution {
                 pattern: vec![65, 75],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
         ];
 
@@ -439,10 +529,14 @@ mod tests {
             PredictedAttribution {
                 pattern: vec![65, 75],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
             PredictedAttribution {
                 pattern: vec![85, 95],
                 event_name: "Event_1".into(),
+                interval_start: 0,
+                interval_end: 0,
             },
         ];
 

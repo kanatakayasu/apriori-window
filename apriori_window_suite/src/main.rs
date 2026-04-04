@@ -17,7 +17,8 @@ use apriori_window_suite::correlator::{
     run_attribution_pipeline, AttributionConfig, SignificantAttribution,
 };
 use apriori_window_suite::evaluate::{
-    evaluate_false_attribution_rate, evaluate_with_event_name_mapping, PredictedAttribution,
+    evaluate_false_attribution_rate, evaluate_pattern_event_only,
+    evaluate_with_event_name_mapping, PredictedAttribution,
 };
 use apriori_window_suite::io::{read_events, read_transactions_with_baskets};
 use apriori_window_suite::synth::{
@@ -303,8 +304,13 @@ fn run_experiment_method(
 
     let elapsed_ms = t0.elapsed().as_secs_f64() * 1000.0;
 
-    // Evaluate
-    let eval = evaluate_with_event_name_mapping(&predicted, gt_path, events_path);
+    // Evaluate: proposed uses (P,I,E) interval matching; baselines use (P,E) only
+    // (baselines do not output interval information)
+    let eval = if method == "proposed" {
+        evaluate_with_event_name_mapping(&predicted, gt_path, events_path)
+    } else {
+        evaluate_pattern_event_only(&predicted, gt_path, events_path)
+    };
     let far = if let Some(up) = unrelated_path {
         if std::path::Path::new(up).exists() {
             let fa = evaluate_false_attribution_rate(&predicted, up, events_path);

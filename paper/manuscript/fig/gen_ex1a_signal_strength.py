@@ -24,12 +24,12 @@ plt.rcParams.update({
     "lines.markersize": 5,
 })
 
-# Data from Table EX1a (Zipf-1.0, sqrt normalization, 5 seeds avg)
+# Data from EX1 full run (N=100K, W=1000, θ=100, 5 seeds avg)
 beta = [0.2, 0.3, 0.5]
-precision = [0.78, 0.67, 0.57]
-recall = [0.73, 0.93, 0.87]
-f1 = [0.74, 0.77, 0.69]
-far = [0.10, 0.10, 0.20]
+precision = [0.59, 0.64, 0.58]
+recall = [0.90, 0.95, 0.93]
+f1 = [0.71, 0.75, 0.71]
+far = [0.50, 0.50, 0.60]
 
 fig, ax = plt.subplots(figsize=(3.5, 2.4))
 
