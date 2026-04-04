@@ -260,9 +260,10 @@ def make_ex1_config(
 ) -> SyntheticConfig:
     """Create config with all 3 signal types for experiment 1.
 
-    Type A (vocabulary-internal boost): Planted signals using base-vocabulary
-        items (IDs 5,15,25,...) that have baseline presence (p_base prob)
-        outside event windows and boosted co-occurrence during event windows.
+    Type A (vocabulary-internal boost): Planted signals of mixed pattern lengths
+        (L=2×3, L=3×1, L=4×1) using base-vocabulary items that have baseline
+        presence (p_base prob) outside event windows and boosted co-occurrence
+        during event windows.
     Type B (unrelated dense): Patterns that become dense during specific
         periods but are NOT associated with any event.
     Type C (decoy events): Events that exist but cause no pattern changes.
@@ -270,11 +271,19 @@ def make_ex1_config(
     p_base = 0.03
     event_duration = 6_000
 
-    # --- Type A: 3 vocabulary-internal planted signals ---
-    type_a_items = [[5, 15], [25, 35], [45, 55]]
-    spacing = n_transactions // (len(type_a_items) + 1)
+    # --- Type A: 3 L=2 (in-vocab) + 1 L=3 + 1 L=4 (out-of-vocab) planted signals ---
+    # L=3,4 items are beyond n_items=200 → zero background probability,
+    # preventing sub-pattern interference during non-event periods.
+    type_a_patterns = [
+        ([5, 15], p_base),              # L=2, in-vocab
+        ([25, 35], p_base),             # L=2, in-vocab
+        ([45, 55], p_base),             # L=2, in-vocab
+        ([201, 202, 203], 0.0),         # L=3, out-of-vocab, zero baseline
+        ([205, 206, 207, 208], 0.0),    # L=4, out-of-vocab, zero baseline
+    ]
+    spacing = n_transactions // (len(type_a_patterns) + 1)
     planted = []
-    for i, pat in enumerate(type_a_items):
+    for i, (pat, baseline) in enumerate(type_a_patterns):
         start = spacing * (i + 1) - event_duration // 2
         end = start + event_duration
         start = max(0, start)
@@ -286,7 +295,7 @@ def make_ex1_config(
             event_start=start,
             event_end=end,
             boost_factor=boost,
-            baseline_prob=p_base,
+            baseline_prob=baseline,
         ))
 
     # --- Type B: unrelated dense patterns ---

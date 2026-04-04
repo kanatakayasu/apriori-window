@@ -368,9 +368,12 @@ pub fn generate_synthetic(
 // Config factory functions
 // ---------------------------------------------------------------------------
 
-/// EX1 config: 3 Type A planted signals + Type B unrelated + Type C decoy events.
+/// EX1 config: 5 Type A planted signals (L=2×3, L=3×1, L=4×1) + Type B + Type C.
 ///
-/// Type A items: `[5,15], [25,35], [45,55]` — vocabulary-internal boost.
+/// Type A items:
+///   L=2: `[5,15], [25,35], [45,55]` — in-vocabulary (items 1..n_items), baseline_prob=p_base.
+///   L=3: `[201,202,203]` — out-of-vocabulary, zero baseline → no L=2 sub-pattern interference.
+///   L=4: `[205,206,207,208]` — out-of-vocabulary, zero baseline → no sub-pattern interference.
 /// Type B: 2 unrelated dense patterns with items `[65,75], [85,95]`.
 /// Type C: 2 decoy events.
 pub fn make_ex1_config(beta: f64, seed: u64) -> SyntheticConfig {
@@ -379,13 +382,22 @@ pub fn make_ex1_config(beta: f64, seed: u64) -> SyntheticConfig {
     let p_base: f64 = 0.03;
     let event_duration: i64 = 300;
 
-    let type_a_items: Vec<Vec<i64>> = vec![vec![5, 15], vec![25, 35], vec![45, 55]];
-    let spacing = n_transactions as i64 / (type_a_items.len() as i64 + 1);
+    // Type A: 3 L=2 (in-vocab) + 1 L=3 + 1 L=4 (out-of-vocab) planted signals.
+    // L=3,4 items are beyond n_items=200 so they have zero background probability,
+    // preventing spurious sub-pattern dense intervals outside the event window.
+    let type_a_patterns: Vec<(Vec<i64>, f64)> = vec![
+        (vec![5, 15], p_base),              // L=2, in-vocab
+        (vec![25, 35], p_base),             // L=2, in-vocab
+        (vec![45, 55], p_base),             // L=2, in-vocab
+        (vec![201, 202, 203], 0.0),         // L=3, out-of-vocab, zero baseline
+        (vec![205, 206, 207, 208], 0.0),    // L=4, out-of-vocab, zero baseline
+    ];
+    let spacing = n_transactions as i64 / (type_a_patterns.len() as i64 + 1);
 
     let mut events = Vec::new();
     let mut planted = Vec::new();
 
-    for (i, pat) in type_a_items.iter().enumerate() {
+    for (i, (pat, baseline_prob)) in type_a_patterns.iter().enumerate() {
         let start = (spacing * (i as i64 + 1) - event_duration / 2).max(0);
         let end = (start + event_duration).min(n_transactions as i64 - 1);
         events.push(SyntheticEvent {
@@ -397,7 +409,7 @@ pub fn make_ex1_config(beta: f64, seed: u64) -> SyntheticConfig {
             items: pat.clone(),
             event_idx: i,
             boost_factor: beta,
-            baseline_prob: p_base,
+            baseline_prob: *baseline_prob,
         });
     }
 
@@ -1103,15 +1115,18 @@ mod tests {
         let cfg = make_ex1_config(0.3, 42);
         assert_eq!(cfg.n_transactions, 5000);
         assert_eq!(cfg.n_items, 200);
-        assert_eq!(cfg.planted_patterns.len(), 3);
+        // 3 L=2 + 1 L=3 + 1 L=4 = 5 planted signals
+        assert_eq!(cfg.planted_patterns.len(), 5);
         assert_eq!(cfg.unrelated_patterns.len(), 2);
         assert_eq!(cfg.decoy_events.len(), 2);
-        assert_eq!(cfg.events.len(), 3);
+        assert_eq!(cfg.events.len(), 5);
 
-        // Check planted pattern items
+        // Check planted pattern items (L=2 in-vocab, L=3/L=4 out-of-vocab)
         assert_eq!(cfg.planted_patterns[0].items, vec![5, 15]);
         assert_eq!(cfg.planted_patterns[1].items, vec![25, 35]);
         assert_eq!(cfg.planted_patterns[2].items, vec![45, 55]);
+        assert_eq!(cfg.planted_patterns[3].items, vec![201, 202, 203]);
+        assert_eq!(cfg.planted_patterns[4].items, vec![205, 206, 207, 208]);
     }
 
     #[test]

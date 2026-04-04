@@ -540,31 +540,36 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
     println!("  Seeds: {} per condition, N={}", n_seeds, n_transactions);
     println!("{}", "=".repeat(90));
 
-    let conditions: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>)> = vec![
+    // Each condition: (name, config_fn, max_length).
+    // Beta conditions use max_length=4 because make_ex1_config plants L=2,3,4 patterns.
+    // Structural conditions (OVERLAP/CONFOUND/DENSE/SHORT) use max_length=2 because
+    // they only plant L=2 patterns; higher max_length would mine spurious L=3 patterns
+    // from overlapping event windows and inflate false positives.
+    let conditions: Vec<(&str, Box<dyn Fn(u64) -> SyntheticConfig>, usize)> = vec![
         ("beta_0.1", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.1, seed), n_transactions)
-        })),
+        }), 4),
         ("beta_0.2", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.2, seed), n_transactions)
-        })),
+        }), 4),
         ("beta_0.3", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.3, seed), n_transactions)
-        })),
+        }), 4),
         ("beta_0.5", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_config(0.5, seed), n_transactions)
-        })),
+        }), 4),
         ("OVERLAP", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_overlap_config(seed), n_transactions)
-        })),
+        }), 2),
         ("CONFOUND", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_confound_config(seed), n_transactions)
-        })),
+        }), 2),
         ("DENSE", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_dense_config(seed), n_transactions)
-        })),
+        }), 2),
         ("SHORT", Box::new(move |seed| {
             scale_config_to_n(&make_ex1_short_config(seed), n_transactions)
-        })),
+        }), 2),
     ];
 
     let window_size: i64 = 1000;
@@ -575,7 +580,7 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
 
     let mut all_results: HashMap<String, Vec<ExperimentResult>> = HashMap::new();
 
-    for (cond_name, config_fn) in &conditions {
+    for (cond_name, config_fn, max_length) in &conditions {
         println!("\n--- {} ---", cond_name);
         let mut seed_results: Vec<ExperimentResult> = Vec::new();
 
@@ -590,7 +595,7 @@ fn run_ex1(n_seeds: usize, n_transactions: usize, out_dir: &str, data_dir: &str)
                 &info.gt_path,
                 info.unrelated_path.as_deref(),
                 "proposed",
-                window_size, min_support, 2, 0.10, 5000, seed as u64,
+                window_size, min_support, *max_length, 0.10, 5000, seed as u64,
             );
             println!(
                 "  seed={}: P={:.2} R={:.2} F1={:.2} FAR={:.2} #={} {:.0}ms",

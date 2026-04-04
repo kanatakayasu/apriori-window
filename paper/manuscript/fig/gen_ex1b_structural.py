@@ -1,6 +1,7 @@
 """EX1b: Structural conditions — grouped bar chart (F1 / Precision / Recall).
 
 Style: top-conference, matching EX2b ablation figure.
+Data: 20-seed results.
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -22,11 +23,14 @@ plt.rcParams.update({
     "legend.fontsize": 7.5,
 })
 
-# Data from EX1 full run (N=100K, W=1000, θ=100, 5 seeds avg)
+# Data from EX1 20-seed run (N=100K, W=1000, θ=100)
 conditions = ["OVERLAP", "CONFOUND", "DENSE", "SHORT"]
-f1        = [0.80, 0.69, 0.65, 0.79]
-precision = [0.68, 0.70, 0.53, 0.67]
-recall    = [1.00, 0.68, 0.87, 1.00]
+f1        = [0.74, 0.70, 0.67, 0.85]
+precision = [0.64, 0.71, 0.54, 0.78]
+recall    = [0.89, 0.70, 0.89, 0.97]
+# 95% CI for F1
+ci_lo     = [0.66, 0.60, 0.63, 0.80]
+ci_hi     = [0.81, 0.80, 0.71, 0.91]
 
 x = np.arange(len(conditions))
 width = 0.22
@@ -39,9 +43,16 @@ colors = {
 
 fig, ax = plt.subplots(figsize=(3.5, 2.4))
 
-ax.bar(x - width, f1,        width * 0.9, color=colors["F1"],        edgecolor="#1e272e", linewidth=0.5, label="F1", zorder=3)
-ax.bar(x,         precision,  width * 0.9, color=colors["Precision"], edgecolor="#2980b9", linewidth=0.5, label="Precision", zorder=3)
-ax.bar(x + width, recall,     width * 0.9, color=colors["Recall"],    edgecolor="#2980b9", linewidth=0.5, label="Recall", zorder=3)
+bars_f1 = ax.bar(x - width, f1,        width * 0.9, color=colors["F1"],        edgecolor="#1e272e", linewidth=0.5, label="F1", zorder=3)
+bars_p  = ax.bar(x,         precision,  width * 0.9, color=colors["Precision"], edgecolor="#2980b9", linewidth=0.5, label="Precision", zorder=3)
+bars_r  = ax.bar(x + width, recall,     width * 0.9, color=colors["Recall"],    edgecolor="#2980b9", linewidth=0.5, label="Recall", zorder=3)
+
+# Add 95% CI error bars on F1 bars
+f1_arr = np.array(f1)
+err_lo = f1_arr - np.array(ci_lo)
+err_hi = np.array(ci_hi) - f1_arr
+ax.errorbar(x - width, f1_arr, yerr=[err_lo, err_hi], fmt="none",
+            color="#636e72", capsize=2.5, linewidth=0.8, zorder=4)
 
 ax.set_xticks(x)
 ax.set_xticklabels(conditions)

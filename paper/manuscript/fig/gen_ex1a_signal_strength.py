@@ -26,12 +26,13 @@ plt.rcParams.update({
 })
 
 # Data from EX1 20-seed run (N=100K, W=1000, θ=100)
-beta      = [0.1, 0.2, 0.3, 0.4, 0.5]
-precision = [0.11, 0.78, 0.70, 0.83, 0.86]
-recall    = [0.10, 0.97, 0.82, 0.98, 1.00]
-f1        = [0.09, 0.85, 0.75, 0.89, 0.91]
-ci_lo     = [0.02, 0.79, 0.58, 0.82, 0.86]  # 95% CI lower
-ci_hi     = [0.17, 0.91, 0.91, 0.95, 0.97]  # 95% CI upper
+# Dataset: 5 Type A patterns (L=2×3 in-vocab, L=3×1 + L=4×1 out-of-vocab)
+beta      = [0.1, 0.2, 0.3, 0.5]
+precision = [0.71, 0.72, 0.69, 0.71]
+recall    = [0.22, 0.94, 0.93, 0.92]
+f1        = [0.34, 0.81, 0.78, 0.79]
+ci_lo     = [0.30, 0.77, 0.74, 0.74]  # 95% CI lower
+ci_hi     = [0.37, 0.85, 0.83, 0.85]  # 95% CI upper
 
 f1_arr = np.array(f1)
 ci_lo_arr = np.array(ci_lo)
