@@ -21489,5 +21489,5749 @@
     "ci95_lower": 0.7766360866730986,
     "ci95_upper": 0.8876496276126156,
     "avg_false_attribution_rate": 0.375
+  },
+  "beta_0.1": {
+    "seeds": [
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 0
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 3,
+        "time_phase1_ms": 1346.490666968748,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4285.319749964401,
+        "time_total_ms": 5631.810416933149,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21995,
+            "interval_end": 22005,
+            "change_time": 21995,
+            "change_direction": "up",
+            "change_magnitude": 1.0,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9950124791926823,
+            "attribution_score": 1.9890304432466177,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.03999200159968006
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 47021,
+            "interval_end": 47025,
+            "change_time": 47026,
+            "change_direction": "down",
+            "change_magnitude": 2.25,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9743350896087494,
+            "attribution_score": 3.1714729161891455,
+            "p_value": 0.0013997200559888023,
+            "adjusted_p_value": 0.06998600279944012
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21995,
+            "interval_end": 22005,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 47021,
+            "interval_end": 47025,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 75437,
+            "interval_end": 77155,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50921,
+            "interval_end": 52038,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22624,
+            "interval_end": 24229,
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 1
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333,
+        "f1": 0.3333333333333333,
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "time_phase1_ms": 1319.5658329641446,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4878.727667033672,
+        "time_total_ms": 6198.293499997817,
+        "significant_attributions": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 21594,
+            "interval_end": 21992,
+            "change_time": 21993,
+            "change_direction": "down",
+            "change_magnitude": 3.6000000000000085,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9930244429332351,
+            "attribution_score": 4.241198161984541,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.007665133639938679
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21843,
+            "interval_end": 22206,
+            "change_time": 22207,
+            "change_direction": "down",
+            "change_magnitude": 2.8999999999999915,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.813019649987571,
+            "attribution_score": 3.89622429083578,
+            "p_value": 0.004199160167966407,
+            "adjusted_p_value": 0.09658068386322735
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72068,
+            "interval_end": 72173,
+            "change_time": 72068,
+            "change_direction": "up",
+            "change_magnitude": 2.8999999999999915,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.9342604735772135,
+            "attribution_score": 4.81009761751999,
+            "p_value": 0.0033993201359728054,
+            "adjusted_p_value": 0.09658068386322735
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72068,
+            "interval_end": 72173,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 21594,
+            "interval_end": 21992,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21843,
+            "interval_end": 22206,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 25966,
+            "interval_end": 27113,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50164,
+            "interval_end": 50785,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "time_phase1_ms": 1303.0564159853384,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2903.878042008728,
+        "time_total_ms": 4206.934457994066,
+        "significant_attributions": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 16732,
+            "interval_end": 17150,
+            "change_time": 17151,
+            "change_direction": "down",
+            "change_magnitude": 3.75,
+            "event_name": "Decoy_1",
+            "event_start": 11124,
+            "event_end": 17124,
+            "proximity": 0.9733612415243368,
+            "attribution_score": 5.542076174806014,
+            "p_value": 0.0007998400319936012,
+            "adjusted_p_value": 0.05098980203959208
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 11004,
+            "interval_end": 11119,
+            "change_time": 11004,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Decoy_1",
+            "event_start": 11124,
+            "event_end": 17124,
+            "proximity": 0.8869204367171575,
+            "attribution_score": 2.548118753599017,
+            "p_value": 0.004199160167966407,
+            "adjusted_p_value": 0.08923215356928614
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46974,
+            "interval_end": 46978,
+            "change_time": 46974,
+            "change_direction": "up",
+            "change_magnitude": 2.8500000000000085,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9743350896087494,
+            "attribution_score": 3.7560739699544037,
+            "p_value": 0.0011997600479904018,
+            "adjusted_p_value": 0.05098980203959208
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22027,
+            "interval_end": 22084,
+            "change_time": 22085,
+            "change_direction": "down",
+            "change_magnitude": 3.0,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9185122844014574,
+            "attribution_score": 5.091603832862786,
+            "p_value": 0.002599480103979204,
+            "adjusted_p_value": 0.07365193627941079
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 11004,
+            "interval_end": 11119,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 16732,
+            "interval_end": 17150,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46974,
+            "interval_end": 46978,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22027,
+            "interval_end": 22084,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22179,
+            "interval_end": 23506,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46981,
+            "interval_end": 48782,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71659,
+            "interval_end": 73733,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 1.0,
+        "n_falsely_attributed": 2
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 3,
+        "time_phase1_ms": 1298.4085410134867,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2596.970291924663,
+        "time_total_ms": 3895.3788329381496,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71960,
+            "interval_end": 72150,
+            "change_time": 71960,
+            "change_direction": "up",
+            "change_magnitude": 2.5500000000000114,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.9607894391523232,
+            "attribution_score": 3.30986076849764,
+            "p_value": 0.0013997200559888023,
+            "adjusted_p_value": 0.07518496300739852
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46939,
+            "interval_end": 47282,
+            "change_time": 46939,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9408232397760097,
+            "attribution_score": 2.776720351397593,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.07518496300739852
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71960,
+            "interval_end": 72150,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46939,
+            "interval_end": 47282,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 24533,
+            "interval_end": 26207,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50040,
+            "interval_end": 51904,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72228,
+            "interval_end": 74490,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.25,
+        "recall": 0.3333333333333333,
+        "f1": 0.28571428571428575,
+        "tp": 1,
+        "fp": 3,
+        "fn": 2,
+        "time_phase1_ms": 1300.3679170506075,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 1544.0249160164967,
+        "time_total_ms": 2844.392833067104,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46984,
+            "interval_end": 48229,
+            "change_time": 46984,
+            "change_direction": "up",
+            "change_magnitude": 1.7999999999999972,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9841273200552851,
+            "attribution_score": 2.078336382664412,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.016796640671865627
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71956,
+            "interval_end": 72141,
+            "change_time": 71956,
+            "change_direction": "up",
+            "change_magnitude": 3.5,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.9569539574730467,
+            "attribution_score": 4.520627547411642,
+            "p_value": 0.0013997200559888023,
+            "adjusted_p_value": 0.022395520895820836
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22029,
+            "interval_end": 24238,
+            "change_time": 22029,
+            "change_direction": "up",
+            "change_magnitude": 5.400000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9714164644666048,
+            "attribution_score": 5.485420194413592,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.022395520895820836
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50455,
+            "interval_end": 52024,
+            "change_time": 52025,
+            "change_direction": "down",
+            "change_magnitude": 4.0,
+            "event_name": "Decoy_2",
+            "event_start": 51912,
+            "event_end": 57912,
+            "proximity": 0.8931506601160155,
+            "attribution_score": 4.119997610172189,
+            "p_value": 0.004399120175964807,
+            "adjusted_p_value": 0.04619076184763048
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22029,
+            "interval_end": 24238,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71956,
+            "interval_end": 72141,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50455,
+            "interval_end": 52024,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46984,
+            "interval_end": 48229,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50455,
+            "interval_end": 52024,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73041,
+            "interval_end": 74892,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 5
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "time_phase1_ms": 1304.3853329727426,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 1800.3775830147788,
+        "time_total_ms": 3104.7629159875214,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21903,
+            "interval_end": 22479,
+            "change_time": 21903,
+            "change_direction": "up",
+            "change_magnitude": 2.8999999999999915,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9075560061332727,
+            "attribution_score": 4.27168840607276,
+            "p_value": 0.002599480103979204,
+            "adjusted_p_value": 0.08118376324735053
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46878,
+            "interval_end": 47791,
+            "change_time": 46878,
+            "change_direction": "up",
+            "change_magnitude": 2.549999999999997,
+            "event_name": "Decoy_1",
+            "event_start": 46993,
+            "event_end": 52993,
+            "proximity": 0.8913661439068313,
+            "attribution_score": 3.3299631838411248,
+            "p_value": 0.003799240151969606,
+            "adjusted_p_value": 0.08118376324735053
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46878,
+            "interval_end": 47791,
+            "change_time": 46878,
+            "change_direction": "up",
+            "change_magnitude": 2.549999999999997,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8851483685026271,
+            "attribution_score": 3.3215326697066048,
+            "p_value": 0.004199160167966407,
+            "adjusted_p_value": 0.08118376324735053
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72462,
+            "interval_end": 72463,
+            "change_time": 72462,
+            "change_direction": "up",
+            "change_magnitude": 1.8499999999999943,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.6300223399419123,
+            "attribution_score": 1.7943048833596325,
+            "p_value": 0.019596080783843232,
+            "adjusted_p_value": 0.08582283543291341
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46878,
+            "interval_end": 47791,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46878,
+            "interval_end": 47791,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72462,
+            "interval_end": 72463,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21903,
+            "interval_end": 22479,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74798,
+            "interval_end": 76269,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 23527,
+            "interval_end": 25744,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 49905,
+            "interval_end": 51379,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 6
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 1,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "time_phase1_ms": 1308.9154160115868,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 1967.8137919399887,
+        "time_total_ms": 3276.7292079515755,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21965,
+            "interval_end": 22424,
+            "change_time": 21965,
+            "change_direction": "up",
+            "change_magnitude": 4.299999999999997,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9656054162575665,
+            "attribution_score": 5.786527752732152,
+            "p_value": 0.0011997600479904018,
+            "adjusted_p_value": 0.05758848230353929
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21965,
+            "interval_end": 22424,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46840,
+            "interval_end": 48061,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73663,
+            "interval_end": 74658,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 7
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 3,
+        "time_phase1_ms": 1316.8903749901801,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3381.569040939212,
+        "time_total_ms": 4698.459415929392,
+        "significant_attributions": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 22014,
+            "interval_end": 22029,
+            "change_time": 22014,
+            "change_direction": "up",
+            "change_magnitude": 2.6999999999999886,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9860975442628619,
+            "attribution_score": 3.9240425631227738,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.07278544291141771
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21917,
+            "interval_end": 22242,
+            "change_time": 21917,
+            "change_direction": "up",
+            "change_magnitude": 4.1000000000000085,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9203511472201247,
+            "attribution_score": 6.20468139629434,
+            "p_value": 0.0021995600879824036,
+            "adjusted_p_value": 0.07278544291141771
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21917,
+            "interval_end": 22242,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 22014,
+            "interval_end": 22029,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 47413,
+            "interval_end": 48689,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22943,
+            "interval_end": 24053,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71920,
+            "interval_end": 73899,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 8
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 8,
+        "fn": 3,
+        "time_phase1_ms": 1298.4065830241889,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2789.553208043799,
+        "time_total_ms": 4087.9597910679877,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48789,
+            "interval_end": 49083,
+            "change_time": 49084,
+            "change_direction": "down",
+            "change_magnitude": 3.75,
+            "event_name": "Decoy_1",
+            "event_start": 49200,
+            "event_end": 55200,
+            "proximity": 0.8904752232974726,
+            "attribution_score": 4.134866405286397,
+            "p_value": 0.0061987602479504095,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 48704,
+            "interval_end": 48787,
+            "change_time": 48788,
+            "change_direction": "down",
+            "change_magnitude": 4.150000000000006,
+            "event_name": "Decoy_1",
+            "event_start": 49200,
+            "event_end": 55200,
+            "proximity": 0.6623242760521223,
+            "attribution_score": 3.905672863654819,
+            "p_value": 0.019396120775844832,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72439,
+            "interval_end": 72629,
+            "change_time": 72439,
+            "change_direction": "up",
+            "change_magnitude": 4.599999999999994,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.6446807796298013,
+            "attribution_score": 4.163863138562601,
+            "p_value": 0.023795240951809637,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22025,
+            "interval_end": 22367,
+            "change_time": 22025,
+            "change_direction": "up",
+            "change_magnitude": 3.9499999999999886,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9753099120283326,
+            "attribution_score": 5.51355538856485,
+            "p_value": 0.003199360127974405,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 29693,
+            "interval_end": 30129,
+            "change_time": 29693,
+            "change_direction": "up",
+            "change_magnitude": 3.8500000000000085,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.18396679492915277,
+            "attribution_score": 0.9756560716451614,
+            "p_value": 0.07358528294341132,
+            "adjusted_p_value": 0.09780970635141265
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53198,
+            "interval_end": 53199,
+            "change_time": 53200,
+            "change_direction": "down",
+            "change_magnitude": 4.050000000000011,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8187307530779818,
+            "attribution_score": 4.136229403103667,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 51830,
+            "interval_end": 52046,
+            "change_time": 52047,
+            "change_direction": "down",
+            "change_magnitude": 4.3999999999999915,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.3855825389797131,
+            "attribution_score": 2.006930112776219,
+            "p_value": 0.04039192161567687,
+            "adjusted_p_value": 0.09721343402552367
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22025,
+            "interval_end": 22367,
+            "change_time": 22025,
+            "change_direction": "up",
+            "change_magnitude": 3.9499999999999886,
+            "event_name": "Decoy_2",
+            "event_start": 16558,
+            "event_end": 22558,
+            "proximity": 0.5868418008449466,
+            "attribution_score": 4.302727034801595,
+            "p_value": 0.017996400719856028,
+            "adjusted_p_value": 0.09721343402552367
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48789,
+            "interval_end": 49083,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53198,
+            "interval_end": 53199,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22025,
+            "interval_end": 22367,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22025,
+            "interval_end": 22367,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 51830,
+            "interval_end": 52046,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 29693,
+            "interval_end": 30129,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 72439,
+            "interval_end": 72629,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 48704,
+            "interval_end": 48787,
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73517,
+            "interval_end": 76159,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 49937,
+            "interval_end": 50697,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 23948,
+            "interval_end": 25653,
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 1.0,
+        "n_falsely_attributed": 2
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 9
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 3,
+        "time_phase1_ms": 1307.0470829261467,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3348.2397079933435,
+        "time_total_ms": 4655.28679091949,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46988,
+            "interval_end": 47036,
+            "change_time": 47037,
+            "change_direction": "down",
+            "change_magnitude": 2.75,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9636761353490535,
+            "attribution_score": 4.774463554863053,
+            "p_value": 0.0007998400319936012,
+            "adjusted_p_value": 0.07331866959941345
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48789,
+            "interval_end": 48974,
+            "change_time": 48975,
+            "change_direction": "down",
+            "change_magnitude": 3.6000000000000085,
+            "event_name": "Decoy_1",
+            "event_start": 48930,
+            "event_end": 54930,
+            "proximity": 0.9559974818331,
+            "attribution_score": 4.3100802462968355,
+            "p_value": 0.0013997200559888023,
+            "adjusted_p_value": 0.07331866959941345
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48789,
+            "interval_end": 48974,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46988,
+            "interval_end": 47036,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73260,
+            "interval_end": 74964,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22311,
+            "interval_end": 24172,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 49941,
+            "interval_end": 51097,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 10
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "time_phase1_ms": 1302.5490409927443,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2822.278416948393,
+        "time_total_ms": 4124.827457941137,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46982,
+            "interval_end": 47027,
+            "change_time": 46982,
+            "change_direction": "up",
+            "change_magnitude": 4.0,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9821610323583008,
+            "attribution_score": 6.748570393156824,
+            "p_value": 0.0005998800239952009,
+            "adjusted_p_value": 0.04079184163167366
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21910,
+            "interval_end": 22461,
+            "change_time": 21910,
+            "change_direction": "up",
+            "change_magnitude": 2.3000000000000114,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9139311852712282,
+            "attribution_score": 3.330585289010566,
+            "p_value": 0.0015996800639872025,
+            "adjusted_p_value": 0.05438912217556489
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71876,
+            "interval_end": 72251,
+            "change_time": 72252,
+            "change_direction": "down",
+            "change_magnitude": 5.300000000000011,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7772447380689461,
+            "attribution_score": 7.034550586678499,
+            "p_value": 0.0057988402319536095,
+            "adjusted_p_value": 0.07886422715456909
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 77644,
+            "interval_end": 77744,
+            "change_time": 77745,
+            "change_direction": "down",
+            "change_magnitude": 3.0999999999999943,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.774916497961081,
+            "attribution_score": 3.207784656949881,
+            "p_value": 0.010797840431913617,
+            "adjusted_p_value": 0.08158368326334733
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46982,
+            "interval_end": 47027,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 77644,
+            "interval_end": 77744,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71876,
+            "interval_end": 72251,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21910,
+            "interval_end": 22461,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 25647,
+            "interval_end": 27094,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 75985,
+            "interval_end": 77088,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 49899,
+            "interval_end": 52026,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 11
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1309.2647918965667,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2854.7481670975685,
+        "time_total_ms": 4164.012958994135,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50733,
+            "interval_end": 51948,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 23526,
+            "interval_end": 25299,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73843,
+            "interval_end": 75878,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 12
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.25,
+        "recall": 0.3333333333333333,
+        "f1": 0.28571428571428575,
+        "tp": 1,
+        "fp": 3,
+        "fn": 2,
+        "time_phase1_ms": 1299.24891598057,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2780.2942920243368,
+        "time_total_ms": 4079.543208004907,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46926,
+            "interval_end": 48169,
+            "change_time": 46926,
+            "change_direction": "up",
+            "change_magnitude": 4.75,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9286716938412872,
+            "attribution_score": 5.55954822842841,
+            "p_value": 0.0023995200959808036,
+            "adjusted_p_value": 0.0953493511823951
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21904,
+            "interval_end": 22793,
+            "change_time": 21904,
+            "change_direction": "up",
+            "change_magnitude": 2.0,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9084640160687062,
+            "attribution_score": 2.2915627262619966,
+            "p_value": 0.003199360127974405,
+            "adjusted_p_value": 0.0953493511823951
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71812,
+            "interval_end": 72395,
+            "change_time": 72396,
+            "change_direction": "down",
+            "change_magnitude": 3.0,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.6730066959373864,
+            "attribution_score": 3.510526560830982,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.0953493511823951
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 76081,
+            "interval_end": 76498,
+            "change_time": 76081,
+            "change_direction": "up",
+            "change_magnitude": 1.75,
+            "event_name": "Decoy_2",
+            "event_start": 69354,
+            "event_end": 75354,
+            "proximity": 0.48335688782114633,
+            "attribution_score": 1.3550328221516748,
+            "p_value": 0.03819236152769446,
+            "adjusted_p_value": 0.0953493511823951
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46926,
+            "interval_end": 48169,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71812,
+            "interval_end": 72395,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21904,
+            "interval_end": 22793,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 76081,
+            "interval_end": 76498,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 25874,
+            "interval_end": 27142,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73955,
+            "interval_end": 76077,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 13
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 3,
+        "fn": 3,
+        "time_phase1_ms": 1301.709583029151,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2748.859875020571,
+        "time_total_ms": 4050.569458049722,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22092,
+            "interval_end": 22668,
+            "change_time": 22092,
+            "change_direction": "up",
+            "change_magnitude": 3.200000000000003,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9121051495450904,
+            "attribution_score": 3.9687885902673345,
+            "p_value": 0.007798440311937612,
+            "adjusted_p_value": 0.0639872025594881
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46999,
+            "interval_end": 47034,
+            "change_time": 46999,
+            "change_direction": "up",
+            "change_magnitude": 3.3999999999999915,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.999000499833375,
+            "attribution_score": 4.796729553006941,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.00639872025594881
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71950,
+            "interval_end": 72391,
+            "change_time": 71950,
+            "change_direction": "up",
+            "change_magnitude": 2.8500000000000085,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.951229424500714,
+            "attribution_score": 4.3664789390305785,
+            "p_value": 0.0009998000399920016,
+            "adjusted_p_value": 0.021329067519829367
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71950,
+            "interval_end": 72391,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46999,
+            "interval_end": 47034,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22092,
+            "interval_end": 22668,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22818,
+            "interval_end": 23895,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 76134,
+            "interval_end": 77030,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50215,
+            "interval_end": 51547,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 14
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "time_phase1_ms": 1311.844166019,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 2683.7265419308096,
+        "time_total_ms": 3995.5707079498097,
+        "significant_attributions": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 85494,
+            "interval_end": 85559,
+            "change_time": 85494,
+            "change_direction": "up",
+            "change_magnitude": 5.5,
+            "event_name": "Decoy_2",
+            "event_start": 85464,
+            "event_end": 91464,
+            "proximity": 0.9704455335485082,
+            "attribution_score": 7.154378466654207,
+            "p_value": 0.0023995200959808036,
+            "adjusted_p_value": 0.05353929214157169
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46970,
+            "interval_end": 47092,
+            "change_time": 46970,
+            "change_direction": "up",
+            "change_magnitude": 1.7999999999999972,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9704455335485082,
+            "attribution_score": 3.4325099359351667,
+            "p_value": 0.0027994401119776045,
+            "adjusted_p_value": 0.05353929214157169
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71919,
+            "interval_end": 72947,
+            "change_time": 71919,
+            "change_direction": "up",
+            "change_magnitude": 2.700000000000003,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.922193691444608,
+            "attribution_score": 2.8774382463998145,
+            "p_value": 0.004199160167966407,
+            "adjusted_p_value": 0.05353929214157169
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22727,
+            "interval_end": 22747,
+            "change_time": 22727,
+            "change_direction": "up",
+            "change_magnitude": 3.0,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.48335688782114633,
+            "attribution_score": 2.160039010278048,
+            "p_value": 0.028194361127774445,
+            "adjusted_p_value": 0.09609240942509172
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71919,
+            "interval_end": 72947,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46970,
+            "interval_end": 47092,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 85494,
+            "interval_end": 85559,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22727,
+            "interval_end": 22747,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 24656,
+            "interval_end": 27040,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 73780,
+            "interval_end": 74866,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48700,
+            "interval_end": 50351,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 15
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 6,
+        "precision": 0.16666666666666666,
+        "recall": 0.3333333333333333,
+        "f1": 0.2222222222222222,
+        "tp": 1,
+        "fp": 5,
+        "fn": 2,
+        "time_phase1_ms": 1289.6215830696747,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4248.18283400964,
+        "time_total_ms": 5537.804417079315,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74358,
+            "interval_end": 74446,
+            "change_time": 74447,
+            "change_direction": "down",
+            "change_magnitude": 3.1499999999999915,
+            "event_name": "Decoy_1",
+            "event_start": 68330,
+            "event_end": 74330,
+            "proximity": 0.8895851931634113,
+            "attribution_score": 4.45525358202686,
+            "p_value": 0.002999400119976005,
+            "adjusted_p_value": 0.05998800239952009
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 4403,
+            "interval_end": 4731,
+            "change_time": 4732,
+            "change_direction": "down",
+            "change_magnitude": 3.950000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 4741,
+            "event_end": 10741,
+            "proximity": 0.9910403787728836,
+            "attribution_score": 5.4123196007392815,
+            "p_value": 0.0005998800239952009,
+            "adjusted_p_value": 0.024995000999800038
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46963,
+            "interval_end": 49365,
+            "change_time": 46963,
+            "change_direction": "up",
+            "change_magnitude": 3.700000000000003,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9636761353490535,
+            "attribution_score": 3.828396815267399,
+            "p_value": 0.0007998400319936012,
+            "adjusted_p_value": 0.024995000999800038
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 27925,
+            "interval_end": 27941,
+            "change_time": 27925,
+            "change_direction": "up",
+            "change_magnitude": 2.8499999999999943,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9277434863285529,
+            "attribution_score": 3.587718883473169,
+            "p_value": 0.0033993201359728054,
+            "adjusted_p_value": 0.05998800239952009
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22078,
+            "interval_end": 22078,
+            "change_time": 22078,
+            "change_direction": "up",
+            "change_magnitude": 2.1499999999999915,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9249644265435393,
+            "attribution_score": 2.9127134415136884,
+            "p_value": 0.003999200159968006,
+            "adjusted_p_value": 0.05998800239952009
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71804,
+            "interval_end": 72935,
+            "change_time": 71804,
+            "change_direction": "up",
+            "change_magnitude": 5.099999999999994,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.8220122346781865,
+            "attribution_score": 5.2315751079765365,
+            "p_value": 0.007198560287942412,
+            "adjusted_p_value": 0.0640496900619876
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46963,
+            "interval_end": 49365,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 27925,
+            "interval_end": 27941,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 4403,
+            "interval_end": 4731,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22078,
+            "interval_end": 22078,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71804,
+            "interval_end": 72935,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74358,
+            "interval_end": 74446,
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 23179,
+            "interval_end": 24394,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74873,
+            "interval_end": 76559,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 1.0,
+        "n_falsely_attributed": 2
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 16
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "time_phase1_ms": 1323.6925000092015,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3046.237083966844,
+        "time_total_ms": 4369.929583976045,
+        "significant_attributions": [],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 75510,
+            "interval_end": 76216,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21917,
+            "interval_end": 23290,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50009,
+            "interval_end": 52142,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 17
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 3,
+        "fn": 3,
+        "time_phase1_ms": 1296.5029999613762,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 4094.389667036012,
+        "time_total_ms": 5390.892666997388,
+        "significant_attributions": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 72009,
+            "interval_end": 72439,
+            "change_time": 72009,
+            "change_direction": "up",
+            "change_magnitude": 2.25,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.9910403787728836,
+            "attribution_score": 2.8738772733221296,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.027794441111777642
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21894,
+            "interval_end": 22358,
+            "change_time": 21894,
+            "change_direction": "up",
+            "change_magnitude": 3.8499999999999943,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.899424648075924,
+            "attribution_score": 4.824614880227873,
+            "p_value": 0.0021995600879824036,
+            "adjusted_p_value": 0.06670665866826633
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46904,
+            "interval_end": 48085,
+            "change_time": 46904,
+            "change_direction": "up",
+            "change_magnitude": 4.650000000000006,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9084640160687062,
+            "attribution_score": 4.629434538323579,
+            "p_value": 0.0023995200959808036,
+            "adjusted_p_value": 0.06670665866826633
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21894,
+            "interval_end": 22358,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46904,
+            "interval_end": 48085,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 72009,
+            "interval_end": 72439,
+            "event_id": "E3"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 48858,
+            "interval_end": 50192,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22692,
+            "interval_end": 25120,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74134,
+            "interval_end": 75834,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 18
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 2,
+        "fn": 3,
+        "time_phase1_ms": 1318.448374979198,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3301.19150003884,
+        "time_total_ms": 4619.639875018038,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21980,
+            "interval_end": 22738,
+            "change_time": 21980,
+            "change_direction": "up",
+            "change_magnitude": 2.8000000000000114,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.9801986733067553,
+            "attribution_score": 3.222147553331978,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.015396920615876823
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46983,
+            "interval_end": 47038,
+            "change_time": 46983,
+            "change_direction": "up",
+            "change_magnitude": 2.4000000000000057,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.9831436846349096,
+            "attribution_score": 3.754083371386023,
+            "p_value": 0.0003999200159968006,
+            "adjusted_p_value": 0.015396920615876823
+          }
+        ],
+        "true_positive_pairs": [],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21980,
+            "interval_end": 22738,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46983,
+            "interval_end": 47038,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 23530,
+            "interval_end": 24666,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 50242,
+            "interval_end": 51865,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74692,
+            "interval_end": 75991,
+            "event_id": "E3"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 19
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 5,
+        "precision": 0.2,
+        "recall": 0.3333333333333333,
+        "f1": 0.25,
+        "tp": 1,
+        "fp": 4,
+        "fn": 2,
+        "time_phase1_ms": 1306.4860840095207,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 3822.304208064452,
+        "time_total_ms": 5128.7902920739725,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71996,
+            "interval_end": 72008,
+            "change_time": 71996,
+            "change_direction": "up",
+            "change_magnitude": 2.5999999999999943,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.9960079893439915,
+            "attribution_score": 3.5806611510672557,
+            "p_value": 0.0001999600079984003,
+            "adjusted_p_value": 0.027394521095780843
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74454,
+            "interval_end": 74532,
+            "change_time": 74454,
+            "change_direction": "up",
+            "change_magnitude": 3.5999999999999943,
+            "event_name": "Decoy_1",
+            "event_start": 68218,
+            "event_end": 74218,
+            "proximity": 0.7897806739328027,
+            "attribution_score": 3.645978187854054,
+            "p_value": 0.009798040391921616,
+            "adjusted_p_value": 0.08965479631346458
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 51245,
+            "interval_end": 52054,
+            "change_time": 52055,
+            "change_direction": "down",
+            "change_magnitude": 2.299999999999997,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.38867957090175304,
+            "attribution_score": 1.1879053249699494,
+            "p_value": 0.04999000199960008,
+            "adjusted_p_value": 0.09708233791838124
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 26878,
+            "interval_end": 26914,
+            "change_time": 26878,
+            "change_direction": "up",
+            "change_magnitude": 4.6000000000000085,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.32562788715856034,
+            "attribution_score": 2.3764329242556324,
+            "p_value": 0.04239152169566087,
+            "adjusted_p_value": 0.09708233791838124
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22861,
+            "interval_end": 22861,
+            "change_time": 22861,
+            "change_direction": "up",
+            "change_magnitude": 2.700000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 15818,
+            "event_end": 21818,
+            "proximity": 0.35239590686961875,
+            "attribution_score": 1.3035126356499562,
+            "p_value": 0.03579284143171366,
+            "adjusted_p_value": 0.09708233791838124
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 51245,
+            "interval_end": 52054,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71996,
+            "interval_end": 72008,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74454,
+            "interval_end": 74532,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 22861,
+            "interval_end": 22861,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 26878,
+            "interval_end": 26914,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 74787,
+            "interval_end": 76807,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 24011,
+            "interval_end": 24704,
+            "event_id": "E1"
+          }
+        ],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      }
+    ],
+    "avg_precision": 0.11000000000000001,
+    "avg_recall": 0.1,
+    "avg_f1": 0.09384920634920635,
+    "std_f1": 0.15561519047678993,
+    "se_f1": 0.03479661442376802,
+    "ci95_lower": 0.02101989236025989,
+    "ci95_upper": 0.1666785203381528,
+    "avg_false_attribution_rate": 0.275
+  },
+  "beta_0.4": {
+    "seeds": [
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 0
+        },
+        "n_transactions": 100000,
+        "n_patterns": 13,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1311.721833073534,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 584.2604169156402,
+        "time_total_ms": 1895.9822499891743,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71255,
+            "interval_end": 77720,
+            "change_time": 77721,
+            "change_direction": "down",
+            "change_magnitude": 8.950000000000003,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7565399032150474,
+            "attribution_score": 10.260329238333037,
+            "p_value": 0.008198360327934412,
+            "adjusted_p_value": 0.037259214823701925
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46210,
+            "interval_end": 52783,
+            "change_time": 52784,
+            "change_direction": "down",
+            "change_magnitude": 8.400000000000006,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8057353018734796,
+            "attribution_score": 10.898164172806675,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.037259214823701925
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21213,
+            "interval_end": 27748,
+            "change_time": 27749,
+            "change_direction": "down",
+            "change_magnitude": 8.400000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7780223715589573,
+            "attribution_score": 10.359138262809621,
+            "p_value": 0.008598280343931213,
+            "adjusted_p_value": 0.037259214823701925
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46210,
+            "interval_end": 52783,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71255,
+            "interval_end": 77720,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21213,
+            "interval_end": 27748,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 1
+        },
+        "n_transactions": 100000,
+        "n_patterns": 13,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1326.0214170441031,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 670.7319159759209,
+        "time_total_ms": 1996.753333020024,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21211,
+            "interval_end": 27780,
+            "change_time": 27781,
+            "change_direction": "down",
+            "change_magnitude": 9.25,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.8033217181536265,
+            "attribution_score": 11.451270866540955,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.04479104179164167
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46254,
+            "interval_end": 52744,
+            "change_time": 52745,
+            "change_direction": "down",
+            "change_magnitude": 8.600000000000009,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.774916497961081,
+            "attribution_score": 10.790342167939071,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.04479104179164167
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71219,
+            "interval_end": 77761,
+            "change_time": 77762,
+            "change_direction": "down",
+            "change_magnitude": 7.6000000000000085,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7882026910937704,
+            "attribution_score": 10.11187096209754,
+            "p_value": 0.009998000399920015,
+            "adjusted_p_value": 0.04479104179164167
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46254,
+            "interval_end": 52744,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71219,
+            "interval_end": 77761,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21211,
+            "interval_end": 27780,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 2
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 5,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.7499999999999999,
+        "tp": 3,
+        "fp": 2,
+        "fn": 0,
+        "time_phase1_ms": 1310.9397910302505,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 449.7174998978153,
+        "time_total_ms": 1760.6572909280658,
+        "significant_attributions": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 11272,
+            "interval_end": 17736,
+            "change_time": 17737,
+            "change_direction": "down",
+            "change_magnitude": 11.5,
+            "event_name": "Decoy_1",
+            "event_start": 11124,
+            "event_end": 17124,
+            "proximity": 0.541723259102941,
+            "attribution_score": 11.533768836577405,
+            "p_value": 0.008998200359928014,
+            "adjusted_p_value": 0.039642071585682864
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21259,
+            "interval_end": 27756,
+            "change_time": 27757,
+            "change_direction": "down",
+            "change_magnitude": 9.900000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7842715137715565,
+            "attribution_score": 11.50588875098974,
+            "p_value": 0.010797840431913617,
+            "adjusted_p_value": 0.039642071585682864
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46204,
+            "interval_end": 52754,
+            "change_time": 52755,
+            "change_direction": "down",
+            "change_magnitude": 7.75,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7827045382418681,
+            "attribution_score": 9.900564146300338,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.039642071585682864
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71206,
+            "interval_end": 77766,
+            "change_time": 77767,
+            "change_direction": "down",
+            "change_magnitude": 7.049999999999997,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.792153573524314,
+            "attribution_score": 9.291353637938412,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.039642071585682864
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46204,
+            "interval_end": 52754,
+            "change_time": 52755,
+            "change_direction": "down",
+            "change_magnitude": 7.75,
+            "event_name": "Decoy_2",
+            "event_start": 47324,
+            "event_end": 53324,
+            "proximity": 0.5660912469952338,
+            "attribution_score": 7.160585418508898,
+            "p_value": 0.022595480903819236,
+            "adjusted_p_value": 0.05874825034993001
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46204,
+            "interval_end": 52754,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21259,
+            "interval_end": 27756,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71206,
+            "interval_end": 77766,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 11272,
+            "interval_end": 17736,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46204,
+            "interval_end": 52754,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 3
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 5,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.7499999999999999,
+        "tp": 3,
+        "fp": 2,
+        "fn": 0,
+        "time_phase1_ms": 1327.2611669963226,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 226.66991699952632,
+        "time_total_ms": 1553.931083995849,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71225,
+            "interval_end": 77691,
+            "change_time": 71225,
+            "change_direction": "up",
+            "change_magnitude": 8.150000000000006,
+            "event_name": "Decoy_1",
+            "event_start": 71333,
+            "event_end": 77333,
+            "proximity": 0.8976275964304349,
+            "attribution_score": 12.972497156855802,
+            "p_value": 0.003199360127974405,
+            "adjusted_p_value": 0.02559488102379524
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 76928,
+            "interval_end": 83439,
+            "change_time": 76928,
+            "change_direction": "up",
+            "change_magnitude": 7.099999999999994,
+            "event_name": "Decoy_1",
+            "event_start": 71333,
+            "event_end": 77333,
+            "proximity": 0.6669768108584744,
+            "attribution_score": 4.735535357095165,
+            "p_value": 0.033193361327734455,
+            "adjusted_p_value": 0.05310937812437513
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21244,
+            "interval_end": 27746,
+            "change_time": 27747,
+            "change_direction": "down",
+            "change_magnitude": 8.949999999999989,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7764678818237378,
+            "attribution_score": 11.621318890798293,
+            "p_value": 0.01259748050389922,
+            "adjusted_p_value": 0.027194561087782444
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52750,
+            "change_time": 52751,
+            "change_direction": "down",
+            "change_magnitude": 8.25,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7795799733847004,
+            "attribution_score": 10.850982515667422,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.027194561087782444
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71225,
+            "interval_end": 77691,
+            "change_time": 77692,
+            "change_direction": "down",
+            "change_magnitude": 8.100000000000009,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7349153180090687,
+            "attribution_score": 9.707549891015038,
+            "p_value": 0.013597280543891222,
+            "adjusted_p_value": 0.027194561087782444
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71225,
+            "interval_end": 77691,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52750,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21244,
+            "interval_end": 27746,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71225,
+            "interval_end": 77691,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 76928,
+            "interval_end": 83439,
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 4
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1308.663042029366,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 229.89012498874217,
+        "time_total_ms": 1538.553167018108,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21267,
+            "interval_end": 27766,
+            "change_time": 27767,
+            "change_direction": "down",
+            "change_magnitude": 9.5,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.792153573524314,
+            "attribution_score": 9.97583263915244,
+            "p_value": 0.00639872025594881,
+            "adjusted_p_value": 0.0214623741918283
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71247,
+            "interval_end": 77753,
+            "change_time": 77754,
+            "change_direction": "down",
+            "change_magnitude": 7.799999999999997,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7819222249254772,
+            "attribution_score": 10.007891440266969,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.0214623741918283
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46269,
+            "interval_end": 52785,
+            "change_time": 52786,
+            "change_direction": "down",
+            "change_magnitude": 5.799999999999997,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8073483850226815,
+            "attribution_score": 8.991395164801613,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.0214623741918283
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46269,
+            "interval_end": 52785,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71247,
+            "interval_end": 77753,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21267,
+            "interval_end": 27766,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 5
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "time_phase1_ms": 1301.0045409901068,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 183.16058395430446,
+        "time_total_ms": 1484.1651249444112,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21266,
+            "interval_end": 27761,
+            "change_time": 27762,
+            "change_direction": "down",
+            "change_magnitude": 8.5,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7882026910937704,
+            "attribution_score": 8.81165777306981,
+            "p_value": 0.007998400319936013,
+            "adjusted_p_value": 0.016196760647870425
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71251,
+            "interval_end": 77752,
+            "change_time": 77753,
+            "change_direction": "down",
+            "change_magnitude": 10.350000000000009,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7811406935313765,
+            "attribution_score": 12.056655084718304,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.016196760647870425
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46227,
+            "interval_end": 52739,
+            "change_time": 52740,
+            "change_direction": "down",
+            "change_magnitude": 6.75,
+            "event_name": "Decoy_1",
+            "event_start": 46993,
+            "event_end": 52993,
+            "proximity": 0.7764678818237378,
+            "attribution_score": 8.960108839372376,
+            "p_value": 0.010597880423915218,
+            "adjusted_p_value": 0.016196760647870425
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46227,
+            "interval_end": 52739,
+            "change_time": 52740,
+            "change_direction": "down",
+            "change_magnitude": 6.75,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7710515858035663,
+            "attribution_score": 8.89760708883891,
+            "p_value": 0.010797840431913617,
+            "adjusted_p_value": 0.016196760647870425
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21266,
+            "interval_end": 27761,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46227,
+            "interval_end": 52739,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71251,
+            "interval_end": 77752,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46227,
+            "interval_end": 52739,
+            "event_id": "D1"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 6
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1305.712000001222,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 403.2895000418648,
+        "time_total_ms": 1709.0015000430867,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21267,
+            "interval_end": 27786,
+            "change_time": 27787,
+            "change_direction": "down",
+            "change_magnitude": 8.5,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.8081561372164884,
+            "attribution_score": 10.68902733121036,
+            "p_value": 0.007998400319936013,
+            "adjusted_p_value": 0.02932746783976538
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71254,
+            "interval_end": 77751,
+            "change_time": 77752,
+            "change_direction": "down",
+            "change_magnitude": 9.850000000000009,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7803599432780343,
+            "attribution_score": 11.52804984500561,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.02932746783976538
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46197,
+            "interval_end": 52742,
+            "change_time": 52743,
+            "change_direction": "down",
+            "change_magnitude": 10.100000000000009,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7733682137654491,
+            "attribution_score": 11.372483786649756,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.02932746783976538
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21267,
+            "interval_end": 27786,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71254,
+            "interval_end": 77751,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46197,
+            "interval_end": 52742,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 7
+        },
+        "n_transactions": 100000,
+        "n_patterns": 13,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1318.3414590312168,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 717.1392909949645,
+        "time_total_ms": 2035.4807500261813,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46237,
+            "interval_end": 52758,
+            "change_time": 52759,
+            "change_direction": "down",
+            "change_magnitude": 10.25,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7858416263883455,
+            "attribution_score": 12.111386782566996,
+            "p_value": 0.008598280343931213,
+            "adjusted_p_value": 0.06858628274345131
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71268,
+            "interval_end": 77764,
+            "change_time": 77765,
+            "change_direction": "down",
+            "change_magnitude": 9.099999999999994,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7905708496287356,
+            "attribution_score": 11.931514164186407,
+            "p_value": 0.008798240351929614,
+            "adjusted_p_value": 0.06858628274345131
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21237,
+            "interval_end": 27762,
+            "change_time": 27763,
+            "change_direction": "down",
+            "change_magnitude": 6.549999999999997,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7889912880176098,
+            "attribution_score": 9.877174790776628,
+            "p_value": 0.010597880423915218,
+            "adjusted_p_value": 0.06858628274345131
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71268,
+            "interval_end": 77764,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46237,
+            "interval_end": 52758,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21237,
+            "interval_end": 27762,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 8
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 6,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "tp": 3,
+        "fp": 3,
+        "fn": 0,
+        "time_phase1_ms": 1312.9884169902653,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 455.6999580236152,
+        "time_total_ms": 1768.6883750138804,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46259,
+            "interval_end": 52761,
+            "change_time": 52762,
+            "change_direction": "down",
+            "change_magnitude": 12.349999999999994,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7882026910937704,
+            "attribution_score": 14.047868447758955,
+            "p_value": 0.010397920415916816,
+            "adjusted_p_value": 0.0656868626274745
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71239,
+            "interval_end": 77751,
+            "change_time": 77752,
+            "change_direction": "down",
+            "change_magnitude": 6.6000000000000085,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7803599432780343,
+            "attribution_score": 8.070369340248707,
+            "p_value": 0.011597680463907219,
+            "adjusted_p_value": 0.0656868626274745
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21212,
+            "interval_end": 27755,
+            "change_time": 27756,
+            "change_direction": "down",
+            "change_magnitude": 6.400000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7834876342628625,
+            "attribution_score": 8.697823343942643,
+            "p_value": 0.01259748050389922,
+            "adjusted_p_value": 0.0656868626274745
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 28969,
+            "interval_end": 35480,
+            "change_time": 28969,
+            "change_direction": "up",
+            "change_magnitude": 11.0,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.37946231074621756,
+            "attribution_score": 4.174085418208393,
+            "p_value": 0.057388522295540895,
+            "adjusted_p_value": 0.07990401919616077
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 47803,
+            "interval_end": 54309,
+            "change_time": 54310,
+            "change_direction": "down",
+            "change_magnitude": 9.599999999999994,
+            "event_name": "Decoy_1",
+            "event_start": 49200,
+            "event_end": 55200,
+            "proximity": 0.4106557527523455,
+            "attribution_score": 5.920998151464819,
+            "p_value": 0.039192161567686463,
+            "adjusted_p_value": 0.07054589082183563
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21212,
+            "interval_end": 27755,
+            "change_time": 21212,
+            "change_direction": "up",
+            "change_magnitude": 8.100000000000009,
+            "event_name": "Decoy_2",
+            "event_start": 16558,
+            "event_end": 22558,
+            "proximity": 0.2602792983785571,
+            "attribution_score": 2.108262316866315,
+            "p_value": 0.08858228354329134,
+            "adjusted_p_value": 0.09965506898620276
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46259,
+            "interval_end": 52761,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21212,
+            "interval_end": 27755,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71239,
+            "interval_end": 77751,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 47803,
+            "interval_end": 54309,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 28969,
+            "interval_end": 35480,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21212,
+            "interval_end": 27755,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 1.0,
+        "n_falsely_attributed": 2
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 9
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1297.4092500517145,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 183.02654090803117,
+        "time_total_ms": 1480.4357909597456,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21239,
+            "interval_end": 27754,
+            "change_time": 27755,
+            "change_direction": "down",
+            "change_magnitude": 9.650000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7827045382418681,
+            "attribution_score": 12.08492903911445,
+            "p_value": 0.01259748050389922,
+            "adjusted_p_value": 0.021329067519829367
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52746,
+            "change_time": 52747,
+            "change_direction": "down",
+            "change_magnitude": 8.300000000000011,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7764678818237378,
+            "attribution_score": 11.448714188143063,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.021329067519829367
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71264,
+            "interval_end": 77730,
+            "change_time": 77731,
+            "change_direction": "down",
+            "change_magnitude": 6.1499999999999915,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.764143255648199,
+            "attribution_score": 8.29217747115205,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.021329067519829367
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71264,
+            "interval_end": 77730,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52746,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21239,
+            "interval_end": 27754,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 10
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1315.3016249416396,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 362.27141600102186,
+        "time_total_ms": 1677.5730409426615,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46265,
+            "interval_end": 52773,
+            "change_time": 52774,
+            "change_direction": "down",
+            "change_magnitude": 9.299999999999997,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7977181016656743,
+            "attribution_score": 11.806253295111045,
+            "p_value": 0.009398120375924815,
+            "adjusted_p_value": 0.035992801439712056
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21236,
+            "interval_end": 27779,
+            "change_time": 27780,
+            "change_direction": "down",
+            "change_magnitude": 10.099999999999994,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.8025187979624785,
+            "attribution_score": 13.205944358686644,
+            "p_value": 0.010397920415916816,
+            "adjusted_p_value": 0.035992801439712056
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71214,
+            "interval_end": 77747,
+            "change_time": 77748,
+            "change_direction": "down",
+            "change_magnitude": 8.200000000000003,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7772447380689461,
+            "attribution_score": 10.81612900032547,
+            "p_value": 0.010797840431913617,
+            "adjusted_p_value": 0.035992801439712056
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71214,
+            "interval_end": 77747,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46265,
+            "interval_end": 52773,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21236,
+            "interval_end": 27779,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 11
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "time_phase1_ms": 1310.335792019032,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 404.2504159733653,
+        "time_total_ms": 1714.5862079923972,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21225,
+            "interval_end": 27772,
+            "change_time": 27773,
+            "change_direction": "down",
+            "change_magnitude": 9.850000000000009,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7969207822901396,
+            "attribution_score": 11.65047589879935,
+            "p_value": 0.006798640271945611,
+            "adjusted_p_value": 0.014663733919882689
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71222,
+            "interval_end": 77769,
+            "change_time": 77770,
+            "change_direction": "down",
+            "change_magnitude": 9.400000000000006,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.794533602503334,
+            "attribution_score": 11.372867659917993,
+            "p_value": 0.006798640271945611,
+            "adjusted_p_value": 0.014663733919882689
+          },
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 58528,
+            "interval_end": 65056,
+            "change_time": 65057,
+            "change_direction": "down",
+            "change_magnitude": 7.1000000000000085,
+            "event_name": "Decoy_2",
+            "event_start": 59222,
+            "event_end": 65222,
+            "proximity": 0.8478937040879159,
+            "attribution_score": 11.090719085367688,
+            "p_value": 0.006798640271945611,
+            "adjusted_p_value": 0.014663733919882689
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46266,
+            "interval_end": 52743,
+            "change_time": 52744,
+            "change_direction": "down",
+            "change_magnitude": 7.5,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7741419687922484,
+            "attribution_score": 10.533919027967247,
+            "p_value": 0.007398520295940812,
+            "adjusted_p_value": 0.014663733919882689
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21225,
+            "interval_end": 27772,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46266,
+            "interval_end": 52743,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71222,
+            "interval_end": 77769,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 58528,
+            "interval_end": 65056,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 12
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1295.9352500038221,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 184.48337505105883,
+        "time_total_ms": 1480.418625054881,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46257,
+            "interval_end": 52746,
+            "change_time": 52747,
+            "change_direction": "down",
+            "change_magnitude": 9.650000000000006,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7764678818237378,
+            "attribution_score": 10.584865730770044,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.020795840831833633
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71243,
+            "interval_end": 77766,
+            "change_time": 77767,
+            "change_direction": "down",
+            "change_magnitude": 8.75,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.792153573524314,
+            "attribution_score": 10.144483768674926,
+            "p_value": 0.009398120375924815,
+            "adjusted_p_value": 0.020795840831833633
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21223,
+            "interval_end": 27763,
+            "change_time": 27764,
+            "change_direction": "down",
+            "change_magnitude": 8.650000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7897806739328027,
+            "attribution_score": 12.073132383747193,
+            "p_value": 0.010397920415916816,
+            "adjusted_p_value": 0.020795840831833633
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46257,
+            "interval_end": 52746,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71243,
+            "interval_end": 77766,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21223,
+            "interval_end": 27763,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 13
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1317.052665981464,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 191.26550003420562,
+        "time_total_ms": 1508.3181660156697,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52766,
+            "change_time": 52767,
+            "change_direction": "down",
+            "change_magnitude": 7.950000000000003,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.792153573524314,
+            "attribution_score": 11.979767997688699,
+            "p_value": 0.010997800439912017,
+            "adjusted_p_value": 0.014930347263880558
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21234,
+            "interval_end": 27710,
+            "change_time": 27711,
+            "change_direction": "down",
+            "change_magnitude": 9.050000000000011,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7490122054026693,
+            "attribution_score": 11.915361026336253,
+            "p_value": 0.011197760447910418,
+            "adjusted_p_value": 0.014930347263880558
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71237,
+            "interval_end": 77752,
+            "change_time": 77753,
+            "change_direction": "down",
+            "change_magnitude": 6.650000000000006,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7811406935313765,
+            "attribution_score": 9.880554189738696,
+            "p_value": 0.011197760447910418,
+            "adjusted_p_value": 0.014930347263880558
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46240,
+            "interval_end": 52766,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21234,
+            "interval_end": 27710,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71237,
+            "interval_end": 77752,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 14
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "time_phase1_ms": 1304.0371250826865,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 226.82829096447676,
+        "time_total_ms": 1530.8654160471633,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46230,
+            "interval_end": 52745,
+            "change_time": 52746,
+            "change_direction": "down",
+            "change_magnitude": 9.0,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.775691802046476,
+            "attribution_score": 9.342592866805544,
+            "p_value": 0.01199760047990402,
+            "adjusted_p_value": 0.028394321135772848
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21254,
+            "interval_end": 27765,
+            "change_time": 27766,
+            "change_direction": "down",
+            "change_magnitude": 9.050000000000011,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7913618158955839,
+            "attribution_score": 11.16931976859681,
+            "p_value": 0.01279744051189762,
+            "adjusted_p_value": 0.028394321135772848
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71229,
+            "interval_end": 77692,
+            "change_time": 77693,
+            "change_direction": "down",
+            "change_magnitude": 7.700000000000003,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7356506009072533,
+            "attribution_score": 10.058737350372716,
+            "p_value": 0.014197160567886422,
+            "adjusted_p_value": 0.028394321135772848
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21254,
+            "interval_end": 27765,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71229,
+            "interval_end": 77692,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46230,
+            "interval_end": 52745,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 15
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "time_phase1_ms": 1309.482124983333,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 444.95337491389364,
+        "time_total_ms": 1754.4354998972267,
+        "significant_attributions": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46268,
+            "interval_end": 52759,
+            "change_time": 52760,
+            "change_direction": "down",
+            "change_magnitude": 8.400000000000006,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7866278610665535,
+            "attribution_score": 9.1085939364451,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.042524828367659806
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71220,
+            "interval_end": 77778,
+            "change_time": 77779,
+            "change_direction": "down",
+            "change_magnitude": 11.800000000000011,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.8017166802901953,
+            "attribution_score": 13.012903415039796,
+            "p_value": 0.009598080383923215,
+            "adjusted_p_value": 0.042524828367659806
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21243,
+            "interval_end": 27754,
+            "change_time": 27755,
+            "change_direction": "down",
+            "change_magnitude": 5.199999999999989,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7827045382418681,
+            "attribution_score": 7.353564329129277,
+            "p_value": 0.011597680463907219,
+            "adjusted_p_value": 0.042524828367659806
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 754,
+            "interval_end": 7296,
+            "change_time": 7297,
+            "change_direction": "down",
+            "change_magnitude": 9.849999999999994,
+            "event_name": "Decoy_2",
+            "event_start": 4741,
+            "event_end": 10741,
+            "proximity": 0.07761457866840563,
+            "attribution_score": 0.9695396272497429,
+            "p_value": 0.08418316336732654,
+            "adjusted_p_value": 0.09722055588882225
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21243,
+            "interval_end": 27754,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71220,
+            "interval_end": 77778,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46268,
+            "interval_end": 52759,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 754,
+            "interval_end": 7296,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 16
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 3,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "tp": 2,
+        "fp": 1,
+        "fn": 1,
+        "time_phase1_ms": 1310.659333015792,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 410.04854207858443,
+        "time_total_ms": 1720.7078750943765,
+        "significant_attributions": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 46636,
+            "interval_end": 53137,
+            "change_time": 53138,
+            "change_direction": "down",
+            "change_magnitude": 8.049999999999997,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8710986917457983,
+            "attribution_score": 12.536729466759816,
+            "p_value": 0.003999200159968006,
+            "adjusted_p_value": 0.01279744051189762
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71198,
+            "interval_end": 77790,
+            "change_time": 77791,
+            "change_direction": "down",
+            "change_magnitude": 8.200000000000003,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.8113952356434114,
+            "attribution_score": 10.913537372633016,
+            "p_value": 0.011597680463907219,
+            "adjusted_p_value": 0.023595280943811237
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21231,
+            "interval_end": 27745,
+            "change_time": 27746,
+            "change_direction": "down",
+            "change_magnitude": 7.349999999999994,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.775691802046476,
+            "attribution_score": 9.687231036525649,
+            "p_value": 0.011797640471905619,
+            "adjusted_p_value": 0.023595280943811237
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71198,
+            "interval_end": 77790,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21231,
+            "interval_end": 27745,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              65,
+              75
+            ],
+            "interval_start": 46636,
+            "interval_end": 53137,
+            "event_id": "E2"
+          }
+        ],
+        "false_negative_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46234,
+            "interval_end": 52779,
+            "event_id": "E2"
+          }
+        ],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 17
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 7,
+        "precision": 0.42857142857142855,
+        "recall": 1.0,
+        "f1": 0.6,
+        "tp": 3,
+        "fp": 4,
+        "fn": 0,
+        "time_phase1_ms": 1313.4755830978975,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 449.0976670058444,
+        "time_total_ms": 1762.5732501037419,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71249,
+            "interval_end": 77790,
+            "change_time": 77791,
+            "change_direction": "down",
+            "change_magnitude": 9.25,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.8113952356434114,
+            "attribution_score": 10.28958302122932,
+            "p_value": 0.008398320335932814,
+            "adjusted_p_value": 0.04471105778844231
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "change_time": 52777,
+            "change_direction": "down",
+            "change_magnitude": 9.200000000000003,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.8001148492945541,
+            "attribution_score": 11.995293088734863,
+            "p_value": 0.009198160367926415,
+            "adjusted_p_value": 0.04471105778844231
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53496,
+            "interval_end": 60018,
+            "change_time": 53496,
+            "change_direction": "up",
+            "change_magnitude": 8.600000000000009,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.6089616410728969,
+            "attribution_score": 5.237070113226918,
+            "p_value": 0.03739252149570086,
+            "adjusted_p_value": 0.04939012197560488
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21218,
+            "interval_end": 27729,
+            "change_time": 21218,
+            "change_direction": "up",
+            "change_magnitude": 9.900000000000006,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.45749011548373314,
+            "attribution_score": 8.651401412707962,
+            "p_value": 0.015196960607878424,
+            "adjusted_p_value": 0.04471105778844231
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53496,
+            "interval_end": 60018,
+            "change_time": 53496,
+            "change_direction": "up",
+            "change_magnitude": 8.600000000000009,
+            "event_name": "Decoy_2",
+            "event_start": 47923,
+            "event_end": 53923,
+            "proximity": 0.6524635522279004,
+            "attribution_score": 5.6111865491599495,
+            "p_value": 0.02959408118376325,
+            "adjusted_p_value": 0.04939012197560488
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "change_time": 52777,
+            "change_direction": "down",
+            "change_magnitude": 9.200000000000003,
+            "event_name": "Decoy_2",
+            "event_start": 47923,
+            "event_end": 53923,
+            "proximity": 0.31790585293156354,
+            "attribution_score": 4.766033131244251,
+            "p_value": 0.05838832233553289,
+            "adjusted_p_value": 0.06325401586349397
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "change_time": 46246,
+            "change_direction": "up",
+            "change_magnitude": 9.849999999999994,
+            "event_name": "Decoy_1",
+            "event_start": 39770,
+            "event_end": 45770,
+            "proximity": 0.6212634822474618,
+            "attribution_score": 6.119445300137495,
+            "p_value": 0.04519096180763847,
+            "adjusted_p_value": 0.05340750031811819
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21218,
+            "interval_end": 27729,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71249,
+            "interval_end": 77790,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "event_id": "E2"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "event_id": "D2"
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46246,
+            "interval_end": 52776,
+            "event_id": "D1"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53496,
+            "interval_end": 60018,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 53496,
+            "interval_end": 60018,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 18
+        },
+        "n_transactions": 100000,
+        "n_patterns": 9,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "time_phase1_ms": 1300.3535830648616,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 451.187583967112,
+        "time_total_ms": 1751.5411670319736,
+        "significant_attributions": [
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71262,
+            "interval_end": 77776,
+            "change_time": 77777,
+            "change_direction": "down",
+            "change_magnitude": 9.549999999999997,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.8001148492945541,
+            "attribution_score": 11.585166871048104,
+            "p_value": 0.007598480303939212,
+            "adjusted_p_value": 0.0285657154283429
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46208,
+            "interval_end": 52710,
+            "change_time": 52711,
+            "change_direction": "down",
+            "change_magnitude": 10.0,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7490122054026693,
+            "attribution_score": 11.36274206326626,
+            "p_value": 0.009398120375924815,
+            "adjusted_p_value": 0.0285657154283429
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21207,
+            "interval_end": 27726,
+            "change_time": 27727,
+            "change_direction": "down",
+            "change_magnitude": 5.300000000000011,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.7610927876289343,
+            "attribution_score": 7.834668304154817,
+            "p_value": 0.01219756048790242,
+            "adjusted_p_value": 0.0285657154283429
+          },
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 15311,
+            "interval_end": 21840,
+            "change_time": 21841,
+            "change_direction": "down",
+            "change_magnitude": 7.8999999999999915,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.8529963589691315,
+            "attribution_score": 6.738671235856132,
+            "p_value": 0.026194761047790442,
+            "adjusted_p_value": 0.02910529005310049
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46208,
+            "interval_end": 52710,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21207,
+            "interval_end": 27726,
+            "event_id": "E1"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71262,
+            "interval_end": 77776,
+            "event_id": "E3"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              85,
+              95
+            ],
+            "interval_start": 15311,
+            "interval_end": 21840,
+            "event_id": "E1"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.5,
+        "n_falsely_attributed": 1
+      },
+      {
+        "config": {
+          "window_size": 1000,
+          "min_support": 100,
+          "max_length": 2,
+          "change_method": "threshold_crossing",
+          "sigma": null,
+          "min_relative_change": 0.0,
+          "global_correction": true,
+          "n_permutations": 5000,
+          "alpha": 0.1,
+          "seed": 19
+        },
+        "n_transactions": 100000,
+        "n_patterns": 5,
+        "n_change_points_total": 0,
+        "n_significant": 4,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "tp": 3,
+        "fp": 1,
+        "fn": 0,
+        "time_phase1_ms": 1308.1262910272926,
+        "time_support_series_ms": 0.0,
+        "time_attribution_ms": 140.36029193084687,
+        "time_total_ms": 1448.4865829581395,
+        "significant_attributions": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21233,
+            "interval_end": 27781,
+            "change_time": 27782,
+            "change_direction": "down",
+            "change_magnitude": 6.950000000000003,
+            "event_name": "Event_1",
+            "event_start": 22000,
+            "event_end": 28000,
+            "proximity": 0.8041254416665596,
+            "attribution_score": 8.909161800677243,
+            "p_value": 0.011597680463907219,
+            "adjusted_p_value": 0.020995800839832032
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71216,
+            "interval_end": 77774,
+            "change_time": 77775,
+            "change_direction": "down",
+            "change_magnitude": 9.849999999999994,
+            "event_name": "Event_3",
+            "event_start": 72000,
+            "event_end": 78000,
+            "proximity": 0.7985162187593771,
+            "attribution_score": 12.6366044733435,
+            "p_value": 0.011797640471905619,
+            "adjusted_p_value": 0.020995800839832032
+          },
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46242,
+            "interval_end": 52743,
+            "change_time": 52744,
+            "change_direction": "down",
+            "change_magnitude": 8.650000000000006,
+            "event_name": "Event_2",
+            "event_start": 47000,
+            "event_end": 53000,
+            "proximity": 0.7741419687922484,
+            "attribution_score": 11.61665633616978,
+            "p_value": 0.01259748050389922,
+            "adjusted_p_value": 0.020995800839832032
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21233,
+            "interval_end": 27781,
+            "change_time": 21233,
+            "change_direction": "up",
+            "change_magnitude": 7.1499999999999915,
+            "event_name": "Decoy_2",
+            "event_start": 15818,
+            "event_end": 21818,
+            "proximity": 0.5571058618121739,
+            "attribution_score": 3.9833069119570386,
+            "p_value": 0.04819036192761448,
+            "adjusted_p_value": 0.0602379524095181
+          }
+        ],
+        "true_positive_pairs": [
+          {
+            "pattern": [
+              25,
+              35
+            ],
+            "interval_start": 46242,
+            "interval_end": 52743,
+            "event_id": "E2"
+          },
+          {
+            "pattern": [
+              45,
+              55
+            ],
+            "interval_start": 71216,
+            "interval_end": 77774,
+            "event_id": "E3"
+          },
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21233,
+            "interval_end": 27781,
+            "event_id": "E1"
+          }
+        ],
+        "false_positive_pairs": [
+          {
+            "pattern": [
+              5,
+              15
+            ],
+            "interval_start": 21233,
+            "interval_end": 27781,
+            "event_id": "D2"
+          }
+        ],
+        "false_negative_pairs": [],
+        "false_attribution_rate": 0.0,
+        "n_falsely_attributed": 0
+      }
+    ],
+    "avg_precision": 0.8272619047619048,
+    "avg_recall": 0.9833333333333334,
+    "avg_f1": 0.8859523809523809,
+    "std_f1": 0.13555458219751926,
+    "se_f1": 0.030310926045523587,
+    "ci95_lower": 0.8225116127391001,
+    "ci95_upper": 0.9493931491656618,
+    "avg_false_attribution_rate": 0.225
   }
 }

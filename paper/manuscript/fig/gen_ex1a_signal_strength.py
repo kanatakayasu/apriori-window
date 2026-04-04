@@ -1,6 +1,7 @@
-"""EX1a: Signal strength vs attribution accuracy (line chart).
+"""EX1a: Signal strength vs attribution accuracy (line chart with 95% CI).
 
 Style: top-conference, matching EX2b ablation figure.
+Data: 20-seed results.
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -24,20 +25,29 @@ plt.rcParams.update({
     "lines.markersize": 5,
 })
 
-# Data from EX1 full run (N=100K, W=1000, θ=100, 5 seeds avg)
-beta = [0.2, 0.3, 0.5]
-precision = [0.59, 0.64, 0.58]
-recall = [0.90, 0.95, 0.93]
-f1 = [0.71, 0.75, 0.71]
+# Data from EX1 20-seed run (N=100K, W=1000, θ=100)
+beta      = [0.1, 0.2, 0.3, 0.4, 0.5]
+precision = [0.11, 0.78, 0.70, 0.83, 0.86]
+recall    = [0.10, 0.97, 0.82, 0.98, 1.00]
+f1        = [0.09, 0.85, 0.75, 0.89, 0.91]
+ci_lo     = [0.02, 0.79, 0.58, 0.82, 0.86]  # 95% CI lower
+ci_hi     = [0.17, 0.91, 0.91, 0.95, 0.97]  # 95% CI upper
+
+f1_arr = np.array(f1)
+ci_lo_arr = np.array(ci_lo)
+ci_hi_arr = np.array(ci_hi)
+
 fig, ax = plt.subplots(figsize=(3.5, 2.4))
 
-ax.plot(beta, f1, "o-", color="#2d3436", label="F1")
+ax.fill_between(beta, ci_lo_arr, ci_hi_arr, alpha=0.15, color="#2d3436", zorder=1)
+ax.plot(beta, f1, "o-", color="#2d3436", label="F1 (95% CI)")
 ax.plot(beta, precision, "s--", color="#0984e3", label="Precision")
 ax.plot(beta, recall, "^--", color="#e17055", label="Recall")
 
 ax.set_xlabel(r"Boost probability $\beta$")
 ax.set_ylabel("Score")
 ax.set_xticks(beta)
+ax.set_xlim(0.05, 0.55)
 ax.set_ylim(-0.05, 1.08)
 ax.set_yticks(np.arange(0, 1.1, 0.2))
 ax.yaxis.grid(True, color="#E0E0E0", linewidth=0.5, zorder=0)
