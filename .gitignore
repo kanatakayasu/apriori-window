@@ -9,6 +9,13 @@ dataset/**/*.gz
 dataset/**/*.pdf
 dataset/dunnhumby/transactions.txt
 dataset/dunnhumby/product_id_map.json
+dataset/online_retail_ii/transactions.txt
+
+# 中間試行・デバッグ実験結果
+experiments/results/ex1_trial/
+experiments/results/ex1_trial2/
+experiments/results/ex1_trial3/
+experiments/results/ex1_debug/
 
 # Rust ビルド成果物（/target/ とすることで paper/target/ への誤マッチを防ぐ）
 /target/
