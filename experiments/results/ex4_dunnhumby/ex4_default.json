@@ -1,0 +1,485 @@
+{
+  "all_attributions": [
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_18",
+      "p_adj": 0.048,
+      "pattern_categories": [
+        "GRAPES",
+        "TROPICAL FRUIT",
+        "BERRIES"
+      ],
+      "pattern_ids": [
+        11255,
+        35570,
+        40593
+      ],
+      "score": 0.3703
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_18",
+      "p_adj": 0.0385,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "PIES"
+      ],
+      "pattern_ids": [
+        29651,
+        88855
+      ],
+      "score": 0.7931
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_18",
+      "p_adj": 0.0451,
+      "pattern_categories": [
+        "BEEF",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        10935,
+        35570
+      ],
+      "score": 0.8781
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_8",
+      "p_adj": 0.0353,
+      "pattern_categories": [
+        "TROPICAL FRUIT",
+        "SOFT DRINKS"
+      ],
+      "pattern_ids": [
+        35570,
+        53089
+      ],
+      "score": 1.7101
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_8",
+      "p_adj": 0.093,
+      "pattern_categories": [
+        "TOMATOES",
+        "BERRIES"
+      ],
+      "pattern_ids": [
+        9956,
+        40593
+      ],
+      "score": 0.3258
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_8",
+      "p_adj": 0.0707,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "TROPICAL FRUIT",
+        "BERRIES"
+      ],
+      "pattern_ids": [
+        29651,
+        35570,
+        40593
+      ],
+      "score": 0.2922
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0353,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        25748,
+        35570
+      ],
+      "score": 3.1803
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0717,
+      "pattern_categories": [
+        "BAKED BREAD/BUNS/ROLLS",
+        "BAKED BREAD/BUNS/ROLLS"
+      ],
+      "pattern_ids": [
+        6675,
+        13156
+      ],
+      "score": 0.2524
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0445,
+      "pattern_categories": [
+        "ONIONS",
+        "EGGS"
+      ],
+      "pattern_ids": [
+        7625,
+        24245
+      ],
+      "score": 0.8765
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0353,
+      "pattern_categories": [
+        "BAKED BREAD/BUNS/ROLLS",
+        "FLUID MILK PRODUCTS"
+      ],
+      "pattern_ids": [
+        9363,
+        41168
+      ],
+      "score": 1.1341
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_30",
+      "p_adj": 0.0822,
+      "pattern_categories": [
+        "TROPICAL FRUIT",
+        "FLUID MILK PRODUCTS"
+      ],
+      "pattern_ids": [
+        35570,
+        41168
+      ],
+      "score": 1.3044
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_30",
+      "p_adj": 0.0365,
+      "pattern_categories": [
+        "BAKED BREAD/BUNS/ROLLS",
+        "POTATOES"
+      ],
+      "pattern_ids": [
+        20968,
+        26863
+      ],
+      "score": 0.6508
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_30",
+      "p_adj": 0.0445,
+      "pattern_categories": [
+        "GRAPES",
+        "FLUID MILK PRODUCTS",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        11255,
+        29651,
+        35570
+      ],
+      "score": 0.6991
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_30",
+      "p_adj": 0.0353,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "BEEF"
+      ],
+      "pattern_ids": [
+        29651,
+        75123
+      ],
+      "score": 0.9212
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_13",
+      "p_adj": 0.0654,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        16010,
+        35570
+      ],
+      "score": 1.6585
+    }
+  ],
+  "campaign_summary": [
+    {
+      "campaign": "TypeA_18",
+      "campaign_id": 18,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_18",
+          "p_adj": 0.0451,
+          "pattern_categories": [
+            "BEEF",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            10935,
+            35570
+          ],
+          "score": 0.8781
+        },
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_18",
+          "p_adj": 0.0385,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "PIES"
+          ],
+          "pattern_ids": [
+            29651,
+            88855
+          ],
+          "score": 0.7931
+        },
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_18",
+          "p_adj": 0.048,
+          "pattern_categories": [
+            "GRAPES",
+            "TROPICAL FRUIT",
+            "BERRIES"
+          ],
+          "pattern_ids": [
+            11255,
+            35570,
+            40593
+          ],
+          "score": 0.3703
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_13",
+      "campaign_id": 13,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_13",
+          "p_adj": 0.0654,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            16010,
+            35570
+          ],
+          "score": 1.6585
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_8",
+      "campaign_id": 8,
+      "n_attributions": 3,
+      "top_patterns": [
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_8",
+          "p_adj": 0.0353,
+          "pattern_categories": [
+            "TROPICAL FRUIT",
+            "SOFT DRINKS"
+          ],
+          "pattern_ids": [
+            35570,
+            53089
+          ],
+          "score": 1.7101
+        },
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_8",
+          "p_adj": 0.093,
+          "pattern_categories": [
+            "TOMATOES",
+            "BERRIES"
+          ],
+          "pattern_ids": [
+            9956,
+            40593
+          ],
+          "score": 0.3258
+        },
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_8",
+          "p_adj": 0.0707,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "TROPICAL FRUIT",
+            "BERRIES"
+          ],
+          "pattern_ids": [
+            29651,
+            35570,
+            40593
+          ],
+          "score": 0.2922
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_30",
+      "campaign_id": 30,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_30",
+          "p_adj": 0.0822,
+          "pattern_categories": [
+            "TROPICAL FRUIT",
+            "FLUID MILK PRODUCTS"
+          ],
+          "pattern_ids": [
+            35570,
+            41168
+          ],
+          "score": 1.3044
+        },
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_30",
+          "p_adj": 0.0353,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "BEEF"
+          ],
+          "pattern_ids": [
+            29651,
+            75123
+          ],
+          "score": 0.9212
+        },
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_30",
+          "p_adj": 0.0445,
+          "pattern_categories": [
+            "GRAPES",
+            "FLUID MILK PRODUCTS",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            11255,
+            29651,
+            35570
+          ],
+          "score": 0.6991
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_26",
+      "campaign_id": 26,
+      "n_attributions": 4,
+      "top_patterns": [
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_26",
+          "p_adj": 0.0353,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            25748,
+            35570
+          ],
+          "score": 3.1803
+        },
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_26",
+          "p_adj": 0.0353,
+          "pattern_categories": [
+            "BAKED BREAD/BUNS/ROLLS",
+            "FLUID MILK PRODUCTS"
+          ],
+          "pattern_ids": [
+            9363,
+            41168
+          ],
+          "score": 1.1341
+        },
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_26",
+          "p_adj": 0.0445,
+          "pattern_categories": [
+            "ONIONS",
+            "EGGS"
+          ],
+          "pattern_ids": [
+            7625,
+            24245
+          ],
+          "score": 0.8765
+        }
+      ]
+    }
+  ],
+  "config": {
+    "label": "default",
+    "min_support": 5,
+    "window_size": 300
+  },
+  "coupon_consistency_rate": 0.4666666666666667,
+  "n_attributions": 15,
+  "n_coupon_consistent": 7,
+  "n_patterns": 896,
+  "n_transactions": 276484,
+  "time_attribution_s": 0.2,
+  "time_phase1_s": 2.5
+}

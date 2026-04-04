@@ -245,10 +245,8 @@ pub fn compute_dense_intervals_with_candidates(
         }
     }
 
+    // Python版と同様にフィルタなし（最低1ウィンドウで閾値を満たせば有効）
     intervals
-        .into_iter()
-        .filter(|(s, e)| *e - *s >= window_size)
-        .collect()
 }
 
 // ---------------------------------------------------------------------------

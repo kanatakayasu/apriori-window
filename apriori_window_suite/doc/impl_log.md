@@ -16,6 +16,12 @@
 
 ## ログ
 
+### 2026-04-04 — `compute_dense_intervals_with_candidates` 末尾フィルタ除去（Rust/Python パターン数整合）
+- **対象**: `src/interval.rs`
+- **内容**: `compute_dense_intervals_with_candidates` の戻り値に誤って適用されていた `.filter(|(s, e)| *e - *s >= window_size)` を削除。Python 版と挙動を統一（最低1ウィンドウで閾値を満たせば有効）。このフィルタにより W=300 のとき、タイムスタンプ範囲が 284 < 300 の正当な密集区間が除外されていた（例: CITRUS × TROPICAL FRUIT ペア）。`compute_dense_intervals`（単体アイテム向け）の同フィルタはそのまま保持。
+- **テスト**: 63 lib+main tests 全 pass
+- **関連コミット**: (main branch)
+
 ### 2026-04-04 — RunEx4 サブコマンド追加 (Dunnhumby 実データ帰属)
 - **対象**: `src/main.rs`, `Cargo.toml`
 - **内容**:

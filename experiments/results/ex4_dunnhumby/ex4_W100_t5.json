@@ -1,0 +1,202 @@
+{
+  "all_attributions": [
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_30",
+      "p_adj": 0.0411,
+      "pattern_categories": [
+        "GRAPES",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        11255,
+        35570
+      ],
+      "score": 0.2718
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_13",
+      "p_adj": 0.0274,
+      "pattern_categories": [
+        "FLUID MILK PRODUCTS",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        16010,
+        35570
+      ],
+      "score": 0.5801
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0274,
+      "pattern_categories": [
+        "APPLES",
+        "TROPICAL FRUIT"
+      ],
+      "pattern_ids": [
+        15131,
+        35570
+      ],
+      "score": 0.1867
+    },
+    {
+      "coupon_consistent": false,
+      "direction": "up",
+      "event_name": "TypeA_26",
+      "p_adj": 0.0274,
+      "pattern_categories": [
+        "EGGS",
+        "FLUID MILK PRODUCTS"
+      ],
+      "pattern_ids": [
+        24245,
+        29651
+      ],
+      "score": 0.6323
+    },
+    {
+      "coupon_consistent": true,
+      "direction": "up",
+      "event_name": "TypeA_8",
+      "p_adj": 0.0344,
+      "pattern_categories": [
+        "TROPICAL FRUIT",
+        "BERRIES"
+      ],
+      "pattern_ids": [
+        35570,
+        40593
+      ],
+      "score": 1.0983
+    }
+  ],
+  "campaign_summary": [
+    {
+      "campaign": "TypeA_18",
+      "campaign_id": 18,
+      "n_attributions": 0,
+      "top_patterns": []
+    },
+    {
+      "campaign": "TypeA_13",
+      "campaign_id": 13,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_13",
+          "p_adj": 0.0274,
+          "pattern_categories": [
+            "FLUID MILK PRODUCTS",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            16010,
+            35570
+          ],
+          "score": 0.5801
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_8",
+      "campaign_id": 8,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "coupon_consistent": true,
+          "direction": "up",
+          "event_name": "TypeA_8",
+          "p_adj": 0.0344,
+          "pattern_categories": [
+            "TROPICAL FRUIT",
+            "BERRIES"
+          ],
+          "pattern_ids": [
+            35570,
+            40593
+          ],
+          "score": 1.0983
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_30",
+      "campaign_id": 30,
+      "n_attributions": 1,
+      "top_patterns": [
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_30",
+          "p_adj": 0.0411,
+          "pattern_categories": [
+            "GRAPES",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            11255,
+            35570
+          ],
+          "score": 0.2718
+        }
+      ]
+    },
+    {
+      "campaign": "TypeA_26",
+      "campaign_id": 26,
+      "n_attributions": 2,
+      "top_patterns": [
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_26",
+          "p_adj": 0.0274,
+          "pattern_categories": [
+            "EGGS",
+            "FLUID MILK PRODUCTS"
+          ],
+          "pattern_ids": [
+            24245,
+            29651
+          ],
+          "score": 0.6323
+        },
+        {
+          "coupon_consistent": false,
+          "direction": "up",
+          "event_name": "TypeA_26",
+          "p_adj": 0.0274,
+          "pattern_categories": [
+            "APPLES",
+            "TROPICAL FRUIT"
+          ],
+          "pattern_ids": [
+            15131,
+            35570
+          ],
+          "score": 0.1867
+        }
+      ]
+    }
+  ],
+  "config": {
+    "label": "W100_t5",
+    "min_support": 5,
+    "window_size": 100
+  },
+  "coupon_consistency_rate": 0.4,
+  "n_attributions": 5,
+  "n_coupon_consistent": 2,
+  "n_patterns": 123,
+  "n_transactions": 276484,
+  "time_attribution_s": 0.0,
+  "time_phase1_s": 1.3
+}
