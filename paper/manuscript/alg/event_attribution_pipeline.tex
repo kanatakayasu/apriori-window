@@ -16,6 +16,7 @@
         \State $\text{count} \gets 0$
         \For{$b = 1$ to $B$}
             \State $\mathcal{E}_b \gets \Call{CircularShift}{\mathcal{E}, \delta_b}$
+            \State $e_b \gets$ $\mathcal{E}_b$ 中のイベント $e$ のシフト版 \Comment{$e$ と同一識別子を持つ}
             \State $A_b \gets \sum_{\tau \in \mathcal{C}_I} A(P, \tau, e_b)$
             \If{$A_b \geq A_{\text{obs}}$} $\text{count} \gets \text{count} + 1$ \EndIf
         \EndFor

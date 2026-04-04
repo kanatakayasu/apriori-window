@@ -24,7 +24,7 @@ plt.rcParams.update({
 })
 
 # ---------- Data (EX3 full run, N=100K, W=1000, θ=100, 5 seeds avg) ----------
-conditions = [r"$\beta\!=\!0.3$", "OVLP", "CNFND", "DENSE", "SHORT"]
+conditions = [r"$\beta\!=\!0.3$", "Overlap", "Confound", "Dense", "Short"]
 methods = ["Proposed", "Wilcoxon", "CausalImpact", "ITS",
            "EventStudy", "ECA"]
 
@@ -37,24 +37,26 @@ f1 = {
     "ECA":          [0.00, 0.00, 0.07, 0.04, 0.20],
 }
 
-# ---------- Colors ----------
+# ---------- Colors (grayscale-friendly: distinct luminance levels) ----------
+# Each method gets a unique hatch pattern for grayscale printing (IEEE requirement)
 colors = [
-    "#2d3436",  # Proposed (dark)
-    "#e17055",  # Wilcoxon
-    "#fdcb6e",  # CausalImpact
-    "#0984e3",  # ITS
-    "#74b9ff",  # EventStudy
-    "#bdc3c7",  # ECA
+    "#1a1a1a",  # Proposed (near-black)
+    "#c0392b",  # Wilcoxon (dark red → ~30% gray)
+    "#e67e22",  # CausalImpact (orange → ~55% gray)
+    "#2471a3",  # ITS (blue → ~40% gray)
+    "#148f77",  # EventStudy (green → ~45% gray)
+    "#aab7b8",  # ECA (light gray → ~70% gray)
 ]
 edgecols = [
-    "#1e272e",
-    "#d35400",
-    "#e0a800",
-    "#0652DD",
-    "#2980b9",
-    "#7f8c8d",
+    "#000000",
+    "#922b21",
+    "#ca6f1e",
+    "#1a5276",
+    "#0e6655",
+    "#717d7e",
 ]
-hatches = ["", "", "", "", "", "//"]
+# Distinct hatch patterns ensure legibility in black-and-white printing
+hatches = ["", "///", "\\\\", "|||", "---", "xxx"]
 
 x = np.arange(len(conditions))
 n = len(methods)

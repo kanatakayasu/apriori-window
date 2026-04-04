@@ -216,7 +216,7 @@ $(5, 42)$, $(15, 78)$, $(5, 133)$ などの副次パターンも
 \item \textbf{異長パターン間の部分集合排除}: 上記の同一長排除後，同一イベント $e$ への帰属パターン全体に対し，$P_i \subseteq P_j$ の関係にあるペアを Union-Find で統合し，各成分内でスコア最大のパターンのみを残す．
 \end{enumerate}
 
-\begin{proposition}[重複排除の正当性（一般化）]\label{prop:dedup}
+\begin{claim}[重複排除の正当性（一般化）]\label{prop:dedup}
 以下の簡約的な独立出現モデルを共起パターン（$l \geq 2$）に対して仮定する:
 各アイテムの出現はトランザクション間で独立であり，
 イベントの影響はブースト確率 $\beta$ の加算として作用する．
@@ -230,7 +230,7 @@ $\beta > 0$ であれば $\text{magnitude}(\tau, P^*) > \text{magnitude}(\tau, P
 平方根正規化後の $\text{mag}(\tau)$（式~(\ref{eq:mag_sqrt})）でもこの大小関係は保存される．
 さらに $s \geq \lceil l/2 \rceil$ のとき $P^*$ と $P'$ は過半数共有グラフにおいて
 同一連結成分に属するため，$P^*$ が保持され $P'$ は除去される．
-\end{proposition}
+\end{claim}
 
 \begin{proof}[証明の概略]
 独立出現仮定のもとでは，イベント $e$ の影響下で
