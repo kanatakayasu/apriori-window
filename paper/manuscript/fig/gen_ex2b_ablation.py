@@ -55,7 +55,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.6))
 
 panels = [
     (ax1, f1,   "F1",          "(a) F1",             False),
-    (ax2, pred, r"\#Pred",     "(b) \#Predictions",  True),
+    (ax2, pred, "#Pred",       "(b) #Predictions",   True),
 ]
 
 for panel_idx, (ax, data, ylabel, title, use_log) in enumerate(panels):
