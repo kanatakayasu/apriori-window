@@ -331,65 +331,61 @@
 <h3>記法</h3>
 <div class="grid-2">
   <div class="box">
-    <h4>入力</h4>
+    <h4>入力データ</h4>
     <ul style="margin:0;font-size:14px">
-      <li><strong>I</strong> = {i&#x2081;, i&#x2082;, &hellip;, i&#x2098;} &mdash; アイテム全集合</li>
-      <li><strong>D</strong> = [d&#x2081;, d&#x2082;, &hellip;, d_N] &mdash; 時刻順トランザクション列</li>
-      <li><strong>E</strong> = {e&#x2081;, &hellip;, e_K} &mdash; 外部イベント集合</li>
+      <li><strong>I</strong> = {i&#x2081;, i&#x2082;, &hellip;, i&#x2098;} &mdash; 有限のアイテム全集合</li>
+      <li><strong>D</strong> = [d&#x2081;, d&#x2082;, &hellip;, d_N] &mdash; 時刻順トランザクション列（各 d_t &sube; I）</li>
+      <li><strong>E</strong> = {e&#x2081;, &hellip;, e_K} &mdash; 既知の外部イベント集合</li>
     </ul>
-    <p class="small" style="margin:8px 0 0">各イベント e = (id, name, t_s, t_e) は時間区間を持つ</p>
+    <p class="small" style="margin:8px 0 0">各イベント e = (id, name, t_s, t_e) はイベントが有効な期間を表す時間区間 [t_s, t_e] を持つ。</p>
   </div>
   <div class="box">
-    <h4>サポート時系列</h4>
+    <h4>サポート時系列（定義 1）</h4>
     <div class="formula">s_P(t) = |{d_j &isin; D | t &le; j &lt; t+W, P &sube; d_j}|</div>
-    <p class="small" style="margin:0">位置 t を始点とするウィンドウ [t, t+W) 内で P を含むトランザクション数</p>
+    <p class="small" style="margin:8px 0 0">位置 t を始点とするウィンドウ [t, t+W) 内で P を含むトランザクション数。T = N&minus;W+1 個の時点からなる時系列。</p>
   </div>
 </div>
 
-<h3>変化点の定義</h3>
-<p>サポート時系列 s_P に対する変化点として，閾値 &theta; に関する密状態／非密状態の切替点を扱う。</p>
+<h3>密集区間と変化点</h3>
 <div class="grid-2">
-  <div class="formula">
-    <strong>上昇変化点:</strong><br>
-    s_P(&tau;) &ge; &theta; かつ (&tau;=0 または s_P(&tau;&minus;1) &lt; &theta;)
+  <div class="box">
+    <h4>密集区間（定義 2）</h4>
+    <p class="small" style="margin:0">パターン P とサポート閾値 &theta; に対して，s_P(t) &ge; &theta; が全ての t &isin; [s, e] で成立し，かつ両端で非密である<strong>極大連続区間</strong> [s, e]。P の密集区間全体を I_P とする。Step 0（Apriori-window）の出力として与えられる。</p>
   </div>
-  <div class="formula">
-    <strong>下降変化点:</strong><br>
-    s_P(&tau;) &lt; &theta; かつ &tau;&gt;0 かつ s_P(&tau;&minus;1) &ge; &theta;
+  <div class="box">
+    <h4>変化点（定義 3: 閾値交差）</h4>
+    <p class="small" style="margin:0">密集区間 [s, e] の端点から定義される状態遷移点:</p>
+    <div class="formula" style="font-size:12px;margin:8px 0 0;padding:10px 16px">
+      <strong>上昇:</strong> s_P(&tau;) &ge; &theta; かつ (&tau;=0 or s_P(&tau;&minus;1) &lt; &theta;)<br>
+      <strong>下降:</strong> s_P(&tau;) &lt; &theta; かつ &tau;&gt;0 かつ s_P(&tau;&minus;1) &ge; &theta;
+    </div>
   </div>
 </div>
 
-<h3>変化量（Magnitude）</h3>
-<p>交差前後の参照窓（h 期間）の局所平均差としてレベルシフト量を定量化する。</p>
-<div class="formula">
-  magnitude(&tau;) = |s&#x0304;&#x207A;(&tau;) &minus; s&#x0304;&#x207B;(&tau;)|<br><br>
-  s&#x0304;&#x207B;(&tau;) = mean of s_P over [max(0, &tau;&minus;h), &tau;&minus;1]<br>
-  s&#x0304;&#x207A;(&tau;) = mean of s_P over [&tau;, min(T&minus;1, &tau;+h&minus;1)]
-</div>
-<p>正規化変化量には<strong>平方根正規化</strong>を採用する:</p>
-<div class="formula">
-  mag(&tau;) = magnitude(&tau;) / &radic;max(1, s&#x0304;&#x207B;(&tau;))
-</div>
-<p class="small">高頻度アイテムペアの自然変動によるスコア膨張を抑制しつつ，低ベースラインパターンの過剰増幅を避ける。Zipf的頻度分布を持つ実世界データに対して安定した精度を達成する。</p>
-
-<h3>イベント帰属問題</h3>
+<h3>イベント帰属問題（定義 4）</h3>
 <div class="box accent">
-  <p style="margin:0;font-size:15px"><strong>定義:</strong> 頻出パターン集合 F，密集区間集合 {I_P}，外部イベント集合 E，有意水準 &alpha; が与えられたとき，密集区間 I の変化点がイベント e の時間窓と統計的に有意に関連する<strong>全ての三つ組 (P, I, e)</strong> を，<strong class="red">FDR &le; &alpha;</strong> を保ちながら同定する。</p>
+  <p style="margin:0;font-size:15px"><strong>定義:</strong> 共起パターン集合 F = {P &sube; I : |P| &ge; 2, サポート &ge; &theta;}，各パターンの密集区間集合 {I_P}，外部イベント集合 E，有意水準 &alpha; が与えられたとき，パターン P の密集区間 I &isin; I_P の変化点がイベント e の時間窓と統計的に有意に関連する<strong>全ての三つ組 (P, I, e)</strong> を，<strong class="red">FDR &le; &alpha;</strong> を保ちながら同定する。</p>
+</div>
+<p class="small" style="margin-top:8px">単一アイテム（|P|=1）の頻度変動は通常の時系列分析で捕捉可能であり，共起構造の発見を目的とする本問題の対象外とする。</p>
+
+<div class="box" style="margin-top:16px">
+  <h4>帰属の意味と限界</h4>
+  <p class="small" style="margin:0">本稿の「帰属」は<strong>統計的時間的関連</strong>の有意性を指し，因果推論（do-calculus）ではない。交絡要因が存在する場合や複数イベントの時間窓が重複する場合，本手法の出力は帰属候補の<strong>スクリーニング</strong>として位置づけられる（CONFOUND・OVERLAP条件での精度低下として実験的に確認）。</p>
 </div>
 
 <h3>3つの技術的課題</h3>
 <div class="grid-3">
   <div class="box">
     <h4 class="red">① 規模</h4>
-    <p class="small" style="margin:0">仮説数 O(|F|&times;|E|) &rarr; 厳格な多重検定補正が必要</p>
+    <p class="small" style="margin:0">&Sigma;|I_P| &times; |E| 個の (P, I, e) 仮説を同時に検定 &rarr; 厳格な多重検定補正が必要</p>
   </div>
   <div class="box">
     <h4 class="red">② 副次パターン</h4>
-    <p class="small" style="margin:0">アイテム共有で全関連パターンのサポートが連動 &rarr; 偽陽性の連鎖</p>
+    <p class="small" style="margin:0">アイテム i の頻度増加 &rarr; i を含む全共起パターンのサポートが連動変動 &rarr; 偽陽性の連鎖</p>
   </div>
   <div class="box">
     <h4 class="red">③ 時間的混同</h4>
-    <p class="small" style="margin:0">無関係なイベントの時間窓が偶然重複 &rarr; 帰属が曖昧に</p>
+    <p class="small" style="margin:0">複数イベントの時間窓が重複 &rarr; 帰属が曖昧に</p>
   </div>
 </div>
 
@@ -397,7 +393,7 @@
 <!-- ===== 4. 提案手法 ===== -->
 <h2 id="method">4. 提案手法: イベント帰属パイプライン</h2>
 
-<p>Step 0としてApriori-windowがパターン集合 F と各パターンの密集区間集合 {I_P} を出力し，これを入力としてSteps 1--5が統計的に有意なパターン–区間–イベント帰属 (P, I, e) の集合を出力する。</p>
+<p>Step 0としてApriori-windowがトランザクション列 D，ウィンドウサイズ W，最小サポート閾値 &theta; を入力としてパターン集合 F と各パターンの密集区間集合 {I_P} を出力し，これを入力としてSteps 1--5が統計的に有意なパターン–区間–イベント帰属 (P, I, e) の集合を出力する。</p>
 
 <!-- I/O Diagram -->
 <div class="chart-container">
@@ -444,8 +440,14 @@
 
 <!-- ── Step 2 ── -->
 <h3 id="step2">4.2 Step 2: 変化量の評価</h3>
-<div class="formula">magnitude(&tau;) = |s&#x0304;&#x207A;(&tau;) &minus; s&#x0304;&#x207B;(&tau;)|</div>
-<p>瞬時差分 (s_P(&tau;) &minus; s_P(&tau;&minus;1)) と比較して，<strong>持続的なレベルシフト</strong>のみを捉える。交差前後の参照窓幅 h のデフォルトは 20。</p>
+<p>T = N&minus;W+1 とし，変化点 &tau; の前後 h 点の参照窓を定義する（デフォルト h = 20）。</p>
+<div class="formula">
+  L<sup>&minus;</sup><sub>&tau;</sub> = {max(0, &tau;&minus;h), &hellip;, &tau;&minus;1}<br>
+  L<sup>+</sup><sub>&tau;</sub> = {&tau;, &hellip;, min(T&minus;1, &tau;+h&minus;1)}
+</div>
+<p>変化量を局所平均差として定義する:</p>
+<div class="formula">magnitude(&tau;) = |s&#x0304;<sup>+</sup>(&tau;) &minus; s&#x0304;<sup>&minus;</sup>(&tau;)|</div>
+<p><strong>検出位置</strong>は閾値交差（密集区間の端点）で決め，<strong>変化の強さ</strong>は交差前後のレベル差で評価する。瞬時差分 (s_P(&tau;) &minus; s_P(&tau;&minus;1)) と比較して，<strong>持続的なレベルシフト</strong>のみを捉える設計。</p>
 
 <h4>フィルタリング</h4>
 <p>有意性検定前の仮説空間削減のため，2つのフィルタを適用する：</p>
@@ -475,12 +477,17 @@
   </div>
   <div class="box" style="border-color:var(--c-red);background:var(--c-red-bg)">
     <h4>正規化変化量 mag</h4>
-    <div class="formula">magnitude(&tau;) / &radic;max(1, s&#x0304;&#x207B;)</div>
-    <p class="small" style="margin:8px 0 0">平方根正規化により，高頻度アイテムペアのスコア膨張を抑制。アブレーション実験で<strong>proximity と相補的</strong>に機能することを実証。</p>
+    <div class="formula">mag(&tau;) = magnitude(&tau;) / &radic;max(1, s&#x0304;<sup>&minus;</sup>(&tau;))</div>
+    <p class="small" style="margin:8px 0 0">ベースラインサポートが高いパターンほど絶対変化量が大きくなるバイアスを，平方根で除すことにより緩和。実世界のトランザクションデータではアイテム頻度がZipf分布に従うケースが多く，この正規化が特に有効。アブレーション実験で<strong>proximity と相補的</strong>に機能することを実証。</p>
   </div>
 </div>
 
 <p>密集区間 I のイベント e に対する観測スコアは，その区間の変化点（上昇・下降の最大2点）にわたる帰属スコアの総和 A_obs(P, I, e) = &Sigma;_&tau;&isin;C_I A(P, &tau;, e) とする。</p>
+
+<div class="box">
+  <h4>設計根拠</h4>
+  <p class="small" style="margin:0">帰属スコア A は候補のランキング用指標であり，帰属の最終判定は Step 4 の置換検定が行う。乗算構成 prox &times; mag は<strong>いずれかの構成要素が0に近ければスコア全体が0となる排他的フィルタ</strong>として機能し，EX2が両成分の補完性を実証する。</p>
+</div>
 
 <!-- ── Step 4 ── -->
 <h3 id="step4">4.4 Step 4: 円形シフト置換検定 + グローバル FDR 補正</h3>
@@ -511,9 +518,16 @@
 </svg>
 </div>
 
+<p>各置換に対してスコアを再計算し，未補正 p 値を求める:</p>
 <div class="formula">
-  p_raw(P, e) = (1 + |{b : A_perm^(b) &ge; A_obs}|) / (B + 1)
+  p_raw(P, I, e) = (1 + |{b : A_perm<sup>(b)</sup>(P, I, e) &ge; A_obs(P, I, e)}|) / (B + 1)
 </div>
+
+<div class="box accent">
+  <h4>命題: 置換検定の正当性</h4>
+  <p class="small" style="margin:0">帰無仮説 H<sub>0</sub> のもとでは，観測スコア A_obs と B 個の置換スコアは<strong>交換可能（exchangeable）</strong>である。したがって p 値は {1/(B+1), 2/(B+1), &hellip;, 1} 上の離散一様分布に従い，任意の水準 &alpha; で第一種過誤率が &alpha; 以下に制御される。</p>
+</div>
+
 <p class="small"><strong>特徴:</strong> 分布自由（サポート時系列の分布を仮定しない），自己相関構造を保存，全イベントの相対関係を維持</p>
 
 <h4>グローバル Benjamini&ndash;Hochberg 補正</h4>
@@ -569,10 +583,11 @@
 </svg>
 </div>
 
-<div class="box">
-  <h4>正当性</h4>
-  <p class="small" style="margin:0">真のパターン P* = {i&#x2081;, i&#x2082;} は全アイテムが同時にブーストされるため副次パターン P' = {i&#x2081;, j} よりサポート変動が大きく，A* &gt; A(P', e) となる。よって P* が保持され P' は除去される。計算量は O(R &times; k)（有意結果数 &times; パターン最大長）であり，置換検定に比して無視可能。</p>
+<div class="box accent">
+  <h4>主張: 重複排除の正当性（一般化）</h4>
+  <p class="small" style="margin:0">独立出現・加算ブーストの簡約モデルを仮定する。真のパターン P*（長さ l，全アイテムがブースト確率 &beta; &gt; 0 で増加）と s 個のアイテムを共有する副次パターン P'（残り l&minus;s 個は非ブースト）に対して，<strong>magnitude(&tau;, P*) &gt; magnitude(&tau;, P')</strong> が成立する。さらに s &ge; &lceil;l/2&rceil; のとき両者は過半数共有グラフの同一連結成分に属し，スコア最大の P* が保持されて P' は除去される。</p>
 </div>
+<p class="small">計算量は O(R &times; k)（有意結果数 &times; パターン最大長）であり，置換検定に比して無視可能。</p>
 
 <!-- ── 計算量 ── -->
 <h3 id="complexity">4.6 計算量分析</h3>
