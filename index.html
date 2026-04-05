@@ -174,6 +174,15 @@
     .content-wrap{padding-top:24px}
   }
 
+  /* ── IMAGES ── */
+  .fig-wrap{margin:24px 0;text-align:center}
+  .fig-wrap img{width:100%;border-radius:8px;border:1px solid var(--c-border)}
+  .fig-wrap .caption{font-size:12px;color:var(--c-gray);margin-top:8px;line-height:1.5}
+
+  /* ── HIGHLIGHT NUMBER ── */
+  .big-num{font-size:2rem;font-weight:900;line-height:1}
+  .big-num.red{color:var(--c-red)}
+
   /* ── FOOTER ── */
   .site-footer{
     border-top:1px solid var(--c-border);padding:40px;
@@ -395,30 +404,10 @@
 
 <p>Step 0としてApriori-windowがトランザクション列 D，ウィンドウサイズ W，最小サポート閾値 &theta; を入力としてパターン集合 F と各パターンの密集区間集合 {I_P} を出力し，これを入力としてSteps 1--5が統計的に有意なパターン–区間–イベント帰属 (P, I, e) の集合を出力する。</p>
 
-<!-- I/O Diagram -->
-<div class="chart-container">
-  <svg viewBox="0 0 780 180" width="100%" height="180">
-    <rect x="10" y="20" width="170" height="55" rx="8" fill="none" stroke="#ccc" stroke-width="1.5"/>
-    <text x="95" y="43" text-anchor="middle" fill="#333" font-size="11" font-weight="700">トランザクション列 D</text>
-    <text x="95" y="62" text-anchor="middle" fill="#999" font-size="9">{牛乳,パン,バター}, {卵,パン},&hellip;</text>
-    <rect x="10" y="85" width="170" height="55" rx="8" fill="none" stroke="#ccc" stroke-width="1.5"/>
-    <text x="95" y="108" text-anchor="middle" fill="#333" font-size="11" font-weight="700">外部イベント E</text>
-    <text x="95" y="127" text-anchor="middle" fill="#999" font-size="9">春セール [800,1200], 祝日 [2000,2400]</text>
-    <path d="M190,60 L260,90" stroke="#aaa" stroke-width="1.5" marker-end="url(#ag)"/>
-    <path d="M190,112 L260,95" stroke="#aaa" stroke-width="1.5"/>
-    <rect x="260" y="60" width="200" height="60" rx="8" fill="#d32f2f"/>
-    <text x="360" y="86" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">Event Attribution Pipeline</text>
-    <text x="360" y="104" text-anchor="middle" fill="#ffcdd2" font-size="10">5 Steps</text>
-    <line x1="470" y1="90" x2="530" y2="90" stroke="#aaa" stroke-width="1.5" marker-end="url(#ag)"/>
-    <rect x="530" y="30" width="240" height="120" rx="8" fill="none" stroke="#d32f2f" stroke-width="1.5"/>
-    <text x="650" y="55" text-anchor="middle" fill="#d32f2f" font-size="10" font-weight="700">有意な帰属（FDR制御済み）</text>
-    <text x="650" y="80" text-anchor="middle" fill="#333" font-size="10">{パン,バター} &rarr; 春セール</text>
-    <text x="650" y="97" text-anchor="middle" fill="#999" font-size="9">p_adj = 0.02, score = 12.4</text>
-    <line x1="560" y1="108" x2="740" y2="108" stroke="#eee"/>
-    <text x="650" y="125" text-anchor="middle" fill="#333" font-size="10">{卵,牛乳} &rarr; 祝日</text>
-    <text x="650" y="142" text-anchor="middle" fill="#999" font-size="9">p_adj = 0.04, score = 8.7</text>
-    <defs><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#aaa"/></marker></defs>
-  </svg>
+<!-- Pipeline Figure from Paper -->
+<div class="chart-container" style="margin:24px 0">
+  <img src="fig/pipeline_overview.png" alt="パイプライン概要図: (a) 全体構成 (b) 帰属スコアリングの例示" style="width:100%;border-radius:8px;border:1px solid var(--c-border)">
+  <p class="small" style="text-align:center;margin-top:8px">(a) パイプラインの全体構成。Step 0（Apriori-window）が密集区間を出力し，Steps 1--5を経て有意な帰属を出力する。(b) 帰属スコアリングの例示。</p>
 </div>
 
 <h3>パイプライン全体像</h3>
@@ -667,17 +656,18 @@
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>&beta;</th><th>F1</th><th>Recall</th><th>備考</th></tr></thead>
+        <thead><tr><th>&beta;</th><th>Prec</th><th>Recall</th><th>F1</th><th>95% CI</th></tr></thead>
         <tbody>
-          <tr><td>0.1</td><td>0.34</td><td>0.22</td><td class="dim">L=2語彙内が検出限界</td></tr>
-          <tr><td>0.2</td><td class="hl">&ge;0.78</td><td class="hl">&ge;0.92</td><td></td></tr>
-          <tr><td>0.3</td><td class="hl">&ge;0.78</td><td class="hl">&ge;0.92</td><td></td></tr>
-          <tr><td>0.5</td><td class="hl">&ge;0.78</td><td class="hl">&ge;0.92</td><td></td></tr>
+          <tr><td>0.1</td><td>0.71</td><td>0.22</td><td>0.34</td><td class="dim">[0.30, 0.37]</td></tr>
+          <tr><td>0.2</td><td>0.73</td><td class="hl">0.94</td><td class="hl">0.81</td><td>[0.77, 0.86]</td></tr>
+          <tr><td>0.3</td><td>0.69</td><td class="hl">0.93</td><td class="hl">0.79</td><td>[0.74, 0.84]</td></tr>
+          <tr><td>0.4</td><td>0.72</td><td class="hl">0.94</td><td class="hl">0.81</td><td>[0.75, 0.87]</td></tr>
+          <tr><td>0.5</td><td>0.71</td><td class="hl">0.92</td><td class="hl">0.79</td><td>[0.74, 0.85]</td></tr>
         </tbody>
       </table>
     </div>
     <div>
-      <p class="small" style="margin-top:8px">&beta;=0.1 はL=2語彙内パターンが検出限界だがL=3,4語彙外パターンは安定検出される（F1=0.34 [0.30, 0.37]）。<strong>&beta;&ge;0.2 でRecall&ge;0.92，F1&ge;0.78</strong> を達成。</p>
+      <p class="small" style="margin-top:8px">&beta;=0.1 はL=2語彙内パターンが検出限界だがL=3,4パターンは安定検出される。<strong>&beta;&ge;0.2 でRecall&ge;0.92，F1&ge;0.78</strong> を達成。</p>
     </div>
   </div>
 
@@ -685,12 +675,12 @@
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>条件</th><th>F1</th><th>備考</th></tr></thead>
+        <thead><tr><th>条件</th><th>Prec</th><th>Recall</th><th>F1</th><th>95% CI</th></tr></thead>
         <tbody>
-          <tr><td>SHORT</td><td class="hl">0.85</td><td>短期イベントでも高精度</td></tr>
-          <tr><td>OVERLAP</td><td class="hl">0.74</td><td>重複イベントを適切に弁別</td></tr>
-          <tr><td>CONFOUND</td><td>0.70</td><td>交絡条件でも安定</td></tr>
-          <tr><td>DENSE</td><td>0.67</td><td>高密度イベントで精度低下あり</td></tr>
+          <tr><td>SHORT</td><td>0.78</td><td class="hl">0.97</td><td class="hl">0.85</td><td>[0.80, 0.91]</td></tr>
+          <tr><td>OVERLAP</td><td>0.64</td><td>0.89</td><td class="hl">0.74</td><td>[0.66, 0.81]</td></tr>
+          <tr><td>CONFOUND</td><td>0.71</td><td>0.70</td><td>0.70</td><td>[0.60, 0.80]</td></tr>
+          <tr><td>DENSE</td><td>0.54</td><td>0.89</td><td>0.67</td><td>[0.63, 0.71]</td></tr>
         </tbody>
       </table>
     </div>
@@ -699,16 +689,32 @@
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
           <li><strong>全条件で F1 &ge; 0.67</strong> を達成</li>
-          <li><strong>SHORT</strong>: F1=0.85 &mdash; 短期間イベントでも最高精度</li>
-          <li><strong>OVERLAP/CONFOUND</strong>: イベント重複・交絡条件でも安定</li>
-          <li><strong>DENSE</strong>: 課題残るが検出力は維持</li>
+          <li><strong>SHORT</strong>: F1=0.85, Recall=0.97 &mdash; 短期間イベントでも最高精度</li>
+          <li><strong>OVERLAP</strong>: F1=0.74 &mdash; イベント重複でも安定</li>
+          <li><strong>CONFOUND</strong>: Precision=0.71 &mdash; 交絡を適切にフィルタ</li>
+          <li><strong>DENSE</strong>: Recall=0.89を維持するがPrecision=0.54と課題あり</li>
         </ul>
       </div>
     </div>
   </div>
 
   <h4 style="margin-top:32px">帰無条件検証</h4>
-  <p class="small">植え込み信号なしの帰無データで<strong>100 seed</strong>実行した結果，平均偽発見率は<strong>0.070</strong>（&le; &alpha; = 0.10）。BH手続きと円形シフト置換検定の組み合わせがFDR制御を経験的に達成することを確認。</p>
+  <div class="grid-2">
+    <div>
+      <p class="small">植え込み信号なしの帰無データで<strong>100 seed</strong>実行。93 seedで偽発見数0，7 seedで1件，2件以上は0。</p>
+    </div>
+    <div>
+      <div class="box" style="text-align:center">
+        <div style="font-size:2rem;font-weight:900;color:var(--c-red)">FDR = 0.070</div>
+        <p class="small" style="margin:4px 0 0">&le; &alpha; = 0.10 &mdash; FDR制御を経験的に達成</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px">
+    <img src="fig/ex1_combined.png" alt="EX1結果: (a) 信号強度別F1 (b) 構造条件別F1" style="width:100%;border-radius:8px;border:1px solid var(--c-border)">
+    <p class="small" style="text-align:center;margin-top:8px">EX1結果（20 seeds平均・95%CI）。(a) 信号強度: &beta;&ge;0.2でF1&ge;0.78。(b) 構造条件: 全条件でF1&ge;0.67。</p>
+  </div>
 </div>
 
 <!-- EX2 -->
@@ -755,20 +761,20 @@
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>条件</th><th>手法</th><th>P</th><th>R</th><th>F1</th><th>FAR</th><th>#Pred</th></tr></thead>
+        <thead><tr><th>条件</th><th>手法</th><th>F1</th><th>#Pred</th></tr></thead>
         <tbody>
-          <tr><td rowspan="4">&beta;=0.3</td><td>Naive</td><td>0.01</td><td>1.00</td><td>0.02</td><td>0.80</td><td>270</td></tr>
-          <tr><td>+PermTest</td><td>0.01</td><td>1.00</td><td>0.03</td><td>0.40</td><td>224</td></tr>
-          <tr><td>+BH</td><td>0.61</td><td>0.93</td><td>0.71</td><td>0.20</td><td>5</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.67</td><td>0.93</td><td class="hl">0.77</td><td class="hl">0.10</td><td>4</td></tr>
-          <tr><td rowspan="4">CONFOUND</td><td>Naive</td><td>0.01</td><td>1.00</td><td>0.02</td><td>1.00</td><td>303</td></tr>
-          <tr><td>+PermTest</td><td>0.01</td><td>1.00</td><td>0.02</td><td>1.00</td><td>265</td></tr>
-          <tr><td>+BH</td><td>0.41</td><td>1.00</td><td>0.56</td><td>1.00</td><td>9</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.72</td><td>0.93</td><td class="hl">0.81</td><td class="hl">0.40</td><td>4</td></tr>
-          <tr><td rowspan="4">DENSE</td><td>Naive</td><td>0.01</td><td>1.00</td><td>0.03</td><td>0.95</td><td>438</td></tr>
-          <tr><td>+PermTest</td><td>0.01</td><td>1.00</td><td>0.03</td><td>0.60</td><td>413</td></tr>
-          <tr><td>+BH</td><td>0.52</td><td>0.93</td><td>0.66</td><td>0.45</td><td>11</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.56</td><td>0.93</td><td class="hl">0.70</td><td class="hl">0.45</td><td>10</td></tr>
+          <tr><td rowspan="4">&beta;=0.3</td><td>Naive</td><td>0.02</td><td>270</td></tr>
+          <tr><td>+PermTest</td><td>0.03</td><td>224</td></tr>
+          <tr><td>+BH</td><td>0.71</td><td>5</td></tr>
+          <tr><td class="hl">Full</td><td class="hl">0.77</td><td>4</td></tr>
+          <tr><td rowspan="4">CONFOUND</td><td>Naive</td><td>0.02</td><td>303</td></tr>
+          <tr><td>+PermTest</td><td>0.02</td><td>265</td></tr>
+          <tr><td>+BH</td><td>0.56</td><td>9</td></tr>
+          <tr><td class="hl">Full</td><td class="hl">0.81</td><td>4</td></tr>
+          <tr><td rowspan="4">DENSE</td><td>Naive</td><td>0.03</td><td>438</td></tr>
+          <tr><td>+PermTest</td><td>0.03</td><td>413</td></tr>
+          <tr><td>+BH</td><td>0.66</td><td>11</td></tr>
+          <tr><td class="hl">Full</td><td class="hl">0.70</td><td>10</td></tr>
         </tbody>
       </table>
     </div>
@@ -784,6 +790,11 @@
       </div>
     </div>
   </div>
+
+  <div style="margin-top:24px">
+    <img src="fig/ex2b_ablation.png" alt="EX2b: パイプラインステップの段階的追加による精度変化" style="width:100%;border-radius:8px;border:1px solid var(--c-border)">
+    <p class="small" style="text-align:center;margin-top:8px">EX2b: パイプラインステップの段階的追加。(a) F1: BH補正と重複排除で大幅改善。(b) #Predictions: 各ステップが出力数を段階的に削減。</p>
+  </div>
 </div>
 
 <!-- EX3 -->
@@ -797,11 +808,11 @@
       <table class="dt">
         <thead><tr><th>手法</th><th>&beta;=0.3</th><th>OVERLAP</th><th>CONFOUND</th><th>DENSE</th><th>SHORT</th></tr></thead>
         <tbody>
-          <tr><td class="hl">提案手法</td><td class="hl">0.66</td><td class="hl">0.72</td><td class="hl">0.68</td><td class="hl">0.67</td><td>0.72</td></tr>
-          <tr><td>ITS</td><td>0.60</td><td>0.40</td><td>0.45</td><td>0.49</td><td class="hl">0.77</td></tr>
-          <tr><td>EventStudy</td><td>0.49</td><td>0.40</td><td>0.40</td><td>0.40</td><td>0.49</td></tr>
-          <tr><td>CausalImpact</td><td>0.49</td><td>0.40</td><td>0.40</td><td>0.40</td><td>0.40</td></tr>
-          <tr><td>Wilcoxon</td><td>0.40</td><td>0.40</td><td>0.40</td><td>0.40</td><td>0.40</td></tr>
+          <tr><td class="hl">提案手法</td><td class="hl">0.66</td><td class="hl">0.67</td><td class="hl">0.68</td><td class="hl">0.66</td><td>0.72</td></tr>
+          <tr><td>ITS</td><td>0.60</td><td>0.40</td><td>0.45</td><td>0.42</td><td class="hl">0.77</td></tr>
+          <tr><td>EventStudy</td><td>0.41</td><td>0.18</td><td>0.24</td><td>0.29</td><td>0.54</td></tr>
+          <tr><td>CausalImpact</td><td>0.36</td><td>0.17</td><td>0.22</td><td>0.24</td><td>0.49</td></tr>
+          <tr><td>Wilcoxon</td><td>0.34</td><td>0.27</td><td>0.14</td><td>0.18</td><td>0.42</td></tr>
         </tbody>
       </table>
       <p class="small" style="margin-top:8px">5 seeds平均F1，Zipf-1.0，&radic;正規化</p>
@@ -818,6 +829,11 @@
         </ul>
       </div>
     </div>
+  </div>
+
+  <div style="margin-top:24px">
+    <img src="fig/ex3_method.png" alt="EX3: 関連手法との比較（F1）" style="width:100%;border-radius:8px;border:1px solid var(--c-border)">
+    <p class="small" style="text-align:center;margin-top:8px">EX3: 関連手法との比較（5 seeds平均F1）。提案手法は全5条件で最高または同等のF1を達成。CONFOUND条件での優位性が最も顕著。</p>
   </div>
 </div>
 
@@ -855,10 +871,10 @@
 
 <h4 style="margin-top:32px">結果まとめ</h4>
 <div class="stat-row">
-  <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT)</div></div>
-  <div class="stat-card"><div class="val red">0.070</div><div class="lbl">帰無FDR<br>(100 seeds)</div></div>
-  <div class="stat-card"><div class="val">0.68</div><div class="lbl">EX3平均F1<br>(5条件)</div></div>
-  <div class="stat-card"><div class="val">100%</div><div class="lbl">Dunnhumby<br>カバレッジ</div></div>
+  <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT, EX1)</div></div>
+  <div class="stat-card"><div class="val red">0.070</div><div class="lbl">帰無FDR<br>(100 seeds, &le;&alpha;)</div></div>
+  <div class="stat-card"><div class="val">0.68</div><div class="lbl">EX3 平均F1<br>(vs 4手法)</div></div>
+  <div class="stat-card"><div class="val">5/5</div><div class="lbl">Dunnhumby<br>カバレッジ</div></div>
 </div>
 
 
