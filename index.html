@@ -412,7 +412,7 @@
 
 <h3>パイプライン全体像</h3>
 <div class="pipe-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>密集区間からの変化点抽出</h4><p>各密集区間を独立した帰属単位として扱い，[s,e] の端点から上昇変化点 s と下降変化点 e+1 を取得</p></div></div>
-<div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>変化量の評価 + フィルタ</h4><p>交差前後 h=20 期間のレベルシフト量を計算。サポート振幅フィルタ(&delta;=10)で仮説数を 90%以上削減</p></div></div>
+<div class="pipe-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>変化量の評価</h4><p>交差前後 h=20 期間のレベルシフト量を計算。平方根正規化でZipf的高頻度パターンのバイアスを補正</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">3</div><div class="pipe-body"><h4>帰属スコアリング</h4><p>A(P,&tau;,e) = prox &times; mag の2要素で変化点&ndash;イベント間の関連を定量化</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">4</div><div class="pipe-body"><h4>円形シフト置換検定 + グローバル BH 補正</h4><p>分布自由な置換検定で p 値を算出し，全仮説にBH手続きを適用して FDR &le; &alpha; を制御</p></div></div>
 <div class="pipe-step"><div class="pipe-num red">5</div><div class="pipe-body"><h4>アイテム重複排除（Union-Find）</h4><p>副次パターンの連鎖的偽陽性を連結成分分析で除去。各成分でスコア最大のパターンのみ保持</p></div></div>
@@ -438,18 +438,7 @@
 <div class="formula">magnitude(&tau;) = |s&#x0304;<sup>+</sup>(&tau;) &minus; s&#x0304;<sup>&minus;</sup>(&tau;)|</div>
 <p><strong>検出位置</strong>は閾値交差（密集区間の端点）で決め，<strong>変化の強さ</strong>は交差前後のレベル差で評価する。瞬時差分 (s_P(&tau;) &minus; s_P(&tau;&minus;1)) と比較して，<strong>持続的なレベルシフト</strong>のみを捉える設計。</p>
 
-<h4>フィルタリング</h4>
-<p>有意性検定前の仮説空間削減のため，2つのフィルタを適用する：</p>
-<div class="grid-2">
-  <div class="box">
-    <h4>サポート振幅フィルタ (&delta;=10)</h4>
-    <p class="small" style="margin:0">max(s_P) &minus; min(s_P) &lt; &delta; のパターンを除外。時間的変動の乏しいパターンを排除し，仮説数を<strong>90%以上削減</strong>。</p>
-  </div>
-  <div class="box">
-    <h4>変化量フィルタ (&theta;<sub>mag</sub>)</h4>
-    <p class="small" style="margin:0">変化量が閾値未満の変化点を除外。微小な揺らぎを排除。</p>
-  </div>
-</div>
+<p class="small">変化量の計算��必要な局所サポートは，パターン出現リスト T_P 上の二分探索により O(log |T_P|) で効率的に求める。</p>
 
 <!-- ── Step 3 ── -->
 <h3 id="step3">4.3 Step 3: 帰属スコアリング</h3>
@@ -527,8 +516,8 @@
 <p>BH 手続きは FDR を水準 &alpha; 以下に保ちつつ，Bonferroni 補正と比べてより多くの真の帰属を検出できる。</p>
 
 <div class="box">
-  <h4>仮説数削減の重要性</h4>
-  <p class="small" style="margin:0">サポート振幅フィルタ(&delta;=10)が仮説数を90%以上削減することで，BH補正による検出力低下を抑制する。重複排除が第2段フィルタとして機能し，副次パターンの偽陽性を除去する。</p>
+  <h4>多重検定と偽陽性制御</h4>
+  <p class="small" style="margin:0">BH手続きがグローバルなFDR制御を担い，Step 5の重複排除が副次パターンによる冗長な偽陽性をさらに除去する。EX2bのアブレーション分析が，各ステッ��の段階的な寄与を実証している。</p>
 </div>
 
 <!-- ── Step 5 ── -->
@@ -588,7 +577,7 @@
     <tr><td>5</td><td>重複排除</td><td>O(R &middot; k)</td></tr>
   </tbody>
 </table>
-<p class="small">C&#x0304;: 平均密集区間数, h: レベルウィンドウ幅(=20), |F'|: フィルタ後パターン数, B: 置換回数(=5,000), C: 平均変化点数, R: 有意結果数, k: パターン最大長。サポート振幅フィルタが |F'| を 90%以上削減するため，Step 3&ndash;4 は大規模パターン集合でも効率的。</p>
+<p class="small">C&#x0304;: 平均密集区間数, h: レベルウィンドウ幅(=20), |F'|: 対象パターン数, B: 置換回数(=5,000), C: 平均変化点数, R: 有意結果数, k: パターン最大長。Step 3&ndash;4 の計算量はパターン数に線形���あり，大規模パターン集合でも実用的。</p>
 
 
 <!-- ===== 5. 実験 ===== -->
@@ -617,7 +606,6 @@
         <tr><td>近接度 &sigma;</td><td>W = 50</td></tr>
         <tr><td>置換回数 B</td><td>5,000</td></tr>
         <tr><td>有意水準 &alpha;</td><td>0.10</td></tr>
-        <tr><td>最小サポート振幅 &delta;</td><td>10</td></tr>
         <tr><td>変化量正規化</td><td>平方根</td></tr>
         <tr><td>補正方法</td><td>BH</td></tr>
         <tr><td>重複排除</td><td>有効</td></tr>
