@@ -16,12 +16,12 @@ ax.axis('off')
 ax.set_title('(a) Pipeline Overview', fontsize=9, fontweight='bold', pad=6)
 
 # Colors
-c_input = '#E8F0FE'
-c_step = '#FFF3E0'
-c_output = '#E8F5E9'
-c_border_input = '#4285F4'
-c_border_step = '#FB8C00'
-c_border_output = '#43A047'
+c_input = '#FFFFFF'
+c_step = '#E3F2FD'
+c_output = '#FFFFFF'
+c_border_input = '#333333'
+c_border_step = '#1565C0'
+c_border_output = '#333333'
 
 boxes = [
     # (x, y, w, h, text, bg_color, border_color)
@@ -70,39 +70,39 @@ for i in range(boost_start, 130):
 kernel = np.ones(8) / 8
 support = np.convolve(baseline, kernel, mode='same')
 
-ax2.plot(t, support, color='#1565C0', linewidth=1.0, alpha=0.9)
+ax2.plot(t, support, color='#000000', linewidth=1.0, alpha=0.9)
 ax2.set_xlabel('Transaction index $t$', fontsize=7)
 ax2.set_ylabel('Support $s_P(t)$', fontsize=7)
 ax2.tick_params(labelsize=6)
 
 # Change point τ↑ at the rise (t=47)
 cp_up = 47
-ax2.axvline(x=cp_up, color='#E53935', linestyle=':', linewidth=1.0, alpha=0.8)
+ax2.axvline(x=cp_up, color='#1565C0', linestyle=':', linewidth=1.0, alpha=0.8)
 ax2.annotate('$\\tau_{\\uparrow}$', xy=(cp_up, support[cp_up]),
-             xytext=(cp_up - 16, support[cp_up] + 1.5),
-             fontsize=8, color='#E53935', fontweight='bold',
-             arrowprops=dict(arrowstyle='->', color='#E53935', lw=0.8))
+             xytext=(cp_up + 12, support[cp_up] + 0.5),
+             fontsize=8, color='#1565C0', fontweight='bold',
+             arrowprops=dict(arrowstyle='->', color='#1565C0', lw=0.8))
 
 # Event period (shaded)
-ax2.axvspan(event1_start, event1_end, alpha=0.15, color='#FF9800')
+ax2.axvspan(event1_start, event1_end, alpha=0.15, color='#999999')
 ax2.text((event1_start + event1_end) / 2, 0.6, 'Event $e$',
-         fontsize=8, ha='center', color='#E65100', fontweight='bold')
+         fontsize=8, ha='center', color='#000000', fontweight='bold')
 
 # Magnitude arrow (before vs after change point)
 mag_y_low = np.mean(support[cp_up - 20:cp_up])
 mag_y_high = np.mean(support[cp_up + 5:cp_up + 30])
 mag_x = cp_up - 6
 ax2.annotate('', xy=(mag_x, mag_y_high), xytext=(mag_x, mag_y_low),
-             arrowprops=dict(arrowstyle='<->', color='#43A047', lw=1.5))
+             arrowprops=dict(arrowstyle='<->', color='#1565C0', lw=1.5))
 ax2.text(mag_x - 4, (mag_y_high + mag_y_low) / 2, 'mag', fontsize=7,
-         color='#2E7D32', ha='right', fontweight='bold')
+         color='#0D47A1', ha='right', fontweight='bold')
 
 # Proximity arrow (τ↑ → event start — 23 unit gap, clearly visible)
 prox_y = 1.5
 ax2.annotate('', xy=(event1_start, prox_y), xytext=(cp_up, prox_y),
-             arrowprops=dict(arrowstyle='<->', color='#7B1FA2', lw=1.2))
+             arrowprops=dict(arrowstyle='<->', color='#1565C0', lw=1.2))
 ax2.text((cp_up + event1_start) / 2, prox_y + 0.5, 'prox', fontsize=7,
-         color='#7B1FA2', ha='center', fontweight='bold')
+         color='#0D47A1', ha='center', fontweight='bold')
 
 ax2.set_ylim(0, max(support) + 2)
 ax2.set_xlim(0, N)

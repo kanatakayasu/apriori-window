@@ -41,8 +41,8 @@ pred = {
 }
 
 # ---------- Colors & hatches ----------
-colors   = ["#bdc3c7", "#74b9ff", "#0984e3", "#2d3436"]
-hatches  = ["//",  "",  "",  ""]
+colors   = ["#e0e0e0", "#74b9ff", "#0984e3", "#2d3436"]
+hatches  = ["",  "",  "",  ""]
 edgecols = ["#7f8c8d", "#2980b9", "#0652DD", "#1e272e"]
 
 x = np.arange(len(conditions))

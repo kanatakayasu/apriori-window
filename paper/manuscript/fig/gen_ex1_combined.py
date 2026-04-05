@@ -38,7 +38,7 @@ ci_hi_arr = np.array(ci_hi)
 ax1.fill_between(beta, ci_lo_arr, ci_hi_arr, alpha=0.15, color="#2d3436", zorder=1)
 ax1.plot(beta, f1,        "o-",  color="#2d3436", label="F1 (95% CI)")
 ax1.plot(beta, precision, "s--", color="#0984e3", label="Precision")
-ax1.plot(beta, recall,    "^--", color="#e17055", label="Recall")
+ax1.plot(beta, recall,    "^--", color="#74b9ff", label="Recall")
 
 ax1.set_xlabel(r"Boost probability $\beta$")
 ax1.set_ylabel("Score")

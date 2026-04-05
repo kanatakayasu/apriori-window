@@ -96,30 +96,8 @@ F1 $\geq$ 0.67 is achieved across all structural conditions
 (see \S\ref{app:overlap_analysis}).
 
 \paragraph{Null Condition Validation}
-We ran \textbf{100 seeds} on null data containing no planted signals
-($N = 100{,}000$, 4 Type~B dense patterns plus 5 randomly placed non-overlapping
-decoy events, $W = 1{,}000$, $\theta = 100$),
-with results shown in Table~\ref{tab:null_fdr}
-(see Appendix~\ref{app:null_fdr}).
-Only 7 of 100 seeds produced any false positive attributions (1 each),
-yielding a mean per-seed FDR of \textbf{0.070} ($\leq \alpha = 0.10$),
-empirically confirming FDR control.
-
-\begin{table}[t]
-\centering
-\caption{False Positive Control under Null Conditions (100 seeds, $\alpha=0.10$).}
-\label{tab:null_fdr}
-\begin{tabular}{lr}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Seeds with 0 false positives & 93 / 100 \\
-Seeds with 1 false positive  & 7 / 100 \\
-Mean per-seed FDR            & 0.070 \\
-$\alpha$ (significance level) & 0.10 \\
-\bottomrule
-\end{tabular}
-\end{table}
+Running \textbf{100 seeds} on null data with no planted signals (Appendix~\ref{app:null_fdr}),
+the mean per-seed FDR was \textbf{0.070} ($\leq \alpha = 0.10$), empirically confirming FDR control.
 
 % ------------------------------------------------------------------
 \subsection{EX2: Ablation Analysis}

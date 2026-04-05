@@ -132,13 +132,7 @@ $M = \sum_{P \in \mathcal{F}'} |\mathcal{I}_P| \cdot |\mathcal{E}|$
 hypotheses ($(P, I, e)$ triplets),
 maintaining FDR at level $\alpha$ while achieving higher power than Bonferroni correction.
 
-\begin{remark}[PRDS Condition]\label{rem:prds}
-For the BH procedure to control FDR for non-independent test statistics,
-the $p$-values must satisfy the positive regression dependency on a subset (PRDS) condition~\cite{benjamini2001control}.
-We do not provide a formal proof here, but the positive correlation between support
-time series of patterns sharing items induces positive dependence among corresponding
-$p$-values, serving as the practical rationale for applying PRDS.
-\end{remark}
+See Appendix~\ref{app:prds} for the PRDS condition justification.
 
 \subsection{Step 5: Item Deduplication}\label{sec:dedup}
 
@@ -184,13 +178,4 @@ while $P'$ is eliminated.
 
 The proof is given in Appendix~\ref{app:dedup_proof}.
 
-The computational complexity of the deduplication step is $O(n \cdot k)$ per event,
-where $n$ is the number of significant attributions and $k$ is the maximum pattern length.
-This is negligible compared to the permutation testing step.
-
-\subsection{Computational Complexity}
-
-The dominant bottleneck is the permutation testing in Steps~3--4,
-with overall complexity $O\!\left(\sum_{P} |\mathcal{I}_P| \cdot |\mathcal{E}| \cdot B\right)$.
-Rayon parallelization at the pattern--interval level substantially reduces
-practical processing time.
+See Appendix~\ref{app:complexity} for complexity analysis.

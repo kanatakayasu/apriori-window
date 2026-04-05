@@ -122,12 +122,7 @@ $M = \sum_{P \in \mathcal{F}'} |\mathcal{I}_P| \cdot |\mathcal{E}|$
 Benjamini--Hochberg (BH) 手続き~\cite{benjamini1995controlling}をグローバルに適用し，
 FDRを水準 $\alpha$ 以下に保ちつつBonferroni補正より高い検出力を実現する．
 
-\begin{remark}[PRDS 条件の充足]\label{rem:prds}
-BH手続きが独立でない検定統計量に対してもFDRを制御するには，
-$p$ 値が部分集合上の正回帰依存性（PRDS）条件を満たす必要がある~\cite{benjamini2001control}．
-本稿では形式的証明は与えないが，アイテムを共有するパターン対のサポート時系列は
-正の相関を持ち，対応する $p$ 値間に正の依存性が誘導されることがPRDS適用の実務的根拠となる．
-\end{remark}
+PRDS条件の充足については付録~\ref{app:prds}を参照されたい．
 
 \subsection{Step 5: アイテム重複排除}\label{sec:dedup}
 
@@ -163,12 +158,4 @@ $\text{magnitude}(\tau, P^*) > \text{magnitude}(\tau, P')$ が成立する．
 
 証明は付録~\ref{app:dedup_proof}に示す．
 
-重複排除ステップの計算量はイベントあたり $O(n \cdot k)$ であり，
-$n$ は有意帰属数，$k$ はパターン最大長である．
-置換検定ステップに比して無視可能なコストである．
-
-\subsection{計算量分析}
-
-支配的なボトルネックはSteps~3--4の置換検定であり，
-全体の計算量は $O\!\left(\sum_{P} |\mathcal{I}_P| \cdot |\mathcal{E}| \cdot B\right)$ である．
-パターン・区間単位でのRayon並列化により実用上の処理時間を大幅に削減できる．
+計算量分析は付録~\ref{app:complexity}を参照されたい．

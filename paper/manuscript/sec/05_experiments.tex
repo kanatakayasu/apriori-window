@@ -88,29 +88,8 @@ $\beta \geq 0.2$ でRecall $\geq 0.92$，F1 $\geq 0.78$ を達成した．
 構造条件は全条件でF1 $\geq$ 0.67を達成した（§\ref{app:overlap_analysis}参照）．
 
 \paragraph{帰無条件検証}
-植え込み信号を一切含まない帰無データ（N = 100{,}000，
-4件のType B密集パターン + 5件のランダムデコイイベントが非重複配置，
-$W = 1{,}000$, $\theta = 100$）で\textbf{100 seed}実行した結果
-（表~\ref{tab:null_fdr}，付録~\ref{app:null_fdr}参照），
-100 seed中7 seedのみで偽陽性帰属が発生し（各seed 1件），
-平均偽発見率（mean per-seed FDR）は\textbf{0.070}（$\leq \alpha = 0.10$）であった．
-FDR制御が経験的に確認された．
-
-\begin{table}[t]
-\centering
-\caption{帰無条件での偽陽性制御（100 seeds，$\alpha=0.10$）．}
-\label{tab:null_fdr}
-\begin{tabular}{lr}
-\toprule
-\textbf{Metric} & \textbf{Value} \\
-\midrule
-Seeds with 0 false positives & 93 / 100 \\
-Seeds with 1 false positive  & 7 / 100 \\
-Mean per-seed FDR            & 0.070 \\
-$\alpha$ (significance level) & 0.10 \\
-\bottomrule
-\end{tabular}
-\end{table}
+植え込み信号なしの帰無データで\textbf{100 seed}実行した結果（付録~\ref{app:null_fdr}），
+平均偽発見率は\textbf{0.070}（$\leq \alpha = 0.10$）であり，FDR制御が経験的に確認された．
 
 % ------------------------------------------------------------------
 \subsection{EX2: アブレーション分析}
