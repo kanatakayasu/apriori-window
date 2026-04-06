@@ -714,9 +714,9 @@
       <table class="dt">
         <thead><tr><th>構成</th><th>Scenario A<br>(prox必要)</th><th>Scenario B<br>(mag必要)</th></tr></thead>
         <tbody>
-          <tr><td class="hl">Full (prox&times;mag)</td><td class="hl">1.00</td><td class="hl">0.46</td></tr>
+          <tr><td class="hl">Full (prox&times;mag)</td><td class="hl">0.93</td><td class="hl">0.46</td></tr>
           <tr><td>mag のみ（prox除去）</td><td>0.00</td><td>0.00</td></tr>
-          <tr><td>prox のみ（mag除去）</td><td>1.00</td><td>0.19</td></tr>
+          <tr><td>prox のみ（mag除去）</td><td>0.93</td><td>0.19</td></tr>
         </tbody>
       </table>
     </div>
@@ -810,8 +810,8 @@
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
           <li>提案手法は<strong>全5条件で最高または同等のF1</strong>を達成（平均F1 = 0.68）</li>
-          <li><strong>CONFOUND条件</strong>で最大の優位性: 0.68 vs 次点ITS 0.45</li>
-          <li>ITSはSHORT条件で0.77と競合するが，CONFOUND/OVERLAPで大きく低下</li>
+          <li><strong>OVERLAP条件</strong>で最大の優位性: 0.67 vs 次点ITS 0.40</li>
+          <li>ITSはSHORT条件で0.77と競合するが，OVERLAP/CONFOUNDで大きく低下</li>
           <li>CausalImpact・Wilcoxonは全条件でF1 &le; 0.49</li>
           <li>提案手法のproximityスコアが交絡・重複条件での弁別に有効</li>
         </ul>
@@ -851,8 +851,24 @@
           <li><strong>カバレッジ 100%</strong>: 全5キャンペーンに少なくとも1件の有意帰属を生成</li>
           <li>キャンペーンあたり平均 <strong>3.0件</strong> &mdash; 分析者にとって管理可能な量</li>
           <li>帰属パターンの商品カテゴリはキャンペーン内容と<strong>定性的に整合</strong></li>
+          <li>15件中7件（<strong>47%</strong>）がクーポン対象カテゴリと重複（C8・C13・C18）</li>
         </ul>
       </div>
+    </div>
+  </div>
+
+  <h4 style="margin-top:24px">定性的な具体例</h4>
+  <div class="grid-2">
+    <div class="box">
+      <h4>C8・C18: クーポン整合</h4>
+      <ul style="font-size:13px;margin:0">
+        <li><strong>C8</strong>: <em>熱帯果物 + 清涼飲料</em>（p<sub>adj</sub>=0.035）&mdash; 生鮮品・飲料の共購買パターン，クーポン対象と一致</li>
+        <li><strong>C18</strong>: <em>牛肉 + 熱帯果物</em>（p<sub>adj</sub>=0.045），<em>乳製品 + パイ</em>（p<sub>adj</sub>=0.038）&mdash; 肉・生鮮品系販促と一致</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>C26・C30: 間接的需要波及</h4>
+      <p style="font-size:13px;margin:0"><em>パン + 乳製品</em>，<em>乳製品 + 牛肉</em>等，クーポン直接対象外の帰属が生成。販促による<strong>間接的な需要波及効果</strong>を示唆する。</p>
     </div>
   </div>
 </div>
@@ -914,7 +930,7 @@
 
 <footer class="site-footer">
   Event Attribution Pipeline &mdash; Bridging Frequent Pattern Mining and External Event Attribution<br>
-  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-04-05</span>
+  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-04-06</span>
 </footer>
 
 </div><!-- /site-main -->
