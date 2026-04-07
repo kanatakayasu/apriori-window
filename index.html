@@ -618,9 +618,9 @@
 <table class="dt">
   <thead><tr><th>実験</th><th>目的</th><th>条件</th><th>Seeds</th></tr></thead>
   <tbody>
-    <tr><td><strong>EX1</strong></td><td>コア帰属精度</td><td>&beta; &isin; {0.1,0.2,0.3,0.5} + 構造条件（OVERLAP/CONFOUND/DENSE/SHORT）</td><td>20</td></tr>
-    <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/mag）&times; 2シナリオ + パイプラインステップ比較</td><td>5</td></tr>
-    <tr><td><strong>EX3</strong></td><td>関連手法比較</td><td>Wilcoxon / CausalImpact / ITS / EventStudy とのStep差分比較</td><td>5</td></tr>
+    <tr><td><strong>EX1</strong></td><td>コア帰属精度</td><td>&beta; &isin; {0.1,0.2,0.3,0.4,0.5} + 構造条件（OVERLAP/CONFOUND/DENSE/SHORT）</td><td>20</td></tr>
+    <tr><td><strong>EX2</strong></td><td>アブレーション</td><td>スコア構成要素除去（prox/mag）&times; 2シナリオ + パイプラインステップ比較</td><td>20</td></tr>
+    <tr><td><strong>EX3</strong></td><td>関連手法比較</td><td>Wilcoxon / CausalImpact / ITS / EventStudy とのStep差分比較</td><td>20</td></tr>
     <tr><td><strong>EX4</strong></td><td>実データ検証</td><td>Dunnhumby（276K txn, 大規模販促5キャンペーン）</td><td>1</td></tr>
   </tbody>
 </table>
@@ -708,22 +708,22 @@
 <!-- EX2 -->
 <div class="tab-panel" id="panel-ex2">
 
-  <h4>EX2a: スコア構成要素のアブレーション（F1, 5 seeds 平均）</h4>
+  <h4>EX2a: スコア構成要素のアブレーション（F1, 20 seeds 平均）</h4>
   <div class="grid-2">
     <div>
       <table class="dt">
         <thead><tr><th>構成</th><th>Scenario A<br>(prox必要)</th><th>Scenario B<br>(mag必要)</th></tr></thead>
         <tbody>
-          <tr><td class="hl">Full (prox&times;mag)</td><td class="hl">0.93</td><td class="hl">0.46</td></tr>
+          <tr><td class="hl">Full (prox&times;mag)</td><td class="hl">1.00</td><td class="hl">0.45</td></tr>
           <tr><td>mag のみ（prox除去）</td><td>0.00</td><td>0.00</td></tr>
-          <tr><td>prox のみ（mag除去）</td><td>0.93</td><td>0.19</td></tr>
+          <tr><td>prox のみ（mag除去）</td><td>1.00</td><td>0.24</td></tr>
         </tbody>
       </table>
     </div>
     <div>
       <div class="box accent">
         <h4>proximity と magnitude の相補性</h4>
-        <p class="small" style="margin:0">mag のみ（prox除去）は時間的対応付け情報を持たず<strong>両シナリオでF1=0.00に崩壊</strong>。prox のみはScenario Aで1.00だがScenario B（大小ブースト弁別）で0.19に低下。Full構成が両要素の相補性により最高精度を達成。</p>
+        <p class="small" style="margin:0">mag のみ（prox除去）は時間的対応付け情報を持たず<strong>両シナリオでF1=0.00に崩壊</strong>。prox のみはScenario Aで1.00だがScenario B（大小ブースト弁別）で0.24に低下。Full構成が両要素の相補性により最高精度を達成。</p>
       </div>
       <div class="chart-container" style="margin-top:16px">
         <svg viewBox="0 0 300 100" width="100%">
@@ -737,32 +737,24 @@
           <text x="100" y="57" fill="#888" font-size="10" font-weight="700">F1 = 0.00</text>
           <text x="10" y="85" fill="#666" font-size="10">prox only</text>
           <rect x="80" y="72" width="210" height="22" rx="4" fill="#f0f0f0"/>
-          <rect x="80" y="72" width="168" height="22" rx="4" fill="#bbb"/>
-          <text x="164" y="87" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 0.80</text>
+          <rect x="80" y="72" width="210" height="22" rx="4" fill="#d32f2f"/>
+          <text x="185" y="87" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">F1 = 1.00</text>
         </svg>
         <p class="small" style="margin-top:4px;text-align:center">Scenario A での比較</p>
       </div>
     </div>
   </div>
 
-  <h4 style="margin-top:32px">EX2b: パイプラインステップの段階的比較（5 seeds 平均）</h4>
+  <h4 style="margin-top:32px">EX2b: パイプラインステップの段階的比較（20 seeds 平均，&beta;=0.2）</h4>
   <div class="grid-2">
     <div>
       <table class="dt">
-        <thead><tr><th>条件</th><th>手法</th><th>F1</th><th>#Pred</th></tr></thead>
+        <thead><tr><th>手法</th><th>F1</th><th>Prec</th><th>Rec</th><th>#Pred</th></tr></thead>
         <tbody>
-          <tr><td rowspan="4">&beta;=0.3</td><td>Naive</td><td>0.02</td><td>270</td></tr>
-          <tr><td>+PermTest</td><td>0.03</td><td>224</td></tr>
-          <tr><td>+BH</td><td>0.71</td><td>5</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.77</td><td>4</td></tr>
-          <tr><td rowspan="4">CONFOUND</td><td>Naive</td><td>0.02</td><td>303</td></tr>
-          <tr><td>+PermTest</td><td>0.02</td><td>265</td></tr>
-          <tr><td>+BH</td><td>0.56</td><td>9</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.81</td><td>4</td></tr>
-          <tr><td rowspan="4">DENSE</td><td>Naive</td><td>0.03</td><td>438</td></tr>
-          <tr><td>+PermTest</td><td>0.03</td><td>413</td></tr>
-          <tr><td>+BH</td><td>0.66</td><td>11</td></tr>
-          <tr><td class="hl">Full</td><td class="hl">0.70</td><td>10</td></tr>
+          <tr><td>Naive</td><td>0.06</td><td>0.03</td><td>0.57</td><td>98.0</td></tr>
+          <tr><td>+PermTest</td><td>0.30</td><td>0.20</td><td>0.57</td><td>15.2</td></tr>
+          <tr><td>+BH</td><td>0.30</td><td>0.22</td><td>0.48</td><td>11.8</td></tr>
+          <tr><td class="hl">Full</td><td class="hl">0.50</td><td class="hl">0.53</td><td>0.48</td><td>4.8</td></tr>
         </tbody>
       </table>
     </div>
@@ -770,9 +762,10 @@
       <div class="box accent">
         <h4>各ステップの段階的寄与</h4>
         <ul style="font-size:13px;margin:0">
-          <li><strong>Naive</strong>: 全条件でRecall=1.00だがPrecision極低（F1&le;0.03）</li>
-          <li><strong>+BH補正</strong>: 最大の偽陽性削減効果（270件&rarr;5件）</li>
-          <li><strong>Full</strong>（+重複排除）: 全条件で最高F1を達成</li>
+          <li><strong>Naive</strong>: Recall=0.57だがPrecision=0.03（F1=0.06）と偽陽性が膨大</li>
+          <li><strong>+PermTest</strong>: 偽陽性を大幅削減し F1=0.30 へ改善</li>
+          <li><strong>+BH補正</strong>: FDR制御の統計的保証を付与</li>
+          <li><strong>Full</strong>（+重複排除）: Precision 0.22&rarr;<strong>0.53</strong>，F1=<strong>0.50</strong></li>
           <li>各ステップが<strong>段階的かつ相補的</strong>に偽陽性を削減</li>
         </ul>
       </div>
@@ -796,23 +789,23 @@
       <table class="dt">
         <thead><tr><th>手法</th><th>&beta;=0.3</th><th>OVERLAP</th><th>CONFOUND</th><th>DENSE</th><th>SHORT</th></tr></thead>
         <tbody>
-          <tr><td class="hl">提案手法</td><td class="hl">0.66</td><td class="hl">0.67</td><td class="hl">0.68</td><td class="hl">0.66</td><td>0.72</td></tr>
-          <tr><td>ITS</td><td>0.60</td><td>0.40</td><td>0.45</td><td>0.42</td><td class="hl">0.77</td></tr>
-          <tr><td>EventStudy</td><td>0.41</td><td>0.18</td><td>0.24</td><td>0.29</td><td>0.54</td></tr>
-          <tr><td>CausalImpact</td><td>0.36</td><td>0.17</td><td>0.22</td><td>0.24</td><td>0.49</td></tr>
-          <tr><td>Wilcoxon</td><td>0.34</td><td>0.27</td><td>0.14</td><td>0.18</td><td>0.42</td></tr>
+          <tr><td class="hl">提案手法</td><td class="hl">0.77</td><td class="hl">0.68</td><td class="hl">0.60</td><td class="hl">0.64</td><td class="hl">0.81</td></tr>
+          <tr><td>ITS</td><td>0.67</td><td>0.31</td><td>0.35</td><td>0.45</td><td>0.77</td></tr>
+          <tr><td>EventStudy</td><td>0.46</td><td>0.27</td><td>0.24</td><td>0.28</td><td>0.52</td></tr>
+          <tr><td>CausalImpact</td><td>0.40</td><td>0.23</td><td>0.23</td><td>0.22</td><td>0.44</td></tr>
+          <tr><td>Wilcoxon</td><td>0.38</td><td>0.22</td><td>0.19</td><td>0.18</td><td>0.36</td></tr>
         </tbody>
       </table>
-      <p class="small" style="margin-top:8px">5 seeds平均F1，Zipf-1.0，&radic;正規化</p>
+      <p class="small" style="margin-top:8px">20 seeds平均F1，Zipf-1.0，&radic;正規化</p>
     </div>
     <div>
       <div class="box accent">
         <h4>主な知見</h4>
         <ul style="font-size:13px;margin:0">
-          <li>提案手法は<strong>全5条件で最高または同等のF1</strong>を達成（平均F1 = 0.68）</li>
-          <li><strong>OVERLAP条件</strong>で最大の優位性: 0.67 vs 次点ITS 0.40</li>
-          <li>ITSはSHORT条件で0.77と競合するが，OVERLAP/CONFOUNDで大きく低下</li>
-          <li>CausalImpact・Wilcoxonは全条件でF1 &le; 0.49</li>
+          <li>提案手法は<strong>全5条件で最高F1</strong>を達成（平均F1 = 0.70）</li>
+          <li><strong>OVERLAP条件</strong>で最大の優位性: 0.68 vs 次点ITS 0.31</li>
+          <li>ITSはSHORT条件で0.77と競合するが，OVERLAP（0.31）・CONFOUND（0.35）で大きく低下</li>
+          <li>CausalImpact・Wilcoxonは全条件でF1 &le; 0.44</li>
           <li>提案手法のproximityスコアが交絡・重複条件での弁別に有効</li>
         </ul>
       </div>
@@ -821,7 +814,7 @@
 
   <div style="margin-top:24px">
     <img src="fig/ex3_method.png" alt="EX3: 関連手法との比較（F1）" style="width:100%;border-radius:8px;border:1px solid var(--c-border)">
-    <p class="small" style="text-align:center;margin-top:8px">EX3: 関連手法との比較（5 seeds平均F1）。提案手法は全5条件で最高または同等のF1を達成。CONFOUND条件での優位性が最も顕著。</p>
+    <p class="small" style="text-align:center;margin-top:8px">EX3: 関連手法との比較（20 seeds平均F1）。提案手法は全5条件で最高F1を達成。OVERLAP・CONFOUND条件での優位性が最も顕著。</p>
   </div>
 </div>
 
@@ -877,7 +870,7 @@
 <div class="stat-row">
   <div class="stat-card"><div class="val red">0.85</div><div class="lbl">最高 F1<br>(SHORT, EX1)</div></div>
   <div class="stat-card"><div class="val red">0.070</div><div class="lbl">帰無FDR<br>(100 seeds, &le;&alpha;)</div></div>
-  <div class="stat-card"><div class="val">0.68</div><div class="lbl">EX3 平均F1<br>(vs 4手法)</div></div>
+  <div class="stat-card"><div class="val">0.70</div><div class="lbl">EX3 平均F1<br>(vs 4手法)</div></div>
   <div class="stat-card"><div class="val">5/5</div><div class="lbl">Dunnhumby<br>カバレッジ</div></div>
 </div>
 
@@ -902,7 +895,7 @@
 <ul>
   <li>Zipf分布を含む多様なデータ条件で高い帰属精度を達成し，帰無条件下では100 seedで平均偽発見率<strong>0.070（&le; &alpha; = 0.10）</strong>を達成（EX1）</li>
   <li>アブレーション分析により，proximity と magnitude の相補性，およびグローバルBH補正と重複排除の段階的な偽陽性削減効果を実証（EX2）</li>
-  <li>関連手法4種との比較で<strong>全5条件で最高または同等のF1</strong>（平均F1 = 0.68），特に交絡・重複条件での優位性が顕著（EX3）</li>
+  <li>関連手法4種との比較で<strong>全5条件で最高F1</strong>（平均F1 = 0.70），特に交絡・重複条件での優位性が顕著（EX3）</li>
   <li>実データ（Dunnhumby, 276Kバスケット）で全キャンペーンへの帰属生成（<strong>カバレッジ100%</strong>）を確認（EX4）</li>
 </ul>
 
@@ -930,7 +923,7 @@
 
 <footer class="site-footer">
   Event Attribution Pipeline &mdash; Bridging Frequent Pattern Mining and External Event Attribution<br>
-  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-04-06</span>
+  <span style="font-size:11px;color:var(--c-muted)">Last updated: 2026-04-07</span>
 </footer>
 
 </div><!-- /site-main -->
